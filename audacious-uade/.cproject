@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="cdt.managedbuild.config.macosx.so.debug.1558803027">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.macosx.so.debug.1558803027" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+				<externalSettings>
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/audacious-uade"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/audacious-uade/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="uade" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.MachO64" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="bundle" artifactName="uade" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.macosx.so.debug.1558803027" name="Debug" parent="cdt.managedbuild.config.macosx.so.debug">
+					<folderInfo id="cdt.managedbuild.config.macosx.so.debug.1558803027." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.macosx.so.debug.1436124793" name="MacOSX GCC" superClass="cdt.managedbuild.toolchain.gnu.macosx.so.debug">
+							<targetPlatform id="cdt.managedbuild.target.gnu.platform.macosx.so.debug.582555545" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.macosx.so.debug"/>
+							<builder buildPath="${workspace_loc:/audacious-uade}/Debug" id="cdt.managedbuild.target.gnu.builder.macosx.so.debug.1470088769" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.macosx.so.debug"/>
+							<tool id="cdt.managedbuild.tool.macosx.c.linker.macosx.so.debug.110484859" name="MacOS X C Linker" superClass="cdt.managedbuild.tool.macosx.c.linker.macosx.so.debug">
+								<option defaultValue="true" id="macosx.c.link.macosx.so.debug.option.nostart.2004569644" name="Do not use standard start files (-nostartfiles)" superClass="macosx.c.link.macosx.so.debug.option.nostart" value="false" valueType="boolean"/>
+								<option defaultValue="true" id="macosx.c.link.macosx.so.debug.option.nodeflibs.1309121210" name="Do not use default libraries (-nodefaultlibs)" superClass="macosx.c.link.macosx.so.debug.option.nodeflibs" value="false" valueType="boolean"/>
+								<option defaultValue="true" id="macosx.c.link.macosx.so.debug.option.shared.1045638308" name="Shared (-dynamiclib)" superClass="macosx.c.link.macosx.so.debug.option.shared" valueType="boolean"/>
+								<option id="macosx.c.link.option.paths.256287791" name="Library search path (-L)" superClass="macosx.c.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="/usr/local/lib"/>
+									<listOptionValue builtIn="false" value="/opt/local/lib"/>
+								</option>
+								<option id="macosx.c.link.option.libs.621276489" name="Libraries (-l)" superClass="macosx.c.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="uade"/>
+									<listOptionValue builtIn="false" value="audcore"/>
+									<listOptionValue builtIn="false" value="audgui"/>
+									<listOptionValue builtIn="false" value="ao"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.macosx.c.linker.input.912413861" superClass="cdt.managedbuild.tool.macosx.c.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+								<outputType id="cdt.managedbuild.tool.macosx.c.linker.macosx.so.debug.output.1455904090" outputPrefix="" superClass="cdt.managedbuild.tool.macosx.c.linker.macosx.so.debug.output"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.macosx.cpp.linker.macosx.so.debug.1363580855" name="MacOS X C++ Linker" superClass="cdt.managedbuild.tool.macosx.cpp.linker.macosx.so.debug">
+								<option defaultValue="true" id="macosx.cpp.link.macosx.so.debug.option.shared.827178929" name="Shared (-dynamiclib)" superClass="macosx.cpp.link.macosx.so.debug.option.shared" valueType="boolean"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.macosx.so.debug.1466948013" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.macosx.so.debug">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.393505296" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.macosx.base.1650233171" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.macosx.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.macosx.so.debug.2027529675" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.macosx.so.debug">
+								<option id="gnu.cpp.compiler.macosx.so.debug.option.optimization.level.2060878579" name="Optimization Level" superClass="gnu.cpp.compiler.macosx.so.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.macosx.so.debug.option.debugging.level.1273977466" name="Debug Level" superClass="gnu.cpp.compiler.macosx.so.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.macosx.so.debug.1497903625" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.macosx.so.debug">
+								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.macosx.so.debug.option.optimization.level.20661986" name="Optimization Level" superClass="gnu.c.compiler.macosx.so.debug.option.optimization.level" valueType="enumerated"/>
+								<option id="gnu.c.compiler.macosx.so.debug.option.debugging.level.1721127966" name="Debug Level" superClass="gnu.c.compiler.macosx.so.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.include.paths.747474109" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/local/include"/>
+									<listOptionValue builtIn="false" value="/opt/local/include"/>
+								</option>
+								<option id="gnu.c.compiler.option.optimization.flags.1276908102" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" value="-fno-stack-protector" valueType="string"/>
+								<option id="gnu.c.compiler.option.dialect.std.1462423501" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" value="gnu.c.compiler.dialect.default" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1784935407" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
+				<externalSettings containerId="org.eclipse.cdt.managedbuilder.pkgconfig.extSettings" factoryId="org.eclipse.cdt.core.extension.container.factory">
+					<externalSetting contentTypes="org.eclipse.cdt.managedbuilder.core.compiledObjectFile">
+						<entry flags="RESOLVED" kind="libraryPath" name="/usr/local/lib"/>
+						<entry flags="RESOLVED" kind="libraryPath" name="/opt/local/lib"/>
+						<entry flags="UNDEFINED" kind="libraryFile" name="audcore" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="UNDEFINED" kind="libraryFile" name="audgui" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="UNDEFINED" kind="libraryFile" name="ao" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+					<externalSetting contentTypes="org.eclipse.cdt.core.cSource:org.eclipse.cdt.core.cxxSource">
+						<entry flags="BUILTIN" kind="includePath" name="/usr/local/include"/>
+						<entry flags="BUILTIN" kind="includePath" name="/opt/local/include"/>
+					</externalSetting>
+				</externalSettings>
+			</storageModule>
+			<storageModule IL="false" ILU="false" ILUT="false" IlmBase="false" ImageMagick="false" ImageMagick-6.Q16="false" ImageMagickplusplus="false" ImageMagickplusplus-6.Q16="false" MagickCore="false" MagickCore-6.Q16="false" MagickWand="false" MagickWand-6.Q16="false" Magickplusplus="false" Magickplusplus-6.Q16="false" ORBit-2.0="false" ORBit-CosNaming-2.0="false" ORBit-idl-2.0="false" ORBit-imodule-2.0="false" OpenColorIO="false" OpenEXR="false" QJson="false" Qt3Support="false" QtCLucene="false" QtCore="false" QtDBus="false" QtDeclarative="false" QtDesigner="false" QtDesignerComponents="false" QtGui="false" QtHelp="false" QtMultimedia="false" QtNetwork="false" QtOpenGL="false" QtScript="false" QtScriptTools="false" QtSql="false" QtSvg="false" QtTest="false" QtUiTools="false" QtWebKit="false" QtXml="false" QtXmlPatterns="false" SDL2_image="false" SDL2_mixer="false" SDL2_net="false" SDL2_ttf="false" SDL_Pango="false" SDL_gfx="false" SDL_image="false" SDL_mixer="false" SDL_net="false" SDL_rwops_zzip="false" SDL_ttf="false" TelepathyQt4="false" Wand="false" Wand-6.Q16="false" adplug="false" akonadi="false" ao="false" apr-1="false" apr-util-1="false" aqbanking="false" aspnetwebstack="false" atk="false" atkmm-1.6="false" atomic_ops="false" aubio="false" audacious="true" audclient="false" audiofile="false" avahi-client="false" avahi-compat-libdns_sd="false" avahi-core="false" avahi-glib="false" avahi-gobject="false" avahi-ui="false" avahi-ui-gtk3="false" babl="false" bash-completion="false" bdw-gc="false" blkid="false" bonobo-activation-2.0="false" botan-1.10="false" caca="false" cacaplusplus="false" cairo="false" cairo-fc="false" cairo-ft="false" cairo-gobject="false" cairo-pdf="false" cairo-png="false" cairo-ps="false" cairo-quartz="false" cairo-quartz-font="false" cairo-quartz-image="false" cairo-script="false" cairo-svg="false" cairo-tee="false" cairo-xml="false" cairomm-1.0="false" cairomm-ft-1.0="false" cairomm-pdf-1.0="false" cairomm-png-1.0="false" cairomm-ps-1.0="false" cairomm-quartz-1.0="false" cairomm-quartz-font-1.0="false" cairomm-quartz-image-1.0="false" cairomm-svg-1.0="false" cally-1.0="false" cecil="false" cfitsio="false" cln="false" cloog-isl="false" clutter-1.0="false" clutter-cogl-1.0="false" clutter-gdk-1.0="false" clutter-gtk-1.0="false" clutter-osx-1.0="false" cogl-1.0="false" cogl-2.0-experimental="false" cogl-gl-1.0="false" cogl-pango-1.0="false" cogl-pango-2.0-experimental="false" cogl-path-1.0="false" cogl-path-2.0-experimental="false" com_err="false" cppunit="false" cucul="false" cuculplusplus="false" dbus-1="false" dbus-glib-1="false" dbusmenu-qt="false" ddjvuapi="false" desa68="false" dirac="false" dotnet="false" dotnet35="false" dvdnav="false" dvdnavmini="false" dvdread="false" e2p="false" eigen2="false" enca="false" enchant="false" esound="false" exempi-2.0="false" exiv2="false" expat="false" ext2fs="false" fdk-aac="false" fftw3="false" fftw3f="false" file68="false" finch="false" flac="false" flacplusplus="false" fluidsynth="false" fontconfig="false" fontforge="false" form="false" formw="false" freerdp="false" freetype2="false" frei0r="false" fribidi="false" ftgl="false" fuse="false" gail="false" gail-3.0="false" gapi-2.0="false" gavl="false" gck-1="false" gconf-2.0="false" gcr-3="false" gcr-base-3="false" gcr-ui-3="false" gdk-2.0="false" gdk-3.0="false" gdk-pixbuf-2.0="false" gdk-quartz-2.0="false" gdk-quartz-3.0="false" gdkglext-1.0="false" gdkglext-quartz-1.0="false" gdkmm-2.4="false" gdlib="false" gegl-0.2="false" geoclue="false" geoip="false" gimp-2.0="false" gimpthumb-2.0="false" gimpui-2.0="false" gio-2.0="false" gio-unix-2.0="false" giomm-2.4="false" glade-sharp-2.0="false" glew="false" glewmx="false" glib-2.0="false" glib-sharp-2.0="false" glibmm-2.4="false" gmime-2.6="false" gmodule-2.0="false" gmodule-export-2.0="false" gmodule-no-export-2.0="false" gnokii="false" gnome-doc-utils="false" gnome-icon-theme="false" gnome-icon-theme-symbolic="false" gnome-js-common="false" gnome-keyring-1="false" gnome-mime-data-2.0="false" gnome-vfs-2.0="false" gnome-vfs-module-2.0="false" gnt="false" gnutls="false" goa-1.0="false" goa-backend-1.0="false" gobject-2.0="false" gobject-introspection-1.0="false" gobject-introspection-no-export-1.0="false" graphite2="false" gsettings-desktop-schemas="false" gsl="false" gst-rtsp-server-0.10="false" gstreamer-0.10="false" gstreamer-1.0="false" gstreamer-allocators-1.0="false" gstreamer-app-0.10="false" gstreamer-app-1.0="false" gstreamer-audio-0.10="false" gstreamer-audio-1.0="false" gstreamer-base-0.10="false" gstreamer-base-1.0="false" gstreamer-basevideo-0.10="false" gstreamer-cdda-0.10="false" gstreamer-check-0.10="false" gstreamer-check-1.0="false" gstreamer-codecparsers-0.10="false" gstreamer-codecparsers-1.0="false" gstreamer-controller-0.10="false" gstreamer-controller-1.0="false" gstreamer-dataprotocol-0.10="false" gstreamer-fft-0.10="false" gstreamer-fft-1.0="false" gstreamer-floatcast-0.10="false" gstreamer-gl-0.10="false" gstreamer-gl-1.0="false" gstreamer-insertbin-1.0="false" gstreamer-interfaces-0.10="false" gstreamer-mpegts-1.0="false" gstreamer-net-0.10="false" gstreamer-net-1.0="false" gstreamer-netbuffer-0.10="false" gstreamer-pbutils-0.10="false" gstreamer-pbutils-1.0="false" gstreamer-plugins-bad-0.10="false" gstreamer-plugins-bad-1.0="false" gstreamer-plugins-base-0.10="false" gstreamer-plugins-base-1.0="false" gstreamer-riff-0.10="false" gstreamer-riff-1.0="false" gstreamer-rtp-0.10="false" gstreamer-rtp-1.0="false" gstreamer-rtsp-0.10="false" gstreamer-rtsp-1.0="false" gstreamer-sdp-0.10="false" gstreamer-sdp-1.0="false" gstreamer-tag-0.10="false" gstreamer-tag-1.0="false" gstreamer-video-0.10="false" gstreamer-video-1.0="false" gthread-2.0="false" gtk-doc="false" gtk-dotnet-2.0="false" gtk-engines-2="false" gtk-mac-integration="false" gtk-sharp-2.0="false" gtkglext-1.0="false" gtkglext-quartz-1.0="false" gtkhex-3="false" gtkmm-2.4="false" gtkplus-2.0="false" gtkplus-3.0="false" gtkplus-quartz-2.0="false" gtkplus-quartz-3.0="false" gtkplus-unix-print-2.0="false" gtkplus-unix-print-3.0="false" gtkspell-2.0="false" gts="false" guile-1.8="false" gwengui-qt4="false" gwenhywfar="false" harfbuzz="false" harfbuzz-icu="false" hogweed="false" hunspell="false" icon-naming-utils="false" icu-i18n="false" icu-io="false" icu-le="false" icu-lx="false" icu-uc="false" id3tag="false" ige-mac-integration="false" imlib2="false" isl="false" iso-codes="false" jack="false" javascriptcoregtk-1.0="false" javascriptcoregtk-3.0="false" json-c="false" json-glib-1.0="false" ktoblzcheck="false" lash-1.0="false" lasi="false" lcms="false" lcms2="false" lensfun="false" libIDL-2.0="false" libalkimia="false" libarchive="false" libart-2.0="false" libass="false" libattica="false" libavcodec="false" libavdevice="false" libavfilter="false" libavformat="false" libavresample="false" libavutil="false" libbinio="false" libbluray="false" libbonobo-2.0="false" libbonoboui-2.0="false" libbs2b="false" libcanberra="false" libcares="false" libcddb="false" libcdio="false" libcdio_cdda="false" libcdio_paranoia="false" libcdioplusplus="false" libcdt="false" libcerf="false" libcgraph="false" libchromaprint="false" libclucene-core="false" libcroco-0.6="false" libcrypto="false" libcue="false" libcurl="false" libdaemon="false" libdc1394-2="false" libdca="false" libdiscid="false" libdmtx="false" libdts="false" libdv="false" libdvbpsi="false" libdvdcss="false" libechonest="false" libedit="false" libetonyek-0.1="false" libevent="false" libevent_openssl="false" libevent_pthreads="false" libexif="false" libexslt="false" libffi="false" libgdiplus="false" libglade-2.0="false" libgnome-2.0="false" libgnomecanvas-2.0="false" libgnomecanvasmm-2.6="false" libgnomecups-1.0="false" libgnomeprint-2.2="false" libgnomeprintui-2.2="false" libgnomeui-2.0="false" libgphoto2="false" libgphoto2_port="false" libgpod-1.0="false" libgpod-sharp="false" libgps="false" libgpsd="false" libgsf-1="false" libguess="false" libgvc="false" libgvpr="false" libical="false" libicns="false" libidn="false" libimobiledevice-1.0="false" libiodbc="false" libiso9660="false" libiso9660plusplus="false" libkactivities="false" libkactivities-models="false" libkdcraw="false" libkexiv2="false" libkface="false" libkgeomap="false" libkipi="false" libksane="false" liblo="false" liblzma="false" libmcs="false" libmediawiki="false" libmms="false" libmodplug="false" libmowgli="false" libmowgli-2="false" libmpeg2="false" libmpeg2convert="false" libmpg123="false" libmsn="false" libmtp="false" libmusicbrainz="false" libmusicbrainz3="false" libmygpo-qt="false" libnotify="false" libntfs-3g="false" libodfgen-0.1="false" libofa="false" libofx="false" liboil-0.3="false" libopenjp2="false" libopenjpeg="false" libopenjpeg1="false" libopenraw-1.0="false" libopenraw-gnome-1.0="false" liboss="false" libotr="false" libpathplan="false" libpcre="false" libpcre16="false" libpcre32="false" libpcrecpp="false" libpcreposix="false" libplist="false" libplistplusplus="false" libpng="false" libpng16="false" libpostproc="false" libpqxx="false" libprojectM="false" libprojectM-qt="false" libproxy-1.0="false" libqalculate="false" libqrencode="false" libquicktime="false" libquvi-0.9="false" libquvi-scripts-0.9="false" libraw="false" libraw_r="false" librevenge-0.0="false" librevenge-generators-0.0="false" librevenge-stream-0.0="false" librsvg-2.0="false" librtmp="false" libsasl2="false" libsecret-1="false" libsecret-unstable="false" libsexy="false" libsidplayfp="false" libsmi="false" libsoup-2.4="false" libsoup-gnome-2.4="false" libsparsehash="false" libspatialindex="false" libspectre="false" libspotify="false" libssh="false" libssh2="false" libssh_threads="false" libssl="false" libstilview="false" libstreamanalyzer="false" libstreams="false" libswresample="false" libswscale="false" libtasn1="false" libtelepathy="false" libtiff-4="false" libuade="false" libudf="false" libupnp="false" libusb="false" libusb-1.0="false" libusb-legacy="false" libusbmuxd="false" libvala-0.24="false" libvcdinfo="false" libvisio-0.0="false" libvisual-0.4="false" libvlc="false" libvncclient="false" libvncserver="false" libwebp="false" libwpd-0.9="false" libwpd-stream-0.9="false" libwpg-0.2="false" libwps-0.2="false" libxdot="false" libxml-2.0="false" libxmp="false" libxslt="false" libzip="false" lilv-0="false" link-grammar="false" loudmouth-1.0="false" lqr-1="false" lrdf="false" ltc="false" lua="false" lv2="false" lv2core="false" mad="false" menu="false" menuw="false" mjpegtools="false" mlt-framework="false" mltplusplus="false" mm-common-libstdcplusplus="false" mm-common-util="false" moduleId="packages" mono="false" mono-2="false" mono-cairo="false" mono-lineeditor="false" mono-nunit="false" mono-options="false" mono.web="false" monodoc="false" monosgen-2="false" ncurses="false" ncursesplusplus="false" ncursesplusplusw="false" ncursesw="false" neon="false" netapi="false" nettle="false" nspr="false" nss="false" ogg="false" openbabel-2.0="false" opencdk="false" opencore-amrnb="false" opencore-amrwb="false" opencv="false" openscenegraph="false" openscenegraph-osg="false" openscenegraph-osgAnimation="false" openscenegraph-osgDB="false" openscenegraph-osgFX="false" openscenegraph-osgGA="false" openscenegraph-osgManipulator="false" openscenegraph-osgParticle="false" openscenegraph-osgShadow="false" openscenegraph-osgSim="false" openscenegraph-osgTerrain="false" openscenegraph-osgText="false" openscenegraph-osgUtil="false" openscenegraph-osgViewer="false" openscenegraph-osgVolume="false" openscenegraph-osgWidget="false" openssl="false" openthreads="false" opus="false" orc-0.4="false" osxfuse="false" p11-kit-1="false" panel="false" panelw="false" pango="false" pangocairo="false" pangoft2="false" pangomm-1.4="false" pangox="false" phonon="false" pidgin="false" pixman-1="false" polkit-agent-1="false" polkit-backend-1="false" polkit-gobject-1="false" polkit-qt-1="false" polkit-qt-agent-1="false" polkit-qt-core-1="false" polkit-qt-gui-1="false" poppler="false" poppler-cairo="false" poppler-cpp="false" poppler-data="false" poppler-glib="false" poppler-qt4="false" poppler-splash="false" popt="false" portaudio-2.0="false" portaudiocpp="false" proj="false" protobuf="false" protobuf-lite="false" pstoedit="false" purple="false" qca2="false" qimageblitz="false" qtscript-sharp="false" qttest-sharp="false" qtuitools-sharp="false" qtwebkit-sharp="false" quota="false" qyoto="false" raptor2="false" rarian="false" rasqal="false" reactive="false" redland="false" rest-0.7="false" rest-extras-0.7="false" rubberband="false" ruby-1.9="false" samplerate="false" sane-backends="false" sc68="false" schroedinger-1.0="false" sdl="false" sdl2="false" serd-0="false" serf-1="false" shared-desktop-ontologies="false" shared-mime-info="false" shout="false" sigcplusplus-2.0="false" smbclient="false" smbsharemodes="false" sndfile="false" soprano="false" sopranoclient="false" sopranoserver="false" sord-0="false" soundtouch="false" source-highlight="false" sox="false" soxr="false" soxr-lsr="false" spandsp="false" spatialite="false" speex="false" speexdsp="false" sqlite3="false" sratom-0="false" ss="false" system.web.extensions.design_1.0="false" system.web.extensions_1.0="false" system.web.mvc="false" system.web.mvc2="false" system.web.mvc3="false" taglib="false" taglib-extras="false" taglib_c="false" tcl="false" telepathy-glib="false" theora="false" theoradec="false" theoraenc="false" tk="false" twolame="false" uade="true" unice68="false" unique-1.0="false" uuid="false" valgrind="false" vamp="false" vamp-hostsdk="false" vamp-sdk="false" vapigen="false" vapigen-0.24="false" vlc-plugin="false" vorbis="false" vorbisenc="false" vorbisfile="false" vpx="false" wavpack="false" wbclient="false" wcf="false" webkit-1.0="false" webkitgtk-3.0="false" x264="false" xml2po="false" yaml-0.1="false" yaml-cpp="false" yelp-xsl="false" zlib="false" zzip-zlib-config="false" zzipfseeko="false" zziplib="false" zzipmmapped="false" zzipwrap="false"/>
+		</cconfiguration>
+		<cconfiguration id="cdt.managedbuild.config.macosx.so.release.1300504122">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.macosx.so.release.1300504122" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings>
+					<externalSetting>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/audacious-uade"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/audacious-uade/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="audacious-uade" srcPrefixMapping="" srcRootPath=""/>
+					</externalSetting>
+				</externalSettings>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.MachO64" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactExtension="dylib" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.macosx.so.release.1300504122" name="Release" parent="cdt.managedbuild.config.macosx.so.release">
+					<folderInfo id="cdt.managedbuild.config.macosx.so.release.1300504122." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.macosx.so.release.222417585" name="MacOSX GCC" superClass="cdt.managedbuild.toolchain.gnu.macosx.so.release">
+							<targetPlatform id="cdt.managedbuild.target.gnu.platform.macosx.so.release.1481491659" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.macosx.so.release"/>
+							<builder buildPath="${workspace_loc:/audacious-uade}/Release" id="cdt.managedbuild.target.gnu.builder.macosx.so.release.1778194873" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.macosx.so.release"/>
+							<tool id="cdt.managedbuild.tool.macosx.c.linker.macosx.so.release.191382769" name="MacOS X C Linker" superClass="cdt.managedbuild.tool.macosx.c.linker.macosx.so.release">
+								<option defaultValue="true" id="macosx.c.link.macosx.so.release.option.nostart.572091711" name="Do not use standard start files (-nostartfiles)" superClass="macosx.c.link.macosx.so.release.option.nostart" valueType="boolean"/>
+								<option defaultValue="true" id="macosx.c.link.macosx.so.release.option.nodeflibs.1643948773" name="Do not use default libraries (-nodefaultlibs)" superClass="macosx.c.link.macosx.so.release.option.nodeflibs" valueType="boolean"/>
+								<option defaultValue="true" id="macosx.c.link.macosx.so.release.option.shared.1886577045" name="Shared (-dynamiclib)" superClass="macosx.c.link.macosx.so.release.option.shared" valueType="boolean"/>
+								<inputType id="cdt.managedbuild.tool.macosx.c.linker.input.304831523" superClass="cdt.managedbuild.tool.macosx.c.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="cdt.managedbuild.tool.macosx.cpp.linker.macosx.so.release.425394375" name="MacOS X C++ Linker" superClass="cdt.managedbuild.tool.macosx.cpp.linker.macosx.so.release">
+								<option defaultValue="true" id="macosx.cpp.link.macosx.so.release.option.shared.1105345829" name="Shared (-dynamiclib)" superClass="macosx.cpp.link.macosx.so.release.option.shared" valueType="boolean"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.macosx.so.release.737453173" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.macosx.so.release">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.49194349" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.macosx.base.201851759" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.macosx.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.macosx.so.release.744966385" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.macosx.so.release">
+								<option id="gnu.cpp.compiler.macosx.so.release.option.optimization.level.900686037" name="Optimization Level" superClass="gnu.cpp.compiler.macosx.so.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.macosx.so.release.option.debugging.level.2024856955" name="Debug Level" superClass="gnu.cpp.compiler.macosx.so.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.macosx.so.release.1654236024" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.macosx.so.release">
+								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.macosx.so.release.option.optimization.level.297963925" name="Optimization Level" superClass="gnu.c.compiler.macosx.so.release.option.optimization.level" valueType="enumerated"/>
+								<option id="gnu.c.compiler.macosx.so.release.option.debugging.level.1535413155" name="Debug Level" superClass="gnu.c.compiler.macosx.so.release.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.463846803" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="audacious-uade.cdt.managedbuild.target.macosx.so.322756272" name="Shared Library" projectType="cdt.managedbuild.target.macosx.so"/>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.macosx.so.release.1300504122;cdt.managedbuild.config.macosx.so.release.1300504122.;cdt.managedbuild.tool.gnu.c.compiler.macosx.so.release.1654236024;cdt.managedbuild.tool.gnu.c.compiler.input.463846803">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.macosx.so.debug.1558803027;cdt.managedbuild.config.macosx.so.debug.1558803027.;cdt.managedbuild.tool.gnu.c.compiler.macosx.so.debug.1497903625;cdt.managedbuild.tool.gnu.c.compiler.input.1784935407">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/audacious-uade"/>
+		</configuration>
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/audacious-uade"/>
+		</configuration>
+	</storageModule>
+</cproject>
