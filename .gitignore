@@ -15,3 +15,5 @@
 /Makefile
 /Makefile.in
 /missing
+/.cproject
+/.project
