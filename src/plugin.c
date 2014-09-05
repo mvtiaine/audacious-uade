@@ -1,5 +1,5 @@
-#include <math.h>
 #include <stdio.h>
+#include <pthread.h>
 
 #include <audacious/input.h>
 #include <audacious/plugin.h>
@@ -18,6 +18,25 @@
 #endif
 
 #define ERR(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
+
+static pthread_mutex_t probe_mutex = PTHREAD_MUTEX_INITIALIZER;
+struct uade_state *probe_state;
+
+bool_t plugin_init(void) {
+    DBG("uade_plugin_init\n");
+    probe_state = uade_new_state(NULL);
+    if (probe_state) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+void plugin_cleanup(void) {
+    DBG("uade_plugin_cleanup\n");
+    uade_cleanup_state(probe_state);
+    probe_state = NULL;
+}
 
 int parse_uri(const char *uri, char **path, char **name) {
     int subsong;
@@ -44,15 +63,15 @@ bool_t plugin_is_our_file_from_vfs (const char *uri, VFSFile *file) {
 
     bool_t is_our_file = FALSE;
     char *path;
-    struct uade_state *state = uade_new_state(NULL);
 
     parse_uri(uri, &path, NULL);
 
-    if (state && path) {
-        is_our_file = uade_is_our_file(path, state);
+    if (path) {
+        pthread_mutex_lock (&probe_mutex);
+        is_our_file = uade_is_our_file(path, probe_state);
+        pthread_mutex_unlock(&probe_mutex);
     }
 
-    uade_cleanup_state(state);
     str_unref(path);
 
     return is_our_file;
@@ -82,17 +101,27 @@ Tuple * plugin_probe_for_tuple (const char *uri, VFSFile *file) {
     char *path, *name;
     int subsong;
     Tuple *tuple = tuple_new_from_filename(uri);
-    struct uade_state *state = uade_new_state(NULL);
 
     subsong = parse_uri(uri, &path, &name);
 
-    if (state && path && tuple) {
-        if (uade_play(path, subsong, state) == 1) {
-            update_tuple(tuple, name, subsong, state);
+    if (path && tuple) {
+        pthread_mutex_lock (&probe_mutex);
+        switch (uade_play(path, subsong, probe_state)) {
+            case 1:
+                update_tuple(tuple, name, subsong, probe_state);
+                uade_stop(probe_state);
+                break;
+            case -1:
+                uade_cleanup_state(probe_state);
+                probe_state = uade_new_state(NULL);
+                break;
+            default:
+                uade_stop(probe_state);
+                break;
         }
+        pthread_mutex_unlock (&probe_mutex);
     }
 
-    uade_cleanup_state(state);
     str_unref(path);
     str_unref(name);
 
@@ -166,12 +195,19 @@ bool_t plugin_play (const char *uri, VFSFile *file) {
         goto out;
     }
 
-    if (uade_play(path, subsong, state) == 1) {
-        Tuple *tuple = tuple_new_from_filename(uri);
-        update_tuple(tuple, name, subsong, state);
-        aud_input_set_tuple(tuple);
+    Tuple *tuple;
+    switch (uade_play(path, subsong, state)) {
+        case 1:
+            tuple = tuple_new_from_filename(uri);
+            update_tuple(tuple, name, subsong, state);
+            aud_input_set_tuple(tuple);
 
-        ret = playback_loop(buffer, state);
+            ret = playback_loop(buffer, state);
+            break;
+        default:
+            ERR("Could not play %s\n", uri);
+            ret = FALSE;
+            break;
     }
 
 out:
@@ -191,11 +227,13 @@ const char *plugin_mimes[] = {
 AUD_INPUT_PLUGIN (
     .name = "UADE",
     .about_text = "Plugin for UADE",
+    .priority = -1, // to avoid some files being recognized as MP3
     .have_subtune = TRUE,
+    .mimes = plugin_mimes,
+    .extensions = plugin_extensions,
+    .init = plugin_init,
+    .cleanup = plugin_cleanup,
     .is_our_file_from_vfs = plugin_is_our_file_from_vfs,
     .probe_for_tuple = plugin_probe_for_tuple,
     .play = plugin_play,
-    .mimes = plugin_mimes,
-    .extensions = plugin_extensions,
-    .priority = -1 // to avoid some files being recognized as MP3
 )
