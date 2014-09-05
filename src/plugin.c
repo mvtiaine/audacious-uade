@@ -122,6 +122,14 @@ ssize_t render_audio(void *buffer, struct uade_state *state) {
 
 int playback_loop(char *buffer, struct uade_state* state) {
     while (!aud_input_check_stop()) {
+        int seek_value = aud_input_check_seek ();
+        if (seek_value >= 0) {
+            if (uade_seek(UADE_SEEK_SUBSONG_RELATIVE, seek_value / 1000.0, -1, state)) {
+                ERR("Could not seek to %d\n", seek_value);
+            } else {
+                DBG("Seek to %d\n", seek_value);
+            };
+        }
         ssize_t nbytes = render_audio(buffer, state);
         if (nbytes < 0) {
             ERR("Playback error.\n");
