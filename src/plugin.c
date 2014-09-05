@@ -7,6 +7,8 @@
 
 #include <uade/uade.h>
 
+#include "extensions.h"
+
 #define DEBUG 1
 
 #ifdef DEBUG
@@ -64,6 +66,7 @@ void update_tuple(Tuple *tuple, char *name, int subsong, struct uade_state *stat
     tuple_set_str(tuple, FIELD_CODEC,
             strnlen(info->formatname, 256) > 0 ? info->formatname : info->playername);
     tuple_set_int(tuple, FIELD_LENGTH, info->duration * 1000);
+    tuple_set_str(tuple, FIELD_MIMETYPE, UADE_MIMETYPE);
 
     if (info->subsongs.max > 1) {
         tuple_set_int(tuple, FIELD_SUBSONG_NUM, info->subsongs.max);
@@ -171,6 +174,12 @@ out:
     return ret;
 }
 
+const char *plugin_mimes[] = {
+    UADE_MIMETYPE,
+    NULL
+};
+
+
 AUD_INPUT_PLUGIN (
     .name = "UADE",
     .about_text = "Plugin for UADE",
@@ -178,5 +187,7 @@ AUD_INPUT_PLUGIN (
     .is_our_file_from_vfs = plugin_is_our_file_from_vfs,
     .probe_for_tuple = plugin_probe_for_tuple,
     .play = plugin_play,
-    //.priority = 10
+    .mimes = plugin_mimes,
+    .extensions = plugin_extensions,
+    .priority = -1 // to avoid some files being recognized as MP3
 )
