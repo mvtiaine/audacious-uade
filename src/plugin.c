@@ -25,11 +25,7 @@ struct uade_state *probe_state;
 bool_t plugin_init(void) {
     DBG("uade_plugin_init\n");
     probe_state = uade_new_state(NULL);
-    if (probe_state) {
-        return TRUE;
-    } else {
-        return FALSE;
-    }
+    return probe_state != NULL;
 }
 
 void plugin_cleanup(void) {
