@@ -1,15 +1,37 @@
 #include <string.h>
 
 #include "common.h"
+#include "modland.h"
 
 // TODO configuration, some validation
 #define MD5_FILE "/Users/tundrah/allmods_md5_amiga.txt"
 #define LINE_MAX 1024
 #define AUTHOR_MAX 64
+#define FORMAT_MAX 64
 
 #define COOP "coop-"
 #define UNKNOWN "- unknown"
 #define NOTBY "not by "
+
+#define ADLIB "Ad Lib"
+#define VIDEOGAMEMUSIC "Video Game Music"
+
+int is_amiga_format(char * format) {
+    int i = 0;
+    const char *amiga_format;
+    while ((amiga_format = modland_amiga_formats[i++]) != NULL) {
+        switch (strncmp(format, amiga_format, FORMAT_MAX)) {
+            case 0:
+                return 1;
+            case -1:
+                return 0;
+            default:
+                continue;
+        }
+    }
+
+    return 0;
+}
 
 int modland_init_md5_db(void) {
     int ret = 0;
@@ -47,8 +69,13 @@ int modland_init_md5_db(void) {
         }
 
         format = strtok(path, sep);
-        // TODO Ad Lib, Video Game Music secondary format
+        if (!is_amiga_format(format)) {
+            DBG("Skipping line %s\n", line);
+            continue;
+        }
+
         token = strtok(NULL, sep);
+
         strlcpy(author, token, sizeof(author));
 
         switch (count) {
