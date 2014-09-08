@@ -194,7 +194,7 @@ int playback_loop(char *buffer, struct uade_state* state) {
             DBG("Song end.\n");
             // update length in playlist
             Tuple *tuple = aud_input_get_tuple();
-            if (tuple_get_int(tuple, FIELD_LENGTH) <= 0) {
+            if (tuple_get_int(tuple, FIELD_LENGTH) != aud_input_written_time()) {
                 tuple_set_int(tuple, FIELD_LENGTH, aud_input_written_time());
                 aud_input_set_tuple(tuple);
             }
