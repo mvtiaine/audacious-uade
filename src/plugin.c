@@ -109,9 +109,11 @@ void update_tuple(Tuple *tuple, char *name, int subsong, struct uade_state *stat
         DBG("Found modland data for %s, format:%s, author:%s, album:%s\n",info->modulemd5,ml_data->format, ml_data->author, ml_data->album);
         tuple_set_str(tuple, FIELD_ARTIST, ml_data->author);
         // prefer UADE codec names, but fall back to modland if not available
-        if (!strncmp(UNKNOWN_CODEC, tuple_get_str(tuple, FIELD_CODEC), strlen(UNKNOWN_CODEC))) {
+        char *uade_codec = tuple_get_str(tuple, FIELD_CODEC);
+        if (!strncmp(UNKNOWN_CODEC, uade_codec, strlen(UNKNOWN_CODEC))) {
             tuple_set_str(tuple, FIELD_CODEC, ml_data->format);
         }
+        str_unref(uade_codec);
         if (ml_data->album) {
             tuple_set_str(tuple, FIELD_ALBUM, ml_data->album);
         }
