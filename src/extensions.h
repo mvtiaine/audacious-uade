@@ -1,3 +1,6 @@
+#ifndef EXTENSIONS_H_
+#define EXTENSIONS_H_
+
 #define UADE_MIMETYPE "audio/x-amiga"
 
 // hybrid of UADE eagleplayer.conf and modland file extensions
@@ -145,11 +148,11 @@ static const char *plugin_extensions[] = {
     "sa","sonic" // Sonic Arranger
     "sa_old" // Sonic Arranger pc-all
     "tw", // Sound Images / Tiny Williams
-    "sm","sm1","sm2","sm3","smpro", // Sound Master
+    "sm","sm1","sm2","sm3","smpro", // Sound Master / Sound Master II / Sound Master II v3
     "spl", // Sound Programming Language
     "sc","sct", // SoundControl
     "psf", // SoundFactory
-    "sfx","sfx13" // SoundFX
+    "sfx","sfx13" // SoundFX /SoundFX 2
     "sjs", // SoundPlayer
     "jd", // Special FX
     "doda", // Special FX ST
@@ -200,3 +203,5 @@ static const char *plugin_extensions[] = {
     //"zmon","sng" // ZoundMonitor
     NULL
 };
+
+#endif /* EXTENSIONS_H_ */

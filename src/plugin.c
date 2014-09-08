@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <pthread.h>
 
 #include <audacious/input.h>
@@ -7,17 +6,9 @@
 
 #include <uade/uade.h>
 
+#include "common.h"
 #include "extensions.h"
-
-#define DEBUG 1
-
-#ifdef DEBUG
-# define DBG(fmt,...) printf(fmt, ## __VA_ARGS__)
-#else
-# define DBG(fmt,...) while (0)
-#endif
-
-#define ERR(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
+#include "modland.h"
 
 static pthread_mutex_t probe_mutex = PTHREAD_MUTEX_INITIALIZER;
 struct uade_state *probe_state;
@@ -25,7 +16,7 @@ struct uade_state *probe_state;
 bool_t plugin_init(void) {
     DBG("uade_plugin_init\n");
     probe_state = uade_new_state(NULL);
-    return probe_state != NULL;
+    return probe_state != NULL && !modland_init_md5_db();
 }
 
 void plugin_cleanup(void) {

@@ -1,0 +1,159 @@
+^.{33}AHX/
+^.{33}AM Composer/
+^.{33}AProSys/
+^.{33}Actionamics/
+^.{33}Activision Pro/
+^.{33}All Sound Tracker/
+^.{33}Anders Oland/
+^.{33}Art And Magic/
+^.{33}Art Of Noise/
+^.{33}Audio Sculpture/
+^.{33}BP SoundMon 2/
+^.{33}BP SoundMon 3/
+^.{33}Beathoven Synthesizer/
+^.{33}Ben Daglish/
+^.{33}Ben Daglish SID/
+^.{33}Composer 669/
+^.{33}Core Design/
+^.{33}CustomMade/
+^.{33}Darius Zendeh/
+^.{33}Dave Lowe/
+^.{33}Dave Lowe New/
+^.{33}David Hanney/
+^.{33}David Whittaker/
+^.{33}Delitracker Custom/
+^.{33}Delta Music/
+^.{33}Delta Music 2/
+^.{33}Delta Packer/
+^.{33}Desire/
+^.{33}Digibooster/
+^.{33}Digibooster Pro/
+^.{33}Digital Mugician/
+^.{33}Digital Mugician 2/
+^.{33}Digital Sonix And Chrome/
+^.{33}Digital Sound Studio/
+^.{33}Dirk Bialluch/
+^.{33}Dynamic Synthesizer/
+^.{33}EarAche/
+^.{33}Electronic Music System/
+^.{33}Electronic Music System v6/
+^.{33}Face The Music/
+^.{33}Fashion Tracker/
+^.{33}Follin Player II/
+^.{33}Forgotten Worlds/
+^.{33}Fred Gray/
+^.{33}FredMon/
+^.{33}FuchsTracker/
+^.{33}Future Composer 1.3/
+^.{33}Future Composer 1.4/
+^.{33}Future Composer BSI/
+^.{33}Future Player/
+^.{33}GT Game Systems/
+^.{33}Game Music Creator/
+^.{33}GlueMon/
+^.{33}Hippel/
+^.{33}Hippel 7V/
+^.{33}Hippel-Atari/
+^.{33}Hippel-COSO/
+^.{33}Hippel-ST/
+^.{33}Howie Davies/
+^.{33}Images Music System/
+^.{33}InStereo!/
+^.{33}InStereo! 2.0/
+^.{33}JamCracker/
+^.{33}Janko Mrsic-Flogel/
+^.{33}Jason Brooke/
+^.{33}Jason Page/
+^.{33}Jason Page Old/
+^.{33}Jeroen Tel/
+^.{33}Jesper Olsen/
+^.{33}Kris Hatlelid/
+^.{33}Leggless Music Editor/
+^.{33}Lionheart/
+^.{33}MCMD/
+^.{33}Magnetic Fields Packer/
+^.{33}Maniacs Of Noise/
+^.{33}Maniacs Of Noise Old/
+^.{33}Mark Cooksey/
+^.{33}Mark Cooksey Old/
+^.{33}Mark II/
+^.{33}MaxTrax/
+^.{33}Medley/
+^.{33}Mike Davies/
+^.{33}MultiMedia Sound/
+^.{33}Music Assembler/
+^.{33}Music Editor/
+^.{33}MusicMaker/
+^.{33}MusicMaker v8/
+^.{33}Musicline Editor/
+^.{33}NovoTrade Packer/
+^.{33}OctaMED MMD0/
+^.{33}OctaMED MMD1/
+^.{33}OctaMED MMD2/
+^.{33}OctaMED MMD3/
+^.{33}OctaMED MMDC/
+^.{33}Oktalyzer/
+^.{33}Paul Robotham/
+^.{33}Paul Shields/
+^.{33}Paul Summers/
+^.{33}Peter Verswyvelen/
+^.{33}Pierre Adane Packer/
+^.{33}PokeyNoise/
+^.{33}Powertracker/
+^.{33}Professional Sound Artists/
+^.{33}Protracker/
+^.{33}Protracker 3.6/
+^.{33}Pumatracker/
+^.{33}Quadra Composer/
+^.{33}Quartet PSG/
+^.{33}Quartet ST/
+^.{33}Richard Joseph/
+^.{33}Riff Raff/
+^.{33}Rob Hubbard/
+^.{33}Rob Hubbard 2/
+^.{33}Rob Hubbard ST/
+^.{33}Ron Klaren/
+^.{33}SCUMM/
+^.{33}Sean Connolly/
+^.{33}Sean Conran/
+^.{33}SidMon 1/
+^.{33}SidMon 2/
+^.{33}Silmarils/
+^.{33}Sonic Arranger/
+^.{33}Sound Images/
+^.{33}Sound Master/
+^.{33}Sound Master II v1/
+^.{33}Sound Master II v3/
+^.{33}Sound Programming Language/
+^.{33}SoundControl/
+^.{33}SoundFX/
+^.{33}SoundFX 2/
+^.{33}SoundFactory/
+^.{33}SoundPlayer/
+^.{33}SoundTracker 2.6/
+^.{33}SoundTracker Pro II/
+^.{33}Special FX/
+^.{33}Special FX ST/
+^.{33}Speedy A1 System/
+^.{33}Speedy System/
+^.{33}Startrekker AM/
+^.{33}Steve Barrett/
+^.{33}Stonetracker/
+^.{33}SunTronic/
+^.{33}Symphonie/
+^.{33}SynTracker/
+^.{33}Synth Dream/
+^.{33}Synth Pack/
+^.{33}Synthesis/
+^.{33}TFMX/
+^.{33}TFMX ST/
+^.{33}The Holy Noise/
+^.{33}The Musical Enlightenment/
+^.{33}Thomas Hermann/
+^.{33}Tomy Tracker/
+^.{33}Unique Development/
+^.{33}Voodoo Supreme Synthesizer/
+^.{33}Wally Beben/
+^.{33}YM/
+^.{33}YMST/
+^.{33}Zoundmonitor/
