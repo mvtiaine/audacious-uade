@@ -49,15 +49,17 @@ int modland_init_md5_db(void) {
         format = strtok(path, sep);
         // TODO Ad Lib, Video Game Music secondary format
         token = strtok(NULL, sep);
+        strlcpy(author, token, sizeof(author));
 
         switch (count) {
             case 2:
-                strlcpy(author, token, sizeof(author));
+                // nothing to do
                 break;
             case 3:
                 token = strtok(NULL, sep);
                 if (!strncmp(COOP, token, strlen(COOP))) {
-                    strlcat(author, token + strlen(COOP), strnlen(token, AUTHOR_MAX) - strlen(COOP));
+                    strlcat(author, " and ", sizeof(author));
+                    strlcat(author, token + strlen(COOP), sizeof(author));
                 } else if (strncmp(NOTBY, token, strlen(NOTBY))) {
                     game = token;
                 }
@@ -65,7 +67,8 @@ int modland_init_md5_db(void) {
             case 4:
                 token = strtok(NULL, sep);
                 if (!strncmp(COOP, token, strlen(COOP))) {
-                    strlcat(author, token + strlen(COOP), strnlen(token, AUTHOR_MAX) - strlen(COOP));
+                    strlcat(author, " and ", sizeof(author));
+                    strlcat(author, token + strlen(COOP), sizeof(author));
                 } else {
                     ERR("Unexpected line: %s\n", line);
                     continue;
