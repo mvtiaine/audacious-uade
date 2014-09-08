@@ -71,7 +71,8 @@ void update_tuple(Tuple *tuple, char *name, int subsong, struct uade_state *stat
     tuple_set_str(tuple, FIELD_TITLE,
             strnlen(info->modulename, 256) > 0 ? info->modulename : name);
     tuple_set_str(tuple, FIELD_CODEC,
-            strnlen(info->formatname, 256) > 0 ? info->formatname : info->playername);
+            strnlen(info->formatname, 256) > 0 ? info->formatname :
+                    strnlen(info->playername, 256) > 0 ? info->playername : "UADE");
 
     // UADE contentdb doesn't support separate lengths for subsongs
     if (info->subsongs.max == 1 && info->duration > 0) {

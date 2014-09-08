@@ -9,15 +9,14 @@
 // TODO configuration, some validation
 #define MD5_FILE "/Users/tundrah/allmods_md5_amiga.txt"
 #define LINE_MAX 1024
-#define AUTHOR_MAX 64
-#define FORMAT_MAX 64
+#define AUTHOR_MAX 128
+#define FORMAT_MAX 128
 
 #define COOP "coop-"
 #define UNKNOWN "- unknown"
 #define NOTBY "not by "
 
-#define ADLIB "Ad Lib"
-#define VIDEOGAMEMUSIC "Video Game Music"
+#define UNKNOWN_AUTHOR "<Unknown>"
 
 typedef struct {
     MultihashNode node;
@@ -156,7 +155,7 @@ int modland_init(void) {
             case 3:
                 token = strtok(NULL, sep);
                 if (!strncmp(COOP, token, strlen(COOP))) {
-                    strlcat(author, " and ", sizeof(author));
+                    strlcat(author, " & ", sizeof(author));
                     strlcat(author, token + strlen(COOP), sizeof(author));
                 } else if (strncmp(NOTBY, token, strlen(NOTBY))) {
                     album = token;
@@ -165,7 +164,7 @@ int modland_init(void) {
             case 4:
                 token = strtok(NULL, sep);
                 if (!strncmp(COOP, token, strlen(COOP))) {
-                    strlcat(author, " and ", sizeof(author));
+                    strlcat(author, " & ", sizeof(author));
                     strlcat(author, token + strlen(COOP), sizeof(author));
                 } else {
                     WRN("Skipped line: %s", line);
@@ -189,7 +188,11 @@ int modland_init(void) {
 
         modland_data_t *item = calloc(1, sizeof(modland_data_t));
         item->format = str_get(format);
-        item->author = str_get(author);
+        if (!strncmp(UNKNOWN, author, strlen(UNKNOWN))) {
+            item->author = str_get(UNKNOWN_AUTHOR);
+        } else {
+            item->author = str_get(author);
+        }
         if (album) {
             item->album = str_get(album);
         }
