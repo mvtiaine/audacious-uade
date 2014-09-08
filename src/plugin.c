@@ -65,14 +65,30 @@ bool_t plugin_is_our_file_from_vfs (const char *uri, VFSFile *file) {
     return is_our_file;
 }
 
+#define TYPE_PREFIX "type: "
+#define UNKNOWN_CODEC "UADE"
+const char *parse_codec(const struct uade_song_info *info) {
+    if (strnlen(info->formatname, 256) > 0) {
+        // remove "type: " included in some formats
+        if (!strncmp(TYPE_PREFIX, info->formatname, strlen(TYPE_PREFIX))) {
+            return info->formatname + strlen(TYPE_PREFIX);
+        } else {
+            return info->formatname;
+        }
+    } else if (strnlen(info->playername, 256) > 0) {
+        return info->playername;
+
+    } else {
+        return UNKNOWN_CODEC;
+    }
+}
 void update_tuple(Tuple *tuple, char *name, int subsong, struct uade_state *state) {
     const struct uade_song_info* info = uade_get_song_info(state);
 
     tuple_set_str(tuple, FIELD_TITLE,
             strnlen(info->modulename, 256) > 0 ? info->modulename : name);
-    tuple_set_str(tuple, FIELD_CODEC,
-            strnlen(info->formatname, 256) > 0 ? info->formatname :
-                    strnlen(info->playername, 256) > 0 ? info->playername : "UADE");
+
+    tuple_set_str(tuple, FIELD_CODEC, parse_codec(info));
 
     // UADE contentdb doesn't support separate lengths for subsongs
     if (info->subsongs.max == 1 && info->duration > 0) {
@@ -91,7 +107,10 @@ void update_tuple(Tuple *tuple, char *name, int subsong, struct uade_state *stat
     if (ml_data) {
         DBG("Found modland data for %s, format:%s, author:%s, album:%s\n",info->modulemd5,ml_data->format, ml_data->author, ml_data->album);
         tuple_set_str(tuple, FIELD_ARTIST, ml_data->author);
-        tuple_set_str(tuple, FIELD_CODEC, ml_data->format);
+        // prefer UADE codec names, but fall back to modland if not available
+        if (!strncmp(UNKNOWN_CODEC, tuple_get_str(tuple, FIELD_CODEC), strlen(UNKNOWN_CODEC))) {
+            tuple_set_str(tuple, FIELD_CODEC, ml_data->format);
+        }
         if (ml_data->album) {
             tuple_set_str(tuple, FIELD_ALBUM, ml_data->album);
         }
