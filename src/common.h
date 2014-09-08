@@ -11,6 +11,7 @@
 # define DBG(fmt,...) while (0)
 #endif
 
+#define WRN(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
 #define ERR(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
 
 #endif /* COMMON_H_ */

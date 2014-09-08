@@ -4,7 +4,7 @@
 #define UADE_MIMETYPE "audio/x-amiga"
 
 // hybrid of UADE eagleplayer.conf and modland file extensions
-static const char *plugin_extensions[] = {
+static const char * const plugin_extensions[] = {
     "ast", // Actionamics
     "avp","mw", // Activision Pro / Martin Walker
     "ahx","thx", // AHX / THX

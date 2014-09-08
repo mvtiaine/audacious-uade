@@ -1,9 +1,15 @@
 #ifndef MODLAND_H_
 #define MODLAND_H_
 
-int modland_init_md5_db(void);
+typedef struct {
+    char *format, *author, *album;
+} modland_data_t;
 
-static const char *modland_amiga_formats[] = {
+int modland_init(void);
+void modland_cleanup(void);
+modland_data_t *modland_lookup(const char *md5);
+
+static const char * const modland_amiga_formats[] = {
     "AHX",
     "AM Composer",
     "AProSys",

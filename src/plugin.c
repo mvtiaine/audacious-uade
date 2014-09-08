@@ -16,13 +16,14 @@ struct uade_state *probe_state;
 bool_t plugin_init(void) {
     DBG("uade_plugin_init\n");
     probe_state = uade_new_state(NULL);
-    return probe_state != NULL && !modland_init_md5_db();
+    return probe_state != NULL && !modland_init();
 }
 
 void plugin_cleanup(void) {
     DBG("uade_plugin_cleanup\n");
     uade_cleanup_state(probe_state);
     probe_state = NULL;
+    modland_cleanup();
 }
 
 int parse_uri(const char *uri, char **path, char **name) {
@@ -83,6 +84,18 @@ void update_tuple(Tuple *tuple, char *name, int subsong, struct uade_state *stat
         tuple_set_int(tuple, FIELD_SUBSONG_ID, subsong);
         tuple_set_int(tuple, FIELD_TRACK_NUMBER, subsong);
         tuple_set_subtunes(tuple, info->subsongs.max, NULL);
+    }
+
+    modland_data_t *ml_data = modland_lookup(info->modulemd5);
+    if (ml_data) {
+        DBG("Found modland data for %s, format:%s, author:%s, album:%s\n",info->modulemd5,ml_data->format, ml_data->author, ml_data->album);
+        tuple_set_str(tuple, FIELD_ARTIST, ml_data->author);
+        tuple_set_str(tuple, FIELD_CODEC, ml_data->format);
+        if (ml_data->album) {
+            tuple_set_str(tuple, FIELD_ALBUM, ml_data->album);
+        }
+    } else {
+        DBG("No modland data for %s\n", info->modulemd5);
     }
 }
 
