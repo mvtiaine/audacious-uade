@@ -198,6 +198,7 @@ int playback_loop(char *buffer, struct uade_state* state) {
                 tuple_set_int(tuple, FIELD_LENGTH, aud_input_written_time());
                 aud_input_set_tuple(tuple);
             }
+            tuple_unref(tuple);
             break;
         }
         aud_input_write_audio(buffer, nbytes);
