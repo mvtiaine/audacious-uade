@@ -82,6 +82,7 @@ const char *parse_codec(const struct uade_song_info *info) {
         return UNKNOWN_CODEC;
     }
 }
+
 void update_tuple(Tuple *tuple, char *name, int subsong, struct uade_state *state) {
     const struct uade_song_info* info = uade_get_song_info(state);
 
@@ -91,7 +92,7 @@ void update_tuple(Tuple *tuple, char *name, int subsong, struct uade_state *stat
     tuple_set_str(tuple, FIELD_CODEC, parse_codec(info));
 
     // UADE contentdb doesn't support separate lengths for subsongs
-    if (info->subsongs.max == 1 && info->duration > 0) {
+    if (info->subsongs.max == 1 && info->duration > 0 && tuple_get_int(tuple, FIELD_LENGTH) <= 0) {
         tuple_set_int(tuple, FIELD_LENGTH, info->duration * 1000);
     }
     tuple_set_str(tuple, FIELD_MIMETYPE, UADE_MIMETYPE);
@@ -163,7 +164,7 @@ ssize_t render_audio(void *buffer, struct uade_state *state) {
             case UADE_NOTIFICATION_SONG_END:
                 DBG("%s: %s\n", n.song_end.happy ? "song end" : "bad song end",
                         n.song_end.reason);
-                nbytes = 0;
+                nbytes = n.song_end.happy ? 0 : -1;
                 break;
             default:
                 DBG("Unknown notification type from libuade\n");
@@ -189,6 +190,12 @@ int playback_loop(char *buffer, struct uade_state* state) {
             return FALSE;
         } else if (nbytes == 0) {
             DBG("Song end.\n");
+            // update length in playlist
+            Tuple *tuple = aud_input_get_tuple();
+            if (tuple_get_int(tuple, FIELD_LENGTH) <= 0) {
+                tuple_set_int(tuple, FIELD_LENGTH, aud_input_written_time());
+                aud_input_set_tuple(tuple);
+            }
             break;
         }
         aud_input_write_audio(buffer, nbytes);
@@ -219,13 +226,8 @@ bool_t plugin_play (const char *uri, VFSFile *file) {
         goto out;
     }
 
-    Tuple *tuple;
     switch (uade_play(path, subsong, state)) {
         case 1:
-            tuple = tuple_new_from_filename(uri);
-            update_tuple(tuple, name, subsong, state);
-            aud_input_set_tuple(tuple);
-
             ret = playback_loop(buffer, state);
             break;
         default:
