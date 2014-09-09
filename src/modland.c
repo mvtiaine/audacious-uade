@@ -1,13 +1,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <audacious/misc.h>
 #include <libaudcore/multihash.h>
 
 #include "common.h"
 #include "modland.h"
 
-// TODO configuration, some validation
-#define MD5_FILE "/Users/tundrah/allmods_md5_amiga.txt"
 #define LINE_MAX 1024
 #define AUTHOR_MAX 128
 #define FORMAT_MAX 128
@@ -17,6 +16,9 @@
 #define NOTBY "not by "
 
 #define UNKNOWN_AUTHOR "<Unknown>"
+
+char *previous_md5_file = "";
+bool_t initialized = FALSE;
 
 typedef struct {
     MultihashNode node;
@@ -39,7 +41,6 @@ static bool_t match_cb (const MultihashNode *node_, const void *data, unsigned h
     //DBG("Matching %u == %u, %s == %s\n", node->hash, hash, node->md5, data);
     return node->hash == hash && !strncmp(node->md5, data, 32);
 }
-
 
 static MultihashTable ml_table = {
     .hash_func = hash_cb,
@@ -79,13 +80,6 @@ static bool_t cleanup_cb (MultihashNode *node_, void *state) {
     return TRUE;
 }
 
-modland_data_t *modland_lookup(const char *md5) {
-    modland_data_t *item = NULL;
-    //DBG("Looking up md5: %s hash: %u\n", md5, md5_hash(md5));
-    multihash_lookup (&ml_table, md5, md5_hash(md5), NULL, ref_cb, &item);
-    return item;
-}
-
 int is_amiga_format(char * format) {
     int i = 0;
     const char *amiga_format;
@@ -103,13 +97,31 @@ int is_amiga_format(char * format) {
     return 0;
 }
 
-int modland_init(void) {
-    int ret = 0;
+void try_init(void) {
+    bool_t init_success = TRUE;
+    char *md5_file = aud_get_str (PLUGIN_NAME, MODLAND_ALLMODS_MD5_FILE);
+
     char line[LINE_MAX];
-    FILE *file = fopen(MD5_FILE, "r");
+
+    if (!strncmp(previous_md5_file, md5_file, FILENAME_MAX)) {
+        return;
+    }
+
+    DBG("Modland allmods_md5.txt location changed\n");
+
+    previous_md5_file = md5_file;
+    initialized = FALSE;
+    modland_cleanup();
+
+    if (!strnlen(md5_file, FILENAME_MAX)) {
+        DBG("Modland allmods_md5.txt location not defined\n");
+        return;
+    }
+
+    FILE *file = fopen(md5_file, "r");
     if (!file) {
-        ERR("Could not open %s\n", MD5_FILE);
-        return -1;
+        ERR("Could not open modland file %s\n", md5_file);
+        return;
     }
 
     while(fgets(line, LINE_MAX, file)) {
@@ -121,7 +133,7 @@ int modland_init(void) {
         // sanity check
         if (strnlen(line, LINE_MAX) <= 34) {
             ERR("Too short line %s\n", line);
-            ret = -1;
+            init_success = FALSE;
             goto out;
         }
 
@@ -134,7 +146,7 @@ int modland_init(void) {
 
         if (count < 2) {
             ERR("Unexpected line: %s", line);
-            ret = -1;
+            init_success = FALSE;
             goto out;
         }
 
@@ -205,9 +217,28 @@ int modland_init(void) {
 out:
     fclose(file);
 
-    return ret;
+    if (init_success) {
+        initialized = TRUE;
+    } else {
+        modland_cleanup();
+    }
+
+    return;
 }
 
 void modland_cleanup() {
     multihash_iterate (&ml_table, cleanup_cb, NULL);
+}
+
+modland_data_t *modland_lookup(const char *md5) {
+    try_init();
+
+    if (!initialized) {
+        return NULL;
+    }
+
+    modland_data_t *item = NULL;
+    //DBG("Looking up md5: %s hash: %u\n", md5, md5_hash(md5));
+    multihash_lookup (&ml_table, md5, md5_hash(md5), NULL, ref_cb, &item);
+    return item;
 }

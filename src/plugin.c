@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include <audacious/input.h>
+#include <audacious/misc.h>
 #include <audacious/plugin.h>
 #include <libaudcore/audstrings.h>
 
@@ -10,14 +11,16 @@
 #include "common.h"
 #include "extensions.h"
 #include "modland.h"
+#include "prefs.h"
 
 static pthread_mutex_t probe_mutex = PTHREAD_MUTEX_INITIALIZER;
 struct uade_state *probe_state;
 
 bool_t plugin_init(void) {
     DBG("uade_plugin_init\n");
+    aud_config_set_defaults (PLUGIN_NAME, plugin_defaults);
     probe_state = uade_new_state(NULL);
-    return probe_state != NULL && !modland_init();
+    return probe_state != NULL;
 }
 
 void plugin_cleanup(void) {
@@ -257,6 +260,7 @@ AUD_INPUT_PLUGIN (
     .extensions = plugin_extensions,
     .init = plugin_init,
     .cleanup = plugin_cleanup,
+    .prefs = &plugin_prefs,
     .is_our_file_from_vfs = plugin_is_our_file_from_vfs,
     .probe_for_tuple = plugin_probe_for_tuple,
     .play = plugin_play,

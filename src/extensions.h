@@ -1,8 +1,6 @@
 #ifndef EXTENSIONS_H_
 #define EXTENSIONS_H_
 
-#define UADE_MIMETYPE "audio/x-amiga"
-
 static const char * const plugin_mimes[] = {
     UADE_MIMETYPE,
     NULL

@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 
+#define PLUGIN_NAME "uade"
+
 #define DEBUG 1
 
 #ifdef DEBUG
@@ -13,5 +15,11 @@
 
 #define WRN(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
 #define ERR(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
+
+#define UADE_MIMETYPE "audio/x-amiga"
+
+// pref keys
+#define MODLAND_ALLMODS_MD5_FILE "modland_allmods_md5_file"
+
 
 #endif /* COMMON_H_ */
