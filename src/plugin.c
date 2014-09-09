@@ -248,12 +248,6 @@ out:
     return ret;
 }
 
-const char *plugin_mimes[] = {
-    UADE_MIMETYPE,
-    NULL
-};
-
-
 AUD_INPUT_PLUGIN (
     .name = "UADE",
     .about_text = "Plugin for UADE",

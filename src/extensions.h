@@ -3,6 +3,11 @@
 
 #define UADE_MIMETYPE "audio/x-amiga"
 
+static const char * const plugin_mimes[] = {
+    UADE_MIMETYPE,
+    NULL
+};
+
 // hybrid of UADE eagleplayer.conf and modland file extensions
 static const char * const plugin_extensions[] = {
     "ast", // Actionamics
