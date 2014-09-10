@@ -58,11 +58,9 @@ bool_t plugin_is_our_file_from_vfs (const char *uri, VFSFile *file) {
 
     parse_uri(uri, &path, NULL);
 
-    if (path) {
-        pthread_mutex_lock (&probe_mutex);
-        is_our_file = uade_is_our_file(path, probe_state);
-        pthread_mutex_unlock(&probe_mutex);
-    }
+    pthread_mutex_lock (&probe_mutex);
+    is_our_file = uade_is_our_file(path, probe_state);
+    pthread_mutex_unlock(&probe_mutex);
 
     str_unref(path);
 
@@ -71,6 +69,8 @@ bool_t plugin_is_our_file_from_vfs (const char *uri, VFSFile *file) {
 
 #define TYPE_PREFIX "type: "
 #define UNKNOWN_CODEC "UADE"
+#define ERRORED_CODEC "UADE ERROR"
+
 const char *parse_codec(const struct uade_song_info *info) {
     if (strnlen(info->formatname, 256) > 0) {
         // remove "type: " included in some formats
@@ -126,6 +126,11 @@ void update_tuple(Tuple *tuple, char *name, int subsong, struct uade_state *stat
     }
 }
 
+void update_error_tuple(Tuple *tuple, char *name) {
+    tuple_set_str(tuple, FIELD_TITLE, name);
+    tuple_set_str(tuple, FIELD_CODEC, ERRORED_CODEC);
+}
+
 Tuple * plugin_probe_for_tuple (const char *uri, VFSFile *file) {
     DBG("uade_plugin_probe_for_tuple %s\n", uri);
 
@@ -135,23 +140,25 @@ Tuple * plugin_probe_for_tuple (const char *uri, VFSFile *file) {
 
     subsong = parse_uri(uri, &path, &name);
 
-    if (path && tuple) {
-        pthread_mutex_lock (&probe_mutex);
-        switch (uade_play(path, subsong, probe_state)) {
-            case 1:
-                update_tuple(tuple, name, subsong, probe_state);
-                uade_stop(probe_state);
-                break;
-            case -1:
-                uade_cleanup_state(probe_state);
-                probe_state = uade_new_state(NULL);
-                break;
-            default:
-                uade_stop(probe_state);
-                break;
-        }
-        pthread_mutex_unlock (&probe_mutex);
+    pthread_mutex_lock (&probe_mutex);
+    switch (uade_play(path, subsong, probe_state)) {
+        case 1:
+            update_tuple(tuple, name, subsong, probe_state);
+            uade_stop(probe_state);
+            break;
+        case -1:
+            ERR("uade_plugin_probe_for_tuple fatal error on %s\n", uri);
+            uade_cleanup_state(probe_state);
+            probe_state = uade_new_state(NULL);
+            update_error_tuple(tuple, name);
+            break;
+        default:
+            ERR("uade_plugin_probe_for_tuple cannot play %s\n", uri);
+            uade_stop(probe_state);
+            update_error_tuple(tuple, name);
+            break;
     }
+    pthread_mutex_unlock (&probe_mutex);
 
     str_unref(path);
     str_unref(name);
