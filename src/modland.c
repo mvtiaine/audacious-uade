@@ -97,9 +97,81 @@ int is_amiga_format(char * format) {
     return 0;
 }
 
+int parse_modland_path(char *path, modland_data_t *item) {
+    const char *sep = "/";
+    char *format, author[AUTHOR_MAX], *album = NULL, *token;
+    size_t count = 0;
+    char *str = path;
+    while(*str) if (*str++ == '/') ++count;
+
+    if (count < 2) {
+        ERR("Unexpected path: %s\n", path);
+        return -1;
+    }
+
+    format = strtok(path, sep);
+    if (!is_amiga_format(format)) {
+        //DBG("Skipping path %s\n", path);
+        return 1;
+    }
+
+    token = strtok(NULL, sep);
+
+    strlcpy(author, token, sizeof(author));
+
+    switch (count) {
+        case 2:
+            // nothing to do
+            break;
+        case 3:
+            token = strtok(NULL, sep);
+            if (!strncmp(COOP, token, strlen(COOP))) {
+                strlcat(author, " & ", sizeof(author));
+                strlcat(author, token + strlen(COOP), sizeof(author));
+            } else if (strncmp(NOTBY, token, strlen(NOTBY))) {
+                album = token;
+            }
+            break;
+        case 4:
+            token = strtok(NULL, sep);
+            if (!strncmp(COOP, token, strlen(COOP))) {
+                strlcat(author, " & ", sizeof(author));
+                strlcat(author, token + strlen(COOP), sizeof(author));
+            } else {
+                WRN("Skipped path: %s\n", path);
+                return 1;
+            }
+            album = strtok(NULL, sep);
+            break;
+        default:
+            //DBG("Skipping line: %s\n", line);
+            break;
+    }
+
+    item->format = str_get(format);
+    if (!strncmp(UNKNOWN, author, strlen(UNKNOWN))) {
+        item->author = str_get(UNKNOWN_AUTHOR);
+    } else {
+        item->author = str_get(author);
+    }
+    if (album) {
+        item->album = str_get(album);
+    }
+
+    return 0;
+}
+
+modland_data_t *modland_internal_lookup(const char *md5) {
+    modland_data_t *item = NULL;
+    //DBG("Looking up md5: %s hash: %u\n", md5, md5_hash(md5));
+    multihash_lookup (&ml_table, md5, md5_hash(md5), NULL, ref_cb, &item);
+    return item;
+}
+
 void try_init(void) {
     bool_t init_success = TRUE;
     char *md5_file = aud_get_str (PLUGIN_NAME, MODLAND_ALLMODS_MD5_FILE);
+    str_unref(md5_file);
 
     char line[LINE_MAX];
 
@@ -127,8 +199,6 @@ void try_init(void) {
     while(fgets(line, LINE_MAX, file)) {
         char md5[33];
         char path[LINE_MAX];
-        char *sep = "/";
-        char *format, author[AUTHOR_MAX], *album = NULL, *token;
 
         // sanity check
         if (strnlen(line, LINE_MAX) <= 34) {
@@ -138,80 +208,28 @@ void try_init(void) {
         }
 
         strlcpy(md5, line, sizeof(md5));
-        strlcpy(path, line + 33, sizeof(path));
 
-        size_t count = 0;
-        char *str = path;
-        while(*str) if (*str++ == '/') ++count;
-
-        if (count < 2) {
-            ERR("Unexpected line: %s", line);
-            init_success = FALSE;
-            goto out;
-        }
-
-        format = strtok(path, sep);
-        if (!is_amiga_format(format)) {
-            //DBG("Skipping line %s\n", line);
-            continue;
-        }
-
-        token = strtok(NULL, sep);
-
-        strlcpy(author, token, sizeof(author));
-
-        switch (count) {
-            case 2:
-                // nothing to do
-                break;
-            case 3:
-                token = strtok(NULL, sep);
-                if (!strncmp(COOP, token, strlen(COOP))) {
-                    strlcat(author, " & ", sizeof(author));
-                    strlcat(author, token + strlen(COOP), sizeof(author));
-                } else if (strncmp(NOTBY, token, strlen(NOTBY))) {
-                    album = token;
-                }
-                break;
-            case 4:
-                token = strtok(NULL, sep);
-                if (!strncmp(COOP, token, strlen(COOP))) {
-                    strlcat(author, " & ", sizeof(author));
-                    strlcat(author, token + strlen(COOP), sizeof(author));
-                } else {
-                    WRN("Skipped line: %s", line);
-                    continue;
-                    /*
-                    ret = -1;
-                    goto out;
-                    */
-                }
-                album = strtok(NULL, sep);
-                break;
-            default:
-                //DBG("Skipping line: %s\n", line);
-                break;
-        }
-
-        if (modland_lookup(md5)) {
+        if (modland_internal_lookup(md5)) {
             WRN("Duplicate md5: %s", line);
             continue;
         }
 
+        strlcpy(path, line + 33, sizeof(path));
+
         modland_data_t *item = calloc(1, sizeof(modland_data_t));
-        item->format = str_get(format);
-        if (!strncmp(UNKNOWN, author, strlen(UNKNOWN))) {
-            item->author = str_get(UNKNOWN_AUTHOR);
-        } else {
-            item->author = str_get(author);
-        }
-        if (album) {
-            item->album = str_get(album);
+
+        switch (parse_modland_path(path, item)) {
+            case 0:
+                multihash_lookup (&ml_table, str_get(md5), md5_hash(md5), add_cb, NULL, item);
+                break;
+            case 1:
+                continue;
+            default:
+                init_success = FALSE;
+                goto out;
         }
 
-        multihash_lookup (&ml_table, str_get(md5), md5_hash(md5), add_cb, NULL, item);
-
-        //DBG("%s -> format = %s, author = %s, album = %s, hash:%u\n", line, format, author, album, md5_hash(md5));
+        //DBG("%s -> format = %s, author = %s, album = %s\n", line, item->format, item->author, item->album);
     }
 
 out:
@@ -237,8 +255,5 @@ modland_data_t *modland_lookup(const char *md5) {
         return NULL;
     }
 
-    modland_data_t *item = NULL;
-    //DBG("Looking up md5: %s hash: %u\n", md5, md5_hash(md5));
-    multihash_lookup (&ml_table, md5, md5_hash(md5), NULL, ref_cb, &item);
-    return item;
+    return modland_internal_lookup(md5);
 }
