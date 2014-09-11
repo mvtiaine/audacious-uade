@@ -25,7 +25,6 @@ static const char * const modland_amiga_formats[] = {
     "Beathoven Synthesizer",
     "Ben Daglish",
     "Ben Daglish SID",
-    "Composer 669",
     "Core Design",
     "CustomMade",
     "Darius Zendeh",

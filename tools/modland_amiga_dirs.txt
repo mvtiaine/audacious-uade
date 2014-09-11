@@ -13,7 +13,6 @@
 ^.{33}Beathoven Synthesizer/
 ^.{33}Ben Daglish/
 ^.{33}Ben Daglish SID/
-^.{33}Composer 669/
 ^.{33}Core Design/
 ^.{33}CustomMade/
 ^.{33}Darius Zendeh/
