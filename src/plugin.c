@@ -1,3 +1,4 @@
+#include <libgen.h>
 #include <pthread.h>
 #include <stdlib.h>
 
@@ -16,10 +17,44 @@
 static pthread_mutex_t probe_mutex = PTHREAD_MUTEX_INITIALIZER;
 struct uade_state *probe_state;
 
+// hack to work around modland TFMX files using a suffix
+// which causes them not to play
+struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, void *context, struct uade_state *state) {
+    DBG("amiga_loader_wrapper name:%s playerdir:%s\n", name, playerdir);
+
+    char *filename = basename((char *)name);
+    const char *sep = ".";
+    char *prefix;
+    char *middle;
+    char *suffix;
+
+    for((prefix = strtok(filename, sep)) &&
+        (middle = strtok(NULL, sep)) &&
+        (suffix = strtok(NULL, sep));
+        prefix && middle && suffix;) {
+
+        if (!strncmp(prefix, "smpl", 4) && !strncmp(suffix, "mdat", 4)) {
+            char new_filename[FILENAME_MAX];
+            char *path = dirname((char *)name);
+            snprintf(new_filename, sizeof(new_filename), "%s/%s.%s", path, middle, prefix);
+            DBG("amiga_loader_wrapper changed %s to %s\n", filename, new_filename);
+            return uade_load_amiga_file(new_filename, context, state);
+        }
+    }
+
+    return uade_load_amiga_file(name, playerdir, state);
+}
+
+struct uade_state *create_uade_state(const struct uade_config *uc) {
+    struct uade_state *state = uade_new_state(NULL);
+    uade_set_amiga_loader(amiga_loader_wrapper, NULL, state);
+    return state;
+}
+
 bool_t plugin_init(void) {
     DBG("uade_plugin_init\n");
     aud_config_set_defaults (PLUGIN_NAME, plugin_defaults);
-    probe_state = uade_new_state(NULL);
+    probe_state = create_uade_state(NULL);
     return probe_state != NULL;
 }
 
@@ -149,7 +184,7 @@ Tuple * plugin_probe_for_tuple (const char *uri, VFSFile *file) {
         case -1:
             ERR("uade_plugin_probe_for_tuple fatal error on %s\n", uri);
             uade_cleanup_state(probe_state);
-            probe_state = uade_new_state(NULL);
+            probe_state = create_uade_state(NULL);
             update_error_tuple(tuple, name);
             break;
         default:
@@ -227,7 +262,7 @@ bool_t plugin_play (const char *uri, VFSFile *file) {
 
     subsong = parse_uri(uri, &path, &name);
 
-    state = uade_new_state(NULL);
+    state = create_uade_state(NULL);
     if (!state) {
         ERR("Could not init uade state\n");
         goto out;
