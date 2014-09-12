@@ -3,7 +3,6 @@
 ^.{33}AProSys/
 ^.{33}Actionamics/
 ^.{33}Activision Pro/
-^.{33}All Sound Tracker/
 ^.{33}Anders Oland/
 ^.{33}Art And Magic/
 ^.{33}Art Of Noise/

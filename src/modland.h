@@ -15,7 +15,6 @@ static const char * const modland_amiga_formats[] = {
     "AProSys",
     "Actionamics",
     "Activision Pro",
-    "All Sound Tracker",
     "Anders Oland",
     "Art And Magic",
     "Art Of Noise",
