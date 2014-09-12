@@ -66,12 +66,12 @@ void plugin_cleanup(void) {
     modland_cleanup();
 }
 
-int parse_uri(const char *uri, char **path, char **name) {
+int parse_uri(const char *uri, char **path, char **name, char **ext) {
     int subsong;
-    const char *tmpName, *sub;
+    const char *tmpName, *sub, *tmpExt;
     char *tmpPath = uri_to_filename(uri);
 
-    uri_parse(uri, &tmpName, NULL, &sub, &subsong);
+    uri_parse(tmpPath, &tmpName, &tmpExt, &sub, &subsong);
 
     if (path) {
         *path = str_nget(tmpPath, strlen(tmpPath) - strlen(sub));
@@ -79,6 +79,10 @@ int parse_uri(const char *uri, char **path, char **name) {
 
     if (name) {
         *name = str_nget(tmpName, strlen(tmpName) - strlen(sub));
+    }
+
+    if (ext) {
+        *ext = str_nget(tmpExt, strlen(tmpExt) - strlen(sub));
     }
 
     str_unref(tmpPath);
@@ -90,15 +94,23 @@ bool_t plugin_is_our_file_from_vfs (const char *uri, VFSFile *file) {
     DBG("uade_plugin_is_our_file_from_vfs %s\n", uri);
 
     bool_t is_our_file = FALSE;
-    char *path;
+    char *path, *ext;
+    int i = 0;
 
-    parse_uri(uri, &path, NULL);
+    parse_uri(uri, &path, NULL, &ext);
+
+    while(strcasestr(extension_blacklist[i++], ext)) {
+        DBG("Blacklisted extension for %s\n", uri);
+        goto out;
+    }
 
     pthread_mutex_lock (&probe_mutex);
     is_our_file = uade_is_our_file(path, probe_state);
     pthread_mutex_unlock(&probe_mutex);
 
+out:
     str_unref(path);
+    str_unref(ext);
 
     return is_our_file;
 }
@@ -175,7 +187,7 @@ Tuple * plugin_probe_for_tuple (const char *uri, VFSFile *file) {
     int subsong;
     Tuple *tuple = tuple_new_from_filename(uri);
 
-    subsong = parse_uri(uri, &path, &name);
+    subsong = parse_uri(uri, &path, &name, NULL);
 
     pthread_mutex_lock (&probe_mutex);
     switch (uade_play(path, subsong, probe_state)) {
@@ -263,7 +275,7 @@ bool_t plugin_play (const char *uri, VFSFile *file) {
     bool_t ret = FALSE;
     struct uade_state *state = NULL;
 
-    subsong = parse_uri(uri, &path, &name);
+    subsong = parse_uri(uri, &path, &name, NULL);
 
     state = create_uade_state(NULL);
     if (!state) {

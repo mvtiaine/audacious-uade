@@ -112,7 +112,7 @@ static const char * const plugin_extensions[] = {
     "mod_comp", // comp
 
     "!pm!","40a","40b","41a","50a","60a","61a","ac1","ac1d","aval","chan","cp",
-    "cplx","crb","di","eu","fc-m","fcm","ft","fuz","fuzz","gmc","gv","hmc",
+    "cplx","crb","di","eu","fc-m","fcm","fuz","fuzz","gmc","gv","hmc",
     "hrt","hrt!","ice","it1","kef","kef7","krs","ksm","lax","mexxmp","mpro",
     "np","np1","np2","noisepacker2","np3","noisepacker3","nr","nru","ntpk",
     "p10","p21","p30","p40a","p40b","p41a","p4x","p50a","p5a","p5x","p60",
@@ -121,6 +121,9 @@ static const char * const plugin_extensions[] = {
     "ppk","pr1","pr2","prom","pru","pru1","pru2","prun","prun1","prun2","pwr",
     "pyg","pygm","pygmy","skt","skyt","snt","snt!","st2","st26","st30","star",
     "stpk","tp","tp1","tp2","tp3","un2","unic","unic2","wn","xan","xann","zen",
+
+    // Ignored PC tracker extensions
+    // "ft"
 
     "ntp", // NovoTrade Packer
     "two", // NTSP-System
@@ -205,6 +208,11 @@ static const char * const plugin_extensions[] = {
     //"spm", // Stonetracker
     //"symmod", // Symphonie
     //"zmon","sng" // ZoundMonitor
+    NULL
+};
+
+static const char * const extension_blacklist[] = {
+    ".ft", // Fast Tracker
     NULL
 };
 
