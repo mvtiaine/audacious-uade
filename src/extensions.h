@@ -93,7 +93,7 @@ static const char * const plugin_extensions[] = {
     "md", // Mike Davies
     "mms", // MultiMedia Sound
     "ma", // Music Assembler
-    "med","mmd0","mmd1","mmd2", // MED
+    "med","mmd0","mmd1","mmd2", // MED / OctaMED
     "ml", // Musicline Editor
     "mm4","sdata", // Music Maker 4V
     "mm8", // Music Maker 8V
@@ -128,7 +128,7 @@ static const char * const plugin_extensions[] = {
     "ntp", // NovoTrade Packer
     "two", // NTSP-System
 
-    "octamed","mmd3" // OctaMED SoundStudio
+    "octamed", // OctaMED
     "okt","okta", // Oktalyzer
     "one", // onEscapee
     "dat", // Paul Robotham
@@ -200,6 +200,7 @@ static const char * const plugin_extensions[] = {
     //"ftm", // Face The Music
     //"fuchs", // Fuchs Tracker
     //"dux", // GT Game Systems
+    //"mmd3", // Octamed SoundStudio
     //"mxtx", // MaxTrax
     //"pn", // PokeyNoise
     //"pt36", // Protracker 3.6
@@ -212,7 +213,10 @@ static const char * const plugin_extensions[] = {
 };
 
 static const char * const extension_blacklist[] = {
+    // PC trackers
     ".ft", // Fast Tracker
+    // No support
+    ".mmd3", // Octamed SoundStudio
     NULL
 };
 
