@@ -99,9 +99,12 @@ bool_t plugin_is_our_file_from_vfs (const char *uri, VFSFile *file) {
 
     parse_uri(uri, &path, NULL, &ext);
 
-    while(strcasestr(extension_blacklist[i++], ext)) {
-        DBG("Blacklisted extension for %s\n", uri);
-        goto out;
+    // check if extension is blacklisted
+    for (i = 0; extension_blacklist[i]; ++i) {
+        if (!strncasecmp(extension_blacklist[i], ext, FILENAME_MAX)) {
+            DBG("Blacklisted extension for %s\n", uri);
+            goto out;
+        }
     }
 
     pthread_mutex_lock (&probe_mutex);
