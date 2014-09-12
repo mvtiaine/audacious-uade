@@ -40,6 +40,7 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
             DBG("amiga_loader_wrapper changed %s to %s\n", filename, new_filename);
             return uade_load_amiga_file(new_filename, context, state);
         }
+        break;
     }
 
     return uade_load_amiga_file(name, playerdir, state);
