@@ -33,7 +33,7 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
         (suffix = strtok(NULL, sep));
         prefix && middle && suffix;) {
 
-        if (!strncmp(prefix, "smpl", 4) && !strncmp(suffix, "mdat", 4)) {
+        if (!strncasecmp(prefix, "smpl", 4) && !strncasecmp(suffix, "mdat", 4)) {
             char new_filename[FILENAME_MAX];
             char *path = dirname((char *)name);
             snprintf(new_filename, sizeof(new_filename), "%s/%s.%s", path, middle, prefix);
