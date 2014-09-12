@@ -138,11 +138,40 @@ const char *parse_codec(const struct uade_song_info *info) {
     }
 }
 
+// OctaMED sets <no songtitle> or similar as the modulename if there's no title given
+static const char * const octamed_title_blacklist[] = {
+    "<no songtitle>",
+    "<sans titre>",
+    "<ohne Namen>",
+    "<unnamed>",
+    NULL
+};
+
+bool_t is_blacklisted_title(const struct uade_song_info *info) {
+    bool_t is_octamed = !strncmp("type: MMD0", info->formatname, 10) ||
+                        !strncmp("type: MMD1", info->formatname, 10) ||
+                        !strncmp("type: MMD2", info->formatname, 10);
+    if (is_octamed) {
+        int i;
+        // check if extension is blacklisted
+        for (i = 0; octamed_title_blacklist[i]; ++i) {
+            if (!strncmp(octamed_title_blacklist[i], info->modulename, FILENAME_MAX)) {
+                DBG("Blacklisted title %s\n", info->modulename);
+                return TRUE;
+            }
+        }
+    }
+    return FALSE;
+}
+
 void update_tuple(Tuple *tuple, char *name, int subsong, struct uade_state *state) {
     const struct uade_song_info* info = uade_get_song_info(state);
 
-    tuple_set_str(tuple, FIELD_TITLE,
-            strnlen(info->modulename, 256) > 0 ? info->modulename : name);
+    bool_t modulename_ok = strnlen(info->modulename, 256) > 0 &&
+                           !is_blacklisted_title(info);
+    const char *title = modulename_ok ? info->modulename : name;
+
+    tuple_set_str(tuple, FIELD_TITLE, title);
 
     tuple_set_str(tuple, FIELD_CODEC, parse_codec(info));
 
