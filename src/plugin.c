@@ -28,6 +28,8 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
     char *middle;
     char *suffix;
 
+    // TODO: fix m.u.d.s.mdat etc.
+    // jos SMPL.set feilaa, kokeile set.smpl
     for((prefix = strtok(filename, sep)) &&
         (middle = strtok(NULL, sep)) &&
         (suffix = strtok(NULL, sep));
