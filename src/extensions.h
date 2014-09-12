@@ -17,13 +17,13 @@ static const char * const plugin_extensions[] = {
     "abk", // AMOS
     "aam", // Art & Magic
     "alp", // Alcatraz Packer
-    "aon","aon4","aon8" // Art Of Noise
-    "adsc","mod_adsc4" // Audio Sculpture / Startrekker AM
+    "aon","aon4","aon8", // Art Of Noise
+    "adsc","mod_adsc4", // Audio Sculpture / Startrekker AM
     "bss", // Beathoven Synthesizer
     "bd", // Ben Daglish
     "bds", // Ben Daglish SID
     "uds", // Blade Packer / Unique Development
-    "bp","sndmon" // BP SoundMon2.0
+    "bp","sndmon", // BP SoundMon2.0
     "bp3", // BP SoundMon2.2
     "cin", // Cinemaware
     "core", // Core Design
@@ -46,7 +46,7 @@ static const char * const plugin_extensions[] = {
     "dss", // Digital Sound Studio
     "tpu", // Dirk Bialluch
     "dns", // Dynamic Synthesizer
-    "ea","mg" // EarAche
+    "ea","mg", // EarAche
     "ems", // Electronic Music System
     "emsv6", // Electronic Music System v6
     "ex", // Fashion Tracker
@@ -63,9 +63,9 @@ static const char * const plugin_extensions[] = {
     "sog", // Hippel Atari
     "hip7","s7g", // Hippel 7V
     "hipc", // Hippel CoSo
-    "soc", "hst" // Hippel ST
+    "soc", "hst", // Hippel ST
     "hd", // Howie Davis
-    "hn","mtp2","thn" // Major Tom / The Holy Noise
+    "hn","mtp2","thn", // Major Tom / The Holy Noise
     "ims", // Images Music System
     "dum", // Infogrames / Rob Hubbard 2
     "is", // InStereo!
@@ -82,7 +82,7 @@ static const char * const plugin_extensions[] = {
     "kh", // Kris Hatlelid
     "powt","pt", // Laxity  / Powertracker
     "lme", // Leggless Music Editor
-    "lion","sp-a" // Lionheart (SonicArranger)
+    "lion","sp-a", // Lionheart (SonicArranger)
     "mfp", // Magnetic Fields Packer
     "mon", // Maniacs Of Noise
     "mc","mcr", // Mark Cooksey
@@ -95,7 +95,7 @@ static const char * const plugin_extensions[] = {
     "ma", // Music Assembler
     "med","mmd0","mmd1","mmd2", // MED
     "ml", // Musicline Editor
-    "mm4","sdata" // Music Maker 4V
+    "mm4","sdata", // Music Maker 4V
     "mm8", // Music Maker 8V
     "max", // Maximum Effect
     "mmdc", // MMDC / MED Packer
@@ -105,7 +105,7 @@ static const char * const plugin_extensions[] = {
     "mod_doc", // st24
     "mod15","mod15_msg", // st20
     "mod_ntk", "mod_ntk1", // nt10
-    "mod_ntk2" // nt20
+    "mod_ntk2", // nt20
     "mod_ntkamp", // m&k
     "mod_flt4",  // flt4
     "mod", // pt30
@@ -146,17 +146,17 @@ static const char * const plugin_extensions[] = {
     "scumm", // SCUMM
     "s-c","scn", // Sean Connolly
     "scr", // Sean Conran
-    "sid1","smn", "sid" // SIDMon1.0
+    "sid1","smn", "sid", // SIDMon1.0
     "sid2", // SIDMon2.0
     "mok", // Silmarils
-    "sa","sonic" // Sonic Arranger
-    "sa_old" // Sonic Arranger pc-all
+    "sa","sonic", // Sonic Arranger
+    "sa_old", // Sonic Arranger pc-all
     "tw", // Sound Images / Tiny Williams
     "sm","sm1","sm2","sm3","smpro", // Sound Master / Sound Master II / Sound Master II v3
     "spl", // Sound Programming Language
     "sc","sct", // SoundControl
     "psf", // SoundFactory
-    "sfx","sfx13" // SoundFX /SoundFX 2
+    "sfx","sfx13", // SoundFX /SoundFX 2
     "sjs", // SoundPlayer
     "jd", // Special FX
     "doda", // Special FX ST
