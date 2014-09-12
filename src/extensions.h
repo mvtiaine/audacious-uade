@@ -58,7 +58,7 @@ static const char * const plugin_extensions[] = {
     "fred", // FredMon
     "gray", // Fred Gray
     "fp", // Future Player
-    "glue", // GlueMon
+    "glue","gm", // GlueMon
     "hip","mcmd", // Hippel / MCMD
     "sog", // Hippel Atari
     "hip7","s7g", // Hippel 7V
