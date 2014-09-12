@@ -123,7 +123,7 @@ static const char * const plugin_extensions[] = {
     "stpk","tp","tp1","tp2","tp3","un2","unic","unic2","wn","xan","xann","zen",
 
     // Ignored PC tracker extensions
-    // "ft"
+    // "ft" // Fast Tracker
 
     "ntp", // NovoTrade Packer
     "two", // NTSP-System
@@ -186,7 +186,9 @@ static const char * const plugin_extensions[] = {
     "mod15_ust", // Ultimate Soundtracker
     "vss", // Voodoo Supreme Synthesizer
     "wb", // Wally Beben
-    "ym", "ymst", // YM-2149
+    // ignored Atari format ?
+    //"ym", // YM
+    "ymst", // YM-2149
     "mod15_st-iv", // Soundtracker-IV
     "agi", // Sierra AGI
 
@@ -217,6 +219,8 @@ static const char * const extension_blacklist[] = {
     ".ft", // Fast Tracker
     // No support
     ".mmd3", // Octamed SoundStudio
+    // Not amiga?
+    ".ym", // YM
     NULL
 };
 
