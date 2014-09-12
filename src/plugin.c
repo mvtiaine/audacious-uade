@@ -245,6 +245,8 @@ int playback_loop(char *buffer, struct uade_state* state) {
             if (abs(tuple_get_int(tuple, FIELD_LENGTH) - aud_input_written_time()) > 250) {
                 tuple_set_int(tuple, FIELD_LENGTH, aud_input_written_time());
                 aud_input_set_tuple(tuple);
+            } else {
+                tuple_unref(tuple);
             }
             break;
         }
