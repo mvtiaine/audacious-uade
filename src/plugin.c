@@ -87,7 +87,7 @@ int parse_uri(const char *uri, char **path, char **name, char **ext) {
 
     str_unref(tmpPath);
 
-    return subsong <= 0 ? 1 : subsong;
+    return strnlen(sub, FILENAME_MAX) > 0 ? subsong : -1;
 }
 
 bool_t plugin_is_our_file_from_vfs (const char *uri, VFSFile *file) {
@@ -143,17 +143,30 @@ void update_tuple(Tuple *tuple, char *name, int subsong, struct uade_state *stat
 
     tuple_set_str(tuple, FIELD_CODEC, parse_codec(info));
 
+    int subsongs = info->subsongs.max - info->subsongs.min + 1;
+
     // UADE contentdb doesn't support separate lengths for subsongs
-    if (info->subsongs.max == 1 && info->duration > 0 && tuple_get_int(tuple, FIELD_LENGTH) <= 0) {
+    if (subsongs == 1 && info->duration > 0 && tuple_get_int(tuple, FIELD_LENGTH) <= 0) {
         tuple_set_int(tuple, FIELD_LENGTH, info->duration * 1000);
     }
     tuple_set_str(tuple, FIELD_MIMETYPE, UADE_MIMETYPE);
 
-    if (info->subsongs.max > 1) {
-        tuple_set_int(tuple, FIELD_SUBSONG_NUM, info->subsongs.max);
-        tuple_set_int(tuple, FIELD_SUBSONG_ID, subsong);
-        tuple_set_int(tuple, FIELD_TRACK_NUMBER, subsong);
-        tuple_set_subtunes(tuple, info->subsongs.max, NULL);
+    if (subsongs > 1) {
+        // initial probe
+        if (subsong == -1) {
+            // provide mappings to uade subsong numbers
+            int subtunes[subsongs], i;
+            for (i = 0; i < subsongs; ++i) {
+                subtunes[i] = info->subsongs.min + i;
+            }
+            tuple_set_subtunes(tuple, subsongs, subtunes);
+        } else {
+            // convert to playlist 1/x numbering
+            int pl_subsong = subsong - info->subsongs.min + 1;
+            tuple_set_int(tuple, FIELD_SUBSONG_NUM, subsongs);
+            tuple_set_int(tuple, FIELD_SUBSONG_ID, pl_subsong);
+            tuple_set_int(tuple, FIELD_TRACK_NUMBER, pl_subsong);
+        }
     }
 
     modland_data_t *ml_data = modland_lookup(info->modulemd5);
