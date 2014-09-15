@@ -214,14 +214,4 @@ static const char * const plugin_extensions[] = {
     NULL
 };
 
-static const char * const extension_blacklist[] = {
-    // PC trackers
-    ".ft", // Fast Tracker
-    // No support
-    ".mmd3", // Octamed SoundStudio
-    // Not amiga?
-    ".ym", // YM
-    NULL
-};
-
 #endif /* EXTENSIONS_H_ */
