@@ -1,7 +1,7 @@
 /Makefile
 /Makefile.in
-/uade_la-plugin.lo
-/uade.la
+*.lo
+*.la
 /.deps/
 /.libs/
-/uade_la-modland.lo
+
