@@ -78,6 +78,16 @@ bool_t plugin_is_our_file_from_vfs (const char *uri, VFSFile *file) {
 
     pthread_mutex_lock (&probe_mutex);
     is_our_file = uade_is_our_file(path, probe_state);
+    if (is_our_file) {
+        switch (uade_play(path, -1, probe_state)) {
+            case 1:
+                break;
+            default:
+                DEBUG("Cannot play %s\n", uri);
+                is_our_file = FALSE;
+                break;
+        }
+    }
     pthread_mutex_unlock(&probe_mutex);
 
 out:
