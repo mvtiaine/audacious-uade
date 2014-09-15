@@ -18,7 +18,7 @@ static pthread_mutex_t probe_mutex = PTHREAD_MUTEX_INITIALIZER;
 struct uade_state *probe_state;
 
 // hack to work around modland TFMX files using a suffix
-// which causes them not to play
+// which causes them not to play due to not finding the sample file
 struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, void *context, struct uade_state *state) {
     TRACE("amiga_loader_wrapper name:%s playerdir:%s\n", name, playerdir);
 
@@ -27,25 +27,45 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
     char *prefix;
     char *middle;
     char *suffix;
+    char buf[FILENAME_MAX];
+    buf[0] = 0;
 
-    // TODO: fix m.u.d.s.mdat etc.
-    // jos SMPL.set feilaa, kokeile set.smpl
     for((prefix = strtok(filename, sep)) &&
         (middle = strtok(NULL, sep)) &&
         (suffix = strtok(NULL, sep));
-        prefix && middle && suffix;) {
+        prefix && middle && suffix;
+        suffix = strtok(NULL, sep)) {
 
+        TRACE("prefix:%s middle:%s suffix:%s\n", prefix, middle, suffix);
+
+        // change smpl.*.mdat to *.smpl
         if (!strncasecmp(prefix, "smpl", 4) && !strncasecmp(suffix, "mdat", 4)) {
             char new_filename[FILENAME_MAX];
             char *path = dirname((char *)name);
             snprintf(new_filename, sizeof(new_filename), "%s/%s.%s", path, middle, prefix);
             DEBUG("amiga_loader_wrapper changed %s to %s\n", filename, new_filename);
-            return uade_load_amiga_file(new_filename, context, state);
+            return uade_load_amiga_file(new_filename, playerdir, state);
         }
-        break;
+        if (!buf[0]) {
+            strlcat(buf, middle, sizeof(buf));
+            middle = buf;
+        }
+        strlcat(buf, sep, sizeof(buf));
+        strlcat(buf, suffix, sizeof(buf));
     }
 
-    return uade_load_amiga_file(name, playerdir, state);
+    struct uade_file *amiga_file = uade_load_amiga_file(name, playerdir, state);
+
+    // try set.smpl instead of smpl.set :P
+    if (!amiga_file && !strncasecmp(prefix, "smpl", 4) && !strncasecmp(middle, "set", 4)){
+        char new_filename[FILENAME_MAX];
+        char *path = dirname((char *)name);
+        snprintf(new_filename, sizeof(new_filename), "%s/set.smpl", path);
+        DEBUG("amiga_loader_wrapper changed %s.%s to set.smpl\n", prefix, middle);
+        amiga_file = uade_load_amiga_file(new_filename, playerdir, state);
+    }
+
+    return amiga_file;
 }
 
 struct uade_state *create_uade_state(const struct uade_config *uc) {
