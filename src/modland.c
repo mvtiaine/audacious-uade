@@ -140,7 +140,7 @@ int parse_modland_path(char *path, modland_data_t *item) {
             album = strtok(NULL, sep);
             break;
         default:
-            TRACE("Skipping line: %s\n", line);
+            TRACE("Skipping path: %s\n", path);
             break;
     }
 
