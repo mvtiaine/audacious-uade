@@ -3,21 +3,23 @@
 
 #include <stdio.h>
 
+#include <audacious/debug.h>
+
 #define PLUGIN_NAME "uade"
 
-#define DEBUG 1
+//#define DEBUG_TRACE 1
 
-#ifdef DEBUG
-# define DBG(fmt,...) printf(fmt, ## __VA_ARGS__)
+#ifdef DEBUG_TRACE
+# define TRACE AUDDBG
 #else
-# define DBG(fmt,...) while (0)
+# define TRACE(fmt,...) while (0)
 #endif
 
-#define WRN(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
-#define ERR(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
+#define DEBUG AUDDBG
+#define WARN(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
+#define ERROR(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
 
 // pref keys
 #define MODLAND_ALLMODS_MD5_FILE "modland_allmods_md5_file"
-
 
 #endif /* COMMON_H_ */

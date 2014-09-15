@@ -20,7 +20,7 @@ struct uade_state *probe_state;
 // hack to work around modland TFMX files using a suffix
 // which causes them not to play
 struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, void *context, struct uade_state *state) {
-    DBG("amiga_loader_wrapper name:%s playerdir:%s\n", name, playerdir);
+    TRACE("amiga_loader_wrapper name:%s playerdir:%s\n", name, playerdir);
 
     char *filename = basename((char *)name);
     const char *sep = ".";
@@ -39,7 +39,7 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
             char new_filename[FILENAME_MAX];
             char *path = dirname((char *)name);
             snprintf(new_filename, sizeof(new_filename), "%s/%s.%s", path, middle, prefix);
-            DBG("amiga_loader_wrapper changed %s to %s\n", filename, new_filename);
+            DEBUG("amiga_loader_wrapper changed %s to %s\n", filename, new_filename);
             return uade_load_amiga_file(new_filename, context, state);
         }
         break;
@@ -55,14 +55,14 @@ struct uade_state *create_uade_state(const struct uade_config *uc) {
 }
 
 bool_t plugin_init(void) {
-    DBG("uade_plugin_init\n");
+    DEBUG("uade_plugin_init\n");
     aud_config_set_defaults (PLUGIN_NAME, plugin_defaults);
     probe_state = create_uade_state(NULL);
     return probe_state != NULL;
 }
 
 void plugin_cleanup(void) {
-    DBG("uade_plugin_cleanup\n");
+    DEBUG("uade_plugin_cleanup\n");
     uade_cleanup_state(probe_state);
     probe_state = NULL;
     modland_cleanup();
@@ -93,7 +93,7 @@ int parse_uri(const char *uri, char **path, char **name, char **ext) {
 }
 
 bool_t plugin_is_our_file_from_vfs (const char *uri, VFSFile *file) {
-    DBG("uade_plugin_is_our_file_from_vfs %s\n", uri);
+    TRACE("uade_plugin_is_our_file_from_vfs %s\n", uri);
 
     bool_t is_our_file = FALSE;
     char *path, *ext;
@@ -104,7 +104,7 @@ bool_t plugin_is_our_file_from_vfs (const char *uri, VFSFile *file) {
     // check if extension is blacklisted
     for (i = 0; extension_blacklist[i]; ++i) {
         if (!strncasecmp(extension_blacklist[i], ext, FILENAME_MAX)) {
-            DBG("Blacklisted extension for %s\n", uri);
+            DEBUG("Blacklisted extension for %s\n", uri);
             goto out;
         }
     }
@@ -158,7 +158,7 @@ bool_t is_blacklisted_title(const struct uade_song_info *info) {
         // check if extension is blacklisted
         for (i = 0; octamed_title_blacklist[i]; ++i) {
             if (!strncmp(octamed_title_blacklist[i], info->modulename, FILENAME_MAX)) {
-                DBG("Blacklisted title %s\n", info->modulename);
+                DEBUG("Blacklisted title %s\n", info->modulename);
                 return TRUE;
             }
         }
@@ -205,7 +205,7 @@ void update_tuple(Tuple *tuple, char *name, int subsong, struct uade_state *stat
 
     modland_data_t *ml_data = modland_lookup(info->modulemd5);
     if (ml_data) {
-        DBG("Found modland data for %s, format:%s, author:%s, album:%s\n",
+        TRACE("Found modland data for %s, format:%s, author:%s, album:%s\n",
             info->modulemd5,ml_data->format, ml_data->author, ml_data->album);
         tuple_set_str(tuple, FIELD_ARTIST, ml_data->author);
         // prefer UADE codec names, but fall back to modland if not available
@@ -218,7 +218,7 @@ void update_tuple(Tuple *tuple, char *name, int subsong, struct uade_state *stat
             tuple_set_str(tuple, FIELD_ALBUM, ml_data->album);
         }
     } else {
-        DBG("No modland data for %s\n", info->modulemd5);
+        TRACE("No modland data for %s\n", info->modulemd5);
     }
 }
 
@@ -228,7 +228,7 @@ void update_error_tuple(Tuple *tuple, char *name) {
 }
 
 Tuple * plugin_probe_for_tuple (const char *uri, VFSFile *file) {
-    DBG("uade_plugin_probe_for_tuple %s\n", uri);
+    TRACE("uade_plugin_probe_for_tuple %s\n", uri);
 
     char *path, *name;
     int subsong;
@@ -243,13 +243,13 @@ Tuple * plugin_probe_for_tuple (const char *uri, VFSFile *file) {
             uade_stop(probe_state);
             break;
         case -1:
-            ERR("uade_plugin_probe_for_tuple fatal error on %s\n", uri);
+            WARN("uade_plugin_probe_for_tuple fatal error on %s\n", uri);
             uade_cleanup_state(probe_state);
             probe_state = create_uade_state(NULL);
             update_error_tuple(tuple, name);
             break;
         default:
-            ERR("uade_plugin_probe_for_tuple cannot play %s\n", uri);
+            WARN("uade_plugin_probe_for_tuple cannot play %s\n", uri);
             uade_stop(probe_state);
             update_error_tuple(tuple, name);
             break;
@@ -268,15 +268,16 @@ ssize_t render_audio(void *buffer, struct uade_state *state) {
     while (uade_read_notification(&n, state)) {
         switch (n.type) {
             case UADE_NOTIFICATION_MESSAGE:
-                DBG("Amiga message: %s\n", n.msg);
+                TRACE("Amiga message: %s\n", n.msg);
                 break;
             case UADE_NOTIFICATION_SONG_END:
-                DBG("%s: %s\n", n.song_end.happy ? "song end" : "bad song end",
+                TRACE("%s: %s\n", n.song_end.happy ? "song end" : "bad song end",
                         n.song_end.reason);
                 nbytes = n.song_end.happy ? 0 : -1;
                 break;
             default:
-                DBG("Unknown notification type from libuade\n");
+                WARN("Unknown notification type from libuade\n");
+                break;
         }
         uade_cleanup_notification(&n);
     }
@@ -288,17 +289,17 @@ int playback_loop(char *buffer, struct uade_state* state) {
         int seek_value = aud_input_check_seek ();
         if (seek_value >= 0) {
             if (uade_seek(UADE_SEEK_SUBSONG_RELATIVE, seek_value / 1000.0, -1, state)) {
-                ERR("Could not seek to %d\n", seek_value);
+                ERROR("Could not seek to %d\n", seek_value);
             } else {
-                DBG("Seek to %d\n", seek_value);
+                DEBUG("Seek to %d\n", seek_value);
             };
         }
         ssize_t nbytes = render_audio(buffer, state);
         if (nbytes < 0) {
-            ERR("Playback error.\n");
+            ERROR("Playback error.\n");
             return FALSE;
         } else if (nbytes == 0) {
-            DBG("Song end.\n");
+            TRACE("Song end.\n");
             // update length in playlist
             Tuple *tuple = aud_input_get_tuple();
             if (abs(tuple_get_int(tuple, FIELD_LENGTH) - aud_input_written_time()) > 250) {
@@ -315,7 +316,7 @@ int playback_loop(char *buffer, struct uade_state* state) {
 }
 
 bool_t plugin_play (const char *uri, VFSFile *file) {
-    DBG("uade_plugin_play %s\n", uri);
+    TRACE("uade_plugin_play %s\n", uri);
 
     char *path, *name, buffer[4096];
     int subsong, rate;
@@ -326,14 +327,14 @@ bool_t plugin_play (const char *uri, VFSFile *file) {
 
     state = create_uade_state(NULL);
     if (!state) {
-        ERR("Could not init uade state\n");
+        ERROR("Could not init uade state\n");
         goto out;
     }
 
     rate = uade_get_sampling_rate(state);
 
     if (!aud_input_open_audio(FMT_S16_NE, rate, 2)) {
-        ERR("Could not open audio with rate %d\n", rate);
+        ERROR("Could not open audio with rate %d\n", rate);
         goto out;
     }
 
@@ -342,7 +343,7 @@ bool_t plugin_play (const char *uri, VFSFile *file) {
             ret = playback_loop(buffer, state);
             break;
         default:
-            ERR("Could not play %s\n", uri);
+            ERROR("Could not play %s\n", uri);
             ret = FALSE;
             break;
     }

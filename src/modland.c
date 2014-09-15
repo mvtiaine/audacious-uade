@@ -28,8 +28,8 @@ typedef struct {
 } MLNode;
 
 static unsigned md5_hash(const char* md5) {
-    //DBG("Hash for %s -> %lld, %u\n", md5 + 17, strtoll(md5 + 17, NULL, 16), (unsigned)strtoll(md5 + 17, NULL, 16));
-    return (unsigned) strtoll(md5 + 17, NULL, 16);
+    unsigned hash = (unsigned) strtoll(md5 + 17, NULL, 16);
+    return hash;
 }
 
 static unsigned hash_cb (const MultihashNode *node) {
@@ -38,7 +38,6 @@ static unsigned hash_cb (const MultihashNode *node) {
 
 static bool_t match_cb (const MultihashNode *node_, const void *data, unsigned hash) {
     const MLNode *node = (const MLNode *) node_;
-    //DBG("Matching %u == %u, %s == %s\n", node->hash, hash, node->md5, data);
     return node->hash == hash && !strncmp(node->md5, data, 32);
 }
 
@@ -54,21 +53,19 @@ static MultihashNode * add_cb (const void *data, unsigned hash, void *state) {
     node->md5 = (char *)data;
     node->item = item;
 
-    //DBG("Added hash: %u md5: %s\n", node->hash, node->md5);
-
     return (MultihashNode *) node;
 }
 
 static bool_t ref_cb (MultihashNode *node_, void *state) {
     MLNode * node = (MLNode *) node_;
 
-    * ((modland_data_t * *) state) = node->item;
+    *((modland_data_t * *) state) = node->item;
     return FALSE;
 }
 
 static bool_t cleanup_cb (MultihashNode *node_, void *state) {
     MLNode * node = (MLNode *) node_;
-    //DBG("Cleaning up %s %s %s\n", node->md5, node->item->format, node->item->author);
+
     str_unref(node->md5);
     str_unref(node->item->format);
     str_unref(node->item->author);
@@ -93,7 +90,6 @@ int is_amiga_format(char * format) {
                 continue;
         }
     }
-
     return 0;
 }
 
@@ -105,13 +101,13 @@ int parse_modland_path(char *path, modland_data_t *item) {
     while(*str) if (*str++ == '/') ++count;
 
     if (count < 2) {
-        ERR("Unexpected path: %s\n", path);
+        ERROR("Unexpected path: %s\n", path);
         return -1;
     }
 
     format = strtok(path, sep);
     if (!is_amiga_format(format)) {
-        //DBG("Skipping path %s\n", path);
+        TRACE("Skipping path %s\n", path);
         return 1;
     }
 
@@ -138,13 +134,13 @@ int parse_modland_path(char *path, modland_data_t *item) {
                 strlcat(author, " & ", sizeof(author));
                 strlcat(author, token + strlen(COOP), sizeof(author));
             } else {
-                WRN("Skipped path: %s\n", path);
+                WARN("Skipped path: %s\n", path);
                 return 1;
             }
             album = strtok(NULL, sep);
             break;
         default:
-            //DBG("Skipping line: %s\n", line);
+            TRACE("Skipping line: %s\n", line);
             break;
     }
 
@@ -163,7 +159,6 @@ int parse_modland_path(char *path, modland_data_t *item) {
 
 modland_data_t *modland_internal_lookup(const char *md5) {
     modland_data_t *item = NULL;
-    //DBG("Looking up md5: %s hash: %u\n", md5, md5_hash(md5));
     multihash_lookup (&ml_table, md5, md5_hash(md5), NULL, ref_cb, &item);
     return item;
 }
@@ -179,20 +174,20 @@ void try_init(void) {
         return;
     }
 
-    DBG("Modland allmods_md5.txt location changed\n");
+    DEBUG("Modland allmods_md5.txt location changed\n");
 
     previous_md5_file = md5_file;
     initialized = FALSE;
     modland_cleanup();
 
     if (!strnlen(md5_file, FILENAME_MAX)) {
-        DBG("Modland allmods_md5.txt location not defined\n");
+        DEBUG("Modland allmods_md5.txt location not defined\n");
         return;
     }
 
     FILE *file = fopen(md5_file, "r");
     if (!file) {
-        ERR("Could not open modland file %s\n", md5_file);
+        ERROR("Could not open modland file %s\n", md5_file);
         return;
     }
 
@@ -202,7 +197,7 @@ void try_init(void) {
 
         // sanity check
         if (strnlen(line, LINE_MAX) <= 34) {
-            ERR("Too short line %s\n", line);
+            ERROR("Too short line %s\n", line);
             init_success = FALSE;
             goto out;
         }
@@ -210,7 +205,7 @@ void try_init(void) {
         strlcpy(md5, line, sizeof(md5));
 
         if (modland_internal_lookup(md5)) {
-            WRN("Duplicate md5: %s", line);
+            DEBUG("Duplicate md5: %s", line);
             continue;
         }
 
@@ -229,7 +224,7 @@ void try_init(void) {
                 goto out;
         }
 
-        //DBG("%s -> format = %s, author = %s, album = %s\n", line, item->format, item->author, item->album);
+        TRACE("%s -> format = %s, author = %s, album = %s\n", line, item->format, item->author, item->album);
     }
 
 out:
