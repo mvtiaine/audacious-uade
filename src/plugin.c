@@ -77,16 +77,21 @@ bool_t plugin_is_our_file_from_vfs (const char *uri, VFSFile *file) {
     }
 
     pthread_mutex_lock (&probe_mutex);
-    is_our_file = uade_is_our_file(path, probe_state);
-    if (is_our_file) {
-        switch (uade_play(path, -1, probe_state)) {
-            case 1:
-                break;
-            default:
-                DEBUG("Cannot play %s\n", uri);
-                is_our_file = FALSE;
-                break;
-        }
+    switch (uade_play(path, -1, probe_state)) {
+        case 1:
+            TRACE("uade_plugin_is_our_file_from_vfs accepted %s\n", uri);
+            uade_stop(probe_state);
+            is_our_file = TRUE;
+            break;
+        case -1:
+            WARN("uade_plugin_is_our_file_from_vfs fatal error on %s\n", uri);
+            uade_cleanup_state(probe_state);
+            probe_state = create_uade_state(NULL);
+            break;
+        default:
+            DEBUG("Cannot play %s\n", uri);
+            uade_stop(probe_state);
+            break;
     }
     pthread_mutex_unlock(&probe_mutex);
 
