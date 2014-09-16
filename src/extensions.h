@@ -203,6 +203,7 @@ static const char * const plugin_extensions[] = {
     //"dsm", // Dynamic Studio Professional
     //"ftm", // Face The Music
     //"fuchs", // Fuchs Tracker
+    //"hvl", // HivelyTracker
     //"dux", // GT Game Systems
     //"mmd3", // Octamed SoundStudio
     //"mxtx", // MaxTrax

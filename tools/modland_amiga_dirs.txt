@@ -56,6 +56,7 @@
 ^.{33}Hippel-Atari/
 ^.{33}Hippel-COSO/
 ^.{33}Hippel-ST/
+^.{33}HivelyTracker/
 ^.{33}Howie Davies/
 ^.{33}Images Music System/
 ^.{33}InStereo!/
