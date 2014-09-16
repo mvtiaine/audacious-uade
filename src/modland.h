@@ -164,7 +164,6 @@ static const char * const modland_amiga_formats[] = {
     "Unique Development",
     "Voodoo Supreme Synthesizer",
     "Wally Beben",
-    "YM",
     "YMST",
     "Zoundmonitor",
     NULL

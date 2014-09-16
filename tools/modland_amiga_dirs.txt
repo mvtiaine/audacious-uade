@@ -152,6 +152,5 @@
 ^.{33}Unique Development/
 ^.{33}Voodoo Supreme Synthesizer/
 ^.{33}Wally Beben/
-^.{33}YM/
 ^.{33}YMST/
 ^.{33}Zoundmonitor/
