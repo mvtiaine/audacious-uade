@@ -14,6 +14,7 @@
 ^.{33}Ben Daglish SID/
 ^.{33}Core Design/
 ^.{33}CustomMade/
+^.{33}Cybertracker/
 ^.{33}Darius Zendeh/
 ^.{33}Dave Lowe/
 ^.{33}Dave Lowe New/
@@ -31,6 +32,7 @@
 ^.{33}Digital Sonix And Chrome/
 ^.{33}Digital Sound Studio/
 ^.{33}Dirk Bialluch/
+^.{33}Dynamic Studio Professional/
 ^.{33}Dynamic Synthesizer/
 ^.{33}EarAche/
 ^.{33}Electronic Music System/

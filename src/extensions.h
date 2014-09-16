@@ -198,7 +198,9 @@ static const char * const plugin_extensions[] = {
     // no replay
     //"hot", // Anders 0land
     //"aps", // AProSys
+    //"ct", Cybertracker
     //"dbm", // Digibooster Pro
+    //"dsm", // Dynamic Studio Professional
     //"ftm", // Face The Music
     //"fuchs", // Fuchs Tracker
     //"dux", // GT Game Systems
