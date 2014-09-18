@@ -19,6 +19,7 @@ AC_SUBST(AUDACIOUS_CFLAGS)
 AC_SUBST(AUDACIOUS_LIBS)
 AC_SUBST(AUDACIOUS_PLUGINDIR, $ac_audacious_plugindir)
 
+AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_FILES(Makefile
                 src/Makefile)
 AC_OUTPUT
