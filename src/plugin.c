@@ -27,6 +27,7 @@
 
 #include <uade/uade.h>
 
+#include "config.h"
 #include "common.h"
 #include "extensions.h"
 #include "hacks.h"
@@ -330,9 +331,15 @@ out:
     return ret;
 }
 
+static const char plugin_about[] =
+    "Audacious UADE plugin " VERSION "\n"
+    "Written by Matti Tiainen <mvtiaine@cc.hut.fi>\n"
+    "\n"
+    "UADE: http://zakalwe.fi/uade/";
+
 AUD_INPUT_PLUGIN (
-    .name = "UADE",
-    .about_text = "Plugin for UADE",
+    .name = "UADE Plugin",
+    .about_text = plugin_about,
     .priority = -1, // to avoid some files being recognized as MP3
     .have_subtune = TRUE,
     .mimes = plugin_mimes,
