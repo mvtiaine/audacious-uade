@@ -5,3 +5,6 @@
 /.deps/
 /.libs/
 
+/stamp-h1
+/config.h
+/config.h.in
