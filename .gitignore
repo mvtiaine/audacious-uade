@@ -17,3 +17,6 @@
 /missing
 /.cproject
 /.project
+*~
+*#
+.vscode

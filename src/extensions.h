@@ -28,11 +28,13 @@ static const char * const plugin_mimes[] = {
 
 // hybrid of UADE eagleplayer.conf and modland file extensions
 static const char * const plugin_extensions[] = {
+    "aps", // AProSys
     "ast", // Actionamics
     "avp","mw", // Activision Pro / Martin Walker
     "ahx","thx", // AHX / THX
     "amc", // AM Composer
     "abk", // AMOS
+    "hot", // Anders 0land
     "aam", // Art & Magic
     "alp", // Alcatraz Packer
     "aon","aon4","aon8", // Art Of Noise
@@ -78,12 +80,12 @@ static const char * const plugin_extensions[] = {
     "fp", // Future Player
     "glue","gm", // GlueMon
     "hip","mcmd", // Hippel / MCMD
-    "sog", // Hippel Atari
     "hip7","s7g", // Hippel 7V
-    "hipc", // Hippel CoSo
-    "soc", "hst", // Hippel ST
+    "hipc", // Hippel COSO
+    "hst","sog", // Hippel ST
+    "soc", // Hippel ST COSO
     "hd", // Howie Davis
-    "hn","mtp2","thn", // Major Tom / The Holy Noise
+    "hn","mtp2","thn","arp", // Major Tom / The Holy Noise
     "ims", // Images Music System
     "dum", // Infogrames / Rob Hubbard 2
     "is", // InStereo!
@@ -109,11 +111,11 @@ static const char * const plugin_extensions[] = {
     "mcmd_org", // MCMD
     "mso", // Medley
     "md", // Mike Davies
-    "mms", // MultiMedia Sound
+    "mms","sfx20", // MultiMedia Sound
     "ma", // Music Assembler
-    "med","mmd0","mmd1","mmd2", // MED / OctaMED
+    "mmd0","mmd1","mmd2", // OctaMED
     "ml", // Musicline Editor
-    "mm4","sdata", // Music Maker 4V
+    "mm4","sdata", // Music Maker 8V Old
     "mm8", // Music Maker 8V
     "max", // Maximum Effect
     "mmdc", // MMDC / MED Packer
@@ -122,7 +124,7 @@ static const char * const plugin_extensions[] = {
     // PTK-Prowiz
     "mod_doc", // st24
     "mod15","mod15_msg", // st20
-    "mod_ntk", "mod_ntk1", // nt10
+    "mod_ntk","mod_ntk1", // nt10
     "mod_ntk2", // nt20
     "mod_ntkamp", // m&k
     "mod_flt4",  // flt4
@@ -130,7 +132,7 @@ static const char * const plugin_extensions[] = {
     "mod_comp", // comp
 
     "!pm!","40a","40b","41a","50a","60a","61a","ac1","ac1d","aval","chan","cp",
-    "cplx","crb","di","eu","fc-m","fcm","fuz","fuzz","gmc","gv","hmc",
+    "cplx","crb","di","eu","fc-m","fcm","fuz","fuzz","gv","hmc",
     "hrt","hrt!","ice","it1","kef","kef7","krs","ksm","lax","mexxmp","mpro",
     "np","np1","np2","noisepacker2","np3","noisepacker3","nr","nru","ntpk",
     "p10","p21","p30","p40a","p40b","p41a","p4x","p50a","p5a","p5x","p60",
@@ -140,8 +142,8 @@ static const char * const plugin_extensions[] = {
     "pyg","pygm","pygmy","skt","skyt","snt","snt!","st2","st26","st30","star",
     "stpk","tp","tp1","tp2","tp3","un2","unic","unic2","wn","xan","xann","zen",
 
-    // Ignored PC tracker extensions
-    // "ft" // Fast Tracker
+    // non-Amiga tracker, avoid using UADE
+    "ft" // Fast Tracker
 
     "ntp", // NovoTrade Packer
     "two", // NTSP-System
@@ -154,6 +156,7 @@ static const char * const plugin_extensions[] = {
     "snk", // Paul Summers
     "pvp", // Peter Verswyvelen
     "pap", // Pierre Adane Packer
+    "pn", // PokeyNoise
     "psa", // Professional Sound Artists
     "puma", // Pumatracker
     "emod","qc", // Quadra Composer
@@ -200,38 +203,46 @@ static const char * const plugin_extensions[] = {
     "tme", // The Musical Enlightenment
     "thm", // Thomas Hermann
     "sg", // Tomy Tracker
-    "ufo", // UFO
+    "mus","ufo", // UFO
     "mod15_ust", // Ultimate Soundtracker
     "vss", // Voodoo Supreme Synthesizer
     "wb", // Wally Beben
-    // ignored Atari format ?
-    //"ym", // YM
-    "ymst", // YM-2149
+    "zmon","sng", // ZoundMonitor
     "mod15_st-iv", // Soundtracker-IV
     "agi", // Sierra AGI
+    "tmk", // TimeTracker
+    "tcb", // TCB Tracker
+    "js", // Janne Salmijarvi Optimizer	
+    "kim", // Kim Christensen
+    "pat", // Paul Tonge
+    "npp", // Nick Pelling Packer
+    "mosh", // Mosh Packer
+    "gmc", // Game Music Creator
+    "ash", // Ashley Hogg
+    "bye", // Andrew Parton
+
+    "ymst", // YM-2149
 
     // to be tested
     //"adpcm", // ADPCM (Mono)
 
     // no replay
-    //"hot", // Anders 0land
-    //"aps", // AProSys
     //"ct", Cybertracker
     //"dbm", // Digibooster Pro
     //"dsm", // Dynamic Studio Professional
     //"ftm", // Face The Music
     //"fuchs", // Fuchs Tracker
-    //"hvl", // HivelyTracker
     //"dux", // GT Game Systems
-    //"mmd3", // Octamed SoundStudio
+    //"hvl", // HivelyTracker
     //"mxtx", // MaxTrax
-    //"pn", // PokeyNoise
-    //"pt36", // Protracker 3.6
-    //"sfx2", // SoundFX 2
+    //"med", // Music Editor
+    //"mmd3", // Octamed SoundStudio
+    //"prt", // Pretracker
+    //"ptm", // Protracker IFF
     //"stp", // SoundTracker Pro II
     //"spm", // Stonetracker
     //"symmod", // Symphonie
-    //"zmon","sng" // ZoundMonitor
+
     NULL
 };
 

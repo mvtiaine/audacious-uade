@@ -5,8 +5,8 @@ This is Audacious (http://audacious-media-player.org/) input plugin for UADE (ht
 - Author name lookup from Modland
 
 * Requirements:
-- Audacious 3.5.x
-- UADE git version (libuade)
+- Audacious >= 3.8
+- UADE >= 3.0
 
 * To build:
 autoreconf -ivf
@@ -17,11 +17,10 @@ sudo make install
 
 * Configuration:
 - Configure the path to conf/allmods_md5_amiga.txt in the plugin settings to enable author name lookup
-- Use the included eagleplayer.conf, song.conf and uaerc configs in conf directory for improved compatibility with Modland
+- Use the included eagleplayer.conf and song.conf configs in conf directory for improved compatibility with Modland
 
 * Known issues:
 - On OSX, the plugin has a wrong suffix, either rename it to uade.bundle or make a symlink uade.bundle -> uade.so
-- Subsongs only work for files which have a suffix (will be fixed in Audacious 3.6+)
 
 * Other notes:
 - Currently only tested on OSX, but should work on Linux as well.

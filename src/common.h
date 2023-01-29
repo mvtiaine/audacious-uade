@@ -19,25 +19,35 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
-#include <stdio.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#include <audacious/debug.h>
+#include <stdio.h>
 
 #define PLUGIN_NAME "uade"
 
 //#define DEBUG_TRACE 1
 
+#ifdef __cplusplus
+#include <libaudcore/runtime.h>
+#define DEBUG AUDDBG
+#else
+#define DEBUG(fmt,...) fprintf(stdout, fmt, ## __VA_ARGS__)
+#endif
+#define WARN(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
+#define ERROR(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
+
 #ifdef DEBUG_TRACE
-# define TRACE AUDDBG
+# define TRACE DEBUG
 #else
 # define TRACE(fmt,...) while (0)
 #endif
 
-#define DEBUG AUDDBG
-#define WARN(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
-#define ERROR(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
-
 // pref keys
 #define MODLAND_ALLMODS_MD5_FILE "modland_allmods_md5_file"
 
+#ifdef __cplusplus
+} // extern "C"
+#endif
 #endif /* COMMON_H_ */

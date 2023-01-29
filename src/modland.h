@@ -20,13 +20,14 @@
 #define MODLAND_H_
 
 typedef struct {
-    char *format, *author, *album;
+    String format, author, album;
 } modland_data_t;
 
 int modland_init(void);
 void modland_cleanup(void);
 modland_data_t *modland_lookup(const char *md5);
 
+// These must be in alphabetical order
 static const char * const modland_amiga_formats[] = {
     "AHX",
     "AM Composer",
@@ -34,6 +35,7 @@ static const char * const modland_amiga_formats[] = {
     "Actionamics",
     "Activision Pro",
     "Anders Oland",
+    "Arpeggiator",
     "Art And Magic",
     "Art Of Noise",
     "Audio Sculpture",
@@ -83,12 +85,13 @@ static const char * const modland_amiga_formats[] = {
     "GlueMon",
     "Hippel",
     "Hippel 7V",
-    "Hippel-Atari",
-    "Hippel-COSO",
-    "Hippel-ST",
+    "Hippel COSO",
+    "Hippel ST",
+    "Hippel ST COSO",
     "HivelyTracker",
     "Howie Davies",
     "Images Music System",
+    "Infogrames",
     "InStereo!",
     "InStereo! 2.0",
     "JamCracker",
@@ -104,7 +107,6 @@ static const char * const modland_amiga_formats[] = {
     "MCMD",
     "Magnetic Fields Packer",
     "Maniacs Of Noise",
-    "Maniacs Of Noise Old",
     "Mark Cooksey",
     "Mark Cooksey Old",
     "Mark II",
@@ -114,8 +116,8 @@ static const char * const modland_amiga_formats[] = {
     "MultiMedia Sound",
     "Music Assembler",
     "Music Editor",
-    "MusicMaker",
-    "MusicMaker v8",
+    "MusicMaker V8",
+    "MusicMaker V8 Old",
     "Musicline Editor",
     "NovoTrade Packer",
     "OctaMED MMD0",
@@ -131,9 +133,10 @@ static const char * const modland_amiga_formats[] = {
     "Pierre Adane Packer",
     "PokeyNoise",
     "Powertracker",
+    "Pretracker",
     "Professional Sound Artists",
     "Protracker",
-    "Protracker 3.6",
+    "Protracker IFF",
     "Pumatracker",
     "Quadra Composer",
     "Quartet PSG",
@@ -141,7 +144,6 @@ static const char * const modland_amiga_formats[] = {
     "Richard Joseph",
     "Riff Raff",
     "Rob Hubbard",
-    "Rob Hubbard 2",
     "Rob Hubbard ST",
     "Ron Klaren",
     "SCUMM",
@@ -158,16 +160,17 @@ static const char * const modland_amiga_formats[] = {
     "Sound Programming Language",
     "SoundControl",
     "SoundFX",
-    "SoundFX 2",
     "SoundFactory",
     "SoundPlayer",
-    "SoundTracker 2.6",
-    "SoundTracker Pro II",
+    "Soundtracker",
+    "Soundtracker 2.6",
+    "Soundtracker Pro II",
     "Special FX",
     "Special FX ST",
     "Speedy A1 System",
     "Speedy System",
     "Startrekker AM",
+    "Startrekker FLT8",
     "Steve Barrett",
     "Stonetracker",
     "SunTronic",
@@ -176,9 +179,9 @@ static const char * const modland_amiga_formats[] = {
     "Synth Dream",
     "Synth Pack",
     "Synthesis",
+    "TCB Tracker",
     "TFMX",
     "TFMX ST",
-    "The Holy Noise",
     "The Musical Enlightenment",
     "Thomas Hermann",
     "Tomy Tracker",

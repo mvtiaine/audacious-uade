@@ -4,6 +4,7 @@
 ^.{33}Actionamics/
 ^.{33}Activision Pro/
 ^.{33}Anders Oland/
+^.{33}Arpeggiator/
 ^.{33}Art And Magic/
 ^.{33}Art Of Noise/
 ^.{33}Audio Sculpture/
@@ -11,7 +12,6 @@
 ^.{33}BP SoundMon 3/
 ^.{33}Beathoven Synthesizer/
 ^.{33}Ben Daglish/
-^.{33}Ben Daglish SID/
 ^.{33}Core Design/
 ^.{33}CustomMade/
 ^.{33}Cybertracker/
@@ -53,12 +53,11 @@
 ^.{33}GlueMon/
 ^.{33}Hippel/
 ^.{33}Hippel 7V/
-^.{33}Hippel-Atari/
-^.{33}Hippel-COSO/
-^.{33}Hippel-ST/
+^.{33}Hippel COSO/
 ^.{33}HivelyTracker/
 ^.{33}Howie Davies/
 ^.{33}Images Music System/
+^.{33}Infogrames/
 ^.{33}InStereo!/
 ^.{33}InStereo! 2.0/
 ^.{33}JamCracker/
@@ -74,7 +73,6 @@
 ^.{33}MCMD/
 ^.{33}Magnetic Fields Packer/
 ^.{33}Maniacs Of Noise/
-^.{33}Maniacs Of Noise Old/
 ^.{33}Mark Cooksey/
 ^.{33}Mark Cooksey Old/
 ^.{33}Mark II/
@@ -84,8 +82,8 @@
 ^.{33}MultiMedia Sound/
 ^.{33}Music Assembler/
 ^.{33}Music Editor/
-^.{33}MusicMaker/
-^.{33}MusicMaker v8/
+^.{33}MusicMaker V8/
+^.{33}MusicMaker V8 Old/
 ^.{33}Musicline Editor/
 ^.{33}NovoTrade Packer/
 ^.{33}OctaMED MMD0/
@@ -101,18 +99,16 @@
 ^.{33}Pierre Adane Packer/
 ^.{33}PokeyNoise/
 ^.{33}Powertracker/
+^.{33}Pretracker/
 ^.{33}Professional Sound Artists/
 ^.{33}Protracker/
-^.{33}Protracker 3.6/
+^.{33}Protracker IFF/
 ^.{33}Pumatracker/
 ^.{33}Quadra Composer/
 ^.{33}Quartet PSG/
-^.{33}Quartet ST/
 ^.{33}Richard Joseph/
 ^.{33}Riff Raff/
 ^.{33}Rob Hubbard/
-^.{33}Rob Hubbard 2/
-^.{33}Rob Hubbard ST/
 ^.{33}Ron Klaren/
 ^.{33}SCUMM/
 ^.{33}Sean Connolly/
@@ -128,13 +124,12 @@
 ^.{33}Sound Programming Language/
 ^.{33}SoundControl/
 ^.{33}SoundFX/
-^.{33}SoundFX 2/
 ^.{33}SoundFactory/
 ^.{33}SoundPlayer/
-^.{33}SoundTracker 2.6/
-^.{33}SoundTracker Pro II/
+^.{33}Soundtracker/
+^.{33}Soundtracker 2.6/
+^.{33}Soundtracker Pro II/
 ^.{33}Special FX/
-^.{33}Special FX ST/
 ^.{33}Speedy A1 System/
 ^.{33}Speedy System/
 ^.{33}Startrekker AM/
@@ -146,14 +141,20 @@
 ^.{33}Synth Dream/
 ^.{33}Synth Pack/
 ^.{33}Synthesis/
+^.{33}TCB Tracker/
 ^.{33}TFMX/
-^.{33}TFMX ST/
-^.{33}The Holy Noise/
 ^.{33}The Musical Enlightenment/
 ^.{33}Thomas Hermann/
 ^.{33}Tomy Tracker/
 ^.{33}Unique Development/
 ^.{33}Voodoo Supreme Synthesizer/
 ^.{33}Wally Beben/
-^.{33}YMST/
 ^.{33}Zoundmonitor/
+^.{33}Ben Daglish SID/
+^.{33}Hippel ST/
+^.{33}Hippel ST COSO/
+^.{33}Quartet ST/
+^.{33}Rob Hubbard ST/
+^.{33}Special FX ST/
+^.{33}TFMX ST/
+^.{33}YMST/

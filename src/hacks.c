@@ -17,10 +17,9 @@
 */
 
 #include <libgen.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <strings.h>
-
-#include <libaudcore/core.h>
 
 #include <uade/uade.h>
 
@@ -28,23 +27,38 @@
 
 // modland extensions blacklist
 static const char * const extension_blacklist[] = {
-    // PC trackers
+    // non-Amiga tracker, avoid using UADE
     ".ft", // Fast Tracker
     // No support
+    ".ct", // Cybertracker
+    ".dbm", // Digibooster Pro
+    ".dsm", // Dynamic Studio Professional
+    ".ftm", // Face The Music
+    ".fuchs", // Fuchs Tracker
+    ".dux", // GT Game Systems
+    ".hvl", // HivelyTracker
+    ".mxtx", // MaxTrax
     ".mmd3", // Octamed SoundStudio
+    ".prt", // Pretracker
+    ".ptm", // Protracker IFF
+    ".stp", // SoundTracker Pro II
+    ".spm", // Stonetracker
+    ".symmod", // Symphonie
+    // Broken ?
+    ".med", // Music Editor
     // Not amiga?
     ".ym", // YM
     NULL
 };
 
-bool_t is_blacklisted_extension(const char *ext) {
+bool is_blacklisted_extension(const char *ext) {
     int i;
     for (i = 0; extension_blacklist[i]; ++i) {
         if (!strncasecmp(extension_blacklist[i], ext, FILENAME_MAX)) {
-            return TRUE;
+            return true;
         }
     }
-    return FALSE;
+    return false;
 }
 
 // OctaMED sets <no songtitle> or similar as the modulename if there's no title given
@@ -56,8 +70,8 @@ static const char * const octamed_title_blacklist[] = {
     NULL
 };
 
-bool_t is_blacklisted_title(const struct uade_song_info *info) {
-    bool_t is_octamed = !strncmp("type: MMD0", info->formatname, 10) ||
+bool is_blacklisted_title(const struct uade_song_info *info) {
+    bool is_octamed = !strncmp("type: MMD0", info->formatname, 10) ||
                         !strncmp("type: MMD1", info->formatname, 10) ||
                         !strncmp("type: MMD2", info->formatname, 10);
     if (is_octamed) {
@@ -66,15 +80,37 @@ bool_t is_blacklisted_title(const struct uade_song_info *info) {
         for (i = 0; octamed_title_blacklist[i]; ++i) {
             if (!strncmp(octamed_title_blacklist[i], info->modulename, FILENAME_MAX)) {
                 DEBUG("Blacklisted title %s\n", info->modulename);
-                return TRUE;
+                return true;
             }
         }
     }
-    return FALSE;
+    return false;
+}
+
+// Ignore some files which hang UADE & Audacious completely when trying to add
+static const char * const filename_blacklist[] = {
+    "freestyle.okta",
+    "never ending story ii-unused.okta",
+    "1 love night dub.okta",
+    "electricity.rk",
+    "test.mod",
+    "tbc-87 speed dance.mod",
+    NULL
+};
+
+bool is_blacklisted_filename(const char* name) {
+    for (int i = 0; filename_blacklist[i]; ++i) {
+        if (!strncmp(filename_blacklist[i], name, FILENAME_MAX)) {
+            WARN("Blacklisted filename %s\n", name);
+            return true;
+        }
+    }
+    return false;
 }
 
 // hack to work around modland TFMX files using a suffix
 // which causes them not to play due to not finding the sample file
+// should not be needed anymore
 struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, void *context, struct uade_state *state) {
     TRACE("amiga_loader_wrapper name:%s playerdir:%s\n", name, playerdir);
 
