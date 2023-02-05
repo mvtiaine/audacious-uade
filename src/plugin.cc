@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018  Matti Tiainen <mvtiaine@cc.hut.fi>
+    Copyright (C) 2014-2023  Matti Tiainen <mvtiaine@cc.hut.fi>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
