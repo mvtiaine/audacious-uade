@@ -46,6 +46,7 @@ extern "C" {
 
 // pref keys
 #define MODLAND_ALLMODS_MD5_FILE "modland_allmods_md5_file"
+#define PRECALC_SONGLENGTHS "precalc_songlengths"
 
 #ifdef __cplusplus
 } // extern "C"
