@@ -24,7 +24,7 @@
 #include "common.h"
 
 const char * const plugin_defaults[] = {
-   MODLAND_ALLMODS_MD5_FILE, "${HOME}/.uade/allmods_md5_amiga.txt",
+   MODLAND_ALLMODS_MD5_FILE, "",
    NULL
 };
 

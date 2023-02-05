@@ -126,6 +126,11 @@ void try_init(void) {
     bool init_success = true;
     String md5_file = aud_get_str (PLUGIN_NAME, MODLAND_ALLMODS_MD5_FILE);
 
+    if (!strnlen(md5_file, FILENAME_MAX)) {
+        const char *home = getenv ("HOME");
+        md5_file = String((std::string(home) + "/.uade/allmods_md5_amiga.txt").c_str());
+    }
+
     char line[LINE_MAX_];
 
     if (!strncmp(previous_md5_file, md5_file, FILENAME_MAX)) {
@@ -138,14 +143,9 @@ void try_init(void) {
     initialized = false;
     modland_cleanup();
 
-    if (!strnlen(md5_file, FILENAME_MAX)) {
-        DEBUG("Modland allmods_md5.txt location not defined\n");
-        return;
-    }
-
     FILE *file = fopen(uri_to_filename(md5_file), "r");
     if (!file) {
-        ERROR("Could not open modland file %s\n", (const char *)md5_file);
+        DEBUG("Could not open modland file %s\n", (const char *)md5_file);
         return;
     }
 
