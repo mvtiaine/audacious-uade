@@ -1,9 +1,5 @@
 This is Audacious (http://audacious-media-player.org/) input plugin for UADE (http://zakalwe.fi/uade/).
 
-* Features:
-- Subsongs, song length, format name lookup from UADE
-- Author name lookup from Modland
-
 * Requirements:
 - Audacious >= 3.8
 - UADE >= 3.0
@@ -13,16 +9,15 @@ autoreconf -ivf
 ./configure && make
 
 * To install:
-sudo make install
+(sudo) make install
 
-* Configuration:
-- Configure the path to conf/allmods_md5_amiga.txt in the plugin settings to enable author name lookup
-- Use the included eagleplayer.conf and song.conf configs in conf directory for improved compatibility with Modland
+* To install author and songlength dbs:
+mkdir -p "${HOME}/.uade" && cp -i conf/* "${HOME}/.uade/"
 
 * Known issues:
-- On OSX, the plugin has a wrong suffix, either rename it to uade.bundle or make a symlink uade.bundle -> uade.so
+- On OSX, the plugin has a wrong suffix, either rename it to uade.bundle or make a symlink uade.bundle -> uade.so after first install
 
 * Other notes:
 - Currently only tested on OSX, but should work on Linux as well.
-- My custom string for song display:
+- My custom playlist entry template:
 ${?codec:[${codec}]}  -  ${?artist:${artist}  -  }${?album:${album}  -  }${title}  ${?copyright:-  (${copyright})} ${?year:- (${year})} ${?subsong-id:${?subsong-num:-  [${subsong-id}/${subsong-num}]}}

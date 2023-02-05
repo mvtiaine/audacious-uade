@@ -24,13 +24,16 @@
 #include "common.h"
 
 const char * const plugin_defaults[] = {
-   MODLAND_ALLMODS_MD5_FILE, "",
+   MODLAND_ALLMODS_MD5_FILE, "${HOME}/.uade/allmods_md5_amiga.txt",
    NULL
 };
 
 const PreferencesWidget prefs_widgets[] = {
   { WidgetFileEntry("Modland allmods-md5.txt file path",
-        WidgetString(PLUGIN_NAME, MODLAND_ALLMODS_MD5_FILE)) }
+        WidgetString(PLUGIN_NAME, MODLAND_ALLMODS_MD5_FILE)) },
+  { WidgetCheck("Precalc missing song lengths (heavy)",
+        WidgetBool(PLUGIN_NAME, PRECALC_SONGLENGTHS)),
+  }
 };
 
 const PluginPreferences plugin_prefs = {{ prefs_widgets }};

@@ -42,23 +42,79 @@
 using namespace std;
 
 namespace {
-
+    struct probe_state {
+        struct uade_state *state;
+        bool initialized = false;
+        bool available = true;
+    };
     static pthread_mutex_t probe_mutex = PTHREAD_MUTEX_INITIALIZER;
-    struct uade_state *probe_state;
+    constexpr int MAX_PROBES = 8;
+    static probe_state probes[MAX_PROBES];
+
+    void cleanup_uade_state(struct uade_state *state) {
+        // avoid concurrent contentdb updates
+        pthread_mutex_lock (&probe_mutex);
+        uade_cleanup_state(state);
+        pthread_mutex_unlock(&probe_mutex);
+    }
 
     struct uade_state *create_uade_state(struct uade_config *uc) {
-/* TODO
 #ifdef DEBUG_TRACE
         if (!uc) {
             uc = uade_new_config();
+            uade_config_set_option(uc, UC_VERBOSE, NULL);
         }
-        uade_config_toggle_boolean(uc, UC_VERBOSE);
 #endif
-*/
         struct uade_state *state = uade_new_state(uc);
         // should not be needed anymore (modland now uses prefix for TFMX)
         // uade_set_amiga_loader(amiga_loader_wrapper, NULL, state);
         return state;
+    }
+
+    struct uade_state *create_uade_probe_state() {
+        struct uade_config *uc = uade_new_config();
+#ifdef DEBUG_TRACE
+        uade_config_set_option(uc, UC_VERBOSE, NULL);
+#endif
+        uade_config_set_option(uc, UC_FREQUENCY, "3000");
+        uade_config_set_option(uc, UC_FILTER_TYPE, "none");
+        uade_config_set_option(uc, UC_RESAMPLER, "none");
+        uade_config_set_option(uc, UC_PANNING_VALUE, "0");
+        uade_config_set_option(uc, UC_ONE_SUBSONG, NULL);
+        uade_config_set_option(uc, UC_NO_FILTER, NULL);
+        uade_config_set_option(uc, UC_NO_HEADPHONES, NULL);
+        uade_config_set_option(uc, UC_NO_PANNING, NULL);
+        uade_config_set_option(uc, UC_NO_POSTPROCESSING, NULL);
+        struct uade_state *state = uade_new_state(uc);
+        // should not be needed anymore (modland now uses prefix for TFMX)
+        // uade_set_amiga_loader(amiga_loader_wrapper, NULL, state);
+        return state;
+    }
+
+    struct probe_state *get_probe_state() {
+        pthread_mutex_lock (&probe_mutex);
+        struct probe_state *state;
+        for (int i = 0; i < MAX_PROBES; ++i) {
+            if (probes[i].available) {
+                probes[i].available = false;
+                if (!probes[i].initialized) {
+                    probes[i].state = create_uade_probe_state();
+                    probes[i].initialized = true;
+                }
+                state = &probes[i];
+                break;
+            }
+        }
+        pthread_mutex_unlock(&probe_mutex);
+        assert(state);
+        assert(state->state);
+        return state;
+    }
+
+    void release_probe_state(struct probe_state *probe_state) {
+        pthread_mutex_lock (&probe_mutex);
+        probe_state->available = true;
+        pthread_mutex_unlock(&probe_mutex);
     }
 
     int parse_uri(const char *uri, StringBuf *path, StringBuf *name, StringBuf *ext) {
@@ -106,9 +162,7 @@ namespace {
         }
     }
 
-    void update_tuple(Tuple &tuple, char *name, int subsong, struct uade_state *state) {
-        const struct uade_song_info* info = uade_get_song_info(state);
-
+    void update_tuple(Tuple &tuple, char *name, int subsong, const struct uade_song_info* info) {
         /* prefer filename as title for now, maybe make configurable in future
         bool modulename_ok = strnlen(info->modulename, 256) > 0 &&
                              !is_blacklisted_title(info);
@@ -127,22 +181,20 @@ namespace {
             tuple.set_int(Tuple::Length, info->duration * 1000);
         }
 
-        if (subsongs > 1) {
-            // initial probe
-            if (subsong == -1) {
-                // provide mappings to uade subsong numbers
-                Index<short> subtunes;
-                for (int i = 0; i < subsongs; ++i) {
-                    subtunes.append(info->subsongs.min + i);
-                }
-                tuple.set_subtunes(subtunes.len(), subtunes.begin());
-            } else {
-                // convert to playlist 1/x numbering
-                int pl_subsong = subsong - info->subsongs.min + 1;
-                tuple.set_int(Tuple::NumSubtunes, subsongs);
-                tuple.set_int(Tuple::Subtune, pl_subsong);
-                tuple.set_int(Tuple::Track, pl_subsong);
+        // initial probe
+        if (subsong == -1) {
+            // provide mappings to uade subsong numbers
+            Index<short> subtunes;
+            for (int i = 0; i < subsongs; ++i) {
+                subtunes.append(info->subsongs.min + i);
             }
+            tuple.set_subtunes(subtunes.len(), subtunes.begin());
+        } else if (subsongs > 1) {
+            // convert to playlist 1/x numbering
+            int pl_subsong = subsong - info->subsongs.min + 1;
+            tuple.set_int(Tuple::NumSubtunes, subsongs);
+            tuple.set_int(Tuple::Subtune, pl_subsong);
+            tuple.set_int(Tuple::Track, pl_subsong);
         }
 
         modland_data_t *ml_data = modland_lookup(info->modulemd5);
@@ -173,11 +225,23 @@ namespace {
                 case UADE_NOTIFICATION_MESSAGE:
                     TRACE("Amiga message: %s\n", n.msg);
                     break;
-                case UADE_NOTIFICATION_SONG_END:
-                    TRACE("%s: %s\n", n.song_end.happy ? "song end" : "bad song end",
-                            n.song_end.reason);
-                    nbytes = n.song_end.happy ? 0 : -1;
+                case UADE_NOTIFICATION_SONG_END: {
+                    TRACE("%s: %s\n", n.song_end.happy ? "song end" : "bad song end", n.song_end.reason);
+                    const char *reason_timeout1 = "song timeout";
+                    const char *reason_timeout2 = "subsong timeout";
+                    const char *reason_silence = "silence";
+                    if (n.song_end.happy) {
+                        bool timeout = !strncmp(reason_timeout1, n.song_end.reason, strlen(reason_timeout1)) ||
+                            !strncmp(reason_timeout2, n.song_end.reason, strlen(reason_timeout2));
+                        bool silence = !strncmp(reason_silence, n.song_end.reason, strlen(reason_silence));
+                        nbytes = 0;
+                        if (timeout) nbytes = -2;
+                        if (silence) nbytes = -3;
+                    } else {
+                        nbytes = -1;
+                    }
                     break;
+                }
                 default:
                     WARN("Unknown notification type from libuade\n");
                     break;
@@ -185,6 +249,19 @@ namespace {
             uade_cleanup_notification(&n);
         }
         return nbytes;
+    }
+
+    int precalc_songlength(struct uade_state *state) {
+        char buffer[4096];
+        ssize_t nbytes;
+        while ((nbytes = render_audio(buffer, state)) > 0);
+        if (nbytes != -1) {
+            // UADE does not update info->duration, use songbytes instead
+            const struct uade_song_info* info = uade_get_song_info(state);
+            int bytespersec = UADE_BYTES_PER_FRAME * uade_get_sampling_rate(state);
+            return info->songbytes * 1000 / bytespersec;
+        }
+        return 0;
     }
 }
 
@@ -226,14 +303,19 @@ EXPORT UADEPlugin aud_plugin_instance;
 bool UADEPlugin::init() {
     DEBUG("uade_plugin_init\n");
     aud_config_set_defaults (PLUGIN_NAME, plugin_defaults);
-    probe_state = create_uade_state(NULL);
-    return probe_state != NULL;
+    for (int i = 0; i < MAX_PROBES; ++i) {
+        probes[i] = {};
+    }
+    return true;
 }
 
 void UADEPlugin::cleanup() {
     DEBUG("uade_plugin_cleanup\n");
-    uade_cleanup_state(probe_state);
-    probe_state = NULL;
+    for (int i = 0; i < MAX_PROBES; ++i) {
+        if (probes[i].state != NULL) {
+            cleanup_uade_state(probes[i].state);
+        }
+    }
     modland_cleanup();
 }
 
@@ -248,29 +330,36 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
 
     parse_uri(uri, &path, &name, &ext);
 
-    if (is_blacklisted_extension(ext) || is_blacklisted_filename(name)) {
+    if (is_blacklisted_extension(ext)) {
         DEBUG("uade_plugin_is_our_file blacklisted %s\n", uri);
         return false;
     }
 
-    pthread_mutex_lock (&probe_mutex);
-    switch (uade_play(path, -1, probe_state)) {
+    // add to playlist, but call uade_play() on-demand (may hang UADE/audacious completely)
+    if (is_blacklisted_filename(name)) {
+        DEBUG("uade_plugin_is_our_file blacklisted filename %s\n", uri);
+        return true;
+    }
+
+    struct probe_state *probe_state = get_probe_state();
+
+    switch (uade_play(path, -1, probe_state->state)) {
         case 1:
             TRACE("uade_plugin_is_our_file accepted %s\n", uri);
-            uade_stop(probe_state);
+            uade_stop(probe_state->state);
             is_our_file = true;
             break;
         case -1:
             WARN("uade_plugin_is_our_file fatal error on %s path %s\n", uri, static_cast<char *>(path));
-            uade_cleanup_state(probe_state);
-            probe_state = create_uade_state(NULL);
+            cleanup_uade_state(probe_state->state);
+            probe_state->state = create_uade_probe_state();
             break;
         default:
             DEBUG("Cannot play %s\n", uri);
-            uade_stop(probe_state);
+            uade_stop(probe_state->state);
             break;
     }
-    pthread_mutex_unlock(&probe_mutex);
+    release_probe_state(probe_state);
 
     return is_our_file;
 }
@@ -286,31 +375,55 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
 
     subsong = parse_uri(uri, &path, &name, &ext);
 
-    if (is_blacklisted_extension(ext) || is_blacklisted_filename(name)) {
+    if (is_blacklisted_extension(ext)) {
         DEBUG("uade_plugin_read_tag blacklisted %s\n", uri);
         return false;
     }
 
-    pthread_mutex_lock (&probe_mutex);
-    switch (uade_play(path, subsong, probe_state)) {
-        case 1:
-            update_tuple(tuple, name, subsong, probe_state);
-            uade_stop(probe_state);
+    // add to playlist, but call uade_play() on-demand (may hang UADE/audacious completely)
+    if (is_blacklisted_filename(name)) {
+        DEBUG("uade_plugin_read_tag blacklisted filename %s\n", uri);
+        return true;
+    }
+
+    struct probe_state *probe_state = get_probe_state();
+
+    switch (uade_play(path, subsong, probe_state->state)) {
+        case 1: {
+            const struct uade_song_info* info = uade_get_song_info(probe_state->state);
+            update_tuple(tuple, name, subsong, info);
+            bool do_cleanup = false;
+            if (subsong != -1 && tuple.get_int(Tuple::Length) <= 0 &&
+                aud_get_bool(PLUGIN_NAME, PRECALC_SONGLENGTHS)) {
+                int length = precalc_songlength(probe_state->state);
+                if (length > 0) {
+                    tuple.set_int(Tuple::Length, abs(length));
+                } else {
+                    do_cleanup = true;
+                }
+            }
+            if (do_cleanup) {
+                cleanup_uade_state(probe_state->state);
+                probe_state->state = create_uade_probe_state();
+            } else {
+                uade_stop(probe_state->state);
+            }
             success = true;
             break;
+        }
         case -1:
             WARN("uade_plugin_read_tag fatal error on %s path %s\n", uri, static_cast<char *>(path));
-            uade_cleanup_state(probe_state);
-            probe_state = create_uade_state(NULL);
+            cleanup_uade_state(probe_state->state);
+            probe_state->state = create_uade_probe_state();
             //update_error_tuple(tuple, name);
             break;
         default:
             WARN("uade_plugin_read_tag cannot play %s\n", uri);
-            uade_stop(probe_state);
+            uade_stop(probe_state->state);
             //update_error_tuple(tuple, name);
             break;
     }
-    pthread_mutex_unlock (&probe_mutex);
+    release_probe_state(probe_state);
 
     return success;
 }
@@ -328,9 +441,15 @@ bool UADEPlugin::playback_loop(char *buffer, struct uade_state* state) {
             };
         }
         ssize_t nbytes = render_audio(buffer, state);
-        if (nbytes < 0) {
+        if (nbytes == -1) {
             ERROR("Playback error.\n");
             return false;
+        } else if (nbytes == -2) {
+            TRACE("Song end (timeout).\n");
+            break;
+        } else if (nbytes == -3) {
+            TRACE("Song end (silence).\n");
+            break;
         } else if (nbytes == 0) {
             TRACE("Song end.\n");
             // update length in playlist
@@ -379,7 +498,7 @@ bool UADEPlugin::play (const char *uri, VFSFile &file) {
     }
 
 out:
-    uade_cleanup_state(state);
+    cleanup_uade_state(state);
 
     return ret;
 }
