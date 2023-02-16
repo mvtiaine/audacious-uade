@@ -254,11 +254,19 @@ namespace {
     int precalc_songlength(struct uade_state *state) {
         char buffer[4096];
         ssize_t nbytes;
-        while ((nbytes = render_audio(buffer, state)) > 0);
+        uint64_t totalbytes = 0;
+        int bytespersec = UADE_BYTES_PER_FRAME * uade_get_sampling_rate(state);
+        // cut short after 1h as UADE plays some mods for hours or possibly forever (with always_ends default)
+        uint64_t maxbytes = 3600 * bytespersec;
+        while ((nbytes = render_audio(buffer, state)) > 0) {
+            totalbytes += nbytes;
+            if (totalbytes >= maxbytes) {
+                return maxbytes * 1000 / bytespersec;
+            }
+        }
         if (nbytes != -1) {
             // UADE does not update info->duration, use songbytes instead
             const struct uade_song_info* info = uade_get_song_info(state);
-            int bytespersec = UADE_BYTES_PER_FRAME * uade_get_sampling_rate(state);
             return info->songbytes * 1000 / bytespersec;
         }
         return 0;
@@ -415,12 +423,10 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
             WARN("uade_plugin_read_tag fatal error on %s path %s\n", uri, static_cast<char *>(path));
             cleanup_uade_state(probe_state->state);
             probe_state->state = create_uade_probe_state();
-            //update_error_tuple(tuple, name);
             break;
         default:
             WARN("uade_plugin_read_tag cannot play %s\n", uri);
             uade_stop(probe_state->state);
-            //update_error_tuple(tuple, name);
             break;
     }
     release_probe_state(probe_state);

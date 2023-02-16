@@ -87,14 +87,15 @@ bool is_blacklisted_title(const struct uade_song_info *info) {
     return false;
 }
 
-// Ignore some files which hang UADE & Audacious completely when trying to add
+// Ignore some files which hang UADE or Audacious playlist completely when trying to add
 static const char * const filename_blacklist[] = {
+    // uade_play() or uade_stop() stuck
     "freestyle.okta", // Oktalyzer/- unknown
     "never ending story ii-unused.okta", // Oktalyzer/Michael Tschogl
     "1 love night dub.okta", // Oktalyzer/Mohr
+    "tbc-87 speed dance.mod", // Protracker/Gryzor
     "electricity.rk", // Ron Klaren/Ron Klaren
     "test.mod", // Soundtracker 2.6/Starbuck
-    "tbc-87 speed dance.mod", // Protracker/Gryzor
     NULL
 };
 
