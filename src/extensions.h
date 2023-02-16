@@ -128,6 +128,7 @@ static const char * const plugin_extensions[] = {
     "mod_ntk2", // nt20
     "mod_ntkamp", // m&k
     "mod_flt4",  // flt4
+    // "mod_flt8", // no support ?
     "mod", // pt30
     "mod_comp", // comp
 

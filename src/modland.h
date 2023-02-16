@@ -43,7 +43,7 @@ static const char * const modland_amiga_formats[] = {
     "BP SoundMon 3",
     "Beathoven Synthesizer",
     "Ben Daglish",
-    "Ben Daglish SID",
+    "Ben Daglish SID", // C64
     "Core Design",
     "CustomMade",
     "Cybertracker",
@@ -86,8 +86,8 @@ static const char * const modland_amiga_formats[] = {
     "Hippel",
     "Hippel 7V",
     "Hippel COSO",
-    "Hippel ST",
-    "Hippel ST COSO",
+    "Hippel ST", // ST
+    "Hippel ST COSO", // ST
     "HivelyTracker",
     "Howie Davies",
     "Images Music System",
@@ -139,12 +139,12 @@ static const char * const modland_amiga_formats[] = {
     "Protracker IFF",
     "Pumatracker",
     "Quadra Composer",
-    "Quartet PSG",
-    "Quartet ST",
+    "Quartet PSG", // ST
+    "Quartet ST", // ST
     "Richard Joseph",
     "Riff Raff",
     "Rob Hubbard",
-    "Rob Hubbard ST",
+    "Rob Hubbard ST", // ST
     "Ron Klaren",
     "SCUMM",
     "Sean Connolly",
@@ -166,7 +166,7 @@ static const char * const modland_amiga_formats[] = {
     "Soundtracker 2.6",
     "Soundtracker Pro II",
     "Special FX",
-    "Special FX ST",
+    "Special FX ST", // ST
     "Speedy A1 System",
     "Speedy System",
     "Startrekker AM",
@@ -181,14 +181,14 @@ static const char * const modland_amiga_formats[] = {
     "Synthesis",
     "TCB Tracker",
     "TFMX",
-    "TFMX ST",
+    "TFMX ST", // ST
     "The Musical Enlightenment",
     "Thomas Hermann",
     "Tomy Tracker",
     "Unique Development",
     "Voodoo Supreme Synthesizer",
     "Wally Beben",
-    "YMST",
+    "YMST", // ST
     "Zoundmonitor",
     NULL
 };

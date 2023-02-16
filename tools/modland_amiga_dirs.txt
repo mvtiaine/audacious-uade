@@ -105,7 +105,6 @@
 ^.{33}Protracker IFF/
 ^.{33}Pumatracker/
 ^.{33}Quadra Composer/
-^.{33}Quartet PSG/
 ^.{33}Richard Joseph/
 ^.{33}Riff Raff/
 ^.{33}Rob Hubbard/
@@ -133,6 +132,7 @@
 ^.{33}Speedy A1 System/
 ^.{33}Speedy System/
 ^.{33}Startrekker AM/
+^.{33}Startrekker FLT8/
 ^.{33}Steve Barrett/
 ^.{33}Stonetracker/
 ^.{33}SunTronic/
@@ -153,6 +153,7 @@
 ^.{33}Ben Daglish SID/
 ^.{33}Hippel ST/
 ^.{33}Hippel ST COSO/
+^.{33}Quartet PSG/
 ^.{33}Quartet ST/
 ^.{33}Rob Hubbard ST/
 ^.{33}Special FX ST/
