@@ -495,6 +495,13 @@ bool UADEPlugin::play (const char *uri, VFSFile &file) {
 
     switch (uade_play(path, subsong, state)) {
         case 1:
+            // update tuple at playtime for blacklisted filenames
+            if (is_blacklisted_filename(name)) {
+                Tuple tuple = get_playback_tuple();
+                const struct uade_song_info* info = uade_get_song_info(state);
+                update_tuple(tuple, name, subsong, info);
+                set_playback_tuple(tuple.ref());
+            }
             ret = playback_loop(buffer, state);
             break;
         default:
