@@ -209,6 +209,9 @@ static const char * const plugin_extensions[] = {
 
     "ymst", // YM-2149
 
+    // converted to UADE compatible
+    "med", // Music Editor MED4 -> MMD0
+    
     // to be tested
     //"adpcm", // ADPCM (Mono)
 
@@ -221,7 +224,6 @@ static const char * const plugin_extensions[] = {
     //"dux", // GT Game Systems
     //"hvl", // HivelyTracker
     //"mxtx", // MaxTrax
-    //"med", // Music Editor
     //"mmd3", // Octamed SoundStudio
     //"prt", // Pretracker
     //"ptm", // Protracker IFF
