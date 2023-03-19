@@ -53,23 +53,22 @@ struct be_uint16_t {
     uint16_t be_val;
 } __attribute__((packed));
 
+inline void verify(const bool cond) {
+    if (!cond) {
+        throw out_of_range("read past EOF");
+    }
+}
+
 inline int8_t reads8be(const vector<char> &buf, int &offs) {
     assert(offs >= 0);
-    assert(buf.size() > offs);
+    verify(buf.size() > offs);
     return buf[offs++];
 }
 
 inline uint8_t readu8be(const vector<char> &buf, int &offs) {
     assert(offs >= 0);
-    assert(buf.size() > offs);
+    verify(buf.size() > offs);
     return buf[offs++];
-}
-
-
-inline void verify(const bool cond) {
-    if (!cond) {
-        throw out_of_range("read past EOF");
-    }
 }
 
 inline be_int16_t reads16be(const vector<char> &buf, int &offs) {
