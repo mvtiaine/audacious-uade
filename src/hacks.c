@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2014-2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
+// TODO convert to c++
 
 #include <libgen.h>
 #include <stdbool.h>
@@ -30,8 +31,6 @@ static const char * const extension_blacklist[] = {
     ".stp", // SoundTracker Pro II
     ".spm", // Stonetracker
     ".symmod", // Symphonie
-    // Broken ?
-    ".med", // Music Editor
     // Not amiga?
     ".ym", // YM
     NULL
