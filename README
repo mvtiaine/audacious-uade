@@ -15,9 +15,6 @@ make
 * To install author and songlength dbs:
 mkdir -p "${HOME}/.uade" && cp -i conf/* "${HOME}/.uade/"
 
-* Known issues:
-- On OSX, the plugin has a wrong suffix, either rename it to uade.bundle or make a symlink uade.bundle -> uade.so after first install
-
 * Other notes:
 - Currently only tested on OSX, but should work on Linux as well.
 - My custom playlist entry template:
