@@ -6,7 +6,8 @@ This is Audacious (http://audacious-media-player.org/) input plugin for UADE (ht
 
 * To build:
 autoreconf -ivf
-./configure && make
+./configure
+make
 
 * To install:
 (sudo) make install
