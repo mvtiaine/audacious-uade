@@ -2,9 +2,11 @@
 // Copyright (C) 2014-2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include <libgen.h>
+#include <algorithm>
 #include <cstring>
 #include <set>
 #include <string>
+#include <vector>
 
 #include <uade/uade.h>
 
@@ -59,9 +61,29 @@ const set<string> filename_blacklist ({
 struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_state *state) {
     struct uade_file *amiga_file = uade_load_amiga_file(name, playerdir, state);
     if (amiga_file) {
-        TRACE("amiga_loader_wrapper found file: %s\n", name);
-    } else {
-        ERROR("amiga_loader_wrapper could NOT find file: %s\n", name);
+        DEBUG("amiga_loader_wrapper found file: %s\n", name);
+    }
+    return amiga_file;
+}
+
+struct uade_file *sample_loader_wrapper(const char *name, const char *playerdir, void *context, struct uade_state *state) {
+    struct uade_file *amiga_file = uade_load(name, playerdir, state);
+    constexpr int MAX_PARENTS = 4;
+    if (!amiga_file) {
+        vector<string> tokens = split(name, "/");
+        // try from parents with last two token (assume it's sampledir/filename)
+        string samplepath = tokens[tokens.size() - 2] + "/" + tokens[tokens.size() - 1];
+        int count = 0;
+        while (!amiga_file && count++ < MAX_PARENTS) {
+            string parent;
+            for_each(tokens.begin(), tokens.end() - 2 - count, [&parent](const string& token) {
+                parent += "/" + token;
+            });
+            amiga_file = uade_load((parent + "/" + samplepath).c_str(), playerdir, state);
+        }
+    }
+    if (!amiga_file) {
+        ERROR("sample_loader_wrapper could NOT find file: %s\n", name);
     }
     return amiga_file;
 }
@@ -115,6 +137,9 @@ struct uade_file *tfmx_loader_wrapper(const char *name, const char *playerdir, v
         amiga_file = uade_load(new_filename, playerdir, state);
     }
 
+    if (!amiga_file) {
+        ERROR("tfmx_loader_wrapper could NOT find file: %s\n", name);
+    }
     return amiga_file;
 }
 
@@ -165,6 +190,10 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
     // should be obsolete hack
     if (player.find("/TFMX") != player.npos) {
         return tfmx_loader_wrapper(name, playerdir, context, state);
+    }
+
+    if (player.find("ZoundMonitor") != player.npos) {
+        return sample_loader_wrapper(name, playerdir, context, state);
     }
 
     return uade_load(name, playerdir, state);

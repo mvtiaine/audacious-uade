@@ -4,9 +4,13 @@
 #ifndef COMMON_H_
 #define COMMON_H_
 
-#include <stdio.h>
+#include <cstdio>
+#include <string>
+#include <vector>
 
-#define PLUGIN_NAME "uade"
+using namespace std;
+
+constexpr const char *PLUGIN_NAME = "uade";
 
 //#define DEBUG_TRACE 1
 
@@ -26,7 +30,22 @@
 #endif
 
 // pref keys
-#define MODLAND_ALLMODS_MD5_FILE "modland_allmods_md5_file"
-#define PRECALC_SONGLENGTHS "precalc_songlengths"
+constexpr const char *MODLAND_ALLMODS_MD5_FILE = "modland_allmods_md5_file";
+constexpr const char *PRECALC_SONGLENGTHS = "precalc_songlengths";
+
+inline vector<string> split(const string &str, const string &delimiter) {
+    vector<string> tokens;
+    size_t pos = 0;
+    string s = str;
+    while ((pos = s.find(delimiter)) != string::npos) {
+        if (pos != 0) {
+            tokens.push_back(s.substr(0, pos));
+        }
+        s.erase(0, pos + delimiter.length());
+    }
+    tokens.push_back(s); // add last part
+    
+    return tokens;
+}
 
 #endif /* COMMON_H_ */
