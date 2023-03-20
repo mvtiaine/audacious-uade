@@ -186,7 +186,7 @@ constexpr string_view UNKNOWN_AUTHOR = "<Unknown>";
 
 string previous_md5_file = "";
 
-map<string, ModlandData> ml_map;
+map<string, vector<ModlandData>> ml_map;
 
 bool parse_modland_path(const string &path, ModlandData &item) {
     string format, author, album, filename;
@@ -291,18 +291,20 @@ void try_init(void) {
 
         md5 = line.substr(0, 32);
 
-        // TODO support duplicates
-        if (ml_map.count(md5)) {
-            DEBUG("Duplicate md5: %s\n", line.c_str());
-            continue;
-        }
-
         path = line.substr(33, line.length());
 
         ModlandData item {};
 
         if (parse_modland_path(path, item)) {
-            ml_map[md5] = item;
+            if (ml_map.count(md5)) {
+                DEBUG("Duplicate md5: %s\n", line.c_str());
+                auto& data = ml_map[md5];
+                data.push_back(item);
+            } else {
+                vector<ModlandData> data;
+                data.push_back(item);
+                ml_map[md5] = data;
+            }
         }
         //TRACE("%s -> format = %s, author = %s, album = %s, filename = %s\n", line.c_str(), item.format, item.author, item.album, item.filename);
     }
@@ -312,12 +314,18 @@ void try_init(void) {
 
 } // namespace
 
-optional<ModlandData> modland_lookup(const char *md5) {
+optional<ModlandData> modland_lookup(const char *md5, const string &filename) {
     try_init();
 
     const string key(md5);
     if (ml_map.count(key)) {
-        return ml_map[key];
+        for (const auto& data : ml_map[key]) {
+            if (filename == data.filename) {
+                return data;
+            }
+        }
+        // return first if no filename match
+        return ml_map[key].front();
     }
 
     return optional<ModlandData>();

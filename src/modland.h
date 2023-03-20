@@ -16,6 +16,6 @@ struct ModlandData {
     string filename;
 };
 
-optional<ModlandData> modland_lookup(const char *md5);
+optional<ModlandData> modland_lookup(const char *md5, const string &filename);
 
 #endif /* MODLAND_H_ */
