@@ -15,13 +15,13 @@ int main(int argc, char *argv[]) {
         return -1;
     }
     const char* fname = argv[1];
-    ifstream input(fname, ios::in | ios::binary | ios::ate );
+    ifstream input(fname, ios::in | ios::binary | ios::ate);
     if (!input.is_open()) {
         fprintf(stderr, "File not found: %s\n", fname);
         return -1;
     }
     vector<char> buffer(input.tellg());
-    input.seekg(0, std::ios::beg);
+    input.seekg(0, ios::beg);
     input.read(buffer.data(), buffer.size());
 
     auto res = converter::convert(buffer.data(), buffer.size());

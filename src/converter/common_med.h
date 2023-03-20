@@ -5,11 +5,9 @@
 #define COMMON_MED_H_
 
 #include <optional>
-#include <sstream>
 #include <string>
 #include <vector>
 #include "big_endian.h"
-#include "../3rdparty/SimpleBinStream.h"
 
 namespace converter::med {
 

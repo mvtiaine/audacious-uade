@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
+#include <vector>
 #include "common_med.h"
 #include "converter.h"
+#include "../3rdparty/SimpleBinStream.h"
 
 using namespace converter::med;
 
@@ -23,16 +25,16 @@ void serializeBlocks(simple::mem_ostream<true_type> &out, const vector<MMD0Block
     int i = 0;
     for (const auto& block : blockarr) {
         simple::mem_ostream<true_type> out;
-        out << block.numtracks; TRACE("mmd0block[%d].numtracks: %d\n", i, block.numtracks);
-        out << block.lines;     TRACE("mmd0block[%d].lines: %d\n", i, block.lines);
-        out << block.data;      TRACE("mmd0block[%d].data[%lu]\n", i, block.data.size());
+        out << block.numtracks;                                     TRACE("mmd0block[%d].numtracks: %d\n", i, block.numtracks);
+        out << block.lines;                                         TRACE("mmd0block[%d].lines: %d\n", i, block.lines);
+        out << block.data;                                          TRACE("mmd0block[%d].data[%lu]\n", i, block.data.size());
         blocks[i++] = align(out);
     }
     ULONG boffs = blockarr.size() * 4;
     i = 0;
     for (const auto& block : blocks) {
         ULONG offs = offs_blockarr + boffs;
-        out << offs;            TRACE("mmd0block[%d].offs: 0x%.8x\n", i, (uint32_t)offs);
+        out << offs;                                                TRACE("mmd0block[%d].offs: 0x%.8x\n", i, (uint32_t)offs);
         boffs = boffs + block.size();
         i++;
     }
@@ -49,25 +51,25 @@ void serializeSamples(simple::mem_ostream<true_type> &out, const MMD0song& song,
         simple::mem_ostream<true_type> out;
         if (instr.sample.has_value()) {
             const MMDSample0& sample = instr.sample.value();
-            out << sample.length;               TRACE("mmd0sample[%d].length: %u\n", i, (uint32_t)sample.length);
-            out << sample.type;                 TRACE("mmd0sample[%d].type: %d\n", i, (int16_t)sample.type);
-            out << sample.sample;               TRACE("mmd0sample[%d].data[%lu]\n", i, sample.sample.size());
+            out << sample.length;                                   TRACE("mmd0sample[%d].length: %u\n", i, (uint32_t)sample.length);
+            out << sample.type;                                     TRACE("mmd0sample[%d].type: %d\n", i, (int16_t)sample.type);
+            out << sample.sample;                                   TRACE("mmd0sample[%d].data[%lu]\n", i, sample.sample.size());
             samples[i] = align(out);
         } else if (instr.synthinstr.has_value()) {
             const SynthInstr& synthinstr = instr.synthinstr.value();
-            out << synthinstr.length;           TRACE("mmd0sample[%d].length: %u\n", i, (uint32_t)synthinstr.length);
-            out << synthinstr.type;             TRACE("mmd0sample[%d].type: %d\n", i, (int16_t)synthinstr.type);
-            out << synthinstr.defaultdecay;     TRACE("mmd0sample[%d].defaultdecay: %u\n", i, synthinstr.defaultdecay);
-            out << synthinstr.reserved;         TRACE("mmd0sample[%d].reserved[%lu]\n", i, synthinstr.reserved.size());
-            out << synthinstr.rep;              TRACE("mmd0sample[%d].rep: %u\n", i, (uint16_t)synthinstr.rep);
-            out << synthinstr.replen;           TRACE("mmd0sample[%d].replen: %u\n", i, (uint16_t)synthinstr.replen);
-            out << synthinstr.voltbllen;        TRACE("mmd0sample[%d].voltbllen: %u\n", i, (uint16_t)synthinstr.voltbllen);
-            out << synthinstr.wftbllen;         TRACE("mmd0sample[%d].wftbllen: %u\n", i, (uint16_t)synthinstr.wftbllen);
-            out << synthinstr.volspeed;         TRACE("mmd0sample[%d].volspeed: %u\n", i, synthinstr.volspeed);
-            out << synthinstr.wfspeed;          TRACE("mmd0sample[%d].wfspeed: %u\n", i, synthinstr.wfspeed);
-            out << synthinstr.wforms;           TRACE("mmd0sample[%d].wforms: %u\n", i, (uint16_t)synthinstr.wforms);
-            out << synthinstr.voltbl;           TRACE("mmd0sample[%d].voltbl[%lu]\n", i, synthinstr.voltbl.size());
-            out << synthinstr.wftbl;            TRACE("mmd0sample[%d].wftbl[%lu]\n", i, synthinstr.wftbl.size());
+            out << synthinstr.length;                               TRACE("mmd0sample[%d].length: %u\n", i, (uint32_t)synthinstr.length);
+            out << synthinstr.type;                                 TRACE("mmd0sample[%d].type: %d\n", i, (int16_t)synthinstr.type);
+            out << synthinstr.defaultdecay;                         TRACE("mmd0sample[%d].defaultdecay: %u\n", i, synthinstr.defaultdecay);
+            out << synthinstr.reserved;                             TRACE("mmd0sample[%d].reserved[%lu]\n", i, synthinstr.reserved.size());
+            out << synthinstr.rep;                                  TRACE("mmd0sample[%d].rep: %u\n", i, (uint16_t)synthinstr.rep);
+            out << synthinstr.replen;                               TRACE("mmd0sample[%d].replen: %u\n", i, (uint16_t)synthinstr.replen);
+            out << synthinstr.voltbllen;                            TRACE("mmd0sample[%d].voltbllen: %u\n", i, (uint16_t)synthinstr.voltbllen);
+            out << synthinstr.wftbllen;                             TRACE("mmd0sample[%d].wftbllen: %u\n", i, (uint16_t)synthinstr.wftbllen);
+            out << synthinstr.volspeed;                             TRACE("mmd0sample[%d].volspeed: %u\n", i, synthinstr.volspeed);
+            out << synthinstr.wfspeed;                              TRACE("mmd0sample[%d].wfspeed: %u\n", i, synthinstr.wfspeed);
+            out << synthinstr.wforms;                               TRACE("mmd0sample[%d].wforms: %u\n", i, (uint16_t)synthinstr.wforms);
+            out << synthinstr.voltbl;                               TRACE("mmd0sample[%d].voltbl[%lu]\n", i, synthinstr.voltbl.size());
+            out << synthinstr.wftbl;                                TRACE("mmd0sample[%d].wftbl[%lu]\n", i, synthinstr.wftbl.size());
 
             vector<vector<char>> wfs(synthinstr.wforms);
             int j = 0;
@@ -75,23 +77,23 @@ void serializeSamples(simple::mem_ostream<true_type> &out, const MMD0song& song,
                 if (synthinstr.type == HYBRID) {
                     const MMDSample0& sample = synthinstr.wf[0].sample.value();
                     simple::mem_ostream<true_type> wfout;
-                    wfout << sample.length;     TRACE("mmd0sample[%d].wf[0].length: %u\n", i, (uint32_t)sample.length);
-                    wfout << sample.type;       TRACE("mmd0sample[%d].wf[0].type: %d\n", i, (int16_t)sample.type);
-                    wfout << sample.sample;     TRACE("mmd0sample[%d].wf[0].sample[%lu]\n", i, sample.sample.size());
+                    wfout << sample.length;                         TRACE("mmd0sample[%d].wf[0].length: %u\n", i, (uint32_t)sample.length);
+                    wfout << sample.type;                           TRACE("mmd0sample[%d].wf[0].type: %d\n", i, (int16_t)sample.type);
+                    wfout << sample.sample;                         TRACE("mmd0sample[%d].wf[0].sample[%lu]\n", i, sample.sample.size());
                     wfs[j] = align(wfout);
                     j++;
                 }
                 for (;j < synthinstr.wforms; j++) {
                     const SynthWF& wf = synthinstr.wf[j].synthwf.value();
                     simple::mem_ostream<true_type> wfout;
-                    wfout << wf.length;         TRACE("mmd0sample[%d].wf[%d].length: %u\n", i, j, (int16_t)wf.length);
-                    wfout << wf.wfdata;         TRACE("mmd0sample[%d].wf[%d].wfdata[%lu]\n", i, j, wf.wfdata.size());
+                    wfout << wf.length;                             TRACE("mmd0sample[%d].wf[%d].length: %u\n", i, j, (int16_t)wf.length);
+                    wfout << wf.wfdata;                             TRACE("mmd0sample[%d].wf[%d].wfdata[%lu]\n", i, j, wf.wfdata.size());
                     wfs[j] = align(wfout);
                 }
             }
             ULONG woffs = synthinstr.length;
             for (const auto &wf : wfs) {
-                out << woffs;                   TRACE("mmd0sample[%d].wf[%d].offs: 0x%.8x\n", i, j, (uint32_t)woffs);
+                out << woffs;                                       TRACE("mmd0sample[%d].wf[%d].offs: 0x%.8x\n", i, j, (uint32_t)woffs);
                 woffs = woffs + wf.size();
             }
             for (const auto &wf : wfs) {
@@ -106,7 +108,7 @@ void serializeSamples(simple::mem_ostream<true_type> &out, const MMD0song& song,
     for (const auto& sample : samples) {
         if (sample.size() > 0) {
             ULONG offs = offs_smplarr + soffs;
-            out << offs;                            TRACE("mmd0sample[%d].offs: 0x%.8x\n", i, (uint32_t)offs);
+            out << offs;                                            TRACE("mmd0sample[%d].offs: 0x%.8x\n", i, (uint32_t)offs);
             soffs = soffs + sample.size();
             i++;
         }
@@ -165,7 +167,7 @@ void serializeExp(simple::mem_ostream<true_type> &out, const MMD0song &song, con
         out << ext.finetune;                                        TRACE("expdata.exp_smp[%d].finetune: %d\n", i, ext.finetune);
     }
     if (exp.annolen > 0) {
-        out << annotxt;                                         TRACE("expdata.annotxt: %s\n", exp.annotxt.data());
+        out << annotxt;                                             TRACE("expdata.annotxt: %s\n", exp.annotxt.data());
     }
     for (int i = 0; i < exp.i_ext_entries; ++i) {
         out << exp.iinfo[i];                                        TRACE("expdata.iinfo[%d].name: %s\n", i, exp.iinfo[i].data());
@@ -262,28 +264,28 @@ vector<char> serializeMMD0(
 
     simple::mem_ostream<true_type> out;
 
-    out << mmd0.id;                                     TRACE("mmd0.id: 0x%.8x\n", (uint32_t)mmd0.id);
-    out << modlen;                                      TRACE("mmd0.modlen: 0x%.8x\n", (uint32_t)modlen);
-    out << offs_song;                                   TRACE("mmd0.song: 0x%.8x\n", (uint32_t)offs_song);
-    out << mmd0.psecnum;                                TRACE("mmd0.psecnum: %u\n", (uint32_t)mmd0.psecnum);
-    out << mmd0.pseq;                                   TRACE("mmd0.pseq: %u\n", (uint32_t)mmd0.pseq);
+    out << mmd0.id;                                                 TRACE("mmd0.id: 0x%.8x\n", (uint32_t)mmd0.id);
+    out << modlen;                                                  TRACE("mmd0.modlen: 0x%.8x\n", (uint32_t)modlen);
+    out << offs_song;                                               TRACE("mmd0.song: 0x%.8x\n", (uint32_t)offs_song);
+    out << mmd0.psecnum;                                            TRACE("mmd0.psecnum: %u\n", (uint32_t)mmd0.psecnum);
+    out << mmd0.pseq;                                               TRACE("mmd0.pseq: %u\n", (uint32_t)mmd0.pseq);
     assert(blockdata.size() > 0);
-    out << offs_blockarr;                               TRACE("mmd0.blockarr: 0x%.8x\n", (uint32_t)offs_blockarr);
-    out << mmd0.mmdflags;                               TRACE("mmd0.mmdflags: 0x%.2x\n", mmd0.mmdflags);
+    out << offs_blockarr;                                           TRACE("mmd0.blockarr: 0x%.8x\n", (uint32_t)offs_blockarr);
+    out << mmd0.mmdflags;                                           TRACE("mmd0.mmdflags: 0x%.2x\n", mmd0.mmdflags);
     for (int i = 0; i < size(mmd0.reserved); ++i) {
-        out << mmd0.reserved[i];                        TRACE("mmd0.reserved[%d]: %u\n", i, mmd0.reserved[i]);
+        out << mmd0.reserved[i];                                    TRACE("mmd0.reserved[%d]: %u\n", i, mmd0.reserved[i]);
     }
-    out << (sampledata.size() > 0 ? offs_smplarr: nil); TRACE("mmd0.smplarr: 0x%.8x\n", (uint32_t)(sampledata.size() > 0 ? offs_smplarr: nil));
-    out << mmd0.reserved2;                              TRACE("mmd0.reserved2: %u\n", (uint32_t)mmd0.reserved2);
-    out << (expdata.size() > 0 ? offs_expdata : nil);   TRACE("mmd0.expdata: 0x%.8x\n", (uint32_t)(expdata.size() > 0 ? offs_expdata : nil));
-    out << mmd0.reserved3;                              TRACE("mmd0.reserved3: %u\n", (uint32_t)mmd0.reserved3);
-    out << mmd0.pstate;                                 TRACE("mmd0.pstate: %u\n", (uint16_t)mmd0.pstate);
-    out << mmd0.pblock;                                 TRACE("mmd0.pblock: %u\n", (uint16_t)mmd0.pblock);
-    out << mmd0.pline;                                  TRACE("mmd0.pline: %u\n", (uint16_t)mmd0.pline);
-    out << mmd0.pseqnum;                                TRACE("mmd0.pseqnum: %u\n", (uint16_t)mmd0.pseqnum);
-    out << mmd0.actplayline;                            TRACE("mmd0.actplayline %d\n", (int16_t)mmd0.actplayline);
-    out << mmd0.counter;                                TRACE("mmd0.counter: %u\n", mmd0.counter);
-    out << mmd0.extra_songs;                            TRACE("mmd0.extra_songs: %u\n", mmd0.extra_songs);
+    out << (sampledata.size() > 0 ? offs_smplarr: nil);             TRACE("mmd0.smplarr: 0x%.8x\n", (uint32_t)(sampledata.size() > 0 ? offs_smplarr: nil));
+    out << mmd0.reserved2;                                          TRACE("mmd0.reserved2: %u\n", (uint32_t)mmd0.reserved2);
+    out << (expdata.size() > 0 ? offs_expdata : nil);               TRACE("mmd0.expdata: 0x%.8x\n", (uint32_t)(expdata.size() > 0 ? offs_expdata : nil));
+    out << mmd0.reserved3;                                          TRACE("mmd0.reserved3: %u\n", (uint32_t)mmd0.reserved3);
+    out << mmd0.pstate;                                             TRACE("mmd0.pstate: %u\n", (uint16_t)mmd0.pstate);
+    out << mmd0.pblock;                                             TRACE("mmd0.pblock: %u\n", (uint16_t)mmd0.pblock);
+    out << mmd0.pline;                                              TRACE("mmd0.pline: %u\n", (uint16_t)mmd0.pline);
+    out << mmd0.pseqnum;                                            TRACE("mmd0.pseqnum: %u\n", (uint16_t)mmd0.pseqnum);
+    out << mmd0.actplayline;                                        TRACE("mmd0.actplayline %d\n", (int16_t)mmd0.actplayline);
+    out << mmd0.counter;                                            TRACE("mmd0.counter: %u\n", mmd0.counter);
+    out << mmd0.extra_songs;                                        TRACE("mmd0.extra_songs: %u\n", mmd0.extra_songs);
     for (int i = 0; i < MAX_SAMPLES; ++i) {
         out << song.sample[i].rep;
         out << song.sample[i].replen;
@@ -292,30 +294,30 @@ vector<char> serializeMMD0(
         out << song.sample[i].svol;
         out << song.sample[i].strans;
         if (i < song.numsamples) {
-            TRACE("mmd0song.sample[%d].rep: %u\n", i, (uint16_t)song.sample[i].rep);
-            TRACE("mmd0song.sample[%d].replen: %u\n", i, (uint16_t)song.sample[i].replen);
-            TRACE("mmd0song.sample[%d].midich: %u\n", i, song.sample[i].midich);
-            TRACE("mmd0song.sample[%d].midipreset: %u\n", i, song.sample[i].midipreset);
-            TRACE("mmd0song.sample[%d].svol: %u\n", i, song.sample[i].svol);
-            TRACE("mmd0song.sample[%d].strans: %d\n", i, song.sample[i].strans);
+                                                                    TRACE("mmd0song.sample[%d].rep: %u\n", i, (uint16_t)song.sample[i].rep);
+                                                                    TRACE("mmd0song.sample[%d].replen: %u\n", i, (uint16_t)song.sample[i].replen);
+                                                                    TRACE("mmd0song.sample[%d].midich: %u\n", i, song.sample[i].midich);
+                                                                    TRACE("mmd0song.sample[%d].midipreset: %u\n", i, song.sample[i].midipreset);
+                                                                    TRACE("mmd0song.sample[%d].svol: %u\n", i, song.sample[i].svol);
+                                                                    TRACE("mmd0song.sample[%d].strans: %d\n", i, song.sample[i].strans);
         }
      }
-    out << song.numblocks;                              TRACE("mmd0song.numblocks %u\n", (uint16_t)song.numblocks);
-    out << song.songlen;                                TRACE("mmd0song.songlen %u\n", (uint16_t)song.songlen);
+    out << song.numblocks;                                          TRACE("mmd0song.numblocks %u\n", (uint16_t)song.numblocks);
+    out << song.songlen;                                            TRACE("mmd0song.songlen %u\n", (uint16_t)song.songlen);
     for (int i = 0; i < size(song.playseq); ++i) {
         out << song.playseq[i];
-        if (song.playseq[i] != 0)                       TRACE("mmd0song.playseq[%d]: %u\n", i, song.playseq[i]);
+        if (song.playseq[i] != 0)                                   TRACE("mmd0song.playseq[%d]: %u\n", i, song.playseq[i]);
     }
-    out << song.deftempo;                               TRACE("mmd0song.deftempo %u\n", (uint16_t)song.deftempo);
-    out << song.playtransp;                             TRACE("mmd0song.playtransp %d\n", song.playtransp);
-    out << song.flags;                                  TRACE("mmd0song.flags 0x%.2x\n", song.flags);
-    out << song.flags2;                                 TRACE("mmd0song.flags2 0x%.2x\n", song.flags2);
-    out << song.tempo2;                                 TRACE("mmd0song.tempo2 %u\n", song.tempo2);
+    out << song.deftempo;                                           TRACE("mmd0song.deftempo %u\n", (uint16_t)song.deftempo);
+    out << song.playtransp;                                         TRACE("mmd0song.playtransp %d\n", song.playtransp);
+    out << song.flags;                                              TRACE("mmd0song.flags 0x%.2x\n", song.flags);
+    out << song.flags2;                                             TRACE("mmd0song.flags2 0x%.2x\n", song.flags2);
+    out << song.tempo2;                                             TRACE("mmd0song.tempo2 %u\n", song.tempo2);
     for (int i = 0; i < size(song.trkvol); ++i) {
-        out << song.trkvol[i];                          TRACE("mmd0song.trkvol[%d]: %u\n", i, song.trkvol[i]);
+        out << song.trkvol[i];                                      TRACE("mmd0song.trkvol[%d]: %u\n", i, song.trkvol[i]);
     }
-    out << song.mastervol;                              TRACE("mmd0song.mastervol %u\n", song.mastervol);
-    out << song.numsamples;                             TRACE("mmd0song.numsamples %u\n", song.numsamples);
+    out << song.mastervol;                                          TRACE("mmd0song.mastervol %u\n", song.mastervol);
+    out << song.numsamples;                                         TRACE("mmd0song.numsamples %u\n", song.numsamples);
 
     out << blockdata;
     
