@@ -2,6 +2,7 @@
 // Copyright (C) 2014-2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include <pthread.h>
+#include <cassert>
 #include <cstring>
 #include <optional>
 #include <string>
