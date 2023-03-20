@@ -2,7 +2,9 @@
 // Copyright (C) 2014-2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include <libgen.h>
+#include <sys/stat.h>
 #include <algorithm>
+#include <cstdlib>
 #include <cstring>
 #include <set>
 #include <string>
@@ -194,6 +196,20 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
 
     if (player.find("ZoundMonitor") != player.npos) {
         return sample_loader_wrapper(name, playerdir, context, state);
+    }
+
+    // for example cust.zoids (aka zoids.src) and other SunTronic customs will first request instr/ directory (for listing?)
+    // just return empty file for directories to make them happy
+    struct stat s;
+    if (stat(name,&s) == 0) {
+        if (s.st_mode & S_IFDIR) {
+            DEBUG("amiga_loader_wrapper returning dummy file for directory %s\n", name);
+            struct uade_file *dummyfile = (struct uade_file *)malloc(sizeof(struct uade_file));
+            dummyfile->name = NULL;
+            dummyfile->data = NULL;
+            dummyfile->size = 0;
+            return dummyfile;
+        }
     }
 
     return uade_load(name, playerdir, state);
