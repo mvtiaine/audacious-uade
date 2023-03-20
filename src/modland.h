@@ -13,6 +13,7 @@ struct ModlandData {
     string format;
     string author;
     string album;
+    string filename;
 };
 
 optional<ModlandData> modland_lookup(const char *md5);

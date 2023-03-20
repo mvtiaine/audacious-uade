@@ -189,20 +189,12 @@ string previous_md5_file = "";
 map<string, ModlandData> ml_map;
 
 bool parse_modland_path(const string &path, ModlandData &item) {
-    constexpr string_view delimiter = "/";
-    string format, author, album;
-    int count = 0;
-    vector<string> tokens;
+    string format, author, album, filename;
+    
+    vector<string> tokens = split(path, "/");
+    const int count = tokens.size();
 
-    size_t pos = 0;
-    string s = path;
-    while ((pos = s.find(delimiter)) != string::npos) {
-        tokens.push_back(s.substr(0, pos));
-        s.erase(0, pos + delimiter.length());
-        count++;
-    }
-
-    if (count < 2) {
+    if (count < 3) {
         DEBUG("Unexpected path: %s\n", path.c_str());
         return 1;
     }
@@ -217,19 +209,20 @@ bool parse_modland_path(const string &path, ModlandData &item) {
     author = tokens[1];
 
     switch (count) {
-        case 2:
-            // nothing to do
+        case 3:
+            filename = tokens[2];
             break;
-        case 3: {
+        case 4: {
             string token = tokens[2];
             if (token.find(COOP) == 0) {
                 author = author + " & " + token.substr(COOP.length());
-            } else if (token != NOTBY) {
+            } else if (token.find(NOTBY) != 0) {
                 album = token;
             }
+            filename = tokens[3];
             break;
         }
-        case 4: {
+        case 5: {
             string token = tokens[2];
             if (token.find(COOP) == 0) {
                 author = author + " & " + token.substr(COOP.length());
@@ -238,6 +231,7 @@ bool parse_modland_path(const string &path, ModlandData &item) {
                 return 1;
             }
             album = tokens[3];
+            filename = tokens[4];
             break;
         }
         default:
@@ -253,6 +247,9 @@ bool parse_modland_path(const string &path, ModlandData &item) {
     }
     if (album.size()) {
         item.album = album;
+    }
+    if (filename.size()) {
+        item.filename = filename;
     }
 
     return true;
@@ -296,7 +293,7 @@ void try_init(void) {
 
         // TODO support duplicates
         if (ml_map.count(md5)) {
-            DEBUG("Duplicate md5: %s", line.c_str());
+            DEBUG("Duplicate md5: %s\n", line.c_str());
             continue;
         }
 
@@ -307,7 +304,7 @@ void try_init(void) {
         if (parse_modland_path(path, item)) {
             ml_map[md5] = item;
         }
-        //TRACE("%s -> format = %s, author = %s, album = %s\n", line.c_str(), item.format, item.author, item.album);
+        //TRACE("%s -> format = %s, author = %s, album = %s, filename = %s\n", line.c_str(), item.format, item.author, item.album, item.filename);
     }
 
     return;

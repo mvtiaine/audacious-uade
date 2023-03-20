@@ -174,7 +174,7 @@ void update_tuple(Tuple &tuple, const string &name, int subsong, const struct ua
     const auto ml_entry = modland_lookup(modulemd5.c_str());
     if (ml_entry.has_value()) {
         const auto ml_data = ml_entry.value();
-        TRACE("Found modland data for %s, format:%s, author:%s, album:%s\n", modulemd5.c_str(), ml_data.format.c_str(), ml_data.author.c_str(), ml_data.album.c_str());
+        TRACE("Found modland data for %s, format:%s, author:%s, album:%s, filename:%s\n", modulemd5.c_str(), ml_data.format.c_str(), ml_data.author.c_str(), ml_data.album.c_str(), ml_data.filename.c_str());
         if (!ml_data.author.empty()) {
             tuple.set_str(Tuple::Artist, ml_data.author.c_str());
         }
