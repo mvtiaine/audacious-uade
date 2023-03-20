@@ -18,7 +18,7 @@ namespace converter {
 
 struct be_int32_t {
     constexpr be_int32_t() : be_val(0) {}
-    constexpr be_int32_t(const int32_t &val) : be_val(htobe32(val)) {}
+    be_int32_t(const int32_t &val) : be_val(htobe32(val)) {}
     constexpr operator int32_t() const {
         return be32toh(be_val);
     }
@@ -27,7 +27,7 @@ struct be_int32_t {
 
 struct be_uint32_t {
     constexpr be_uint32_t() : be_val(0) {}
-    constexpr be_uint32_t(const uint32_t &val) : be_val(htobe32(val)) {}
+    be_uint32_t(const uint32_t &val) : be_val(htobe32(val)) {}
     operator uint32_t() const {
         return be32toh(be_val);
     }
@@ -37,7 +37,7 @@ struct be_uint32_t {
 
 struct be_int16_t {
     constexpr be_int16_t() : be_val(0) {}
-    constexpr be_int16_t(const int16_t &val) : be_val(htobe16(val)) {}
+    be_int16_t(const int16_t &val) : be_val(htobe16(val)) {}
     constexpr operator int16_t() const {
         return be16toh(be_val);
     }
@@ -46,7 +46,7 @@ struct be_int16_t {
 
 struct be_uint16_t {
     constexpr be_uint16_t() : be_val(0) {}
-    constexpr be_uint16_t(const uint16_t &val) : be_val(htobe16(val)) {}
+    be_uint16_t(const uint16_t &val) : be_val(htobe16(val)) {}
     constexpr operator uint16_t() const {
         return be16toh(be_val);
     }

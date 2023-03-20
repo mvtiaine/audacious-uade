@@ -22,7 +22,7 @@ typedef char *          STRPTR;         /* string pointer (NUL-terminated) */
 #include "../3rdparty/proplayer.h"
 #undef EXEC_TYPES_H
 
-constexpr ULONG MMD0ID = 0x4d4d4430; // "MMD0"
+const ULONG MMD0ID = 0x4d4d4430; // "MMD0"
 constexpr int MAX_SAMPLES = 63;
 
 struct MMD0Block {
