@@ -1,197 +1,327 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2014-2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-
 #include <libaudcore/audstrings.h>
-#include <libaudcore/multihash.h>
 #include <libaudcore/runtime.h>
+
+#include <fstream>
+#include <map>
+#include <sstream>
+#include <vector>
 
 #include "common.h"
 #include "modland.h"
 
-#define LINE_MAX_ 1024
-#define AUTHOR_MAX 128
-#define FORMAT_MAX 128
+namespace {
 
-#define COOP "coop-"
-#define UNKNOWN "- unknown"
-#define NOTBY "not by "
+const set<string> modland_amiga_formats ({
+    "AHX",
+    "AM Composer",
+    "AProSys",
+    "Actionamics",
+    "Activision Pro",
+    "Anders Oland",
+    "Arpeggiator",
+    "Art And Magic",
+    "Art Of Noise",
+    "Audio Sculpture",
+    "BP SoundMon 2",
+    "BP SoundMon 3",
+    "Beathoven Synthesizer",
+    "Ben Daglish",
+    "Ben Daglish SID", // C64
+    "Core Design",
+    "CustomMade",
+    "Cybertracker",
+    "Darius Zendeh",
+    "Dave Lowe",
+    "Dave Lowe New",
+    "David Hanney",
+    "David Whittaker",
+    "Delitracker Custom",
+    "Delta Music",
+    "Delta Music 2",
+    "Delta Packer",
+    "Desire",
+    "Digibooster",
+    "Digibooster Pro",
+    "Digital Mugician",
+    "Digital Mugician 2",
+    "Digital Sonix And Chrome",
+    "Digital Sound Studio",
+    "Dirk Bialluch",
+    "Dynamic Studio Professional",
+    "Dynamic Synthesizer",
+    "EarAche",
+    "Electronic Music System",
+    "Electronic Music System v6",
+    "Face The Music",
+    "Fashion Tracker",
+    "Follin Player II",
+    "Forgotten Worlds",
+    "Fred Gray",
+    "FredMon",
+    "FuchsTracker",
+    "Future Composer 1.3",
+    "Future Composer 1.4",
+    "Future Composer BSI",
+    "Future Player",
+    "GT Game Systems",
+    "Game Music Creator",
+    "GlueMon",
+    "Hippel",
+    "Hippel 7V",
+    "Hippel COSO",
+    "Hippel ST", // ST
+    "Hippel ST COSO", // ST
+    "HivelyTracker",
+    "Howie Davies",
+    "Images Music System",
+    "Infogrames",
+    "InStereo!",
+    "InStereo! 2.0",
+    "JamCracker",
+    "Janko Mrsic-Flogel",
+    "Jason Brooke",
+    "Jason Page",
+    "Jason Page Old",
+    "Jeroen Tel",
+    "Jesper Olsen",
+    "Kris Hatlelid",
+    "Leggless Music Editor",
+    "Lionheart",
+    "MCMD",
+    "Magnetic Fields Packer",
+    "Maniacs Of Noise",
+    "Mark Cooksey",
+    "Mark Cooksey Old",
+    "Mark II",
+    "MaxTrax",
+    "Medley",
+    "Mike Davies",
+    "MultiMedia Sound",
+    "Music Assembler",
+    "Music Editor",
+    "MusicMaker V8",
+    "MusicMaker V8 Old",
+    "Musicline Editor",
+    "NovoTrade Packer",
+    "OctaMED MMD0",
+    "OctaMED MMD1",
+    "OctaMED MMD2",
+    "OctaMED MMD3",
+    "OctaMED MMDC",
+    "Oktalyzer",
+    "Paul Robotham",
+    "Paul Shields",
+    "Paul Summers",
+    "Peter Verswyvelen",
+    "Pierre Adane Packer",
+    "PokeyNoise",
+    "Powertracker",
+    "Pretracker",
+    "Professional Sound Artists",
+    "Protracker",
+    "Protracker IFF",
+    "Pumatracker",
+    "Quadra Composer",
+    "Quartet PSG", // ST
+    "Quartet ST", // ST
+    "Richard Joseph",
+    "Riff Raff",
+    "Rob Hubbard",
+    "Rob Hubbard ST", // ST
+    "Ron Klaren",
+    "SCUMM",
+    "Sean Connolly",
+    "Sean Conran",
+    "SidMon 1",
+    "SidMon 2",
+    "Silmarils",
+    "Sonic Arranger",
+    "Sound Images",
+    "Sound Master",
+    "Sound Master II v1",
+    "Sound Master II v3",
+    "Sound Programming Language",
+    "SoundControl",
+    "SoundFX",
+    "SoundFactory",
+    "SoundPlayer",
+    "Soundtracker",
+    "Soundtracker 2.6",
+    "Soundtracker Pro II",
+    "Special FX",
+    "Special FX ST", // ST
+    "Speedy A1 System",
+    "Speedy System",
+    "Startrekker AM",
+    "Startrekker FLT8",
+    "Steve Barrett",
+    "Stonetracker",
+    "SunTronic",
+    "Symphonie",
+    "SynTracker",
+    "Synth Dream",
+    "Synth Pack",
+    "Synthesis",
+    "TCB Tracker",
+    "TFMX",
+    "TFMX ST", // ST
+    "The Musical Enlightenment",
+    "Thomas Hermann",
+    "Tomy Tracker",
+    "Unique Development",
+    "Voodoo Supreme Synthesizer",
+    "Wally Beben",
+    "YMST", // ST
+    "Zoundmonitor"
+});
 
-#define UNKNOWN_AUTHOR "<Unknown>"
+constexpr string_view COOP = "coop-";
+constexpr string_view UNKNOWN = "- unknown";
+constexpr string_view NOTBY = "not by ";
 
-String previous_md5_file("");
-bool initialized = false;
+constexpr string_view UNKNOWN_AUTHOR = "<Unknown>";
 
-SimpleHash<String,modland_data_t> ml_table;
+string previous_md5_file = "";
 
-int is_amiga_format(char * format) {
-    int i = 0;
-    const char *amiga_format;
-    while ((amiga_format = modland_amiga_formats[i++]) != NULL) {
-        switch (strncmp(format, amiga_format, FORMAT_MAX)) {
-            case 0:
-                return 1;
-            case -1:
-                return 0;
-            default:
-                continue;
-        }
+map<string, ModlandData> ml_map;
+
+bool parse_modland_path(const string &path, ModlandData &item) {
+    constexpr string_view delimiter = "/";
+    string format, author, album;
+    int count = 0;
+    vector<string> tokens;
+
+    size_t pos = 0;
+    string s = path;
+    while ((pos = s.find(delimiter)) != string::npos) {
+        tokens.push_back(s.substr(0, pos));
+        s.erase(0, pos + delimiter.length());
+        count++;
     }
-    return 0;
-}
-
-int parse_modland_path(char *path, modland_data_t &item) {
-    const char *sep = "/";
-    char *format, author[AUTHOR_MAX], *album = NULL, *token;
-    size_t count = 0;
-    char *str = path;
-    while(*str) if (*str++ == '/') ++count;
 
     if (count < 2) {
-        DEBUG("Unexpected path: %s\n", path);
+        DEBUG("Unexpected path: %s\n", path.c_str());
         return 1;
     }
 
-    format = strtok(path, sep);
-    if (!is_amiga_format(format)) {
-        TRACE("Skipping format %s\n", format);
+    format = tokens[0];
+
+    if (!modland_amiga_formats.count(format)) {
+        TRACE("Skipping non-amiga format %s\n", format.c_str());
         return 1;
     }
 
-    token = strtok(NULL, sep);
-
-    strlcpy(author, token, sizeof(author));
+    author = tokens[1];
 
     switch (count) {
         case 2:
             // nothing to do
             break;
-        case 3:
-            token = strtok(NULL, sep);
-            if (!strncmp(COOP, token, strlen(COOP))) {
-                strlcat(author, " & ", sizeof(author));
-                strlcat(author, token + strlen(COOP), sizeof(author));
-            } else if (strncmp(NOTBY, token, strlen(NOTBY))) {
+        case 3: {
+            string token = tokens[2];
+            if (token.find(COOP) == 0) {
+                author = author + " & " + token.substr(COOP.length());
+            } else if (token != NOTBY) {
                 album = token;
             }
             break;
-        case 4:
-            token = strtok(NULL, sep);
-            if (!strncmp(COOP, token, strlen(COOP))) {
-                strlcat(author, " & ", sizeof(author));
-                strlcat(author, token + strlen(COOP), sizeof(author));
+        }
+        case 4: {
+            string token = tokens[2];
+            if (token.find(COOP) == 0) {
+                author = author + " & " + token.substr(COOP.length());
             } else {
-                WARN("Skipped path: %s\n", path);
+                WARN("Skipped path: %s\n", path.c_str());
                 return 1;
             }
-            album = strtok(NULL, sep);
+            album = tokens[3];
             break;
+        }
         default:
-            TRACE("Skipping path %s, token count %ld\n", path, count);
+            TRACE("Skipping path %s, token count %d\n", path.c_str(), count);
             break;
     }
 
-    item.format = String(format);
-    if (!strncmp(UNKNOWN, author, strlen(UNKNOWN))) {
-        item.author = String(UNKNOWN_AUTHOR);
+    item.format = format;
+    if (author == UNKNOWN) {
+        item.author = UNKNOWN_AUTHOR;
     } else {
-        item.author = String(author);
+        item.author = author;
     }
-    if (album) {
-        item.album = String(album);
+    if (album.size()) {
+        item.album = album;
     }
 
-    return 0;
+    return true;
 }
 
 void try_init(void) {
-    bool init_success = true;
-    String md5_file = aud_get_str (PLUGIN_NAME, MODLAND_ALLMODS_MD5_FILE);
+    string md5_file = string(aud_get_str (PLUGIN_NAME, MODLAND_ALLMODS_MD5_FILE));
 
-    if (!strnlen(md5_file, FILENAME_MAX)) {
+    if (md5_file.empty()) {
         const char *home = getenv ("HOME");
-        md5_file = String((std::string(home) + "/.uade/allmods_md5_amiga.txt").c_str());
+        md5_file = string(home) + "/.uade/allmods_md5_amiga.txt";
     }
 
-    char line[LINE_MAX_];
-
-    if (!strncmp(previous_md5_file, md5_file, FILENAME_MAX)) {
+    if (previous_md5_file == md5_file) {
         return;
     }
-
-    DEBUG("Modland allmods_md5.txt location changed\n");
+    
+    DEBUG("Modland md5 file location changed\n");
 
     previous_md5_file = md5_file;
-    initialized = false;
-    modland_cleanup();
-
-    FILE *file = fopen(uri_to_filename(md5_file), "r");
-    if (!file) {
-        DEBUG("Could not open modland file %s\n", (const char *)md5_file);
+    ml_map.clear();
+   
+    ifstream allmods(md5_file.c_str(), ios::in);
+    if (!allmods.is_open()) {
+        DEBUG("Could not open modland md5 file %s\n", md5_file.c_str());
         return;
     }
 
-    while(fgets(line, LINE_MAX_ - 1, file)) {
-        char md5[33];
-        char path[LINE_MAX_];
+    string line;
+    while (getline(allmods, line)) {
+        string md5;
+        string path;
 
         // sanity check
-        if (strnlen(line, LINE_MAX_) <= 34) {
-            ERROR("Too short line %s\n", line);
-            init_success = false;
-            goto out;
+        if (line.length() <= 32) {
+            ERROR("Too short line %s\n", line.c_str());
+            return;
         }
 
-        strlcpy(md5, line, sizeof(md5));
+        md5 = line.substr(0, 32);
 
-        if (ml_table.lookup(String(md5))) {
-            DEBUG("Duplicate md5: %s", line);
+        // TODO support duplicates
+        if (ml_map.count(md5)) {
+            DEBUG("Duplicate md5: %s", line.c_str());
             continue;
         }
 
-        strlcpy(path, line + 33, sizeof(path));
+        path = line.substr(33, line.length());
 
-        modland_data_t item = {};
+        ModlandData item {};
 
-        switch (parse_modland_path(path, item)) {
-            case 0:
-                ml_table.add(String(md5), std::move(item));
-                break;
-            case 1:
-                continue;
-            default:
-                init_success = false;
-                goto out;
+        if (parse_modland_path(path, item)) {
+            ml_map[md5] = item;
         }
-
-//        TRACE("%s -> format = %s, author = %s, album = %s\n", line, static_cast<const char*>(item->format), static_cast<const char*>(item->author), static_cast<const char*>(item->album));
-    }
-
-out:
-    fclose(file);
-
-    if (init_success) {
-        initialized = true;
-    } else {
-        modland_cleanup();
+        //TRACE("%s -> format = %s, author = %s, album = %s\n", line.c_str(), item.format, item.author, item.album);
     }
 
     return;
 }
 
-void modland_cleanup() {
-    ml_table.clear();
-}
+} // namespace
 
-modland_data_t *modland_lookup(const char *md5) {
+optional<ModlandData> modland_lookup(const char *md5) {
     try_init();
 
-    if (!initialized) {
-        return NULL;
+    const string key(md5);
+    if (ml_map.count(key)) {
+        return ml_map[key];
     }
 
-    return ml_table.lookup(String(md5));
+    return optional<ModlandData>();
 }
