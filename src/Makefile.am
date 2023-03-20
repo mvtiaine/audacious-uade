@@ -4,7 +4,7 @@ plugin_LTLIBRARIES = uade.la
 uade_la_SOURCES = \
     plugin.cc \
     modland.cc \
-    hacks.c \
+    hacks.cc \
     converter/converter.cc \
     converter/common_med.cc \
     converter/converter_med4.cc \

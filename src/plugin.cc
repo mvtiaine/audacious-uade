@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2014-2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
-#include <libgen.h>
 #include <pthread.h>
-#include <cstdlib>
 #include <cstring>
-#include <cmath>
 #include <optional>
 #include <string>
 
@@ -55,8 +52,7 @@ struct uade_state *create_uade_state(struct uade_config *uc) {
     }
 #endif
     struct uade_state *state = uade_new_state(uc);
-    // should not be needed anymore (modland now uses prefix for TFMX)
-    // uade_set_amiga_loader(amiga_loader_wrapper, NULL, state);
+    uade_set_amiga_loader(amiga_loader_wrapper, NULL, state);
     return state;
 }
 
@@ -75,8 +71,7 @@ struct uade_state *create_uade_probe_state() {
     uade_config_set_option(uc, UC_NO_PANNING, NULL);
     uade_config_set_option(uc, UC_NO_POSTPROCESSING, NULL);
     struct uade_state *state = uade_new_state(uc);
-    // should not be needed anymore (modland now uses prefix for TFMX)
-    // uade_set_amiga_loader(amiga_loader_wrapper, NULL, state);
+    uade_set_amiga_loader(amiga_loader_wrapper, NULL, state);
     return state;
 }
 
@@ -106,64 +101,54 @@ void release_probe_state(struct probe_state *probe_state) {
     pthread_mutex_unlock(&probe_mutex);
 }
 
-int parse_uri(const char *uri, StringBuf *path, StringBuf *name, StringBuf *ext) {
+int parse_uri(const char *uri, string &path, string &name, string &ext) {
     int subsong;
     const char *tmpName, *sub, *tmpExt;
     const char *tmpPath = uri_to_filename(uri);
 
     uri_parse(tmpPath, &tmpName, &tmpExt, &sub, &subsong);
 
-    if (path) {
-        strncpy(*path, tmpPath, strlen(tmpPath) - strlen(sub));
-        path->resize(strlen(tmpPath) - strlen(sub));
-    }
+    path = string(tmpPath, strlen(tmpPath) - strlen(sub));
+    name = string(tmpName, strlen(tmpName) - strlen(sub));
+    ext = string(tmpExt, strlen(tmpExt) - strlen(sub));
 
-    if (name) {
-        strncpy(*name, tmpName, strlen(tmpName) - strlen(sub));
-        name->resize(strlen(tmpName) - strlen(sub));
-    }
-
-    if (ext) {
-        strncpy(*ext, tmpExt, strlen(tmpExt) - strlen(sub));
-        ext->resize(strlen(tmpExt) - strlen(sub));
-    }
-
-    return strnlen(sub, FILENAME_MAX) > 0 ? subsong : -1;
+    return strlen(sub) > 0 ? subsong : -1;
 }
 
-#define TYPE_PREFIX "type: "
-#define UNKNOWN_CODEC "UADE"
-#define ERRORED_CODEC "UADE ERROR"
+constexpr string_view TYPE_PREFIX = "type: ";
+constexpr string_view UNKNOWN_CODEC = "UADE";
+constexpr string_view ERRORED_CODEC = "UADE ERROR";
 
-const char *parse_codec(const struct uade_song_info *info) {
-    if (strnlen(info->formatname, 256) > 0) {
+const string parse_codec(const struct uade_song_info *info) {
+    const string_view formatname(info->formatname);
+    const string_view playername(info->playername);
+    if (!formatname.empty()) {
         // remove "type: " included in some formats
-        if (!strncmp(TYPE_PREFIX, info->formatname, strlen(TYPE_PREFIX))) {
-            return info->formatname + strlen(TYPE_PREFIX);
+        if (formatname.find(TYPE_PREFIX) == 0) {
+            string name (formatname.substr(TYPE_PREFIX.length()));
+            return name.c_str();
         } else {
             return info->formatname;
         }
-    } else if (strnlen(info->playername, 256) > 0) {
+    } else if (!playername.empty()) {
         return info->playername;
 
     } else {
-        return UNKNOWN_CODEC;
+        return UNKNOWN_CODEC.begin();
     }
 }
 
-void update_tuple(Tuple &tuple, char *name, int subsong, const struct uade_song_info* info, const char modulemd5[33], const char formatname[256]) {
+void update_tuple(Tuple &tuple, const string &name, int subsong, const struct uade_song_info* info, const string &modulemd5, const string &formatname) {
     /* prefer filename as title for now, maybe make configurable in future
     bool modulename_ok = strnlen(info->modulename, 256) > 0 &&
                             !is_blacklisted_title(info);
     const char *title = modulename_ok ? info->modulename : name;
     */
-    const char *title = name;
+    tuple.set_str(Tuple::Title, name.c_str());
 
-    tuple.set_str(Tuple::Title, title);
+    tuple.set_str(Tuple::Codec, formatname.c_str());
 
-    tuple.set_str(Tuple::Codec, formatname);
-
-    int subsongs = info->subsongs.max - info->subsongs.min + 1;
+    const int subsongs = info->subsongs.max - info->subsongs.min + 1;
 
     // UADE contentdb doesn't support separate lengths for subsongs
     if (subsongs == 1 && info->duration > 0 && tuple.get_int(Tuple::Length) <= 0) {
@@ -186,23 +171,23 @@ void update_tuple(Tuple &tuple, char *name, int subsong, const struct uade_song_
         tuple.set_int(Tuple::Track, pl_subsong);
     }
 
-    modland_data_t *ml_data = modland_lookup(modulemd5);
-    if (ml_data) {
-        TRACE("Found modland data for %s, format:%s, author:%s, album:%s\n",
-            modulemd5, static_cast<const char *>(ml_data->format), static_cast<const char *>(ml_data->author), static_cast<const char*>(ml_data->album));
-        if (ml_data->author && strlen(ml_data->author) > 0) {
-            tuple.set_str(Tuple::Artist, ml_data->author);
+    const auto ml_entry = modland_lookup(modulemd5.c_str());
+    if (ml_entry.has_value()) {
+        const auto ml_data = ml_entry.value();
+        TRACE("Found modland data for %s, format:%s, author:%s, album:%s\n", modulemd5.c_str(), ml_data.format.c_str(), ml_data.author.c_str(), ml_data.album.c_str());
+        if (!ml_data.author.empty()) {
+            tuple.set_str(Tuple::Artist, ml_data.author.c_str());
         }
         // prefer UADE codec names, but fall back to modland if not available
-        const char *uade_codec = tuple.get_str(Tuple::Codec);
-        if (!strncmp(UNKNOWN_CODEC, uade_codec, strlen(UNKNOWN_CODEC))) {
-            tuple.set_str(Tuple::Codec, ml_data->format);
+        const string uade_codec = string(tuple.get_str(Tuple::Codec));
+        if (uade_codec == UNKNOWN_CODEC) {
+            tuple.set_str(Tuple::Codec, ml_data.format.c_str());
         }
-        if (ml_data->album && strlen(ml_data->album) > 0) {
-            tuple.set_str(Tuple::Album, ml_data->album);
+        if (!ml_data.album.empty()) {
+            tuple.set_str(Tuple::Album, ml_data.album.c_str());
         }
     } else {
-        TRACE("No modland data for %s\n", modulemd5);
+        TRACE("No modland data for %s\n", modulemd5.c_str());
     }
 }
 
@@ -216,16 +201,16 @@ ssize_t render_audio(void *buffer, struct uade_state *state) {
                 break;
             case UADE_NOTIFICATION_SONG_END: {
                 TRACE("%s: %s\n", n.song_end.happy ? "song end" : "bad song end", n.song_end.reason);
-                const char *reason_timeout1 = "song timeout";
-                const char *reason_timeout2 = "subsong timeout";
-                const char *reason_silence = "silence";
+                constexpr string_view reason_timeout1 = "song timeout";
+                constexpr string_view reason_timeout2 = "subsong timeout";
+                constexpr string_view reason_silence = "silence";
                 if (n.song_end.happy) {
-                    bool timeout = !strncmp(reason_timeout1, n.song_end.reason, strlen(reason_timeout1)) ||
-                        !strncmp(reason_timeout2, n.song_end.reason, strlen(reason_timeout2));
-                    bool silence = !strncmp(reason_silence, n.song_end.reason, strlen(reason_silence));
+                    string reason = n.song_end.reason;
                     nbytes = 0;
-                    if (timeout) nbytes = -2;
-                    if (silence) nbytes = -3;
+                    if (reason == reason_timeout1 || reason == reason_timeout2)
+                        nbytes = -2;
+                    else if (reason == reason_silence)
+                        nbytes = -3;
                 } else {
                     nbytes = -1;
                 }
@@ -244,7 +229,7 @@ int precalc_songlength(struct uade_state *state) {
     char buffer[4096];
     ssize_t nbytes;
     uint64_t totalbytes = 0;
-    int bytespersec = UADE_BYTES_PER_FRAME * uade_get_sampling_rate(state);
+    const int bytespersec = UADE_BYTES_PER_FRAME * uade_get_sampling_rate(state);
     // cut short after 1h as UADE plays some mods for hours or possibly forever (with always_ends default)
     uint64_t maxbytes = 3600 * bytespersec;
     while ((nbytes = render_audio(buffer, state)) > 0) {
@@ -273,8 +258,8 @@ bool needs_conversion(const char *uri, VFSFile &file) {
 int play_uade(
     const char *uri,
     VFSFile &file,
-    StringBuf &path,
-    StringBuf &name,
+    const string &path,
+    const string &name,
     int subsong,
     uade_state *state,
     optional<string> &formatname,
@@ -292,13 +277,13 @@ int play_uade(
             DEBUG("uade_plugin converted %s to format %s\n", uri, res.format.c_str());
             MD5 md5; md5.update((const unsigned char*)buf.begin(), buf.len()); md5.finalize();
             modulemd5 = md5.hexdigest();
-            return uade_play_from_buffer(name, res.data.data(), res.data.size(), subsong, state);
+            return uade_play_from_buffer(name.c_str(), res.data.data(), res.data.size(), subsong, state);
         } else {
             WARN("uade_plugin conversion failed for %s reason: %s\n", uri, res.reason_failed.c_str());
             return 0;
         }
     } else {
-        return uade_play(path, subsong, state);
+        return uade_play(path.c_str(), subsong, state);
     }
 };
 
@@ -336,7 +321,7 @@ public:
     bool play(const char *uri, VFSFile &file);
 
 private:
-    bool playback_loop(char *buffer, struct uade_state* state);
+    bool playback_loop(struct uade_state* state);
 
 }; // class UADEPlugin
 
@@ -359,19 +344,15 @@ void UADEPlugin::cleanup() {
             cleanup_uade_state(probes[i].state);
         }
     }
-    modland_cleanup();
 }
 
 bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
     TRACE("uade_plugin_is_our_file %s\n", uri);
 
     bool is_our_file = false;
-    StringBuf path(4096);
-    StringBuf name(256);
-    StringBuf ext(256);
-    int i = 0;
+    string path, name, ext;
 
-    parse_uri(uri, &path, &name, &ext);
+    parse_uri(uri, path, name, ext);
 
     if (is_blacklisted_extension(ext)) {
         DEBUG("uade_plugin_is_our_file blacklisted %s\n", uri);
@@ -391,14 +372,14 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
 
     struct probe_state *probe_state = get_probe_state();
 
-    switch (uade_play(path, -1, probe_state->state)) {
+    switch (uade_play(path.c_str(), -1, probe_state->state)) {
         case 1:
             TRACE("uade_plugin_is_our_file accepted %s\n", uri);
             uade_stop(probe_state->state);
             is_our_file = true;
             break;
         case -1:
-            WARN("uade_plugin_is_our_file fatal error on %s path %s\n", uri, static_cast<char *>(path));
+            WARN("uade_plugin_is_our_file fatal error on %s path %s\n", uri, path.c_str());
             cleanup_uade_state(probe_state->state);
             probe_state->state = create_uade_probe_state();
             break;
@@ -415,13 +396,12 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
 bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<char> *image) {
     TRACE("uade_plugin_read_tag %s\n", uri);
 
-    StringBuf path(4096);
-    StringBuf name(256);
-    StringBuf ext(256);
+    string path, name, ext;
+    optional<string> formatname, modulemd5;
     int subsong;
     bool success = false;
 
-    subsong = parse_uri(uri, &path, &name, &ext);
+    subsong = parse_uri(uri, path, name, ext);
 
     if (is_blacklisted_extension(ext)) {
         DEBUG("uade_plugin_read_tag blacklisted %s\n", uri);
@@ -436,15 +416,12 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
 
     struct probe_state *probe_state = get_probe_state();
 
-    optional<string> formatname;
-    optional<string> modulemd5;
-
     switch (play_uade(uri, file, path, name, subsong, probe_state->state, formatname, modulemd5)) {
         case 1: {
             const struct uade_song_info* info = uade_get_song_info(probe_state->state);
             update_tuple(tuple, name, subsong, info,
-                modulemd5.has_value() ? modulemd5.value().c_str() : info->modulemd5,
-                formatname.has_value() ? formatname.value().c_str() : parse_codec(info));
+                modulemd5.has_value() ? modulemd5.value(): info->modulemd5,
+                formatname.has_value() ? formatname.value() : parse_codec(info));
             bool do_cleanup = false;
             if (subsong != -1 && tuple.get_int(Tuple::Length) <= 0 &&
                 aud_get_bool(PLUGIN_NAME, PRECALC_SONGLENGTHS)) {
@@ -465,7 +442,7 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
             break;
         }
         case -1:
-            WARN("uade_plugin_read_tag fatal error on %s path %s\n", uri, static_cast<char *>(path));
+            WARN("uade_plugin_read_tag fatal error on %s path %s\n", uri, path.c_str());
             cleanup_uade_state(probe_state->state);
             probe_state->state = create_uade_probe_state();
             break;
@@ -479,7 +456,8 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
     return success;
 }
 
-bool UADEPlugin::playback_loop(char *buffer, struct uade_state* state) {
+bool UADEPlugin::playback_loop(struct uade_state* state) {
+    char buffer[4096];
     bool wasSeeked = false;
     while (!check_stop()) {
         int seek_value = check_seek();
@@ -519,14 +497,13 @@ bool UADEPlugin::playback_loop(char *buffer, struct uade_state* state) {
 bool UADEPlugin::play(const char *uri, VFSFile &file) {
     TRACE("uade_plugin_play %s\n", uri);
 
-    StringBuf path(4096);
-    StringBuf name(256);
-    char buffer[4096];
+    string path, name, ext;
+    optional<string> formatname, modulemd5;
     int subsong, rate;
     bool ret = false;
     struct uade_state *state = NULL;
 
-    subsong = parse_uri(uri, &path, &name, NULL);
+    subsong = parse_uri(uri, path, name, ext);
 
     state = create_uade_state(NULL);
     if (!state) {
@@ -537,9 +514,6 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     rate = uade_get_sampling_rate(state);
 
     open_audio(FMT_S16_NE, rate, 2);
-
-    optional<string> formatname;
-    optional<string> modulemd5;
 
     switch (play_uade(uri, file, path, name, subsong, state, formatname, modulemd5)) {
         case 1:
@@ -552,7 +526,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
                     formatname.has_value() ? formatname.value().c_str() : parse_codec(info));
                 set_playback_tuple(tuple.ref());
             }
-            ret = playback_loop(buffer, state);
+            ret = playback_loop(state);
             break;
         default:
             ERROR("Could not play %s\n", uri);
