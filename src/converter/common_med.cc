@@ -240,8 +240,7 @@ vector<char> serializeMMD0(
     const MMD0exp0 &exp,
     const vector<InstrExt> &exp_smp
 ) {
-    // MMD0 structs are internally big endian already
-    int written;
+    // MMD0 structs are internally big endian
 
     const ULONG offs_song = 52;
     const ULONG offs_blockarr = offs_song + 788;

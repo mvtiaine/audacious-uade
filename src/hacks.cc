@@ -201,15 +201,13 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
     // for example cust.zoids (aka zoids.src) and other SunTronic customs will first request instr/ directory (for listing?)
     // just return empty file for directories to make them happy
     struct stat s;
-    if (stat(name,&s) == 0) {
-        if (s.st_mode & S_IFDIR) {
-            DEBUG("amiga_loader_wrapper returning dummy file for directory %s\n", name);
-            struct uade_file *dummyfile = (struct uade_file *)malloc(sizeof(struct uade_file));
-            dummyfile->name = NULL;
-            dummyfile->data = NULL;
-            dummyfile->size = 0;
-            return dummyfile;
-        }
+    if (stat(name,&s) == 0 && s.st_mode & S_IFDIR) {
+        DEBUG("amiga_loader_wrapper returning dummy file for directory %s\n", name);
+        struct uade_file *dummyfile = (struct uade_file *)malloc(sizeof(struct uade_file));
+        dummyfile->name = NULL;
+        dummyfile->data = NULL;
+        dummyfile->size = 0;
+        return dummyfile;
     }
 
     return uade_load(name, playerdir, state);
