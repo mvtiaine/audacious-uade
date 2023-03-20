@@ -8,8 +8,10 @@
 #include <cstdint>
 #ifdef __APPLE__
 #include "../3rdparty/macos_endian.h"
+#define CONSTEXPR constexpr
 #else
 #include <endian.h>
+#define CONSTEXPR
 #endif
 
 using namespace std;
@@ -18,8 +20,8 @@ namespace converter {
 
 struct be_int32_t {
     constexpr be_int32_t() : be_val(0) {}
-    be_int32_t(const int32_t &val) : be_val(htobe32(val)) {}
-    constexpr operator int32_t() const {
+    CONSTEXPR be_int32_t(const int32_t &val) : be_val(htobe32(val)) {}
+    CONSTEXPR operator int32_t() const {
         return be32toh(be_val);
     }
     int32_t be_val;
@@ -27,8 +29,8 @@ struct be_int32_t {
 
 struct be_uint32_t {
     constexpr be_uint32_t() : be_val(0) {}
-    be_uint32_t(const uint32_t &val) : be_val(htobe32(val)) {}
-    operator uint32_t() const {
+    CONSTEXPR be_uint32_t(const uint32_t &val) : be_val(htobe32(val)) {}
+    CONSTEXPR operator uint32_t() const {
         return be32toh(be_val);
     }
     uint32_t be_val;
@@ -37,8 +39,8 @@ struct be_uint32_t {
 
 struct be_int16_t {
     constexpr be_int16_t() : be_val(0) {}
-    be_int16_t(const int16_t &val) : be_val(htobe16(val)) {}
-    constexpr operator int16_t() const {
+    CONSTEXPR be_int16_t(const int16_t &val) : be_val(htobe16(val)) {}
+    CONSTEXPR operator int16_t() const {
         return be16toh(be_val);
     }
     int16_t be_val;
@@ -46,8 +48,8 @@ struct be_int16_t {
 
 struct be_uint16_t {
     constexpr be_uint16_t() : be_val(0) {}
-    be_uint16_t(const uint16_t &val) : be_val(htobe16(val)) {}
-    constexpr operator uint16_t() const {
+    CONSTEXPR be_uint16_t(const uint16_t &val) : be_val(htobe16(val)) {}
+    CONSTEXPR operator uint16_t() const {
         return be16toh(be_val);
     }
     uint16_t be_val;
