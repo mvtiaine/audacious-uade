@@ -5,6 +5,7 @@
 // and comparing the MED V3.21 saved MED4 vs MMD0 files.
 
 #include <cstdint>
+#include <cstring>
 #include <string>
 #include <utility>
 #include <vector>
