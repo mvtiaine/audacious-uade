@@ -123,11 +123,11 @@ struct uade_file *tfmx_loader_wrapper(const char *name, const char *playerdir, v
             return uade_load(new_filename, playerdir, state);
         }
         if (!buf[0]) {
-            strlcat(buf, middle, sizeof(buf));
+            strncat(buf, middle, sizeof(buf) - strlen(buf) - 1);
             middle = buf;
         }
-        strlcat(buf, sep, sizeof(buf));
-        strlcat(buf, suffix, sizeof(buf));
+        strncat(buf, sep, sizeof(buf) - strlen(buf) - 1);
+        strncat(buf, suffix, sizeof(buf) - strlen(buf) - 1);
     }
 
     struct uade_file *amiga_file = uade_load(name, playerdir, state);
