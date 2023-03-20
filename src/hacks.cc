@@ -2,7 +2,9 @@
 // Copyright (C) 2014-2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include <libgen.h>
+#include <string.h>
 #include <sys/stat.h>
+
 #include <algorithm>
 #include <cstdlib>
 #include <cstring>
