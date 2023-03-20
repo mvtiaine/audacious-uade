@@ -61,7 +61,7 @@ struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_
     if (amiga_file) {
         TRACE("amiga_loader_wrapper found file: %s\n", name);
     } else {
-        TRACE("amiga_loader_wrapper NOT found file: %s\n", name);
+        ERROR("amiga_loader_wrapper could NOT find file: %s\n", name);
     }
     return amiga_file;
 }
