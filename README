@@ -1,4 +1,5 @@
 This is Audacious (https://audacious-media-player.org/) input plugin for UADE (https://zakalwe.fi/uade/).
+Modland (http://ftp.modland.com/) allmods_md5.txt is used for author name lookups. 
 
 * Requirements:
 - Audacious >= 3.8
@@ -16,6 +17,6 @@ make
 mkdir -p "${HOME}/.uade" && cp -i conf/* "${HOME}/.uade/"
 
 * Other notes:
-- Currently only tested on OSX, but should work on Linux as well.
-- My custom playlist entry template:
+- Tested on OSX and Linux.
+- My custom Audacious playlist entry template:
 ${?codec:[${codec}]}  -  ${?artist:${artist}  -  }${?album:${album}  -  }${title}  ${?copyright:-  (${copyright})} ${?year:- (${year})} ${?subsong-id:${?subsong-num:-  [${subsong-id}/${subsong-num}]}}
