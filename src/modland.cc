@@ -227,7 +227,7 @@ bool parse_modland_path(const string &path, ModlandData &item) {
             if (token.find(COOP) == 0) {
                 author = author + " & " + token.substr(COOP.length());
             } else {
-                WARN("Skipped path: %s\n", path.c_str());
+                DEBUG("Skipped path: %s\n", path.c_str());
                 return 1;
             }
             album = tokens[3];
