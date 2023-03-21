@@ -12,13 +12,12 @@ uade_la_SOURCES = \
 uade_la_LDFLAGS = -avoid-version -module -shared $(UADE_LIBS) $(AUDACIOUS_LIBS)
 uade_la_CFLAGS = $(UADE_CFLAGS) $(AUDACIOUS_CFLAGS)
 
-install-exec-hook:
-# for MacOS symlink uade.dylib -> uade.so
+install-data-hook:
 # TODO better way (build .dylib directly)
+# for MacOS symlink uade.dylib -> uade.so
 if BUILD_MACOS
 	ln -sf $(plugindir)/uade.so $(plugindir)/uade.dylib
 endif
-# TODO avoid installing .la
-if !BUILD_WIN32
+# TODO better way
+# remove .la cruft
 	rm -f $(plugindir)/uade.la
-endif

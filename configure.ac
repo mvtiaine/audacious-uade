@@ -22,14 +22,13 @@ AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_FILES(Makefile
                 src/Makefile
                 src/converter/Makefile)
-AC_OUTPUT
 
 # AC_CANONICAL_HOST is needed to access the 'host_os' variable
 AC_CANONICAL_HOST
 
 build_linux=no
 build_windows=no
-build_mac=no
+build_macos=no
 
 # Detect the target system
 case "${host_os}" in
@@ -40,7 +39,7 @@ case "${host_os}" in
         build_windows=yes
         ;;
     darwin*)
-        build_mac=yes
+        build_macos=yes
         ;;
     *)
         AC_MSG_ERROR(["OS $host_os is not supported"])
@@ -49,4 +48,6 @@ esac
 
 AM_CONDITIONAL([BUILD_LINUX], [test "$build_linux" = "yes"])
 AM_CONDITIONAL([BUILD_WIN32], [test "$build_windows" = "yes"])
-AM_CONDITIONAL([BUILD_MACOS], [test "$build_mac" = "yes"])
+AM_CONDITIONAL([BUILD_MACOS], [test "$build_macos" = "yes"])
+
+AC_OUTPUT
