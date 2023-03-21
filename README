@@ -17,6 +17,7 @@ make
 mkdir -p "${HOME}/.uade" && cp -i conf/* "${HOME}/.uade/"
 
 * Other notes:
+- Case sensitive filesystems may cause issues for formats with external samples.
 - Tested on OSX and Linux.
 - My custom Audacious playlist entry template:
 ${?codec:[${codec}]}  -  ${?artist:${artist}  -  }${?album:${album}  -  }${title}  ${?copyright:-  (${copyright})} ${?year:- (${year})} ${?subsong-id:${?subsong-num:-  [${subsong-id}/${subsong-num}]}}
