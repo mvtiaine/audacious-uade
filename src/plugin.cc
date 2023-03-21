@@ -310,7 +310,7 @@ public:
     };
 
     constexpr UADEPlugin() : InputPlugin(info, InputInfo(FlagSubtunes)
-        .with_priority(-1) // to avoid some files being recognized as MP3
+        .with_priority(_AUD_PLUGIN_DEFAULT_PRIO - 1) // preempt openmpt, modplug, mpg123 etc. plugins (mpg123 has many false positives)
         .with_exts(plugin_extensions)
         .with_mimes(plugin_mimes)) {}
 
