@@ -1,3 +1,10 @@
+0.5 - 2023-03-21
+- Code cleanups
+- ZoundMonitor support for Modland directory layout
+- Fix sample loading for some SunTronic customs (cust.zoids etc.)
+- Fixed build/install issues on Linux & GCC
+- Update Modland author db
+
 0.4 - 2023-03-19
 - Add hard timeout for precalc
 - Implement MED4 support 
