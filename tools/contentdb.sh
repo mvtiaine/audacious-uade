@@ -6,7 +6,7 @@ run_uade() {
   mkdir -p $HOME
   MD5=$(md5 -q "$2")
   if ! grep -q $MD5 "$HOME/.uade/contentdb"; then
-    uade123 -1 --frequency=3000 --filter=none --resampler=none --panning=0 -f /dev/null "$2" > /dev/null 2>/dev/null
+    uade123 -1 --frequency=8000 --filter=none --resampler=none --panning=0 -f /dev/null "$2" > /dev/null 2>/dev/null
   fi
 }
 
