@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
+// SPDX-License-Identifier: LGPL-2.0-or-later
 // Copyright (C) 2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 // 
 // MED4 file format parsing based on sources included in MED 2.10 distribution, disassembled DeliTracker converter genie
@@ -269,7 +269,6 @@ bool isMED4(const char *buf, const size_t size) {
     return memcmp(magic, buf, sizeof(magic)) == 0;
 }
 
-/** throws std::out_of_range */
 ConverterResult convertMED4(const char *buf, const size_t size) {
     // TODO add metadata about conversion (annotxt?)
     assert(isMED4(buf, size));
