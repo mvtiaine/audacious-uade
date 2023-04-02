@@ -367,6 +367,7 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
     }
 
     if (needs_conversion(uri, file)) {
+        DEBUG("uade_plugin_is_our_file needs conversion: %s\n", uri);
         // don't try uade_play yet
         return true;
     }
