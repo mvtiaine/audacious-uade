@@ -6,7 +6,7 @@ Modland (http://ftp.modland.com/) allmods_md5.txt is used for author name lookup
 - UADE >= 3.0
 
 * To build:
-autoreconf -ivf
+autoreconf
 ./configure
 make
 
