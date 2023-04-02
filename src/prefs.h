@@ -10,7 +10,7 @@
 
 const char * const plugin_defaults[] = {
    MODLAND_ALLMODS_MD5_FILE, "",
-   NULL
+    nullptr
 };
 
 const PreferencesWidget prefs_widgets[] = {

@@ -106,10 +106,10 @@ struct uade_file *tfmx_loader_wrapper(const char *name, const char *playerdir, v
     buf[0] = 0;
 
     for((prefix = strtok(filename, sep)) &&
-        (middle = strtok(NULL, sep)) &&
-        (suffix = strtok(NULL, sep));
+        (middle = strtok(nullptr, sep)) &&
+        (suffix = strtok(nullptr, sep));
         prefix && middle && suffix;
-        suffix = strtok(NULL, sep)) {
+        suffix = strtok(nullptr, sep)) {
 
         TRACE("tfmx_loader_wrapper prefix:%s middle:%s suffix:%s\n", prefix, middle, suffix);
 
@@ -205,8 +205,8 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
     if (stat(name,&s) == 0 && s.st_mode & S_IFDIR) {
         DEBUG("amiga_loader_wrapper returning dummy file for directory %s\n", name);
         struct uade_file *dummyfile = (struct uade_file *)malloc(sizeof(struct uade_file));
-        dummyfile->name = NULL;
-        dummyfile->data = NULL;
+        dummyfile->name = nullptr;
+        dummyfile->data = nullptr;
         dummyfile->size = 0;
         return dummyfile;
     }

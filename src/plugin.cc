@@ -341,7 +341,7 @@ bool UADEPlugin::init() {
 void UADEPlugin::cleanup() {
     DEBUG("uade_plugin_cleanup\n");
     for (int i = 0; i < MAX_PROBES; ++i) {
-        if (probes[i].state != NULL) {
+        if (probes[i].state != nullptr) {
             cleanup_uade_state(probes[i].state);
         }
     }
@@ -502,11 +502,11 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     optional<string> formatname, modulemd5;
     int subsong, rate;
     bool ret = false;
-    struct uade_state *state = NULL;
+    struct uade_state *state = nullptr;
 
     subsong = parse_uri(uri, path, name, ext);
 
-    state = create_uade_state(NULL);
+    state = create_uade_state();
     if (!state) {
         ERROR("Could not init uade state\n");
         return false;
