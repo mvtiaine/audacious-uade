@@ -97,7 +97,6 @@
 ^.{33}Paul Summers/
 ^.{33}Peter Verswyvelen/
 ^.{33}Pierre Adane Packer/
-^.{33}PokeyNoise/
 ^.{33}Powertracker/
 ^.{33}Pretracker/
 ^.{33}Professional Sound Artists/
@@ -141,7 +140,6 @@
 ^.{33}Synth Dream/
 ^.{33}Synth Pack/
 ^.{33}Synthesis/
-^.{33}TCB Tracker/
 ^.{33}TFMX/
 ^.{33}The Musical Enlightenment/
 ^.{33}Thomas Hermann/
@@ -153,9 +151,11 @@
 ^.{33}Ben Daglish SID/
 ^.{33}Hippel ST/
 ^.{33}Hippel ST COSO/
+^.{33}PokeyNoise/
 ^.{33}Quartet PSG/
 ^.{33}Quartet ST/
 ^.{33}Rob Hubbard ST/
 ^.{33}Special FX ST/
+^.{33}TCB Tracker/
 ^.{33}TFMX ST/
 ^.{33}YMST/

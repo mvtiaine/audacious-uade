@@ -29,7 +29,6 @@ const set<string> modland_amiga_formats ({
     "BP SoundMon 3",
     "Beathoven Synthesizer",
     "Ben Daglish",
-    "Ben Daglish SID", // C64
     "Core Design",
     "CustomMade",
     "Cybertracker",
@@ -72,8 +71,6 @@ const set<string> modland_amiga_formats ({
     "Hippel",
     "Hippel 7V",
     "Hippel COSO",
-    "Hippel ST", // ST
-    "Hippel ST COSO", // ST
     "HivelyTracker",
     "Howie Davies",
     "Images Music System",
@@ -117,7 +114,6 @@ const set<string> modland_amiga_formats ({
     "Paul Summers",
     "Peter Verswyvelen",
     "Pierre Adane Packer",
-    "PokeyNoise",
     "Powertracker",
     "Pretracker",
     "Professional Sound Artists",
@@ -125,12 +121,9 @@ const set<string> modland_amiga_formats ({
     "Protracker IFF",
     "Pumatracker",
     "Quadra Composer",
-    "Quartet PSG", // ST
-    "Quartet ST", // ST
     "Richard Joseph",
     "Riff Raff",
     "Rob Hubbard",
-    "Rob Hubbard ST", // ST
     "Ron Klaren",
     "SCUMM",
     "Sean Connolly",
@@ -152,7 +145,6 @@ const set<string> modland_amiga_formats ({
     "Soundtracker 2.6",
     "Soundtracker Pro II",
     "Special FX",
-    "Special FX ST", // ST
     "Speedy A1 System",
     "Speedy System",
     "Startrekker AM",
@@ -165,17 +157,25 @@ const set<string> modland_amiga_formats ({
     "Synth Dream",
     "Synth Pack",
     "Synthesis",
-    "TCB Tracker",
     "TFMX",
-    "TFMX ST", // ST
     "The Musical Enlightenment",
     "Thomas Hermann",
     "Tomy Tracker",
     "Unique Development",
     "Voodoo Supreme Synthesizer",
     "Wally Beben",
-    "YMST", // ST
-    "Zoundmonitor"
+    "Zoundmonitor",
+    "Ben Daglish SID", // C64
+    "Hippel ST", // Atari ST
+    "Hippel ST COSO", // Atari ST
+    "PokeyNoise", // Atari XL/XE
+    "Quartet PSG", // Atari ST
+    "Quartet ST", // Atari ST
+    "Rob Hubbard ST", // Atari ST
+    "Special FX ST", // Atari ST
+    "TCB Tracker", // Atari ST
+    "TFMX ST", // Atari ST
+    "YMST", // Atari ST
 });
 
 constexpr string_view COOP = "coop-";
