@@ -29,10 +29,6 @@ constexpr const char *PLUGIN_NAME = "uade";
 # define TRACE(fmt,...) while (0)
 #endif
 
-// pref keys
-constexpr const char *MODLAND_ALLMODS_MD5_FILE = "modland_allmods_md5_file";
-constexpr const char *PRECALC_SONGLENGTHS = "precalc_songlengths";
-
 inline vector<string> split(const string &str, const string &delimiter) {
     vector<string> tokens;
     size_t pos = 0;

@@ -8,7 +8,7 @@
 
 static const char * const plugin_mimes[] = {
     UADE_MIMETYPE,
-    NULL
+    nullptr
 };
 
 // hybrid of UADE eagleplayer.conf and modland file extensions
@@ -231,7 +231,7 @@ static const char * const plugin_extensions[] = {
     //"spm", // Stonetracker
     //"symmod", // Symphonie
 
-    NULL
+    nullptr
 };
 
 #endif /* EXTENSIONS_H_ */

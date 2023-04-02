@@ -5,6 +5,7 @@ uade_la_SOURCES = \
     plugin.cc \
     modland.cc \
     hacks.cc \
+    uade_config.cc \
     converter/converter.cc \
     converter/common_med.cc \
     converter/converter_med4.cc \

@@ -45,37 +45,6 @@ void cleanup_uade_state(struct uade_state *state) {
     pthread_mutex_unlock(&probe_mutex);
 }
 
-struct uade_state *create_uade_state(struct uade_config *uc) {
-#ifdef DEBUG_TRACE
-    if (!uc) {
-        uc = uade_new_config();
-        uade_config_set_option(uc, UC_VERBOSE, NULL);
-    }
-#endif
-    struct uade_state *state = uade_new_state(uc);
-    uade_set_amiga_loader(amiga_loader_wrapper, NULL, state);
-    return state;
-}
-
-struct uade_state *create_uade_probe_state() {
-    struct uade_config *uc = uade_new_config();
-#ifdef DEBUG_TRACE
-    uade_config_set_option(uc, UC_VERBOSE, NULL);
-#endif
-    uade_config_set_option(uc, UC_FREQUENCY, "3000");
-    uade_config_set_option(uc, UC_FILTER_TYPE, "none");
-    uade_config_set_option(uc, UC_RESAMPLER, "none");
-    uade_config_set_option(uc, UC_PANNING_VALUE, "0");
-    uade_config_set_option(uc, UC_ONE_SUBSONG, NULL);
-    uade_config_set_option(uc, UC_NO_FILTER, NULL);
-    uade_config_set_option(uc, UC_NO_HEADPHONES, NULL);
-    uade_config_set_option(uc, UC_NO_PANNING, NULL);
-    uade_config_set_option(uc, UC_NO_POSTPROCESSING, NULL);
-    struct uade_state *state = uade_new_state(uc);
-    uade_set_amiga_loader(amiga_loader_wrapper, NULL, state);
-    return state;
-}
-
 struct probe_state *get_probe_state() {
     pthread_mutex_lock (&probe_mutex);
     struct probe_state *state;
@@ -231,8 +200,8 @@ int precalc_songlength(struct uade_state *state) {
     ssize_t nbytes;
     uint64_t totalbytes = 0;
     const int bytespersec = UADE_BYTES_PER_FRAME * uade_get_sampling_rate(state);
-    // cut short after 1h as UADE plays some mods for hours or possibly forever (with always_ends default)
-    uint64_t maxbytes = 3600 * bytespersec;
+    // UADE plays some mods for hours or possibly forever (with always_ends default)
+    uint64_t maxbytes = aud_get_int(PLUGIN_NAME, PRECALC_TIMEOUT) * bytespersec;
     while ((nbytes = render_audio(buffer, state)) > 0) {
         totalbytes += nbytes;
         if (totalbytes >= maxbytes) {
@@ -332,6 +301,7 @@ EXPORT UADEPlugin aud_plugin_instance;
 bool UADEPlugin::init() {
     DEBUG("uade_plugin_init\n");
     aud_config_set_defaults (PLUGIN_NAME, plugin_defaults);
+    aud_config_set_defaults (PLUGIN_NAME, uade_defaults);
     for (int i = 0; i < MAX_PROBES; ++i) {
         probes[i] = {};
     }
@@ -341,7 +311,7 @@ bool UADEPlugin::init() {
 void UADEPlugin::cleanup() {
     DEBUG("uade_plugin_cleanup\n");
     for (int i = 0; i < MAX_PROBES; ++i) {
-        if (probes[i].state != NULL) {
+        if (probes[i].state != nullptr) {
             cleanup_uade_state(probes[i].state);
         }
     }
@@ -367,6 +337,7 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
     }
 
     if (needs_conversion(uri, file)) {
+        DEBUG("uade_plugin_is_our_file needs conversion: %s\n", uri);
         // don't try uade_play yet
         return true;
     }
@@ -502,11 +473,11 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     optional<string> formatname, modulemd5;
     int subsong, rate;
     bool ret = false;
-    struct uade_state *state = NULL;
+    struct uade_state *state = nullptr;
 
     subsong = parse_uri(uri, path, name, ext);
 
-    state = create_uade_state(NULL);
+    state = create_uade_state();
     if (!state) {
         ERROR("Could not init uade state\n");
         return false;
