@@ -195,7 +195,7 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
         return tfmx_loader_wrapper(name, playerdir, context, state);
     }
 
-    if (player.find("ZoundMonitor") != player.npos) {
+    if (player.find("/ZoundMonitor") != player.npos) {
         return sample_loader_wrapper(name, playerdir, context, state);
     }
 
