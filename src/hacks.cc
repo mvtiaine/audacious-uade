@@ -11,7 +11,14 @@
 #include <string>
 #include <vector>
 
+#include "config.h"
+#ifdef SYSTEM_LIBUADE
 #include <uade/uade.h>
+#else
+#include "../uade/src/frontends/include/uade/options.h"
+#include "../uade/src/frontends/include/uade/uadeconfstructure.h"
+#include "../uade/src/frontends/include/uade/uade.h"
+#endif
 
 #include "common.h"
 

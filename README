@@ -2,8 +2,8 @@ This is Audacious (https://audacious-media-player.org/) input plugin for UADE (h
 Modland (http://ftp.modland.com/) allmods_md5.txt is used for author name lookups. 
 
 * Requirements:
-- Audacious >= 3.8
-- UADE >= 3.0
+Audacious >= 3.8
+libuade >= 3.0 if using system libuade instead of the bundled one
 
 * To build:
 autoreconf
@@ -13,11 +13,12 @@ make
 * To install:
 (sudo) make install
 
-* To install author and songlength dbs:
-mkdir -p "${HOME}/.uade" && cp -i conf/* "${HOME}/.uade/"
+* To use system libuade instead of bundled one:
+./configure --with-system-libuade
 
 * Other notes:
-- Case sensitive filesystems may cause issues for formats with external samples.
-- Tested on OSX and Linux.
+- The bundled uade includes some bug fixes and format support updates not (yet) merged to uade master branch
+- Case sensitive filesystems may cause issues for formats with external samples
+- Tested on OSX and Linux
 - My custom Audacious playlist entry template:
 ${?codec:[${codec}]}  -  ${?artist:${artist}  -  }${?album:${album}  -  }${title}  ${?copyright:-  (${copyright})} ${?year:- (${year})} ${?subsong-id:${?subsong-num:-  [${subsong-id}/${subsong-num}]}}

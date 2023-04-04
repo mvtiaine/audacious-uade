@@ -260,8 +260,7 @@ void try_init(void) {
     string md5_file = string(aud_get_str (PLUGIN_NAME, MODLAND_ALLMODS_MD5_FILE));
 
     if (md5_file.empty()) {
-        const char *home = getenv ("HOME");
-        md5_file = string(home) + "/.uade/allmods_md5_amiga.txt";
+        md5_file = UADEDIR "/allmods_md5_amiga.txt";
     }
 
     if (previous_md5_file == md5_file) {
@@ -275,7 +274,7 @@ void try_init(void) {
    
     ifstream allmods(md5_file.c_str(), ios::in);
     if (!allmods.is_open()) {
-        DEBUG("Could not open modland md5 file %s\n", md5_file.c_str());
+        ERROR("Could not open modland md5 file %s\n", md5_file.c_str());
         return;
     }
 

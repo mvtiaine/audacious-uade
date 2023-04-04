@@ -14,9 +14,15 @@
 #include <libaudcore/runtime.h>
 #include <libaudcore/vfs.h>
 
-#include <uade/uade.h>
-
 #include "config.h"
+#ifdef SYSTEM_LIBUADE
+#include <uade/uade.h>
+#else
+#include "../uade/src/frontends/include/uade/options.h"
+#include "../uade/src/frontends/include/uade/uadeconfstructure.h"
+#include "../uade/src/frontends/include/uade/uade.h"
+#endif
+
 #include "common.h"
 #include "extensions.h"
 #include "hacks.h"
@@ -269,6 +275,12 @@ public:
         "Written by Matti Tiainen <mvtiaine@cc.hut.fi>\n"
         "\n"
         "UADE: https://zakalwe.fi/uade/\n"
+        "\n"
+#ifdef SYSTEM_LIBUADE
+        "Using system libuade " UADE_VERSION "\n"
+#else
+        "Using bundled libuade " UADE_VERSION "\n"
+#endif
         "\n"
         "Simplistic Binary Streams 1.0.3\n"
         "Copyright (C) 2014 - 2019\n"
