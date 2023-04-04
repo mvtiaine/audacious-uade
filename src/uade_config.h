@@ -19,7 +19,7 @@ const char * const uade_defaults[] = {
    "headphones",        "FALSE",
    "headphones2",       "FALSE",
    "gain",              "1.0",
-   "subsong_timeout",   "512",
+   "subsong_timeout",   "600",
    "silence_timeout",   "20",
    nullptr
 };
@@ -59,9 +59,8 @@ const PreferencesWidget uade_audio_widgets2[] = {
 
 const PreferencesWidget uade_timeout_widgets[] = {
     WidgetLabel("<b>Timeouts (seconds)</b>"),
-    WidgetSpin("Song timeout", WidgetInt(PLUGIN_NAME, "subsong_timeout"), {-1, 3600, 5}, WIDGET_CHILD),
-    WidgetLabel("<i>-1 to disable</i>", WIDGET_CHILD),
-    WidgetSpin("Silence timeout", WidgetInt(PLUGIN_NAME, "silence_timeout"), {0, 3600, 1}, WIDGET_CHILD),
+    WidgetSpin("Song timeout", WidgetInt(PLUGIN_NAME, "subsong_timeout"), {1, 3600, 5}, WIDGET_CHILD),
+    WidgetSpin("Silence timeout", WidgetInt(PLUGIN_NAME, "silence_timeout"), {1, 3600, 1}, WIDGET_CHILD),
 };
 
 struct uade_state *create_uade_state();

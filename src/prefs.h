@@ -22,13 +22,15 @@ const char * const plugin_defaults[] = {
 };
 
 const PreferencesWidget plugin_widgets[] = {
-    WidgetLabel("Modland <i>allmods-md5.txt</i> path:"),
+    WidgetLabel("Modland <i>allmods-md5.txt</i> path"),
     WidgetFileEntry("",
         WidgetString(PLUGIN_NAME, MODLAND_ALLMODS_MD5_FILE), WidgetVFileEntry()),
+    WidgetLabel("<i>If empty a bundled one is used</i>", WIDGET_CHILD),
     WidgetSeparator(),
-    WidgetCheck("Precalc missing song lengths (heavy)",
+    WidgetCheck("Precalc missing song lengths",
         WidgetBool(PLUGIN_NAME, PRECALC_SONGLENGTHS)),
-    WidgetSpin("Playback timeout", WidgetInt(PLUGIN_NAME, "precalc_timeout"), {0, 3600, 5, "<i>seconds</i>"}, WIDGET_CHILD),
+    WidgetSpin("Timeout", WidgetInt(PLUGIN_NAME, "precalc_timeout"), {0, 3600, 5, "<i>seconds</i>"}, WIDGET_CHILD),
+    WidgetLabel("<i>Affects (Pro)tracker formats</i>", WIDGET_CHILD),
 };
 
 const PreferencesWidget middle_column[] = {
