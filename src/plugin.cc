@@ -47,7 +47,7 @@ void cleanup_uade_state(struct uade_state *state) {
 
 struct probe_state *get_probe_state() {
     pthread_mutex_lock (&probe_mutex);
-    struct probe_state *state;
+    struct probe_state *state = nullptr;
     for (int i = 0; i < MAX_PROBES; ++i) {
         if (probes[i].available) {
             probes[i].available = false;
@@ -87,7 +87,6 @@ int parse_uri(const char *uri, string &path, string &name, string &ext) {
 
 constexpr string_view TYPE_PREFIX = "type: ";
 constexpr string_view UNKNOWN_CODEC = "UADE";
-constexpr string_view ERRORED_CODEC = "UADE ERROR";
 
 const string parse_codec(const struct uade_song_info *info) {
     const string_view formatname(info->formatname);
