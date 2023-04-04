@@ -6,7 +6,7 @@ Audacious >= 3.8
 libuade >= 3.0 if using system libuade instead of the bundled one
 
 * To build:
-autoreconf
+autoreconf -i
 ./configure
 make
 
