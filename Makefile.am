@@ -1,3 +1,6 @@
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = src src/converter
+SUBDIRS = $(subdirs_extra) src src/converter
+
+install installdirs: SUBDIRS = src src/converter
+uninstall uninstalldirs: SUBDIRS = src src/converter
