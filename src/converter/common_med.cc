@@ -152,10 +152,8 @@ void serializeExp(simple::mem_ostream<true_type> &out, const MMD0song &song, con
     out << nil; // offs_mmdinfo;
     out << nil; // offs_mmdrexx;
     out << nil; // offs_mmdcmd3x;
-    int j = 0;
-    for (const auto b : exp.reserved2) {
-        out << b;                                                   TRACE("exp.reserved2[%d]: %u\n", j, (uint32_t)b);
-        j++;
+    for (int i = 0; i < size(exp.reserved2); ++i) {
+        out << exp.reserved2[i];                                    TRACE("exp.reserved2[%d]: %u\n", i, (uint32_t)b);
     }
     out << exp.tag_end;                                             TRACE("exp.tag_end: %u\n", (uint32_t)exp.tag_end);
     for (int i = 0; i < exp.s_ext_entries; ++i) {
