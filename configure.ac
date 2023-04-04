@@ -40,9 +40,14 @@ else
 AC_MSG_RESULT(no)
 AC_CHECK_FILE([uade], [], AC_MSG_ERROR([Could not find uade submodule. Please retry after running: git submodule update --init --recursive]))
 export CFLAGS="-DDISABLE_RMC -DDISABLE_LOGGING -DDISABLE_STATE_DETECTION -flto -fvisibility=hidden -fdata-sections -ffunction-sections ${CFLAGS}"
+uade_prefix=${prefix}
+if test "$uade_prefix" = "NONE"
+then
+  uade_prefix=/usr/local
+fi
 AX_SUBDIRS_CONFIGURE([uade], [
     [--without-uade123], [--without-uadesimple], [--without-write-audio],[--without-uadefs],
-    [--prefix=\${prefix}/share/audacious/uade],
+    [--prefix=\${uade_prefix}/share/audacious/uade],
     [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
     [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
 ], []
