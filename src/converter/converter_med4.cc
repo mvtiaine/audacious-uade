@@ -19,7 +19,7 @@ using namespace converter::med;
 
 namespace {
 
-void readSong(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, int &offs) {
+void readSong(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, unsigned int &offs) {
     ULONG samplemask[2], *smskptr = samplemask;
     UBYTE smskmsk, *smptr0 = (UBYTE *)samplemask;
     MMD0sample *ss;
@@ -82,7 +82,7 @@ void readSong(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, int &offs
     }
 }
 
-void readBlock(const vector<char> &med4, MMD0Block &block, int &offs) {
+void readBlock(const vector<char> &med4, MMD0Block &block, unsigned int &offs) {
     UBYTE hdrsz,hdr[80],trks,lines,mskmsks[8],msks,msk2,msk3 = 0;
     vector<UBYTE> conv;
     UWORD hdrsn = 0,convsz;
@@ -116,7 +116,7 @@ void readBlock(const vector<char> &med4, MMD0Block &block, int &offs) {
     return;
 }
 
-void readSynthInstr(const vector<char> &med4, SynthInstr &instr, int &offs) {
+void readSynthInstr(const vector<char> &med4, SynthInstr &instr, unsigned int &offs) {
     int instroffs = offs;
     readu32be(med4, offs); // synth instr header(?)
     reads16be(med4, offs); // FFFF (?)
@@ -158,7 +158,7 @@ void readSynthInstr(const vector<char> &med4, SynthInstr &instr, int &offs) {
     instr.length = 22 + instr.voltbl.size() + instr.wftbl.size() + instr.wf.size()* 4;
 }
 
-void readSamples(const vector<char> &med4, MMD0song &song, vector<Instr> &smplarr, int &offs) {
+void readSamples(const vector<char> &med4, MMD0song &song, vector<Instr> &smplarr, unsigned int &offs) {
     ULONG imsk[2] = { 0,0 },*imptr = imsk;
     UBYTE snum = 0;
     imsk[0] = readu32be(med4, offs);
@@ -190,7 +190,7 @@ void readSamples(const vector<char> &med4, MMD0song &song, vector<Instr> &smplar
     song.numsamples = instrcnt;
 }
 
-vector<InstrExt> readIFF(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, int &offs) {
+vector<InstrExt> readIFF(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, unsigned int &offs) {
     constexpr uint32_t ANNO = 0x414e4e4f;
     constexpr uint32_t CHNS = 0x43484e53;
     constexpr uint32_t HLDC = 0x484c4443;
@@ -274,7 +274,7 @@ ConverterResult convertMED4(const char *buf, const size_t size) {
     assert(isMED4(buf, size));
 
     ConverterResult res;
-    int med4offs = 4; // skip id
+    unsigned int med4offs = 4; // skip id
 
     MMD0 mmd0 {};
     MMD0song song {};

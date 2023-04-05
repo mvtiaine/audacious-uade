@@ -142,7 +142,7 @@ void serializeExp(simple::mem_ostream<true_type> &out, const MMD0song &song, con
     out << exp.i_ext_entrsz;                                        TRACE("exp.i_ext_entrsz: %u\n", (uint16_t)exp.i_ext_entrsz);
     out << nil; // exp.jumpmask;
     out << nil; // offs_rgbtable;
-    for (int i = 0; i < size(exp.channelsplit); ++i) {
+    for (unsigned int i = 0; i < size(exp.channelsplit); ++i) {
         out << exp.channelsplit[i];                                 TRACE("exp.channelsplit[%d]: %u\n", i, exp.channelsplit[i]);
     }
     out << nil; // offs_n_info;
@@ -152,7 +152,7 @@ void serializeExp(simple::mem_ostream<true_type> &out, const MMD0song &song, con
     out << nil; // offs_mmdinfo;
     out << nil; // offs_mmdrexx;
     out << nil; // offs_mmdcmd3x;
-    for (int i = 0; i < size(exp.reserved2); ++i) {
+    for (unsigned int i = 0; i < size(exp.reserved2); ++i) {
         out << exp.reserved2[i];                                    TRACE("exp.reserved2[%d]: %u\n", i, (uint32_t)b);
     }
     out << exp.tag_end;                                             TRACE("exp.tag_end: %u\n", (uint32_t)exp.tag_end);
@@ -269,7 +269,7 @@ vector<char> serializeMMD0(
     assert(blockdata.size() > 0);
     out << offs_blockarr;                                           TRACE("mmd0.blockarr: 0x%.8x\n", (uint32_t)offs_blockarr);
     out << mmd0.mmdflags;                                           TRACE("mmd0.mmdflags: 0x%.2x\n", mmd0.mmdflags);
-    for (int i = 0; i < size(mmd0.reserved); ++i) {
+    for (unsigned int i = 0; i < size(mmd0.reserved); ++i) {
         out << mmd0.reserved[i];                                    TRACE("mmd0.reserved[%d]: %u\n", i, mmd0.reserved[i]);
     }
     out << (sampledata.size() > 0 ? offs_smplarr: nil);             TRACE("mmd0.smplarr: 0x%.8x\n", (uint32_t)(sampledata.size() > 0 ? offs_smplarr: nil));
@@ -301,7 +301,7 @@ vector<char> serializeMMD0(
      }
     out << song.numblocks;                                          TRACE("mmd0song.numblocks %u\n", (uint16_t)song.numblocks);
     out << song.songlen;                                            TRACE("mmd0song.songlen %u\n", (uint16_t)song.songlen);
-    for (int i = 0; i < size(song.playseq); ++i) {
+    for (unsigned int i = 0; i < size(song.playseq); ++i) {
         out << song.playseq[i];
         if (song.playseq[i] != 0)                                   TRACE("mmd0song.playseq[%d]: %u\n", i, song.playseq[i]);
     }
@@ -310,7 +310,7 @@ vector<char> serializeMMD0(
     out << song.flags;                                              TRACE("mmd0song.flags 0x%.2x\n", song.flags);
     out << song.flags2;                                             TRACE("mmd0song.flags2 0x%.2x\n", song.flags2);
     out << song.tempo2;                                             TRACE("mmd0song.tempo2 %u\n", song.tempo2);
-    for (int i = 0; i < size(song.trkvol); ++i) {
+    for (unsigned int i = 0; i < size(song.trkvol); ++i) {
         out << song.trkvol[i];                                      TRACE("mmd0song.trkvol[%d]: %u\n", i, song.trkvol[i]);
     }
     out << song.mastervol;                                          TRACE("mmd0song.mastervol %u\n", song.mastervol);

@@ -29,7 +29,7 @@ struct ConverterResult {
     string reason_failed;
 };
 
-constexpr size_t MAGIC_SIZE = 4;
+constexpr int MAGIC_SIZE = 4;
 bool needs_conversion(const char *buf, size_t size);
 ConverterResult convert(const char *buf, size_t size);
 
