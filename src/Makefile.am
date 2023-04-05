@@ -20,7 +20,9 @@ uade_la_SOURCES = \
     converter/common_med.cc \
     converter/converter_med4.cc \
     3rdparty/md5.cc
-uade_la_DEPENDENCIES = $(UADE_LIBS) $(AUDACIOUS_LIBS)
+if !SYSTEM_LIBUADE
+uade_la_DEPENDENCIES = $(UADE_LIBS)
+endif
 uade_la_LIBADD = $(UADE_LIBS) $(AUDACIOUS_LIBS)
 uade_la_LDFLAGS = -avoid-version -module -shared  ${AM_LDFLAGS} ${SHREXT}
 uade_la_CXXFLAGS = -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(uadedatadir)\"" ${AM_CXXFLAGS} $(UADE_CFLAGS) $(AUDACIOUS_CFLAGS)
