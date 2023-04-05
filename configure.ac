@@ -75,7 +75,7 @@ else
     export LDFLAGS="$ac_libbsd_libs ${LDFLAGS}"
   fi
 
-  export CFLAGS="-DDISABLE_RMC -DDISABLE_LOGGING -DDISABLE_STATE_DETECTION -flto -fvisibility=hidden -fdata-sections -ffunction-sections ${CFLAGS}"
+  export CFLAGS="-DDISABLE_RMC -DDISABLE_LOGGING -DDISABLE_STATE_DETECTION -flto=auto -fvisibility=hidden -fdata-sections -ffunction-sections ${CFLAGS}"
   uade_prefix=${prefix}
   if test "$uade_prefix" = "NONE"
   then

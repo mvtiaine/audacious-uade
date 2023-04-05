@@ -1,5 +1,5 @@
 AUTOMAKE_OPTIONS = subdir-objects
-AM_CXXFLAGS = -fno-rtti -flto -fvisibility=hidden -fdata-sections -ffunction-sections -Wall
+AM_CXXFLAGS = -fno-rtti -flto=auto -fvisibility=hidden -fdata-sections -ffunction-sections -Wall
 if BUILD_MACOS
 AM_LDFLAGS = -Wl,-dead_strip -Wl,-undefined,error
 SHREXT = -shrext .dylib
