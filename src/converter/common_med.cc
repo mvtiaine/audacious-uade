@@ -4,7 +4,10 @@
 #include <vector>
 #include "common_med.h"
 #include "converter.h"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-result"
 #include "../3rdparty/SimpleBinStream.h"
+#pragma GCC diagnostic pop
 
 using namespace converter::med;
 
