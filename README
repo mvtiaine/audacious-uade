@@ -1,9 +1,10 @@
 This is Audacious (https://audacious-media-player.org/) input plugin for UADE (https://zakalwe.fi/uade/).
 Modland (http://ftp.modland.com/) allmods_md5.txt is used for author name lookups. 
 
-* Requirements:
+* Dependencies:
 Audacious >= 3.8
-libuade >= 3.0 if using system libuade instead of the bundled one
+(libuade >= 3.0 if using system libuade instead of the bundled one)
+(libbsd on Linux if using bundled libuade)
 
 * To build:
 autoreconf -i
