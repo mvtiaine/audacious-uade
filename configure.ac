@@ -1,5 +1,5 @@
 AC_PREREQ(2.59)
-AC_INIT([audacious-uade], [0.6-dev])
+AC_INIT([audacious-uade], [0.6])
 AC_PROG_CXX
 AX_CXX_COMPILE_STDCXX_17
 
