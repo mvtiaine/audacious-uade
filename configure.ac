@@ -86,8 +86,7 @@ else
     [--prefix=\${uade_prefix}/share/audacious/uade],
     [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
     [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
-  ], []
-  )
+  ], [])
   UADE_CFLAGS="-I\${abs_top_srcdir}/uade/src/frontends/include"
   # TODO shutup libtool warning:
   # *** Warning: Linking the shared library uade.la against the
