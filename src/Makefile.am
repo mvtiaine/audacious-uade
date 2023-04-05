@@ -1,10 +1,10 @@
 AUTOMAKE_OPTIONS = subdir-objects
-AM_CXXFLAGS = -flto -fvisibility=hidden -fdata-sections -ffunction-sections -Wall
+AM_CXXFLAGS = -fno-rtti -flto -fvisibility=hidden -fdata-sections -ffunction-sections -Wall
 if BUILD_MACOS
 AM_LDFLAGS = -Wl,-dead_strip -Wl,-undefined,error
 SHREXT = -shrext .dylib
 else
-AM_LDFLAGS = -Wl,--gc-sections -W-,--exclude-libs=ALL -Wl,--discard-all -WL,--no-undefined
+AM_LDFLAGS = -Wl,--gc-sections -Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -WL,--no-undefined -Wl,-O1
 endif
 uadedir = $(prefix)/share/audacious/uade
 uadedatadir = $(uadedir)/share/uade
