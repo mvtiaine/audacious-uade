@@ -98,61 +98,6 @@ struct uade_file *sample_loader_wrapper(const char *name, const char *playerdir,
     return amiga_file;
 }
 
-// hack to work around modland TFMX files using a suffix
-// which causes them not to play due to not finding the sample file
-// should be obsolete
-struct uade_file *tfmx_loader_wrapper(const char *name, const char *playerdir, void *context, struct uade_state *state) {
-    TRACE("tfmx_loader_wrapper file: %s\n", name);
-
-    char *filename = basename((char *)name);
-    const char *sep = ".";
-    char *prefix;
-    char *middle;
-    char *suffix;
-    char buf[PATH_MAX];
-    buf[0] = 0;
-
-    for((prefix = strtok(filename, sep)) &&
-        (middle = strtok(nullptr, sep)) &&
-        (suffix = strtok(nullptr, sep));
-        prefix && middle && suffix;
-        suffix = strtok(nullptr, sep)) {
-
-        TRACE("tfmx_loader_wrapper prefix:%s middle:%s suffix:%s\n", prefix, middle, suffix);
-
-        // change smpl.*.mdat to *.smpl
-        if (!strncasecmp(prefix, "smpl", 4) && !strncasecmp(suffix, "mdat", 4)) {
-            char new_filename[PATH_MAX + 3];
-            char *path = dirname((char *)name);
-            snprintf(new_filename, sizeof(new_filename), "%s/%s.%s", path, middle, prefix);
-            DEBUG("amiga_loader_wrapper changed %s to %s\n", filename, new_filename);
-            return uade_load(new_filename, playerdir, state);
-        }
-        if (!buf[0]) {
-            strncat(buf, middle, sizeof(buf) - strlen(buf) - 1);
-            middle = buf;
-        }
-        strncat(buf, sep, sizeof(buf) - strlen(buf) - 1);
-        strncat(buf, suffix, sizeof(buf) - strlen(buf) - 1);
-    }
-
-    struct uade_file *amiga_file = uade_load(name, playerdir, state);
-
-    // try set.smpl instead of smpl.set :P
-    if (!amiga_file && prefix && middle && !strncasecmp(prefix, "smpl", 4) && !strncasecmp(middle, "set", 4)){
-        char new_filename[PATH_MAX];
-        char *path = dirname((char *)name);
-        snprintf(new_filename, sizeof(new_filename), "%s/set.smpl", path);
-        DEBUG("amiga_loader_wrapper changed %s.%s to set.smpl\n", prefix, middle);
-        amiga_file = uade_load(new_filename, playerdir, state);
-    }
-
-    if (!amiga_file) {
-        ERROR("tfmx_loader_wrapper could NOT find file: %s\n", name);
-    }
-    return amiga_file;
-}
-
 } // namespace
 
 bool is_blacklisted_extension(const string &ext) {
@@ -196,11 +141,6 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
     const struct uade_song_info *info = uade_get_song_info(state);
     const string player = info->playerfname;
     TRACE("amiga_loader_wrapper name: %s player: %s\n", name, player.c_str());
-
-    // should be obsolete hack
-    if (player.find("/TFMX") != player.npos) {
-        return tfmx_loader_wrapper(name, playerdir, context, state);
-    }
 
     if (player.find("/ZoundMonitor") != player.npos) {
         return sample_loader_wrapper(name, playerdir, context, state);
