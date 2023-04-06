@@ -109,7 +109,7 @@ struct uade_file *tfmx_loader_wrapper(const char *name, const char *playerdir, v
     char *prefix;
     char *middle;
     char *suffix;
-    char buf[FILENAME_MAX];
+    char buf[PATH_MAX];
     buf[0] = 0;
 
     for((prefix = strtok(filename, sep)) &&
@@ -122,7 +122,7 @@ struct uade_file *tfmx_loader_wrapper(const char *name, const char *playerdir, v
 
         // change smpl.*.mdat to *.smpl
         if (!strncasecmp(prefix, "smpl", 4) && !strncasecmp(suffix, "mdat", 4)) {
-            char new_filename[FILENAME_MAX];
+            char new_filename[PATH_MAX + 3];
             char *path = dirname((char *)name);
             snprintf(new_filename, sizeof(new_filename), "%s/%s.%s", path, middle, prefix);
             DEBUG("amiga_loader_wrapper changed %s to %s\n", filename, new_filename);
@@ -139,8 +139,8 @@ struct uade_file *tfmx_loader_wrapper(const char *name, const char *playerdir, v
     struct uade_file *amiga_file = uade_load(name, playerdir, state);
 
     // try set.smpl instead of smpl.set :P
-    if (!amiga_file && !strncasecmp(prefix, "smpl", 4) && !strncasecmp(middle, "set", 4)){
-        char new_filename[FILENAME_MAX];
+    if (!amiga_file && prefix && middle && !strncasecmp(prefix, "smpl", 4) && !strncasecmp(middle, "set", 4)){
+        char new_filename[PATH_MAX];
         char *path = dirname((char *)name);
         snprintf(new_filename, sizeof(new_filename), "%s/set.smpl", path);
         DEBUG("amiga_loader_wrapper changed %s.%s to set.smpl\n", prefix, middle);
