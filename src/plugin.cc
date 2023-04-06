@@ -499,18 +499,18 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     open_audio(FMT_S16_NE, rate, 2);
 
     switch (play_uade(uri, file, path, name, subsong, state, formatname, modulemd5)) {
-        case 1:
-            // update tuple at playtime for blacklisted filenames
-            if (is_blacklisted_filename(name)) {
-                Tuple tuple = get_playback_tuple();
-                const struct uade_song_info* info = uade_get_song_info(state);
-                update_tuple(tuple, name, subsong, info,
-                    modulemd5.has_value() ? modulemd5.value().c_str() : info->modulemd5,
-                    formatname.has_value() ? formatname.value().c_str() : parse_codec(info));
-                set_playback_tuple(tuple.ref());
-            }
+        case 1: {
+            // update tuple at playtime in case there were updates (plugin, author db, ...) since playlist creation
+            // or it was skipped at read_tag (blacklisted filename)
+            Tuple tuple = get_playback_tuple();
+            const struct uade_song_info* info = uade_get_song_info(state);
+            update_tuple(tuple, name, subsong, info,
+                modulemd5.has_value() ? modulemd5.value().c_str() : info->modulemd5,
+                formatname.has_value() ? formatname.value().c_str() : parse_codec(info));
+            set_playback_tuple(tuple.ref());
             ret = playback_loop(state);
             break;
+        }
         default:
             ERROR("Could not play %s\n", uri);
             ret = false;
