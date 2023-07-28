@@ -74,6 +74,7 @@ const set<string> modland_amiga_formats ({
     "Hippel COSO",
     "HivelyTracker",
     "Howie Davies",
+    "IFF-SMUS",
     "Images Music System",
     "Infogrames",
     "InStereo!",
