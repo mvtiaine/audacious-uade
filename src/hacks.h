@@ -14,14 +14,14 @@ bool is_blacklisted_title(const struct uade_song_info *info);
 
 bool is_blacklisted_filename(const string &name);
 
-#ifdef __cplusplus
+#if __cplusplus
 extern "C"
 {
 #endif
 
 struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, void *context, struct uade_state *state);
 
-#ifdef __cplusplus
+#if __cplusplus
 }
 #endif
 

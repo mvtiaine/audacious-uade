@@ -12,7 +12,7 @@
 #include <vector>
 
 #include "config.h"
-#ifdef SYSTEM_LIBUADE
+#if SYSTEM_LIBUADE
 #include <uade/uade.h>
 #else
 #include "../uade/src/frontends/include/uade/options.h"
@@ -132,7 +132,7 @@ bool is_blacklisted_filename(const string &name) {
     return blacklisted;
 }
 
-#ifdef __cplusplus
+#if __cplusplus
 extern "C"
 {
 #endif
@@ -161,6 +161,6 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
     return uade_load(name, playerdir, state);
 }
 
-#ifdef __cplusplus
+#if __cplusplus
 }
 #endif

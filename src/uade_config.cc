@@ -2,7 +2,7 @@
 // Copyright (C) 2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include "config.h"
-#ifdef SYSTEM_LIBUADE
+#if SYSTEM_LIBUADE
 #include <uade/uade.h>
 #else
 #include "../uade/src/frontends/include/uade/options.h"
@@ -32,7 +32,7 @@ namespace {
     void uade_common_options(struct uade_config *uc) {
         // use our uade.conf, song.conf and contentdb even with system libuade
         uade_config_set_option(uc, UC_BASE_DIR, UADEDATADIR);
-#ifdef SYSTEM_LIBUADE
+#if SYSTEM_LIBUADE
         // make sure to use system version for these
         uade_config_set_option(uc, UC_UAE_CONFIG_FILE, UADE_CONFIG_BASE_DIR "/uaerc");
         uade_config_set_option(uc, UC_SCORE_FILE, UADE_CONFIG_BASE_DIR "/score");

@@ -7,7 +7,7 @@
 #include <libaudcore/preferences.h>
 
 #include "config.h"
-#ifdef SYSTEM_LIBUADE
+#if SYSTEM_LIBUADE
 #include <uade/uade.h>
 #else
 #include "../uade/src/frontends/include/uade/options.h"

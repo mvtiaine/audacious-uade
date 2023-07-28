@@ -23,7 +23,7 @@ constexpr const char *PLUGIN_NAME = "uade";
 #define WARN(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
 #define ERROR(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
 
-#ifdef DEBUG_TRACE
+#if DEBUG_TRACE
 # define TRACE DEBUG
 #else
 # define TRACE(fmt,...) while (0)
@@ -40,7 +40,7 @@ inline vector<string> split(const string &str, const string &delimiter) {
         s.erase(0, pos + delimiter.length());
     }
     tokens.push_back(s); // add last part
-    
+
     return tokens;
 }
 

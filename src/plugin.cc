@@ -15,7 +15,7 @@
 #include <libaudcore/vfs.h>
 
 #include "config.h"
-#ifdef SYSTEM_LIBUADE
+#if SYSTEM_LIBUADE
 #include <uade/uade.h>
 #else
 #include "../uade/src/frontends/include/uade/options.h"
@@ -276,7 +276,7 @@ public:
         "\n"
         "UADE: https://zakalwe.fi/uade/\n"
         "\n"
-#ifdef SYSTEM_LIBUADE
+#if SYSTEM_LIBUADE
         "Using system libuade " UADE_VERSION "\n"
 #else
         "Using bundled libuade " UADE_VERSION "\n"
