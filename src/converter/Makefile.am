@@ -1,5 +1,5 @@
 EXTRA_PROGRAMS = uade_convert
-uade_convertdir = ${PREFIX}/bin
+uade_convertdir = $(prefix)/bin
 uade_convert_SOURCES = \
     converter_main.cc \
     converter.cc \

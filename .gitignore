@@ -32,5 +32,5 @@ config.h.in
 config.h.in~
 .dirstamp
 *.dSYM
-uade_convert
 m4
+bak
