@@ -14,6 +14,10 @@ bool is_blacklisted_title(const struct uade_song_info *info);
 
 bool is_blacklisted_filename(const string &name);
 
+bool is_blacklisted_md5(const string &md5hex);
+
+bool allow_songend_error(const struct uade_song_info *info);
+
 #if __cplusplus
 extern "C"
 {

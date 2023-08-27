@@ -51,7 +51,8 @@ AC_SUBST(AUDACIOUS_PLUGINDIR, $ac_audacious_plugindir)
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_FILES(Makefile
                 src/Makefile
-                src/converter/Makefile)
+                src/converter/Makefile
+                src/songend/Makefile)
 
 AC_MSG_CHECKING([whether to use system libuade])
 if test "$system_libuade" = "yes"

@@ -17,8 +17,11 @@ constexpr const char *PLUGIN_NAME = "uade";
 #ifndef __cplusplus
 # define DEBUG(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
 #else
-# include <libaudcore/runtime.h>
-# define DEBUG AUDDBG
+# ifdef AUDDBG
+#  define DEBUG AUDDBG
+# else
+#  define DEBUG(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
+# endif
 #endif
 #define WARN(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
 #define ERROR(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)

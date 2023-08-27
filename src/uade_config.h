@@ -18,17 +18,17 @@
 #include "common.h"
 
 const char * const uade_defaults[] = {
-   "frequency",         "44100",
-   "filter",            "1", // A500
-   "force_led_enabled", "FALSE",
-   "force_led",         "0", // OFF
-   "resampler",         "0", // Default
-   "panning",           "0.7",
-   "headphones",        "FALSE",
-   "headphones2",       "FALSE",
-   "gain",              "1.0",
-   "subsong_timeout",   "600",
-   "silence_timeout",   "20",
+   "frequency",             "44100",
+   "filter",                "1", // A500
+   "force_led_enabled",     "FALSE",
+   "force_led",             "0", // OFF
+   "resampler",             "0", // Default
+   "panning",               "0.7",
+   "headphones",            "FALSE",
+   "headphones2",           "FALSE",
+   "gain",                  "1.0",
+   "subsong_timeout",       "600",
+   "silence_timeout",       "10",
    nullptr
 };
 
@@ -67,11 +67,23 @@ const PreferencesWidget uade_audio_widgets2[] = {
 
 const PreferencesWidget uade_timeout_widgets[] = {
     WidgetLabel("<b>Timeouts (seconds)</b>"),
+    WidgetLabel("<i>Applied when songlength not available</i>", WIDGET_CHILD),
     WidgetSpin("Song timeout", WidgetInt(PLUGIN_NAME, "subsong_timeout"), {1, 3600, 5}, WIDGET_CHILD),
     WidgetSpin("Silence timeout", WidgetInt(PLUGIN_NAME, "silence_timeout"), {1, 3600, 1}, WIDGET_CHILD),
 };
 
-struct uade_state *create_uade_state();
-struct uade_state *create_uade_probe_state();
+struct probe_state {
+    uade_state *state;
+    bool initialized = false;
+    bool available = true;
+    int id;
+};
+constexpr int MAX_PROBES = 8;
+static probe_state probes[MAX_PROBES];
+
+uade_state *create_uade_state(int known_timeout);
+void cleanup_uade_state(uade_state *state, int id, const char *uri);
+probe_state *get_probe_state();
+void release_probe_state(probe_state *probe_state);
 
 #endif /* UADE_CONFIG_H_ */

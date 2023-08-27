@@ -68,6 +68,16 @@ const set<string> filename_blacklist ({
     "test.mod" // Soundtracker 2.6/Starbuck
 });
 
+const set<string> md5_blacklist ({
+    // uade_play() or uade_stop() stuck
+    "bf1c23d06d95623060dd72fed7bc6f41", // Oktalyzer/- unknown/freestyle.okta
+    "c30c27e6a0a32e10b5799d5566350f48", // Oktalyzer/Michael Tschogl/never ending story ii-unused.okta
+    "54f3416311a9554e15a7cf35aafd2de9", // Oktalyzer/Mohr/1 love night dub.okta
+    "142c4d303e1b50a38a97423dc157636d", // Protracker/Gryzor/tbc-87 speed dance.mod
+    "65ab9627534237f48555094292cddd15", // Ron Klaren/Ron Klaren/electricity.rk
+    "bce1efa7c8811ab129b82f5543cc3856" // Soundtracker 2.6/Starbuck/test.mod
+});
+
 struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_state *state) {
     struct uade_file *amiga_file = uade_load_amiga_file(name, playerdir, state);
     if (amiga_file) {
@@ -78,24 +88,40 @@ struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_
 
 struct uade_file *sample_loader_wrapper(const char *name, const char *playerdir, void *context, struct uade_state *state) {
     struct uade_file *amiga_file = uade_load(name, playerdir, state);
-    constexpr int MAX_PARENTS = 4;
+    constexpr int MAX_PARENTS = 4u;
     if (!amiga_file) {
-        vector<string> tokens = split(name, "/");
-        // try from parents with last two token (assume it's sampledir/filename)
-        string samplepath = tokens[tokens.size() - 2] + "/" + tokens[tokens.size() - 1];
-        int count = 0;
-        while (!amiga_file && count++ < MAX_PARENTS) {
-            string parent;
-            for_each(tokens.begin(), tokens.end() - 2 - count, [&parent](const string& token) {
-                parent += "/" + token;
-            });
-            amiga_file = uade_load((parent + "/" + samplepath).c_str(), playerdir, state);
+        vector<string> stokens = split(name, "/");
+        if (stokens.size() >= 2) {
+            const struct uade_song_info *info = uade_get_song_info(state);
+            vector<string> mtokens = split(info->modulefname, "/");
+            // try from parents with last two token (assume it's sampledir/filename)
+            string samplepath = stokens[stokens.size() - 2] + "/" + stokens[stokens.size() - 1];
+            auto count = 0u;
+            while (!amiga_file && count++ < MAX_PARENTS && count < mtokens.size() - 2) {
+                string parent;
+                for_each(mtokens.begin(), mtokens.end() - 1 - count, [&parent](const string& token) {
+                    parent += "/" + token;
+                });
+                amiga_file = uade_load((parent + "/" + samplepath).c_str(), playerdir, state);
+            }
         }
     }
     if (!amiga_file) {
         ERROR("sample_loader_wrapper could NOT find file: %s\n", name);
     }
     return amiga_file;
+}
+
+bool is_octamed(const struct uade_song_info *info) {
+    const string formatname = info->formatname;
+    return formatname.find("type: MMD0") == 0 ||
+           formatname.find("type: MMD1") == 0 ||
+           formatname.find("type: MMD2") == 0;
+}
+
+bool is_vss(const struct uade_song_info *info) {
+    const string playername = info->playername;
+    return playername == "VSS";
 }
 
 } // namespace
@@ -109,11 +135,7 @@ bool is_blacklisted_extension(const string &ext) {
 }
 
 bool is_blacklisted_title(const struct uade_song_info *info) {
-    const string formatname = info->formatname;
-    const bool is_octamed = formatname.find("type: MMD0") == 0 ||
-                            formatname.find("type: MMD1") == 0 ||
-                            formatname.find("type: MMD2") == 0;
-    if (is_octamed) {
+    if (is_octamed(info)) {
         const string modulename = info->modulename;
         const bool blacklisted = octamed_title_blacklist.count(modulename);
         if (blacklisted) {
@@ -130,6 +152,18 @@ bool is_blacklisted_filename(const string &name) {
         WARN("Blacklisted filename %s\n", name.c_str());
     }
     return blacklisted;
+}
+
+bool is_blacklisted_md5(const string &md5hex) {
+    const bool blacklisted = md5_blacklist.count(md5hex);
+    if (blacklisted) {
+        WARN("Blacklisted md5 %s\n", md5hex.c_str());
+    }
+    return blacklisted;
+}
+
+bool allow_songend_error(const struct uade_song_info *info) {
+    return is_octamed(info) || is_vss(info);
 }
 
 #if __cplusplus

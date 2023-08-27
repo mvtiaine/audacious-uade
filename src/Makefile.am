@@ -13,12 +13,14 @@ plugindir = $(AUDACIOUS_PLUGINDIR)/Input
 plugin_LTLIBRARIES = uade.la
 uade_la_SOURCES = \
     plugin.cc \
-    modland.cc \
+    songdb.cc \
     hacks.cc \
+    uade_common.cc \
     uade_config.cc \
     converter/converter.cc \
     converter/common_med.cc \
     converter/converter_med4.cc \
+    songend/songend.cc \
     3rdparty/md5.cc
 if !SYSTEM_LIBUADE
 uade_la_DEPENDENCIES = $(UADE_LIBS)
@@ -32,9 +34,9 @@ install-data-hook:
 # remove .la cruft
 	rm -f "$(plugindir)/uade.la" || true
 	mkdir -p "$(uadedir)"
-	cp -f ../conf/allmods_md5_amiga.txt "$(uadedir)/"
+	cp -f ../conf/modland.tsv "$(uadedir)/"
 	mkdir -p "$(uadedatadir)"
-	cp -f ../conf/contentdb ../conf/song.conf ../conf/uade.conf "$(uadedatadir)/"
+	cp -f ../conf/song.conf ../conf/uade.conf "$(uadedatadir)/"
 # make sure to remove any leftover symlinks if --with-system-libuade was used previously
 	rm -f "$(uadedatadir)/eagleplayer.conf" || true
 	rm -f "$(uadedatadir)/players" || true
