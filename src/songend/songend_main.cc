@@ -8,7 +8,10 @@
 // make songend
 // uade123 --stderr -s 0 -1 --subsong-timeout=3600 --silence-timeout=3600 --frequency=8062 --filter=none --resampler=none --panning=1 -e raw -f /dev/stdout <input-file> 2>/dev/null | ./songend
 
+#include <cstdio>
+#include <cstdlib>
 #include <unistd.h>
+
 #include "songend.h"
 
 using namespace std;

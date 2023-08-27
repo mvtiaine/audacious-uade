@@ -4,8 +4,9 @@
 #ifndef SONGEND_H_
 #define SONGEND_H_
 
-#include <vector>
 #include <climits>
+#include <cstdint>
+#include <vector>
 
 using namespace std;
 
