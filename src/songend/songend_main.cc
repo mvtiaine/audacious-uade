@@ -25,7 +25,11 @@ int main(int argc, char *argv[]) {
 
     songend::SongEndDetector detector(songend::PRECALC_FREQ);
 
-    freopen(NULL, "rb", stdin);
+    if (!freopen(NULL, "rb", stdin)) {
+        fprintf(stderr, "Failed to freopen(rb) stdin\n");
+        return EXIT_FAILURE;
+    }
+    
     while ((count = read(STDIN_FILENO, buf, sizeof buf)) > 0) {
         detector.update(buf, count);
         total += count;
