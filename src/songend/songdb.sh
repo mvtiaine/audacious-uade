@@ -7,10 +7,11 @@ export INCLUDEFNAME=$1
 run_uade() {
   HOME=/tmp/uade_songend/$1
   mkdir -p $HOME
-  MD5=$(md5 -q "$2")
-  if ! grep -q $MD5 "$SONGDB_TMP"; then
+  #MD5=$(md5 -q "$2")
+  #MD5=($(md5sum "$2"))
+  #if ! grep -q $MD5 "$SONGDB_TMP"; then
     "$UADE_SONGEND" "$2" $INCLUDEFNAME 2>>/tmp/uade_songend/stderr >> "$SONGDB_TMP"
-  fi
+  #fi
 }
 
 mkdir -p /tmp/uade_songend
