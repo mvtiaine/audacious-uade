@@ -14,7 +14,6 @@ run_uade() {
 }
 
 mkdir -p /tmp/uade_songend
-touch "$SONGDB_TMP"
 
 export -f run_uade
 find -L  . -type f | sed "s/^\.\///g" | parallel run_uade {%} {}
