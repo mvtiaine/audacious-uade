@@ -56,24 +56,12 @@ const set<string> octamed_title_blacklist ({
     "<unnamed>"
 });
 
-// Ignore some files which hang UADE or Audacious playlist completely when trying to add
-const set<string> filename_blacklist ({
-    // uade_play() or uade_stop() stuck
-    "freestyle.okta", // Oktalyzer/- unknown
-    "never ending story ii-unused.okta", // Oktalyzer/Michael Tschogl
-    "1 love night dub.okta", // Oktalyzer/Mohr
-    "tbc-87 speed dance.mod", // Protracker/Gryzor
-    "electricity.rk", // Ron Klaren/Ron Klaren
-    "test.mod" // Soundtracker 2.6/Starbuck
-});
-
 const set<string> md5_blacklist ({
     // uade_play() or uade_stop() stuck
     "bf1c23d06d95623060dd72fed7bc6f41", // Oktalyzer/- unknown/freestyle.okta
     "c30c27e6a0a32e10b5799d5566350f48", // Oktalyzer/Michael Tschogl/never ending story ii-unused.okta
     "54f3416311a9554e15a7cf35aafd2de9", // Oktalyzer/Mohr/1 love night dub.okta
     "142c4d303e1b50a38a97423dc157636d", // Protracker/Gryzor/tbc-87 speed dance.mod
-    "65ab9627534237f48555094292cddd15", // Ron Klaren/Ron Klaren/electricity.rk
     "bce1efa7c8811ab129b82f5543cc3856" // Soundtracker 2.6/Starbuck/test.mod
 });
 
@@ -143,14 +131,6 @@ bool is_blacklisted_title(const struct uade_song_info *info) {
         return blacklisted;
     }
     return false;
-}
-
-bool is_blacklisted_filename(const string &name) {
-    const bool blacklisted = filename_blacklist.count(name);
-    if (blacklisted) {
-        WARN("Blacklisted filename %s\n", name.c_str());
-    }
-    return blacklisted;
 }
 
 bool is_blacklisted_md5(const string &md5hex) {

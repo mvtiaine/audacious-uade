@@ -292,8 +292,8 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
     }
 
     // add to playlist, but call uade_play() on-demand (may hang UADE/audacious completely)
-    if (is_blacklisted_filename(name) && is_blacklisted_md5(md5hex(file))) {
-        DEBUG("uade_plugin_is_our_file blacklisted filename+md5 %s\n", uri);
+    if (is_blacklisted_md5(md5hex(file))) {
+        DEBUG("uade_plugin_is_our_file blacklisted md5 %s\n", uri);
         return true;
     }
 
@@ -345,8 +345,8 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
     const string &md5 = md5hex(file);
 
     // add to playlist, but call uade_play() on-demand (may hang UADE/audacious completely)
-    if (is_blacklisted_filename(name) && is_blacklisted_md5(md5)) {
-        DEBUG("uade_plugin_read_tag blacklisted filename+md5 %s\n", uri);
+    if (is_blacklisted_md5(md5)) {
+        DEBUG("uade_plugin_read_tag blacklisted md5 %s\n", uri);
         return true;
     }
 
