@@ -1,7 +1,6 @@
 #!/bin/sh
 
 export UADE_SONGEND=$(dirname "$0")/uade_songend
-export SONGDB_TMP=/tmp/uade_songend/songdb_tmp.tsv
 export INCLUDEFNAME=$1
 
 run_uade() {
@@ -10,7 +9,7 @@ run_uade() {
   #MD5=$(md5 -q "$2")
   #MD5=($(md5sum "$2"))
   #if ! grep -q $MD5 "$SONGDB_TMP"; then
-    "$UADE_SONGEND" "$2" $INCLUDEFNAME 2>>/tmp/uade_songend/stderr >> "$SONGDB_TMP"
+    "$UADE_SONGEND" "$2" $INCLUDEFNAME 2>>/tmp/uade_songend/stderr >> "$HOME/songdb_tmp.tsv"
   #fi
 }
 
@@ -20,4 +19,4 @@ touch "$SONGDB_TMP"
 export -f run_uade
 find -L  . -type f | sed "s/^\.\///g" | parallel run_uade {%} {}
 
-sort "$SONGDB_TMP" > /tmp/uade_songend/songdb.tsv
+cat /tmp/uade_songend/*/songdb_tmp.tsv | sort > /tmp/uade_songend/songdb.tsv
