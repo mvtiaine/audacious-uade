@@ -40,7 +40,6 @@ const set<string> extension_blacklist ({
     ".hvl", // HivelyTracker
     ".mxtx", // MaxTrax
     ".mmd3", // Octamed SoundStudio
-    ".prt", // Pretracker
     ".ptm", // Protracker IFF
     ".stp", // SoundTracker Pro II
     ".spm", // Stonetracker

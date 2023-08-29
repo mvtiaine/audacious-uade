@@ -212,6 +212,8 @@ static const char * const plugin_extensions[] = {
     // converted to UADE compatible
     "med", // Music Editor MED4 -> MMD0
     
+    "prt", // Pretracker
+
     // to be tested
     //"adpcm", // ADPCM (Mono)
 
@@ -225,7 +227,6 @@ static const char * const plugin_extensions[] = {
     //"hvl", // HivelyTracker
     //"mxtx", // MaxTrax
     //"mmd3", // Octamed SoundStudio
-    //"prt", // Pretracker
     //"ptm", // Protracker IFF
     //"stp", // SoundTracker Pro II
     //"spm", // Stonetracker
