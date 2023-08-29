@@ -94,7 +94,8 @@ int main(int argc, char *argv[]) {
     const auto *info = uade_get_song_info(state);
 
     const int minsubsong = info->subsongs.min;
-    const int maxsubsong = info->subsongs.max;
+    // vaoid uade_subsong_control: Assertion `subsong >= 0 && subsong < 256' failed.
+    const int maxsubsong = min(info->subsongs.max, 255);
 
     if (uade_stop(state) != 0) {
         fprintf(stderr, "Could not play (stop) %s\n", fname);

@@ -86,7 +86,8 @@ bool update_tuple(Tuple &tuple, const string &name, int subsong, const struct ua
     tuple.set_str(Tuple::Quality, "sequenced");
     //tuple.set_int(Tuple::Channels, 4); // TODO multichannel support
 
-    const int subsongs = info->subsongs.max - info->subsongs.min + 1;
+    // avoid uade_subsong_control: Assertion `subsong >= 0 && subsong < 256' failed.
+    const int subsongs = min(info->subsongs.max - info->subsongs.min + 1, 255);
 
     // initial probe
     if (subsong == -1) {
