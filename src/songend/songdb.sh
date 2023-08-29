@@ -20,4 +20,4 @@ touch "$SONGDB_TMP"
 export -f run_uade
 find -L  . -type f | sed "s/^\.\///g" | parallel run_uade {%} {}
 
-sort "$SONGDB_TMP" | uniq > /tmp/uade_songend/songdb.tsv
+sort "$SONGDB_TMP" > /tmp/uade_songend/songdb.tsv
