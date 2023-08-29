@@ -1,5 +1,5 @@
 This is Audacious (https://audacious-media-player.org/) input plugin for UADE (https://zakalwe.fi/uade/).
-Modland (http://ftp.modland.com/) allmods_md5.txt is used for author name lookups. 
+Modland (http://ftp.modland.com/) is used for pregenerated songlength and author db.
 
 * Dependencies:
 Audacious >= 3.8
