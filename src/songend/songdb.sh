@@ -18,4 +18,4 @@ mkdir -p /tmp/uade_songend
 export -f run_uade
 find -L  . -type f | sed "s/^\.\///g" | parallel run_uade {%} {}
 
-cat /tmp/uade_songend/*/songdb_tmp.tsv | sort > /tmp/uade_songend/songdb.tsv
+cat /tmp/uade_songend/*/songdb_tmp.tsv | sort | uniq > /tmp/uade_songend/songdb.tsv
