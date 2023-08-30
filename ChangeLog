@@ -1,3 +1,9 @@
+0.7 - 2023-08-30
+- Implement "deep songend scan" songlength detection similar to Deliplayer (but better :)
+- New songdb with combined precalced songlengths and author info (Modland)
+- PreTracker support
+- Misc updates and fixes
+
 0.6.1 - 2023-04-07
 - Minor fixes
 
