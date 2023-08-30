@@ -75,22 +75,18 @@ struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_
 
 struct uade_file *sample_loader_wrapper(const char *name, const char *playerdir, void *context, struct uade_state *state) {
     struct uade_file *amiga_file = uade_load(name, playerdir, state);
-    constexpr int MAX_PARENTS = 4u;
     if (!amiga_file) {
         vector<string> stokens = split(name, "/");
-        if (stokens.size() >= 2) {
-            const struct uade_song_info *info = uade_get_song_info(state);
-            vector<string> mtokens = split(info->modulefname, "/");
-            // try from parents with last two token (assume it's sampledir/filename)
-            string samplepath = stokens[stokens.size() - 2] + "/" + stokens[stokens.size() - 1];
-            auto count = 0u;
-            while (!amiga_file && count++ < MAX_PARENTS && count < mtokens.size() - 2) {
-                string parent;
-                for_each(mtokens.begin(), mtokens.end() - 1 - count, [&parent](const string& token) {
-                    parent += "/" + token;
-                });
-                amiga_file = uade_load((parent + "/" + samplepath).c_str(), playerdir, state);
-            }
+        if (stokens.size() >= 3 && stokens[0] != ".") {
+            const string parent = stokens[stokens.size() - 3] + "/";
+            const string sample = stokens[stokens.size() - 2] + "/" + stokens[stokens.size() - 1];
+            string newpath = name;
+            newpath.replace(newpath.find(parent + sample), (parent + sample).size(), sample);
+            amiga_file = uade_load(newpath.c_str(), playerdir, state);
+
+        } else if ((stokens.size() == 3 && stokens[0] == ".") || stokens.size() == 2) {
+            const string samplepath = stokens[stokens.size() - 2] + "/" + stokens[stokens.size() - 1];
+            amiga_file = uade_load(("../"+samplepath).c_str(), playerdir, state);
         }
     }
     if (!amiga_file) {
