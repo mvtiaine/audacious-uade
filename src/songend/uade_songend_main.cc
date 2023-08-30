@@ -48,6 +48,11 @@ int main(int argc, char *argv[]) {
     MD5 md5; md5.update((const unsigned char *)buf.data(), buf.size()); md5.finalize();
     string md5hex = md5.hexdigest();
 
+    if (is_blacklisted_songdb(md5hex)) {
+        fprintf(stderr, "Blacklisted songdb md5 for %s\n", fname);
+        return EXIT_FAILURE;
+    }
+
     if (is_blacklisted_md5(md5hex)) {
         fprintf(stderr, "Blacklisted md5 for %s\n", fname);
         if (includefname) {

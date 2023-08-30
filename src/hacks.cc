@@ -65,6 +65,13 @@ const set<string> md5_blacklist ({
     "bce1efa7c8811ab129b82f5543cc3856" // Soundtracker 2.6/Starbuck/test.mod
 });
 
+const set<string> songdb_blacklist ({
+    // The main files have same MD5, but load different data files depending on file name :P
+    // Mark Cooksey Old/Mark Cooksey/mcr.aquablast
+    // Mark Cooksey Old/Mark Cooksey/mcr.mike reads comp pop quiz
+    "099d60f22e44566fb45dea0ae70b0456",
+});
+
 struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_state *state) {
     struct uade_file *amiga_file = uade_load_amiga_file(name, playerdir, state);
     if (amiga_file) {
@@ -133,6 +140,14 @@ bool is_blacklisted_md5(const string &md5hex) {
     const bool blacklisted = md5_blacklist.count(md5hex);
     if (blacklisted) {
         WARN("Blacklisted md5 %s\n", md5hex.c_str());
+    }
+    return blacklisted;
+}
+
+bool is_blacklisted_songdb(const string &md5hex) {
+    const bool blacklisted = songdb_blacklist.count(md5hex);
+    if (blacklisted) {
+        DEBUG("Blacklisted songdb md5 %s\n", md5hex.c_str());
     }
     return blacklisted;
 }

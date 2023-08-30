@@ -73,6 +73,37 @@ void update_tuple_song_end(Tuple &tuple, const song_end &song_end, const struct 
     }
 }
 
+void update_tuple_subsong_range(Tuple &tuple, int minsubsong, int maxsubsong) {
+    // provide mappings to uade subsong numbers
+    Index<short> subtunes;
+    for (int i = minsubsong; i <= maxsubsong; ++i) {
+        subtunes.append(i);
+    }
+    tuple.set_subtunes(subtunes.len(), subtunes.begin());
+}
+
+// TODO formatname to songdb
+void update_tuple_songdb(Tuple &tuple, const SongInfo &songinfo, const string &name, const string &formatname) {
+    TRACE("Found songlength data for %s:%d %s, length:%d, status:%s\n", songinfo.md5.c_str(), songinfo.subsong, name.c_str(), songinfo.length, songinfo.status.c_str());
+    if (songinfo.length > 0)
+        tuple.set_int(Tuple::Length, songinfo.length);
+    if (songinfo.status.size())
+        tuple.set_str(Tuple::Comment, ("songend="+songinfo.status).c_str());
+    if (songinfo.modland_data.has_value()) {
+        const auto ml_data = songinfo.modland_data.value();
+        TRACE("Found modland data for %s:%d %s, format:%s, author:%s, album:%s, filename:%s\n", songinfo.md5.c_str(), songinfo.subsong, name.c_str(), ml_data.format.c_str(), ml_data.author.c_str(), ml_data.album.c_str(), ml_data.filename.c_str());
+        if (!ml_data.author.empty())
+            tuple.set_str(Tuple::Artist, ml_data.author.c_str());
+        // prefer UADE codec names, but fall back to modland if not available
+        if (string_view(formatname) == UNKNOWN_CODEC)
+            tuple.set_str(Tuple::Codec, ml_data.format.c_str());
+        if (!ml_data.album.empty())
+            tuple.set_str(Tuple::Album, ml_data.album.c_str());
+    } else {
+        TRACE("No modland data for %s %s\n", songinfo.md5.c_str(), name.c_str());
+    }
+}
+
 bool update_tuple(Tuple &tuple, const string &name, int subsong, const struct uade_song_info* info,
                   const string &modulemd5, const string &formatname) {
     /* prefer filename as title for now, maybe make configurable in future
@@ -91,42 +122,16 @@ bool update_tuple(Tuple &tuple, const string &name, int subsong, const struct ua
 
     // initial probe
     if (subsong == -1) {
-        // provide mappings to uade subsong numbers
-        Index<short> subtunes;
-        for (int i = 0; i < subsongs; ++i) {
-            subtunes.append(info->subsongs.min + i);
+        update_tuple_subsong_range(tuple, info->subsongs.min, min(255, info->subsongs.max));
+    } else {
+        if (subsongs > 1) {
+            tuple.set_int(Tuple::NumSubtunes, subsongs);
+            tuple.set_int(Tuple::Subtune, subsong);
+            tuple.set_int(Tuple::Track, subsong);
         }
-        tuple.set_subtunes(subtunes.len(), subtunes.begin());
-    } else if (subsongs > 1) {
-        // convert to playlist 1/x numbering
-        int pl_subsong = subsong - info->subsongs.min + 1;
-        tuple.set_int(Tuple::NumSubtunes, subsongs);
-        tuple.set_int(Tuple::Subtune, pl_subsong);
-        tuple.set_int(Tuple::Track, pl_subsong);
-    }
-    
-    if (subsong != -1) {
         const auto songinfo = songdb_lookup(modulemd5.c_str(), subsong, name);
         if (songinfo.has_value()) {
-            const auto si = songinfo.value();
-            TRACE("Found songlength data for %s:%d %s, length:%d, status:%s\n", modulemd5.c_str(), subsong, name.c_str(), si.length, si.status.c_str());
-            if (si.length > 0)
-                tuple.set_int(Tuple::Length, si.length);
-            if (si.status.size())
-                tuple.set_str(Tuple::Comment, ("songend="+si.status).c_str());
-            if (si.modland_data.has_value()) {
-                const auto ml_data = si.modland_data.value();
-                TRACE("Found modland data for %s:%d %s, format:%s, author:%s, album:%s, filename:%s\n", modulemd5.c_str(), subsong, name.c_str(), ml_data.format.c_str(), ml_data.author.c_str(), ml_data.album.c_str(), ml_data.filename.c_str());
-                if (!ml_data.author.empty())
-                    tuple.set_str(Tuple::Artist, ml_data.author.c_str());
-                // prefer UADE codec names, but fall back to modland if not available
-                if (string_view(formatname) == UNKNOWN_CODEC)
-                    tuple.set_str(Tuple::Codec, ml_data.format.c_str());
-                if (!ml_data.album.empty())
-                    tuple.set_str(Tuple::Album, ml_data.album.c_str());
-            } else {
-                TRACE("No modland data for %s %s\n", modulemd5.c_str(), name.c_str());
-            }
+            update_tuple_songdb(tuple, songinfo.value(), name, formatname);
             return true;
         } else {
             TRACE("No songlength data for %s %s\n", modulemd5.c_str(), name.c_str());
@@ -135,7 +140,7 @@ bool update_tuple(Tuple &tuple, const string &name, int subsong, const struct ua
         if (subsongs == 1 && info->duration > 0 && tuple.get_int(Tuple::Length) <= 0) {
             tuple.set_str(Tuple::Comment, "songend=contentdb");
             tuple.set_int(Tuple::Length, info->duration * 1000);
-            return true;
+            return false;
         }
     }
     return false;
@@ -292,9 +297,16 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
         return false;
     }
 
+    const string &md5 = md5hex(file);
     // add to playlist, but call uade_play() on-demand (may hang UADE/audacious completely)
-    if (is_blacklisted_md5(md5hex(file))) {
+    if (is_blacklisted_md5(md5)) {
         DEBUG("uade_plugin_is_our_file blacklisted md5 %s\n", uri);
+        return true;
+    }
+
+    // assume our file if found in songdb
+    if (songdb_subsong_range(md5).has_value()) {
+        TRACE("uade_plugin_is_our_file accepted (songdb) %s\n", uri);
         return true;
     }
 
@@ -348,6 +360,15 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
     // add to playlist, but call uade_play() on-demand (may hang UADE/audacious completely)
     if (is_blacklisted_md5(md5)) {
         DEBUG("uade_plugin_read_tag blacklisted md5 %s\n", uri);
+        return true;
+    }
+
+    // try read subsongs directly from songdb
+    const auto &subsongs = songdb_subsong_range(md5);
+    if (subsongs.has_value() && subsong < 0) {
+        TRACE("uade_plugin_read_tag read subsong range from songdb for md5 %s uri %s\n", md5.c_str(), uri);
+        const auto &minmax = subsongs.value();
+        update_tuple_subsong_range(tuple, minmax.first, minmax.second);
         return true;
     }
 

@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "common.h"
+#include "hacks.h"
 #include "songdb.h"
 #include "prefs.h"
 
@@ -189,6 +190,7 @@ constexpr string_view NOTBY = "not by ";
 constexpr string_view UNKNOWN_AUTHOR = "<Unknown>";
 
 map<pair<string,int>, vector<SongInfo>> db;
+map<string,pair<int,int>> db_subsongs;
 
 bool parse_modland_path(const string &path, ModlandData &item) {
     string format, author, album, filename;
@@ -270,6 +272,7 @@ void songdb_init(void) {
     }
 
     db.clear();
+    db_subsongs.clear();
    
     ifstream songdbtsv(MODLAND_TSV_FILE, ios::in);
     if (!songdbtsv.is_open()) {
@@ -279,7 +282,9 @@ void songdb_init(void) {
 
     string line;
     string prevmd5;
-    optional<ModlandData> modland_item {};
+    vector<ModlandData> modland_items;
+    int minsubsong = INT_MAX;
+    int maxsubsong = INT_MIN;
     while (getline(songdbtsv, line)) {
         const auto cols = split(line, "\t");
         if (cols.size() < 4) {
@@ -291,21 +296,43 @@ void songdb_init(void) {
         int length = atoi(cols[2].c_str());
         string reason = cols[3];
         if (prevmd5 != md5 ) {
+            modland_items.clear();
             if (cols.size() > 4) {
                 const auto modland_path = cols[4];
                 ModlandData item {};
                 if (parse_modland_path(modland_path, item)) {
-                    modland_item = item;
-                } else {
-                    modland_item = {};
+                    modland_items.push_back(item);
                 }
+            }
+        } else if (prevmd5 == md5 && cols.size() > 4) {
+            const auto modland_path = cols[4];
+            TRACE("Duplicate MD5 %s for %s\n", md5.c_str(), modland_path.c_str());
+            ModlandData item {};
+            if (parse_modland_path(modland_path, item)) {
+                modland_items.push_back(item);
             }
         }
 
-        const auto key = pair(md5,subsong);
-        const SongInfo info = { md5, subsong, length, reason, modland_item };
-        songdb_update(info);
+        if (modland_items.size()) {
+            for (const auto &item : modland_items) {
+                const SongInfo info = { md5, subsong, length, reason, item };
+                songdb_update(info);
+            }
+        } else {
+            const SongInfo info = { md5, subsong, length, reason };
+            songdb_update(info);
+        }
 
+        if (!prevmd5.empty() && prevmd5 != md5) {
+            db_subsongs[prevmd5] = pair(minsubsong, maxsubsong);
+            minsubsong = subsong;
+            maxsubsong = subsong;
+        } else {
+            minsubsong = min(minsubsong, subsong);
+            maxsubsong = max(maxsubsong, subsong);
+        }
+
+        prevmd5 = md5;
         //TRACE("%s -> format = %s, author = %s, album = %s, filename = %s\n", line.c_str(), item.format, item.author, item.album, item.filename);
     }
 
@@ -314,16 +341,23 @@ void songdb_init(void) {
     return;
 }
 
-optional<SongInfo> songdb_lookup(const char *md5, int subsong, const string &filename) {
+optional<SongInfo> songdb_lookup(const string &md5, int subsong, const string &filename) {
     const auto key = pair(md5, subsong);
     if (db.count(key)) {
+        optional<SongInfo> nonunknown;
         for (const auto& data : db[key]) {
-            if (data.modland_data.has_value() && filename == data.modland_data.value().filename) {
-                return data;
+            if (data.modland_data.has_value()) {
+                const auto modland_data = data.modland_data.value();
+                if (filename == modland_data.filename) {
+                    return data;
+                }
+                if (!nonunknown.has_value() && modland_data.author != UNKNOWN_AUTHOR) {
+                    nonunknown = data;
+                }
             }
         }
-        // return first if no filename match
-        return db[key].front();
+        // check if non-unknown author was found, otherwise return last
+        return nonunknown.has_value() ? nonunknown : db[key].back();
     }
 
     return {};
@@ -334,9 +368,13 @@ void songdb_update(const SongInfo &info) {
         WARN("Invalid songdb key md5:%s subsong:%d\n", info.md5.c_str(), info.subsong);
         return;
     }
+    if (is_blacklisted_songdb(info.md5)) {
+        WARN("Blacklisted songdb key md5:%s\n", info.md5.c_str());
+        return;
+    }
     const auto key = pair(info.md5, info.subsong);
     if (db.count(key)) {
-         DEBUG("Duplicate md5 for: %s:%d\n", key.first.c_str(), key.second);
+         TRACE("Duplicate md5 for: %s:%d\n", key.first.c_str(), key.second);
          auto& data = db[key];
          data.push_back(info);
     } else {
@@ -346,4 +384,11 @@ void songdb_update(const SongInfo &info) {
     }
 
     return;
+}
+
+optional<pair<int,int>> songdb_subsong_range(const string &md5) {
+    if (db_subsongs.count(md5)) {
+        return db_subsongs[md5];
+    }
+    return {};
 }

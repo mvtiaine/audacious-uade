@@ -25,7 +25,8 @@ struct SongInfo {
 };
 
 void songdb_init();
-optional<SongInfo> songdb_lookup(const char *md5, int subsong, const string &filename);
+optional<SongInfo> songdb_lookup(const string &md5, int subsong, const string &filename);
 void songdb_update(const SongInfo &songinfo);
+optional<pair<int,int>> songdb_subsong_range(const string &md5);
 
 #endif /* SONGDB_H_ */
