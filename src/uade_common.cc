@@ -74,12 +74,6 @@ pair<song_end::Status, ssize_t> render_audio(char *buffer, const int bufsize, ua
         }
         uade_cleanup_notification(&n);
     }
-    if (nbytes > 0 && status != song_end::NONE) {
-        // ignore "tail bytes" to avoid pop in end of audio if song restarts
-        // messing up with silence/volume trimming etc.
-        //TRACE("IGNORED TAILBYTES %zd\n", nbytes);
-        nbytes = 0;
-    }
     if (nbytes < 0) {
         status = song_end::ERROR;
     }
@@ -96,6 +90,12 @@ song_end precalc_song_length(uade_state *state, const struct uade_song_info *inf
     size_t maxbytes = songend::PRECALC_TIMEOUT * bytespersec;
     songend::SongEndDetector detector(songend::PRECALC_FREQ);
     while ((render = render_audio(buffer, sizeof buffer, state)).second > 0) {
+        // ignore "tail bytes" to avoid pop in end of audio if song restarts
+        // messing up with silence/volume trimming etc.
+        if (render.first != song_end::NONE && totalbytes > 0) {
+            //TRACE("IGNORED TAILBYTES %zd\n", render.first);
+            break;
+        }
         totalbytes += render.second;
         detector.update(buffer, render.second);
         if (totalbytes >= maxbytes || render.first != song_end::NONE) {

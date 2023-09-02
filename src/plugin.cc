@@ -441,7 +441,9 @@ pair<song_end, bool> UADEPlugin::playback_loop(uade_state* state, int timeout) {
             };
         }
         const auto res = render_audio(buffer, sizeof buffer, state);
-        if (res.second > 0) {
+        // ignore "tail bytes" to avoid pop in end of audio if song restarts
+        // messing up with silence/volume trimming etc.
+        if (res.second > 0 && (res.first == song_end::NONE || totalbytes == 0)) {
             write_audio(buffer, res.second);
             totalbytes += res.second;
         }
