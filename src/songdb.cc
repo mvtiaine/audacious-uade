@@ -344,20 +344,33 @@ void songdb_init(void) {
 optional<SongInfo> songdb_lookup(const string &md5, int subsong, const string &filename) {
     const auto key = pair(md5, subsong);
     if (db.count(key)) {
-        optional<SongInfo> nonunknown;
+        bool foundAuthor = false;
+        bool foundFilename = false;
+        optional<SongInfo> found;
         for (const auto& data : db[key]) {
-            if (data.modland_data.has_value()) {
-                const auto modland_data = data.modland_data.value();
-                if (filename == modland_data.filename) {
-                    return data;
+            if (foundAuthor && foundFilename) break;
+            if (!found.has_value()) {
+                found = data;
+            }
+            if (!foundAuthor) {
+                if (data.modland_data.has_value() && data.modland_data.value().author != UNKNOWN_AUTHOR) {
+                    found = data;
+                    foundAuthor = true;
+                    if (data.modland_data.value().filename == filename) {
+                        foundFilename = true;
+                    }
                 }
-                if (!nonunknown.has_value() && modland_data.author != UNKNOWN_AUTHOR) {
-                    nonunknown = data;
+            }
+            if (!foundFilename) {
+                if (data.modland_data.has_value() && data.modland_data.value().filename == filename) {
+                    if (!foundAuthor || (foundAuthor && data.modland_data.value().author != UNKNOWN_AUTHOR)) {
+                        found = data;
+                        foundFilename = true;
+                    }
                 }
             }
         }
-        // check if non-unknown author was found, otherwise return last
-        return nonunknown.has_value() ? nonunknown : db[key].back();
+        return found;
     }
 
     return {};
