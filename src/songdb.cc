@@ -18,7 +18,17 @@ constexpr auto MODLAND_TSV_FILE = UADEDIR "/modland.tsv";
 bool initialized = false;
 
 const set<string> modland_amiga_formats ({
+    // these dirs from incoming have author info available in "standard" format
     "Cinemaware", // incoming/vault
+    "channel players", // incoming/workshop
+    "chiptracker", // incoming/workshop
+    "NP2", // incoming/workshop
+    "P41A", // incoming/workshop
+    "P4X", // incoming/workshop
+    "P60", // incoming/workshop
+    "P6X", // incoming/workshop
+    "PHA", // incoming/workshop
+    "prun", // incoming/workshop
     "AHX",
     "AM Composer",
     "AProSys",
@@ -186,6 +196,7 @@ const set<string> modland_amiga_formats ({
 constexpr string_view COOP = "coop-";
 constexpr string_view UNKNOWN = "- unknown";
 constexpr string_view NOTBY = "not by ";
+constexpr string_view UNUSED = "Unused";
 
 constexpr string_view UNKNOWN_AUTHOR = "<Unknown>";
 
@@ -230,11 +241,14 @@ bool parse_modland_path(const string &path, ModlandData &item) {
             string token = tokens[2];
             if (token.find(COOP) == 0) {
                 author = author + " & " + token.substr(COOP.length());
-            } else if (format != "IFF-SMUS") {
-                DEBUG("Skipped path: %s\n", path.c_str());
-                return false;
+            } else if (tokens[3] == UNUSED) {
+                author = tokens[1];
+                album = tokens[2];
+                filename = tokens[4];
+                break;
             }
-            album = tokens[3];
+            author = tokens[1];
+            album = tokens[2] + " (" + tokens[3] + ")";
             filename = tokens[4];
             break;
         }
