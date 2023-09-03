@@ -241,6 +241,9 @@ bool parse_modland_path(const string &path, ModlandData &item) {
             string token = tokens[2];
             if (token.find(COOP) == 0) {
                 author = author + " & " + token.substr(COOP.length());
+                album = tokens[3];
+                filename = tokens[4];
+                break;
             } else if (tokens[3] == UNUSED) {
                 author = tokens[1];
                 album = tokens[2];
