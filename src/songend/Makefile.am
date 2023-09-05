@@ -19,6 +19,6 @@ uade_songend_SOURCES = \
     ../converter/common_med.cc \
     ../converter/converter_med4.cc \
     ../3rdparty/md5.cc
-uade_songend_CXXFLAGS = -DUADEDATADIR="\"$(uadedatadir)\"" $(UADE_CFLAGS)
+uade_songend_CXXFLAGS = -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(uadedatadir)\"" $(UADE_CFLAGS)
 uade_songend_DEPENDENCIES = $(UADE_LIBS)
 uade_songend_LDADD = $(UADE_LIBS)

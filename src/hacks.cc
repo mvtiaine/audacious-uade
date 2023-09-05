@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <cstring>
+#include <map>
 #include <set>
 #include <string>
 #include <vector>
@@ -70,6 +71,55 @@ const set<string> songdb_blacklist ({
     // Mark Cooksey Old/Mark Cooksey/mcr.aquablast
     // Mark Cooksey Old/Mark Cooksey/mcr.mike reads comp pop quiz
     "099d60f22e44566fb45dea0ae70b0456",
+});
+
+// Modland hack for missing WantedTeam.bin files
+const map<pair<string,string>, string> bundled_extfiles ({
+    {{"1ad8cd8a8e799fe7f1f27e00f925d9e0","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/GeorgGlaxo/WantedTeam.bin"},
+    {{"81b641316c9af33154bea71eb97fa916","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/GeorgGlaxo/WantedTeam.bin"},
+    {{"a33a4ef23f43543ae09ee4fecc4a0a61","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/GeorgGlaxo/WantedTeam.bin"},
+    {{"153c555fdc2c72e5a62e21c131f4b635","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"159581910f064311d7fc72b8ccf29ab9","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"19ed56bde9033c6fb1c88731ce4fd2d1","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"23aa0bce4f4e6293ad6565eda2c78347","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"283a7612f6afc3a54666423bdfccb594","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"301a523cb5686a4226fe0a62f4820779","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"37006b2614276015f32f866565bf2ea2","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"3ecf6d705b44906eaecf7630c05751a0","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"3f897211dc0f17c2cc13db4c3698de78","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"43be812e51102ff8e76424b9c37614f9","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"478bf4b89695454d067e34e05a22cacc","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"4a08b49732bfb2f2f2acd01b2c15dde3","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"5254492b6ca356a8c81054befaa0b1db","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"53f7ebaa4edf178c31d214f928d75934","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"557550edf2c96732bc992785f9907a15","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"55f682366163f34b528f9b7c709b64a8","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"59aaf90869419c55ac9e26cc6c0a014e","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"6b13749109816261295ef3c08dee35f4","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"7187fca3ce63d75bc08a5fea917c3b6e","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"7c2a31d9c62154a7a85a4f7e0bf17b06","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"7d8082ab2b8bf21586712591ad8213d5","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"7dc142146e6946a6a0e61af40ee762b7","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"7f119629fc9a51d6e78e8ae7662d62b8","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"80b7a1e3039d808aaca66f78d49c1f41","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"854201a7ceb6e497ffd6c742dd8faf54","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"859c834231a3efa428ac5c49ceb42481","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"884f0124a90a1b7f805af8df61b47f5d","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"8de8e2c0e1d23edd6d84bfdfcf7efb26","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"998c371cecbb9b2592ec110298258295","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"a0b78c1b40738913f370019034090543","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"a29d573748bcdee158d462556ce1b79b","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"ac6ee85f36542340f2b0dc8300938439","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"b069ee530330bfde8346a98e7a7c2619","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"bbb1f74fbdcbb36be6a768251807086b","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"c61bfb3bc7e04c593dcd1b45689c7ceb","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"c9b430c12ba35598f8e51a569a1b510d","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"cd64ac2c1892666c85f65600ccfa181d","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"d84d3fe127fd9980f7a4c7a91db407c5","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"dc099b0c587c9e92c03e2ba93076c49d","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"e18c7366eadcf2e171b39816918408f0","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"ef9c33a9ecb0e14c68a09a44f08b6616","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"fe771473508f0efcb23dcacc1eb85fe9","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
 });
 
 struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_state *state) {
@@ -165,6 +215,14 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
     const struct uade_song_info *info = uade_get_song_info(state);
     const string player = info->playerfname;
     TRACE("amiga_loader_wrapper name: %s player: %s\n", name, player.c_str());
+
+    const string fname = split(name, "/").back();
+    const auto key = pair(string(info->modulemd5),fname);
+    if (bundled_extfiles.count(key)) {
+        const auto bundled = bundled_extfiles.at(key);
+        TRACE("amiga_loader_wrapper loading bundled extfile for %s bundled: %s\n", name, bundled.c_str());
+        return uade_load(bundled.c_str(), playerdir, state);
+    }
 
     if (player.find("/ZoundMonitor") != player.npos) {
         return sample_loader_wrapper(name, playerdir, context, state);

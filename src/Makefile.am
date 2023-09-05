@@ -35,6 +35,7 @@ install-data-hook:
 	rm -f "$(plugindir)/uade.la" || true
 	mkdir -p "$(uadedir)"
 	cp -f ../conf/modland.tsv "$(uadedir)/"
+	cp -rf ../conf/ext "$(uadedir)/"
 	mkdir -p "$(uadedatadir)"
 	cp -f ../conf/song.conf ../conf/uade.conf "$(uadedatadir)/"
 # make sure to remove any leftover symlinks if --with-system-libuade was used previously
