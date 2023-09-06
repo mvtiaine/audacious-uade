@@ -63,7 +63,8 @@ const set<string> md5_blacklist ({
     "c30c27e6a0a32e10b5799d5566350f48", // Oktalyzer/Michael Tschogl/never ending story ii-unused.okta
     "54f3416311a9554e15a7cf35aafd2de9", // Oktalyzer/Mohr/1 love night dub.okta
     "142c4d303e1b50a38a97423dc157636d", // Protracker/Gryzor/tbc-87 speed dance.mod
-    "bce1efa7c8811ab129b82f5543cc3856" // Soundtracker 2.6/Starbuck/test.mod
+    "bce1efa7c8811ab129b82f5543cc3856", // Soundtracker 2.6/Starbuck/test.mod
+    "0a14bdf6e11a16dd447ec2fa160fe3ae", // wantedteam/examples/TFMX_MrNutz/MDAT.title
 });
 
 const set<string> songdb_blacklist ({
