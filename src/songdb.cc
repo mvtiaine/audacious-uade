@@ -15,6 +15,10 @@
 namespace {
 
 constexpr auto MODLAND_TSV_FILE = UADEDIR "/modland.tsv";
+constexpr auto UNEXOTICA_TSV_FILE = UADEDIR "/unexotica.tsv";
+constexpr auto WANTED_TEAM_TSV_FILE = UADEDIR "/wantedteam.tsv";
+constexpr auto ZAKALWE_TSV_FILE = UADEDIR "/zakalwe.tsv";
+
 bool initialized = false;
 
 const set<string> modland_amiga_formats ({
@@ -287,71 +291,79 @@ void songdb_init(void) {
     if (initialized) {
         return;
     }
-
-    db.clear();
-    db_subsongs.clear();
-   
-    ifstream songdbtsv(MODLAND_TSV_FILE, ios::in);
-    if (!songdbtsv.is_open()) {
-        ERROR("Could not open modland.tsv file %s\n", MODLAND_TSV_FILE);
-        return;
-    }
-
-    string line;
-    string prevmd5;
-    vector<ModlandData> modland_items;
-    int minsubsong = INT_MAX;
-    int maxsubsong = INT_MIN;
-    while (getline(songdbtsv, line)) {
-        const auto cols = split(line, "\t");
-        if (cols.size() < 4) {
-            ERROR("Invalid line %s\n", line.c_str());
+    const auto parsetsv = [&](const string &tsv, const bool modland) {
+        ifstream songdbtsv(tsv, ios::in);
+        if (!songdbtsv.is_open()) {
+            ERROR("Could not open songdb file %s\n", tsv.c_str());
             return;
         }
-        string md5 = cols[0];
-        int subsong = atoi(cols[1].c_str());
-        int length = atoi(cols[2].c_str());
-        string reason = cols[3];
-        if (prevmd5 != md5 ) {
-            modland_items.clear();
-            if (cols.size() > 4) {
-                const auto modland_path = cols[4];
+        string line;
+        string prevmd5;
+        vector<ModlandData> modland_items;
+        int minsubsong = INT_MAX;
+        int maxsubsong = INT_MIN;
+        while (getline(songdbtsv, line)) {
+            const auto cols = split(line, "\t");
+            if (cols.size() < 4) {
+                ERROR("Invalid line %s\n", line.c_str());
+                return;
+            }
+            string md5 = cols[0];
+            int subsong = atoi(cols[1].c_str());
+            int length = atoi(cols[2].c_str());
+            string reason = cols[3];
+            if (prevmd5 != md5) {
+                modland_items.clear();
+                if (cols.size() > 4 && modland) {
+                    const auto modland_path = cols[4];
+                    ModlandData item {};
+                    if (parse_modland_path(modland_path, item)) {
+                        modland_items.push_back(item);
+                    }
+                }
+            } else if (prevmd5 == md5 && cols.size() > 4) {
+                const auto path = cols[4];
+                TRACE("Duplicate MD5 %s for %s\n", md5.c_str(), path.c_str());
                 ModlandData item {};
-                if (parse_modland_path(modland_path, item)) {
+                if (modland && parse_modland_path(path, item)) {
                     modland_items.push_back(item);
                 }
             }
-        } else if (prevmd5 == md5 && cols.size() > 4) {
-            const auto modland_path = cols[4];
-            TRACE("Duplicate MD5 %s for %s\n", md5.c_str(), modland_path.c_str());
-            ModlandData item {};
-            if (parse_modland_path(modland_path, item)) {
-                modland_items.push_back(item);
+
+            if (modland_items.size()) {
+                for (const auto &item : modland_items) {
+                    const SongInfo info = { md5, subsong, length, reason, item };
+                    songdb_update(info);
+                }
+            } else {
+                const SongInfo info = { md5, subsong, length, reason };
+                if (!db.count(pair(info.md5, info.subsong))) {
+                    songdb_update(info);
+                }
             }
-        }
 
-        if (modland_items.size()) {
-            for (const auto &item : modland_items) {
-                const SongInfo info = { md5, subsong, length, reason, item };
-                songdb_update(info);
+            if (!prevmd5.empty() && prevmd5 != md5) {
+                if (!db_subsongs.count(prevmd5)) {
+                    db_subsongs[prevmd5] = pair(minsubsong, maxsubsong);
+                }
+                minsubsong = subsong;
+                maxsubsong = subsong;
+            } else {
+                minsubsong = min(minsubsong, subsong);
+                maxsubsong = max(maxsubsong, subsong);
             }
-        } else {
-            const SongInfo info = { md5, subsong, length, reason };
-            songdb_update(info);
+            prevmd5 = md5;
+            //TRACE("%s -> format = %s, author = %s, album = %s, filename = %s\n", line.c_str(), item.format, item.author, item.album, item.filename);
         }
+    };
 
-        if (!prevmd5.empty() && prevmd5 != md5) {
-            db_subsongs[prevmd5] = pair(minsubsong, maxsubsong);
-            minsubsong = subsong;
-            maxsubsong = subsong;
-        } else {
-            minsubsong = min(minsubsong, subsong);
-            maxsubsong = max(maxsubsong, subsong);
-        }
+    db.clear();
+    db_subsongs.clear();
 
-        prevmd5 = md5;
-        //TRACE("%s -> format = %s, author = %s, album = %s, filename = %s\n", line.c_str(), item.format, item.author, item.album, item.filename);
-    }
+    parsetsv(MODLAND_TSV_FILE, true);
+    parsetsv(UNEXOTICA_TSV_FILE, false);
+    parsetsv(WANTED_TEAM_TSV_FILE, false);
+    parsetsv(ZAKALWE_TSV_FILE, false);
 
     initialized = true;
 
