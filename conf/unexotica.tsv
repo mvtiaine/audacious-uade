@@ -495,6 +495,7 @@
 078d54f807c4f557d178e97b67a7befd	1	18036	player	Game/Knight_Mark/Wing_Commander/mod.w.c.overalldefeat
 079258447fce5c893189a932578b5bc9	0	140860	player	Game/Fernandes_David/Starush/fc13.title
 0797b1a1e2d1b3427a47f92825de0c5b	1	213386	player	Game/Hippel_Jochen/Lethal_Xcess/Older_hip7_hipc_versions/hipc.ingame_6
+0797b1a1e2d1b3427a47f92825de0c5b	1	213386	player	Game/Hippel_Jochen/Lethal_Xcess/soc.ingame_2
 0797b1a1e2d1b3427a47f92825de0c5b	2	28070	player
 0799210d9fb8cba0accda9ea18185caa	0	38358	player	Game/van_Vliet_Reinier/Winter_Camp/mug.level_2
 0799210d9fb8cba0accda9ea18185caa	1	7052	player+silence
@@ -1239,6 +1240,7 @@
 13b4c1c99582cf990975910a4924965d	1	91578	player	Game/Kirkeby_Allan/Ultimate_Pinball_Quest/prun.heavymetal
 13b4c1c99582cf990975910a4924965d	2	79384	player
 13b4c1c99582cf990975910a4924965d	3	0	nosound
+13c6f48a6ad35d5b575ee2892d9a05ac	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Gwen's Lament
 13c6f48a6ad35d5b575ee2892d9a05ac	1	97929	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Gwens_Lament
 13d278fdba979cb863caaaa990bd385b	0	74993	silence	Game/Shibusawa_Kou/Romance_Three_Kingdoms_2/cust.Romance_o_t_3_Kingdoms_2
 13d278fdba979cb863caaaa990bd385b	1	46191	loop
@@ -1320,6 +1322,7 @@
 14da13bc9bb36067f889bb5b3d3ce4aa	1	0	nosound	Game/Evans_Dean/Jurassic_Park/med.sfx_1
 14eb30cc4c7ec646c0a641ea8fbb4ec2	1	107582	player	Game/Nyrup_Martin/Moochies/mod.moochieslevel16
 14f0079eea8aeaf61f044d22a744f1b5	1	98564	player	Game/Hippel_Jochen/Prehistoric_Tale/Older_hip_hipc_versions/hipc.ingame_3
+14f0079eea8aeaf61f044d22a744f1b5	1	98564	player	Game/Hippel_Jochen/Prehistoric_Tale/soc.ingame_3
 14f8754617467f0e8c14802a87506a10	0	3302	player	Game/Murry_Barry/Man_Hunter_2/agi.ingame_106
 15074d77f86d5be17d8216b7d5838426	0	65921	player	Game/Fulton_Douglas/Will_Harveys_Zany_Golf/cust.Will_Harveys_Zany_Golf
 15074d77f86d5be17d8216b7d5838426	1	69604	player
@@ -2315,6 +2318,7 @@
 261aa8498eb15b2707ff2d24e9fc996c	0	111392	player	Game/Lopatic_Thomas/Ganymed/bss.Ganymed
 261aa8498eb15b2707ff2d24e9fc996c	1	34548	player
 261f486147e28042597f5b83ed7fb233	1	291754	player	Game/Hippel_Jochen/Ninja_Remix/Older_hipc_versions/hipc.ingame_4
+261f486147e28042597f5b83ed7fb233	1	291754	player	Game/Hippel_Jochen/Ninja_Remix/soc.ingame_4
 261f486147e28042597f5b83ed7fb233	2	4372	silence
 262cf7f3e45e912906d5e9f887337c6d	1	211226	player	Game/Brimble_Allister/Superfrog/Unused/p4x.L2mu
 262f8f47775d523309ba15716936f599	0	131434	loop	Game/Carehag_John/Fuzzball/Custom_Version/cust.ingame
@@ -2480,6 +2484,7 @@
 27a9edd2f0ae1cea281ce68863277af8	1	7747	player	Game/Cummings_Adrian/Tommy_Gun/mod.mutation
 27ac86076202074e7f39b01e91736eeb	0	308089	loop	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.turmlevel.SA
 27af4e26cce0c56a24ee77c7623479cf	1	145940	player	Game/Hippel_Jochen/Lethal_Xcess/Older_hip7_hipc_versions/hipc.options
+27af4e26cce0c56a24ee77c7623479cf	1	145940	player	Game/Hippel_Jochen/Lethal_Xcess/soc.hiscore
 27bb115786b4a6b3de1c3f7fe813cdcf	0	134382	player	Game/Daglish_Ben/Chubby_Gristle/bds.Chubby_Gristle
 27bb115786b4a6b3de1c3f7fe813cdcf	1	19179	player
 27be4e053fec4d808452ef9194b0cdf4	0	6477	player	Game/Murry_Barry/Man_Hunter_1/agi.ingame_58
@@ -2560,6 +2565,7 @@
 2808e4e00b7daf3925115ef293d24935	1	41788	player	Game/Knight_Mark/Wing_Commander/mod.w.c.eject-lost
 28092e481779a5c8bf75e978cd469b27	0	508	player	Game/Lowe_Al/Leisure_Suit_Larry_1/agi.ingame_15
 280ae06b29508cff63c5d0854c999b9f	0	126761	player	Game/Larsen_Sten/Bedroom_Olympiad/mod.sll8
+280ed51f39672e4e95c7afc93ed870e8	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Misty Orc Hob
 280ed51f39672e4e95c7afc93ed870e8	1	122824	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Misty_Orc_Hop
 2819d468d21642c0f9ee1cec0fbb88c0	1	61475	player	Game/Brimble_Allister/Body_Blows_Galactic/p4x.options
 2828809a1261870f626d1cc8dcee6a5d	1	73033	player	Game/Fevre_Christophe/Blues_Brothers/mod.bluesgunnbest
@@ -3010,6 +3016,7 @@
 2ef75149b5dc56e290cf0a844abcd88e	0	150600	loop	Game/Steinwachs_Matthias/Ambermoon/Direct_from_Composer/sa.Amber22.pc
 2f0d25e5c1ae38a750805574d526d396	1	96023	player	Game/Page_Jason/Master_Axe/mod.tourn2
 2f1ce22af0041f9c2145764a1da10438	0	297597	player	Game/Dahlgren_Tomas/Zarathrusta/pvp.Zarathrusta
+2f1e567198016cf9809fe6e3fb5ccf07	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Ode to Schnism
 2f1e567198016cf9809fe6e3fb5ccf07	1	86370	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Ode_To_Schnism
 2f263411e65e11a694a4ccc29c905816	1	57538	player	Game/Lowe_Dave/Super_Street_Fighter_2_TNC/dln.Blanka
 2f263411e65e11a694a4ccc29c905816	2	0	nosound
@@ -3220,6 +3227,7 @@
 32b8d248abc5e72f1c8fbf3b48b65acb	0	6223	player	Game/Scott_Anita/Gold_Rush/agi.ingame_18
 32bb4814e216f04c71dc67d1d18b5b7c	1	73542	player	Game/Lowe_Dave/Betrayal/dl.title
 32bfec0e61179e2669fd3b0d46a88f00	1	315749	player+volume	Game/Hippel_Jochen/Lethal_Xcess/Older_hip7_hipc_versions/hipc.ingame_2
+32bfec0e61179e2669fd3b0d46a88f00	1	315749	player+volume	Game/Hippel_Jochen/Lethal_Xcess/soc.ingame_4
 32d323363affe7503b3be47b68942b9f	0	38358	player	Game/Stember_Rudolf/Mad_TV/mdat.ingame_2
 32d323363affe7503b3be47b68942b9f	1	10161	player
 32dbaf0a3f40f9c93ffcec7ea5481170	0	195858	player	Game/Stember_Rudolf/Mr_Nutz/mdat.underworld
@@ -3588,6 +3596,7 @@
 3913a0ce5a14e1d1882294532785e3e0	1	77733	player	Game/Earl_Kevin/Psycho_Santa/mod.crimbo
 3917f1d6a77ba1b9d897878321ed2d9b	1	77098	player	Game/Eide_Oisten/RoboCop_3/mod.(ingametwo)
 392d7d270163a37c1c59b3c7457fddb8	1	84465	player	Game/Hippel_Jochen/Ghost_Battle/Older_hip_hipc_versions/hipc.title_menu_and_game_end
+392d7d270163a37c1c59b3c7457fddb8	1	84465	player	Game/Hippel_Jochen/Ghost_Battle/soc.title
 39339406a0dbbcace7518ace9cecec1b	1	129174	player	Game/Bartlett_Tim/Abandoned_Places_2/mod.ab2v2
 3944d1314626889c5d3aa51f1f986ef2	1	39175	silence	Game/Gaiba_Gian_Luca/Time_Runners_15/mod.ST1
 3944d1314626889c5d3aa51f1f986ef2	1	39175	silence	Game/Gaiba_Gian_Luca/Time_Runners_16/mod.ST1
@@ -4741,6 +4750,7 @@
 4bbac3538cb4d35d9a9bdb7b28f2f12b	1	50044	player	Game/Brimble_Allister/All_Terrain_Racing/p4x.ingame_3
 4bc0b257ff6eebbe7bc2f67b129e2fff	0	46995	player	Game/Zighem_Thomas/Genesia/abk.moyen5.2
 4bc8f1628cb77fb76188dd653dd2f02f	1	326430	player	Game/Hippel_Jochen/Ghost_Battle/Older_hip_hipc_versions/hipc.level_1
+4bc8f1628cb77fb76188dd653dd2f02f	1	326430	player	Game/Hippel_Jochen/Ghost_Battle/soc.world_1
 4bd990f9f89888bcb3565b8db47e6af0	1	55378	player	Demo/Jail/Skizzo_Demo_2/mod.MD20
 4be5a747a42c1632a524e5734e97959d	1	80654	player	Game/Tinman_Keith/Batman-The_Caped_Crusader/mod.acidbat2
 4be7564c4e8058c8c344bbc3003ebe4a	1	383841	player	Game/Knight_Mark/Liberation/med.Ingame
@@ -4879,6 +4889,7 @@
 4e600f1df05d04f1504eac78c55d95e3	1	226595	player	Game/Whitely_Jason/Road_Rash/mod.roadrash
 4e672c89d93a290b7720a70214438203	1	107582	player	Game/Martins_Julio/Son_Shu-Shi/mod.SonShuShi 07
 4e6fc2226b4c53a872295314c86ce169	0	140987	player	Demo/Brimble_Allister/Sonix_Jukebox_14/smus.mytune2
+4e743f4a0252c26e927ecaa2fdcad90b	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Erik's Revenge
 4e743f4a0252c26e927ecaa2fdcad90b	1	128031	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Eriks_Revenge
 4e74ad7bb6b91c04bf543cc6892ff918	0	5715	player	Game/Daglish_Ben/Passing_Shot/bd.Passing_Shot
 4e74ad7bb6b91c04bf543cc6892ff918	1	6477	player
@@ -5189,6 +5200,7 @@
 532a244b9d5d6d466e71a0de4a254804	0	200183	loop	Game/Molloy_John/Jinxter/cust.Jinxter
 5340461ada51a79cd2a9f35115495fe3	1	69223	player	Game/Klaren_Ron/Plague/Eagleplayer_Versions/rk.game_end
 5346b9dd43118307cf58c909f476f07a	1	294422	player	Game/Hippel_Jochen/Ghost_Battle/Older_hip_hipc_versions/hipc.level_2_and_5
+5346b9dd43118307cf58c909f476f07a	1	294422	player	Game/Hippel_Jochen/Ghost_Battle/soc.world_2
 53534847942658ee18070b3f8f5b4566	1	169057	player	Game/Nixon_Phillip/Elvira_2/mod.hideaway
 535bb71fa3d0cc4ba823fae58034fdee	1	324143	player	Game/Holt_Hein/Disposable_Hero/mod.level6h
 535faad9fb414f96e6d53777d85073fc	0	0	nosound	Game/Joseph_Richard/Cannon_Fodder/rjp.INTBASE
@@ -5650,6 +5662,7 @@
 5a4f29c2356f9098f1421e9e60c62978	1	122951	player	Game/Tankard_Paul/F1_World_Championship_Ed/mod.player_options
 5a5a7c0ae738b019fe5fd91a9c1a3a94	1	31245	player	Game/Furniss_Matt/Ultima_6/med.ULTIMA_Ba
 5a5b5b1987455b107d9f1298160762be	1	262414	player	Game/Hippel_Jochen/Lethal_Xcess/Older_hip7_hipc_versions/hipc.ingame_5
+5a5b5b1987455b107d9f1298160762be	1	262414	player	Game/Hippel_Jochen/Lethal_Xcess/soc.ingame_1
 5a5d29933e7b9e3c056357f44c5db00c	0	95896	player	Game/van_Vliet_Reinier/Winter_Camp/mug.level_7
 5a5d29933e7b9e3c056357f44c5db00c	1	6001	player+silence
 5a5d29933e7b9e3c056357f44c5db00c	2	7757	player+silence
@@ -5978,6 +5991,7 @@
 5ea2d508c128de1731386bd878162e65	1	284260	player	Demo/Hogg_Steve/Amazing_Music_Disk_1/mod.dreamland
 5ea8fddc30a9e901e41aa3a6325c4b61	1	121045	player	Game/Iveson_Martin/Wonderdog/np3.dogville
 5eac0a5490e48c53e3ac69ef46115f9b	1	76844	player	Game/Gaiba_Gian_Luca/Diabolik_06/mod.fine
+5ec4a391c217644d6d293d67465979df	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Lurking Horrors
 5ec4a391c217644d6d293d67465979df	1	199668	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Lurking_Horror
 5ec4c41800f1c35606c59f84bd7faaae	1	94880	player	Game/Jackman_Henry/Zyconix/med.jazz
 5ec7533af40faf6d0f998f3c05a88dd4	0	33786	player	Game/Goldstein_William/Kings_Quest_4/agi.ingame_90
@@ -6182,6 +6196,7 @@
 60a2da5ff43f480437ac6951cc44dfb7	9	217702	loop
 60a639b3bc3b797c4cc992b6fe86413b	1	93356	player	Game/Brimble_Allister/Body_Blows_Galactic/p4x.titanica
 60c12347483476099f9746ef7f953496	0	138479	loop	Game/Beben_Wally/Winter_Olympiad_88/cust.opening
+60c287632d9771e49bb2ddb9b57fc6bd	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Mystic Moments
 60c287632d9771e49bb2ddb9b57fc6bd	1	173363	player+volume	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Mystic_Moments
 60c31165249343517e7464cbddcadc0c	0	125	player	Game/Scott_Anita/Gold_Rush/agi.ingame_42
 60c79b6e61ba1ef56832362710ab57c8	0	84255	loop	Game/Warhol_Dave/FA-18_Interceptor/cust.FA-18_Interceptor
@@ -7186,6 +7201,7 @@
 70e85ff3cf50ca70021543e7f9622b25	9	8001	player
 70f31ed7f92a34a3867a589eddb50e32	0	10161	player	Game/Goldstein_William/Kings_Quest_4/agi.ingame_20
 70f5f63afcbe468c7bb854f198d5140c	1	46106	player	Game/The_Jester/Town_With_No_Name/mod.RACOONTUNE
+7100869f7adbc2a725a1512d0829ba97	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Hasta La Vista
 7100869f7adbc2a725a1512d0829ba97	1	226595	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Hasta_La_Vista
 711356ec93167f9f22f4ab2175f9fd16	1	80654	player	Game/Howe_Ian/Humans/mod.level1
 711356ec93167f9f22f4ab2175f9fd16	1	80654	player	Game/Howe_Ian/Humans_CD32/mod.level1
@@ -7340,6 +7356,7 @@
 738499768633d87df1e121ebef990642	1	167152	player	Game/Brimble_Allister/Dungeon_Master_2/p4x.SK04.MOD
 738e8d9c79825f1a12ff567d898d809d	0	141749	player	Game/Grigg_Chris/California_Games/smus.hp2
 7399ef385d9eff87b7b35b7a2971b68a	1	268765	player	Game/Hippel_Jochen/Ninja_Remix/Older_hipc_versions/hipc.ingame_5
+7399ef385d9eff87b7b35b7a2971b68a	1	268765	player	Game/Hippel_Jochen/Ninja_Remix/soc.ingame_5
 73a8088a958c8ff43c42b6fb7312aa9c	1	192047	player	Game/Brimble_Allister/Subwar_2050/p4x.SUBWARS.MOD
 73b8f8974aa690be3834f2f9a1ec2ecb	1	133874	player	Game/Iveson_Martin/Heimdall/MOD.heimdall (intro)
 73c5e4bd572dcf27339533d657c7ffb2	1	146830	player	Game/Huelsbeck_Chris/Mad_News/mod.madnews6
@@ -7707,6 +7724,7 @@
 78f317c6e1d6b51d90bc688765f65cfc	8	5080	player
 78f317c6e1d6b51d90bc688765f65cfc	9	67191	player
 78f3a7f072b2204f92add811bb69497a	1	92213	player	Game/Haywood_Tim/Burning_Rubber/mod.scotland
+790001e1f182a86dff6a07860848e0df	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Funky Dungeon
 790001e1f182a86dff6a07860848e0df	1	122824	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Funkey_Dungeon
 79010d39ad3e270ffb2ac79f733b4b25	1	9361	player+silence	Game/Balderstone_Rob/Shaq-Fu/mod.MOD.SHAQFU4
 7905241005b4d605a33021310fed894e	1	0	nosound	Game/Evans_Dean/Jurassic_Park/med.sfx_2
@@ -7853,6 +7871,7 @@
 7ab81704293a42f9f0054942547bb5b2	0	381	player	Game/Lowe_Al/Kings_Quest_2/agi.ingame_14
 7ab9f5124ae707938ab60e5a9aac2658	0	72779	player	Game/Loriaux_Pierre-Eric/Liquid_Kids/puma.lik.lv4a
 7ac90f114524b4252bbb4f4fbdf373b0	1	365677	player	Game/Ithell_Darren/Dizzy_Panic/mod.daisy
+7aced6c0d9e8af2e76f58a277341af77	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Dreamcave
 7aced6c0d9e8af2e76f58a277341af77	1	144035	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Dreamcave
 7ad03fafc872fdcf3ee085f646b6d6b6	0	10669	player	Game/Goldstein_William/Kings_Quest_4/agi.ingame_75
 7ade54ee3f5f1585fd810383f29caa73	1	142130	player	Game/Veal_James/Rally_Championships/AGA_Version/mod.racer
@@ -8238,6 +8257,7 @@
 7f9a5fc3c2001679387b0970c4f89d24	1	38485	player	Game/Iveson_Martin/Bubba_n_Stix/np3.complete
 7f9b5681a4df9ba6b8ce8ad3cd627e06	1	176043	player	Game/Brimble_Allister/Goal/p4x.title
 7f9e1e4688de39e7ee6d27fc0e77553f	1	276513	player	Game/Hippel_Jochen/Enchanted_Land/Older_hip_hipc_versions/hipc.ingame_2
+7f9e1e4688de39e7ee6d27fc0e77553f	1	276513	player	Game/Hippel_Jochen/Enchanted_Land/soc.ingame_2
 7f9e1e4688de39e7ee6d27fc0e77553f	2	314001	player+volume
 7f9e1e4688de39e7ee6d27fc0e77553f	3	286674	player
 7fa1c3b238fd07fea0a4f47065c803f2	1	37353	player+volume	Demo/Aho_Mika/Hate_2/Original/mod.hate 2-intro
@@ -8536,6 +8556,7 @@
 84a656b8b440984836e286b8e315ac0d	2	8891	player
 84a656b8b440984836e286b8e315ac0d	3	15368	player
 84a656b8b440984836e286b8e315ac0d	4	7366	player
+84acc62e7e359f3b676225256e5b0c56	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Flying High
 84acc62e7e359f3b676225256e5b0c56	1	122824	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Flying_High
 84b9eba0e15c2beee852732f2f7261d1	1	67318	player	Game/Brimble_Allister/Incredible_Crash_Dummies/p4x.ingame_1
 84bbc10dfae78fc08879903fbc6a0354	1	138320	player	Game/Norrish_Ray/Captain_Fizz/mod.psyg-3
@@ -8851,6 +8872,7 @@
 87f126d9512d5b8d53b4a52044b873b4	1	11558	player	Game/Gaiba_Gian_Luca/Spider-Man_03/mod.gmour
 87f447c3bee6b2546b9565e627e59408	0	188331	loop	Game/Lopatic_Thomas/Great_Giana_Sisters/Custom_Versions/cust.title
 87f550b835dd1e447685c8b456400036	1	120283	player	Game/Hippel_Jochen/Prehistoric_Tale/Older_hip_hipc_versions/hipc.ingame_1
+87f550b835dd1e447685c8b456400036	1	120283	player	Game/Hippel_Jochen/Prehistoric_Tale/soc.end
 87f550b835dd1e447685c8b456400036	2	99834	player
 87f550b835dd1e447685c8b456400036	3	76717	player
 87f550b835dd1e447685c8b456400036	4	80654	player
@@ -8997,6 +9019,8 @@
 8aa37bb354e7feb6a84c6db03e32ecb1	1	169057	player	Game/Motte_Frederic/Fury_o_t_Furries/Direct_from_Composer/mod.fury.village
 8aaec9f72a5929a94111e11f5a134a6e	1	107582	player	Game/Gaiba_Gian_Luca/Dylan_Dog_02/mod.Donna
 8aaec9f72a5929a94111e11f5a134a6e	2	46106	player
+8ab6fd1d63e861329eb18eff8287673e	1	252493	player+silence	Game/Hippel_Jochen/Prehistoric_Tale/soc.hiscore
+8ab6fd1d63e861329eb18eff8287673e	2	43058	player
 8ac68113434b932e006a98cfdbe0b930	1	115203	player	Game/Gaiba_Gian_Luca/Time_Runners_12/mod.COVER
 8ac68113434b932e006a98cfdbe0b930	1	115203	player	Game/Gaiba_Gian_Luca/Time_Runners_13/mod.COVER
 8ac68113434b932e006a98cfdbe0b930	1	115203	player	Game/Gaiba_Gian_Luca/Time_Runners_14/mod.COVER
@@ -9069,6 +9093,7 @@
 8b8bbddfa9a0299613866d698112343d	1	30737	player	Game/Baudlot_Jean/Castle_Warrior/mod.bentley
 8b9b10aa57c847c4f1ea6bbc9ec7f654	0	61475	player	Game/Picq_Stephane/Jumping_Jack_Son/gmc.HARDROCK.DATA
 8b9e2e9d88f169e3a4ce3abd7ddcd4f5	0	5128	player+silence	Game/Brimble_Allister/Terrys_Big_Adventure/gmc.game_over
+8ba4d26ee78e1d50d9c46578112e5a91	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Fanfares
 8ba4d26ee78e1d50d9c46578112e5a91	1	161182	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Fanfares
 8baa12d614a34d9ce174f93465d6cc16	1	7747	player	Game/Deenen_Charles/Castles_2_CD32/mod.15battlose_1.3
 8bab26d5cce8020678f4f3f31f1679e2	1	58300	player	Game/Leitch_Barry/Zone_Warrior/mod.egyptianrescue
@@ -9345,6 +9370,7 @@
 8f129ad99193939fbbbd5e57d5825c1a	0	53854	player	Game/Szumiela_Marcin/Mentor/abk.basista
 8f1577946bfebf22d805b47bbce10b87	0	136287	player	Game/Nielsen_Bent/Nebulus_2/dm2.Final_Funny
 8f1dd2372f0b01305dd0f5543ea8b64b	1	107455	player	Game/Hippel_Jochen/Prehistoric_Tale/Older_hip_hipc_versions/hipc.game_over
+8f1dd2372f0b01305dd0f5543ea8b64b	1	107455	player	Game/Hippel_Jochen/Prehistoric_Tale/soc.ingame_2
 8f24165540f5c510fee8a6bae4aaa8dd	0	184426	player	Game/Bjerregaard_Johannes/Stormlord/jt.title
 8f2c15c21340283fb3d10126dedf2b0d	1	356659	player	Game/Lynne_Bjorn/Kasei_Vallis/Direct_from_Composer/mod.kv.in-game
 8f308a0ca439bf307eb5b98d3c29e832	0	1905	player	Game/Murry_Barry/Man_Hunter_2/agi.ingame_153
@@ -9421,6 +9447,7 @@
 90607d184b5e269fe6203264e742fe4e	0	6223	player	Game/Murry_Barry/Man_Hunter_1/agi.ingame_63
 906158733fdf4c7972f7bb31faaf31e5	0	8383	player	Game/Scott_Anita/Gold_Rush/agi.ingame_16
 906ac90ae563d71ad2f44869adbe191b	1	330240	player	Game/Hippel_Jochen/Lethal_Xcess/Older_hip7_hipc_versions/hipc.ingame_1
+906ac90ae563d71ad2f44869adbe191b	1	330240	player	Game/Hippel_Jochen/Lethal_Xcess/soc.ingame_3
 907e224f137266b55e03b2e8315b2792	1	177555	player+silence	Game/Page_Jason/Simulcra/jpo.Simulcra
 907e224f137266b55e03b2e8315b2792	2	69223	player
 90887d4878aa5d55e7d8d13608a7dd87	1	9018	player	Game/Leitch_Barry/Gemini_Wing/mod.gwlv5monster
@@ -9574,6 +9601,7 @@
 917d39c6b43210952a6550a8cec48767	8	6223	player
 917d39c6b43210952a6550a8cec48767	9	1778	player
 918a10c9a58eab5b6520a27d35b63ad7	1	251239	player+silence	Game/Hippel_Jochen/Enchanted_Land/Older_hip_hipc_versions/hipc.ingame_1
+918a10c9a58eab5b6520a27d35b63ad7	1	251239	player+silence	Game/Hippel_Jochen/Enchanted_Land/soc.ingame_1
 918a10c9a58eab5b6520a27d35b63ad7	2	107455	player
 918a10c9a58eab5b6520a27d35b63ad7	3	255936	player
 918a10c9a58eab5b6520a27d35b63ad7	4	0	error
@@ -10026,6 +10054,8 @@
 98c44bcb2f2d9fe44f94f92218cfdac4	0	523382	player+silence	Game/Soede_Jeroen/Doofus/sm.ingame_1
 98cad838a8c66561ae174f1fb809190d	1	7747	player	Game/DJ_Braincrack/Crazy_Sue/mod.hop'n'run-8
 98d9cd1932c6b48786a6507aa285328f	1	253396	player	Game/Hippel_Jochen/Ghost_Battle/Older_hip_hipc_versions/hipc.level_4
+98d9cd1932c6b48786a6507aa285328f	1	253396	player	Game/Hippel_Jochen/Ghost_Battle/soc.world_4
+98dda710a7b536409e77226b4461ecef	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Irish Spring
 98dda710a7b536409e77226b4461ecef	1	130572	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Irish_Spring
 98f65af73602a13a8bcaa9779d249383	0	30991	player	Game/Haggard_Gregory/Wings/cin.ingame_10
 98f7fc78e989ac6f7362e6621083eb1f	1	0	nosound	Game/Toni_Lorenzo/Dylan_Dog_The_Murderers/Unused/mod.dylan close
@@ -10134,6 +10164,7 @@
 9b489ff3c10d5cce0ce25d1c50d71c63	4	11460	loop
 9b489ff3c10d5cce0ce25d1c50d71c63	5	23957	loop
 9b489ff3c10d5cce0ce25d1c50d71c63	6	3302	player
+9b5b1f10e9b245ea361d6db72b5c8522	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Travellers Tune
 9b5b1f10e9b245ea361d6db72b5c8522	1	112662	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Travellers_Tune
 9b65eba56813075979f1576e90a4d23b	1	115203	player	Game/Ede_Richard/Wiz_n_Liz/mod.newbeginner -rik ed
 9b71991b62406ba279ef5681749bc6c8	1	35945	player	Game/Knight_Mark/Alfred_Chicken_AGA/mod.meka1
@@ -10146,6 +10177,7 @@
 9bb45cd5407bfb18156ec3d0b03cf8ef	1	76844	player	Game/Fevre_Christophe/Prehistorik/mod.prehistoboy16
 9bb526e7bee3f06131130b9ab6c36586	1	46106	player	Game/Nathan_Matthew/Erben_der_Erde/mod.damexplm.xmi
 9bba5776d5bd849b54ce9a49b0c244e0	1	270035	player	Game/Hippel_Jochen/Ninja_Remix/Older_hipc_versions/hipc.ingame_2
+9bba5776d5bd849b54ce9a49b0c244e0	1	270035	player	Game/Hippel_Jochen/Ninja_Remix/soc.ingame_2
 9bc7d163cdb5bfc104c0deca6bf90681	0	34421	player	Game/Loriaux_Pierre-Eric/Liquid_Kids/puma.lik.boot
 9bcd9d282ebdb15f282a1a9dcd396f25	0	8637	player	Game/Murry_Barry/Man_Hunter_1/agi.ingame_79
 9bcdb61cfecd6ad2c414bfb904fd6364	0	11177	player	Game/Magerkord_Dirk/Einmal_Kanzler_sein/mdat.ingame_72
@@ -10154,6 +10186,7 @@
 9bd127dc5d539f32857f339071968f2d	0	19052	player	Game/Brimble_Allister/Alien_Breed_SE/bp.ALIENENDLEVEL
 9bd8621f37bedd37082e1bf26ba58abd	0	127	player	Game/Murry_Barry/Man_Hunter_2/agi.ingame_115
 9bd988c8dc3e1ac06255bb8679dbea77	1	233327	player	Game/Brimble_Allister/Alien_Breed_2/Direct_from_Composer/mod.ab2500b
+9bde40f778d58125ee6a622b2b2ccb84	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Lullaby
 9bde40f778d58125ee6a622b2b2ccb84	1	76717	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Lullaby
 9beeb82ca9def56f326881775a55b102	1	20322	player	Game/Gibbons_Dave/Fire_Force/med.FFDRUMS
 9bf2a1a4f495b2b411adf810c74c6912	0	155572	loop	Game/Ruzicka_Nils/Marvin_Marvellous_Adventure/sa.xentrix
@@ -10423,6 +10456,7 @@ a05261d79df9355196b1f2c609bbeadd	0	117616	player	Game/Iveson_Martin/Wolfchild/mo
 a05261d79df9355196b1f2c609bbeadd	1	25403	player
 a05a9e334208c390757226ca2e005346	0	199541	player	Demo/Lentfert_Sebastiaan/Dragons_Megademo_1/bp.GHOSTS
 a05bee3cc26b9c8d9fc32d00f0b3fc26	1	189380	player	Game/Hippel_Jochen/Ninja_Remix/Older_hipc_versions/hipc.title
+a05bee3cc26b9c8d9fc32d00f0b3fc26	1	189380	player	Game/Hippel_Jochen/Ninja_Remix/soc.title
 a06b9c90a71466e85e1966dcdf1a3998	0	10288	player	Game/Magerkord_Dirk/Einmal_Kanzler_sein/mdat.ingame_29
 a06d0f791dbb2f2e1857d65e2d1ae947	1	79937	player+silence	Game/Lynne_Bjorn/Escape_from_Colditz/mod. gameover
 a07cda310d6c24ba62c3b3047b4752d7	1	176678	player	Game/Hippel_Jochen/Leavin_Teramis/sog.ingame_3
@@ -10497,6 +10531,7 @@ a1d1eb8f7f7a111300029d669c6ab1ea	1	153688	player	Game/Williams_Scott/Pinkie/mod.
 a1dba2c2638b3fab7738aa14c1b186eb	1	12769	player+volume	Game/Cornelius_Orall/Pyramax/mod.death
 a1dc20922b1aa787dca28cacef59ac22	1	87566	player+silence	Game/Rebas_Martin/Pengo/mod.pengotitle
 a1deb95783373f6bb8decc1a9a8e15f3	1	57665	player	Game/Sonic_Boom_Boy/GigerTetris/mod.synthetic-qartet
+a1e5bbc64c5bf77948a402b74873221a	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.High Seas
 a1e5bbc64c5bf77948a402b74873221a	1	115203	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.High_Seas
 a1ecf44c7733dcc1a63e8fcf9cdc2c5a	0	1651	player	Game/Murry_Barry/Man_Hunter_2/agi.ingame_002
 a1efeadf372730ca95ef7bed308566b4	1	23116	player	Game/Demsky_Martin/Strangers/p60.FATALITY
@@ -11092,6 +11127,7 @@ abd4d0a8a9c9ec4ac74777efe8fbdfa7	3	6350	player
 abd4d0a8a9c9ec4ac74777efe8fbdfa7	4	38358	player
 abd4d0a8a9c9ec4ac74777efe8fbdfa7	5	51187	player
 abd5490108465b4c5b668e29542f770f	1	378887	player	Game/Hippel_Jochen/Prehistoric_Tale/Older_hip_hipc_versions/hipc.title
+abd5490108465b4c5b668e29542f770f	1	378887	player	Game/Hippel_Jochen/Prehistoric_Tale/soc.title
 abd7492e10ec9cc952acca9174d37901	1	69223	player	Game/Cummings_Adrian/Tin_Toy_Adventure/mod.the_bubble_bathroom
 abde4092b3c50c10eeac89c80b8663b7	1	22925	player+silence	Game/Leitch_Barry/Stratego/mod.strategocomplet
 abe23ae2a53226000bb96ccce0dc0b6e	0	70493	player	Game/Tel_Jeroen/Agony/Custom_Versions/cust.level_1_and_6
@@ -11204,6 +11240,7 @@ ae3200886ea279802ecb05f2a67c2277	7	203815	loop
 ae3200886ea279802ecb05f2a67c2277	8	66827	loop
 ae3200886ea279802ecb05f2a67c2277	9	7675	silence
 ae44d2b0737de99da709cceef027e590	1	134509	player	Game/Furniss_Matt/Shadow_Warriors/mod.swintro
+ae4d86d7e99f9ba5f8a3a939b94f1683	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Horse Song
 ae4d86d7e99f9ba5f8a3a939b94f1683	1	126634	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Horse_Song
 ae5283857839b43e605117f33574bf3c	1	131334	player	Game/Iveson_Martin/Wonderdog/np3.planet_k_9
 ae52e085a340669f9cb02284d874c134	1	38485	player	Game/Cummings_Adrian/Bug_Bash/mod.bugbash2
@@ -12354,6 +12391,7 @@ bfc665f18d72f03212ed3894891e0588	0	61475	player	Game/Joseph_Richard/Sensible_Gol
 bfc665f18d72f03212ed3894891e0588	1	0	nosound
 bfc665f18d72f03212ed3894891e0588	2	20449	player
 bfc697c06b2d8109855a0ebe8c4dd35e	1	22989	player	Game/Hippel_Jochen/Prehistoric_Tale/Older_hip_hipc_versions/hipc.ingame_2
+bfc697c06b2d8109855a0ebe8c4dd35e	1	22989	player	Game/Hippel_Jochen/Prehistoric_Tale/soc.ingame_1
 bfc697c06b2d8109855a0ebe8c4dd35e	2	138193	player
 bfca8abb99b9d651b87c6c9224ec7f9c	0	102614	loop	Game/Lautensack_Frank/Dimos_Quest/sa.title
 bfd0e4cf35a4b80415644dc774f49508	1	126761	player	Demo/Collier_Kevin/Amazing_Tunes_2/mod.weapon 2
@@ -12749,6 +12787,7 @@ c736368639f0f325a55c9d91544a13e1	0	75819	loop	Game/Blaha_Christian/Aztec_Challen
 c736e774b6299fa2bac11b4f84fd15a4	1	284356	loop	Game/Beben_Wally/Time_Machine/Custom_Version/cust.title
 c736e774b6299fa2bac11b4f84fd15a4	2	171491	loop
 c736e774b6299fa2bac11b4f84fd15a4	3	13136	silence
+c75897ce3332eb04c3b28c30b60f868f	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Bard Dance
 c75897ce3332eb04c3b28c30b60f868f	1	127904	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.ingame
 c75965de57b48e32bc12a71880ccd7b8	1	166517	player	Game/Nagy_Denes/Wendetta_2175/p60.rebeb
 c764db4f2dc73efd3f5c1db96f3d8209	1	253523	player	Game/Brimble_Allister/Superfrog/p4x.L6mu
@@ -12980,6 +13019,7 @@ ca8724259e8bb7bb2563faf13a282be9	1	3937	player	Game/Loriaux_Pierre-Eric/Cabal/mo
 ca8d9aa03d650136625614b51ebc8f83	1	15368	player	Game/DJ_Braincrack/Crazy_Sue_2/mod.crazy-sue2.6
 ca8fee8deaf1213aa9ec36fe6f907615	1	92213	player	Game/Haywood_Tim/Winter_Olympics/prun.titlemusic
 ca91abb5657d23214c14dc2068da2c09	1	230406	player	Game/Hippel_Jochen/Ninja_Remix/Older_hipc_versions/hipc.ingame_1
+ca91abb5657d23214c14dc2068da2c09	1	230406	player	Game/Hippel_Jochen/Ninja_Remix/soc.ingame_1
 ca91abb5657d23214c14dc2068da2c09	2	62546	silence
 ca98931176c1b3489081b9fcd844d85f	1	125491	player	Game/Wright_Tim/Awesome/mod.r1c
 ca9fc3299b488eb9cc9e3099f6e4caca	0	297216	player	Demo/Brimble_Allister/Sonix_Sounds/smus.Demon3
@@ -13002,6 +13042,7 @@ cafc62d13a363e4ada7ae8c1e06ecf61	0	127	player	Game/Murry_Barry/Man_Hunter_2/agi.
 cb01bf6d9b9fc4106b3f3d67b801f68e	1	53854	player	Game/Furniss_Matt/Alien_3/mod.a3level2
 cb02dc2e87d872835a717625656f2446	1	73288	player+silence	Game/Barzagli_Fabio/T-ZERO/mod.SpaceTek
 cb04dd72ab12b3428283294634d1016d	1	259238	player	Game/Hippel_Jochen/Ninja_Remix/Older_hipc_versions/hipc.ingame_3
+cb04dd72ab12b3428283294634d1016d	1	259238	player	Game/Hippel_Jochen/Ninja_Remix/soc.ingame_3
 cb11f05c6e29cff96e8d3058be9e08f2	0	25784	player	Game/Goldstein_William/Kings_Quest_4/agi.ingame_65
 cb166b81f2ead9bfc396334337547dc1	0	11011	loop	Game/Steinwachs_Matthias/Ambermoon/Direct_from_Composer/sa.Amber30.pc
 cb166b81f2ead9bfc396334337547dc1	1	11023	loop
@@ -13657,6 +13698,7 @@ d47a146c16aa4679ad61e6d907f931bf	1	11558	player	Game/Beben_Wally/Airmania/mod.si
 d47aa7a32d9608aea8971e18dc9dd6b7	0	255936	player	Game/Whittaker_David/Stormtrooper/dw.Stormtrooper
 d47aa7a32d9608aea8971e18dc9dd6b7	1	107455	player
 d4825b9e7304a4509ae84316fa425b7b	1	286468	player+silence	Game/Hippel_Jochen/Ghost_Battle/Older_hip_hipc_versions/hipc.level_3
+d4825b9e7304a4509ae84316fa425b7b	1	286468	player+silence	Game/Hippel_Jochen/Ghost_Battle/soc.world_3
 d48a67c5b791b3f4abbb6ee2c466fe4b	1	370631	player	Game/Betrayer/Dr_Mario/mod.friend or fom
 d4a6f6f86b2a273fde7115d54b4755a5	1	23243	player	Game/McGinty_Andi/WWF_European_Rampage_Tour/mod.hulkhogan
 d4af52988ee41b8dd037e56094e19830	1	23788	player+silence	Demo/Jail/Skizzo_Demo_2/mod.IMOD
@@ -14223,6 +14265,7 @@ de9cd2eb46d664554afad633b352871e	1	61348	player	Game/Deenen_Charles/Castles_2_CD
 de9dd21343f82553ea9b22c43d4d2cde	1	153688	player	Game/Motte_Frederic/Fury_o_t_Furries/Direct_from_Composer/mod.fury.pyramid
 de9fbbcced72e658df8d1dbf50a8df11	1	53854	player	Game/Lambin_Alain/Nicky_Boom/mod.songdead
 dea39f3344910b19c6a5c1183725a8b9	0	32007	player	Game/Lowe_Al/Kings_Quest_2/agi.ingame_06
+dea3cbad6f187a695de712dbd531d45f	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Bonus Song
 dea3e39a33b4f306a5d6929df5eb7d9d	1	64015	player	Game/Ede_Richard/Brian_The_Lion/pha.BrianTheLion 47
 deaa3938aecfb7bd38ad5b08090851f1	1	199795	player	Demo/Tripp_Volker/Chess_Board/mod.life may change
 deae8be09e76c9c9a621147305fe88ba	1	137938	player	Game/Demsky_Martin/Strangers/p60.TITLE01
@@ -14407,6 +14450,7 @@ e1df3f2d65094751a03e5ce8a441592d	8	10088	silence
 e1eb02c7ea8815890e720d1234cd2a71	1	30737	player	Game/Brimble_Allister/Lost_Vikings/p4x.death
 e1fb7107ffb7f3d1e80265402cccfafd	0	24005	player	Game/Elliot_James/Mixed-Up_Mother_Goose/agi.ingame_08
 e21817d0c2ec4d7558ead9f7e71c8476	1	327700	player	Game/Hippel_Jochen/Lethal_Xcess/Older_hip7_hipc_versions/hipc.ingame_7
+e21817d0c2ec4d7558ead9f7e71c8476	1	327700	player	Game/Hippel_Jochen/Lethal_Xcess/soc.ingame_5
 e224fcd717acadf91f3e7e63bdb0f412	1	100723	player	Game/Eeben_Aleksi/Elfmania/Direct_from_Composer/mod.Elfmania Gbl Cave
 e2298d2df77d06f88eeafd9e0467b6f8	0	2159	player	Game/Rettig_Tom/Where_Euro_Carmen_Sandiego/tiny.ingame_16
 e2324e3194914594e04b0721aa68ae6a	1	102501	player	Game/Wright_Tim/Carthage/Direct_from_Composer/mod.fractal map
@@ -14624,6 +14668,7 @@ e58d274131fedeafd0a725a00db1c408	5	8564	silence
 e5a0a6dd92b802f50b4c1f1d76e410cc	0	87005	player	Game/Shields_Paul/Amnios/ps.hiscore
 e5ae5ea99538d28d73334d92d7fa4073	0	22862	player	Game/Brimble_Allister/Project-X/bp.PX6
 e5ae7e015468aebf1d9761e53b8a94e4	1	299712	player+volume	Game/Hippel_Jochen/Enchanted_Land/Older_hip_hipc_versions/hipc.ingame_3
+e5ae7e015468aebf1d9761e53b8a94e4	1	299712	player+volume	Game/Hippel_Jochen/Enchanted_Land/soc.ingame_3
 e5ae7e015468aebf1d9761e53b8a94e4	2	3810	player
 e5bac9b40b9cccb0671e78c26b31f997	0	2921	player	Game/Elliot_James/Mixed-Up_Mother_Goose/agi.ingame_41
 e5c84658df0c59e50cd91daf618d6d37	1	312133	player+silence	Demo/Berthaud_Mathieu/Real/mod.cyberotica
@@ -14994,6 +15039,7 @@ ec4687d1e31a2f05e08968363ed035ae	1	25657	player	Game/Leitch_Barry/Prophecy_-_Vik
 ec473ab353c0c593965623b390567b44	1	35463	player+silence	Game/Wright_Tim/Puggsy/mod.intropt3
 ec4cce4753fc2535d30a7c8b93914739	1	25965	silence	Game/Phelan_Patrick/Lotus_3/mod.l3_forest
 ec4d87bb592b7d1de2aaa6e758f1783f	1	230406	player	Game/Hippel_Jochen/Enchanted_Land/Older_hip_hipc_versions/hipc.ingame_4
+ec4d87bb592b7d1de2aaa6e758f1783f	1	230406	player	Game/Hippel_Jochen/Enchanted_Land/soc.ingame_4
 ec4e998e29946a9f6d33444f3641e559	1	30737	player	Game/Brimble_Allister/Impossible_Miss_25/p4x.SELECT1
 ec675f27948f9f95e94f70d207defe12	0	185188	player	Demo/Brimble_Allister/Sonix_Jukebox_17/smus.4
 ec7a497988cb4dbe5858afa65169df78	0	3175	player	Game/Blaha_Christian/Frantic_Freddie/bp.FRANTIC FREDDIE SONG 12
@@ -15025,6 +15071,7 @@ ed07b109cd7b9e863fd3f696201f981f	1	44836	player	Game/Gaiba_Gian_Luca/Diabolik_04
 ed07b109cd7b9e863fd3f696201f981f	2	15368	player
 ed081aa64b9eae76db51ee7d3a91c0f2	1	96023	player	Game/Gaiba_Gian_Luca/Spider-Man_02/mod.sigur
 ed094044c6f15600532df0b37492fc85	1	153688	player	Game/Bartlett_Tim/Kid_Gloves_2/mod.wind island
+ed09928c455d90c68c836c81f074c935	1	97420	player	Game/Hippel_Jochen/Prehistoric_Tale/soc.menu
 ed0ec125fc07f2f8d07c26042083a0b2	1	61475	player	Game/Balderstone_Rob/PGA_European_Tour/mod.PGA GOLF TOUR(3)
 ed1d54a72fab049080eab4256bb75f6b	0	236122	player	Game/Huelsbeck_Chris/Rock_n_Roll/mdat.mouse_control
 ed1d54a72fab049080eab4256bb75f6b	1	2540	player
@@ -15204,6 +15251,7 @@ efba67c7448e070347291c7e77672804	1	50044	player	Game/Salies_Evens/Explora_3/mod.
 efc5683706255dfa7c6764d6c444ca53	1	80654	player	Game/Iveson_Martin/Bubba_n_Stix/np3.level1
 efd19b566827a9dc9782340e3e75d0a6	1	304710	player	Game/Vela_Filippo/Agricola/mod.outerspace
 efd483ebdb34db484fa88a10be65adab	1	115076	player	Game/Marshall_Brian/Street_Racer/mod.helmut
+efd585f72bd03507f81f674c0cb4c003	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.City Walk
 efd585f72bd03507f81f674c0cb4c003	1	97293	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.City_Walk
 efeed8c305fb68f978de864a120e622f	1	27054	player	Game/Lynne_Bjorn/Shanghai/mod.shang.highscore.2
 efefb8e32cd2f9f382e9b289303b2a00	1	53854	player	Game/Sharp_Lyndon/Pro_Tennis_Simulator/mod.tennis
@@ -15669,6 +15717,7 @@ f6ca5d423d1f51ed8ee804eb5c6b238e	1	34548	player	Demo/Jail/Skizzo_Demo_2/mod.MD08
 f6d40b89f1a873c652e28cc9a573d5b9	0	82106	silence	Game/Callet_Charles/Bob_Morane_Ocean/BOB4C.DUM
 f6d40b89f1a873c652e28cc9a573d5b9	0	82106	silence	Game/Callet_Charles/Operation_Neptune/BOB4C.DUM
 f6d40b89f1a873c652e28cc9a573d5b9	0	82106	silence	Game/Callet_Charles/Project_Neptune/BOB4C.DUM
+f6dbb64573c67d80a3085c89df0fe028	1	0	nosound	Game/Hippel_Jochen/Amberstar/soc.Minor Quarrels
 f6dbb64573c67d80a3085c89df0fe028	1	308012	player	Game/Hippel_Jochen/Amberstar/Older_hipc_versions/hipc.Minor_Quarrels
 f6ee2d99d5bfc21405b1e9810b68d33c	1	218085	player	Game/Seifert_Hannes/Whales_Voyage/mod.weltraumkampfpeter
 f6f3376800b041be1fb350c408da33b2	1	61475	player	Game/Gaiba_Gian_Luca/Time_Runners_17/mod.MUS02
