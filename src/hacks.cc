@@ -126,6 +126,19 @@ const map<pair<string,string>, string> bundled_extfiles ({
     {{"e18c7366eadcf2e171b39816918408f0","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
     {{"ef9c33a9ecb0e14c68a09a44f08b6616","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
     {{"fe771473508f0efcb23dcacc1eb85fe9","WantedTeam.bin"}, UADEDIR "/ext/JesperOlsen/LollyPop/WantedTeam.bin"},
+    {{"607fa8d7a49c0b373580fd629acd40e8","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/AncientArtOfWar/WantedTeam.bin"},
+    {{"7795cf2a65a25a099f509640087dac15","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/AncientArtOfWar/WantedTeam.bin"},
+    {{"19435767e2bf68b6c04941385d505745","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/AncientArtOfWar/WantedTeam.bin"},
+    {{"12178bce42c9e8702881c14993789163","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/AncientArtOfWar/WantedTeam.bin"},
+    {{"1e35824e46acb0f89e25ab8d01d73a30","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/AncientArtOfWar/WantedTeam.bin"},
+    {{"5ef88969b20d52d9408c3d78d604cd1e","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/AncientArtOfWar/WantedTeam.bin"},
+    {{"a52948cd3d62978a6b9570ae21b7401d","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/AncientArtOfWar/WantedTeam.bin"},
+    {{"f9c3e244ada1a0ca701211a2cefa26b0","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/AncientArtOfWar/WantedTeam.bin"},
+    {{"a717edf8c6257e3d2d0a0d27b9798616","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/AncientArtOfWar/WantedTeam.bin"},
+    {{"2ec0c17d505d95da48fdf8a7728a46e2","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/Dogfight/WantedTeam.bin"},
+    {{"61d746d9fa2766b803e58ac7766c3f6d","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/Dogfight/WantedTeam.bin"},
+    {{"7ee7a0176b92e62ebc29cc1506b48434","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/Dogfight/WantedTeam.bin"},
+    {{"cf8e54284a53a44f83bd28a17ecbe84e","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/Dogfight/WantedTeam.bin"},
 });
 
 struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_state *state) {
