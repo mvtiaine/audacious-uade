@@ -16,7 +16,9 @@
 0077897e8162819b67ee471a915ff093	1	20068	player	Game/Zuppicich_Blair/Seek_and_Destroy/med.mission1
 0077897e8162819b67ee471a915ff093	1	20068	player	Game/Zuppicich_Blair/Seek_and_Destroy_CD32/med.mission1
 007a623285fa377e362ef9c396ac8a2c	1	34675	player	Game/Barnabas_Andrew/Cool_Spot/mod.wipeout
-0084444d6129ada47fe0f7ec2ecc081a	0	349485	loop	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.vulkan.SA
+0084444d6129ada47fe0f7ec2ecc081a	0	345609	player	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.vulkan.SA
+0084444d6129ada47fe0f7ec2ecc081a	1	1905	player
+0084444d6129ada47fe0f7ec2ecc081a	2	5715	player
 00855a22f3982b615f86a345a6385345	1	185116	loop	Game/Phillips_John/Eliminator/cust.Eliminator
 00855a22f3982b615f86a345a6385345	2	68596	loop
 00855a22f3982b615f86a345a6385345	3	5770	silence
@@ -513,7 +515,9 @@
 07e3445a97c8ad6d605b94f8b8e2e074	1	192047	player	Game/Joseph_Richard/Moonshine_Racers/mod.moon
 07ee5c31b9884807890383f1c0f9b62f	0	889	player	Game/Elliot_James/Mixed-Up_Mother_Goose/agi.ingame_53
 07f2d4e3aae5a6982e7a980a111657f5	0	90689	player	Game/Rogers_J_Dave/Exolon/sfx.title
-07f346055e29d02b49d02c5a165857be	0	349367	loop	Game/Steinwachs_Matthias/Lionheart/sa.level_4
+07f346055e29d02b49d02c5a165857be	0	345609	player	Game/Steinwachs_Matthias/Lionheart/sa.level_4
+07f346055e29d02b49d02c5a165857be	1	2794	player
+07f346055e29d02b49d02c5a165857be	2	5715	player
 080af1dfb997e65375a571121b22ef06	0	57538	player	Game/Blaha_Christian/Frantic_Freddie/bp.FRANTIC FREDDIE SONG 7
 080f791fa25294883f464b83dbea3f7b	1	57665	player	Game/Clarke_Mike/Globdule/mod.globdulemadman2
 0818c49f4aa5edb6751663336e6e55f4	1	65286	player	Game/Furniss_Matt/Ultima_6/med.ULTIMA_Aa
@@ -786,7 +790,8 @@
 0b340edde2e0c8fea35703d8753def63	5	0	nosound
 0b3b078ee987cfe575cefdb1b323f6cd	1	115203	player	Game/Nixon_Phillip/Trolls/mod.tune6
 0b3f1272fe4273853fac2d724a341818	1	57665	player	Game/Furniss_Matt/Soccer_Kid/mod.skbeach
-0b52754adc95f8394bda9fd810859a17	0	207010	loop	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.drachenflug34.SA
+0b52754adc95f8394bda9fd810859a17	0	187475	player	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.drachenflug34.SA
+0b52754adc95f8394bda9fd810859a17	1	2540	player
 0b592b3467959dfad3d5bd02ae054a77	1	0	nosound	Game/Evans_Dean/Hook/med.sfx_3
 0b5d204896679ab9a72183be9a7adfc4	1	168422	player	Game/Dragon_George/Fatman_the_Caped_Consumer/mod.komcsirock.20
 0b5e3584114bb4c81ded32cb7b256082	1	30737	player	Game/Whitely_Jason/John_Madden_Football/mod.stats
@@ -2482,7 +2487,8 @@
 276c3daa576029ca1bf258261e0f8cd5	0	1905	player	Game/Unknown/Space_Quest_2/agi.ingame_03
 27950928c7c190232304179d0410e980	1	19306	player	Game/Caprelli_Marco/Big_Red_Adventure/mod.vodka
 27a9edd2f0ae1cea281ce68863277af8	1	7747	player	Game/Cummings_Adrian/Tommy_Gun/mod.mutation
-27ac86076202074e7f39b01e91736eeb	0	308089	loop	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.turmlevel.SA
+27ac86076202074e7f39b01e91736eeb	0	300773	player	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.turmlevel.SA
+27ac86076202074e7f39b01e91736eeb	1	1905	player
 27af4e26cce0c56a24ee77c7623479cf	1	145940	player	Game/Hippel_Jochen/Lethal_Xcess/Older_hip7_hipc_versions/hipc.options
 27af4e26cce0c56a24ee77c7623479cf	1	145940	player	Game/Hippel_Jochen/Lethal_Xcess/soc.hiscore
 27bb115786b4a6b3de1c3f7fe813cdcf	0	134382	player	Game/Daglish_Ben/Chubby_Gristle/bds.Chubby_Gristle
@@ -2821,7 +2827,8 @@
 2c5bb4a586722e324d0ef5ba3e583c6d	8	1270	player
 2c5bb4a586722e324d0ef5ba3e583c6d	9	1651	player
 2c65e517819a3627703b8b1202ae7802	0	17401	player	Game/Goldstein_William/Kings_Quest_4/agi.ingame_72
-2c6f8d679735f4a1da9ccf3ff6ade63e	0	304163	loop	Game/Steinwachs_Matthias/Lionheart/sa.level_3
+2c6f8d679735f4a1da9ccf3ff6ade63e	0	300773	player	Game/Steinwachs_Matthias/Lionheart/sa.level_3
+2c6f8d679735f4a1da9ccf3ff6ade63e	1	1905	player
 2c726184f2bd692669fdc5bc3e2c9086	0	8891	player	Game/Whittaker_David/Bubble_Bobble/dw.Bubble_Bobble
 2c726184f2bd692669fdc5bc3e2c9086	1	45979	player
 2c726184f2bd692669fdc5bc3e2c9086	10	2540	player
@@ -3180,7 +3187,8 @@
 31ef2236d08f2784c3b1683b7fb44d9d	1	61475	player	Game/Joseph_Richard/Rome_AD_92/mod.brit3
 32083d6886b30b8a8d3664c7f4edad0a	0	57538	player	Game/Baudlot_Jean/Snow_Bros/puma.arcade10
 320897b860092de0a4883ba80288aad5	1	104279	player	Game/Jackman_Henry/Zyconix/med.funk
-32091ead48bb3e442cf420e568d05293	0	170848	loop	Game/Steinwachs_Matthias/Lionheart/sa.level_2
+32091ead48bb3e442cf420e568d05293	0	158642	player	Game/Steinwachs_Matthias/Lionheart/sa.level_2
+32091ead48bb3e442cf420e568d05293	1	2540	player
 321efd8348276f7e88307696862c8621	0	77606	player	Game/Hautecloque_Fabrice/Ishar/mok.Ishar
 321efd8348276f7e88307696862c8621	1	22100	player
 321efd8348276f7e88307696862c8621	2	37215	player
@@ -4090,7 +4098,8 @@
 4049fc6b00b1e171b906f58c5816ea31	6	7620	player
 4049fc6b00b1e171b906f58c5816ea31	7	13365	player+silence
 4057d07039848fa2556855250611c487	1	202335	player	Game/Hardie_John/Platman/mod.Mod.PLATMAN
-40642367787c530025ad15dab6553fdb	0	282367	loop	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.dinoritt.SA
+40642367787c530025ad15dab6553fdb	0	278418	player	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.dinoritt.SA
+40642367787c530025ad15dab6553fdb	1	2794	player
 40704103c84a097ffbd86e195118a1d6	1	0	nosound	Game/Crowther_Chris/Captive/mod.git5
 40704103c84a097ffbd86e195118a1d6	2	91705	player
 40704103c84a097ffbd86e195118a1d6	3	30229	player
@@ -4537,7 +4546,11 @@
 47e2941560a928a84522fba701283879	3	1270	player
 47e2941560a928a84522fba701283879	4	35818	player
 47e4c1c34b541f86ba23822cf5d40a3a	1	138193	player	Game/Lynne_Bjorn/Airline/Direct_from_Composer/mod.airline.3
-47e65d34afebe92530ea9433f3fdb65b	0	103845	loop	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.flugschloss.SA
+47e65d34afebe92530ea9433f3fdb65b	0	101739	player	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.flugschloss.SA
+47e65d34afebe92530ea9433f3fdb65b	1	172741	player
+47e65d34afebe92530ea9433f3fdb65b	2	5547	player+silence
+47e65d34afebe92530ea9433f3fdb65b	3	9526	player
+47e65d34afebe92530ea9433f3fdb65b	4	1905	player
 47fac3b4f7d5e9c57ba225c939e4ac24	1	411180	player+silence	Demo/Myers_Jolyon/Amazing_Tunes_2/mod.manda.alt
 47fedc5c054b56e2d3ee017f950b9878	1	68207	player	Game/Stannard_Kevan/Lunar-C/med.title
 4800c3b0adb768b1a68d18109e1ea0de	1	33906	player+silence	Game/Eeben_Aleksi/Elfmania/Direct_from_Composer/mod.Elfmania Title
@@ -5650,7 +5663,9 @@
 59fac8dc1e007245d2d43fb6c48042c2	1	11558	player	Game/Loriaux_Pierre-Eric/Cabal/mod.victoire
 59fbb7f79f0a1330cb11bba829cd66f0	0	2413	player	Game/Murry_Barry/Man_Hunter_2/agi.ingame_133
 5a0c4b447f5c3758693e2d4a346413e3	1	184426	player	Game/Melzener_Axel/Jaktar_-_Der_Elfenstein/mod.dschungel
-5a175195838d160bd554f5dcb82fd0ca	0	107005	loop	Game/Steinwachs_Matthias/Lionheart/sa.game_end
+5a175195838d160bd554f5dcb82fd0ca	0	104279	player	Game/Steinwachs_Matthias/Lionheart/sa.game_end
+5a175195838d160bd554f5dcb82fd0ca	1	199287	player
+5a175195838d160bd554f5dcb82fd0ca	2	128285	player
 5a17f089d8c6a3e54802a3de2ec38286	1	35945	player	Game/Toni_Lorenzo/Dylan_Dog_The_Murderers/mod.dylan scuro
 5a19b98256f2e0fdc42f76017bb46864	1	233842	player+silence	Demo/Tripp_Volker/World_of_Commodore/mod.stardust memories
 5a21a52f96d961eeaa48420686a8943b	1	0	nosound	Game/Dunn_Jonathan/Simpsons/med.sound_fx
@@ -7571,7 +7586,9 @@
 76c66622ed74be810bd269613830dbba	0	205765	player	Demo/Brimble_Allister/Very_Best_of_Rob_Hubbard/smus.GERRY2
 76c97a68ac6dcfbf97f436e83cf59d3f	1	61475	player	Game/Burke_Danny/Body_Blows/mod.shoalin2
 76c97a68ac6dcfbf97f436e83cf59d3f	1	61475	player	Game/Burke_Danny/Body_Blows_AGA/mod.shoalin2
-76cb617fca11e78e1b304eaff93c5119	0	351960	loop	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.vulkan34.SA
+76cb617fca11e78e1b304eaff93c5119	0	345609	player	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.vulkan34.SA
+76cb617fca11e78e1b304eaff93c5119	1	1905	player
+76cb617fca11e78e1b304eaff93c5119	2	5715	player
 76cbc68c40cea702e408b7a69ed3d36e	1	235440	player+silence	Game/Fredriksson_Jimmy/Miami_Chase/np2.menu
 76cf52172608bae0f31a9a8c421fb7f3	1	173848	player+silence	Game/Lynne_Bjorn/Escape_from_Colditz/mod. whenwin
 76dc9ee45beb9f139c9b6b06207c295d	1	22354	player	Game/Parton_Andrew/Civilization/med.ramses
@@ -8185,7 +8202,11 @@
 7efdde89e9f4123675b3c18bd32849e7	5	76844	player
 7efdde89e9f4123675b3c18bd32849e7	6	6350	player
 7efdde89e9f4123675b3c18bd32849e7	7	51187	player
-7f15af9b3919df2f06ff1908664086a0	0	103844	loop	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.flugschloss34.SA
+7f15af9b3919df2f06ff1908664086a0	0	101739	player	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.flugschloss34.SA
+7f15af9b3919df2f06ff1908664086a0	1	172741	player
+7f15af9b3919df2f06ff1908664086a0	2	5547	player+silence
+7f15af9b3919df2f06ff1908664086a0	3	9526	player
+7f15af9b3919df2f06ff1908664086a0	4	1905	player
 7f1e58521da9318f46a071b6519c1966	1	161309	player	Game/Seifert_Hannes/Burntime/mod.tavern
 7f284f651374ca3246aa794a4fc2ba54	0	31372	player	Game/Goldstein_William/Kings_Quest_4/Demo_Version/agi.demo_09
 7f2d2095434dfc0c5861cc0dfeb2292d	0	153487	loop	Game/Rourke_Jeff/Crystal_Dragon/Custom_Version/cust.title
@@ -8342,7 +8363,8 @@
 810726de88ae9e594a229734c8b277d3	3	30737	player
 810726de88ae9e594a229734c8b277d3	4	108471	player
 8109cb876d1385f2086da897c8aa22ad	1	45979	player	Game/Knight_Mark/Out_to_Lunch/med.swiss1
-8112744fd670e9885892b192ccf4bd8a	0	207024	loop	Game/Steinwachs_Matthias/Lionheart/sa.level_6
+8112744fd670e9885892b192ccf4bd8a	0	187475	player	Game/Steinwachs_Matthias/Lionheart/sa.level_6
+8112744fd670e9885892b192ccf4bd8a	1	2540	player
 811f165a887c4f0394bac28103d987d0	0	115203	player	Game/Stember_Rudolf/Metal_Law/mdat.ingame_1
 811f165a887c4f0394bac28103d987d0	1	115203	player
 811fc935151d109fb851837c2128aa24	1	184426	player	Game/Motte_Frederic/Fury_o_t_Furries/chan.lagon
@@ -9200,7 +9222,8 @@
 8d96eeb9e411c55bca37d522660a6ee9	4	15368	player
 8db1fba2a92ffbe8a56a58f6e0cc80d6	0	61348	player	Game/Loriaux_Pierre-Eric/Toki/puma.toki6
 8db9fd9bafc8085b39ca746ae4bb893f	0	44026	loop	Game/Zendeh_Darius/R-Type/dz.hiscore
-8dbf66c2182bd4cfbefefd5ef72adb55	0	282242	loop	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.dinoritt34.SA
+8dbf66c2182bd4cfbefefd5ef72adb55	0	278418	player	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.dinoritt34.SA
+8dbf66c2182bd4cfbefefd5ef72adb55	1	2794	player
 8dc81c96e2bac00eb7665c3db158129a	1	40390	player	Game/Brimble_Allister/Bubble_and_Squeak/p4x.SUBMAR
 8ddefed7ffa4c2226783ee2d09f774b9	1	30737	player	Game/Monteiro_Ruben/Conquest_Remix/mod.conquestend
 8ddf4f102a04aa1d06286cf36a4e73c7	1	57665	player	Game/Gaiba_Gian_Luca/Diabolik_08/mod.pst
@@ -11452,7 +11475,8 @@ b10ee0b19fa63f57de6d65a2aaa79f96	7	26800	player
 b10ee0b19fa63f57de6d65a2aaa79f96	8	134382	player
 b11869f171da30a2cf4223a597877b0f	1	119140	player	Game/Martin_Jose/Mega_Phoenix/mod.mega phoenix
 b11bd1cf844df64e1ca6743bde815718	0	2540	player	Game/Unknown/Where_Wrld_Carmen_Sandiego/Alternate_Version/tiny.ingame_06
-b1299c4829009b3c3871e06b5bba4c2e	0	308241	loop	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.turmlevel34.SA
+b1299c4829009b3c3871e06b5bba4c2e	0	300773	player	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.turmlevel34.SA
+b1299c4829009b3c3871e06b5bba4c2e	1	1905	player
 b12de1b90f8a2b105b1258296a270b96	1	192047	player	Game/Dragon_George/Fatman_the_Caped_Consumer/mod.fategypt30
 b14b6295479ea17db85a7b621c8ca396	1	76971	player	Game/Evans_Dean/Hook/med.ingame_4
 b1504f43988e9ba9e32f30b5f0d84377	1	147973	player	Game/Phelan_Patrick/Zool_2/mod.swan
@@ -13031,7 +13055,9 @@ caa78b5647910c12bc2ac64732cf3822	5	80654	player
 caa78b5647910c12bc2ac64732cf3822	6	87513	player
 caa78b5647910c12bc2ac64732cf3822	7	65032	player
 caa78b5647910c12bc2ac64732cf3822	8	83195	player
-caacb725cc8d90fcf38e58edccdb7f8f	0	118602	loop	Game/Steinwachs_Matthias/Lionheart/sa.level_8
+caacb725cc8d90fcf38e58edccdb7f8f	0	116473	player	Game/Steinwachs_Matthias/Lionheart/sa.level_8
+caacb725cc8d90fcf38e58edccdb7f8f	1	10461	player+silence
+caacb725cc8d90fcf38e58edccdb7f8f	2	1905	player
 cadbcd271ff23b8320374f3af4f0bf6f	1	51441	player	Game/Teather_James/Bobs_Bad_Day/med.ingame_4
 caec15ff86e6f49f94b53ce0d4e19b61	1	8022	player+silence	Game/Brimble_Allister/Arcade_Pool/p4x.jingle_2
 caec15ff86e6f49f94b53ce0d4e19b61	1	8022	player+silence	Game/Brimble_Allister/Arcade_Snooker/p4x.jingle_2
@@ -13376,7 +13402,8 @@ cf744cd5b1439540e09cee20bb0ecfc7	1	130699	player	Game/Helbock_Clemens/Clue_CD32/
 cf7ad8b377301083d7b29ccd6a57b237	0	44709	player	Game/Lowe_Margaret/Kings_Quest_3/agi.ingame_28
 cf942e6a1cd61041aa4c5d338ed29f44	1	179981	player	Game/Hippel_Jochen/Leavin_Teramis/sog.ingame_2
 cfa28e7710ca7b36fe8d778977c4dab7	1	268892	player	Game/Tomljanovich_Nicola/Black_Viper/mod.road-arcade1
-cfa64d156bc5b6b3aa86234e52921804	0	207010	loop	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.drachenflug.SA
+cfa64d156bc5b6b3aa86234e52921804	0	187475	player	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.drachenflug.SA
+cfa64d156bc5b6b3aa86234e52921804	1	2540	player
 cfa69e4760bbf048580f7692fb598c93	1	11558	player	Game/Wright_Tim/Agony/mod.loading_forest
 cfab1e794209cf541f05fab1b0c9ef67	1	4479	player+silence	Game/Iveson_Martin/Chuck_Rock_2-Son_of_Chuck/np3.Start_Level
 cfab1e794209cf541f05fab1b0c9ef67	1	4479	player+silence	Game/Iveson_Martin/Chuck_Rock_2_CD32/np3.Start_Level
@@ -13759,7 +13786,11 @@ d59301d92943103f75430e68c122b6af	0	127	player	Game/Unknown/Space_Quest_1/agi.ing
 d59301d92943103f75430e68c122b6af	0	127	player	Game/Unknown/Space_Quest_2/agi.ingame_09
 d59c35f864ef028f46594a04b5e085e2	1	179981	player	Demo/Delisle_Sebastian/Amazing_Tunes_2/mod.getdownem.alt
 d5a3e6fd875ad47a79c6838b84efaa10	0	142384	player	Demo/Archer_Mike/Sonix_House_3/smus.3
-d5ab3583f235b191107667f79d2db320	0	107963	loop	Game/Steinwachs_Matthias/Lionheart/sa.level_7
+d5ab3583f235b191107667f79d2db320	0	101739	player	Game/Steinwachs_Matthias/Lionheart/sa.level_7
+d5ab3583f235b191107667f79d2db320	1	172741	player
+d5ab3583f235b191107667f79d2db320	2	5562	player+silence
+d5ab3583f235b191107667f79d2db320	3	9526	player
+d5ab3583f235b191107667f79d2db320	4	1905	player
 d5afcc495c28500c29d12f7e46a3e975	0	167279	player	Game/Huelsbeck_Chris/Rock_n_Roll/mdat.take_off_song
 d5afcc495c28500c29d12f7e46a3e975	1	22989	player
 d5b707bcb4495dc439a1447f72eca995	0	34809	loop	Game/Zendeh_Darius/R-Type/dz.game_end
@@ -14258,7 +14289,8 @@ de64a970179edb6066eec70b4efd9ef4	1	626568	player	Game/Bauer_Sven/Stone_Age/mod.C
 de64a970179edb6066eec70b4efd9ef4	2	626568	player
 de64a970179edb6066eec70b4efd9ef4	3	626568	player
 de72d92b7066f950b57a3dec6a68e047	1	277021	player	Game/Collier_Kevin/Microcosm/mod.graymm
-de7b2c5c63e9ae0c1f98efbe1f27ab3c	0	269360	loop	Game/Steinwachs_Matthias/Lionheart/sa.level_1
+de7b2c5c63e9ae0c1f98efbe1f27ab3c	0	284515	player	Game/Steinwachs_Matthias/Lionheart/sa.level_1
+de7b2c5c63e9ae0c1f98efbe1f27ab3c	1	1905	player
 de8def62d1bd1653b4ab7ba19286fdda	0	6223	player	Game/Goldstein_William/Kings_Quest_4/agi.ingame_86
 de979cbdbd55a0b307c59cc079f24019	1	122951	player	Game/Iveson_Martin/Banshee/Unused/p60.unused
 de9cd2eb46d664554afad633b352871e	1	61348	player	Game/Deenen_Charles/Castles_2_CD32/mod.13battle_1.8
@@ -14291,7 +14323,9 @@ df5e17dd495fdbb3a82f6c36776f0c33	1	102501	player	Game/Perini_Massimo/Dylan_Dog_L
 df5ece62226574fbd27fa439006d2a6c	1	8197	player+silence	Game/Vuori_Risto/Super_Stardust_CD32/p60.demo1
 df78c6c7eb2804124330b6240fb45517	0	1651	player	Game/Rettig_Tom/Where_Euro_Carmen_Sandiego/tiny.ingame_12
 df8342b04fc29fc40d7f68dc3c6c84b5	1	121680	player	Game/Furniss_Matt/European_Football_Champ/mod.footballchamp
-df9d3cfa52293d7800c9eeb57b2313e9	0	182003	loop	Game/Steinwachs_Matthias/Lionheart/sa.bonus
+df9d3cfa52293d7800c9eeb57b2313e9	0	176805	player	Game/Steinwachs_Matthias/Lionheart/sa.bonus
+df9d3cfa52293d7800c9eeb57b2313e9	1	1905	player
+df9d3cfa52293d7800c9eeb57b2313e9	2	5715	player
 dfa898465919909794e108df0dce088f	0	27054	player	Game/Haggard_Gregory/Antheads/tiny.map
 dfa898465919909794e108df0dce088f	0	27054	player	Game/Haggard_Gregory/It_Came_From_The_Desert/tiny.map
 dfafddf94360d0d976fdd112be0512fe	1	130699	player	Game/Weirich_Oliver/Catch_em/mod.catch'em.03
@@ -15114,7 +15148,8 @@ eda59c85254c266d9fd6735b275f2221	4	84592	player
 edbd85ea8f28732117d125edfcd858dd	0	11417	player+silence	Game/Lautensack_Frank/Dimos_Quest/sa.Infernal_Bytes_Intro
 edbf22dcb3de0ad24aafe8063b2d6e8d	1	42296	player	Game/Tankard_Paul/Dennis/mod.chase_music
 edc2d079fe28f962fb064bd7421750d8	1	111392	player	Game/Helbock_Clemens/Whales_Voyage_2/mod.outro
-edc44b12cb247b365bc9705921b807ca	0	282469	loop	Game/Steinwachs_Matthias/Lionheart/sa.level_5
+edc44b12cb247b365bc9705921b807ca	0	278418	player	Game/Steinwachs_Matthias/Lionheart/sa.level_5
+edc44b12cb247b365bc9705921b807ca	1	2794	player
 edc86ed9be443eb39590edbdec88f142	1	46106	player	Game/Leitch_Barry/Switchblade_2/mod.sithcload2
 edd7e73af111963649a23175c88f917f	0	0	nosound	Game/Joseph_Richard/Chaos_Engine/rjp.menu
 edd7e73af111963649a23175c88f917f	1	5969	player
@@ -15838,7 +15873,7 @@ f8ad0c8b8a37e92fedb4beaa874c976c	0	22735	player	Game/Schroeder_David/War_in_Midd
 f8bd79d2107ad46cc6e3af84427113cf	1	69417	player+silence	Demo/Tripp_Volker/Hospital_Since_Friday!/mod.spice it up
 f8c262cc3f41caef0c8cad17325f816b	1	93737	player	Game/Gaiba_Gian_Luca/Diabolik_03/mod.tampinamento
 f8c7d24d9723c40e2fc864b5b5dc5b24	1	52965	player	Game/Simmonds_Matthew/Space_Gun/Direct_from_Composer/mod.spacegun-main3
-f8d75589530e8bdeaa12f06e24116f22	0	204981	loop	Game/Steinwachs_Matthias/Lionheart/sa.intro
+f8d75589530e8bdeaa12f06e24116f22	0	201700	player	Game/Steinwachs_Matthias/Lionheart/sa.intro
 f8d8f14e136b48a2dd1367680553fafe	1	409498	player	Demo/Hvidsten_Oddgeir/Brain-State-In-A-Box/mod.couldbe
 f8e141ef0eb3ac07ab2a148bbe4fc021	0	24514	player	Game/Elliot_James/Mixed-Up_Mother_Goose/agi.ingame_16
 f8f4582de7bff69abb3a04a3d4573a43	1	96023	player	Game/Whitely_Jason/Desert_Strike/mod.winlevel

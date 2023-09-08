@@ -202,7 +202,7 @@
 0383890d4374b875273aaeae12cde950	0	15241	player	nick_pelling_packer/NPP_Battletoads/NPP.bikept1
 039be93c8b7368fb880cb0a313defd3a	0	125815	player+silence	cust/Warhead/cust.warhead_intro
 03a163198561d1c669cde9268019aee1	0	272448	player	bp/BP.Trial
-03a2b40e0dc50682cefeffd83d42fd9f	0	136369	loop	sonic_arranger/Ambermoon/sa.DownTown
+03a2b40e0dc50682cefeffd83d42fd9f	0	125364	player	sonic_arranger/Ambermoon/sa.DownTown
 03aa3ef00b3af7fb484d0f2bcf589ea7	1	108598	player	mod/other/TERMO.MOD
 03aa3ef00b3af7fb484d0f2bcf589ea7	2	107582	player
 03aa3ef00b3af7fb484d0f2bcf589ea7	3	107582	player
@@ -397,8 +397,10 @@
 07d4595c3f897a2e0713d3949ee844dc	0	288579	player	mod15/ultimate_soundtracker/MOD.Sleepwalk
 07eca35d8a2141b200490e8792a32283	0	161309	player	quartet_st/Hunter/QTS.Hunter 1
 07f0c731045be9479235286658cd7502	1	20576	player	mod/wotw/Intro_Number_040.mod
-07f346055e29d02b49d02c5a165857be	0	349367	loop	sonic_arranger/Lionheart/sa.level_4
-08056c2b36c5dd2efc5d9c05de677327	0	134405	loop	sonic_arranger/Ambermoon/sa.No_Name
+07f346055e29d02b49d02c5a165857be	0	345609	player	sonic_arranger/Lionheart/sa.level_4
+07f346055e29d02b49d02c5a165857be	1	2794	player
+07f346055e29d02b49d02c5a165857be	2	5715	player
+08056c2b36c5dd2efc5d9c05de677327	0	130826	player	sonic_arranger/Ambermoon/sa.No_Name
 0818c49f4aa5edb6751663336e6e55f4	1	65286	player	med/UltimaVI/MED.UltimaVI-1
 08216cc39efef1bdf22a7e494214fbce	1	30737	player	mod/other/MODE701.MOD
 082e519754da08d844546c34928241c7	1	62491	player	mod/other/dalezy-arpeggiotisiert.mod
@@ -743,7 +745,7 @@
 0e9f37645d0a8aaa8eec9273e98823e1	1	20576	player	mod/other/jozz-terracresta.mod
 0ea0a334e7b633dc8d1d0565fa95d680	0	38358	player	synthesis/Mods_Anthology_6/SYN.SARCOPHASER-HISCORE
 0ea891e6898d2975be411b2ccb575fc8	0	76717	player	ahx/Mobby/generations next.ahx
-0eadfd4e0a6bc50987ee65267e451acb	0	221664	loop	sonic_arranger/Ambermoon/sa.TheAumRemainsTheSame
+0eadfd4e0a6bc50987ee65267e451acb	0	218847	player	sonic_arranger/Ambermoon/sa.TheAumRemainsTheSame
 0ecaaa5ab3dd077e1956896bbf849d2d	0	47509	loop	music_line_editor/krister_fundin/king of these waters.ml
 0ed8112e08552e4b16450f1975922a07	0	4572	player	david_whittaker/dw.FrightNight
 0ed8112e08552e4b16450f1975922a07	1	8510	player
@@ -1217,7 +1219,8 @@
 160ce3594b4557a28dc299545000426c	0	107582	player	sid/SID1.Paradox
 160f314bcea7ba57aceb6dc109fb94a7	0	20703	player	sonix/It_Came_From_The_Desert/TINY.farmers
 1612c4a5b7ef94fd747fa95c66e2be64	0	69223	player	soundfx/MatrixIntro/GMC.MatrixMarauders outro
-1619501c64d376e30b838b2aba299a09	0	28562	loop	sonic_arranger/Ambermoon/sa.HisMastersVoice
+1619501c64d376e30b838b2aba299a09	0	26800	player	sonic_arranger/Ambermoon/sa.HisMastersVoice
+1619501c64d376e30b838b2aba299a09	1	9526	player
 16217d495a9f7b2e452221c7b4fc5c8d	1	57665	player	mod/other/chris_maeland-hawkeye.mod
 162b52b08d5831a061ebd660743bf4d5	0	123459	player	tfmx/Battle_Isle/mdat.Battle_Isle-intro
 162b605f32046c4fd64172d9e53489ff	0	25393	loop	music_line_editor/krister_fundin/leave it all.ml
@@ -2503,7 +2506,8 @@
 2c476a088723c28ded1e913b8928842c	1	25276	player	mod/2pac/antipasti#37.mod
 2c5807df44bdb34bb1444d8ecc72eb22	0	276789	loop	cust/Exxon/CUST.Exxon
 2c58e2ea41f4fc75dffda2aa8c4abe92	1	111900	player	mod/Don_Adan_rips/MOD_QuikTheThunderRabbit/MOD.rabbit-level3.jour
-2c6f8d679735f4a1da9ccf3ff6ade63e	0	304163	loop	sonic_arranger/Lionheart/sa.level_3
+2c6f8d679735f4a1da9ccf3ff6ade63e	0	300773	player	sonic_arranger/Lionheart/sa.level_3
+2c6f8d679735f4a1da9ccf3ff6ade63e	1	1905	player
 2c72270001892e2dd545ea593293cae3	0	185841	player+silence	ahx/Neurodancer/nautile.ahx
 2c726184f2bd692669fdc5bc3e2c9086	0	8891	player	david_whittaker/Bubble_Bobble/dw.Bubble_Bobble
 2c726184f2bd692669fdc5bc3e2c9086	0	8891	player	david_whittaker/DW.BubbleBobble
@@ -2564,7 +2568,7 @@
 2d91367fc7c3df77b8549cbd21f0d4b2	0	79499	loop	cust/CUST.Ear_0
 2d9bb58e885cd9152879593088637e9c	0	131334	player	soundcontrol/Dynatech/sct.ELEVEN6
 2db268bb7dbc05817537637fe06194d2	1	6604	player	mod/other/dalezy-donkey_kong5.mod
-2dc657e8b403f31d4f0d0739f675ca65	0	176596	loop	sonic_arranger/Ambermoon/sa.ThatHunchIsBack
+2dc657e8b403f31d4f0d0739f675ca65	0	174011	player	sonic_arranger/Ambermoon/sa.ThatHunchIsBack
 2dd120238f076984d40c33f93cff43f9	0	61475	player	ahx/Qwan/softroom.ahx
 2dd92a4da08992c28f0726bc9c52ecaa	1	27562	player	mod/other/jon-down_my_tv.mod
 2dd92a4da08992c28f0726bc9c52ecaa	2	27054	player
@@ -2702,7 +2706,7 @@
 2f8bd55c7c16cc60cd0312cc4a63136d	1	92213	player	mod/Star_Control_2/MOD.Theme Music? 
 2f95554616f8da88349368c978edc956	1	52965	player	mod_packer/ac1d/Space_Gun/ac1d.spacegun-main3
 2f9ea7296dfd3b69d65b3837f856ce7d	0	95943	loop	futurecomposer_bsi/BSI.newtek
-2fa4945eae4f6ef21af6decf8724a296	0	147139	loop	sonic_arranger/Ambermoon/sa.DontLookBack
+2fa4945eae4f6ef21af6decf8724a296	0	144416	player	sonic_arranger/Ambermoon/sa.DontLookBack
 2fb8f9c70cfb0c8d232fce2ecbfc5101	1	10034	player	special_fx/NewZealandStory/JD.NewZealandStory
 2fb8f9c70cfb0c8d232fce2ecbfc5101	10	2667	player
 2fb8f9c70cfb0c8d232fce2ecbfc5101	11	2794	player
@@ -2778,7 +2782,7 @@
 30c647abe364a8c5df918bdc80a29e70	1	34548	player	med/Addams_Family/med.title
 30d896327b34c594694dfcf7c03c7a62	0	6151	silence	ahx/Jazz/AHX.Jingles
 30e41206a40a1b1845f38af952bfc83e	0	149509	loop	music_line_editor/krister_fundin/zebra.ml
-30e6413c1adda8176d1d57fa8c43f8a6	0	64757	loop	sonic_arranger/Ambermoon/sa.BurnBabyBurn
+30e6413c1adda8176d1d57fa8c43f8a6	0	134382	player	sonic_arranger/Ambermoon/sa.BurnBabyBurn
 3110d0bba0695712a7f6e31e09d6af61	1	51822	player	jesper_olsen/VibrantsMusicCol1/JO.Pacman
 3110d0bba0695712a7f6e31e09d6af61	10	1397	player
 3110d0bba0695712a7f6e31e09d6af61	11	3120	player+silence
@@ -2841,7 +2845,8 @@
 31e08958982aeeef023238d185ac9a74	1	116219	player	mod/other/CH.MOD
 31ec3fdcdc3a5f2bb20f6f455cf71080	0	157592	player+silence	ahx/Buzzer/gone autumn winds.ahx
 31fa0a2c021f65967c22aff431768aa6	1	15368	player	mod/wotw/Intro_Number_068.mod
-32091ead48bb3e442cf420e568d05293	0	170848	loop	sonic_arranger/Lionheart/sa.level_2
+32091ead48bb3e442cf420e568d05293	0	158642	player	sonic_arranger/Lionheart/sa.level_2
+32091ead48bb3e442cf420e568d05293	1	2540	player
 320ba3b51a9e982ba4e463af867af4d3	0	153561	player	quartet_st/SonEtLumiere/QTS.SonEtLumiere 06
 321919c29085314a3bb048b78e96e3ab	0	182702	silence	music_line_editor/Twins/ML.ImpFactor
 321919c29085314a3bb048b78e96e3ab	1	0	nosound
@@ -3055,7 +3060,8 @@
 368b3d2d097dfee7cb92d5b59a0066a0	1	38485	player	mod/wotw/Intro_Number_044.mod
 36901fc8cdaf525910e645e3c7ab76d1	0	42169	player	soundfx/FutureWars/SFX.Future_Wars_Tune_9
 36901fc8cdaf525910e645e3c7ab76d1	1	42169	player
-3694ed42cd325b3f289b8320d794279c	0	152058	loop	sonic_arranger/Ambermoon/sa.DragonChaseInCreepyDungeon
+3694ed42cd325b3f289b8320d794279c	0	149751	player	sonic_arranger/Ambermoon/sa.DragonChaseInCreepyDungeon
+3694ed42cd325b3f289b8320d794279c	1	1905	player
 369d633d5542ebbb963c54033439c136	0	198398	player	art_of_noise/twice_revolution/Twice-Revolution/AON.revolution-0074
 36b96bc5e34dd383f5a57000c648cdcf	1	115203	player	mod/other/deck-collection/alloy run.mod
 36b96bc5e34dd383f5a57000c648cdcf	2	61475	player
@@ -3566,7 +3572,7 @@
 3e06124a23434c581a8df69948bcf679	2	0	nosound
 3e06124a23434c581a8df69948bcf679	3	0	nosound
 3e1ce7f35a59862b6cd1d9f9747f572c	1	155340	player	mod/other/WHEEL_INTROEDIT.MOD
-3e2ce9603e4d103aa075207f3b90ecc8	0	123531	loop	sonic_arranger/Ambermoon/sa.WholeLottaDove
+3e2ce9603e4d103aa075207f3b90ecc8	0	118378	player	sonic_arranger/Ambermoon/sa.WholeLottaDove
 3e2ede9175c3caecf7b308192a1f6d1e	0	53727	player	ahx/MIM/game.ahx
 3e34372940eb3a4e3c107b8f75852386	0	96150	player	ahx/Mice/ruff kids.ahx
 3e3c268f0ca2534602d206a3de2012fe	0	3600000	timeout	music_line_editor/krister_fundin/i feel animated.ml
@@ -3823,7 +3829,7 @@
 41c0ed8199bf9fe6324cf6e162e6201c	1	263176	player	mod_packer/prorunner/pru2/Benefactor/pru2.ingame-5
 41c0ed8199bf9fe6324cf6e162e6201c	2	73796	player
 41c45d71f685c095982bd8cbd5d59972	0	37850	player	sonix/Rocket_Ranger/SMUS.SxJF
-41cdc575ac7e62c03d2682fe714c8831	0	130598	loop	sonic_arranger/Ambermoon/sa.Capital
+41cdc575ac7e62c03d2682fe714c8831	0	127904	player	sonic_arranger/Ambermoon/sa.Capital
 41e408504d1ca46448b90c5e5e373003	0	87005	player	pumatracker/Elf/PUMA.elf-forest
 41f3b80e4ec9a67581cea7bebc3a306c	1	53854	player	mod/4mat/4mat-menu11.mod
 41f81657f4a3ed7ae133e59562282ea8	1	193082	loop	cust/Elite/CUST.Elite
@@ -4288,7 +4294,7 @@
 4a08b49732bfb2f2f2acd01b2c15dde3	9	508	player
 4a0a467417960b52af8b617725bc046b	1	140915	loop	mon/new/DragonWars/MON.DragonWars_Title
 4a2719a2746dddbef1e1b8fb3f4811d0	0	430672	loop	cust/CUST.Defjam
-4a27d64b58ff57968914dafb43dfbea6	0	163416	loop	sonic_arranger/Ambermoon/sa.BarBrawling
+4a27d64b58ff57968914dafb43dfbea6	0	146830	player	sonic_arranger/Ambermoon/sa.BarBrawling
 4a2963a926f573682887fbf515ef16fc	0	0	nosound	dynamic_synthesizer/StarBall/DNS.Starball ingame
 4a2963a926f573682887fbf515ef16fc	1	176424	player
 4a2963a926f573682887fbf515ef16fc	2	26673	player
@@ -4901,7 +4907,7 @@
 55ca5961641cda5ad94136b42bc4437b	0	54362	player	quartet_st/Quartet/QTS.DEMO2
 55cba637eba03ac5d4597ce39c72d280	0	207289	player	the_musical_enlightment/TME.C64Conversion3.TDL
 55d215d0750ccbfe83a872cff95cb4f6	1	115203	player	mod/other/technix-super1.mod
-55d269b0d3e0f7d449acf3403f1120de	0	126708	loop	sonic_arranger/Ambermoon/sa.MellowCamelFunk
+55d269b0d3e0f7d449acf3403f1120de	0	115203	player	sonic_arranger/Ambermoon/sa.MellowCamelFunk
 55d389250063acb6613ea1ce959e41e5	1	165247	player	mod/other/jozz-dozey.mod
 55d3e5dab279423abe62f596be13c8dd	0	227683	loop	ahx/Syphus/booster (2nd version).ahx
 55d8039f8ccf0e2e4ba954d7e35afe01	0	60670	loop	music_line_editor/krister_fundin/wild & crazy.ml
@@ -5127,7 +5133,9 @@
 59fc32303d18833a81660d10451748ac	0	64015	player	gluemon/GLUE.Knytning
 5a02b033560517308d2a5a96a73545c8	0	32354	loop	music_line_editor/krister_fundin/unreal.ml
 5a0812e4066e6ca6e871f7fffe5a9485	0	54122	loop	cust/CUST.Paranoimia-1
-5a175195838d160bd554f5dcb82fd0ca	0	107005	loop	sonic_arranger/Lionheart/sa.game_end
+5a175195838d160bd554f5dcb82fd0ca	0	104279	player	sonic_arranger/Lionheart/sa.game_end
+5a175195838d160bd554f5dcb82fd0ca	1	199287	player
+5a175195838d160bd554f5dcb82fd0ca	2	128285	player
 5a270d62406f5941da22297f7d4201cd	0	137612	loop	cust/Seasons-intro/CUST.Seasons intro
 5a32736f254ad132eac1d2f4ab7309b8	0	11158	repeat	ahx/Xeron/times of old.ahx
 5a36dfd5d4493544ba7a174566774fac	1	25022	player	mod/2pac/antipasti#26.mod
@@ -5873,9 +5881,9 @@
 6662db7ff9256fdac5925ec37ecabb88	1	156724	player+silence	mod/LastNinja3/LastNinja3HiScore.mod
 66666bb239c409200e6970ad438bcc30	0	237130	loop	quartet_st/QuartetMusicCollection/QTS.Dog's Life
 666ee040a51095f3b168c6c2eac7b788	0	55251	player	sonix/Alternate_Reality/SMUS.deathsong
-66701e0efabad0f1b5a0895917a67f12	0	132589	loop	sonic_arranger/Ambermoon/sa.RiversideTravellingBlues
+66701e0efabad0f1b5a0895917a67f12	0	130572	player	sonic_arranger/Ambermoon/sa.RiversideTravellingBlues
 6673590f0450af0a2033ab1a0b6c450d	0	35818	player	tfmx/unknown/Fatal Heritage/mdat.l5
-667ebaac863ed575de6e41feb047b863	0	80541	loop	sonic_arranger/Ambermoon/sa.WhoSaidHiHo
+667ebaac863ed575de6e41feb047b863	0	128666	player	sonic_arranger/Ambermoon/sa.WhoSaidHiHo
 6689a476b6af1e2e29e91da46f346789	0	26419	player	cust/GalacticConq/CUST.GalacticConqueror
 66a4ef00217c4d06b61a101f441c6302	1	57284	player	mod/Don_Adan_rips/MOD_CrimeDoesNotPay/MOD.song8
 66abd46ad10774a4b114bec5cccbd729	1	76844	player	mod/4mat/4mat-in_the_kitchen2.mod
@@ -5929,7 +5937,7 @@
 676835c8db8cd326e71d66ca0252de97	2	20576	player
 676835c8db8cd326e71d66ca0252de97	3	5842	player
 676835c8db8cd326e71d66ca0252de97	4	76844	player
-6774258662f52f4b4515ac5b91f28079	0	12709	loop	sonic_arranger/Ambermoon/sa.TheUh-OhSong
+6774258662f52f4b4515ac5b91f28079	0	11558	player	sonic_arranger/Ambermoon/sa.TheUh-OhSong
 6776eb1e96ba7d9b45ec630842949113	0	6786	silence	darius_zendeh/R-Type/DZ.Level3
 6776eb1e96ba7d9b45ec630842949113	1	47880	loop
 6776eb1e96ba7d9b45ec630842949113	2	19645	loop
@@ -6253,7 +6261,7 @@
 6b799be7f86db02b26b67c1be506a2f8	0	31928	loop	music_line_editor/Role_Model-Old_Tunes/ML.HomeComputer
 6b799be7f86db02b26b67c1be506a2f8	0	31928	loop	music_line_editor/Role_Model/homecomputer.ml
 6b9a40098a4254e20ff05ca2cdd731e2	0	375656	loop	music_line_editor/krister_fundin/sweet dreams.ml
-6ba1972a007985417b8d2e773a9af9d0	0	15300	loop	sonic_arranger/Ambermoon/sa.StairwayToLevel50
+6ba1972a007985417b8d2e773a9af9d0	0	13463	player	sonic_arranger/Ambermoon/sa.StairwayToLevel50
 6ba5e41988faf352d4c9cd70c32511ff	0	72144	player	tfmx/TFMX.BC-Kid_Wet Walls
 6baa0e6b39d64556e5edce835ffe14f8	1	440363	player	hip/hip.Battle_Valley
 6baa0e6b39d64556e5edce835ffe14f8	1	440363	player	jochen_hippel/hip.Battle_Valley
@@ -6285,7 +6293,7 @@
 6c56f53bcf93063df44c62b7db355667	0	78279	loop	ahx/Factor6/for all.ahx
 6c61eedc7f9a7df17f350245079fca67	0	234779	silence	music_line_editor/DreamFish/ML.Harmonic_Disorder
 6c64ea3c16e8f303d248f1fa7bbc1e65	0	19832	loop	aps/APS.Effects2
-6c83c7b28c4b615d05acbf3ce0cebb29	0	137190	loop	sonic_arranger/Ambermoon/sa.PsychedelicDuneGroove
+6c83c7b28c4b615d05acbf3ce0cebb29	0	134382	player	sonic_arranger/Ambermoon/sa.PsychedelicDuneGroove
 6c85c5b373b6246a9fa3ed19da879bf4	0	9907	player	cust/Imperium/CUST.Imperium
 6c85c5b373b6246a9fa3ed19da879bf4	1	12447	player
 6c85c5b373b6246a9fa3ed19da879bf4	2	8637	player
@@ -6445,7 +6453,7 @@
 6faecea09fe7825564eecfbcb3fa583d	0	76612	loop	ahx/Jerry/into the mist.ahx
 6fb0a681d59fd041a0c95efea574f24e	0	63888	player	midi-loriciel/MIDI.Entity L6
 6fb936f53c802ba981f21108f5d8b239	1	38485	player	mod/2pac/antipasti#42.mod
-6fbf8aaeb8430403d4f8db9855be2615	0	199536	loop	sonic_arranger/Ambermoon/sa.LaCryptaStrangiato
+6fbf8aaeb8430403d4f8db9855be2615	0	196366	player	sonic_arranger/Ambermoon/sa.LaCryptaStrangiato
 6fc049397fb3f3ae491572fd1ec1e533	0	0	nosound	vectordean/Flight_Of_The_Amazon_Queen/FlightOfTheAmazonQueen01.sng
 6fc049397fb3f3ae491572fd1ec1e533	1	45979	player
 6fc049397fb3f3ae491572fd1ec1e533	2	15368	player
@@ -6634,7 +6642,7 @@
 73ddbf306b88656d41774e18ffafc3c3	9	24641	player
 73e3867a267a7edda6e9408280a06f78	1	761908	player+silence	mod/other/maktone-castlevania1.mod
 73e59ce1b71ecc58a64b7282d3e9c323	1	456875	player	dave_lowe/dl/IK+/dl.IK+
-73efbbf03fddc12dc97be05e88467ba8	0	195099	loop	sonic_arranger/Ambermoon/sa.MistyDungeonHop
+73efbbf03fddc12dc97be05e88467ba8	0	192555	player	sonic_arranger/Ambermoon/sa.MistyDungeonHop
 73fbc32b566b5571d13c37bd055c5ace	0	96023	player	syntracker/SYNMOD.Tip Tap Tribe
 740a4b80223bc5d975cf0712eb6142dd	1	54870	player	med/Civilization/MED.CIV_Ghandi
 7415abbfb620e3e1c8c6f3f0948eb915	0	54158	loop	music_line_editor/krister_fundin/i män av höga sinnen.ml
@@ -6870,7 +6878,7 @@
 791584f7273bdee17f864db90992ed09	3	3302	player
 791584f7273bdee17f864db90992ed09	4	1651	player
 791584f7273bdee17f864db90992ed09	5	128031	player
-7918bdacd8fe61bd2bb2254b7d028210	0	107656	loop	sonic_arranger/Ambermoon/sa.RoughWaterFrontTavern
+7918bdacd8fe61bd2bb2254b7d028210	0	98818	player	sonic_arranger/Ambermoon/sa.RoughWaterFrontTavern
 791b7a482bf3a65b78527bc8372047ba	0	24259	player	synthesis/SYN.HASSE2
 791b7a482bf3a65b78527bc8372047ba	1	889	player
 791b87a30bb83ed697c71c5d3a902355	1	122951	player	mod_packer/the_player/p6x/Strangers/p60.LEVEL02
@@ -7252,7 +7260,8 @@
 81058d97afdb80bb344b00e0f881b4fe	5	34548	player
 81058d97afdb80bb344b00e0f881b4fe	6	6350	player
 81058d97afdb80bb344b00e0f881b4fe	7	25530	player
-8112744fd670e9885892b192ccf4bd8a	0	207024	loop	sonic_arranger/Lionheart/sa.level_6
+8112744fd670e9885892b192ccf4bd8a	0	187475	player	sonic_arranger/Lionheart/sa.level_6
+8112744fd670e9885892b192ccf4bd8a	1	2540	player
 811fc935151d109fb851837c2128aa24	1	184426	player	mod_packer/channel_players/Fury_of_the_Furries/chan.lagon+intro+fin
 812321900dbabfc8640eeae573aae79f	0	10796	player	sonix/Rise_Of_The_Dragon/SNX.cheap date
 812c51a34e3ff35f738b0c95bb7b8574	0	167967	loop	cust/Quest4Galaxia/CUST.QuestForGalaxia 2
@@ -7291,7 +7300,7 @@
 8185a419825f05328f5519fa5b00132e	0	14606	player	ems/Ringard_Megademo/Disk_1/EMS.megD1-02
 8186a6c18047c6782ea584b7bd26cd99	0	59570	player	fc/fc14.unknown_3
 818a3aa1e0d70ba0873fdd684b031c9b	0	69858	player	digital_mugician/mug2/MUG2.7VoiceDemo
-818aad3f29cab504cd56371ccea6f4fa	0	133387	loop	sonic_arranger/Ambermoon/sa.HorseIsNoDisgrace
+818aad3f29cab504cd56371ccea6f4fa	0	128666	player	sonic_arranger/Ambermoon/sa.HorseIsNoDisgrace
 819af2dbed67c8be5bc6ccba59e0a45a	0	114663	player+silence	ahx/Curt Cool/stranglehold.ahx
 81b641316c9af33154bea71eb97fa916	1	46995	player	jesper_olsen/GeorgGlaxo/JO.GeorgGlaxo title
 81b641316c9af33154bea71eb97fa916	1	46995	player	jesper_olsen/GeorgGlaxo/JO.GeorgGlaxo_Title
@@ -7385,7 +7394,7 @@
 83787d2378a5ed2d1d4fa045db0463e0	1	145940	player	special_fx_st/PushOver/DODA.PushOver dungeon
 837cf68ebc45613a930f801fa4b4d039	0	53727	player	ahx/Xeron/plasticity.ahx
 838489a8057d8b87cc9d61de7f1e7e79	0	13140	loop	music_line_editor/krister_fundin/unnamed 28.ml
-839aea752fb19d547d3d353437b3ada1	0	225258	loop	sonic_arranger/Ambermoon/sa.SapphireFireballsOfPureLove
+839aea752fb19d547d3d353437b3ada1	0	220753	player	sonic_arranger/Ambermoon/sa.SapphireFireballsOfPureLove
 83a18dcfdaa54fd383f1d21e6cb2b2d7	0	242607	loop	cust/CUST.Stryx
 83afe63a2a3dedd9226788a3dfa9a198	0	75128	loop	music_line_editor/krister_fundin/heat.ml
 83db7130206df92b0ce5d7602df0dea3	0	122497	silence	cust/cust.BD-Mickey_Mouse
@@ -7475,7 +7484,7 @@
 862cc3c8d51162eea6a71a43951854e2	1	175535	player	mod_packer/prorunner/pru2/joint_ihr_schweine/PRU2.Infect-20
 863d3dbd90832e8e94518af926b60817	0	220508	loop	cust/Corruption/CUST.Corruption
 863e207ceffb3721b3d244121bf75c70	1	133239	player	mod/other/nuke-loader.mod
-864563b24f603d8e3d479753a9f80fd0	0	261795	loop	sonic_arranger/Ambermoon/sa.CompactDisc
+864563b24f603d8e3d479753a9f80fd0	0	142003	player	sonic_arranger/Ambermoon/sa.CompactDisc
 86581283c78b554644414858c63e08c1	0	94753	player	ahx/Tony Vera Diaz/ilusorious remembrances (filtered).ahx
 865d060c6a6818b0ad767307e474efb6	1	26927	player	mod/wotw/Intro_Number_096.mod
 866f8396c000b625a56765247880dbe6	0	53360	loop	music_line_editor/krister_fundin/violin.ml
@@ -8168,7 +8177,8 @@
 90374e456bd57b4e15ffa67c9d85f7b6	1	38485	player	mod/wotw/Intro_Number_080.mod
 9043b5278c7946b216c0efc87fc7967f	0	53854	player	mod_packer/gmc/Jumping_Jack_Son/gmc.CHALLENGE.DATA
 9044864099136db4ec60ac013002ec7c	0	69096	player	holynoise/HN.B-Manipulation
-9051f745e2e49c88bd0a491df7a8ba97	0	11035	loop	sonic_arranger/Ambermoon/sa.OhNo!NotAnotherMagicalEvent
+9051f745e2e49c88bd0a491df7a8ba97	0	8891	player	sonic_arranger/Ambermoon/sa.OhNo!NotAnotherMagicalEvent
+9051f745e2e49c88bd0a491df7a8ba97	1	8891	player
 90618a496afa938a9cf0c80333f08136	1	32007	player	mod/other/ANNIES.MOD
 9067d231ca47ecc452697b04aa637084	0	184299	player	quartet_st/DecadeDemo/QTS.DecadeDemo 06
 9067d231ca47ecc452697b04aa637084	0	184299	player	quartet_st/InsignificantDemo/QTS.ID 06
@@ -9055,7 +9065,7 @@ a21697e4844c8d3ba9ca1ddc86e57fb4	0	228260	loop	music_line_editor/krister_fundin/
 a227b542e554bc84d6ebd3beccb63c00	0	0	nosound	pumatracker/Toki/puma.level_6b
 a22ae0ef38fc79ba8d6775444fcc9a8d	0	89673	player	sid/SID1.Synthetic_Age
 a22ed67ba168e3adb401a1903f808e6f	0	16130	player	soundfx/Bush_Buck/SFX.BushBuck 05
-a23bcaed7e2a7bd46458e3e766290934	0	119036	loop	sonic_arranger/Ambermoon/sa.CloseToTheHedge
+a23bcaed7e2a7bd46458e3e766290934	0	116600	player	sonic_arranger/Ambermoon/sa.CloseToTheHedge
 a24c87c84fa47650e5a7af7c4e133ac1	1	96023	player	mod/Don_Adan_rips/MOD_TheBluesBrothers/MOD.every
 a256a9041c940bfa5360154bdfdc43e0	0	24175	repeat	ahx/Pink/AHX.R.O.T.R.2
 a256a9041c940bfa5360154bdfdc43e0	1	139472	loop
@@ -10092,9 +10102,9 @@ b5b332d4c4c424121e6151fa19ef99dd	7	22989	player
 b5bd44b6df7e4fe7c2d85049b2137fc2	1	115203	player	mod/tdk/ORGASMIC.MOD
 b5bfa491872bce055d52705beee44def	1	258984	player	mod/tdk/11THHOUR.MOD
 b5c41d33d73fbc4a8c5034ddfb9d7633	0	238281	player	suntronic_custom/bluesong.src
-b5cc99486c3a11a2f8e6f599d9bfaf39	0	36179	loop	sonic_arranger/Ambermoon/sa.GameOver
+b5cc99486c3a11a2f8e6f599d9bfaf39	0	32643	player	sonic_arranger/Ambermoon/sa.GameOver
 b5e09639908ee4b8bc613fc654121054	1	85315	loop	tim_follin_II/SlySpy/TF.Sly Spy Tune1
-b5eeb4e0332accada1cc0b4368540361	0	130357	loop	sonic_arranger/Ambermoon/sa.NobodysVaultButMine
+b5eeb4e0332accada1cc0b4368540361	0	127650	player	sonic_arranger/Ambermoon/sa.NobodysVaultButMine
 b60381465ef5f03a10a1b5da07f7c9dd	1	72902	player+silence	mod_packer/prorunner/pru1/PRUN1.antipasti40
 b607dbdf82d57e38906e1fa7b2696b26	0	44709	player	digital_mugician/mug/MUG.Flight-1
 b60b639892cda11f05a5ce6dc6069ada	1	74840	player+silence	mod_packer/the_player/p4x/Colonization/p4x.Col23.mod
@@ -10447,7 +10457,7 @@ bb71fd3a44e8278cde35efee69c42436	0	22989	player	nick_pelling_packer/NPP_Battleto
 bb77967ea9670cb13a83537b0502934f	0	24767	loop	music_line_editor/krister_fundin/distortion.ml
 bb7feb5bf162011944e684a387b5188c	0	52076	player	sonix/TV_Sports_Football/SMUS.Chrl
 bb877cfec5b8ba35d59180893c50989f	0	147211	player	amos/Genesia/abk.moyen10.2
-bb8d91a5ae2306602cdd5f96ecf414e4	0	104423	loop	sonic_arranger/Ambermoon/sa.ChickenSoup
+bb8d91a5ae2306602cdd5f96ecf414e4	0	105549	player	sonic_arranger/Ambermoon/sa.ChickenSoup
 bb95807bb00f6438f9f6c177e1ac4075	0	46995	player	tfmx/Denny/mdat.Level3
 bb9eda7e35b804473f1789ceea5108d6	0	102374	player	david_whittaker/Leviathan/dw.Leviathan
 bb9eda7e35b804473f1789ceea5108d6	1	762	player
@@ -11217,7 +11227,9 @@ ca91abb5657d23214c14dc2068da2c09	1	230406	player	jochen_hippel_coso/wt/SOC.LastN
 ca91abb5657d23214c14dc2068da2c09	2	62546	silence
 ca98931176c1b3489081b9fcd844d85f	1	125491	player	mod15/Awesome/mod.r1c
 caa713d5f5640354bb6ee86f4245a720	0	3600000	timeout	music_line_editor/krister_fundin/unnamed 12.ml
-caacb725cc8d90fcf38e58edccdb7f8f	0	118602	loop	sonic_arranger/Lionheart/sa.level_8
+caacb725cc8d90fcf38e58edccdb7f8f	0	116473	player	sonic_arranger/Lionheart/sa.level_8
+caacb725cc8d90fcf38e58edccdb7f8f	1	10461	player+silence
+caacb725cc8d90fcf38e58edccdb7f8f	2	1905	player
 cab45dfe11dada553f72793fe6787e78	0	10288	player	nick_pelling_packer/NPP_WingCommander/NPP.w.c.briefing3
 cab45dfe11dada553f72793fe6787e78	0	10288	player	nick_pelling_packer/NPP_WingCommanderCD32/NPP.w.c.briefing3
 cac37afe52ba047c3ab3e07584f61546	0	103644	player	syntracker/SYNMOD.Storm
@@ -11844,7 +11856,11 @@ d5888fc987368bbb25ef209b15a4d0dd	1	51314	player	mod/groo/groo-clarke2.mod
 d5905d195aa58bbcbc96ddadca364681	1	158862	loop	tim_follin_II/SlySpy/TF.Sly Spy Tune3
 d5a261b5188219e66c8a18bb4d0cb1f2	0	71763	player	ahx/Buzzer/silence.ahx
 d5a59d9dae0c53fb906181f2b0ad2d3e	0	43566	player	ahx/Mr. Vain/xtremekillin.ahx
-d5ab3583f235b191107667f79d2db320	0	107963	loop	sonic_arranger/Lionheart/sa.level_7
+d5ab3583f235b191107667f79d2db320	0	101739	player	sonic_arranger/Lionheart/sa.level_7
+d5ab3583f235b191107667f79d2db320	1	172741	player
+d5ab3583f235b191107667f79d2db320	2	5562	player+silence
+d5ab3583f235b191107667f79d2db320	3	9526	player
+d5ab3583f235b191107667f79d2db320	4	1905	player
 d5b2ad97900e0da8fdf2ba5aa02a8275	0	109403	loop	futurecomposer_bsi/BSI.song
 d5b707bcb4495dc439a1447f72eca995	0	34809	loop	darius_zendeh/R-Type/DZ.GameComplete
 d5c90b60b4cfb77769c80fb9be580f71	1	281720	player	mod_packer/kris_tracker/Leander/Direct_from_Composer/mod.world two
@@ -12186,7 +12202,7 @@ dcf43b61376fa9eac93652171e3eba41	0	12299	loop	music_line_editor/krister_fundin/t
 dcffae5c1214ecda0e1d8396487274f4	0	90308	player	ahx/m0d/digital retribution.ahx
 dd0dde12e039b64557a57a86b4e70b03	0	195477	player	benn_daglish/bd.footballer_of_the_year_2-1
 dd0ef8a112a62f06deafca7b49ef9849	1	58935	player	mod_packer/the_player/p4x/Lion_King_The/p4x.level_7
-dd130cf276cbe71a13d255282c5cb4d7	0	148535	loop	sonic_arranger/Ambermoon/sa.VoiceOfTheBagPipe
+dd130cf276cbe71a13d255282c5cb4d7	0	134382	player	sonic_arranger/Ambermoon/sa.VoiceOfTheBagPipe
 dd1be91a8e770d7ed82dc6a89b24fa8d	0	74177	player	tfmx_st/MDST.Gem'XST
 dd1be91a8e770d7ed82dc6a89b24fa8d	1	81925	player
 dd1be91a8e770d7ed82dc6a89b24fa8d	2	81925	player
@@ -12294,7 +12310,8 @@ de60dfbc26161f98c11e99dfddec8483	1	18544	player	mod_packer/the_player/p6x/Strang
 de698459717e6b2488b796bb5827841f	0	244121	player+silence	bp/BP.Stealth
 de6f7db863f9584adc416364732600d9	1	33913	player	mod/other/dalezy-hunchback2.mod
 de733e4729890cd577720c7e89fd5de1	0	116473	player	anders_0land/HOT_PrimeMover/HOT.PrimeMover 14
-de7b2c5c63e9ae0c1f98efbe1f27ab3c	0	269360	loop	sonic_arranger/Lionheart/sa.level_1
+de7b2c5c63e9ae0c1f98efbe1f27ab3c	0	284515	player	sonic_arranger/Lionheart/sa.level_1
+de7b2c5c63e9ae0c1f98efbe1f27ab3c	1	1905	player
 de8bc69d114366438a22e309965e3bd7	0	41842	silence	ahx/Jazz/AHX.OldStyleTune
 de8bc69d114366438a22e309965e3bd7	1	41842	silence
 de8bc69d114366438a22e309965e3bd7	2	41842	silence
@@ -12330,7 +12347,9 @@ df437be47b58d755830d9757a19629c9	0	61211	player+silence	suntronic_custom/time500
 df810d71021afe0590b7efcffc284f63	0	13463	player	suntronic_custom/time10.src
 df829e0b02fef3650f25792cbe6679d4	0	76844	player	suntronic_custom/comming0.src
 df96afba8af7e989d9a282f825ae67d8	1	238154	player	mod15/DOC-Soundtracker/mod.adore your emulator
-df9d3cfa52293d7800c9eeb57b2313e9	0	182003	loop	sonic_arranger/Lionheart/sa.bonus
+df9d3cfa52293d7800c9eeb57b2313e9	0	176805	player	sonic_arranger/Lionheart/sa.bonus
+df9d3cfa52293d7800c9eeb57b2313e9	1	1905	player
+df9d3cfa52293d7800c9eeb57b2313e9	2	5715	player
 dfa71eea5d21a8edf67ba18135a701ac	0	9199	silence	ahx/Pink/AHX.KD-Intro
 dfa898465919909794e108df0dce088f	0	27054	player	sonix/It_Came_From_The_Desert/TINY.map
 dfae68bc0938c303f25a09ff65b20501	0	180924	silence	music_line_editor/Role_Model/ML.dunloop
@@ -12831,7 +12850,7 @@ e98483eb1a4ba69b5f418216eb0169f8	0	46995	player	ahx/Xeron/fuzzies!!!!!.ahx
 e988292f4e0c39e16bc04c6878889cd0	0	260509	player	jeroen_tel/insects_in_space/MON_old.Insects_in_Space
 e98b6c772b87a9d46ca54e535dec70dd	0	61856	player	cineware/Wings/CIN.Wings 01
 e98ffcb770faa4adf5234b7c98a81b20	0	130572	player	earache/EA.SkyTheBest
-e991ee58fe052eca38ad8162853d59e0	0	145709	loop	sonic_arranger/Ambermoon/sa.Ship
+e991ee58fe052eca38ad8162853d59e0	0	140733	player	sonic_arranger/Ambermoon/sa.Ship
 e997f5d54c3f6be08789c2d952b100c1	0	1463220	player	art_of_noise/twice_revolution/Twice-Revolution/AON.revolution-0029
 e999302c8c4b2c1a4dcc75b62d7e9549	1	65286	player	mod_packer/prorunner/pru1/Ultimate_Pinball_Quest_The/prun.wa.bonus1
 e999302c8c4b2c1a4dcc75b62d7e9549	2	4572	player
@@ -12981,7 +13000,7 @@ ec3fc8cb92fd4878fb5757ba055fab96	6	27308	player
 ec3fc8cb92fd4878fb5757ba055fab96	7	22354	player
 ec3fc8cb92fd4878fb5757ba055fab96	8	15622	player
 ec3fc8cb92fd4878fb5757ba055fab96	9	15622	player
-ec4036c81d3bc078c2b1577defe1a14e	0	145087	loop	sonic_arranger/Ambermoon/sa.PloddingAlong
+ec4036c81d3bc078c2b1577defe1a14e	0	123840	player	sonic_arranger/Ambermoon/sa.PloddingAlong
 ec43a5c6ca31cd8a2b8921939199f2b8	0	23116	player	sonix/It_Came_From_The_Desert/TINY.generic1
 ec45c067bb59980d48e921c771232ef9	0	57643	loop	music_line_editor/krister_fundin/sunday.ml
 ec4c3ab40bb8a3bca9b1ddced1c27dfe	1	30737	player	mod/wotw/Intro_Number_101.mod
@@ -13024,7 +13043,8 @@ ed896fd412e9803599b5160e2ea61ca5	1	2921	player	mod/Star_Control_2/MOD.Untitled s
 ed93aa80e1db4cc83d22b71e5772b1ad	1	48011	player	mod/other/DT.MOD
 eda2e5a0287f9d136febcfb2d302c63e	0	181051	silence	ahx/Joey/coop-Splif/eggnspoon.ahx
 edbd85ea8f28732117d125edfcd858dd	0	11417	player+silence	sonic_arranger/DimosQuest/sa.Infernal_Bytes_Intro
-edc44b12cb247b365bc9705921b807ca	0	282469	loop	sonic_arranger/Lionheart/sa.level_5
+edc44b12cb247b365bc9705921b807ca	0	278418	player	sonic_arranger/Lionheart/sa.level_5
+edc44b12cb247b365bc9705921b807ca	1	2794	player
 edd7689f6851ba10247e0e1501d6a9ad	0	143220	loop	ahx/Xeron/elsewhere.ahx
 edd7e73af111963649a23175c88f917f	0	0	nosound	vectordean/Chaos_Engine/Chaos_Engine-Title.sng
 edd7e73af111963649a23175c88f917f	1	5969	player
@@ -13585,7 +13605,7 @@ f8c7d24d9723c40e2fc864b5b5dc5b24	1	52965	player	mod_packer/ac1d/Space_Gun/Direct
 f8ce7eac4a3d90dbb1505f71528edc9e	0	32747	loop	music_line_editor/krister_fundin/the sweet song.ml
 f8cebda5b948de542638916768df677b	0	92213	player	fc/fc13.Paranoimia
 f8d46a48078e24c21336812087573d02	0	11866	silence	aps/APS.Effects
-f8d75589530e8bdeaa12f06e24116f22	0	204981	loop	sonic_arranger/Lionheart/sa.intro
+f8d75589530e8bdeaa12f06e24116f22	0	201700	player	sonic_arranger/Lionheart/sa.intro
 f8ea6406bb083c9c01c25537a1649775	0	38358	player	tfmx/Apidya-lousier-rip/MDAT.Apydia_1-Meadow
 f8ea6406bb083c9c01c25537a1649775	1	53727	player
 f8ea6406bb083c9c01c25537a1649775	2	2413	player
@@ -13777,7 +13797,7 @@ fd35e0ffa2741812eec976d02b08bb8d	0	22989	player	ahx/Buzzer/get'em simon.ahx
 fd3ed7d3b382e8bd4826060e7758ccb6	0	34221	silence	david_whittaker/ShadowOfTheBeast/DW.ShadowOfTheBeast3
 fd41ef2eede4c872f3edf9ff1a0bfe0a	1	189507	player	mod_packer/kefrens_sound_machine/KSM.termination
 fd423840d66cddd9d758f112cf97d7f2	1	19306	player	mod/other/kalashnikov-bootmusic9.mod
-fd46e1149b3be2b49a079b637586b88d	0	137143	loop	sonic_arranger/Ambermoon/sa.OwnerOfALonelySword
+fd46e1149b3be2b49a079b637586b88d	0	134636	player	sonic_arranger/Ambermoon/sa.OwnerOfALonelySword
 fd5418d6fcc793306b1e0f26248c3e72	0	84592	player	suntronic_custom/suntronic-k3.src
 fd62f4882e424d78772c099df61e7cd9	1	204749	player	wally_beben/WB.TimeMachine-ingame
 fd62f4882e424d78772c099df61e7cd9	2	9653	player

@@ -1,3 +1,6 @@
+0.8-dev
+- Use SonicArranger player from Wanted Team instead of obsolete Lionheart_Game
+
 0.7.1 - 2023-09-06
 - Increased UADE chipmem size to 8MB to fix large modules not playing
 - Hack to fix some broken Jesper Olsen songs in Modland

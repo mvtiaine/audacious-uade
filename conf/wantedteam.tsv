@@ -399,9 +399,11 @@
 07de39f1b143ce0c23b1331ae5e90cbd	1	110503	player	rips/MOD_FootballChamp/MOD.let's hack!
 07eca35d8a2141b200490e8792a32283	0	161309	player	examples/QTS_Hunter/QTS.Hunter 1
 07ee5c31b9884807890383f1c0f9b62f	0	889	player	examples/AGI_MixedUpMotherGoose/AGI.MixedUpMotherGoose 53
-07f346055e29d02b49d02c5a165857be	0	349367	loop	examples/SA_Lionheart/SA.Lionheart level 4
+07f346055e29d02b49d02c5a165857be	0	345609	player	examples/SA_Lionheart/SA.Lionheart level 4
+07f346055e29d02b49d02c5a165857be	1	2794	player
+07f346055e29d02b49d02c5a165857be	2	5715	player
 080255c62897a7d60b9d62d874a462ef	1	112662	player	rips/MOD_TimeRunners30/MOD.calm
-08056c2b36c5dd2efc5d9c05de677327	0	134405	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 28
+08056c2b36c5dd2efc5d9c05de677327	0	130826	player	examples/SA_AmberMoon/SA.AmberMoon ingame 28
 081049fb9793df2e9d303ba7e27bed00	1	107328	player	rips/MOD_NoiseFromHeaven1/MOD.newchipchup
 0810ea31690a522533176ae663e2fd8a	1	18598	silence	rips/MOD_TimeRunners13/MOD.st1
 0816d89a55ca132c1c2472643816988e	0	83322	player	examples/TWO_WhateverRocksYourBoat/TWO.WhateverRocksYourBoat
@@ -712,8 +714,8 @@
 0e8a5337a1da9c003da595d999fb81a1	1	41661	player	rips/MOD_1869/MOD.schottisch
 0e8b73d6624cc10b1e0e21298ca42583	0	76209	player	rips/SoundFX13Sets1/Mods/SFX.CORP4
 0ea743b11729f957c039a30a06daa33c	1	15368	player	rips/MOD_DylanDog01/MOD.Dannati
-0eadfd4e0a6bc50987ee65267e451acb	0	221664	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 12
-0ec80a3cdad1a05ca1cc547f57b2bed0	0	309605	loop	examples/SA_Lionheartdemo/SA.Lionheart demo 3
+0eadfd4e0a6bc50987ee65267e451acb	0	218847	player	examples/SA_AmberMoon/SA.AmberMoon ingame 12
+0ec80a3cdad1a05ca1cc547f57b2bed0	0	300773	player	examples/SA_Lionheartdemo/SA.Lionheart demo 3
 0ece57a08b17fa83af64d3d3747414c9	0	158769	player	examples/BD_FOFT/BD.FOFT musicbox 3
 0ece57a08b17fa83af64d3d3747414c9	1	169184	player
 0ece57a08b17fa83af64d3d3747414c9	2	213767	player
@@ -1098,7 +1100,8 @@
 160f314bcea7ba57aceb6dc109fb94a7	0	20703	player	examples/TINY_ItCameFromTheDesert/It Came From The Desert/TINY.farmers
 1611340ebe2f6f74eaf500a04b41c872	1	157582	player+silence	rips/MOD_Pegasus/MOD.sadpegasus
 1612c4a5b7ef94fd747fa95c66e2be64	0	69223	player	rips/MIX_MatrixMarauders/GMC.MatrixMarauders outro
-1619501c64d376e30b838b2aba299a09	0	28562	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 27
+1619501c64d376e30b838b2aba299a09	0	26800	player	examples/SA_AmberMoon/SA.AmberMoon ingame 27
+1619501c64d376e30b838b2aba299a09	1	9526	player
 162b52b08d5831a061ebd660743bf4d5	0	123459	player	examples/TFMX_BattleIsle/MDAT.BattleIsle intro
 1641ac39385324ab6d459ea9656eaded	0	125491	player	examples/SFX_HistoryLine1914-1918/SFX.ongame1
 164f7523b33f3ecf0efd493db7691e74	0	26419	player	rips/SFX_TheChamp/SFX.TheChamp presentation
@@ -2170,7 +2173,8 @@
 2c5bb4a586722e324d0ef5ba3e583c6d	8	1270	player
 2c5bb4a586722e324d0ef5ba3e583c6d	9	1651	player
 2c65e517819a3627703b8b1202ae7802	0	17401	player	examples/AGI_KingsQuest4/AGI.King'sQuestIV 73
-2c6f8d679735f4a1da9ccf3ff6ade63e	0	304163	loop	examples/SA_Lionheart/SA.Lionheart level 3
+2c6f8d679735f4a1da9ccf3ff6ade63e	0	300773	player	examples/SA_Lionheart/SA.Lionheart level 3
+2c6f8d679735f4a1da9ccf3ff6ade63e	1	1905	player
 2c80c85cc689225824111770b697bf30	1	72525	player	rips/MED_Boppin/MED.A Stab at Happiness
 2c83f4f7c3421ec5b0ec3444ef424945	1	130572	player	examples/SOG_Warp/SOG.Warp end
 2c864013a194ebdd380a50cca7e56627	1	3937	player	rips/ST_BlackMagic/MOD.tuschmusik
@@ -2223,7 +2227,7 @@
 2d9bb58e885cd9152879593088637e9c	0	131334	player	examples/SCT_Dynatech/SCT.ELEVEN6
 2d9e1d6ff2e468301a48a93813ba9b30	1	64650	player	rips/MOD_DylanDog17/MOD.att
 2db40e6b633a457bc1c1b6edaaf53ee2	0	332780	player	examples/TCB_TCBTrackerDemo/TCB.TCBTracker demo
-2dc657e8b403f31d4f0d0739f675ca65	0	176596	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 24
+2dc657e8b403f31d4f0d0739f675ca65	0	174011	player	examples/SA_AmberMoon/SA.AmberMoon ingame 24
 2dd8cd9eda95cd2febb1fcfb5c366e15	0	27816	player	examples/AGI_GoldRush/AGI.GoldRush 01
 2dd8cd9eda95cd2febb1fcfb5c366e15	0	27816	player	examples/AGI_SierraDemo5/AGI.Demo4 03
 2ddb5ad6ca8797adeea1b9df4935b740	1	54616	player	examples/DLN_SuperStreetFighter2/DLN.Cammy
@@ -2407,7 +2411,7 @@
 30cb1bb6840fd32573f6a8b83e0e6dc2	1	93737	player	rips/MOD_Diabolik08/MOD.ricintre
 30cb1bb6840fd32573f6a8b83e0e6dc2	1	93737	player	rips/MOD_Diabolik10/MOD.ricintre
 30cda85c0153ba57571263da227f011a	1	115203	player	rips/MOD_DylanDog13/MOD.st3
-30e6413c1adda8176d1d57fa8c43f8a6	0	64757	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 20
+30e6413c1adda8176d1d57fa8c43f8a6	0	134382	player	examples/SA_AmberMoon/SA.AmberMoon ingame 20
 30f10dbbb888a1e2aa43fe61f763859a	1	174265	player	rips/MOD_KidGloves2/MOD.sandisland2
 30f7ff51b6ee886bc7c512736cc5c6b3	1	122951	player	rips/MOD_Diabolik08/MOD.st2
 30f7ff51b6ee886bc7c512736cc5c6b3	1	122951	player	rips/MOD_Diabolik08/MOD.st5
@@ -2482,7 +2486,8 @@
 31cc544fb5efad483859a403440161e8	1	99834	player	examples/SPL_Sanxion/SPL.Sanxion
 31f7649e379a35e2ac418b21cb02a4d4	1	53346	player	rips/MOD_NoiseFromHeaven2/MOD.nfh-2.hypnotica
 32083d6886b30b8a8d3664c7f4edad0a	0	57538	player	examples/PUMA_SnowBros/PUMA.arcade10
-32091ead48bb3e442cf420e568d05293	0	170848	loop	examples/SA_Lionheart/SA.Lionheart level 2
+32091ead48bb3e442cf420e568d05293	0	158642	player	examples/SA_Lionheart/SA.Lionheart level 2
+32091ead48bb3e442cf420e568d05293	1	2540	player
 320ba3b51a9e982ba4e463af867af4d3	0	153561	player	examples/QTS_SonEtLumiere/QTS.SonEtLumiere 06
 321efd8348276f7e88307696862c8621	0	77606	player	examples/MOK_Ishar/MOK.Ishar
 321efd8348276f7e88307696862c8621	1	22100	player
@@ -2672,7 +2677,8 @@
 36901fc8cdaf525910e645e3c7ab76d1	0	42169	player	rips/SoundFX13Sets3/Mods/SFX.FW suite23
 36901fc8cdaf525910e645e3c7ab76d1	1	42169	player
 3691f54830ea13a2a9a62a4d486f69e0	1	51314	player	rips/MOD_1869/MOD.china
-3694ed42cd325b3f289b8320d794279c	0	152058	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 26
+3694ed42cd325b3f289b8320d794279c	0	149751	player	examples/SA_AmberMoon/SA.AmberMoon ingame 26
+3694ed42cd325b3f289b8320d794279c	1	1905	player
 369b1ebf800fe67a7b179addc31bc09f	1	138320	player	rips/MOD_TimeRunners07/MOD.dia01
 36ac704ddac009a36cef82b9d86d235a	0	34929	player	examples/AGI_ComputerChristmas/AGI.ChristmasCard 06
 36b5e110b04cc0c020b38a13a38c3ba5	0	66048	player	examples/BD_FOFT/BD.FOFT musicbox 4
@@ -3666,7 +3672,7 @@
 4a09bdd09658c21b0238cc5a086cf425	0	284515	player	examples/SA_Lionheartdemo/SA.Lionheart demo
 4a09bdd09658c21b0238cc5a086cf425	1	1905	player
 4a2510cd2f5fc558866f24cc043ad42f	1	120422	player+silence	examples/NT_HisMastersNoise/mod.C.u.t
-4a27d64b58ff57968914dafb43dfbea6	0	163416	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 21
+4a27d64b58ff57968914dafb43dfbea6	0	146830	player	examples/SA_AmberMoon/SA.AmberMoon ingame 21
 4a2963a926f573682887fbf515ef16fc	0	0	nosound	examples/DNS_Starball/DNS.Starball ingame
 4a2963a926f573682887fbf515ef16fc	1	176424	player
 4a2963a926f573682887fbf515ef16fc	2	26673	player
@@ -5066,7 +5072,7 @@
 6b7ecdb3aa7910be6add43bd90e98de6	1	43439	player	rips/ST_JungleMania/MOD.wilhelmus
 6b807314af1a45109675b3e6bab30c4d	1	102374	player	examples/DL_E-Swat/DL.E-Swat
 6b9c7f9bfa6ff04949540f1c434afe75	0	127	player	examples/AGI_Manhunter2/AGi.ManhunterII 088
-6ba1972a007985417b8d2e773a9af9d0	0	15300	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 23
+6ba1972a007985417b8d2e773a9af9d0	0	13463	player	examples/SA_AmberMoon/SA.AmberMoon ingame 23
 6babb9256c9670856369c5d58c92eb4b	0	63761	player	examples/ALP_Cedric/ALP.Cedric 4
 6bc9b48c4241fee74c306fa91a55ec32	1	208290	player+silence	rips/MOD_Harlequin/MOD.h23
 6bd200b7cb18eb339ca3cb880d5adfe5	0	508	player	examples/AGI_Manhunter1/AGI.ManhunterI 56
@@ -5088,7 +5094,7 @@
 6c487d41dc4026453d8ef87060da524c	1	153561	player	examples/SOC_LethalXcessST/SOC.LethalXcessST outro
 6c61ca0d9aab794a5fe98cd7f58d1bf5	0	31372	player	examples/AGI_KingsQuest4/AGI.King'sQuestIV 70
 6c61ca0d9aab794a5fe98cd7f58d1bf5	0	31372	player	examples/AGI_KingsQuest4demo/AGI.King'sQuestIVdemo 01
-6c83c7b28c4b615d05acbf3ce0cebb29	0	137190	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 22
+6c83c7b28c4b615d05acbf3ce0cebb29	0	134382	player	examples/SA_AmberMoon/SA.AmberMoon ingame 22
 6c85c5b373b6246a9fa3ed19da879bf4	0	9907	player	customs/Imperium/CUST.Imperium
 6c85c5b373b6246a9fa3ed19da879bf4	1	12447	player
 6c85c5b373b6246a9fa3ed19da879bf4	2	8637	player
@@ -5216,7 +5222,7 @@
 6fa97aa2e6e38707c57ad7ae0fd2388c	0	1778	player	examples/AGI_Manhunter2/AGI.ManhunterII 049
 6fac64ec72aba9123a67fea17e6cdb95	0	24132	player	examples/SMUS_SpiritOfExcalibur/Spirit Of Excalibur/SMUS.GameWon
 6fb0a681d59fd041a0c95efea574f24e	0	63888	player	examples/MIDI_Entity/MIDI.Entity L6
-6fbf8aaeb8430403d4f8db9855be2615	0	199536	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 18
+6fbf8aaeb8430403d4f8db9855be2615	0	196366	player	examples/SA_AmberMoon/SA.AmberMoon ingame 18
 6fc3326031bdfb002d74e0fbccbc73ac	0	340401	player	examples/TFMX_MUDS/MDAT.title
 6fc3326031bdfb002d74e0fbccbc73ac	1	7620	player
 6fc3326031bdfb002d74e0fbccbc73ac	2	51187	player
@@ -5420,7 +5426,7 @@
 73ddbf306b88656d41774e18ffafc3c3	9	24641	player
 73e59ce1b71ecc58a64b7282d3e9c323	1	456875	player	examples/DL_IK+/DL.InternationalKarate+
 73e98fe5d47a2981c0898c4b9268ac41	0	1778	player	examples/AGI_SpaceQuest1/AGI.SpaceQuestI 06
-73efbbf03fddc12dc97be05e88467ba8	0	195099	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 19
+73efbbf03fddc12dc97be05e88467ba8	0	192555	player	examples/SA_AmberMoon/SA.AmberMoon ingame 19
 7402a11213113ae1c2de06c79082908d	1	71763	player	rips/MOD_Harlequin/MOD.finalwater1
 742fc2bc746a44f7d73cd6f24ea0ad2c	0	83884	silence	customs/DefenOfCrown/CUST.DefenderOfTheCrown
 742fc2bc746a44f7d73cd6f24ea0ad2c	1	35745	silence
@@ -6051,7 +6057,8 @@
 81058d97afdb80bb344b00e0f881b4fe	5	34548	player
 81058d97afdb80bb344b00e0f881b4fe	6	6350	player
 81058d97afdb80bb344b00e0f881b4fe	7	25530	player
-8112744fd670e9885892b192ccf4bd8a	0	207024	loop	examples/SA_Lionheart/SA.Lionheart level 6
+8112744fd670e9885892b192ccf4bd8a	0	187475	player	examples/SA_Lionheart/SA.Lionheart level 6
+8112744fd670e9885892b192ccf4bd8a	1	2540	player
 8112be703b5d6d43561dd954920ed7c0	1	182521	player	rips/MOD_Rolling/MOD.sun ray3
 811f165a887c4f0394bac28103d987d0	0	115203	player	examples/TFMX_MetalLaw/MDAT.MetalLaw 1
 811f165a887c4f0394bac28103d987d0	1	115203	player
@@ -6353,7 +6360,7 @@
 861e334b4b93a213f38c93c9454c9e37	1	86370	player	rips/MED_SoulCrystal/MED.The Eremit's Tale
 863d3dbd90832e8e94518af926b60817	0	220508	loop	customs/Corruption/CUST.Corruption
 86446970f2c13977b543c45d3c56f99f	0	341559	loop	examples/SA_Lionheartdemo/SA.Lionheart demo 2 & 4
-864563b24f603d8e3d479753a9f80fd0	0	261795	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 15
+864563b24f603d8e3d479753a9f80fd0	0	142003	player	examples/SA_AmberMoon/SA.AmberMoon ingame 15
 866d60b4c1d6fada717bdfbb4863b1fd	0	29241	player+silence	customs/Agony/CUST.Agony demo
 866fd25500245cdfb0f323a19427856a	1	198271	player	rips/MED_SoulCrystal/MED.Former Glory
 867143aa9afb8e06b821f501b7fc080c	1	115203	player	rips/MOD_TimeRunners27/MOD.secmus
@@ -6811,7 +6818,8 @@
 903b5e2c15377da18e7714853a20e131	0	30610	player	examples/MFP_KidVicious/MFP.KidVicious-1
 903ca883fd566125711924c80be45f64	1	53854	player	rips/MOD_DylanDog04/MOD.nicchia
 90493f53f9ce5f20fe91ddbeb07d808f	1	143400	player	rips/ST_Combine/MOD.tears repair d.j.
-9051f745e2e49c88bd0a491df7a8ba97	0	11035	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 29
+9051f745e2e49c88bd0a491df7a8ba97	0	8891	player	examples/SA_AmberMoon/SA.AmberMoon ingame 29
+9051f745e2e49c88bd0a491df7a8ba97	1	8891	player
 905df525b0d85245eae047bc816c0c7d	0	2032	player	examples/AGI_DonaldDucksPlayground/AGI.DonaldDucksPlayground 22
 90607d184b5e269fe6203264e742fe4e	0	6223	player	examples/AGI_Manhunter1/AGI.ManhunterI 63
 906158733fdf4c7972f7bb31faaf31e5	0	8383	player	examples/AGI_GoldRush/AGI.GoldRush 17
@@ -7551,7 +7559,7 @@ a0e23563f1fefa355d88f2654a63196b	7	76717	player
 a0e23563f1fefa355d88f2654a63196b	8	46360	player
 a0e28024ec01281b7b89dffeca4c01bb	1	147111	player+silence	examples/NT_HisMastersNoise/mod.Try to memorise
 a0e813edadf5c0c4b53708b3fa4a4031	0	138193	player	examples/TFMX_Anstoss/MDAT.sound0
-a0fc4592a8453f8be17852f30802ae98	0	132589	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 16
+a0fc4592a8453f8be17852f30802ae98	0	130572	player	examples/SA_AmberMoon/SA.AmberMoon ingame 16
 a10e537e1072fd151f88c879b680a4dd	0	3175	player	examples/AGI_Manhunter2/AGI.ManhunterII 188
 a114ea1f01573ccb514a754acb37e6b7	1	153688	player	examples/NT_HisMastersNoise/mod.Wait for andy
 a11fa69eccac342cc9e503a222c302bd	0	5842	player	examples/AGI_GoldRush/AGI.GoldRush 25
@@ -8419,11 +8427,11 @@ b5b332d4c4c424121e6151fa19ef99dd	4	15368	player
 b5b332d4c4c424121e6151fa19ef99dd	5	22481	player
 b5b332d4c4c424121e6151fa19ef99dd	6	17274	player
 b5b332d4c4c424121e6151fa19ef99dd	7	22989	player
-b5cc99486c3a11a2f8e6f599d9bfaf39	0	36179	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 32
+b5cc99486c3a11a2f8e6f599d9bfaf39	0	32643	player	examples/SA_AmberMoon/SA.AmberMoon ingame 32
 b5cd73f7c938ad6cae2c002584737139	0	187475	player	examples/SMUS_Classix2/Classix 2/SMUS.Sheba
 b5e053df7f5c331ad4d83c1162dc74ff	1	61475	player	rips/MOD_NoiseFromHeaven1/MOD.cracktro!-+
 b5ed62d51794ee2415114d29a149cfb1	1	174404	player+silence	rips/ST_SoundMachine/MOD.nh (NEW HORIZON)
-b5eeb4e0332accada1cc0b4368540361	0	130357	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 17
+b5eeb4e0332accada1cc0b4368540361	0	127650	player	examples/SA_AmberMoon/SA.AmberMoon ingame 17
 b60384c5433a0b2ba5946d2d4ac25bca	1	38485	player	rips/MOD_Tex/MOD.st4
 b6051113967e1bdfb88f0666dffae16b	1	76844	player	rips/MOD_DylanDog09/MOD.tensio
 b6051113967e1bdfb88f0666dffae16b	1	76844	player	rips/MOD_DylanDog11/MOD.tensio
@@ -8575,7 +8583,7 @@ b87c6800ecc3ab714a7418f4d6e14234	5	5261	silence
 b87c6800ecc3ab714a7418f4d6e14234	6	6913	silence
 b87c6800ecc3ab714a7418f4d6e14234	7	5007	silence
 b89de569150b6aad4642487c189077ad	1	61475	player	rips/MOD_DylanDog16/MOD.mus01
-b8a4002fb12bfa4946ee4e2766a68922	0	12709	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 30
+b8a4002fb12bfa4946ee4e2766a68922	0	11558	player	examples/SA_AmberMoon/SA.AmberMoon ingame 30
 b8a42fd3c8c51f756539b34c7e157c08	0	9653	player	examples/AGI_BlackCauldron/AGI.BlackCauldron 27
 b8ce30ed2fecbc255a89cff706d2f7ff	0	9018	player	examples/NTP_Castlevania/NTP.cvstart
 b8d13a93cbc98146572ce62b23a60e6d	0	1143	player	examples/AGI_Manhunter1/AGI.ManhunterI 85
@@ -8787,7 +8795,7 @@ bb71fd3a44e8278cde35efee69c42436	0	22989	player	examples/NPP_Battletoads/NPP.fir
 bb7feb5bf162011944e684a387b5188c	0	52076	player	examples/SMUS_TVSportsFootball/TV Sports Football/SMUS.Chrl
 bb8d7d3b4c0f19f570fe28f54b1ea212	0	133112	player	rips/MIX_SonyGame/SA.SonyGame 3
 bb8d7d3b4c0f19f570fe28f54b1ea212	1	4500	player+silence
-bb8d91a5ae2306602cdd5f96ecf414e4	0	104423	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 25
+bb8d91a5ae2306602cdd5f96ecf414e4	0	105549	player	examples/SA_AmberMoon/SA.AmberMoon ingame 25
 bb95807bb00f6438f9f6c177e1ac4075	0	46995	player	examples/MDAT_Denny/MDAT.Denny level3
 bbafb07cd41ef79b7688cb570417da14	0	26292	player	examples/IMS_BeastBusters/IMS.beast-busters1.st
 bbafb07cd41ef79b7688cb570417da14	1	7493	player
@@ -9427,7 +9435,9 @@ ca91abb5657d23214c14dc2068da2c09	2	62546	silence
 ca9551f3f1e9a0e684d2e75715f7b901	1	60586	player	rips/MOD_DylanDog14/MOD.magia
 caa7aa41b903286086a3c2e5be9e9f99	1	56648	player	rips/MED_Boppin/MED.Boppin Opus #43
 caaca8298aa194355cfcf46d731eeab6	1	76844	player	rips/MOD_DylanDog17/MOD.gmodd
-caacb725cc8d90fcf38e58edccdb7f8f	0	118602	loop	examples/SA_Lionheart/SA.Lionheart level 8
+caacb725cc8d90fcf38e58edccdb7f8f	0	116473	player	examples/SA_Lionheart/SA.Lionheart level 8
+caacb725cc8d90fcf38e58edccdb7f8f	1	10461	player+silence
+caacb725cc8d90fcf38e58edccdb7f8f	2	1905	player
 cab45dfe11dada553f72793fe6787e78	0	10288	player	examples/NPP_WingCommander/NPP.w.c.briefing3
 cab45dfe11dada553f72793fe6787e78	0	10288	player	examples/NPP_WingCommanderCD32/NPP.w.c.briefing3
 cabe9f03ae78d490068f72d10bf1b86c	0	134382	player	examples/TCB_MegaLoMania/TCB.MegaLoMania
@@ -9883,7 +9893,11 @@ d59301d92943103f75430e68c122b6af	0	127	player	examples/AGI_SierraDemo1/AGI.Demo 
 d59301d92943103f75430e68c122b6af	0	127	player	examples/AGI_SpaceQuest1/AGI.SpaceQuestI 10
 d59301d92943103f75430e68c122b6af	0	127	player	examples/AGI_SpaceQuest1/AGI.SpaceQuestI 42
 d59301d92943103f75430e68c122b6af	0	127	player	examples/AGI_SpaceQuest2/AGI.SpaceQuestII 09
-d5ab3583f235b191107667f79d2db320	0	107963	loop	examples/SA_Lionheart/SA.Lionheart level 7
+d5ab3583f235b191107667f79d2db320	0	101739	player	examples/SA_Lionheart/SA.Lionheart level 7
+d5ab3583f235b191107667f79d2db320	1	172741	player
+d5ab3583f235b191107667f79d2db320	2	5562	player+silence
+d5ab3583f235b191107667f79d2db320	3	9526	player
+d5ab3583f235b191107667f79d2db320	4	1905	player
 d5ad28363c659a6384c7a7807135a05d	1	38485	player	rips/MOD_Simulman03/MOD.due
 d5bcf35245387da2698893ce32bea30b	1	145940	player	rips/ST_BioChallenge/MOD.ty4
 d5bdac6a26a4a9b997f557c2730eb9f2	1	276513	player	examples/NT_HisMastersNoise/mod.Lepeltheme
@@ -10291,7 +10305,8 @@ de54bf48b25c44eb93b8ba02e11be3c9	0	1016	player	examples/AGI_SpaceQuest1/AGI.Spac
 de6334ab627cbb98b7b59b6ed6e0fc68	0	57157	player	examples/SJS_Lemmingsdemo/SJS.batman
 de69dfc25767330059d49971015c61ac	1	7747	player	rips/MOD_Diabolik02/MOD.st6
 de733e4729890cd577720c7e89fd5de1	0	116473	player	examples/HOT_PrimeMover/HOT.PrimeMover 14
-de7b2c5c63e9ae0c1f98efbe1f27ab3c	0	269360	loop	examples/SA_Lionheart/SA.Lionheart level 1
+de7b2c5c63e9ae0c1f98efbe1f27ab3c	0	284515	player	examples/SA_Lionheart/SA.Lionheart level 1
+de7b2c5c63e9ae0c1f98efbe1f27ab3c	1	1905	player
 de81687019d8e5cee778e981472f5fb8	1	51314	player	rips/MOD_DylanDog02/MOD.Epitaph
 de8def62d1bd1653b4ab7ba19286fdda	0	6223	player	examples/AGI_KingsQuest4/AGi.King'sQuestIV 87
 dea39f3344910b19c6a5c1183725a8b9	0	32007	player	examples/AGI_KingsQuest2/AGI.King'sQuestII 07
@@ -10319,7 +10334,9 @@ df5012b2dd1a0fe2c6554668a53969c3	1	117743	player	examples/HST_Amberstar/HST.Ambe
 df5e17dd495fdbb3a82f6c36776f0c33	1	102501	player	rips/MOD_DylanDogAdv/MOD.omega race
 df647a90dd6979abf445e3e1ffa393a1	1	230533	player	rips/ST_Ackerlight/MOD.dear rob (LQ)
 df78c6c7eb2804124330b6240fb45517	0	1651	player	examples/TINY_CarmenEurope/Carmen Europe/TINY.CarmenEurope 12
-df9d3cfa52293d7800c9eeb57b2313e9	0	182003	loop	examples/SA_Lionheart/SA.Lionheart bonus level
+df9d3cfa52293d7800c9eeb57b2313e9	0	176805	player	examples/SA_Lionheart/SA.Lionheart bonus level
+df9d3cfa52293d7800c9eeb57b2313e9	1	1905	player
+df9d3cfa52293d7800c9eeb57b2313e9	2	5715	player
 dfa898465919909794e108df0dce088f	0	27054	player	examples/TINY_ItCameFromTheDesert/It Came From The Desert/TINY.map
 dfd1ff46e46b0928134b0d3415b98b90	0	124856	player	examples/QTS_DecadeDemo/QTS.DecadeDemo 25
 dfd50161f462d720d4941bb34a9948e2	1	119902	player	examples/JD_Robocop2/JD.Robocop2 shooting range
@@ -10745,7 +10762,7 @@ e97f898083a2956c4277ae780a3d6823	0	762	player	examples/AGI_Manhunter2/AGI.Manhun
 e98a396c44e139ec6e5bd4dc39fae3c4	0	9653	player	examples/MDAT_EinmalKanzlerSein/MDAT.EinmalKanzlerSein 55
 e98b6c772b87a9d46ca54e535dec70dd	0	61856	player	examples/CIN_Wings/Wings/CIN.Wings 01
 e98ffcb770faa4adf5234b7c98a81b20	0	130572	player	examples/EA_Editor/EA.SKYTHEBEST
-e991ee58fe052eca38ad8162853d59e0	0	145709	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 06
+e991ee58fe052eca38ad8162853d59e0	0	140733	player	examples/SA_AmberMoon/SA.AmberMoon ingame 06
 e99df113fd68aea5c7dd515555678db8	1	13517	silence	rips/MOD_SkizzoDemo2/MOD.SkizzoDemo2 18
 e9a8c359383145c4d30322e9df5efdc9	0	87117	player+silence	rips/SoundFX13Sets2/Mods/SFX.BOND24
 e9c15529ba49d4d8c63bbe312f4bc30a	1	130699	player	rips/MOD_BurnTime/MOD.option
@@ -10821,7 +10838,7 @@ ec31f5d0a7369a59fe2cdbe52ce8c6b1	0	4826	player	examples/SMUS_AlternateReality/Al
 ec337059a67f7450101451b6a71be7c0	0	3429	player	examples/AGI_Manhunter2/AGI.ManhunterII 167
 ec39cbf8b15a11ac3cf2151b1b88e68e	0	22989	player	examples/PAP_Pang/PAP.Pang 11
 ec39e9535f2df23d08db1c37c9509e51	1	196592	player+volume	rips/MOD_DarkSideOfTheSpoon/MOD.HOUSI5
-ec4036c81d3bc078c2b1577defe1a14e	0	145087	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 14
+ec4036c81d3bc078c2b1577defe1a14e	0	123840	player	examples/SA_AmberMoon/SA.AmberMoon ingame 14
 ec43a5c6ca31cd8a2b8921939199f2b8	0	23116	player	examples/TINY_ItCameFromTheDesert/It Came From The Desert/TINY.generic1
 ec4687d1e31a2f05e08968363ed035ae	1	25657	player	rips/MOD_VikingChild/MOD.monster2
 ec4c10f04080353699bfa836d4c2c890	0	79511	player	examples/SMUS_MagnificentForceMusC2/Magnificent Force MusicCol2/SMUS.sf5
@@ -10870,7 +10887,8 @@ ed896fd412e9803599b5160e2ea61ca5	1	2921	player	rips/MOD_StarControl2/MOD.Untitle
 ed8b373a490622563da29177445e6bdb	0	16003	player	examples/AGI_KingsQuest4/AGI.King'sQuestIV 26
 ed9f08a62f40b3d009e4b951a82d57a7	0	41231	player+silence	examples/SJS_Lemmings/SJS.Lemmings intro
 edbd85ea8f28732117d125edfcd858dd	0	11417	player+silence	examples/SA_DimosQuest/SA.Dimo'sQuest 1
-edc44b12cb247b365bc9705921b807ca	0	282469	loop	examples/SA_Lionheart/SA.Lionheart level 5
+edc44b12cb247b365bc9705921b807ca	0	278418	player	examples/SA_Lionheart/SA.Lionheart level 5
+edc44b12cb247b365bc9705921b807ca	1	2794	player
 ede2b58fc43f1d0457aec18458e1d381	0	3048	player	examples/AGI_Manhunter2/AGI.ManhunterII 029
 edf3df20baa92770ce37f8d44826a146	0	174650	loop	examples/SA_MarvinMarvellous/SA.MarvinMarvellous tm_title1
 edf3df20baa92770ce37f8d44826a146	1	73040	loop
@@ -11699,7 +11717,7 @@ f8aabca5ed4103015e8ae1599cf5f5eb	1	48392	player
 f8abe9433d268e43edbb1ce140272ec7	1	46106	player	rips/MOD_DylanDogAdv/MOD.mr. dog
 f8ad0c8b8a37e92fedb4beaa874c976c	0	22735	player	examples/SMUS_WarInMiddleEarth/War In Middle Earth/SMUS.Dwarfs22
 f8be54c4b70831f42dcf9c798ec973bf	1	480315	loop	customs/MYST_Jess_1/YM.Battle Of Arpeggio
-f8d75589530e8bdeaa12f06e24116f22	0	204981	loop	examples/SA_Lionheart/SA.Lionheart intro
+f8d75589530e8bdeaa12f06e24116f22	0	201700	player	examples/SA_Lionheart/SA.Lionheart intro
 f8d8ff7ede9fed932dabf5ddbc5b7324	1	102501	player	rips/ST_Xenophobe/MOD.mello
 f8e141ef0eb3ac07ab2a148bbe4fc021	0	24514	player	examples/AGI_MixedUpMotherGoose/AGI.MixedUpMotherGoose 16
 f8fd42073a38fd76c97c529d27095404	0	4064	player	examples/TINY_CarmenUSA/Carmen USA/TINY.CarmenUSA 08
@@ -11841,7 +11859,7 @@ fd19db2b08dafd620d92fbc7b5eb60bc	1	116600	player	rips/MOD_NoiseFromHeaven2/MOD.s
 fd28c9e26e8b591ebc7c587236bf938a	1	15368	player	examples/SOG_LeavinTeramis/SOG.Leavin'Teramis 04
 fd28c9e26e8b591ebc7c587236bf938a	2	15368	player
 fd28c9e26e8b591ebc7c587236bf938a	3	15368	player
-fd46e1149b3be2b49a079b637586b88d	0	137143	loop	examples/SA_AmberMoon/SA.AmberMoon ingame 31
+fd46e1149b3be2b49a079b637586b88d	0	134636	player	examples/SA_AmberMoon/SA.AmberMoon ingame 31
 fd4e113285171b083f81ee93c88cc886	1	81290	player	rips/MOD_TimeRunners04/MOD.atm02
 fd62f4882e424d78772c099df61e7cd9	1	204749	player	examples/WB_TimeMachine/WB.TimeMachine ingame
 fd62f4882e424d78772c099df61e7cd9	2	9653	player
