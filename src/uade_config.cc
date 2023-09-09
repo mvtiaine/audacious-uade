@@ -43,7 +43,7 @@ void uade_common_options(struct uade_config *uc, const int known_timeout) {
     uade_config_set_option(uc, UC_SCORE_FILE, UADE_CONFIG_BASE_DIR "/score");
     uade_config_set_option(uc, UC_UADECORE_FILE, UADE_CONFIG_UADE_CORE);
 #else
-    uade_config_set_option(uc, UC_NO_CONTENTDB, nullptr);
+    uade_config_set_option(uc, UC_NO_CONTENT_DB, nullptr);
 #endif
     uade_config_set_option(uc, UC_ONE_SUBSONG, nullptr);
     // use just subsong timeout
