@@ -65,11 +65,14 @@ const set<string> md5_blacklist ({
     "bf1c23d06d95623060dd72fed7bc6f41", // Oktalyzer/- unknown/freestyle.okta
     "c30c27e6a0a32e10b5799d5566350f48", // Oktalyzer/Michael Tschogl/never ending story ii-unused.okta
     "54f3416311a9554e15a7cf35aafd2de9", // Oktalyzer/Mohr/1 love night dub.okta
+    "4dba6e062959c23e3e893dee0ed551bb", // Protracker/Doh/drd is drd.mod
     "142c4d303e1b50a38a97423dc157636d", // Protracker/Gryzor/tbc-87 speed dance.mod
+    "65ab9627534237f48555094292cddd15", // Ron Klaren/Ron Klaren/electricity.rk
     "bce1efa7c8811ab129b82f5543cc3856", // Soundtracker 2.6/Starbuck/test.mod
     "55d01a06206a97c4449fda17480ab943", // wantedteam/examples/TFMX_Anstoss/MDAT.anstoss3
     "944efba8363e4a2e9a6c96eae008f5ea", // wantedteam/examples/TFMX_Anstoss/MDAT.anstoss4 
     "0a14bdf6e11a16dd447ec2fa160fe3ae", // wantedteam/examples/TFMX_MrNutz/MDAT.title
+    "c9373a252335a86c020c7a2524bf4908", // amp/H/Hardsequenzer/OKT.PartyInvitation
 });
 
 const set<string> songdb_blacklist ({
