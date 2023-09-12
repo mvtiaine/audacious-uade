@@ -15,12 +15,19 @@
 namespace {
 
 constexpr auto MODLAND_TSV_FILE = UADEDIR "/modland.tsv";
-constexpr auto UNEXOTICA_TSV_FILE = UADEDIR "/unexotica.tsv";
-constexpr auto WANTED_TEAM_TSV_FILE = UADEDIR "/wantedteam.tsv";
-constexpr auto ZAKALWE_TSV_FILE = UADEDIR "/zakalwe.tsv";
+const vector<string> tsvfiles ({
+    MODLAND_TSV_FILE,
+    UADEDIR "/unexotica.tsv",
+    UADEDIR "/wantedteam.tsv",
+    UADEDIR "/zakalwe.tsv",
+    UADEDIR "/amp.tsv",
+    UADEDIR "/modsanthology.tsv",
+    UADEDIR "/aminet.tsv"
+});
 
 bool initialized = false;
 
+// TODO muut incomingista songdb:n, mutta merkkaa path ignoroiduksi authordb:n (niinkun unexotica yms.) ?
 const set<string> modland_amiga_formats ({
     // these dirs from incoming have author info available in "standard" format
     "Cinemaware", // incoming/vault
@@ -214,7 +221,7 @@ bool parse_modland_path(const string &path, ModlandData &item) {
     const int count = tokens.size();
 
     if (count < 3) {
-        DEBUG("Unexpected path: %s\n", path.c_str());
+        TRACE("Skipping path: %s\n", path.c_str());
         return false;
     }
 
@@ -360,10 +367,9 @@ void songdb_init(void) {
     db.clear();
     db_subsongs.clear();
 
-    parsetsv(MODLAND_TSV_FILE, true);
-    parsetsv(UNEXOTICA_TSV_FILE, false);
-    parsetsv(WANTED_TEAM_TSV_FILE, false);
-    parsetsv(ZAKALWE_TSV_FILE, false);
+    for (const auto &tsv : tsvfiles) {
+        parsetsv(tsv, tsv == MODLAND_TSV_FILE);
+    }
 
     initialized = true;
 
