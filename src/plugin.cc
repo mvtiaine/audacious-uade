@@ -201,13 +201,13 @@ const struct uade_song_info *get_song_info(const uade_state *state) {
           " - subsong cur:%d, min:%d, def:%d, max:%d"
           " - detection custom:%d, content:%d, ext:%s"
           " - module bytes:%lu, md5:%s, fname:%s, name:%s"
-          " - duration:%f, subsongbytes:%lld, songbytes:%lld"
+          " - duration:%f, subsongbytes:%zd, songbytes:%zd"
           " - player fname:%s, name:%s, format:%s"
           "\n",
           subsong->cur, subsong->min, subsong->def, subsong->max,
           detection->custom, detection->content, detection->ext,
           info->modulebytes, info->modulemd5, info->modulefname, info->modulename,
-          info->duration, info->subsongbytes, info->songbytes,
+          info->duration, (ssize_t)info->subsongbytes, (ssize_t)info->songbytes,
           info->playerfname, info->playername, info->formatname);
     if (!uade_song_info(infotext, size(infotext), info->modulefname, UADE_MODULE_INFO)) {
         TRACE("uade_song_info - module info:\n%s\n", infotext);
