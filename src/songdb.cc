@@ -15,282 +15,22 @@
 namespace {
 
 constexpr auto MODLAND_TSV_FILE = UADEDIR "/modland.tsv";
+constexpr auto MODLAND_INCOMING_TSV_FILE = UADEDIR "/modland_incoming.tsv";
 const vector<string> tsvfiles ({
     MODLAND_TSV_FILE,
     UADEDIR "/unexotica.tsv",
-    UADEDIR "/wantedteam.tsv",
-    UADEDIR "/zakalwe.tsv",
     UADEDIR "/amp.tsv",
     UADEDIR "/modsanthology.tsv",
-    UADEDIR "/aminet.tsv"
+    UADEDIR "/wantedteam.tsv",
+    UADEDIR "/zakalwe.tsv",
+    UADEDIR "/aminet.tsv",
+    MODLAND_INCOMING_TSV_FILE,
 });
 
 bool initialized = false;
 
-// TODO muut incomingista songdb:n, mutta merkkaa path ignoroiduksi authordb:n (niinkun unexotica yms.) ?
-const set<string> modland_amiga_formats ({
-    // these dirs from incoming have author info available in "standard" format
-    "Cinemaware", // incoming/vault
-    "channel players", // incoming/workshop
-    "chiptracker", // incoming/workshop
-    "NP2", // incoming/workshop
-    "P41A", // incoming/workshop
-    "P4X", // incoming/workshop
-    "P60", // incoming/workshop
-    "P6X", // incoming/workshop
-    "PHA", // incoming/workshop
-    "prun", // incoming/workshop
-    "AHX",
-    "AM Composer",
-    "AProSys",
-    "Actionamics",
-    "Activision Pro",
-    "Anders Oland",
-    "Arpeggiator",
-    "Art And Magic",
-    "Art Of Noise",
-    "Audio Sculpture",
-    "BP SoundMon 2",
-    "BP SoundMon 3",
-    "Beathoven Synthesizer",
-    "Ben Daglish",
-    "Core Design",
-    "CustomMade",
-    "Cybertracker",
-    "Darius Zendeh",
-    "Dave Lowe",
-    "Dave Lowe New",
-    "David Hanney",
-    "David Whittaker",
-    "Delitracker Custom",
-    "Delta Music",
-    "Delta Music 2",
-    "Delta Packer",
-    "Desire",
-    "Digibooster",
-    "Digibooster Pro",
-    "Digital Mugician",
-    "Digital Mugician 2",
-    "Digital Sonix And Chrome",
-    "Digital Sound Studio",
-    "Dirk Bialluch",
-    "Dynamic Studio Professional",
-    "Dynamic Synthesizer",
-    "EarAche",
-    "Electronic Music System",
-    "Electronic Music System v6",
-    "Face The Music",
-    "Fashion Tracker",
-    "Follin Player II",
-    "Forgotten Worlds",
-    "Fred Gray",
-    "FredMon",
-    "FuchsTracker",
-    "Future Composer 1.3",
-    "Future Composer 1.4",
-    "Future Composer BSI",
-    "Future Player",
-    "GT Game Systems",
-    "Game Music Creator",
-    "GlueMon",
-    "Hippel",
-    "Hippel 7V",
-    "Hippel COSO",
-    "HivelyTracker",
-    "Howie Davies",
-    "IFF-SMUS",
-    "Images Music System",
-    "Infogrames",
-    "InStereo!",
-    "InStereo! 2.0",
-    "JamCracker",
-    "Janko Mrsic-Flogel",
-    "Jason Brooke",
-    "Jason Page",
-    "Jason Page Old",
-    "Jeroen Tel",
-    "Jesper Olsen", // missing data files (WantedTeam.bin)
-    "Kris Hatlelid",
-    "Leggless Music Editor",
-    "Lionheart",
-    "MCMD",
-    "Magnetic Fields Packer",
-    "Maniacs Of Noise",
-    "Mark Cooksey",
-    "Mark Cooksey Old",
-    "Mark II",
-    "MaxTrax",
-    "Medley",
-    "Mike Davies",
-    "MultiMedia Sound",
-    "Music Assembler",
-    "Music Editor",
-    "MusicMaker V8",
-    "MusicMaker V8 Old",
-    "Musicline Editor",
-    "NovoTrade Packer",
-    "OctaMED MMD0",
-    "OctaMED MMD1",
-    "OctaMED MMD2",
-    "OctaMED MMD3",
-    "OctaMED MMDC",
-    "Oktalyzer",
-    "Paul Robotham",
-    "Paul Shields",
-    "Paul Summers",
-    "Peter Verswyvelen",
-    "Pierre Adane Packer",
-    "Powertracker",
-    "Pretracker",
-    "Professional Sound Artists",
-    "Protracker",
-    "Protracker IFF",
-    "Pumatracker",
-    "Quadra Composer",
-    "Richard Joseph",
-    "Riff Raff",
-    "Rob Hubbard",
-    "Ron Klaren",
-    "SCUMM",
-    "Sean Connolly",
-    "Sean Conran",
-    "SidMon 1",
-    "SidMon 2",
-    "Silmarils",
-    "Sonic Arranger",
-    "Sound Images",
-    "Sound Master",
-    "Sound Master II v1",
-    "Sound Master II v3",
-    "Sound Programming Language",
-    "SoundControl",
-    "SoundFX",
-    "SoundFactory",
-    "SoundPlayer",
-    "Soundtracker",
-    "Soundtracker 2.6",
-    "Soundtracker Pro II",
-    "Special FX",
-    "Speedy A1 System",
-    "Speedy System",
-    "Startrekker AM",
-    "Startrekker FLT8",
-    "Steve Barrett",
-    "Stonetracker",
-    "SunTronic",
-    "Symphonie",
-    "SynTracker",
-    "Synth Dream", // sdr.nobuddiesland* broken ?
-    "Synth Pack",
-    "Synthesis",
-    "TFMX",
-    "The Musical Enlightenment",
-    "Thomas Hermann",
-    "Tomy Tracker",
-    "Unique Development",
-    "Voodoo Supreme Synthesizer",
-    "Wally Beben",
-    "Zoundmonitor",
-    "Ben Daglish SID", // C64
-    "Hippel ST", // Atari ST
-    "Hippel ST COSO", // Atari ST
-    "PokeyNoise", // Atari XL/XE
-    "Quartet PSG", // Atari ST
-    "Quartet ST", // Atari ST
-    "Rob Hubbard ST", // Atari ST
-    "Special FX ST", // Atari ST
-    "TCB Tracker", // Atari ST
-    "TFMX ST", // Atari ST
-    "YMST", // Atari ST
-});
-
-constexpr string_view COOP = "coop-";
-constexpr string_view UNKNOWN = "- unknown";
-constexpr string_view NOTBY = "not by ";
-constexpr string_view UNUSED = "Unused";
-
-constexpr string_view UNKNOWN_AUTHOR = "<Unknown>";
-
 map<pair<string,int>, vector<SongInfo>> db;
 map<string,pair<int,int>> db_subsongs;
-
-bool parse_modland_path(const string &path, ModlandData &item) {
-    string format, author, album, filename;
-    
-    vector<string> tokens = split(path, "/");
-    const int count = tokens.size();
-
-    if (count < 3) {
-        TRACE("Skipping path: %s\n", path.c_str());
-        return false;
-    }
-
-    format = tokens[0];
-
-    if (!modland_amiga_formats.count(format)) {
-        TRACE("Skipping non-amiga format %s\n", format.c_str());
-        return false;
-    }
-
-    author = tokens[1];
-
-    switch (count) {
-        case 3:
-            filename = tokens[2];
-            break;
-        case 4: {
-            string token = tokens[2];
-            if (token.find(COOP) == 0) {
-                author = author + " & " + token.substr(COOP.length());
-            } else if (token.find(NOTBY) != 0) {
-                album = token;
-            }
-            filename = tokens[3];
-            break;
-        }
-        case 5: {
-            string token = tokens[2];
-            if (token.find(COOP) == 0) {
-                author = author + " & " + token.substr(COOP.length());
-                album = tokens[3];
-                filename = tokens[4];
-                break;
-            } else if (tokens[3] == UNUSED) {
-                author = tokens[1];
-                album = tokens[2];
-                filename = tokens[4];
-                break;
-            }
-            author = tokens[1];
-            album = tokens[2] + " (" + tokens[3] + ")";
-            filename = tokens[4];
-            break;
-        }
-        case 6:
-            if (format == "IFF-SMUS" && author == UNKNOWN) {
-                filename = tokens[5];
-                break;
-            }
-        default:
-            TRACE("Skipping path %s, token count %d\n", path.c_str(), count);
-            break;
-    }
-
-    item.format = format;
-    if (author == UNKNOWN) {
-        item.author = UNKNOWN_AUTHOR;
-    } else {
-        item.author = author;
-    }
-    if (album.size()) {
-        item.album = album;
-    }
-    if (filename.size()) {
-        item.filename = filename;
-    }
-
-    return true;
-}
 
 } // namespace
 
@@ -298,7 +38,7 @@ void songdb_init(void) {
     if (initialized) {
         return;
     }
-    const auto parsetsv = [&](const string &tsv, const bool modland) {
+    const auto parsetsv = [&](const string &tsv, const bool modland, const bool modland_incoming) {
         ifstream songdbtsv(tsv, ios::in);
         if (!songdbtsv.is_open()) {
             ERROR("Could not open songdb file %s\n", tsv.c_str());
@@ -324,7 +64,7 @@ void songdb_init(void) {
                 if (cols.size() > 4 && modland) {
                     const auto modland_path = cols[4];
                     ModlandData item {};
-                    if (parse_modland_path(modland_path, item)) {
+                    if (parse_modland_path(modland_path, item, modland_incoming)) {
                         modland_items.push_back(item);
                     }
                 }
@@ -332,7 +72,7 @@ void songdb_init(void) {
                 const auto path = cols[4];
                 TRACE("Duplicate MD5 %s for %s\n", md5.c_str(), path.c_str());
                 ModlandData item {};
-                if (modland && parse_modland_path(path, item)) {
+                if (modland && parse_modland_path(path, item, modland_incoming)) {
                     modland_items.push_back(item);
                 }
             }
@@ -368,7 +108,9 @@ void songdb_init(void) {
     db_subsongs.clear();
 
     for (const auto &tsv : tsvfiles) {
-        parsetsv(tsv, tsv == MODLAND_TSV_FILE);
+        const bool modland = tsv == MODLAND_TSV_FILE || tsv == MODLAND_INCOMING_TSV_FILE;
+        const bool modland_incoming = tsv == MODLAND_INCOMING_TSV_FILE;
+        parsetsv(tsv, modland, modland_incoming);
     }
 
     initialized = true;

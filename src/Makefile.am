@@ -13,8 +13,9 @@ plugindir = $(AUDACIOUS_PLUGINDIR)/Input
 plugin_LTLIBRARIES = uade.la
 uade_la_SOURCES = \
     plugin.cc \
-    songdb.cc \
     hacks.cc \
+    modland.cc \
+    songdb.cc \
     uade_common.cc \
     uade_config.cc \
     converter/converter.cc \

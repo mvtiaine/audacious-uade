@@ -7,14 +7,9 @@
 #include <optional>
 #include <string>
 
-using namespace std;
+#include "modland.h"
 
-struct ModlandData {
-    string format;
-    string author;
-    string album;
-    string filename;
-};
+using namespace std;
 
 struct SongInfo {
     string md5;

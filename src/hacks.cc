@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <map>
+#include <numeric>
 #include <set>
 #include <string>
 #include <vector>
@@ -146,26 +147,73 @@ const map<pair<string,string>, string> bundled_extfiles ({
 
 struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_state *state) {
     struct uade_file *amiga_file = uade_load_amiga_file(name, playerdir, state);
+    if (!amiga_file) {
+        // try with lower case
+        string lcname = name;
+        transform(lcname.begin(), lcname.end(), lcname.begin(), tolower);
+        if (lcname != name) {
+            amiga_file = uade_load_amiga_file(name, playerdir, state);
+        }
+    }
     if (amiga_file) {
         DEBUG("amiga_loader_wrapper found file: %s\n", name);
+    } else {
+        TRACE("amiga_loader_wrapper did NOT find file: %s\n", name);
     }
     return amiga_file;
 }
 
 struct uade_file *sample_loader_wrapper(const char *name, const char *playerdir, void *context, struct uade_state *state) {
-    struct uade_file *amiga_file = uade_load(name, playerdir, state);
+    // hack for modland incoming/vault/Sonix (instruments named wrongly)
+    const auto load = [&](const string &path) -> struct uade_file* {
+        auto *amiga_file = uade_load(path.c_str(), playerdir, state);
+        if (!amiga_file) {
+            string newpath = path;
+            replace(newpath.begin(), newpath.end(), '_', ' ');
+            if (newpath != path) {
+                amiga_file = uade_load(newpath.c_str(), playerdir, state);
+            }
+            if (!amiga_file) {
+                newpath = path;
+                replace(newpath.begin(), newpath.end(), ' ', '_');
+                if (newpath != path) {
+                    amiga_file = uade_load(newpath.c_str(), playerdir, state);
+                }
+            }
+        }
+        return amiga_file;
+    };
+
+    struct uade_file *amiga_file = load(name);
     if (!amiga_file) {
         vector<string> stokens = split(name, "/");
+        bool absolute = string(name).rfind('/', 0) == 0;
         if (stokens.size() >= 3 && stokens[0] != ".") {
-            const string parent = stokens[stokens.size() - 3] + "/";
+            int cnt = 0;
             const string sample = stokens[stokens.size() - 2] + "/" + stokens[stokens.size() - 1];
-            string newpath = name;
-            newpath.replace(newpath.find(parent + sample), (parent + sample).size(), sample);
-            amiga_file = uade_load(newpath.c_str(), playerdir, state);
-
+            stokens.erase(stokens.end() - 1);
+            stokens.erase(stokens.end() - 1);
+            string samplepath = sample;
+            while (!amiga_file && cnt++ < 3) {
+                if (stokens.size() > 0) {
+                    stokens.erase(stokens.end() - 1);
+                    const string parent = accumulate(begin(stokens), end(stokens), string(),[](string &ss, string &s) {
+                        return ss.empty() ? s : ss + "/" + s;
+                    });
+                    const string newpath = (absolute ? "/" : "") + (parent.empty() ? sample : parent + "/" + sample);
+                    amiga_file = load(newpath.c_str());
+                } else {
+                    samplepath = "../"+samplepath;
+                    amiga_file = load(samplepath);
+                }
+            }
         } else if ((stokens.size() == 3 && stokens[0] == ".") || stokens.size() == 2) {
-            const string samplepath = stokens[stokens.size() - 2] + "/" + stokens[stokens.size() - 1];
-            amiga_file = uade_load(("../"+samplepath).c_str(), playerdir, state);
+            string samplepath = stokens[stokens.size() - 2] + "/" + stokens[stokens.size() - 1];
+            int cnt = 0;
+            while (!amiga_file && cnt++ < 3) {
+                amiga_file = load(samplepath);
+                samplepath = "../"+samplepath;
+            }
         }
     }
     if (!amiga_file) {
@@ -246,7 +294,7 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
         return uade_load(bundled.c_str(), playerdir, state);
     }
 
-    if (player.find("/ZoundMonitor") != player.npos) {
+    if (player.find("/ZoundMonitor") != player.npos || player.find("/SonixMusicDriver")) {
         return sample_loader_wrapper(name, playerdir, context, state);
     }
 
