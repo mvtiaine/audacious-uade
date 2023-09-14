@@ -152,7 +152,7 @@ struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_
         string lcname = name;
         transform(lcname.begin(), lcname.end(), lcname.begin(), ::tolower);
         if (lcname != name) {
-            amiga_file = uade_load_amiga_file(name, playerdir, state);
+            amiga_file = uade_load_amiga_file(lcname.c_str(), playerdir, state);
         }
     }
     if (amiga_file) {
