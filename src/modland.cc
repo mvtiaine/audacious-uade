@@ -280,32 +280,35 @@ bool parse_modland_path(const string &path, ModlandData &item, bool incoming) {
     }
 
     if (incoming) {
-        const auto full_path = tokens[0] + tokens[1];
+        const auto full_path = tokens[0] + "/" + tokens[1];
         if (!modland_incoming.count(full_path)) {
             TRACE("Skipping unknown incoming path: %s\n", full_path.c_str());
             return false;
         }
         if (!modland_incoming.at(full_path)) {
-            TRACE("Skipping incoming path: %s\n", full_path.c_str());
+            //TRACE("Skipping incoming path: %s\n", full_path.c_str());
             return false;
         }
         format = tokens[1];
         tokens.erase(tokens.begin());
     } else {
+        format = tokens[0];
         if (!modland_amiga_formats.count(format)) {
             TRACE("Skipping non-amiga format %s\n", format.c_str());
             return false;
         }
-        format = tokens[0];
     }
 
-    author = tokens[1];
-
-    switch (count) {
+    switch (tokens.size()) {
+        case 2:
+            filename = tokens[1];
+            break;
         case 3:
+            author = tokens[1];
             filename = tokens[2];
             break;
         case 4: {
+            author = tokens[1];
             string token = tokens[2];
             if (token.find(COOP) == 0) {
                 author = author + " & " + token.substr(COOP.length());
@@ -316,6 +319,7 @@ bool parse_modland_path(const string &path, ModlandData &item, bool incoming) {
             break;
         }
         case 5: {
+            author = tokens[1];
             string token = tokens[2];
             if (token.find(COOP) == 0) {
                 author = author + " & " + token.substr(COOP.length());
@@ -334,15 +338,17 @@ bool parse_modland_path(const string &path, ModlandData &item, bool incoming) {
             break;
         }
         case 6:
+            author = tokens[1];
             if (format == "IFF-SMUS" && author == UNKNOWN) {
                 filename = tokens[5];
                 break;
             }
         default:
             TRACE("Skipping path %s, token count %d\n", path.c_str(), count);
-            break;
+            return false;
     }
 
+    item.path = path;
     item.format = format;
     if (author == UNKNOWN) {
         item.author = UNKNOWN_AUTHOR;

@@ -190,6 +190,9 @@ string parse_codec(const struct uade_song_info *info) {
         // remove "type: " included in some formats
         if (formatname.find(TYPE_PREFIX) == 0) {
             string name (formatname.substr(TYPE_PREFIX.length()));
+            if (is_octamed(info)) {
+                return "OctaMED (" + name + ")";
+            }
             return name;
         } else {
             return info->formatname;

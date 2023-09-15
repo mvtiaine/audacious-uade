@@ -47,4 +47,12 @@ inline vector<string> split(const string &str, const string &delimiter) {
     return tokens;
 }
 
+inline bool starts_with(const string_view &str, const string_view &prefix) {
+    return str.size() >= prefix.size() && 0 == str.compare(0, prefix.size(), prefix);
+}
+
+inline bool ends_with(const string_view &str, const string_view &suffix) {
+    return str.size() >= suffix.size() && 0 == str.compare(str.size()-suffix.size(), suffix.size(), suffix);
+}
+
 #endif /* COMMON_H_ */

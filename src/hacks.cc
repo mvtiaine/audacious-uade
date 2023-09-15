@@ -23,10 +23,21 @@
 #endif
 
 #include "common.h"
+#include "extensions.h"
 
 using namespace std;
 
 namespace {
+
+const set<string> extensions = []() {
+    set<string> exts;
+    for (const auto ext : plugin_extensions) {
+        if (ext) {
+            exts.insert(ext);
+        }
+    }
+    return exts;
+}();
 
 // modland extensions blacklist
 const set<string> extension_blacklist ({
@@ -47,7 +58,43 @@ const set<string> extension_blacklist ({
     ".spm", // Stonetracker
     ".symmod", // Symphonie
     // Not amiga?
-    ".ym" // YM
+    ".ym", // YM
+    // UnExotica, aminet etc. hack to speedup playlist population with content based detection
+    ".lha",".lzh",".lzx",".zip",
+    ".png",".jpg",
+    ".info",
+    ".txt",".readme",".guide",".diz",".nfo",".doc",
+    ".findlist", // Mods Anthology (hangs uade)
+});
+
+// amp prefix blacklist
+const set<string> prefix_blacklist ({
+    "669.",
+    "AMF.",
+    "AMS.",
+    "DBM.", // amiga
+    "DMF.",
+    "DTM.",
+    "FAR.",
+    "FST.",
+    "FTM.", // amiga
+    "GT2.",
+    "HVL.", // amiga
+    "IT.",
+    "MDL.",
+    "MOD3.", // amiga
+    "MPTM.",
+    "MT2.",
+    "MTM.",
+    "OCT.",
+    "PLM.",
+    "PTM.",
+    "S3M.",
+    "STM.",
+    "STP.", // amiga
+    "STP2.", // amiga
+    "ULT.",
+    "XM.",
 });
 
 // OctaMED sets <no songtitle> or similar as the modulename if there's no title given
@@ -55,7 +102,7 @@ const set<string> octamed_title_blacklist ({
     "<no songtitle>",
     "<sans titre>",
     "<ohne Namen>",
-    "<unnamed>"
+    "<unnamed>",
 });
 
 // uade_play() or uade_stop() stuck, may leave zombie uadecore process around
@@ -222,6 +269,8 @@ struct uade_file *sample_loader_wrapper(const char *name, const char *playerdir,
     return amiga_file;
 }
 
+} // namespace
+
 bool is_octamed(const struct uade_song_info *info) {
     const string formatname = info->formatname;
     return formatname.find("type: MMD0") == 0 ||
@@ -234,14 +283,34 @@ bool is_vss(const struct uade_song_info *info) {
     return playername == "VSS";
 }
 
-} // namespace
+bool is_blacklisted_extension(const string &filename, const string &ext) {
+    string lcfilename = filename;
+    string lcext = ext;
+    transform(lcfilename.begin(), lcfilename.end(), lcfilename.begin(), ::tolower);
+    transform(lcext.begin(), lcext.end(), lcext.begin(), ::tolower);
 
-bool is_blacklisted_extension(const string &ext) {
-    const bool blacklisted = extension_blacklist.count(ext);
-    if (blacklisted) {
-        DEBUG("Blacklisted extension %s\n", ext.c_str());
+    if (lcext.size() > 1 && extensions.count(lcext.substr(1))) {
+        return false;
     }
-    return blacklisted;
+
+    string lcprefix = split(lcfilename, ".").front();
+    if (extensions.count(lcprefix)) {
+        return false;
+    }
+    
+    if (extension_blacklist.count(lcext)) {
+        TRACE("Blacklisted extension %s for %s\n", lcext.c_str(), filename.c_str());
+        return true;
+    }    
+    // AMP hack to speedup playlist population
+    for (const auto &prefix : prefix_blacklist) {
+        if (starts_with(filename, prefix)) {
+            TRACE("Blacklisted prefix %s for %s\n", prefix.c_str(), filename.c_str());
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool is_blacklisted_title(const struct uade_song_info *info) {

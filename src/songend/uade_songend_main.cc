@@ -56,9 +56,9 @@ int main(int argc, char *argv[]) {
     if (is_blacklisted_md5(md5hex)) {
         fprintf(stderr, "Blacklisted md5 for %s\n", fname);
         if (includefname) {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\n", md5hex.c_str(),0,0,"error",fname);
+            fprintf(stdout, "%s\t%d\t%d\t%s\t%zu\t%s\n", md5hex.c_str(),0,0,"error",buf.size(),fname);
         } else {
-            fprintf(stdout, "%s\t%d\t%d\t%s\n", md5hex.c_str(),0,0,"error");
+            fprintf(stdout, "%s\t%d\t%d\t%s\t%zu\n", md5hex.c_str(),0,0,"error",buf.size());
         }
         return EXIT_FAILURE;
     }
@@ -67,6 +67,8 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Could not read magic for %s\n", fname);
         return EXIT_FAILURE;
     }
+
+    uade_state *state = create_uade_probe_state(freq);
 
     bool converted = false;
     if (converter::needs_conversion(buf.data(), converter::MAGIC_SIZE)) {
@@ -78,9 +80,11 @@ int main(int argc, char *argv[]) {
             fprintf(stderr, "Could not convert %s\n", fname);
             return EXIT_FAILURE;
         }
+    } else if (!uade_is_our_file_from_buffer(fname, buf.data(), buf.size(), state)) {
+        fprintf(stderr, "Could not recognize %s\n", fname);
+        uade_cleanup_state(state);
+        return EXIT_FAILURE;
     }
-
-    uade_state *state = create_uade_probe_state(freq);
 
     const auto play_uade = [&](const int subsong) {
         if (converted) {
@@ -133,8 +137,12 @@ int main(int argc, char *argv[]) {
         }
 
         const auto reason = songend.status_string();
-        if (subsong == minsubsong && includefname) {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),fname);
+        if (subsong == minsubsong) {
+            if (includefname) {
+                fprintf(stdout, "%s\t%d\t%d\t%s\t%zu\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),buf.size(),fname);
+            } else {
+                fprintf(stdout, "%s\t%d\t%d\t%s\t%zu\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),buf.size());
+            }
         } else {
             fprintf(stdout, "%s\t%d\t%d\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str());
         }

@@ -11,6 +11,7 @@ using namespace std;
 constexpr string_view UNKNOWN_AUTHOR = "<Unknown>";
 
 struct ModlandData {
+    string path;
     string format;
     string author;
     string album;
