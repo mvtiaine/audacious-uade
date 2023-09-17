@@ -9,6 +9,9 @@ Audacious >= 3.8
 (libuade >= 3.0 if using system libuade instead of the bundled one)
 (libbsd on Linux if using bundled libuade)
 
+* To install via Homebrew
+brew install mvtiaine/repo/audacious-uade
+
 * To build:
 autoreconf -i
 ./configure

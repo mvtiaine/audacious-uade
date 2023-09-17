@@ -1,5 +1,6 @@
-0.9-dev
+0.8.1 - 2023-09-17
 - Changed install dir for data files from `${prefix}/share/audacious/uade` to `${prefix}/share/audacious-uade`
+- Initial Homebrew support
 
 0.8 - 2023-09-17
 - Use SonicArranger player from Wanted Team instead of obsolete Lionheart_Game
