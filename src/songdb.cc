@@ -208,7 +208,7 @@ void songdb_init(void) {
 
             if (prevmd5 != md5) {
                 if (path.empty()) {
-                    WARN("No path for MD5 %s\n", md5.c_str());
+                    INFO("No path for MD5 %s\n", md5.c_str());
                 }
                 modland_items.clear();
                 amp_items.clear();
@@ -389,7 +389,7 @@ void songdb_update(const SongInfo &info) {
         return;
     }
     if (is_blacklisted_songdb(info.md5)) {
-        WARN("Blacklisted songdb key md5:%s\n", info.md5.c_str());
+        INFO("Blacklisted songdb key md5:%s\n", info.md5.c_str());
         return;
     }
     const auto key = pair(info.md5, info.subsong);
