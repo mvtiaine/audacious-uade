@@ -84,7 +84,7 @@ else
   fi
   AX_SUBDIRS_CONFIGURE([uade], [
     [--without-uade123], [--without-uadesimple], [--without-write-audio],[--without-uadefs],
-    [--prefix=\${uade_prefix}/share/audacious/uade],
+    [--prefix=\${uade_prefix}/share/audacious-uade],
     [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
     [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
   ], [])

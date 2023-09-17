@@ -6,7 +6,7 @@ SHREXT = -shrext .dylib
 else
 AM_LDFLAGS = -Wl,--gc-sections -Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -WL,--no-undefined -Wl,-O1
 endif
-uadedir = $(prefix)/share/audacious/uade
+uadedir = $(prefix)/share/audacious-uade
 uadedatadir = $(uadedir)/share/uade
 uadelibdir = $(uadedir)/lib/uade
 plugindir = $(AUDACIOUS_PLUGINDIR)/Input
