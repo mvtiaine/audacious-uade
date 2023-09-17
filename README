@@ -1,5 +1,8 @@
 This is Audacious (https://audacious-media-player.org/) input plugin for UADE (https://zakalwe.fi/uade/).
-Modland (http://ftp.modland.com/) is used for pregenerated songlength and author db.
+
+Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/) and UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) are used as source for precalculated song lengths and author/album meta data.
+
+In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used for precalculated song lengths.
 
 * Dependencies:
 Audacious >= 3.8

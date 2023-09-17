@@ -1,5 +1,10 @@
-0.8-dev
+0.8 - 2023-09-17
 - Use SonicArranger player from Wanted Team instead of obsolete Lionheart_Game
+- Added songlengths precalculated for AMP, UnExotica, Mods Anthology, Wanted Team, Zakalwe, Aminet and Modland incoming dir
+- Added author metadata from AMP and UnExotica (single author only). Also "album" from UnExotica.
+- Add filesize to songdb data
+- Playlist optimizations
+- Misc fixes and updates
 
 0.7.1 - 2023-09-06
 - Increased UADE chipmem size to 8MB to fix large modules not playing
