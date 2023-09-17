@@ -46,7 +46,16 @@ PKG_CHECK_MODULES([AUDACIOUS],[audacious >= 3.8],
   [ac_audacious_plugindir=;])
 AC_SUBST(AUDACIOUS_CFLAGS)
 AC_SUBST(AUDACIOUS_LIBS)
-AC_SUBST(AUDACIOUS_PLUGINDIR, $ac_audacious_plugindir)
+
+AC_MSG_CHECKING([for audacious plugindir])
+AC_ARG_WITH([audacious-plugindir],
+  [--with-audacious-plugindir=<plugindir> installs uade plugin under <plugindir>/Input],
+  [if test x"$withval" != x ; then
+     AUDACIOUS_PLUGINDIR="$withval"
+   fi],
+   [AUDACIOUS_PLUGINDIR=$ac_audacious_plugindir])
+AC_SUBST(AUDACIOUS_PLUGINDIR)
+AC_MSG_RESULT($AUDACIOUS_PLUGINDIR)
 
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_FILES(Makefile
