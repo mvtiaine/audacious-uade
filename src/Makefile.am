@@ -37,6 +37,8 @@ install-data-hook:
 	mkdir -p "$(uadedir)"
 	cp -rf ../conf/songdb "$(uadedir)/"
 	cp -rf ../conf/ext "$(uadedir)/"
+	mkdir -p "$(uadedir)/doc"
+	cp -f ../README ../NOTICE ../AUTHORS ../COPYING ../VERSION "$(uadedir)/doc/"
 	mkdir -p "$(uadedatadir)"
 	cp -f ../conf/song.conf ../conf/uade.conf "$(uadedatadir)/"
 # make sure to remove any leftover symlinks if --with-system-libuade was used previously
