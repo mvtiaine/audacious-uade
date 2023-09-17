@@ -35,7 +35,7 @@ install-data-hook:
 # remove .la cruft
 	rm -f "$(plugindir)/uade.la" || true
 	mkdir -p "$(uadedir)"
-	cp -f ../conf/*.tsv "$(uadedir)/"
+	cp -rf ../conf/songdb "$(uadedir)/"
 	cp -rf ../conf/ext "$(uadedir)/"
 	mkdir -p "$(uadedatadir)"
 	cp -f ../conf/song.conf ../conf/uade.conf "$(uadedatadir)/"

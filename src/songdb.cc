@@ -28,14 +28,14 @@ enum Source {
 };
 
 const vector<pair<string, Source>> tsvfiles ({
-    {UADEDIR "/modland.tsv", Modland},
-    {UADEDIR "/amp.tsv", AMP},
-    {UADEDIR "/unexotica.tsv", UnExotica},
-    {UADEDIR "/modsanthology.tsv", Mods_Anthology},
-    {UADEDIR "/wantedteam.tsv", Wanted_Team},
-    {UADEDIR "/zakalwe.tsv", Zakalwe},
-    {UADEDIR "/aminet.tsv", Aminet},
-    {UADEDIR "/modland_incoming.tsv", Modland_Incoming},
+    {UADEDIR "/songdb/modland.tsv", Modland},
+    {UADEDIR "/songdb/amp.tsv", AMP},
+    {UADEDIR "/songdb/unexotica.tsv", UnExotica},
+    {UADEDIR "/songdb/modsanthology.tsv", Mods_Anthology},
+    {UADEDIR "/songdb/wantedteam.tsv", Wanted_Team},
+    {UADEDIR "/songdb/zakalwe.tsv", Zakalwe},
+    {UADEDIR "/songdb/aminet.tsv", Aminet},
+    {UADEDIR "/songdb/modland_incoming.tsv", Modland_Incoming},
 });
 
 bool initialized = false;
