@@ -320,7 +320,7 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
     parse_uri(uri, path, name, ext);
 
     if (songdb_exists(name, file.fsize())) {
-        TRACE("uade_plugin_is_our_file accepted from songdb (%s,%lld) %s\n", name.c_str(), file.fsize(), uri);
+        TRACE("uade_plugin_is_our_file accepted from songdb (%s,%zd) %s\n", name.c_str(), (ssize_t)file.fsize(), uri);
         return true;
     } else {
         //TRACE("uade_plugin_is_our_file NOT accepted from songdb (%s,%lld) %s\n", name.c_str(), file.fsize(), uri);
