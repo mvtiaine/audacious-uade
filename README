@@ -12,12 +12,10 @@ Audacious >= 3.8
 * To install via Homebrew
 brew install mvtiaine/repo/audacious-uade
 
-* To build:
+* To build and install from source:
 autoreconf -i
 ./configure
 make
-
-* To install:
 (sudo) make install
 
 * To use system libuade instead of bundled one:
