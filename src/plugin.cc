@@ -255,6 +255,7 @@ public:
         "audacious-uade",
         "Audacious UADE plugin " VERSION "\n"
         "Written by Matti Tiainen <mvtiaine@cc.hut.fi>\n"
+        "https://github.com/mvtiaine/audacious-uade\n"
         "\n"
         "UADE: https://zakalwe.fi/uade/\n"
         "\n"
