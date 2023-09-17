@@ -59,15 +59,20 @@ const set<string> extension_blacklist ({
     ".symmod", // Symphonie
     // Not amiga?
     ".ym", // YM
-    // UnExotica, aminet etc. hack to speedup playlist population with content based detection
-    ".lha",".lzh",".lzx",".zip",
-    ".png",".jpg",
-    ".info",
-    ".txt",".readme",".guide",".diz",".nfo",".doc",
+    // Sample etc. files
+    ".instr",".x",".set",".ins",".nt",".as",".ip",".l",".n",".ssd",".sps",".smp",".smpl",
+    // aminet etc. hack to speedup playlist population with content based detection
+    ".lha",".lzh",".lzx",".zip",".adf",".adz",".dms",".bak",".tar",".gz",".tgz",".bz2",".pp",
+    ".gif",".png",".jpg",".jpeg",".bmp",".tga",".ilbm",".anim",".pic",".gfx",".pbm",".raw",".pcx",".3ds",".lbm",
+    ".info",".ico",".font",".fon",".lvl",".map",".inf",
+    ".exe",".library",".device",".rexx",".prefs",".ini",".dll",".prg",".com",".debug",".cfg",".conf",".rev",".cmd",
+    ".h",".hpp",".c",".s",".asm",".cpp",".cxx",".cc",".o",".obj",".po",".in",".am",".sh",".amos",".bas",".i",".a",".fd",
+    ".txt",".readme",".rea",".guide",".diz",".nfo",".doc",".htm",".html",".hlp",".1st",".xml",
+    ".catalog",".deutsch",".english",
     ".findlist", // Mods Anthology (hangs uade)
 });
 
-// amp prefix blacklist
+// prefix blacklist
 const set<string> prefix_blacklist ({
     "669.",
     "AMF.",
@@ -95,6 +100,12 @@ const set<string> prefix_blacklist ({
     "STP2.", // amiga
     "ULT.",
     "XM.",
+    "SMP.",
+    "SMPL.",
+    "smp.",
+    "smpl.",
+    "readme.",
+    "README.",
 });
 
 // OctaMED sets <no songtitle> or similar as the modulename if there's no title given
@@ -203,7 +214,7 @@ struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_
         }
     }
     if (amiga_file) {
-        DEBUG("amiga_loader_wrapper found file: %s\n", name);
+        TRACE("amiga_loader_wrapper found file: %s\n", name);
     } else {
         TRACE("amiga_loader_wrapper did NOT find file: %s\n", name);
     }
@@ -264,7 +275,7 @@ struct uade_file *sample_loader_wrapper(const char *name, const char *playerdir,
         }
     }
     if (!amiga_file) {
-        ERROR("sample_loader_wrapper could NOT find file: %s\n", name);
+        ERR("sample_loader_wrapper could NOT find file: %s\n", name);
     }
     return amiga_file;
 }

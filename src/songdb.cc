@@ -42,6 +42,7 @@ bool initialized = false;
 
 map<pair<string,int>, vector<SongInfo>> db;
 map<string,pair<int,int>> db_subsongs;
+set<pair<string,ssize_t>> db_filenames;
 
 constexpr string_view UNKNOWN = "Unknown";
 const set<string> pseudonyms ({
@@ -150,7 +151,7 @@ void songdb_init(void) {
     const auto parsetsv = [&](const string &tsv, const Source source) {
         ifstream songdbtsv(tsv, ios::in);
         if (!songdbtsv.is_open()) {
-            ERROR("Could not open songdb file %s\n", tsv.c_str());
+            ERR("Could not open songdb file %s\n", tsv.c_str());
             return;
         }
         string line;
@@ -196,14 +197,13 @@ void songdb_init(void) {
         while (getline(songdbtsv, line)) {
             const auto cols = split(line, "\t");
             if (cols.size() < 4) {
-                ERROR("Invalid line %s\n", line.c_str());
+                ERR("Invalid line %s\n", line.c_str());
                 return;
             }
             string md5 = cols[0];
             int subsong = atoi(cols[1].c_str());
             int length = atoi(cols[2].c_str());
             string reason = cols[3];
-            size = cols.size() > 4 ? atoi(cols[4].c_str()) : size;
             string path = cols.size() > 5 ? cols[5] : "";
 
             if (prevmd5 != md5) {
@@ -211,8 +211,8 @@ void songdb_init(void) {
                     WARN("No path for MD5 %s\n", md5.c_str());
                 }
                 modland_items.clear();
-                unexotica_items.clear();
                 amp_items.clear();
+                unexotica_items.clear();
 
                 parse_path(path);
 
@@ -226,13 +226,13 @@ void songdb_init(void) {
                     const SongInfo info = { md5, subsong, length, reason, size, item };
                     songdb_update(info);
                 }
-            } else if (unexotica_items.size()) {
-                for (const auto &item : unexotica_items) {
+            } else if (amp_items.size()) {
+               for (const auto &item : amp_items) {
                     const SongInfo info = { md5, subsong, length, reason, size, item };
                     songdb_update(info);
                 }
-            } else if (amp_items.size()) {
-               for (const auto &item : amp_items) {
+            } else if (unexotica_items.size()) {
+                for (const auto &item : unexotica_items) {
                     const SongInfo info = { md5, subsong, length, reason, size, item };
                     songdb_update(info);
                 }
@@ -247,12 +247,25 @@ void songdb_init(void) {
                 if (!db_subsongs.count(prevmd5)) {
                     db_subsongs[prevmd5] = pair(minsubsong, maxsubsong);
                 }
+                size = cols.size() > 4 ? atoi(cols[4].c_str()) : -1;
+
                 minsubsong = subsong;
                 maxsubsong = subsong;
+
             } else {
                 minsubsong = min(minsubsong, subsong);
                 maxsubsong = max(maxsubsong, subsong);
             }
+
+            if (path.size()) {
+                string filename = split(path,"/").back();
+                transform(filename.begin(), filename.end(), filename.begin(), ::tolower);
+                const auto key = pair(filename, size);
+                if (!db_filenames.count(key)) {
+                    db_filenames.insert(key);
+                }
+            }
+    
             prevmd5 = md5;
             //TRACE("%s -> format = %s, author = %s, album = %s, filename = %s\n", line.c_str(), item.format, item.author, item.album, item.filename);
         }
@@ -398,4 +411,10 @@ optional<pair<int,int>> songdb_subsong_range(const string &md5) {
         return db_subsongs[md5];
     }
     return {};
+}
+
+bool songdb_exists(const string &filename, const ssize_t size) {
+    auto lcname = filename;
+    transform(lcname.begin(), lcname.end(), lcname.begin(), ::tolower);
+    return db_filenames.count(pair(lcname,size));
 }

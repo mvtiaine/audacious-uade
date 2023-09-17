@@ -8,6 +8,10 @@
 #include <string>
 #include <vector>
 
+#if AUDACIOUS
+#include <libaudcore/runtime.h>
+#endif
+
 using namespace std;
 
 constexpr const char *PLUGIN_NAME = "uade";
@@ -19,12 +23,16 @@ constexpr const char *PLUGIN_NAME = "uade";
 #else
 # ifdef AUDDBG
 #  define DEBUG AUDDBG
+#  define INFO AUDINFO
+#  define WARN AUDWARN
+#  define ERR AUDERR
 # else
 #  define DEBUG(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
+#  define INFO(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
+#  define WARN(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
+#  define ERR(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
 # endif
 #endif
-#define WARN(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
-#define ERROR(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
 
 #if DEBUG_TRACE
 # define TRACE DEBUG

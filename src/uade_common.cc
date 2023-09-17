@@ -178,7 +178,7 @@ song_end precalc_song_length(uade_state *state, const struct uade_song_info *inf
         TRACE("precalc_song_length %s - status: %d length: %d\n", info->modulefname, songend.status, songend.length);
     } else {
         songend.status = song_end::ERROR;
-        ERROR("Error precalcing %s\n", info->modulefname);
+        ERR("Error precalcing %s\n", info->modulefname);
     }
     return songend;
 }

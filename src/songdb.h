@@ -49,5 +49,6 @@ void songdb_init();
 optional<SongInfo> songdb_lookup(const string &md5, int subsong, const string &path);
 void songdb_update(const SongInfo &songinfo);
 optional<pair<int,int>> songdb_subsong_range(const string &md5);
+bool songdb_exists(const string &filename, const ssize_t size);
 
 #endif /* SONGDB_H_ */

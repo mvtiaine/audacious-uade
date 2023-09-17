@@ -60,6 +60,12 @@ string md5hex(VFSFile &file) {
     return md5.hexdigest();
 }
 
+bool is_our_file_uade(VFSFile &file, const string &fname, uade_state *state) {
+    fseek0(file);
+    const Index<char> buf = file.read_all();
+    return uade_is_our_file_from_buffer(fname.c_str(), buf.begin(), buf.len(), state) != 0;
+}
+
 int parse_uri(const char *uri, string &path, string &name, string &ext) {
     int subsong;
     const char *tmpName, *sub, *tmpExt;
@@ -168,11 +174,11 @@ bool update_tuple(Tuple &tuple, const string &name, int subsong, const struct ua
     return false;
 }
 
-bool needs_conversion(const char *uri, VFSFile &file) {
+bool needs_conversion(VFSFile &file) {
     char magic[converter::MAGIC_SIZE];
     fseek0(file);
     if (file.fread(magic, 1, converter::MAGIC_SIZE) < converter::MAGIC_SIZE)  {
-        WARN("uade_plugin could not read magic for %s\n", uri);
+        WARN("uade_plugin could not read magic for %s\n", file.filename());
         return false;
     }
     return converter::needs_conversion(magic, converter::MAGIC_SIZE);
@@ -187,7 +193,7 @@ int play_uade(
     uade_state *state,
     optional<string> &formatname
 ) {
-    if (needs_conversion(uri, file)) {
+    if (needs_conversion(file)) {
         const Index<char> buf = read_all(file);
         auto res = converter::convert(buf.begin(), buf.len());
         if (res.success) {
@@ -313,8 +319,30 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
 
     parse_uri(uri, path, name, ext);
 
+    if (songdb_exists(name, file.fsize())) {
+        TRACE("uade_plugin_is_our_file accepted from songdb (%s,%lld) %s\n", name.c_str(), file.fsize(), uri);
+        return true;
+    } else {
+        //TRACE("uade_plugin_is_our_file NOT accepted from songdb (%s,%lld) %s\n", name.c_str(), file.fsize(), uri);
+    }
+
     if (is_blacklisted_extension(name, ext)) {
-        DEBUG("uade_plugin_is_our_file blacklisted %s\n", uri);
+        TRACE("uade_plugin_is_our_file blacklisted %s\n", uri);
+        return false;
+    }
+    
+    if (needs_conversion(file)) {
+        DEBUG("uade_plugin_is_our_file needs conversion: %s\n", uri);
+        // don't try uade_play yet
+        return true;
+    }
+
+    probe_state *probe_state = get_probe_state();
+    TRACE("uade_plugin_is_our_file using probe id %d - %s\n", probe_state->id, uri);
+
+    if (!is_our_file_uade(file, name, probe_state->state)) {
+        TRACE("uade_plugin_is_our_file rejected %s\n", uri);
+        release_probe_state(probe_state);
         return false;
     }
 
@@ -323,23 +351,16 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
     // add to playlist, but call uade_play() on-demand (may hang UADE/audacious completely)
     if (is_blacklisted_md5(md5)) {
         DEBUG("uade_plugin_is_our_file blacklisted md5 %s\n", uri);
+        release_probe_state(probe_state);
         return true;
     }
 
     // assume our file if found in songdb
     if (songdb_subsong_range(md5).has_value()) {
         TRACE("uade_plugin_is_our_file accepted (songdb) %s\n", uri);
+        release_probe_state(probe_state);
         return true;
     }
-
-    if (needs_conversion(uri, file)) {
-        DEBUG("uade_plugin_is_our_file needs conversion: %s\n", uri);
-        // don't try uade_play yet
-        return true;
-    }
-
-    probe_state *probe_state = get_probe_state();
-    TRACE("uade_plugin_is_our_file using probe id %d - %s\n", probe_state->id, uri);
 
     switch (uade_play(path.c_str(), -1, probe_state->state)) {
         case 1:
@@ -357,6 +378,7 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
             stop_uade(probe_state, uri);
             break;
     }
+    
     release_probe_state(probe_state);
 
     return is_our_file;
@@ -371,11 +393,6 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
     bool success = false;
 
     subsong = parse_uri(uri, path, name, ext);
-
-    if (is_blacklisted_extension(name, ext)) {
-        DEBUG("uade_plugin_read_tag blacklisted %s\n", uri);
-        return false;
-    }
 
     const string &md5 = md5hex(file);
 
@@ -399,6 +416,22 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
 
     probe_state *probe_state = get_probe_state();
     TRACE("uade_plugin_read_tag using probe id %d - %s\n", probe_state->id, uri);
+
+    // hack for files which actually contain ? in their name, e.g. MOD.louzy-house?2 or MOD.how low can we go?1
+    // which conflicts with audacious subsong uri scheme
+    bool needfix = subsong >= 0 && string(uri).find_last_of("?") == string::npos;
+    if (needfix) {
+        const string &md5 = md5hex(file);
+        const auto &subsongs = songdb_subsong_range(md5);
+        if (subsongs.has_value() && subsongs.value().first == subsongs.value().second) {
+            WARN("uade_plugin_read_tag enforced subsong %d (was %d) for %s\n", subsongs.value().first, subsong, uri);
+            subsong = subsongs.value().first;
+            path = uri_to_filename(uri);
+            name = split(path, "/").back();
+        } else {
+            WARN("uade_plugin_read_tag could not determine subsong for %s\n", uri);
+        }
+    }
 
     switch (play_uade(uri, file, path, name, subsong, probe_state->state, formatname)) {
         case 1: {
@@ -457,7 +490,7 @@ pair<song_end, bool> UADEPlugin::playback_loop(uade_state* state, int timeout) {
         if (seek_value >= 0) {
             seeked = true;
             if (uade_seek(UADE_SEEK_SUBSONG_RELATIVE, seek_value / 1000.0, -1, state)) {
-                ERROR("Could not seek to %d\n", seek_value);
+                ERR("Could not seek to %d\n", seek_value);
             } else {
                 DEBUG("Seek to %d\n", seek_value);
             };
@@ -470,7 +503,7 @@ pair<song_end, bool> UADEPlugin::playback_loop(uade_state* state, int timeout) {
             totalbytes += res.second;
         }
         if (res.first == song_end::ERROR) {
-            ERROR("Playback error.\n");
+            ERR("Playback error.\n");
             songend.status = song_end::ERROR;
             break;
         } else if (res.first == song_end::TIMEOUT) {
@@ -523,9 +556,25 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
 
     subsong = parse_uri(uri, path, name, ext);
 
+    // hack for files which actually contain ? in their name, e.g. MOD.louzy-house?2 or MOD.how low can we go?1
+    // which conflicts with audacious subsong uri scheme
+    bool needfix = subsong >= 0 && string(uri).find_last_of("?") == string::npos;
+    if (needfix) {
+        const string &md5 = md5hex(file);
+        const auto &subsongs = songdb_subsong_range(md5);
+        if (subsongs.has_value() && subsongs.value().first == subsongs.value().second) {
+            WARN("uade_plugin_play enforced subsong %d (was %d) for %s\n", subsongs.value().first, subsong, uri);
+            subsong = subsongs.value().first;
+            path = uri_to_filename(uri);
+            name = split(path, "/").back();
+        } else {
+            WARN("uade_plugin_play could not determine subsong for %s\n", uri);
+        }
+    }
+
     state = create_uade_state(known_timeout);
     if (!state) {
-        ERROR("Could not init uade state\n");
+        ERR("Could not init uade state\n");
         return false;
     }
     rate = uade_get_sampling_rate(state);
@@ -537,7 +586,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
             const auto [songend, seeked] = playback_loop(state, known_timeout);
             const auto *songinfo = get_song_info(state);
             if (songend.status == song_end::ERROR && !allow_songend_error(songinfo)) {
-                ERROR("Error playing %s\n", uri);
+                ERR("Error playing %s\n", uri);
                 ret = false;
             } else {
                 TRACE("Playback status for %s - %d\n", uri, songend.status);
@@ -550,7 +599,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
             break;
         }
         default:
-            ERROR("Could not play %s\n", uri);
+            ERR("Could not play %s\n", uri);
             ret = false;
             break;
     }

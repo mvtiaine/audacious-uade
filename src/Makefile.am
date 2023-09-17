@@ -28,7 +28,7 @@ uade_la_DEPENDENCIES = $(UADE_LIBS)
 endif
 uade_la_LIBADD = $(UADE_LIBS) $(AUDACIOUS_LIBS)
 uade_la_LDFLAGS = -avoid-version -module -shared  ${AM_LDFLAGS} ${SHREXT}
-uade_la_CXXFLAGS = -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(uadedatadir)\"" ${AM_CXXFLAGS} $(UADE_CFLAGS) $(AUDACIOUS_CFLAGS)
+uade_la_CXXFLAGS = -DAUDACIOUS=1 -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(uadedatadir)\"" ${AM_CXXFLAGS} $(UADE_CFLAGS) $(AUDACIOUS_CFLAGS)
 
 install-data-hook:
 # TODO better way
