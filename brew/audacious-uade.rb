@@ -3,7 +3,7 @@ class AudaciousUade < Formula
     homepage "https://github.com/mvtiaine/audacious-uade"
     license "GPL-2.0-or-later"
 
-    url "https://github.com/mvtiaine/audacious-uade", :using => :git, :tag => "0.8.1"
+    url "https://github.com/mvtiaine/audacious-uade", :using => :git, :tag => "0.8.1-test"
 
     depends_on "audacious"
     depends_on "autoconf" => :build
