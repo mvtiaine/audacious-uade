@@ -1,3 +1,6 @@
+0.9-dev
+- Changed install dir for data files from `${prefix}/share/audacious/uade` to `${prefix}/share/audacious-uade`
+
 0.8 - 2023-09-17
 - Use SonicArranger player from Wanted Team instead of obsolete Lionheart_Game
 - Added songlengths precalculated for AMP, UnExotica, Mods Anthology, Wanted Team, Zakalwe, Aminet and Modland incoming dir
