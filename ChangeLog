@@ -1,3 +1,7 @@
+0.8.2 - 2023-09-23
+- Add proper distribution archive
+- Add default.nix
+
 0.8.1 - 2023-09-17
 - Changed install dir for data files from `${prefix}/share/audacious/uade` to `${prefix}/share/audacious-uade`
 - Initial Homebrew support
