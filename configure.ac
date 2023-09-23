@@ -3,7 +3,7 @@ AC_INIT([audacious-uade], m4_normalize(m4_include([VERSION])))
 AC_PROG_CXX
 AX_CXX_COMPILE_STDCXX_17
 
-AM_INIT_AUTOMAKE([dist-bzip2 no-dist-gzip])
+AM_INIT_AUTOMAKE([tar-ustar dist-bzip2 no-dist-gzip])
 AC_CONFIG_MACRO_DIRS([m4])
 
 LT_INIT([disable-static])
