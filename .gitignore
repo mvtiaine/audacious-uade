@@ -34,3 +34,4 @@ config.h.in~
 *.dSYM
 m4
 bak
+*.tar.bz2
