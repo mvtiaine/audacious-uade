@@ -12,16 +12,25 @@ uadelibdir = $(uadedir)/lib/uade
 plugindir = $(AUDACIOUS_PLUGINDIR)/Input
 plugin_LTLIBRARIES = uade.la
 uade_la_SOURCES = \
+    common.h \
+    extensions.h \
+    prefs.h \
     plugin.cc \
+    hacks.h \
     hacks.cc \
+    modland.h \
     modland.cc \
+    songdb.h \
     songdb.cc \
+    uade_common.h \
     uade_common.cc \
+    uade_config.h \
     uade_config.cc \
     converter/converter.cc \
     converter/common_med.cc \
     converter/converter_med4.cc \
     songend/songend.cc \
+    3rdparty/md5.h \
     3rdparty/md5.cc
 if !SYSTEM_LIBUADE
 uade_la_DEPENDENCIES = $(UADE_LIBS)
@@ -33,33 +42,34 @@ uade_la_CXXFLAGS = -DAUDACIOUS=1 -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(u
 install-data-hook:
 # TODO better way
 # remove .la cruft
-	rm -f "$(plugindir)/uade.la" || true
-	mkdir -p "$(uadedir)"
-	cp -rf ../conf/songdb "$(uadedir)/"
-	cp -rf ../conf/ext "$(uadedir)/"
-	mkdir -p "$(uadedir)/doc"
-	cp -f ../README ../NOTICE ../AUTHORS ../COPYING ../VERSION ../ChangeLog "$(uadedir)/doc/"
-	mkdir -p "$(uadedatadir)"
-	cp -f ../conf/song.conf ../conf/uade.conf "$(uadedatadir)/"
+	rm -f "$(DESTDIR)$(plugindir)/uade.la" || true
+	mkdir -p "$(DESTDIR)$(uadedir)"
+	cp -rf "$(srcdir)/../conf/songdb" "$(DESTDIR)$(uadedir)/"
+	cp -rf "$(srcdir)/../conf/ext" "$(DESTDIR)$(uadedir)/"
+	mkdir -p "$(DESTDIR)$(uadedir)/doc"
+	cp -f "$(srcdir)/../README" "$(srcdir)/../NOTICE" "$(srcdir)/../AUTHORS" "$(srcdir)/../COPYING" "$(srcdir)/../VERSION" "$(srcdir)/../ChangeLog" "$(DESTDIR)$(uadedir)/doc/"
+	mkdir -p "$(DESTDIR)$(uadedatadir)"
+	cp -f "$(srcdir)/../conf/song.conf" "$(srcdir)/../conf/uade.conf" "$(DESTDIR)$(uadedatadir)/"
 # make sure to remove any leftover symlinks if --with-system-libuade was used previously
-	rm -f "$(uadedatadir)/eagleplayer.conf" || true
-	rm -f "$(uadedatadir)/players" || true
+	rm -f "$(DESTDIR)$(uadedatadir)/eagleplayer.conf" || true
+	rm -f "$(DESTDIR)$(uadedatadir)/players" || true
 
 if !SYSTEM_LIBUADE
-	cp -f ../uade/amigasrc/score/score ../uade/uaerc ../uade/eagleplayer.conf "$(uadedatadir)/"
-	cp -rf ../uade/players "$(uadedatadir)/"
-	mkdir -m 755 -p "$(uadelibdir)"
-	install "../uade/src/uadecore" "$(uadelibdir)/"
+	cp -f "$(srcdir)/../uade/amigasrc/score/score" "$(srcdir)/../uade/uaerc" "$(srcdir)/../uade/eagleplayer.conf" "$(DESTDIR)$(uadedatadir)/"
+	cp -rf "$(srcdir)/../uade/players" "$(DESTDIR)$(uadedatadir)/"
+	mkdir -m 755 -p "$(DESTDIR)$(uadelibdir)"
+	install "$(top_builddir)/uade/src/uadecore" "$(DESTDIR)$(uadelibdir)/"
 else
 # XXX hack but there seems no other way. system score, uaerc and uadecore locations are set via API
-	ln -sf "$(UADE_SYSTEM_DATADIR)/eagleplayer.conf" "$(uadedatadir)/eagleplayer.conf"
-	ln -sf "$(UADE_SYSTEM_DATADIR)/players" "$(uadedatadir)/players"
+	ln -sf "$(UADE_SYSTEM_DATADIR)/eagleplayer.conf" "$(DESTDIR)$(uadedatadir)/eagleplayer.conf"
+	ln -sf "$(UADE_SYSTEM_DATADIR)/players" "$(DESTDIR)$(uadedatadir)/players"
 endif
+	chmod -R 755 "$(DESTDIR)$(uadedir)"
 
 uninstall-hook:
-	rm -rf "$(uadedir)" || true
+	rm -rf "$(DESTDIR)$(uadedir)" || true
 if BUILD_MACOS
-	rm -f "$(plugindir)/uade.dylib" || true
+	rm -f "$(DESTDIR)$(plugindir)/uade.dylib" || true
 else
-	rm -f "$(plugindir)/uade.so" || true
+	rm -f "$(DESTDIR)$(plugindir)/uade.so" || true
 endif

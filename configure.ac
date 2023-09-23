@@ -3,7 +3,7 @@ AC_INIT([audacious-uade], m4_normalize(m4_include([VERSION])))
 AC_PROG_CXX
 AX_CXX_COMPILE_STDCXX_17
 
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([dist-bzip2 no-dist-gzip])
 AC_CONFIG_MACRO_DIRS([m4])
 
 LT_INIT([disable-static])
@@ -75,7 +75,7 @@ then
   AC_SUBST(UADE_SYSTEM_DATADIR, $ac_uade_datadir)
 else
   AC_MSG_RESULT(no)
-  AC_CHECK_FILE([uade], [], AC_MSG_ERROR([Could not find uade submodule. Please retry after running: git submodule update --init --recursive]))
+  AC_CHECK_FILE([$srcdir/uade], [], AC_MSG_ERROR([Could not find uade submodule. Please retry after running: git submodule update --init --recursive]))
 
   if test "$build_linux" = "yes"
   then
@@ -97,11 +97,11 @@ else
     [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
     [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
   ], [])
-  UADE_CFLAGS="-I\${abs_top_srcdir}/uade/src/frontends/include"
+  UADE_CFLAGS="-I\${top_srcdir}/uade/src/frontends/include"
   # TODO shutup libtool warning:
   # *** Warning: Linking the shared library uade.la against the
   # *** static library uade/src/frontends/libuade/libuade.a is not portable!
-  UADE_LIBS="\${abs_top_srcdir}/uade/src/frontends/libuade/libuade.a"
+  UADE_LIBS="\${top_builddir}/uade/src/frontends/libuade/libuade.a"
 fi
 
 AC_OUTPUT
