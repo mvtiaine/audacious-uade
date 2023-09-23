@@ -12,6 +12,11 @@ Audacious >= 3.8
 * To install via Homebrew:
 brew install mvtiaine/repo/audacious-uade
 
+* To install from Gentoo overlay:
+# Add https://github.com/mvtiaine/gentoo-overlay.git via layman or eselect repository
+emerge -p media-plugins/audacious-uade
+emerge media-plugins/audacious-uade
+
 * To build and install from source:
 autoreconf -i
 ./configure
