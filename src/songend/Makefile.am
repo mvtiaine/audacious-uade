@@ -1,5 +1,6 @@
 AUTOMAKE_OPTIONS = subdir-objects
 EXTRA_PROGRAMS = songend uade_songend
+EXTRA_DIST = songdb.sh
 
 uadedir = $(prefix)/share/audacious-uade
 uadedatadir = $(uadedir)/share/uade
