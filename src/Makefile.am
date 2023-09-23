@@ -26,12 +26,19 @@ uade_la_SOURCES = \
     uade_common.cc \
     uade_config.h \
     uade_config.cc \
+    converter/big_endian.h \
+    converter/converter.h \
     converter/converter.cc \
+    converter/common_med.h \
     converter/common_med.cc \
     converter/converter_med4.cc \
+    songend/songend.h \
     songend/songend.cc \
+    3rdparty/macos_endian.h \
     3rdparty/md5.h \
-    3rdparty/md5.cc
+    3rdparty/md5.cc \
+    3rdparty/proplayer.h \
+    3rdparty/SimpleBinStream.h
 if !SYSTEM_LIBUADE
 uade_la_DEPENDENCIES = $(UADE_LIBS)
 endif
