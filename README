@@ -17,6 +17,11 @@ brew install mvtiaine/repo/audacious-uade
 emerge -p media-plugins/audacious-uade
 emerge media-plugins/audacious-uade
 
+* To build and install with Arch:
+wget https://raw.githubusercontent.com/mvtiaine/arch-repo/main/audacious-uade/PKGBUILD
+makepkg -s
+(sudo) pacman -U audacious-uade*.pkg*
+
 * To build and install from source:
 autoreconf -i
 ./configure
