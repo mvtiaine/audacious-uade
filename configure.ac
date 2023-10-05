@@ -97,7 +97,7 @@ else
     [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
     [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
   ], [])
-  UADE_CFLAGS="-I\${top_srcdir}/uade/src/frontends/include"
+  UADE_CFLAGS="-I\${top_srcdir}/uade/src/frontends/include -I\${top_builddir}/uade/src/frontends/include"
   # TODO shutup libtool warning:
   # *** Warning: Linking the shared library uade.la against the
   # *** static library uade/src/frontends/libuade/libuade.a is not portable!
