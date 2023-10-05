@@ -1,6 +1,8 @@
 #!/bin/sh
 
-apt install build-essential audacious-dev libbsd-dev autotools-dev autoconf autoconf-archive automake libtool pkg-config
+set -e
+
+sudo apt install build-essential audacious-dev libbsd-dev autotools-dev autoconf autoconf-archive automake libtool pkg-config
 VERSION=$(cat VERSION)
 sed s/VERSION/${VERSION}/g debian/changelog.in > debian/changelog
 autoreconf -i
