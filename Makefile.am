@@ -12,7 +12,7 @@ uninstall uninstalldirs: SUBDIRS = src src/converter src/songend
 
 dist-hook:
 	mkdir -p "$(distdir)/uade"
-	cd uade && git archive --format tar HEAD | tar x -C "../$(distdir)/uade"
+	cd uade && git ls-files | tar Tc - | tar x -C "../$(distdir)/uade"
 
 distclean-local:
 	if test "$(srcdir)" != "."; then \

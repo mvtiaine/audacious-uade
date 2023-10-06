@@ -22,6 +22,10 @@ wget https://raw.githubusercontent.com/mvtiaine/arch-repo/main/audacious-uade/PK
 makepkg -s
 (sudo) pacman -U audacious-uade*.pkg*
 
+* To build and install with Debian:
+debian/make_deb.sh
+sudo dpkg -i build-deb/audacious-uade*.deb
+
 * To build and install from source:
 autoreconf -i
 ./configure

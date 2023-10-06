@@ -34,7 +34,7 @@ const char * const uade_defaults[] = {
 
 const PreferencesWidget uade_audio_widgets1[] = {
     WidgetLabel("<b>Sample rate</b>"),
-    WidgetSpin("", WidgetInt(PLUGIN_NAME, "frequency"), {8000, 96000, 25, "<i>Hz  </i>"}),
+    WidgetSpin("", WidgetInt(PLUGIN_NAME, "frequency"), {8000, 96000, 25, "Hz  "}),
 
     WidgetLabel("<b>Filter</b>"),
     // 0 reserved for "Auto"
@@ -54,10 +54,10 @@ const PreferencesWidget uade_audio_widgets1[] = {
 };
 
 const PreferencesWidget uade_audio_widgets2[] = {
-    WidgetSpin("<b>Panning</b>", WidgetFloat(PLUGIN_NAME, "panning"), {0, 2, 0.1}),
+    WidgetSpin("Panning", WidgetFloat(PLUGIN_NAME, "panning"), {0, 2, 0.1}),
     WidgetLabel("<i>0 stereo 1 mono 2 inverse stereo</i>"),
     WidgetSeparator(),
-    WidgetSpin("<b>Volume gain</b>", WidgetFloat(PLUGIN_NAME, "gain"), {0, 128.0, 0.1}),
+    WidgetSpin("Volume gain", WidgetFloat(PLUGIN_NAME, "gain"), {0, 128.0, 0.1}),
 
     WidgetLabel("<b>Headphones effect</b>"),
     WidgetCheck("Enable", WidgetBool(PLUGIN_NAME, "headphones"), WIDGET_CHILD),

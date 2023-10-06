@@ -35,3 +35,5 @@ config.h.in~
 m4
 bak
 *.tar.bz2
+debian/changelog
+build-deb
