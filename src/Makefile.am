@@ -42,7 +42,7 @@ uade_la_SOURCES = \
 if !SYSTEM_LIBUADE
 uade_la_DEPENDENCIES = $(UADE_LIBS)
 endif
-uade_la_LIBADD = $(UADE_LIBS) $(AUDACIOUS_LIBS)
+uade_la_LIBADD = $(UADE_LIBS) $(AUDACIOUS_LIBS) $(LIBBSD_LIBS)
 uade_la_LDFLAGS = -avoid-version -module -shared  ${AM_LDFLAGS} ${SHREXT}
 uade_la_CXXFLAGS = -DAUDACIOUS=1 -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(uadedatadir)\"" ${AM_CXXFLAGS} $(UADE_CFLAGS) $(AUDACIOUS_CFLAGS)
 
