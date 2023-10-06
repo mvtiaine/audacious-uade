@@ -64,7 +64,7 @@ const set<string> pseudonyms ({
 
 bool parse_unexotica_path(const string &path, UnExoticaData &item) {
     string author, album, note, filename;
-    
+
     vector<string> tokens = split(path, "/");
     const int count = tokens.size();
 
@@ -76,7 +76,7 @@ bool parse_unexotica_path(const string &path, UnExoticaData &item) {
     author = tokens[1];
     album = tokens[2];
 
-    if (count >= 4) {
+    if (count > 4) {
         note = tokens[3];
         filename = tokens[4];
     } else {
