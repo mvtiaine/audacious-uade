@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (buf.size() < converter::MAGIC_SIZE)  {
-        fprintf(stderr, "Could not read magic for %s\n", fname);
+        fprintf(stderr, "Could not read magic for %s md5 %s\n", fname, md5hex.c_str());
         return EXIT_FAILURE;
     }
 
@@ -77,11 +77,11 @@ int main(int argc, char *argv[]) {
             buf = res.data;
             converted = true;
         } else {
-            fprintf(stderr, "Could not convert %s\n", fname);
+            fprintf(stderr, "Could not convert %s md5 %s\n", fname, md5hex.c_str());
             return EXIT_FAILURE;
         }
     } else if (!uade_is_our_file_from_buffer(fname, buf.data(), buf.size(), state)) {
-        fprintf(stderr, "Could not recognize %s\n", fname);
+        fprintf(stderr, "Could not recognize %s md5 %s\n", fname, md5hex.c_str());
         uade_cleanup_state(state);
         return EXIT_FAILURE;
     }
@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
     };
 
     if (play_uade(-1) != 1) {
-        fprintf(stderr, "Could not play %s\n", fname);
+        fprintf(stderr, "Could not play %s md5 %s\n", fname, md5hex.c_str());
         uade_cleanup_state(state);
         return EXIT_FAILURE;
     }
@@ -107,7 +107,7 @@ int main(int argc, char *argv[]) {
     const int maxsubsong = min(info->subsongs.max, 255);
 
     if (uade_stop(state) != 0) {
-        fprintf(stderr, "Could not play (stop) %s\n", fname);
+        fprintf(stderr, "Could not play (stop) %s md5 %s\n", fname, md5hex.c_str());
         uade_cleanup_state(state);
         return EXIT_FAILURE;
     }
@@ -115,11 +115,11 @@ int main(int argc, char *argv[]) {
     for (int subsong = minsubsong; subsong <= maxsubsong; subsong++) {
         int res = play_uade(subsong);
         if (res == 0) {
-            fprintf(stderr, "Could not play %s subsong %d\n", fname, subsong);
+            fprintf(stderr, "Could not play %s subsong %d md5 %s\n", fname, subsong, md5hex.c_str());
             uade_stop(state);
             continue;
         } else if (res != 1) {
-            fprintf(stderr, "Could not play %s subsong %d\n", fname, subsong);
+            fprintf(stderr, "Could not play %s subsong %d md5 %s\n", fname, subsong, md5hex.c_str());
             uade_cleanup_state(state);
             state = create_uade_probe_state(freq);
             continue;
@@ -131,7 +131,7 @@ int main(int argc, char *argv[]) {
             uade_cleanup_state(state);
             state = create_uade_probe_state(freq);
         } else if (uade_stop(state)) {
-            fprintf(stderr, "Could not stop %s subsong %d\n", fname, subsong);
+            fprintf(stderr, "Could not stop %s subsong %d md5 %s\n", fname, subsong, md5hex.c_str());
             uade_cleanup_state(state);
             state = create_uade_probe_state(freq);
         }
