@@ -3553,6 +3553,7 @@
 1dbeeb68bde3b6533ccaf48b0ef9137e	1	31880	player	22748	game/jump/Cornelius/cornelius/files/Scene94.Mod
 1dbeeb68bde3b6533ccaf48b0ef9137e	1	31880	player	22748	game/jump/Cornelius/cornelius/files/Scene98.Mod
 1dbeeb68bde3b6533ccaf48b0ef9137e	1	31880	player	22748	mods/misc/tk_xmas2/mod.xmas2
+1dc08be8c139870a792a5e23c2f16eb2	0	96954	loop	98906	mods/sets/JOlsen_EP/JesperOlsen/JO_Amiga/JO.Haraldh蚌dtand_Intro
 1dc3410adca8e152356be57c001e61e5	1	226087	player	385356	mods/hardc/zab-riot_in_ny/mod.riot_in_n.y.
 1dc3838846174df0dd204b1d8c303474	1	422453	player	118200	mods/boray/WhiteNails/mod.white nails
 1dc4d4b8f4af576f52ce5c30d67dd273	1	108596	loop	8152	mus/play/MYST_Data_9/YM2149/Furniss/YM.JahngirKhanSquash_Intro
@@ -11655,6 +11656,7 @@
 6236ebe97cca777ab1adb110c12ad819	1	227390	player+silence	348542	mods/uns/destrgen/destroy_generation.mod
 62398b0c1b19a1b435aaff8f2de9713e	1	10288	player	21640	mus/play/CdBS_AAM0.51/AAM_DeliPlayer/Examples/mod.loading_marshes
 623bdae83bb2cebb9dff0e1e31719648	1	207416	player	299326	demo/aga/continum/continum/mod.AroundFlo
+623cb68d13d8f012932229b40c65d69d	0	52838	loop	32632	mods/sets/JOlsen_EP/JesperOlsen/JO_Amiga/JO.Haraldh蚌dtand_Fasttune
 6242df00bdf501e3457404cb8f146009	1	184553	player	141144	mods/funet/OneOfTheseDays/OneOfTheseDays.MED
 6243d469d7bb6e510ba740f21a3a9cbf	1	226135	player+silence	215256	mods/stun/windingwinterwind/winding winter wind.mod
 6247742ae55c46e91bd13ec9db5ade95	1	140225	player	214472	mods/ooze/Polsk/MOD.Ooze-Pirate Polska
@@ -12042,6 +12044,7 @@
 653a309a04e7628bd3a9bb3b5b447f7c	1	257587	error	256288	mods/8voic/fu.OctaMED/fu.mod
 653b42287b2c2abe9ff6997e4dc3f465	1	126335	player+silence	238156	mods/slow/Belle-Helene/mod.Belle-Helene
 653d1f9893aa15c7b41a7042982fd6f4	1	56013	player	10210	mus/play/proplayer/Dev/ProPlayer/bin/Modules/Chip classix/mod.reflex end tune
+653d44e61f6b6e0d55bf49fa3c264f43	0	6024	silence	4678	mods/sets/JOlsen_EP/JesperOlsen/JO_Amiga/JO.Haraldh蚌dtand_Jingle
 653e934f6b83a1c816f4b5dc7eb7d405	1	153346	player+volume	215606	mods/pro/brm_mod7/mod.prototyyppi
 653eea9278f9daf5f106421934a8d5ae	1	63634	player	17320	mods/chip/3LE-SKDJ/SkogensDjur/mod.skogens djur 015
 6540569a33f9959c7f7c9d592520a054	1	66429	player	41768	mods/clawz/AbsBBSIntro/AbsBBSIntro.mod
@@ -16686,7 +16689,7 @@
 8b0c99a7c549c8b6b6b846461d7b7a46	1	124020	player+silence	596426	mods/melod/TilburyFair/tilbury.mod
 8b0ca554f5f87f4404af10e4df32adc3	1	115203	player	68246	demo/funet/Live3/fireball
 8b10e79aee8542b940a286eca47aa4dc	1	204582	player+silence	182744	demo/aga/SPO3-Module/4ChannelsModule/11.AmigaManson/mod.cielo infinito
-8b1374efaf60447e95b879f580bd0c39	1	28109	loop	1220	mus/play/MYST_Data_7/YM2149/Loriaux/YM.Toki_EndLevel
+8b1374efaf60447e95b879f580bd0c39	1	27843	loop	1220	mus/play/MYST_Data_7/YM2149/Loriaux/YM.Toki_EndLevel
 8b172974a2e4d1b7927aca302a90e3ad	1	88201	player+silence	93288	mods/ctp/TheDipping/TheDipping.MOD
 8b1b142893627ec75c4b38f93f9d8101	1	82306	player	156028	mods/demo/jones4/mod.joes11
 8b1e9ff14e3e972dc2e0576520caa3b0	1	55759	player	38730	game/think/BrainRace/brainrace/daten/start.mod
@@ -17186,6 +17189,7 @@
 9013d2e3825c958b45d5586b35bd1fb9	1	76844	player	15292	game/jump/Boxx2HDD/Boxx2/Files/LevelMusic_MOD.ingame2
 9013d2e3825c958b45d5586b35bd1fb9	1	76844	player	15292	game/jump/BoxxTrilogyHD/BoxxTrilogyHD/Boxx2/Files/LevelMusic_MOD.ingame2
 90161ceb999174ef59d1c532f4f68ff2	1	268892	player	47484	game/role/Muscarine/14.mod
+901a81b1f5da5b5ce780da6814aba949	0	62915	loop	80186	mods/sets/JOlsen_EP/JesperOlsen/JO_Amiga/JO.Haraldh蚌dtand_End
 9025e6149dd2b23f7e317def6f18d053	1	112916	player	30314	mods/med/Bach.MED/Bach/Capriccio_Pleasant_Journey
 902738a0daef175b539108920bba3a1c	0	135852	player+silence	77980	mods/darde/EstabaSola/Y_eSTaBa_SoLa.DaTaS
 902781801d2a3b636e1db5690fe818ae	1	206781	player	149656	game/misc/Wtw_2/Data.12
@@ -23108,7 +23112,7 @@ c478d856c01c827ff8c48c0f5fe42dfb	1	199795	player	43072	demo/sound/V/V/mod.genner
 c479a7fc6255f6f463dc660c73db4ea7	1	288800	player+silence	206136	mods/sbc/tahitimoon/mod.tahiti_moonlight
 c47d602d8264ef28537246ff72b04a33	1	98564	player	402546	mods/cato/Fj0sLukt/Fj0sLukt.mod
 c47ee0328d78c483e626d55f7443c2f2	1	226722	player	223588	mods/techn/Keep-Rocking/Keep-Rocking.mmd
-c47f0c29b4e36d067f17825412193e37	1	191217	loop	2672	mus/play/MYST_Data_7/YM2149/Loriaux/YM.Toki_Intro_Lev6_2
+c47f0c29b4e36d067f17825412193e37	1	252656	loop	2672	mus/play/MYST_Data_7/YM2149/Loriaux/YM.Toki_Intro_Lev6_2
 c48608980d8387433285fd41dac15d92	1	272915	player+silence	294648	mods/roz/liquidcherry/mod.liquid_cherry
 c48672c32fc9ff08ffb7fde7f5ea8880	1	314363	player	60508	mods/sets/MiscMods_b/mod.brs
 c4874efb54ab7cd206836aefcf229e9a	1	325690	player+silence	100006	mods/4mat/4mat_4/mod.Thala-music
