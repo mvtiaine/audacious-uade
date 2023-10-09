@@ -47,13 +47,11 @@ const set<string> extension_blacklist ({
     ".ct", // Cybertracker
     ".dbm", // Digibooster Pro
     ".dsm", // Dynamic Studio Professional
-    ".ftm", // Face The Music
     ".fuchs", // Fuchs Tracker
     ".dux", // GT Game Systems
     ".hvl", // HivelyTracker
     ".mxtx", // MaxTrax
     ".mmd3", // Octamed SoundStudio
-    ".ptm", // Protracker IFF
     ".stp", // SoundTracker Pro II
     ".spm", // Stonetracker
     ".symmod", // Symphonie
@@ -82,18 +80,15 @@ const set<string> prefix_blacklist ({
     "DTM.",
     "FAR.",
     "FST.",
-    "FTM.", // amiga
     "GT2.",
     "HVL.", // amiga
     "IT.",
     "MDL.",
-    "MOD3.", // amiga
     "MPTM.",
     "MT2.",
     "MTM.",
     "OCT.",
     "PLM.",
-    "PTM.",
     "S3M.",
     "STM.",
     "STP.", // amiga

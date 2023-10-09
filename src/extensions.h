@@ -212,22 +212,21 @@ static const char * const plugin_extensions[] = {
     // converted to UADE compatible
     "med", // Music Editor MED4 -> MMD0
     
+    "adpcm", // ADPCM (Mono)
+    "ftm", // Face The Music
     "prt", // Pretracker
-
-    // to be tested
-    //"adpcm", // ADPCM (Mono)
+    "ptm", // Protracker IFF (Protracker4)
+    "mod3",
 
     // no replay
     //"ct", Cybertracker
     //"dbm", // Digibooster Pro
     //"dsm", // Dynamic Studio Professional
-    //"ftm", // Face The Music
     //"fuchs", // Fuchs Tracker
     //"dux", // GT Game Systems
     //"hvl", // HivelyTracker
     //"mxtx", // MaxTrax
     //"mmd3", // Octamed SoundStudio
-    //"ptm", // Protracker IFF
     //"stp", // SoundTracker Pro II
     //"spm", // Stonetracker
     //"symmod", // Symphonie
