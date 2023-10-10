@@ -465,6 +465,7 @@
 042f91190af4fb4e3c5ea7825ce303dc	1	258488	loop	10400	mus/play/MYST_Data_2/YM2149/Hippel/YM.AlloyRun
 042f91190af4fb4e3c5ea7825ce303dc	2	93888	loop
 042f91190af4fb4e3c5ea7825ce303dc	3	6913	silence
+0432057ba4c9e1bac57c625b47ebabec	0	283062	player+silence	135364	mods/neuro/nd-strn8/Stranger_8.ftm
 0432ba1e1b163dc8e7249c57c40c4886	1	62237	player	81912	mods/demo/Gurufied/Gurufied.mod
 0432ba1e1b163dc8e7249c57c40c4886	1	62237	player	81912	mods/sets/BRQuota_1/mod.gurufied
 043821734324d553c142078b72f0f262	1	354504	player+silence	274318	mods/ephnx/NUMB-r14/NUMB-r14.mod
@@ -1004,6 +1005,7 @@
 08375a6adce33b03c8ad7c846c2709cf	1	227357	player	111279	mods/funet/OverTone/mod.OverTone
 083cc39059035982106a9691c5d3d527	1	153688	player	72114	mods/dean/Reggae/Reggae.mod
 083e6d2519f2314382fe3a8c9c315adb	1	210838	player+silence	732376	mods/pro/hemlock/mod.hemlock
+0846c6f52899d2c9a62109e3f2223854	0	165120	player	169454	mods/8voic/ftmmusic/View into Imagine
 084703e7a08f6982db8f108b0d7b4b86	1	218502	player+silence	457724	mods/slow/scl_mmds/Modules/DCC_Mermaids.mod
 08478ebda1f8e9939f90c642250c2a62	1	120161	loop	5892	mus/play/MYST_Data_5/YM2149/Whittaker/YM.GoldAztecs_Intro
 0848bfd9dcfca72a6052d4b6274000e8	1	122951	player	149166	mods/rated/M1-Song/mod.m1-song
@@ -2552,6 +2554,7 @@
 16191c494786e7ce0d980cc17627c0be	1	76844	player	23756	game/shoot/SuperTed/SuperTed/Files/LevelMusic_Stage4.mod
 161a1b2e7a0ccb0a2efbfa39f5216104	1	210242	player+silence	246248	demo/sound/RRR-WHI2/Silly_Whinings/YouPlayThese/bi_cyber.mod
 161ad88f92317f301cd8814d076ef5f7	1	383211	player+silence	182976	mods/rock/FireOnHigh/mod.FireOnHigh
+161bf2aa4a97b58127ae919ba1e6bca7	0	745073	player	139456	mods/8voic/Zamba-Samba/Zamba-Samba
 161d1765cadf28c8eaced6d5bb447b13	1	169438	player	395758	mods/hardc/sad-ushhu/mod.255 Ushhurdlju     
 161e7459f5edd30a0cc0f866e5a02b51	1	562933	player	555100	mods/techn/lns39_out/WorldOutside.med
 1622868c97ddb264dce6fc9269f783d0	1	314242	player+silence	238184	mods/neuro/nd-3rdks/ThirdKiss.mod
@@ -2719,6 +2722,7 @@
 17c7dfc34b87692e844070c65cbdb1a7	1	147846	player	155456	mods/med/pileof/Wierd_Chaos.MED
 17c82ce97f2a9bcfcdd73046a04a373e	1	407593	player	187946	mods/misc/Edge2/mod.Edge2
 17c9128bf3184e67fbd15f8700db3ca6	1	311315	player	184186	mods/nkn/NKN_BaldaBeard/Balda beard.med
+17cbb3ad240e9315eef514525558bee8	0	284387	player	191040	mods/8voic/mD-AlreadyLost/AlreadyLost.ftm
 17cd170f950a82b1fc8a654c9b317e3e	1	205638	player	128798	mods/misc/JMH-Travlrs/TheTravelers.mod
 17cd170f950a82b1fc8a654c9b317e3e	2	202208	player
 17cd5029fe3fd944a5959d8a20ed69da	1	195049	loop	8540	mus/play/MYST_Data_4/YM2149/Tao/YM.JustFeelIt
@@ -2870,6 +2874,7 @@
 18cd7b787b1cb426ce4d07487d6c6629	1	80074	silence	176142	mods/synth/AlpineapachyPt/AlpineapachyPt.mod
 18ce6f33c6d739240ec7b6e878fe2eea	1	419579	player+silence	223812	mods/sbc/autumnal_equin/mod.autumnal equinox
 18d055a370bad1e42d4c24d79180d267	1	426010	player	322944	mods/jungl/TranceDB/.TranceDB
+18d2134fb043f1a6c68d1269b99c538a	0	281899	player+silence	132244	mods/neuro/nd-swtdr/Sweet_Dreams.ftm
 18d2699aa0ea51d4cd256a1f67cc9797	1	257968	player	365670	mods/techn/crs_cons/mod.conspirators
 18d4ecda46e31245aab2173a9241a330	1	282736	player	36694	mods/chip/Invasion_B/mod.Invasion_B
 18d57ad620df34b4a9582139e1fd20a8	1	253523	player	130700	mods/sets/Jammin2_Mods/mod.Cruisin
@@ -3502,6 +3507,7 @@
 1d8a75f52ef5a16d64c2f200fd6b3d00	1	139853	player+silence	195050	mods/demo/REVOLUTION-MIX-Rips/REVOLUTION-MIX/dirty world.mod
 1d93cf4693ab8f49505838df2ea5bda1	1	116403	player+silence	34054	mods/sets/Foxx1Mods/mod.game2
 1d9443fa9faff365279ce62e42e874aa	1	185188	player	70086	mods/sets/OLD_Rebels/mod.MD1-Stilleogrowli
+1d94d5b800491eb2e80f8c62f9ca7eee	0	199922	player	156008	mods/8voic/Padre_IloveYou/Padre_I_love_you
 1d963af1a2c86724a4eaa8d6927c422e	1	283416	player+silence	210008	mods/demo/platinum/mod.platinum
 1d96e2b1032b6109f2b9c3d6e9992e9e	0	115203	player	5956	mods/demo/FireIce_Xmas/Fire&Ice_Christmas/JPN.Fire&Ice_Christmas
 1d96e2b1032b6109f2b9c3d6e9992e9e	1	0	nosound
@@ -3957,6 +3963,7 @@
 2130ef4f4c281c7bbed9f3671399c3fd	1	46106	player	19796	mods/s3m/tail_had/tailor.mod
 21312c6041400a9170073342fff89195	1	153688	player	64340	mods/funet/Tikapuu/mod.Tikapuu
 2131f57478da83f4904e688434d5019f	1	102501	player	60336	mods/sets/pdx-herc/her2.mod
+213c47f8367d6e168bc3ffa2d8474a10	0	347724	player+volume	161768	mods/8voic/ChristmasEve/Ceve
 213c77f1ed138cf68248659f883a8db2	1	182775	player	244734	mods/techn/NixMizMeeRips/nixmizmee10.mod
 213c87c72b06374932faca87311fd7b8	0	174774	player+silence	188872	mods/darde/SantSegSong/SaNT_SeG_SoNG.DaTaS
 213db12038d1630117e810c867d3bcaa	1	808708	player	197050	mods/boray/Slam6/mod.slam-6
@@ -5937,6 +5944,7 @@
 31611f79badffd8ce95b6f0d48562221	1	30737	player	42056	mods/sets/Firsties/mod.Demo2
 3161376fe1de84fd5b7b25e108f080fd	0	174265	player	7088	mods/jazzc/IKnow/thx.i know
 316313ca3f3b448d6f6ff4b01db5c526	1	134509	player	257824	mods/elbie/elbie-easy2/MOD.Easy Part2
+31633dfb607bb413fefe1f8fc0d15f74	0	296299	player+volume	91808	mods/8voic/I_LoveTheNight/ILoveTheNight.ftm
 31676c0d5940f037436f6262511ee31b	1	44582	player	93228	mods/funk/HomeAloneParta/HomeAloneParta.mod
 31686292e39ad9aabc9e5d8dabccad6f	1	283096	player+silence	218374	mods/techn/ROB_ReMix/mod.r.o.b._remix
 31699427a8dd9e8a55b38a0755dc2b5f	1	246717	player+silence	80792	game/jump/Jay_the_miner/Jay the miner game/Jay_2.5EasyVersion/Files/LevelMusic_bigjapan.mod
@@ -7339,6 +7347,7 @@
 3cfff589c2c86a4fad53681ebb0be1c1	1	96023	player	87748	game/jump/Cornelius/cornelius/files/LevelMusic_WORLD3.MOD
 3cfff589c2c86a4fad53681ebb0be1c1	1	96023	player	87748	mods/jungl/dd-junglebells/mod.- JuNgLE BeLLs -
 3d031f5550c111c150329bd3e97076e4	1	422453	player	314450	mods/wmr/m_rem1b/mod.tribute-dmf-remix)
+3d04319cade075d06c162934f04b2692	0	324651	player	204502	mods/8voic/ExpectingTheWo/ExpectingTheWorst.ftm
 3d09ca6a6e809fa85de168e3bcc74183	1	389136	player+silence	124892	demo/sound/jrm-hc74/Source/Songs/mod.elektrik
 3d0cbd458c852f792c0ed79fef78222d	1	368345	player	389726	mods/med/tst_astr/med.AstralPlane
 3d139cdb1b803089c3561914482bb687	1	479102	player	766916	mods/dsx/RenegadeV18/RenegadeV18.mod
@@ -7508,6 +7517,7 @@
 3e27e4375000a577b7882e5784a02776	1	329967	player+silence	550988	mods/techn/vermush/mod.vermilion_mushroom
 3e292987ce9ca991e22c7cc5201f764a	1	276956	player+silence	237706	mods/techn/Tranquillizer/tranquillizer.mod
 3e2a688b16701abc83a6a5ba07706668	1	369996	player	132860	mods/techn/2x90/Hardeharhar
+3e2ce77ded71d0278de04f67a969a525	0	198525	player	320898	mods/8voic/Tekk-No/Tekk-No
 3e2ede9175c3caecf7b308192a1f6d1e	0	53727	player	2379	mods/chip/game/mim/AHX.GAME
 3e31b513456b6d90a19eb66a69751675	1	332653	player	223084	mods/sets/Aquafresh1/MOD.Running Scared
 3e3bc1a338ebb5286ec9fce7c719a477	1	3937	player	15608	game/shoot/Astrokid/Sound/Mod.Caves
@@ -9052,6 +9062,7 @@
 4bd2b76cb7d5fa33dda5a106b3bc9730	1	30610	player	43294	mods/melod/FirtreeLove/Firtree.mmd1
 4bdeba79a86ebfca9ed9d7fc41fe3e0a	1	30737	player	2434	mods/chip/Drakon_chip/Little Shits/Little_shit_16.mod
 4be239a97a7b37b406521b99a4b2ed62	1	219737	player	616918	mods/med/tst_fuzz/med.FuzzBox
+4be51039d63b57fa53311920533ae935	0	209448	player	46048	mods/8voic/ScotsmanWillDi/Scotsman_will_Die
 4be5f1f9629b749864809326aa960667	1	169057	player	175103	mods/synth/Delta116/Delta116.mod
 4be76b67ec749e70cc07e09c0cd45267	1	285446	player+silence	244834	mods/tp96/primaproton/mod.primaproton
 4be7a2884d7741b6cf3206bb6a47ee7d	1	111392	player	170994	mods/dremr/WallOfSilence/WallOfSilence.mod
@@ -9074,6 +9085,7 @@
 4c06d01d4936be01c484856b7919af86	1	300593	player+silence	343098	mods/delor/EuroTunnel/EuroTunnel.mod
 4c08fdf8108247e00114e4b0d37172b0	1	268442	player+silence	281622	mods/spark/Sparky2/arcs/Obsession
 4c0ddfd03bbbeb0b34607f5eb6d5d877	1	177216	loop	22348	mus/play/MYST_Data_9/YM2149/ACC/SynthSamplesIV/YM.AlaTurka
+4c13981e3e361639453f0ac9de42239e	0	143019	player	172640	mus/edit/FTM_Demo/ftm-songs/Innocence
 4c13ca28c7aa55e40142a0481d9f488b	1	121426	player	144602	mods/techn/nano_synth/mod.nano_synth
 4c15752dc8558c02420375892f8a0ab4	1	391210	player+silence	534588	mods/demo/PLAUZE-SPACE-Rips/PLAUZE/space_mix.mod
 4c1770d0262e4f29ef08530d8ef036a9	1	192809	player	68756	mods/mark/lets97/Let's-Get-Excited-97
@@ -9683,6 +9695,7 @@
 50fb6cc1fbcd3bc090761dede5c078c3	0	60070	loop	4454	mods/chip/FRED-Tunes/FRED.S10-BlueMax
 5102aca5a36f10574ccc389e93efcfc4	1	356099	loop	26772	mus/play/MYST_Data_6/YM2149/Hippel/DIGI/YM.NinjaRemix_3
 51068c49d274b4404988b72fec44f223	1	321222	player	115812	mods/sets/SSG.MED/Flee
+510718fd5c7e39905aec6e7a0df82a89	0	53600	player	83286	mods/8voic/minodance/Minodance.ftm
 5108a4bc30bd1d952e9403f9cfd6970f	1	51314	player	10516	mods/sets/leon_bli-mods/leon mods/beware of blast.mod
 510997bd46ecf36fb9aab183e7c90fac	1	91578	player	28558	mods/demo/sublime/mod.sublime
 510997bd46ecf36fb9aab183e7c90fac	1	91578	player	28558	mods/sets/BRQuota_2/mod.sublime
@@ -10901,6 +10914,7 @@
 5b41ed94e3b3a8c6efbd258f7b86e2f9	1	113933	player	59904	mods/alpma/sunburn/mod.sunburn
 5b441a3d1e487d9cb87b29246a47b3a6	1	57411	player	2172	mods/chip/LeCanardEstMor/LeCanardEstMor.mod
 5b441a3d1e487d9cb87b29246a47b3a6	1	57411	player	2172	mods/sets/leon_bli-mods/leon mods/le canard est mort.mod
+5b4a9d08490d6337b9f39b51a28e60cd	0	176689	loop	230510	mods/8voic/Antom/Antom
 5b4afb6da2299ccb8b55696dabda3f57	1	226849	player	206972	game/demo/Marblelous2/Marblelous2Demo/Sound/mod.game
 5b4bf3125e53df0d05089f0d4116a72b	1	238154	player	582156	mods/jorma/cntrcptn/mod.Contraception
 5b4d2365893776bcdb4129a1a1e4eb8a	1	314998	player	102516	game/actio/BROD/brod/MOB
@@ -11000,6 +11014,7 @@
 5c312683c2ccc7bce498ac973b3d881d	1	104512	loop	5932	mus/play/MYST_Data_8/YM2149/SynthDream/MonsterBusiness/YM.MonsterBusiness_3
 5c3233f5b72ab171861bbd71b230ba79	1	5461	player	4840	mods/sbc/chiptunes/mod.monotonic kisses
 5c38b033c8b18b813a670b1c636724fe	1	66683	player	27568	mods/sets/SCX-Hi-Lite/mod.not to mention
+5c39e1f06740c05c1882aaa23641052e	0	216679	player+silence	159036	mods/8voic/here+tonight/h+t
 5c3bf39fcf08890015561a042c281b2d	1	383271	player+silence	307042	mods/synth/spacesortie/mod.space sortie
 5c3cc669c08ada5ef2d64cac77ecefcc	1	295606	player+silence	419460	mods/jogei/AttribHorror/MOD.Attributed_Horror
 5c408d95fe45f5f5f3f5873c217a68a5	1	342941	player+silence	149932	mods/stame/thankyou/THANKYOU.MOD
@@ -11076,6 +11091,7 @@
 5cac131e0d654b77c72c3626f2ec030c	1	495487	player	113896	mods/fox2/equinox/mod.equinox part 1
 5cadd755edd6fc62aa6ffe1b1553e0cc	1	257126	player+volume	398798	mods/funk/NunsundMoses/mod.NunsundMoses
 5caf3b1705219b5181f7d1f9c223203d	1	96150	player	78806	mods/sets/gary4mods/mod.For_You
+5caf87623d66094a8c9ae44163253d94	0	261525	player	206894	mods/8voic/ftmmusic/Midnight Beats
 5cb2d543098c08e6b4ab396caf93aa7e	1	155752	player+silence	246148	demo/aga/SPO98-Mus1/MUSIC/06/mod.Suicide
 5cb55d4648cb5d193fe55dd24cf2d2e5	1	188733	player+silence	456944	mods/pro/cadets/mod.the cadets
 5cb5f398dd89f856308008171345d44b	1	46106	player	6564	game/actio/pacdudehero_68k/pacdudehero/data/music/New-High-Score.mod
@@ -11229,6 +11245,7 @@
 5e1f10c501adeb2db98afd4d0176a17d	1	68334	player	98712	mods/delor/MiragesOfTheMi/MiragesOfTheMi.mod
 5e1f10c501adeb2db98afd4d0176a17d	2	88021	player
 5e1f10c501adeb2db98afd4d0176a17d	3	72271	player
+5e24c90c80d89221eac72eb07fe62f56	0	167280	loop	150330	mods/8voic/NoReturn/No_return
 5e27de29b11e3a8d0f556e38c1ce85d2	1	92340	player	30638	game/text/StefADV2/Avventura2/MusicaAraba
 5e2899645672c062179925af6bd8d87f	1	989070	player	303904	mods/voy/LordOfSilmaril/mod.lord of silmarills 
 5e2d8bf1f7e619c25bed71fb1372bcd4	1	233073	error	240762	mods/spark/NeverAgain/NeverAgain
@@ -13265,6 +13282,7 @@
 6f43b88f824cd97d64df0ebf00319575	1	204876	player	599388	mods/lead/LEAD-TrtSpace/mod.Mr Turtle In Space
 6f447ee0b2599b16c0374786883b0e23	1	92213	player	19462	mods/sets/MK-SoG-Mods/MK-SoundOfGnome/Qb.MOD
 6f457dfba0b297c429e29606daef9893	1	230533	player	161574	mods/sets/SCX-UncleTom/mod.    ---wings---    
+6f46ef37c17cf3c7e1f6ee8b4a843678	0	270626	player+silence	191252	mods/neuro/nd-f2l/Fade_To_Light.ftm
 6f48804c577e41d97b52d42431ddbdb5	1	27936	loop	34672	mus/play/MYST_Data_7/YM2149/Misc/YM.Wanderer3D
 6f48804c577e41d97b52d42431ddbdb5	2	40203	loop
 6f48804c577e41d97b52d42431ddbdb5	3	7991	loop
@@ -14350,6 +14368,7 @@
 777770357890f479a1e7b46568279ced	0	0	error	2695	game/think/cuyo-morphos/cuyo/datasrc/pics/valarg.ml
 7778edc0545c7616521d0ece9b38a8b8	1	278081	player+silence	163808	mods/pdy/Dreamflt/mod.dream_flight
 777bc2cad2828e208c1daca0f58039dd	1	122949	player+silence	32818	mods/chip/ski-today/Mod.Ski-Today
+777da1b8c7c9318047a06952b049c87e	0	337988	player	320146	mods/8voic/ItStartedToRai/ItStartedToRain.ftm
 777eb2fa27476936b72674fde3342736	1	248934	player+silence	253236	mods/tranc/Protracker_Modules/LOST.MOD
 77800d99edde22f3639859b08e3f27b4	1	201123	player+silence	231226	mods/rock/Indomptable/Indomptable.mod
 778f43205233adf853c32c6c5b830acb	0	92213	player	2443	mus/edit/ht14/HivelyTracker/Songs/AHX/AHX.i cant get no beep
@@ -14631,6 +14650,7 @@
 79becfa82c7e6a61bba644718edcf9b0	8	100596	player
 79becfa82c7e6a61bba644718edcf9b0	9	21719	player
 79c3de2419118c933a1c3f8187124c41	1	169819	player	128662	mods/dean/BRBTheme/BRBTheme.mod
+79cce4f692bae5d7b814b6e262203a6f	0	463884	player+silence	305452	mods/8voic/Sommerurlaub/Sommerurlaub
 79d008f1f9c0071b7fcea9d1b26e1d4e	1	42296	player	33568	game/demo/JumpEm/Music/HighScore
 79d0bf659514baa980e91adba4dbfde9	0	242371	loop	19784	mods/chip/FRED-Tunes/FRED.UnknownGame_Muzax
 79d0bf659514baa980e91adba4dbfde9	0	242371	loop	19784	mods/sets/FredModules-01/Modules/Fredfred.Muzax
@@ -14763,6 +14783,7 @@
 7aa7483a21bcbd21aae5b35154a693b7	1	211862	player	142198	mods/mark/wonjam/Wonder-Jammin'
 7aad4d364d77a5a515b5bb16c447cc6c	1	172868	player	282912	mods/hardc/Cybernet/Cybernet.mod
 7aaf04a35f8453c52029a3b2b3b9e0b1	1	15368	player	7238	mods/roz/chiptunes/mod.going west
+7aafa3c0cb13729131b5fc458ddcd3c2	0	204622	player	516790	mods/hardc/heaVen/heaVen.ptm
 7ab148829228b79e9cc0959f4da092d4	1	98056	player	13000	mods/pro/Devious_Tunes/dt/Mod.DT205
 7ab3da7fd7789a7c79953d6725858813	1	198700	player+silence	89904	mods/med/Poot/MED.POOT!
 7ab47aef060e91d62670ede67488c770	1	103820	loop	6184	mus/play/MYST_Data_8/YM2149/Whittaker/YM.GazzaII
@@ -15285,6 +15306,7 @@
 7ee1f5f8a46441f061de137e39fb70da	1	247960	player+silence	191134	mods/techn/dragjive/mod.dragon jive
 7ee3a4c840d98a4a334e61454c844017	1	211889	player+silence	727696	mods/jazzc/UsticuTitleTra/mod.usticu title track
 7ee6dd4252af6e703bfd6120bb6a554f	1	490053	player+silence	9564	mods/misc/tk_andante/mod.andante
+7ee77a3de810e8de5b38987e3f6dfbee	0	168676	player	218956	mus/edit/FTM_Demo/ftm-songs/Englishman In New York
 7ee85686c0c4bb9be066c16da7a1bbca	1	344974	player	339962	mods/hardc/A-I-ask-you/A-I-ask-you
 7ee94d44b018e693fb6a24ebcaf28a61	1	295629	player+silence	419460	mags/german/Amiga4ever13/amiga4ever.ausg.13/c/M1
 7eea3e8675dc754ce9992bb25ba677d0	0	422199	player	107446	game/2play/Duelcity/duelcity/Techno.abk
@@ -15352,6 +15374,7 @@
 7f6969b3599a2d572013f83cdb6d6892	1	143090	player+silence	192420	game/shoot/defendguin.i386-aros/defendguin.i386-aros/data/music/child.mod
 7f6969b3599a2d572013f83cdb6d6892	1	143090	player+silence	192420	game/shoot/defendguin/Defendguin/data/music/child.mod
 7f6969b3599a2d572013f83cdb6d6892	1	143090	player+silence	192420	mods/ncase/nc-chldp/CHILD.MOD
+7f71b403e218126768202851ab79d30d	0	295365	player+silence	123138	mods/8voic/HerbstMitWehmu/Herbst_mit_Wehmut
 7f75046d389acd0742b2c3c9722d0b74	1	144760	player+silence	169382	mods/funet/EoliaMistrely/mod.EoliaMistrely
 7f752040df7ad0a98203536a00706bc3	1	15368	player	109906	mods/ooze/Vikin/MOD.Ooze-Viking Battle
 7f7973831a86f4fbf2147cf6dbba933d	1	188114	player+silence	156259	mods/rock/FACT01V13/FACT01V13.mod
@@ -16589,6 +16612,7 @@
 8a4cdc6e618dbd709d7519b849c1c62d	1	133635	loop	6800	mus/play/MYST_Data_1/YM2149/BigAlec/YM.NoSecondPrizeMenu
 8a4d2234b479246ba411521df94887b5	1	32787	loop	1808	mus/play/MYST_Data_2/YM2149/Hippel/YM.Union_Intro
 8a4e8a76c41b5083faa933d411ef2cc7	1	193317	player	276208	mods/pro/Longest/mod.longest_rearming
+8a4fb2d92531c184589ff3d579bf2d89	0	198906	player	175040	mods/rock/2_rock_songs/FAITH NO MORE
 8a542fed82b347a9c5b2a50223131544	1	231373	player+silence	172364	mus/play/Ami-PlayMOD.i386-aros/Ami-PlayMOD/Example/Games/BloodMoney.mod
 8a542fed82b347a9c5b2a50223131544	1	231373	player+silence	172364	mus/play/Ami-PlayMOD_OS4/Ami-PlayMOD_V1_0_20090417/MOD/Games/BloodMoney.mod
 8a542fed82b347a9c5b2a50223131544	1	231373	player+silence	172364	mus/play/Ami-PlayMOD_V1_0/Ami-PlayMOD_V1_0_20090417/MOD/Games/BloodMoney.mod
@@ -16702,6 +16726,7 @@
 8b284d6c9695f2f6a31b64254b8ee900	1	3810	player	8850	game/demo/TBE-Preview/TBE_Preview/MUSIC/WEATHER.MOD
 8b284d6c9695f2f6a31b64254b8ee900	2	3810	player
 8b284d6c9695f2f6a31b64254b8ee900	3	3810	player
+8b2c5725d603e300a50a1857b8516dab	0	221642	player	118918	mods/8voic/SurpriseSong/SuS
 8b4196a6b633c8a80866c9034700a047	1	346269	player+silence	268472	mods/misc/s_minds/Mod.Synchronized_Minds
 8b419930ad35f1fc79d173a2a9925605	1	306020	player+silence	212584	mods/techn/Ex-Dream/mod.ex-dream
 8b44d1dff500ec0ae34445cab64a6a46	1	6913	silence	13820	mus/play/MYST_Data_4/YM2149/Obarski/YM.Dyter07_Level4
@@ -17940,6 +17965,7 @@
 97547e1f3264a679bf32f13c7494beae	1	46106	player	88556	demo/aga/PSB-TvsBritney/mrt_vs_britney/data/musicend
 975504eed380a2522eb4b0612c160186	1	38485	player	57692	mods/alpma/skotta/mod.skotta
 975d77ff43dd45d6a75b18f644079a4b	1	91832	player	143358	mods/sets/leon_bli-mods/leon mods/p'tite valse.mod
+975fab7eb37b45532b0b57a523259f4f	0	290738	player	243120	mods/8voic/mD-WR/WR.ftm
 97617fecf3276abc67c1a17f65d2bd80	1	286039	player	150150	mods/sets/SCX-Hi-Lite/mod.inner_circle
 9763119a7e4997087cff7957dd3cfa13	1	253396	player	548296	mods/jungl/WetDrm21/mod.wet dreams v2.1
 976ad226763139226b3948c8de58e47a	1	84112	player+silence	168728	mods/funet/Tunnehairio/mod.Tunnehairio
@@ -18125,6 +18151,7 @@
 99064dd69588e07cfb783906debaf7c6	5	89346	silence
 99064dd69588e07cfb783906debaf7c6	6	33713	silence
 99064dd69588e07cfb783906debaf7c6	7	116019	silence
+990a62f70f1638a0d9e5178f7ebde560	0	357548	player	140948	mods/8voic/YouHaveToWait/YhtW
 990cbc2e276156646b81e99b4506a28c	0	71636	player	67790	mods/sets/PaulasLostDSS/dss.ChowderChickens
 9914219d6c4f24b76ac3ae61aa897c1c	1	122951	player	209718	mods/pro/yb-nirvana/mod.nirvana-remix
 9914219d6c4f24b76ac3ae61aa897c1c	1	122951	player	209718	mods/rock/Nirvana/Nirvana/mod.Nirvana Remix
@@ -18352,6 +18379,7 @@
 9afdf68af9fd5736260095d2ae34bff4	1	11558	player	9642	mods/facet/ChipCmp5/ChiptuneComp5.mod
 9aff335e8a5e955b27fb7e16f6c1b263	1	38485	player	30730	game/think/Kaizokuban/mods/A Saco Van-Menu.mod
 9aff335e8a5e955b27fb7e16f6c1b263	1	38485	player	30730	game/think/Kaizokuban_EN/mods/A Saco Van-Menu.mod
+9b051e43a77f8aced1865427ade713e5	0	211052	loop	171622	mods/8voic/Jonahara/Jonahara
 9b079c40f450dcbbc36a27d7966fd787	1	531081	player+silence	685328	mods/techn/phd_bali/mod.balistic
 9b07bea36118098a44b7c75919e1cafe	1	396760	player+silence	381626	mods/roz/fakedtrip/mod.faked trip
 9b0ab858f9b25c176d32806fff7fb741	1	146830	player	78936	mods/pro/chestpain/chestpain.mod
@@ -18370,6 +18398,7 @@
 9b1df03dbd4220a2aaae4399924a002f	2	76844	player
 9b1f92b737aaaecc41af76e6b1206955	1	80781	player	381856	game/data/DAMusic/mods/mus_the_da
 9b1f92b737aaaecc41af76e6b1206955	1	80781	player	381856	game/shoot/DoomAttack-AIO/DoomAttack-AIO/mods/mus_the_da
+9b237a8d382994c85dd730deedb27213	0	426651	player+volume	139830	mods/8voic/TagDerDissonan/Tag_Der_Disonanz
 9b25f8e5fadd0926a9e1873923790674	1	594505	player+volume	653388	mods/tranc/lns17_light/LetThereBeLight.med
 9b2660606a2a107fec2f162a741ab23c	1	319825	player	96162	mods/mark/coolenough/Cool-Enough
 9b28a54a047ca58f6cb085c2404fcc81	1	211226	player	180614	demo/mag/EuroChart41a/EuroChart41/Modules/1.TP3
@@ -19193,6 +19222,7 @@ a358fc2dc54ab59e1f58dd1eec03a0e8	1	61475	player	8140	mags/german/Starmag5/StarMa
 a358fc2dc54ab59e1f58dd1eec03a0e8	1	61475	player	8140	mods/chip/frantic/mod.frantic
 a35baf8617ae685f06e1b1d302a25443	1	258881	player+silence	372402	mods/rock/RazBlade/mod.razorblade
 a36119105e6a5f27725c4f813faa700d	1	207416	player	145386	mods/demo/Armybeat/Armybeat.mod
+a365905eaf2104b4416acf6c1f75ab2b	0	88529	player	35018	mods/8voic/IfLifeIsTooFun/If_The_Life_Is_Too_Fun
 a365d492f793f4ad0d3295714e1ce846	1	304481	player+silence	265598	mods/delor/Deltasleep/Deltasleep.mod
 a3685ba19d6e10d85cd028788ee2d8c3	1	143400	player	307162	mods/techn/My_Truth/MED.My_Truth
 a369e6385e39bdd0d9629c46c5ae7fe8	1	265843	player	221544	demo/sound/hum_uwmd/uwmd_hdfix/disk2/4 listening with octamed/mod.funk
@@ -19703,6 +19733,7 @@ a77f6403dfc069bed151f30357a09d03	1	51314	player	15026	mods/slow/Fainter/Fainter.
 a7826cbd7342d9201f1278e45aa1f8a4	1	223420	player	85434	mods/mark/realdeal96/RealDeal
 a793cebdaee5d1dc1ceaae1538965996	1	253168	player+silence	198340	mods/rock/HellParadise/HellParadise.mod
 a7944c3413a8ea1ea6cd0e9d83ec6296	1	107582	player	12562	mods/crn/cRn-StillChipp/mod.still_chippy
+a797a5a4b33362256e7eea40add93e93	0	114652	loop	96934	mods/8voic/SlowSingSlow/Slow-singslow
 a79a5be5fe5ac3a9a111f72becce4fee	1	184322	player+silence	439848	demo/tg95/gathering95/gathering95/modules/mod.5_gcomp
 a79a5be5fe5ac3a9a111f72becce4fee	1	184322	player+silence	439848	mods/demo/GComp/mod.gcomp
 a79ee2d674b24eaa3b54dede7573fcc2	1	223674	player	320432	mods/pro/Deformed_Live/mod.deformed live
@@ -19818,6 +19849,7 @@ a8c2de0ef61cf0fd58b59064246e8f55	1	502674	player+silence	819910	mods/misc/m_ebb/
 a8c77eb977468a7fdfb402defdaf0d25	1	234214	loop	1840	mus/play/MYST_Data_2/YM2149/Hippel/MCoder/YM.Sowatt_Menu
 a8c95ce69c4da200d1fde5087fc4e8d3	1	207416	player	121282	mods/4mat/Phantasmagoria/Phantasmagoria.mod
 a8cd3b1bbac7d3ed051d39ddfb4bff3c	1	64015	player	15020	mods/sets/leon_bli-mods/leon mods/finaly fucked.mod
+a8cdafc2f62e10058340a5c6a69ba581	0	279366	player+silence	135238	mods/8voic/ReLex/ReLex
 a8d21ae12cbb575b076bdd253402a186	1	205257	player	142058	mods/techn/MSZ-TJ/Mod.TecnoJive
 a8d227ac75cdbdb7fcd3de4102c0b433	1	299671	player+silence	124982	demo/mag/Abnormalia1hd/Abnormalia1/Musics/Music1
 a8d227ac75cdbdb7fcd3de4102c0b433	1	299671	player+silence	124982	demo/mag/abnormal/ABNO/Musics/Music1
@@ -21212,6 +21244,7 @@ b45d5dcc2aefd52d92bb1f903185c310	1	245140	player	440006	mods/sets/LesVisiteurs/m
 b45f6546b1af35728daa094b5065f40a	1	264700	player	141638	game/shoot/StarFighter_OS4/Starfighter/music/Frantic.mod
 b45f6546b1af35728daa094b5065f40a	1	264700	player	141638	mods/slc/FrantiC/mod.FrantiC
 b45f9e722fc7974f7c3d9098d58ed1e2	1	70239	player	143210	mods/misc/happynew/mod.Happy NewYear'97
+b45fae3fffa3c163151f2ac5457f9e86	0	123459	player	94682	mus/edit/FTM_Demo/ftm-songs/Song Without Name
 b4600b9f5ad47c3604bb53732f4f8ce6	1	161309	player	207128	mods/voice/Tryb95/mod.TrybAwaryjny95
 b4610aa8674ac1ec636b1bc1ade46c9b	1	471863	player	330350	mods/pro/emod_propag/mod.propagunder
 b4611b764678e66af1f17fb6e3bae415	1	1902494	silence	217168	mods/pro/XMasTheme94/mod.XMasTheme94
@@ -21490,6 +21523,7 @@ b670f5ae351b0c53da006876f6a0fb60	1	20122	silence	1356	mus/play/MYST_Data_7/YM214
 b6733532f5ae3462ad0b6b76e2fe3c31	1	246156	player	222478	mods/misc/Crackattack/Crackattak
 b675ab964cabf4bb817288d63ca76b9a	1	348321	player+silence	319020	mags/hpool/hp01/HousePool_01/HP_01-Songs/MMD1.Bonzai_Warrior
 b67d37fefeb64a4ec83af4bd06a11215	1	218754	player+silence	236322	mods/misc/forest_fire/forest fire
+b67e0f6704a0bf3ab1a64db587101530	0	275242	player	171374	mods/neuro/nd-cls03/Modules/ptm.The new Beginning
 b6808d09d27d7cb182a46ee0b4820392	1	161690	player	137716	mods/mark/zoop97/Zoop97
 b680bd0efc3201f74b146cff02098609	1	178456	player	174250	mods/bladr/BD-Mystic/mod.Mystic_Sound_Of_Goa
 b682efb63b638fb1ca01237578ad6123	1	115203	player	202044	mods/pro/aw-doom/Temp/AW-MODZ/.aW-mODZ/. tHE 5tH dYNASTY/01-INTRO MELODIC.mod
@@ -22010,6 +22044,7 @@ ba746d84269477effc7de689f7e49b66	1	524572	player+volume	203884	mods/techn/lns42_
 ba74c7ab5743d132348819678d96981e	1	373347	loop	31720	mus/play/MYST_Data_1/YM2149/DocLands/YM.VenturaMain
 ba77cc4e046036a09c83e82470433ce3	0	393621	player	28098	mods/sets/Skid_Row_Mods/FC13.Skid_Row-3
 ba7950c8c5f69d978c25a073c1f1d293	1	88402	player	44104	mods/demo/Calipso/BatmanGroup/CALIPSO.MOD
+ba7991c060a9c24b1b431b9cfdc92c3e	0	373934	player	221176	mods/8voic/Schlendering/Schlendering
 ba7de8f48c255c737b0f10e37f5ffd63	1	115203	player	93590	mods/misc/heapnoughtthik/mod.Thow-Heapnaughthick
 ba7de8f48c255c737b0f10e37f5ffd63	1	115203	player	93590	mods/sets/hbtsune/mod.thow-heap
 ba80e6a231b0e9a4adc7d02582101fce	1	297978	player+silence	105308	mods/mark/whipappeal/Whip-Appeal
@@ -22421,6 +22456,7 @@ bdaa16ad7582480ab6808c05ca80f797	1	38485	player	16064	game/jump/GatorManiaDemo/G
 bdaa910f2a1692a311cb67b6b9496229	1	68080	player	67176	mods/pro/jeany_da/Mod.Jeany_The_Boy
 bdae011ef94c4fed0ee7eeb7660eab66	1	278980	player+silence	207746	mods/demo/Motherly/Motherly.mod
 bdb25273dc955dea9f681d5d4a7c98fb	1	45217	player	235952	mods/tranc/Protracker_Modules/CYBDREAM.MOD
+bdb3b6c818f1305db0491d86bed9e8b1	0	384857	player	262188	mods/8voic/DogOfBaskervil/Dog_Of_Baskerville
 bdb5c10cf988b2d56ed58809bf6d6a04	1	229589	player+silence	357392	mods/delor/Schwing/Schwing.mod
 bdb8857cf1ced97ffd11e6c8c294746f	1	333924	player	187012	game/shoot/sdl-fighter_os4/Sdl-Fighter-0.5_OS4/sounds/mod.phenomena-enigma.mod
 bdba23183bafb025f85015ab2d52ba5d	1	182022	player+silence	109566	mods/med/Corpuscle/Corpuscle
@@ -22539,6 +22575,7 @@ becd133ab0f13d03fdc032e7f3750e15	1	142506	player+volume	142780	mags/obligem/obli
 becd133ab0f13d03fdc032e7f3750e15	2	143654	player
 becd133ab0f13d03fdc032e7f3750e15	3	143654	player
 becd133ab0f13d03fdc032e7f3750e15	4	133747	player
+becea1f24b097f5d5afa09ce7df4a1f9	0	264700	player	185622	mods/neuro/nd-cls04/Modules/ptm.Winter Dream
 bed08b06021a29331717606d3ba03f17	1	471065	player+silence	108860	mods/misc/grouch/Modules/mod.grouch-me-then
 bed62c2a3f2e6b3e54fec1d10bf42cbf	1	96023	player	19356	mods/chip/Drakon_chip/Cybernet.mod
 bed7dea6fb2949419db508232e39351a	1	193140	player+silence	146814	demo/mag/Eurochart38a/eurochart38/Modules/EfterTimer.TP3
@@ -22548,6 +22585,7 @@ bee59c3cd3ebec5efcc81d9fbea9e0d2	1	29295	player+silence	117682	mods/demo/RAF-MEG
 bee9ad23b4272a401c1dc9f24e404ec4	1	60332	player	107674	game/shoot/botss3_3/BOTSS3/Music/Painful
 beeb32a22f0c6d11acd864f50faa5048	1	35183	player	10502	mods/doh/CccccGang/CccccGang.mod
 beed0704f4e0a4fb196d2dda7892dbd9	1	257841	player	299344	mods/kicko/highscore2/mod.high-score 2
+beed87854967262ec2103704ec684033	0	366277	player+silence	203754	mods/8voic/mD-SequenceNew/LifeIsASequenceRemix.ftm
 bef4414e1cd64af5f5fc5d9c38074d9a	1	184426	player	28706	mods/misc/NONSep95/NONSep95MODs/MOD.NOC00L.rel
 bef52af59f3c4076744db03de2184b1e	1	101666	silence	10892	mus/play/MYST_Data_6/YM2149/Dalecki/YM.RollingRonny_Game
 bef52af59f3c4076744db03de2184b1e	2	198045	loop
@@ -23134,7 +23172,9 @@ c4a753a36cd29ea7823ee04aee90656b	1	71001	player	591704	mods/voice/CrazyMods2/Lms
 c4ad7e7dcbf8d197e984db91ef6779ee	1	322619	player	224076	mods/slow/AmbientFRevisM/AmbientFRevisM.mod
 c4ad7e86c69d9f655db9e79db43b71ae	1	117878	loop	3132	mus/play/MYST_Data_2/YM2149/Hippel/LCD/YM.HumanRace4
 c4ad97e8d00096849e01deaa9b165f05	1	422453	player	211728	mods/misc/utopia/Utopia.mod
+c4af7e85b340b34c4b98c1d6a81bf88a	0	276256	player+silence	250916	mods/8voic/HandMade/hama
 c4b11fc0f1addd987249fc85c3defa45	1	236376	player	365192	mods/pdy/Seduct/mod.seduction
+c4b1c6dc39eb32c268fa8eb21322075a	0	307548	player+silence	193278	mods/8voic/mD-AndCryAlone/AndCryAlone.ftm
 c4b4aa16c86c83515cef0a366d17b89a	1	207437	player+volume	445858	mods/atmos/Realms/mod.Realms
 c4b59ec85a60144d3d33d7de269b930c	1	69223	player	18842	game/jump/Boxx3/Files/LevelMusic_MOD.ingame2
 c4b59ec85a60144d3d33d7de269b930c	1	69223	player	18842	game/jump/Boxx3HDD/Boxx3/Files/LevelMusic_MOD.ingame2
@@ -23310,6 +23350,7 @@ c5e77a6d440117aa6d0a1efc8a6ab365	1	257620	player+silence	89712	mods/mark/ucd/Und
 c5e89b0042772aac9524124c156248f8	1	147621	player+silence	223204	mods/panik/amok/AMOK.MOD
 c5ecd4b33ad3ee25ddc874fcb70ad30c	1	74939	player	69454	mods/sbc/Greenspace/mod.green spacecola
 c5efc5982d9e4d0d0d81385e9b576594	1	13209	player	154818	game/actio/Circus/Circus/Circus.med.cm
+c5f36bb242f1e6e8227e9e19b93b15f1	0	467119	player+volume	118624	mods/8voic/snapp7/SnapP7.ftm
 c5f4cb66452c0d657890d2cd66f77caf	1	71763	player	12760	game/jump/Boxx2/Files/LevelMusic_MOD.ingame1
 c5f4cb66452c0d657890d2cd66f77caf	1	71763	player	12760	game/jump/Boxx2HDD/Boxx2/Files/LevelMusic_MOD.ingame1
 c5f4cb66452c0d657890d2cd66f77caf	1	71763	player	12760	game/jump/BoxxTrilogyHD/BoxxTrilogyHD/Boxx2/Files/LevelMusic_MOD.ingame1
@@ -23374,6 +23415,7 @@ c678a43774a4c981b172c0b58832db11	0	78643	loop	5912	mods/sets/Bones/Bones/Ml.Kame
 c678e1a86725e0b9b5e2220cb2330718	1	259548	player+silence	170896	mods/sets/Throb_Modz/mod.Love time...
 c67ae2772711302877b5271dfcdaa5e8	1	126723	player+silence	88346	mods/fermx/Control/mod.sin_control
 c67ae2bd44eb940ed16a0ba644c11a43	1	125618	player	187068	mods/elbie/t13N_Miles/MOD.Miles?!
+c683e25fc46ae26791d63ba2e6e42059	0	646636	player	252476	mods/8voic/SparkyGoesToNZ/Sparky_goes_to_NZ
 c689db271dc1766e319ad379a1993e0b	1	176805	error	284426	mods/8voic/clubtrax/ClubTrax.MED8HQ
 c68c7cdb1a73b145b72c59927e1742a9	1	234597	player	196674	mods/tranc/deeper/Deeper.Octamed
 c694c432d371dafd2691fcc4bcbd64a2	1	140479	player	114442	mods/pop/Sd10_Gallery/mod.Sd10_Gallery
@@ -23407,6 +23449,7 @@ c6d4759bd35c40ad80d879a490a156e6	1	190426	loop	35084	mus/play/MYST_Data_9/YM2149
 c6d4759bd35c40ad80d879a490a156e6	2	63772	loop
 c6d4759bd35c40ad80d879a490a156e6	3	274119	loop
 c6d6519a2a4abc109471a9eac30688c8	0	68280	player+silence	117392	mods/darde/SeMurio/Se_MuRio.DaTaS
+c6d83c024acae84c9bdd0e8692f2f37a	0	173630	player	97346	mods/8voic/wtftm/What's_That?/what's_that?
 c6dc5811c89c22bbd13f33160fbf151f	1	182066	player+silence	73970	mods/demo/Madtechno/Madtechno.mod
 c6dcd264c7dc51156e8b1338dee7a74c	1	138320	player	20514	game/misc/spacetaxi3/SpaceTaxi/music/mods/anarmen3.mod
 c6dcd264c7dc51156e8b1338dee7a74c	1	138320	player	20514	mods/4mat/anarchip/MOD.an3
@@ -23993,6 +24036,7 @@ cc6b5e5c6f6028292a80531bb8293fc9	1	300518	player	107176	mods/mark/ehigh/Electro-
 cc6fb652dffa3972d68172e154921ab6	1	138193	player	36654	mods/misc/HIP.Shaolin/HIPC.Shaolin_Game_234
 cc6fb652dffa3972d68172e154921ab6	2	107455	player
 cc6fb652dffa3972d68172e154921ab6	3	200011	player+volume
+cc709574edeeae43fb7d26d86f345855	0	261398	player	97220	mods/8voic/IdontWantaReli/IdwaR
 cc71682b4a6357a91114916515d47510	1	149878	player	59834	game/shoot/sdl-fighter_os4/Sdl-Fighter-0.5_OS4/sounds/mod.shamrip.mod
 cc71682b4a6357a91114916515d47510	1	149878	player	59834	game/think/pfp-rgbl/RGBlocks/music/music.mod
 cc7494d482acff192a204b19ba5aac27	1	567874	player+silence	432770	mods/pro/midnight/MIDNIGHT.MOD
@@ -24010,6 +24054,7 @@ cc8e8c101bd30486358ef81096b695e2	1	161309	player	196812	mods/pop/CloudJumpin/clo
 cc934f156d1c039b9aec773d52c8e391	1	164719	player+silence	313840	mods/hardc/zz_crew-4/mod.Sranje        y219s
 cc9477578f7e6fea5cd65c195be81e37	1	218215	player+silence	62724	mods/hardc/fkBreed/fkBreed/mod.fuckin youth 2
 cc996cc5efcf3916d0652f63a8f747de	1	77860	player	273486	mods/techn/LoT_DDDD/DimmDimm.MOD
+cc9d00d97108c539fcd7e88d33db3654	0	94231	player+silence	48232	mods/8voic/hotdrive/Hot_Drive.ftm
 cc9d2995707664b7d27c124dbf160d5c	1	237029	player+silence	114096	mods/mark/upyo/Upside-Yo'-Greel
 cc9ff84cbe98e94eb0eceba53e80e018	1	110557	silence	11496	mus/play/MYST_Data_1/YM2149/Daglish/YM.SuperCars
 cc9ff84cbe98e94eb0eceba53e80e018	2	106366	silence
@@ -24359,6 +24404,7 @@ cf5c2c9e0c8bf1a255b2d0840adf6756	1	247426	player+silence	64224	mods/slow/over_no
 cf5df922118f4a90dc6b112b3a24c154	1	175662	player	414906	mods/hardc/sad-glista/mod.247 Glista u napadu
 cf5ff868fc3a92e787fb79e69e44cef0	1	179727	player	642368	mods/pro/Phased/mod.phased_chords
 cf6107a2802cbd0baa8ae3c349b21bd5	1	126335	loop	8000	mus/play/MYST_Data_1/YM2149/Dunn/YM.PushOverDungeon
+cf64387f6cc4f01754d1d365749e3037	0	392058	player+volume	213680	mods/8voic/LifeIsASequenc/Life
 cf6994ac67e48181003b8506aa34e586	1	278545	player	367906	game/think/PixelArtist_68k/PixelArtist/data/audio/InGame1-BGM.mod
 cf6e74864a9f0dff991c9bbdb921cd3f	0	83322	player	401164	mods/cust/BangkokKnights/CUST.BangkokKnights intro
 cf7abfc2193c7b32f21ea9f801972777	1	163850	player	18908	mods/chip/GreasyDuck/MOD.GreasyDuckV1
@@ -25053,6 +25099,7 @@ d5958c16f449f8e4323d588e6323039d	1	205688	loop	9868	mus/play/MYST_Data_2/YM2149/
 d595e4602b6db5cbc3bc733d667c3ae1	1	228374	player+silence	175792	mods/sets/SiP-Lou_Van_B/mod.digital renewal
 d597b049fd3949d62b4a50c340816158	1	5094	player+silence	38958	demo/euro/tokyo/tokyo/074.ls
 d598dad7bc3fd3b0ca1e47c28e115d1e	1	38485	player	83234	mods/pro/Budbrain1/Budbrain Megademo 1/mod.yoyo
+d599991b02a922aacecd6fb74bb48890	0	231422	player	127684	mods/neuro/nd-cls02/Modules/ptm.Do the MoogMan
 d59be10d570aaa3d76a34df68f2f3798	1	87968	player+silence	98132	mods/voy/BadEnd/mod.bad end
 d59be2a2476ec3c0d3c86b4debaf21c2	1	99961	player	12800	demo/intro/PM-Spejs/bonusz.extra.jea!/mod.apache
 d59f7b55824f8317be33d2daed8d445f	1	192494	loop	4096	mus/play/MYST_Data_3/YM2149/Lap/YM.Phaleon_Dungeon
@@ -25868,6 +25915,7 @@ dcaeef31e46e069bb84eea464b9b6e54	1	115203	player	75572	mods/blkha/old_remixes/mo
 dcb0bff09768f4fa0c1a0e9f5e8e923d	1	462209	player	377986	mods/misc/hw-stin/mod.stingray.
 dcb1fa306c95df2472935001da0e56db	1	276513	player	122618	mods/synth/LazerSquad/LazerSquad.mod
 dcb24fdb6a6c0e8dde304a295de53b92	1	462926	player+silence	231930	mods/fby/Rinascenza/Rinascenza.mod
+dcb58e474c3ea1cb771c3333a10c5f60	0	331637	player	163554	mods/8voic/SinceIStarted/SistT
 dcb6d53f2866d554cbb619019b20270a	1	99356	player+silence	21794	game/misc/Punter/punter_files/8
 dcb6d53f2866d554cbb619019b20270a	1	99356	player+silence	21794	mods/chip/ChipAChoup/mod.Chip a'Choup 05
 dcb9cee0cf6eb712c1ef324c5ca3218e	1	127263	player+silence	159960	mods/jorma/tukkapo/mod.tukkapolkka
@@ -25875,6 +25923,7 @@ dcbc334c53521992f9b42040ce78b882	1	169438	player	78902	mods/pro/zeuro/zeuro.mod
 dcc0e2ff74f572475cdeb6a791f0f1a6	1	222923	player+silence	243328	mods/misc/m_chill/mod.take a chill pill!
 dcc21254c467c7adfcc573b7fbe84424	1	304837	player	124580	mods/misc/DyersEve/DyersEveMED
 dcc867f393112eaa761bc10aa590a7cc	1	145940	player	198024	mods/demo/FLASH-DC-Rips/DC2/max-mix4.mod
+dcc9b49942c5a27e11671d8f35ed6ba8	0	385891	player+silence	95342	mods/8voic/AtTheWhiteHous/60h
 dccba04e48b78526e526235c192e8584	1	76844	player	150669	mods/funet/PikkuMatinAuto/mod.PikkuMatinAuto
 dccd1ec320b1c11f2fe4f0b70baa226b	1	69223	player	49822	mods/ncase/nc-2fast/2FAST4U.MOD
 dccdd5b5792d2b8eaf04704b518a0f9b	1	335829	player	200062	mods/sbc/red_warp/mod.red_warp
@@ -26208,6 +26257,7 @@ dfb13aa3c509607cc53dbf4e0f7932c3	6	0	nosound
 dfb13aa3c509607cc53dbf4e0f7932c3	7	0	nosound
 dfb13aa3c509607cc53dbf4e0f7932c3	8	0	nosound
 dfb13aa3c509607cc53dbf4e0f7932c3	9	0	nosound
+dfb5698c5acbb36da78af24f034aa7c0	0	204495	player	190862	mods/rock/2_rock_songs/DEATH MARCH
 dfb7725aa0ec37f3837e4cd1aa9b6ea0	1	133366	player	115254	mods/dean/Strychnine9/Strychnine9.mod
 dfb79cf056bed643485d66c0245ede84	1	224018	player+volume	278436	mods/pro/data_error/Mod.Data_Error
 dfb7a10cce73a1ae416b88c37e60d000	1	221134	player	114108	mods/sets/DOS-Themes/mod.dos-theme-1_fix
@@ -26395,6 +26445,7 @@ e1736e64d10c320db6760addb96194bc	1	15114	player	29932	game/strat/IT2000/IMPERIUM
 e1736e64d10c320db6760addb96194bc	1	15114	player	29932	game/strat/IT_2/imperium terranum/data/MOD.Bad
 e1777fcd8f8f37cc5bfae8bd2e9bcf52	1	618312	player	131904	mods/sets/GryzorMisc1/mod.Enjoy Ze Show
 e177d795ed250d488cb6b8b296b3d2d4	1	173533	loop	13500	mus/play/MYST_Data_7/YM2149/Iso/YM.Hi
+e178a25b96b5903c300d1e0e846d92c8	0	283625	player	268774	mods/neuro/nd-cls01/Modules/ptm.City Lights
 e17906275026fecc41b71d4a8b5b6621	1	243468	player+silence	451828	mods/techn/SwG-Grey/GreyFluff.mod
 e17a19c5fe0c8e104bfce5933c9854b8	1	235868	player	252364	mods/uprgh/UP-OSTER/UP-OSTER/mod.osterlen nightlife
 e17f0dd0a5dc72c047256c32fbce7eeb	1	122134	player+silence	45554	mods/xceed/Flea/mod.flea
@@ -28729,6 +28780,7 @@ f4b3d2ac6b7f7dab9532e1c9107ea35c	1	170581	player	197674	mods/demo/YoAfrica/mod.Y
 f4b900ca9356de1318a9c9dce5394596	1	82052	player	85956	demo/funet/Musicmasters/MODULES/MOD.MUSIX8
 f4b900ca9356de1318a9c9dce5394596	1	82052	player	85956	mods/demo/Balad/Balad.mod
 f4be06227651e41537eb43392513d04f	1	256736	player+silence	122360	mods/demo/CamakarzieRun/CamakarzieRun.mod
+f4bf720c630912e7d4e1ae774f492fdc	0	271262	player+volume	116302	mods/8voic/woodbloc/Woodbloc.ftm
 f4c066ead24fe88f7f1a1320809d59e8	1	123205	player	24208	game/think/MahJong/mahjong/m/m5
 f4c1d4ef9c4cdd567c00b319d3ae9eef	1	246914	player+silence	256798	mods/dsx/GeloTomic/GeloTomic.mod
 f4c1f608185e27c66891ca384e03a38b	1	233181	player+silence	423422	mods/techn/Perplex-Chaos/mod.perplex-chaos
@@ -29025,6 +29077,7 @@ f788d0833d3ce4306eb98bbf1ebc8fbf	6	43547	loop
 f788d0833d3ce4306eb98bbf1ebc8fbf	7	51857	loop
 f788d0833d3ce4306eb98bbf1ebc8fbf	8	149657	loop
 f788d0833d3ce4306eb98bbf1ebc8fbf	9	17409	loop
+f7899ac2d024f98ce662ad7e64718c07	0	339345	player+silence	236952	mods/8voic/mD-Mysteries/Mysteries.ftm
 f791b13237910e76a8a340d56bd5f30c	0	65540	player	42860	mods/misc/SFX13_2/sfxbond14
 f791b13237910e76a8a340d56bd5f30c	0	65540	player	42860	mods/sets/SoundFX13Sets2/Mods/SFX.BOND14
 f79ab5486208ff9b2d81a07cb2600194	1	216561	player	163916	mods/jorma/synchron/mod.synchronologie
@@ -29709,9 +29762,11 @@ fd66eb351d0178d4dfde1d6d7aa698cf	1	423103	player+silence	587358	mods/med/tst_cry
 fd67a86a1cdd21c658f0d890142d64c5	1	160110	player+silence	91470	mods/chip/ays-p100/1994/mod.2_years_crest
 fd6cf42806f1eb32a963250c8c534e51	1	162580	player	50960	mods/med/TheBattle/The Battle.med
 fd6ee7520d6406649f89b52f6caa3216	1	327407	player+silence	139384	mods/synth/BattleCry/BattleCry.mod
+fd703cb658cc81c8382b0f50ba0b7452	0	102374	player	94040	mods/8voic/delease/Delease.ftm
 fd739a360d9c3372f9dc1955e5bcbdc6	0	153688	player	70522	game/misc/DynamiteBall/Dynamite/musics/TISMUSIC
 fd75ad4c806c65a9f9aeb76cd7d4f7fa	1	125491	player	88008	mods/techn/Kira/mod.kira
 fd7bfd693576af5d8ed58a57440c3e23	0	7747	player	32960	game/2play/nbkdemo/NBKDemo/NBKOptionsMusic.abk
+fd7c03b387269ab0d274c42b23e1b0c2	0	173249	player	99290	mods/8voic/ftmmusic/Get off the Base
 fd7ede77371bf5e924a2c8a849ef2b57	1	260098	player+silence	291090	mods/techn/Tangor/mod.tangor
 fd7f5373381ad2a8718a4afc8d4f8670	1	112027	player	93120	game/board/A-Risk_AGA/Risk 1.08/Resources/Music/OCTAMED
 fd8241b3fd32b324956feb13c6c1a6aa	1	160417	player+silence	67464	mods/rock/TurboGuitar/TurboGuitar.MOD
@@ -29888,6 +29943,7 @@ ff0be026c631b59b948394997e247cdd	1	307156	player+volume	62932	mods/demo/Aquapool
 ff0c6ce4e2fccb99595c9958bc587f28	1	139971	player	136920	mods/demo/resolution/mod.resolution
 ff0d719fe1c6d6b18f81e9977a20a0d0	1	425919	player+volume	188468	mods/airon/phd_batr/mod.03-step_my_way_ii
 ff148b651df0b49aa76dda66d83d5dec	1	153942	player	116086	mods/delor/EasySaxExcerci/EasySaxExcerci.mod
+ff18502e7ce929703da9c908fbc4a71a	0	190142	player	66552	mods/8voic/OdeToAfrika/Ode_To_Africa
 ff187d21ab673a3c03be766292d038e1	1	156852	player+silence	130606	mods/jungl/morphing/mod.morphing
 ff1ab7c57a69ebd10c53c58021244a73	1	185442	player	185176	mods/piano/pianogdr/Pianogdr.mod
 ff1b9e2062e4ea0153af85b5cda52082	1	144852	silence	457664	mods/tp96/fusionsfunk/mod.atomar fusionsfunk
