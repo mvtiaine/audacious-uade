@@ -357,7 +357,7 @@
 04bf1af363f0c349c6411a060414d280	7	11558	player
 04c4a3fa9fee3d882d6083cfac24bec1	1	61475	player	13140	Game/Rebas_Martin/Pengo/mod.pengocorn
 04c6ba38ba0bfe77e3146ff268f5781d	0	170836	player	7246	Game/Tummers_Laurens/Monster_Business/sdr.ingame_1
-04eb2e59dd3257c88e56e073491bcee6	1	105218	player+silence	77926	Game/Hugentobler_Ruedi/Traps_n_Treasures/med.ingame_4
+04eb2e59dd3257c88e56e073491bcee6	1	105119	player+silence	77926	Game/Hugentobler_Ruedi/Traps_n_Treasures/med.ingame_4
 0502dccad42a3c911b41fe7c00385a4a	0	214405	player+silence	361160	Game/Whittaker_David/Xenon_2_-_Megablast/dw.title
 0502fd418205bbb1bb66b586fae7350b	1	49202	player+silence	72556	Game/Seifert_Hannes/1869/AGA_Version/mod.indien
 050371952f3f8f0635e041cec5cdbe1f	1	60586	player	63354	Game/Vegh_Zoltan/Perihelion-The_Prophecy/mod.event.mine
@@ -1210,34 +1210,34 @@
 1369ac38f14e80ed11ca2d32eb447801	1	182521	player	235530	Game/Berglund_Ken/Sixth_Sense_Investigations/mod.6th.toonbck3
 1369bc822e8be0e0201eb835233dc966	0	2413	player	708	Game/Unknown/Where_Time_Carmen_Sandiego/snx.THREAT1
 1372daa104fc104b8ab69496baf3fc72	0	12828	player	4040	Game/Mrsic-Flogel_Janko/Luxor/jmf.Luxor
-137d43bd081882e143b66da7e2d39877	0	58034	loop	8896	Game/Wright_Tim/Lemmings/Older_Custom_Version/cust.Lemmings
-137d43bd081882e143b66da7e2d39877	1	61454	loop
-137d43bd081882e143b66da7e2d39877	10	65212	loop
-137d43bd081882e143b66da7e2d39877	11	66153	loop
-137d43bd081882e143b66da7e2d39877	12	117933	loop
-137d43bd081882e143b66da7e2d39877	13	80559	loop
-137d43bd081882e143b66da7e2d39877	14	97370	loop
-137d43bd081882e143b66da7e2d39877	15	63390	loop
-137d43bd081882e143b66da7e2d39877	16	58755	loop
-137d43bd081882e143b66da7e2d39877	17	77137	loop
-137d43bd081882e143b66da7e2d39877	18	101588	loop
-137d43bd081882e143b66da7e2d39877	19	90302	loop
-137d43bd081882e143b66da7e2d39877	2	56950	loop
-137d43bd081882e143b66da7e2d39877	20	131091	loop
-137d43bd081882e143b66da7e2d39877	21	50929	loop
-137d43bd081882e143b66da7e2d39877	22	59833	loop
-137d43bd081882e143b66da7e2d39877	23	47501	loop
-137d43bd081882e143b66da7e2d39877	24	75032	loop
-137d43bd081882e143b66da7e2d39877	25	48691	loop
-137d43bd081882e143b66da7e2d39877	26	39954	loop
-137d43bd081882e143b66da7e2d39877	27	57218	loop
-137d43bd081882e143b66da7e2d39877	3	107371	loop
-137d43bd081882e143b66da7e2d39877	4	64730	loop
-137d43bd081882e143b66da7e2d39877	5	80458	loop
+137d43bd081882e143b66da7e2d39877	0	58125	loop	8896	Game/Wright_Tim/Lemmings/Older_Custom_Version/cust.Lemmings
+137d43bd081882e143b66da7e2d39877	1	98601	loop
+137d43bd081882e143b66da7e2d39877	10	65721	loop
+137d43bd081882e143b66da7e2d39877	11	56702	loop
+137d43bd081882e143b66da7e2d39877	12	118006	loop
+137d43bd081882e143b66da7e2d39877	13	80622	loop
+137d43bd081882e143b66da7e2d39877	14	96980	loop
+137d43bd081882e143b66da7e2d39877	15	73938	loop
+137d43bd081882e143b66da7e2d39877	16	59322	loop
+137d43bd081882e143b66da7e2d39877	17	72589	loop
+137d43bd081882e143b66da7e2d39877	18	96566	loop
+137d43bd081882e143b66da7e2d39877	19	90325	loop
+137d43bd081882e143b66da7e2d39877	2	57009	loop
+137d43bd081882e143b66da7e2d39877	20	58513	loop
+137d43bd081882e143b66da7e2d39877	21	50836	loop
+137d43bd081882e143b66da7e2d39877	22	66375	loop
+137d43bd081882e143b66da7e2d39877	23	47288	loop
+137d43bd081882e143b66da7e2d39877	24	74926	loop
+137d43bd081882e143b66da7e2d39877	25	48862	loop
+137d43bd081882e143b66da7e2d39877	26	38416	loop
+137d43bd081882e143b66da7e2d39877	27	57306	loop
+137d43bd081882e143b66da7e2d39877	3	106852	loop
+137d43bd081882e143b66da7e2d39877	4	64616	loop
+137d43bd081882e143b66da7e2d39877	5	98646	loop
 137d43bd081882e143b66da7e2d39877	6	0	error
-137d43bd081882e143b66da7e2d39877	7	51574	loop
-137d43bd081882e143b66da7e2d39877	8	73766	loop
-137d43bd081882e143b66da7e2d39877	9	73151	loop
+137d43bd081882e143b66da7e2d39877	7	51423	loop
+137d43bd081882e143b66da7e2d39877	8	73737	loop
+137d43bd081882e143b66da7e2d39877	9	77157	loop
 139656be9afa5fdae7804ac15e720398	1	38485	player	34234	Game/Dragon_George/Fatman_the_Caped_Consumer/mod.fatenemy.short
 13a1d615e01c9ed0914473b0bfa7dd3a	1	80146	player	75302	Game/Evans_Dean/Terminator_2/med.puzzle
 13a52f2be23e90aafeaab841a3e93fc3	1	145940	player	7818	Game/Hippel_Jochen/Dragonflight/sog.unicorn
@@ -2386,7 +2386,7 @@
 2669776d8c971012bbf568b1a112ab5d	17	30081	loop
 2669776d8c971012bbf568b1a112ab5d	18	9741	loop
 2669776d8c971012bbf568b1a112ab5d	19	15701	loop
-2669776d8c971012bbf568b1a112ab5d	2	52612	loop
+2669776d8c971012bbf568b1a112ab5d	2	52592	loop
 2669776d8c971012bbf568b1a112ab5d	20	7055	loop
 2669776d8c971012bbf568b1a112ab5d	21	129225	loop
 2669776d8c971012bbf568b1a112ab5d	22	30081	loop
@@ -2919,7 +2919,7 @@
 2d9245ae499da26d4b9766d4126f5665	0	128666	player	31712	Game/Steinwachs_Matthias/Ambermoon/Direct_from_Composer/sa.Amber20
 2d99611c3b27f17b06dc88aae2dbe0c1	0	9018	player	286	Game/Elliot_James/Mixed-Up_Mother_Goose/agi.ingame_27
 2d9bb58e885cd9152879593088637e9c	0	131334	player	103808	Game/Gehrmann_Holger/Dynatech/sct.ELEVEN6
-2db5638485e02d6213793472f588125b	1	159252	player+volume	169552	Game/Zuppicich_Blair/Zombie_Apocalypse_2/med.zombie2
+2db5638485e02d6213793472f588125b	1	159456	player+volume	169552	Game/Zuppicich_Blair/Zombie_Apocalypse_2/med.zombie2
 2dbc81b0736e575e9e29b777ac5d9a55	1	92213	player	57012	Game/Brimble_Allister/Super_Loopz/p41a.lev50
 2dc9b491958cb29772a516b154c7a15e	1	291373	player	75532	Game/Lynne_Bjorn/Kasei_Vallis/Direct_from_Composer/mod.kv.in-game.5
 2dd8cd9eda95cd2febb1fcfb5c366e15	0	27816	player	2346	Game/Scott_Anita/Gold_Rush/agi.title
@@ -4157,7 +4157,7 @@
 418cff64fe9e727b491853698dd6596e	5	60386	silence
 418cff64fe9e727b491853698dd6596e	6	8691	silence
 418cff64fe9e727b491853698dd6596e	7	108471	player
-418cff64fe9e727b491853698dd6596e	8	157986	player+silence
+418cff64fe9e727b491853698dd6596e	8	158007	player
 418dd8c86393dc6dc1128a2a66339313	1	8489	player+silence	30644	Game/Lynne_Bjorn/Shanghai/mod.shang.gameover
 418ea7f6bdd2daa7c993d39d7a64aff8	1	199795	player	117276	Demo/Engels_Timm/Demons_Are_Forever/mod.demons soundtrack
 41b9253bb0b989b80b0593a0a920878e	1	64015	player	182504	Game/Lowe_Dave/Beneath_a_Steel_Sky/dl.game_complete
@@ -4316,7 +4316,7 @@
 44504b3b9b77f5859f0c4d228f565ac9	0	889	player	111	Game/Lowe_Al/Kings_Quest_2/agi.ingame_26
 44504b3b9b77f5859f0c4d228f565ac9	0	889	player	111	Game/Unknown/Kings_Quest_1/agi.ingame_06
 44525f07ae931e6db13e96911acd190a	0	30737	player	42360	Game/Private_Affair/Valhalla/abk.atmoslev2
-445458a0f110d7c1e72fc6c77b25c2d5	1	185422	player+silence	283264	Game/Wells_Rob/StarWoids_Demo/med.title
+445458a0f110d7c1e72fc6c77b25c2d5	1	185397	player+silence	283264	Game/Wells_Rob/StarWoids_Demo/med.title
 44559fd9da88eb4ae5bd16108160010b	1	23116	player	17464	Game/Iveson_Martin/Dragonstone/np3.ingame_fx_2
 44559fd9da88eb4ae5bd16108160010b	1	23116	player	17464	Game/Iveson_Martin/Dragonstone_CD32/np3.ingame_fx_2
 445d7b507653e9d8e191d8fc729c4c13	1	176678	player	63412	Game/Beben_Wally/Phantasm/wb.Phantasm
@@ -4679,7 +4679,7 @@
 4a09bdd09658c21b0238cc5a086cf425	0	284515	player	77328	Game/Steinwachs_Matthias/Lionheart/Direct_from_Composer/sa.sumpf.SA
 4a09bdd09658c21b0238cc5a086cf425	1	1905	player
 4a0a467417960b52af8b617725bc046b	1	140915	loop	212040	Game/Deenen_Charles/Dragon_Wars/mon.title.tune
-4a0cf5d7ecf372500f6ea89bdd64cc9e	1	56195	player+silence	59872	Game/Usher_Raymond/Walker/med.intro
+4a0cf5d7ecf372500f6ea89bdd64cc9e	1	56192	player+silence	59872	Game/Usher_Raymond/Walker/med.intro
 4a17ff0d3fb2d6224fb83ac4119a1960	1	396796	player	42784	Game/Hippel_Jochen/5th_Gear/Older_hip_version/hip.5th_Gear
 4a17ff0d3fb2d6224fb83ac4119a1960	2	76844	player
 4a17ff0d3fb2d6224fb83ac4119a1960	3	18283	player+silence
@@ -4753,7 +4753,7 @@
 4b8416274ceae38905b1f45aed5dfd8e	1	115203	player	49374	Game/Gaiba_Gian_Luca/Time_Runners_04/mod.SECMUS
 4b8416274ceae38905b1f45aed5dfd8e	1	115203	player	49374	Game/Gaiba_Gian_Luca/Time_Runners_05/mod.SECMUS
 4b8416274ceae38905b1f45aed5dfd8e	1	115203	player	49374	Game/Gaiba_Gian_Luca/Time_Runners_06/mod.SECMUS
-4b90171379a686d248159eb7f7cb44e1	1	47045	player+silence	172604	Game/Evans_Dean/Hook/med.intro
+4b90171379a686d248159eb7f7cb44e1	1	47001	player+silence	172604	Game/Evans_Dean/Hook/med.intro
 4ba77853f2fe010f1df52a2e8e0cff1b	1	115203	player	54200	Game/Gaiba_Gian_Luca/Diabolik_08/mod.ese
 4bb31085300eb255bb100b6eb09854c2	1	234343	player	40514	Game/Brimble_Allister/Superfrog/p4x.L1mu
 4bb4a11a98bc0ee45982f45397bdbb11	1	115203	player	33220	Game/Gaiba_Gian_Luca/Time_Runners_11/mod.COVER
@@ -5424,7 +5424,7 @@
 5610b2878cd8f7d518459eb2ec66b34c	0	9961	silence	7392	Game/Hanlon_David/Dragons_Breath/dsc.fanfares
 5610b2878cd8f7d518459eb2ec66b34c	1	16312	silence
 5610b2878cd8f7d518459eb2ec66b34c	2	15289	player+silence
-5610b2878cd8f7d518459eb2ec66b34c	3	189802	loop
+5610b2878cd8f7d518459eb2ec66b34c	3	189738	loop
 56167b3171a35a64fb9986acae06a0e3	0	236557	silence	331576	Game/Bialluch_Dirk/Time_Lock/Custom_Versions/cust.title
 56167b3171a35a64fb9986acae06a0e3	1	0	nosound
 561d82d565ebfa7d862c626abb24a413	1	69223	player	29920	Game/Toni_Lorenzo/Dylan_Dog_The_Murderers/mod.dylansafari
@@ -6785,34 +6785,34 @@
 6afbc4ec36e928ce95cdadb0e22f4679	3	72017	player
 6afbc4ec36e928ce95cdadb0e22f4679	4	52203	player
 6afbc4ec36e928ce95cdadb0e22f4679	5	30483	player
-6aff0df8037099d4ed7ad9af4f1e2aa4	0	56574	loop	630628	Game/Wright_Tim/Lemmings/Custom_Version/cust.Lemmings
-6aff0df8037099d4ed7ad9af4f1e2aa4	1	110591	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	10	65178	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	11	69419	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	12	124249	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	13	86585	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	14	96458	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	15	63433	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	16	59414	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	0	56426	loop	630628	Game/Wright_Tim/Lemmings/Custom_Version/cust.Lemmings
+6aff0df8037099d4ed7ad9af4f1e2aa4	1	107217	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	10	65245	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	11	57576	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	12	112307	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	13	81996	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	14	97495	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	15	63278	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	16	58861	loop
 6aff0df8037099d4ed7ad9af4f1e2aa4	17	0	nosound
-6aff0df8037099d4ed7ad9af4f1e2aa4	18	96426	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	19	90876	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	2	56842	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	20	76379	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	18	96729	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	19	90857	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	2	56724	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	20	59287	loop
 6aff0df8037099d4ed7ad9af4f1e2aa4	21	0	nosound
-6aff0df8037099d4ed7ad9af4f1e2aa4	22	52611	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	23	46926	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	24	57843	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	25	52009	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	26	50374	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	27	57986	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	3	112496	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	4	69598	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	5	80983	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	22	64702	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	23	48047	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	24	57744	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	25	62355	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	26	60005	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	27	57279	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	3	107578	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	4	77300	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	5	80611	loop
 6aff0df8037099d4ed7ad9af4f1e2aa4	6	0	error
-6aff0df8037099d4ed7ad9af4f1e2aa4	7	51522	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	8	72429	loop
-6aff0df8037099d4ed7ad9af4f1e2aa4	9	73420	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	7	62035	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	8	72518	loop
+6aff0df8037099d4ed7ad9af4f1e2aa4	9	73760	loop
 6b04cab90dfb903bf5546a8f6d17a423	1	29845	loop	57930	Game/Bruce_Kev/Power_Drive/dsr.GMUSIC
 6b04cab90dfb903bf5546a8f6d17a423	2	59146	loop
 6b04cab90dfb903bf5546a8f6d17a423	3	91540	loop
@@ -8841,7 +8841,7 @@
 873af78c8a10c724f5ddee355b92d816	7	80654	player
 873af78c8a10c724f5ddee355b92d816	8	80654	player
 873af78c8a10c724f5ddee355b92d816	9	3175	player
-873c035f945f5f0ebc8b4547bb23e6c9	1	257048	player+silence	64362	Game/Usher_Raymond/All_New_World_of_Lemmings/med.CLASSIC3
+873c035f945f5f0ebc8b4547bb23e6c9	1	257068	player+silence	64362	Game/Usher_Raymond/All_New_World_of_Lemmings/med.CLASSIC3
 874b0fda6243d5bc175ec5ee45ad7a69	1	102501	player	35124	Game/Unknown/Aventures_de_Moktar/mod.lagjeu3
 8751b77de926fdbdeadb55dbf924d8af	1	148920	loop	59084	Game/Dunn_Jonathan/Batman/Custom_Versions/cust.church
 8751b77de926fdbdeadb55dbf924d8af	10	3229	silence
@@ -8962,7 +8962,7 @@
 8988a1ca97a320e8d111d90157fe3604	1	266859	player	120000	Game/Sonicom_Music/Giddy_2/mod.giddy (2) main-tune
 898933c01b22d4a958ef54db756a7ae1	0	153561	player	3247	Game/Page_Jason/Ruff_n_Tumble/rjp.game_end
 898f839397f0e34a850f4b63caa7ddcb	1	8009	player+silence	24282	Game/Gesqua_Raphael/Flashback/mod.flashback-taxi
-8996be164eec8aeee7e3907fca4611fd	1	90745	player+volume	120626	Game/Evans_Dean/Jurassic_Park/med.intro_credits
+8996be164eec8aeee7e3907fca4611fd	1	90759	player+volume	120626	Game/Evans_Dean/Jurassic_Park/med.intro_credits
 899b8982cebd497a339b1b3e5bf40956	0	263684	player	13586	Demo/Brimble_Allister/Hubbard_Music_2/smus.STARPAWS
 899b8982cebd497a339b1b3e5bf40956	0	263684	player	13586	Demo/Brimble_Allister/Very_Best_of_Rob_Hubbard/smus.STARPAWS
 89a2ad8eb3f4043c70e0a8c015dbaca8	1	164726	player+silence	53980	Game/Haupt_Christian/Intact/mod.introbeat
@@ -15533,7 +15533,7 @@ f2d3211b95e9919c49b7888cef7c51d9	1	84592	player	35280	Game/Nyrup_Martin/Moochies
 f2ed93addffbdd64151edcaa11cacb09	1	89673	player	337368	Game/Evans_Dean/Jurassic_Park/med.ingame_4
 f2ed93addffbdd64151edcaa11cacb09	2	46487	player
 f2ed93addffbdd64151edcaa11cacb09	3	123205	player
-f2ed93addffbdd64151edcaa11cacb09	4	7493	player
+f2ed93addffbdd64151edcaa11cacb09	4	7620	player
 f2ed93addffbdd64151edcaa11cacb09	5	61983	player
 f2ed93addffbdd64151edcaa11cacb09	6	0	nosound
 f2fa64097e492e7850b5e0750e700c21	1	31753	player	40728	Game/Brimble_Allister/Lion_King/p4x.level_4

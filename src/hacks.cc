@@ -51,7 +51,6 @@ const set<string> extension_blacklist ({
     ".dux", // GT Game Systems
     ".hvl", // HivelyTracker
     ".mxtx", // MaxTrax
-    ".mmd3", // Octamed SoundStudio
     ".stp", // SoundTracker Pro II
     ".spm", // Stonetracker
     ".symmod", // Symphonie

@@ -215,8 +215,8 @@ static const char * const plugin_extensions[] = {
     "adpcm", // ADPCM (Mono)
     "ftm", // Face The Music
     "prt", // Pretracker
-    "ptm", // Protracker IFF (Protracker4)
-    "mod3",
+    "ptm", "mod3", // Protracker IFF (Protracker4)
+    "mmd3", "oss", // Octamed SoundStudio / MMD3
 
     // no replay
     //"ct", Cybertracker
@@ -226,7 +226,6 @@ static const char * const plugin_extensions[] = {
     //"dux", // GT Game Systems
     //"hvl", // HivelyTracker
     //"mxtx", // MaxTrax
-    //"mmd3", // Octamed SoundStudio
     //"stp", // SoundTracker Pro II
     //"spm", // Stonetracker
     //"symmod", // Symphonie

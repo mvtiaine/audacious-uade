@@ -1413,7 +1413,7 @@
 2d8e8809fdfa4894e9cbb53b63b1a103	1	79765	player	18074	laboratory/unsorted gamemusic/1990 - Die 1993'er Edition/med.su.snd
 2d9f7d35700b6c2cf202c2eeddfec277	1	60420	player+silence	190602	delivery bay/from_Chip/Protracker/- unknown/intro.mod
 2daa87890e0c38fa8c8bab3e1d91c1de	1	184426	player	32028	delivery bay/mbnet_mods/MOD/teknomies v.mod
-2db5638485e02d6213793472f588125b	1	159252	player+volume	169552	laboratory/unsorted gamemusic/Zombie Apocalypse II/med.zombie2
+2db5638485e02d6213793472f588125b	1	159456	player+volume	169552	laboratory/unsorted gamemusic/Zombie Apocalypse II/med.zombie2
 2dbc81b0736e575e9e29b777ac5d9a55	1	92213	player	57012	workshop/P41A/Allister Brimble/Super Loopz/lev50.p41a
 2dd03da711555c047d906c0cdd55eab4	1	226301	player+silence	174154	delivery bay/mbnet_mods/MOD/sulphuric ash.mod
 2dd8cd9eda95cd2febb1fcfb5c366e15	0	27816	player	2346	laboratory/Sierra AGI/Gold Rush!/title.agi
@@ -3006,7 +3006,7 @@
 6938968d72bd8511feb13a1005be1226	0	87386	player	127822	laboratory/unsorted gamemusic/Gold of the Aztecs, The/dw.intro
 694930bca7eda9a6b5d7d5bdc4b2659a	1	76844	player	18496	delivery bay/noise/chiptunes/misc/c-e/eclipse.mod
 694cf2cd1ca80f614103871f5c485561	1	201446	player	67030	workshop/P61A/ghost station.p61a
-6969402c07151eeebc60a25dcdf322c5	1	159798	player+silence	144400	laboratory/various_formats_from_amiga_games/amigacolumns_soundtrack/song.4
+6969402c07151eeebc60a25dcdf322c5	1	159780	player+silence	144400	laboratory/various_formats_from_amiga_games/amigacolumns_soundtrack/song.4
 6972b5c67afad6ccb16eb0461933e590	1	172614	player	209918	delivery bay/principium/D/dens-justify.mod
 698b75f9fcc1d4f9bcc6338909ab1136	0	116473	player	37910	workshop/kris tracker/Premiere/mod.level1
 69a3f4084a74c214925aea17faab18d3	0	14987	player	2619	vault/Sonix/snx/Stellar 7/level5.snx
