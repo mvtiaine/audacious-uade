@@ -1,3 +1,13 @@
+0.9-dev
+- UADE updates:
+-- Enable ADPCM player
+-- Fix Scott Johnston player (Lemmings alternative rip)
+-- Fix Jesper Olsen EP player (Harald Hårdtand alternative rip)
+-- Remove obsolete version of Jason Page player
+-- Add Face The Music player
+-- Add Protracker4/IFF player
+-- Add OctaMED Soundstudio / MMD3 player
+
 0.8.3 - 2023-10-06
 - Add Gentoo overlay
 - Add Arch PKGBUILD
