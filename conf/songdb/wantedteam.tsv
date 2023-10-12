@@ -82,7 +82,7 @@
 01e24077455c886cc2c3f2403fa02428	1	122951	player	63726	rips/MOD_DylanDog03/MOD.danlocanda
 01e453388f651c1f13cdac2d746bf116	0	34548	player	3432	examples/JMF_WarZone/JMF.WarZone
 01e453388f651c1f13cdac2d746bf116	1	15368	player
-01ebf872d26f8cb5728c60a600b374e0	0	243953	loop	139964	customs/Club&Country/CUST.Club&Country
+01ebf872d26f8cb5728c60a600b374e0	0	252025	loop	139964	customs/Club&Country/CUST.Club&Country
 0200f2c439d6d6359d5663e4664ed621	0	122824	player	62878	examples/EX_Fashionating/EX.Fashionating 2
 0202e1f8f8b6655e5225cd5c3098b974	1	100850	player	138584	rips/MOD_1000Miglia/MOD.millemiglia'33
 0205615924564cfe985b6baaf48844b1	0	8637	player	196	examples/AGI_KingsQuest4/AGI.King'sQuestIV 52
@@ -113,7 +113,7 @@
 0291db4acf531a32f85d3127a064cfb4	1	24259	player
 0291db4acf531a32f85d3127a064cfb4	2	44709	player
 0291db4acf531a32f85d3127a064cfb4	3	65159	player
-02921e1d0ead2c329a5e7baeb85b9e54	0	5463	player+silence	4440	examples/MDAT_EinmalKanzlerSein/MDAT.EinmalKanzlerSein 05
+02921e1d0ead2c329a5e7baeb85b9e54	0	5452	player+silence	4440	examples/MDAT_EinmalKanzlerSein/MDAT.EinmalKanzlerSein 05
 0295481256c34c4a9d204e033cbea193	1	73669	player	144504	rips/EagleIntroUnic/UNIC.EaglePlayer Intro
 02963d8325650365e6d84eb1ba22d802	1	101485	player	116874	rips/PRUN_UltimatePinballQuest/PRUN.wasteland
 02963d8325650365e6d84eb1ba22d802	2	98056	player
@@ -334,10 +334,10 @@
 067b85d38865df3db35fcd2ee5c34f90	0	11685	player	901	examples/AGI_Manhunter2/AGI.ManhunterII 162
 06a67edc6b9ea29e8fd2563623a9ca54	0	135906	player	2890	examples/SMUS_PicturesAtExhibition/Pictures At An Exhibition/SMUS.Kiev2
 06bfc40041dd1982c838ac633446f564	1	189634	player	66082	examples/WB_Elite/WB.Elite
-06c73c16252e1920d6e6409a630a26a9	0	30532	player+silence	3532	examples/TFMX_KaramalzCup/MDAT.ongame
+06c73c16252e1920d6e6409a630a26a9	0	30342	player+silence	3532	examples/TFMX_KaramalzCup/MDAT.ongame
 06c73c16252e1920d6e6409a630a26a9	1	23878	player
 06c73c16252e1920d6e6409a630a26a9	2	7620	player
-06c73c16252e1920d6e6409a630a26a9	3	10461	player+silence
+06c73c16252e1920d6e6409a630a26a9	3	10458	player+silence
 06c73c16252e1920d6e6409a630a26a9	4	8407	player+silence
 06eddbd6c5c1038acc3b13995d601972	1	97929	player	89660	examples/DL_SummerEdition/DL.SummerEdition archery
 07067eb0fda1a94130ae7f7b641674b1	1	30737	player	30208	rips/MOD_DylanDog/MOD.dylanbastone
@@ -465,8 +465,8 @@
 0966a9a7a2cd66baca16870be4494817	5	1905	player
 0966a9a7a2cd66baca16870be4494817	6	3556	player
 0966a9a7a2cd66baca16870be4494817	7	5334	player
-0966a9a7a2cd66baca16870be4494817	8	137872	loop
-0966a9a7a2cd66baca16870be4494817	8	137918	loop
+0966a9a7a2cd66baca16870be4494817	8	63626	loop
+0966a9a7a2cd66baca16870be4494817	8	63653	loop
 0967710bf723958748fb297a2ed85823	0	101104	player	4752	examples/SMUS_MagnificentForceMusC2/Magnificent Force MusicCol2/SMUS.QUARK (RED LEOPARD 1)
 0974b4aa567b10d739ddba870865962a	0	245775	player	8116	examples/TFMX_GemX/MDAT.Gem'X title
 0974b4aa567b10d739ddba870865962a	1	70366	player
@@ -971,26 +971,26 @@
 13ca85bf661c316584e6be5d396def2f	1	122824	player	4432	examples/HST_SyntaxTerror/Syntax Terror/clones & doubles/HST.ColorShockIII
 13ca85bf661c316584e6be5d396def2f	2	2540	player
 13d278fdba979cb863caaaa990bd385b	0	74993	silence	268168	customs/RomanceOf3Kin2/CUST.RomanceOfThe3Kingdoms2
-13d278fdba979cb863caaaa990bd385b	1	46191	loop
-13d278fdba979cb863caaaa990bd385b	10	23672	loop
-13d278fdba979cb863caaaa990bd385b	11	75398	loop
-13d278fdba979cb863caaaa990bd385b	12	70608	loop
-13d278fdba979cb863caaaa990bd385b	13	29401	loop
+13d278fdba979cb863caaaa990bd385b	1	72324	loop
+13d278fdba979cb863caaaa990bd385b	10	24840	loop
+13d278fdba979cb863caaaa990bd385b	11	21848	repeat
+13d278fdba979cb863caaaa990bd385b	12	204653	loop
+13d278fdba979cb863caaaa990bd385b	13	39069	loop
 13d278fdba979cb863caaaa990bd385b	14	27108	silence
-13d278fdba979cb863caaaa990bd385b	15	129989	loop
-13d278fdba979cb863caaaa990bd385b	16	10556	loop
-13d278fdba979cb863caaaa990bd385b	17	16312	loop
-13d278fdba979cb863caaaa990bd385b	18	23329	loop
-13d278fdba979cb863caaaa990bd385b	19	18845	loop
-13d278fdba979cb863caaaa990bd385b	2	35561	loop
-13d278fdba979cb863caaaa990bd385b	20	74877	loop
-13d278fdba979cb863caaaa990bd385b	3	41172	loop
-13d278fdba979cb863caaaa990bd385b	4	48591	loop
-13d278fdba979cb863caaaa990bd385b	5	27362	loop
-13d278fdba979cb863caaaa990bd385b	6	34338	loop
-13d278fdba979cb863caaaa990bd385b	7	18320	loop
-13d278fdba979cb863caaaa990bd385b	8	14588	loop
-13d278fdba979cb863caaaa990bd385b	9	24087	loop
+13d278fdba979cb863caaaa990bd385b	15	157941	loop
+13d278fdba979cb863caaaa990bd385b	16	10570	loop
+13d278fdba979cb863caaaa990bd385b	17	16102	loop
+13d278fdba979cb863caaaa990bd385b	18	21341	loop
+13d278fdba979cb863caaaa990bd385b	19	28832	loop
+13d278fdba979cb863caaaa990bd385b	2	138246	loop
+13d278fdba979cb863caaaa990bd385b	20	74746	loop
+13d278fdba979cb863caaaa990bd385b	3	40565	loop
+13d278fdba979cb863caaaa990bd385b	4	39992	loop
+13d278fdba979cb863caaaa990bd385b	5	36270	loop
+13d278fdba979cb863caaaa990bd385b	6	48012	loop
+13d278fdba979cb863caaaa990bd385b	7	19331	loop
+13d278fdba979cb863caaaa990bd385b	8	14575	loop
+13d278fdba979cb863caaaa990bd385b	9	21191	loop
 13de24016a1ebdbed654a6fd7c567a1f	0	62618	player	47468	rips/ST_HoleInOne/MOD.silver
 13df87b206ab4a270bb8480a478e3513	1	76844	player	27778	rips/MOD_DylanDog/MOD.dylaninferiata
 13ea7d2df76d05a0cbd71454f1227798	1	99961	player	26244	rips/MOD_Diabolik08/MOD.st3
@@ -1117,7 +1117,7 @@
 169294e6f1cef779c329c44ba63dd98a	1	107201	player
 169294e6f1cef779c329c44ba63dd98a	2	107201	player
 169294e6f1cef779c329c44ba63dd98a	3	17655	player
-169294e6f1cef779c329c44ba63dd98a	4	11048	player+silence
+169294e6f1cef779c329c44ba63dd98a	4	11047	player+silence
 16a1bc6f41af6ead4ebb053affc14d4f	1	34929	player	107700	rips/MOD_VikingChild/MOD.loadingmusic
 16aab1e74fb1823dec0c57be4d223d0c	0	385111	player	16524	examples/SMUS_ATributeToRobBaxter/A Tribute To Rob Baxter/SMUS.Eallegro
 16b3cf52d5514773d7a76af86adc548d	1	199795	player	55280	rips/ST_SoundMachine2/MOD.gg (GHOSTS'N GOBLINS)
@@ -1283,8 +1283,8 @@
 198429c839eae803554a3d779ae05a68	1	215037	player
 199523b73a40fa2d33f3aeae42ca1053	1	124602	player	34814	rips/MOD_NoiseFromHeaven1/MOD.maggot corpz
 19965cfe686ec63466f82cc6e3b105b8	1	55378	player	8712	examples/CM_Critical/CM.Olio
-199e463954f15064d0d3b993460cadd8	0	57863	loop	4372	examples/MDAT_FatalHeritage/MDAT.FatalHeritage 59
-199e463954f15064d0d3b993460cadd8	1	12125	loop
+199e463954f15064d0d3b993460cadd8	0	23088	loop	4372	examples/MDAT_FatalHeritage/MDAT.FatalHeritage 59
+199e463954f15064d0d3b993460cadd8	1	73766	loop
 19a25f1583a88b0bddaa9328085a019f	1	12828	player	4960	rips/MOD_Draggy&Croco/MOD.dragon38
 19b6ed32563767bf7523abaa94e11931	1	4699	player	4912	rips/MOD_StarControl2/MOD.Victory Ditty 9
 19cd047f217193a5c788f5d663124f99	0	96023	player	153764	customs/PersianGulfInf/CUST.PersianGulfInferno_USA
@@ -1314,7 +1314,7 @@
 1a87de6326b3fcfd5a43c92c9dbb4605	0	204876	player	7600	examples/QTS_InsignificantDemo/QTS.ID 09
 1a8e0ddc1d36996681b124811facf87e	0	308266	player	22912	examples/MDA7_Turrican3/MDAT.Turrican3 title
 1a8e0ddc1d36996681b124811facf87e	1	47884	player
-1a8e0ddc1d36996681b124811facf87e	2	289188	player+silence
+1a8e0ddc1d36996681b124811facf87e	2	289174	player+silence
 1a8e1787f1da23711bde2eed8141fb1e	0	3937	player	226	examples/AGI_BlackCauldron/AGI.BlackCauldron 26
 1a9088700edc46d952bf432971d6e1f1	1	58808	player	40136	examples/DL_BlackHornet/DL.BlackHornet
 1a9088700edc46d952bf432971d6e1f1	2	99199	player
@@ -1623,7 +1623,7 @@
 20fd0eb52f78898d3670158ad551f8da	3	7620	player
 20fd0eb52f78898d3670158ad551f8da	4	0	nosound
 20fd0eb52f78898d3670158ad551f8da	5	8049	player+silence
-20fd0eb52f78898d3670158ad551f8da	6	130424	loop
+20fd0eb52f78898d3670158ad551f8da	6	130338	loop
 20fd0eb52f78898d3670158ad551f8da	7	138828	player
 20fd0eb52f78898d3670158ad551f8da	8	0	nosound
 20fd0eb52f78898d3670158ad551f8da	9	4676	player+silence
@@ -1800,7 +1800,7 @@
 2427a987bbd9b5b8cf9eb45727c60225	41	2667	player
 2427a987bbd9b5b8cf9eb45727c60225	42	0	nosound
 2427a987bbd9b5b8cf9eb45727c60225	43	12193	player
-2427a987bbd9b5b8cf9eb45727c60225	44	10232	player+silence
+2427a987bbd9b5b8cf9eb45727c60225	44	8757	player+volume
 2427a987bbd9b5b8cf9eb45727c60225	45	10034	player
 2427a987bbd9b5b8cf9eb45727c60225	5	3175	player
 2427a987bbd9b5b8cf9eb45727c60225	6	2794	player
@@ -1920,9 +1920,9 @@
 26d1e4ff5b9ca1d1d4c9ec185a6030fc	1	41026	player	15744	rips/MOD_DylanDog/MOD.dylan close
 26d3f0a57503a1dcba68bd753dacd540	1	3937	player	15850	rips/ST_Plotting/MOD.plot.f
 26d91d7d75a95d49f27cf7fbcae971ef	0	3937	player	402	examples/SMUS_SpiritOfExcalibur/Spirit Of Excalibur/SMUS.GoodCastle
-26da03fff106ba2a72393fb9605ba0f7	0	183703	loop	68700	customs/BlueAngel69/CUST.BlueAngel69
-26da03fff106ba2a72393fb9605ba0f7	1	108396	loop
-26da03fff106ba2a72393fb9605ba0f7	2	108375	loop
+26da03fff106ba2a72393fb9605ba0f7	0	183430	loop	68700	customs/BlueAngel69/CUST.BlueAngel69
+26da03fff106ba2a72393fb9605ba0f7	1	107690	loop
+26da03fff106ba2a72393fb9605ba0f7	2	108471	loop
 26da03fff106ba2a72393fb9605ba0f7	3	19313	loop
 26da03fff106ba2a72393fb9605ba0f7	4	10342	silence
 26dbb4937c8745ef4d15c36394b58976	1	107582	player	38058	rips/MOD_DylanDog07/MOD.Saf_post_pre
@@ -2233,55 +2233,55 @@
 2ddb5ad6ca8797adeea1b9df4935b740	1	54616	player	23869	examples/DLN_SuperStreetFighter2/DLN.Cammy
 2ddb5ad6ca8797adeea1b9df4935b740	2	0	nosound
 2ddf7ee219c993f15f37ffb6e4ab0b4e	1	105041	player	58008	examples/NT_HisMastersNoise/mod.Aqua minerale
-2de1621a9fa6f90268cf8169f769ef2b	1	39901	loop	77004	customs/BardsTale2/CUST.BardsTale2
+2de1621a9fa6f90268cf8169f769ef2b	1	39938	loop	77004	customs/BardsTale2/CUST.BardsTale2
 2de1621a9fa6f90268cf8169f769ef2b	10	8056	silence
-2de1621a9fa6f90268cf8169f769ef2b	11	22528	loop
+2de1621a9fa6f90268cf8169f769ef2b	11	22866	loop
 2de1621a9fa6f90268cf8169f769ef2b	12	8056	silence
-2de1621a9fa6f90268cf8169f769ef2b	13	22766	loop
+2de1621a9fa6f90268cf8169f769ef2b	13	24905	loop
 2de1621a9fa6f90268cf8169f769ef2b	14	8056	silence
-2de1621a9fa6f90268cf8169f769ef2b	15	23434	loop
+2de1621a9fa6f90268cf8169f769ef2b	15	23548	loop
 2de1621a9fa6f90268cf8169f769ef2b	16	7802	silence
-2de1621a9fa6f90268cf8169f769ef2b	17	27541	loop
+2de1621a9fa6f90268cf8169f769ef2b	17	27590	loop
 2de1621a9fa6f90268cf8169f769ef2b	18	8691	silence
-2de1621a9fa6f90268cf8169f769ef2b	19	26930	loop
+2de1621a9fa6f90268cf8169f769ef2b	19	26952	loop
 2de1621a9fa6f90268cf8169f769ef2b	2	9453	silence
 2de1621a9fa6f90268cf8169f769ef2b	20	8564	silence
-2de1621a9fa6f90268cf8169f769ef2b	21	26925	loop
+2de1621a9fa6f90268cf8169f769ef2b	21	26985	loop
 2de1621a9fa6f90268cf8169f769ef2b	22	8691	silence
-2de1621a9fa6f90268cf8169f769ef2b	23	27085	loop
+2de1621a9fa6f90268cf8169f769ef2b	23	26905	loop
 2de1621a9fa6f90268cf8169f769ef2b	24	8310	silence
-2de1621a9fa6f90268cf8169f769ef2b	25	38707	loop
+2de1621a9fa6f90268cf8169f769ef2b	25	38713	loop
 2de1621a9fa6f90268cf8169f769ef2b	26	11104	silence
-2de1621a9fa6f90268cf8169f769ef2b	27	36679	loop
+2de1621a9fa6f90268cf8169f769ef2b	27	36651	loop
 2de1621a9fa6f90268cf8169f769ef2b	28	10723	silence
-2de1621a9fa6f90268cf8169f769ef2b	29	36779	loop
-2de1621a9fa6f90268cf8169f769ef2b	3	41141	loop
+2de1621a9fa6f90268cf8169f769ef2b	29	81300	loop
+2de1621a9fa6f90268cf8169f769ef2b	3	41167	loop
 2de1621a9fa6f90268cf8169f769ef2b	30	10977	silence
-2de1621a9fa6f90268cf8169f769ef2b	31	36829	loop
+2de1621a9fa6f90268cf8169f769ef2b	31	36496	loop
 2de1621a9fa6f90268cf8169f769ef2b	32	10342	silence
-2de1621a9fa6f90268cf8169f769ef2b	33	47323	loop
+2de1621a9fa6f90268cf8169f769ef2b	33	67640	loop
 2de1621a9fa6f90268cf8169f769ef2b	34	7294	silence
-2de1621a9fa6f90268cf8169f769ef2b	35	47003	loop
+2de1621a9fa6f90268cf8169f769ef2b	35	46997	loop
 2de1621a9fa6f90268cf8169f769ef2b	36	6786	silence
-2de1621a9fa6f90268cf8169f769ef2b	37	44017	loop
+2de1621a9fa6f90268cf8169f769ef2b	37	27932	loop
 2de1621a9fa6f90268cf8169f769ef2b	38	7294	silence
-2de1621a9fa6f90268cf8169f769ef2b	39	31501	loop
+2de1621a9fa6f90268cf8169f769ef2b	39	47293	loop
 2de1621a9fa6f90268cf8169f769ef2b	4	9326	silence
 2de1621a9fa6f90268cf8169f769ef2b	40	6405	silence
-2de1621a9fa6f90268cf8169f769ef2b	41	40241	loop
+2de1621a9fa6f90268cf8169f769ef2b	41	50866	loop
 2de1621a9fa6f90268cf8169f769ef2b	42	7802	silence
-2de1621a9fa6f90268cf8169f769ef2b	43	42243	loop
+2de1621a9fa6f90268cf8169f769ef2b	43	42238	loop
 2de1621a9fa6f90268cf8169f769ef2b	44	7548	silence
-2de1621a9fa6f90268cf8169f769ef2b	45	41650	loop
+2de1621a9fa6f90268cf8169f769ef2b	45	41482	loop
 2de1621a9fa6f90268cf8169f769ef2b	46	7802	silence
-2de1621a9fa6f90268cf8169f769ef2b	47	40148	loop
+2de1621a9fa6f90268cf8169f769ef2b	47	44789	loop
 2de1621a9fa6f90268cf8169f769ef2b	48	7421	silence
 2de1621a9fa6f90268cf8169f769ef2b	49	8437	silence
-2de1621a9fa6f90268cf8169f769ef2b	5	39713	loop
+2de1621a9fa6f90268cf8169f769ef2b	5	47927	loop
 2de1621a9fa6f90268cf8169f769ef2b	6	9453	silence
-2de1621a9fa6f90268cf8169f769ef2b	7	40157	loop
+2de1621a9fa6f90268cf8169f769ef2b	7	39796	loop
 2de1621a9fa6f90268cf8169f769ef2b	8	9072	silence
-2de1621a9fa6f90268cf8169f769ef2b	9	22758	loop
+2de1621a9fa6f90268cf8169f769ef2b	9	27559	loop
 2de4efddc0d1f38569cb155975627728	1	70493	player	26988	rips/MOD_DylanDog09/MOD.st3
 2de4efddc0d1f38569cb155975627728	1	70493	player	26988	rips/MOD_DylanDog11/MOD.st3
 2e08bf5022c61c943047de4459335ccc	0	100977	player	110268	rips/ST_Bombuzal/MOD.bombuzal
@@ -2323,7 +2323,7 @@
 2f1e567198016cf9809fe6e3fb5ccf07	1	0	nosound	2208	examples/SOC_Amberstar/SOC.Ode to Schnism
 2f263411e65e11a694a4ccc29c905816	1	57538	player	25857	examples/DLN_SuperStreetFighter2/DLN.Blanka
 2f263411e65e11a694a4ccc29c905816	2	0	nosound
-2f376920bf45875fc387586ce0a091d4	0	403278	player+volume	15384	examples/TFMX_MasterBlazer/MDAT.MasterBlazer intro
+2f376920bf45875fc387586ce0a091d4	0	403393	player+volume	15384	examples/TFMX_MasterBlazer/MDAT.MasterBlazer intro
 2f376920bf45875fc387586ce0a091d4	1	889	player
 2f376920bf45875fc387586ce0a091d4	2	889	player
 2f376920bf45875fc387586ce0a091d4	3	889	player
@@ -2767,7 +2767,7 @@
 383c1124c1c8c181567366572b25fa13	0	14352	player	4736	examples/MDAT_EinmalKanzlerSein/MDAT.EinmalKanzlerSein 61
 383c1124c1c8c181567366572b25fa13	0	14352	player	4736	examples/MDAT_EinmalKanzlerSein/MDAT.EinmalKanzlerSein 87
 383e2ce11e7bc3e3f527a2088df43dc1	0	14661	silence	115308	customs/Crack/CUST.Crack
-383e2ce11e7bc3e3f527a2088df43dc1	1	207234	loop
+383e2ce11e7bc3e3f527a2088df43dc1	1	222573	loop
 383ef1ec60e28c8b298b2d06d6f117d0	1	129047	player	10913	examples/HST_Turrican2/HST.Turrican2 3
 383ef1ec60e28c8b298b2d06d6f117d0	2	30737	player
 383ef1ec60e28c8b298b2d06d6f117d0	3	111392	player
@@ -2838,55 +2838,55 @@
 3a786704425ed700ec55e05ba35bea41	1	6731	player
 3a7e96d58c0865d10f1d20620489fcbc	1	92213	player	121738	rips/MOD_Kretacz/MOD.the waves of fire
 3a8064d51349b68f79dddcae89664e1a	0	10342	silence	1144	examples/QTS_Loopz/QTS.Loopz 7
-3a85424f07f1a3a5e5fe1cf780d410ab	1	44526	loop	76944	customs/BardsTale/CUST.BardsTale
+3a85424f07f1a3a5e5fe1cf780d410ab	1	39938	loop	76944	customs/BardsTale/CUST.BardsTale
 3a85424f07f1a3a5e5fe1cf780d410ab	10	8056	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	11	22517	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	11	22868	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	12	8056	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	13	22734	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	13	24905	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	14	8056	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	15	22608	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	15	23444	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	16	7802	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	17	27542	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	17	27590	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	18	8691	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	19	26938	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	19	26952	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	2	9453	silence
 3a85424f07f1a3a5e5fe1cf780d410ab	20	8564	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	21	27045	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	21	26998	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	22	8691	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	23	27336	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	23	26905	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	24	8310	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	25	38746	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	25	38713	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	26	11104	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	27	37012	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	27	36651	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	28	10723	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	29	36705	loop
-3a85424f07f1a3a5e5fe1cf780d410ab	3	41141	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	29	81300	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	3	41167	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	30	10977	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	31	36822	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	31	36496	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	32	10342	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	33	47013	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	33	47845	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	34	7294	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	35	47006	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	35	46997	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	36	6786	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	37	23800	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	37	44824	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	38	7294	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	39	46215	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	39	47184	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	4	9326	silence
 3a85424f07f1a3a5e5fe1cf780d410ab	40	6405	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	41	40253	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	41	50866	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	42	7802	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	43	40102	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	43	42471	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	44	7548	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	45	41664	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	45	41482	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	46	7802	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	47	40141	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	47	44789	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	48	7421	silence
 3a85424f07f1a3a5e5fe1cf780d410ab	49	8437	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	5	41483	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	5	47941	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	6	9453	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	7	40157	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	7	39796	loop
 3a85424f07f1a3a5e5fe1cf780d410ab	8	9072	silence
-3a85424f07f1a3a5e5fe1cf780d410ab	9	23236	loop
+3a85424f07f1a3a5e5fe1cf780d410ab	9	27548	loop
 3ab4d6d8f761fb965c084a3c1a08231d	0	3937	player	221	examples/AGI_Manhunter1/AGI.ManhunterI 55
 3ab4d6d8f761fb965c084a3c1a08231d	0	3937	player	221	examples/AGI_Manhunter2/AGI.ManhunterII 135
 3ae09541a5a157314387c4e8d379e8b8	0	85354	player	91456	rips/OK_Plague/OK.Plague highscore
@@ -3100,9 +3100,9 @@
 3f1c40dfa540ab87813953628b91cec1	0	635	player	106	examples/AGI_Manhunter1/AGI.ManhunterI 30
 3f1c40dfa540ab87813953628b91cec1	0	635	player	106	examples/AGI_Manhunter1/AGI.ManhunterI 44
 3f1c40dfa540ab87813953628b91cec1	0	635	player	106	examples/AGI_MixedUpMotherGoose/AGI.MixedUpMotherGoose 52
-3f25d6f21f1021f6a4b92b3ceb789161	1	129639	loop	144656	customs/NobunagasAmbit/CUST.Nobunaga'sAmibition
-3f25d6f21f1021f6a4b92b3ceb789161	2	56004	loop
-3f25d6f21f1021f6a4b92b3ceb789161	3	21563	loop
+3f25d6f21f1021f6a4b92b3ceb789161	1	36124	loop	144656	customs/NobunagasAmbit/CUST.Nobunaga'sAmibition
+3f25d6f21f1021f6a4b92b3ceb789161	2	72536	loop
+3f25d6f21f1021f6a4b92b3ceb789161	3	20418	loop
 3f25d6f21f1021f6a4b92b3ceb789161	4	7294	silence
 3f25d6f21f1021f6a4b92b3ceb789161	5	4880	silence
 3f25d6f21f1021f6a4b92b3ceb789161	6	4245	silence
@@ -3233,7 +3233,7 @@
 418cff64fe9e727b491853698dd6596e	5	60386	silence
 418cff64fe9e727b491853698dd6596e	6	8691	silence
 418cff64fe9e727b491853698dd6596e	7	108471	player
-418cff64fe9e727b491853698dd6596e	8	158007	player
+418cff64fe9e727b491853698dd6596e	8	155926	player+silence
 419344dc54a2075e121f4ce8c6c849b5	0	86370	player	2848	examples/QTS_SonEtLumiere/QTS.SonEtLumiere 05
 4193b4ff548507a73c25c9d9b37bd79f	0	105168	player	1681560	examples/ONE_onEscapee_5/ONE.Stage5 wtrfall
 41a346ffdc5343eae49b46714bb5c17b	0	200189	player+silence	8788	examples/QTS_QuartetDemo2/QTS.Genetix
@@ -3308,7 +3308,7 @@
 437dbd1590c472090f6f091b043098cb	1	3683	player	9908	rips/MOD_StarControl2/MOD.MYCDITTY
 437e5f10093bf6a7e1a97cc67df5bd71	1	117743	player	66892	examples/SOG_JochenHippelMusicDemo/SOG.Jambala end
 43aa7fbc192520a1b51b2304f7918f4e	1	130699	player	95602	rips/MOD_Lotus2/MOD.new
-43aa9dd534529dee889bae36d7815dc3	0	20526	loop	4420	examples/MDAT_FatalHeritage/MDAT.FatalHeritage 22
+43aa9dd534529dee889bae36d7815dc3	0	26234	loop	4420	examples/MDAT_FatalHeritage/MDAT.FatalHeritage 22
 43ac3e1462ae96800427f17ac64f5559	0	86497	player	8487	examples/SJS_Lemmings/SJS.tim5
 43ad753984d5d1abeef8b5e099ac1245	1	46868	player	17848	rips/MOD_NoiseFromHeaven3/MOD.pampers
 43b500a47967a3186aa57ad3b954481d	1	60586	player	23736	rips/MOD_DylanDog14/MOD.st2
@@ -3367,23 +3367,23 @@
 4504eb0c2930f009df6212e778f639ee	0	2032	player	380	examples/SMUS_CarmenWorld1990/Carmen World 1990/SMUS.Threat2
 450ca6a9637aef375f779cfb2a04a685	0	652050	player+silence	115592	rips/ST_MusicInvasion2/MOD.datafetch3 (AXEL-F)
 451a6673f962590a01bb1d2b1985357f	0	231676	player	8020	examples/QTS_Necromunda/QTS.SCI1
-451e94550d53fff6105cfa0207fcb39f	0	259822	loop	286744	customs/GenghisKhan/CUST.GenghisKhan
+451e94550d53fff6105cfa0207fcb39f	0	258068	loop	286744	customs/GenghisKhan/CUST.GenghisKhan
 451e94550d53fff6105cfa0207fcb39f	1	7040	silence
-451e94550d53fff6105cfa0207fcb39f	10	92708	loop
-451e94550d53fff6105cfa0207fcb39f	11	85661	loop
+451e94550d53fff6105cfa0207fcb39f	10	47213	loop
+451e94550d53fff6105cfa0207fcb39f	11	64696	loop
 451e94550d53fff6105cfa0207fcb39f	12	26473	silence
-451e94550d53fff6105cfa0207fcb39f	13	12172	repeat
-451e94550d53fff6105cfa0207fcb39f	14	42522	loop
-451e94550d53fff6105cfa0207fcb39f	15	32520	loop
-451e94550d53fff6105cfa0207fcb39f	16	17478	loop
+451e94550d53fff6105cfa0207fcb39f	13	12171	repeat
+451e94550d53fff6105cfa0207fcb39f	14	71944	loop
+451e94550d53fff6105cfa0207fcb39f	15	23800	loop
+451e94550d53fff6105cfa0207fcb39f	16	38072	loop
 451e94550d53fff6105cfa0207fcb39f	2	11358	silence
 451e94550d53fff6105cfa0207fcb39f	3	28632	silence
 451e94550d53fff6105cfa0207fcb39f	4	26473	silence
-451e94550d53fff6105cfa0207fcb39f	5	40392	loop
-451e94550d53fff6105cfa0207fcb39f	6	13381	loop
-451e94550d53fff6105cfa0207fcb39f	7	32198	loop
-451e94550d53fff6105cfa0207fcb39f	8	14337	loop
-451e94550d53fff6105cfa0207fcb39f	9	85690	loop
+451e94550d53fff6105cfa0207fcb39f	5	57795	loop
+451e94550d53fff6105cfa0207fcb39f	6	13526	loop
+451e94550d53fff6105cfa0207fcb39f	7	59823	loop
+451e94550d53fff6105cfa0207fcb39f	8	15161	loop
+451e94550d53fff6105cfa0207fcb39f	9	46518	loop
 452a7c96b1a04bfb158ed4393133aea8	0	13273	player+silence	30942	examples/IMS_HuntForRedOctober/IMS.game-over
 4530a99c86765d64125c9d6fb7c7633a	0	120283	player	3748	examples/SMUS_StreetSportBasketball/Street Sports Basketball/SMUS.Theme.work
 45392e03bf9e00d2ca0d85191afe9a6d	0	4699	player	791	examples/AGI_SpaceQuest2/AGI.SpaceQuestII 15
@@ -4081,7 +4081,7 @@
 531876dba2d995225b43d6c4e4e8ed0b	4	51187	player
 531876dba2d995225b43d6c4e4e8ed0b	5	38358	player
 53256e5916fe2ebcd575337932fc9683	0	271686	player	79508	examples/BSS_ThirdIntro/BSS.Third Intro
-532a244b9d5d6d466e71a0de4a254804	0	200183	loop	75656	customs/Jinxter/CUST.Jinxter
+532a244b9d5d6d466e71a0de4a254804	0	201060	loop	75656	customs/Jinxter/CUST.Jinxter
 5334b90256bcf5276d4057699892eb3f	1	25759	player+silence	55890	rips/PRUN_UltimatePinballQuest/PRUN.adventure gameover
 5346b9dd43118307cf58c909f476f07a	1	294422	player	30012	examples/SOC_GhostBattle/SOC.GhostBattle world2
 53471e0da3d4ec4e0efc58928c52a3fd	0	61602	player	1596	examples/SMUS_LesPortesDuTemps/Les Portes Du Temps/SMUS.Japon fond
@@ -4183,10 +4183,10 @@
 550611c774741662740622252033312d	22	4372	silence
 550611c774741662740622252033312d	23	4372	silence
 550611c774741662740622252033312d	24	4372	silence
-550611c774741662740622252033312d	25	35975	loop
-550611c774741662740622252033312d	26	46008	loop
-550611c774741662740622252033312d	27	27427	loop
-550611c774741662740622252033312d	28	62115	loop
+550611c774741662740622252033312d	25	36307	loop
+550611c774741662740622252033312d	26	45420	loop
+550611c774741662740622252033312d	27	27287	loop
+550611c774741662740622252033312d	28	62307	loop
 550611c774741662740622252033312d	29	5388	silence
 550611c774741662740622252033312d	3	3483	silence
 550611c774741662740622252033312d	30	0	nosound
@@ -4225,7 +4225,7 @@
 5610b2878cd8f7d518459eb2ec66b34c	0	9961	silence	7392	examples/DSC_DragonsBreath/DSC.Dragon'sBreath fanfares
 5610b2878cd8f7d518459eb2ec66b34c	1	16312	silence
 5610b2878cd8f7d518459eb2ec66b34c	2	15289	player+silence
-5610b2878cd8f7d518459eb2ec66b34c	3	197773	loop
+5610b2878cd8f7d518459eb2ec66b34c	3	134051	loop
 56151719a6442e56dddd38ab5d7cce68	1	145940	player	26008	rips/MOD_Simulman07/MOD.st3
 561784ba83f2cac349b8e35a4d34ed00	1	84592	player	17106	rips/MOD_TimeRunners11/MOD.mus04
 561784ba83f2cac349b8e35a4d34ed00	1	84592	player	17106	rips/MOD_TimeRunners12/MOD.mus04
@@ -4269,7 +4269,7 @@
 581c7bcab08465c49f0276861f6e9d6b	5	54362	player
 581c7bcab08465c49f0276861f6e9d6b	6	71636	player
 581c7bcab08465c49f0276861f6e9d6b	7	7620	player
-581c7bcab08465c49f0276861f6e9d6b	8	49490	player+volume
+581c7bcab08465c49f0276861f6e9d6b	8	49491	player+volume
 581c7bcab08465c49f0276861f6e9d6b	9	25530	player
 58236893c7725145b3f178e47338eb5b	0	125	player	50	examples/AGI_GoldRush/AGI.GoldRush 38
 58352aa77ce393ff2e7f99a22fde7be4	0	30610	player	1132	examples/QTS_ThunderHawk/QTS.ThunderHawk 10
@@ -4746,7 +4746,7 @@
 63a6196d4b229f45d248cbb4d115b8fc	6	78114	player
 63a6196d4b229f45d248cbb4d115b8fc	7	77098	player
 63a6196d4b229f45d248cbb4d115b8fc	8	3937	player
-63a6196d4b229f45d248cbb4d115b8fc	9	4572	player
+63a6196d4b229f45d248cbb4d115b8fc	9	4699	player
 63aca945ade773fe271857938a05dd5a	0	3175	player	278	examples/SMUS_SpiritOfExcalibur/Spirit Of Excalibur/SMUS.StartBattle
 63c53524f169544c3c96e66203eaa027	1	51187	player	3026	examples/HST_EnchantedLand/HST.EnchantedLand 7
 63c53524f169544c3c96e66203eaa027	2	61475	player
@@ -5137,14 +5137,14 @@
 6cef299263b899f7e6e86e37d7616d38	28	6151	silence
 6cef299263b899f7e6e86e37d7616d38	29	64197	silence
 6cef299263b899f7e6e86e37d7616d38	3	3991	silence
-6cef299263b899f7e6e86e37d7616d38	30	32632	loop
-6cef299263b899f7e6e86e37d7616d38	31	22992	loop
-6cef299263b899f7e6e86e37d7616d38	32	15182	loop
-6cef299263b899f7e6e86e37d7616d38	33	28772	loop
-6cef299263b899f7e6e86e37d7616d38	34	43524	loop
+6cef299263b899f7e6e86e37d7616d38	30	30938	loop
+6cef299263b899f7e6e86e37d7616d38	31	23210	loop
+6cef299263b899f7e6e86e37d7616d38	32	17390	loop
+6cef299263b899f7e6e86e37d7616d38	33	29879	loop
+6cef299263b899f7e6e86e37d7616d38	34	43582	loop
 6cef299263b899f7e6e86e37d7616d38	35	34094	silence
 6cef299263b899f7e6e86e37d7616d38	36	15804	silence
-6cef299263b899f7e6e86e37d7616d38	37	28876	loop
+6cef299263b899f7e6e86e37d7616d38	37	28432	loop
 6cef299263b899f7e6e86e37d7616d38	38	3864	silence
 6cef299263b899f7e6e86e37d7616d38	39	3864	silence
 6cef299263b899f7e6e86e37d7616d38	4	4372	silence
@@ -5176,7 +5176,7 @@
 6de6deec88f63257a453a5bc03d48c79	6	38358	player
 6de6deec88f63257a453a5bc03d48c79	7	3302	player
 6de6deec88f63257a453a5bc03d48c79	8	1270	player
-6de6deec88f63257a453a5bc03d48c79	9	6251	player+silence
+6de6deec88f63257a453a5bc03d48c79	9	6250	player+silence
 6def8ea0d8367e4418732c4e395593bd	1	172741	player	6750	examples/DODA_Robocop2/DODA.Robocop2 puzzle
 6def8ea0d8367e4418732c4e395593bd	2	174011	player
 6df947af1531cc8c5dd6624ec3f58ee6	0	191539	player	196224	customs/G.nius/CUST.G.nius
@@ -5213,7 +5213,7 @@
 6f53dadc949ed1cf8e4aee808c0ec800	0	325593	player+silence	231238	rips/MIX_Leander/KRIS.OUR-ROUT.
 6f57fe6f9601441bb68bb9e7b14df494	0	30737	player	3904	examples/QTS_KillingCloud/QTS.KillingCloud end
 6f58c83191a80c3142fd1a5cd59f4d40	0	508	player	86	examples/AGI_Manhunter2/AGI.ManhunterII 191
-6f59425aba2e57f4851f18cf37bc4520	0	762	player	932	examples/TFMX_BundesligaManHattrick/MDAT.Hattrick intro
+6f59425aba2e57f4851f18cf37bc4520	0	0	nosound	932	examples/TFMX_BundesligaManHattrick/MDAT.Hattrick intro
 6f650a60f548293481603fd3ae868319	1	199795	player	69682	rips/MOD_StarControl2/MOD.star control2,tune2
 6f920bae59e5b123d0f1afb7accb5409	1	53854	player	60086	rips/PHA_BrianTheLion/PHA.BrianTheLion 11
 6f92e678617b2b5ba07a1b2f2292b0ae	1	87005	player	35452	examples/DL_NightShift/DL.NightShift
@@ -5329,7 +5329,7 @@
 71d4b7d0d842a382f1f073f97626deae	3	1143	player
 71d7fddf457ab0dd8222186d67b9d9a8	0	257404	loop	178640	customs/Think!/CUST.Think! zwei
 71e68b212ff42fa8b3fe6b5fc9b5ee93	0	14860	player	868	examples/TINY_CarmenWorld1989/Carmen World 1989/TINY.CarmenWorld 01
-7209da8b0c1528f7f6f3ea1d2f731663	0	135994	loop	127260	customs/Fish!/CUST.Fish!
+7209da8b0c1528f7f6f3ea1d2f731663	0	119243	loop	127260	customs/Fish!/CUST.Fish!
 7213684fc9dab769ea0c9bd959fb9c29	1	307250	player	275450	rips/MIX_Leander/MOD.title tune cut
 72161e42d662bbc4b144fa0db9cf9acc	1	109487	player	20242	rips/MOD_Simulman11/MOD.mus4
 7243b6c991e8a8b1ae3f445fd4b41e94	1	107582	player	26706	rips/MOD_DylanDog03/MOD.St4
@@ -6208,7 +6208,7 @@
 8461ac86c297fd54323996677304924c	2	268384	player
 8461ac86c297fd54323996677304924c	3	0	nosound
 8461ac86c297fd54323996677304924c	4	9000	repeat
-8473e4cd7b0afa6717132cb01d7e22ad	0	188917	player+silence	4728	examples/TFMX_Logical/MDAT.Logical title
+8473e4cd7b0afa6717132cb01d7e22ad	0	188900	player+silence	4728	examples/TFMX_Logical/MDAT.Logical title
 847a7e078ce817c01820300fc3b7a85d	0	159912	player	5068	examples/TFMX_BugBomber/MDAT.BugBomber
 847d15f0b375c8b216a202663f152f60	0	1143	player	400	examples/TINY_CarmenWorld1989/Carmen World 1989/TINY.CarmenWorld 08
 848795434a95cb50fac212fd4af575d4	1	92213	player	25694	rips/MOD_Simulman02/MOD.st3
@@ -6231,7 +6231,7 @@
 84c534770fb7ad1579a302af364516fa	4	3175	player
 84c534770fb7ad1579a302af364516fa	5	9018	player
 84c534770fb7ad1579a302af364516fa	6	635	player
-84c534770fb7ad1579a302af364516fa	7	8981	player+silence
+84c534770fb7ad1579a302af364516fa	7	8975	player+silence
 84c534770fb7ad1579a302af364516fa	8	51187	player
 84cdb1f86926639af8c2f0d11f3b09d7	1	38485	player	182752	rips/ST_OutRun/MOD.outrun wordsfirst
 84df64e16b04d02006adad053df3ab7f	0	102247	player	20934	examples/KRIS_Wolfchild/KRIS.W4
@@ -6342,7 +6342,7 @@
 858dd10a247fc6d089c0b07d87586f9d	0	92086	player	7876	examples/TFMX_Quick&Silva/MDAT.Silva
 858dd10a247fc6d089c0b07d87586f9d	1	87005	player
 858dd10a247fc6d089c0b07d87586f9d	2	56267	player
-858dd10a247fc6d089c0b07d87586f9d	3	35535	loop
+858dd10a247fc6d089c0b07d87586f9d	3	35482	loop
 859a24d1e2a036f2e356f5e7f33a3984	1	94118	player	70814	rips/MOD_TorvakTheWarrior/MOD.torvakingame
 859a24d1e2a036f2e356f5e7f33a3984	2	99961	player
 859a24d1e2a036f2e356f5e7f33a3984	3	77860	player
@@ -6359,7 +6359,7 @@
 85ee629a9e1dce7e212531ad948a9338	0	95007	player	65192	rips/ST_Ackerlight/MOD.heavy but cool
 8604c796cd1a9da67ca92fdb88ac7e8d	1	76844	player	54500	rips/MOD_DylanDog02/MOD.Dann3
 861e334b4b93a213f38c93c9454c9e37	1	86370	player	35126	rips/MED_SoulCrystal/MED.The Eremit's Tale
-863d3dbd90832e8e94518af926b60817	0	220508	loop	181472	customs/Corruption/CUST.Corruption
+863d3dbd90832e8e94518af926b60817	0	222567	loop	181472	customs/Corruption/CUST.Corruption
 86446970f2c13977b543c45d3c56f99f	0	341559	loop	79504	examples/SA_Lionheartdemo/SA.Lionheart demo 2 & 4
 864563b24f603d8e3d479753a9f80fd0	0	142003	player	6380	examples/SA_AmberMoon/SA.AmberMoon ingame 15
 866d60b4c1d6fada717bdfbb4863b1fd	0	29241	player+silence	162888	customs/Agony/CUST.Agony demo
@@ -6486,7 +6486,7 @@
 88b5927bdcd8487e36a6926ff1646490	0	56903	player	2021	examples/AGI_SierraDemo5/AGI.Demo4 14
 88d946ecb0ff8cc95fbb04e44bb30637	1	3683	player	5212	rips/MOD_StarControl2/MOD.SYRDITTY
 88d96bc49e9e1a52d513f98c88e1736e	0	24199	player+silence	279	examples/SNX_RiseOfTheDragon/Rise Of The Dragon/SNX.Qwong's music 1
-88deaaf41b483dda18e9ad9cca1cc3cd	0	215388	loop	87312	customs/ThePawn/CUST.ThePawn
+88deaaf41b483dda18e9ad9cca1cc3cd	0	211283	loop	87312	customs/ThePawn/CUST.ThePawn
 88f77efb791ee90071d8da015915f315	0	10288	player	4588	examples/MDAT_EinmalKanzlerSein/MDAT.EinmalKanzlerSein 76
 88fedbe3d3590a38b13570fdf3dbac96	1	56013	player	29179	examples/DLN_SuperStreetFighter2/DLN.Vega
 88fedbe3d3590a38b13570fdf3dbac96	2	0	nosound
@@ -6715,19 +6715,19 @@
 8ea5bf989efa3a99e2e79ec0a40d2bb5	0	208305	player	21280	examples/QTS_PompeyPiratesMenu/QTS.PompeyPiratesMenu 083
 8ea5bf989efa3a99e2e79ec0a40d2bb5	0	208305	player	21280	examples/QTS_QuartetMusicCollection/QTS.Bachola
 8ea77518d06f41567a9935a7c9a250d1	0	16947	silence	55208	customs/DickTracy/CUST.DickTracy
-8ea77518d06f41567a9935a7c9a250d1	1	32467	loop
+8ea77518d06f41567a9935a7c9a250d1	1	97393	loop
 8ea77518d06f41567a9935a7c9a250d1	10	6659	silence
-8ea77518d06f41567a9935a7c9a250d1	11	13199	loop
-8ea77518d06f41567a9935a7c9a250d1	12	13199	loop
+8ea77518d06f41567a9935a7c9a250d1	11	9340	loop
+8ea77518d06f41567a9935a7c9a250d1	12	9340	loop
 8ea77518d06f41567a9935a7c9a250d1	13	6151	silence
-8ea77518d06f41567a9935a7c9a250d1	14	70284	loop
-8ea77518d06f41567a9935a7c9a250d1	2	99380	loop
-8ea77518d06f41567a9935a7c9a250d1	3	107773	loop
-8ea77518d06f41567a9935a7c9a250d1	4	277936	loop
-8ea77518d06f41567a9935a7c9a250d1	5	75782	loop
-8ea77518d06f41567a9935a7c9a250d1	6	11238	loop
-8ea77518d06f41567a9935a7c9a250d1	7	64813	loop
-8ea77518d06f41567a9935a7c9a250d1	8	28243	loop
+8ea77518d06f41567a9935a7c9a250d1	14	79666	loop
+8ea77518d06f41567a9935a7c9a250d1	2	67445	loop
+8ea77518d06f41567a9935a7c9a250d1	3	108151	loop
+8ea77518d06f41567a9935a7c9a250d1	4	297198	loop
+8ea77518d06f41567a9935a7c9a250d1	5	77358	loop
+8ea77518d06f41567a9935a7c9a250d1	6	12086	loop
+8ea77518d06f41567a9935a7c9a250d1	7	64623	loop
+8ea77518d06f41567a9935a7c9a250d1	8	32333	loop
 8ea77518d06f41567a9935a7c9a250d1	9	17455	silence
 8eca87620f68cf406145dca6d3cec29d	0	13082	player	8748	customs/WorldGames/CUST.WorldGames main
 8eca87620f68cf406145dca6d3cec29d	1	9145	player
@@ -7007,7 +7007,7 @@
 94960870637d91ebb73413b7bfbdabee	0	143400	player	3700	examples/QTS_InsignificantDemo/QTS.ID 18
 949e489f053536b10f0c26e5b2f3ccb1	1	369361	player	12988	examples/HST_LethalXcess/HST.LethalXcess 2
 949e489f053536b10f0c26e5b2f3ccb1	2	1905	player
-949fc1b792d4714557cb1af269fdb5d5	0	8092	player+silence	4524	examples/MDAT_EinmalKanzlerSein/MDAT.EinmalKanzlerSein 25
+949fc1b792d4714557cb1af269fdb5d5	0	8081	player+silence	4524	examples/MDAT_EinmalKanzlerSein/MDAT.EinmalKanzlerSein 25
 94c1ac45d6551819131e203bf950b015	1	161309	player	60366	rips/ST_WindowWizard/MOD.window 9
 94e0bb1ca9f974aaf433a10b9e9c07e0	0	31372	player	2328	examples/TFMX_TrickyQuikyGames/MDAT.titel
 94e0bb1ca9f974aaf433a10b9e9c07e0	1	21084	player
@@ -7224,7 +7224,7 @@
 9a1bf5d039afc5acf6b3f638aaedf284	4	3175	player
 9a1bf5d039afc5acf6b3f638aaedf284	5	9018	player
 9a1bf5d039afc5acf6b3f638aaedf284	6	635	player
-9a1bf5d039afc5acf6b3f638aaedf284	7	8973	player+silence
+9a1bf5d039afc5acf6b3f638aaedf284	7	8975	player+silence
 9a1bf5d039afc5acf6b3f638aaedf284	8	51187	player
 9a1c7ea03782ec6d9ec1f751d5641510	1	38485	player	72262	rips/MOD_Diabolik06/MOD.tombino
 9a36d10dc11b6e17976cf50cb6173905	1	69223	player	29996	rips/MIX_Rubicon/MOD.rubikon
@@ -7396,7 +7396,7 @@
 9d801383871c177f163633e7796a7bfc	0	40263	player	3040	examples/TFMX_CaribbeanDisaster/MDAT.Kneipe
 9d96db43aa9366d079b35669e5f95de1	0	254	player	81	examples/AGI_KingsQuest1/AGI.King'sQuestI 15
 9d9f0c131a98d11e66e7087829ec0213	1	176678	player	23448	rips/MOD_TimeRunners21/MOD.arca
-9d9f944336e0a967981a6ba5739daa2c	0	55127	loop	3028	examples/TFMX_Ramses/MDAT.Ramses title
+9d9f944336e0a967981a6ba5739daa2c	0	55812	loop	3028	examples/TFMX_Ramses/MDAT.Ramses title
 9d9f944336e0a967981a6ba5739daa2c	1	38358	player
 9d9f944336e0a967981a6ba5739daa2c	2	45979	player
 9da1f7ad8130ad9b9efc4d5eae259310	0	127	player	50	examples/AGI_Manhunter1/AGI.ManhunterI 96
@@ -7466,7 +7466,7 @@
 9f6994edcf6c98a256f632915bc5db9c	0	35691	player	7580	examples/MDA7_MetalLaw/MDAT.MetalLaw title
 9f6994edcf6c98a256f632915bc5db9c	1	107836	player
 9f6994edcf6c98a256f632915bc5db9c	2	18671	player
-9f69cc1697f5b260ede0b29ebd136eeb	0	162456	player+volume	7676	examples/MDAT_X-Outdemo/MDAT.X-Out demo 3
+9f69cc1697f5b260ede0b29ebd136eeb	0	162455	player+volume	7676	examples/MDAT_X-Outdemo/MDAT.X-Out demo 3
 9f69cc1697f5b260ede0b29ebd136eeb	1	162455	player+volume
 9f734597f3f115ef5771dc4e90c600ad	1	66683	player	21856	rips/MOD_Simulman08/MOD.prol1
 9f7e11249f34094a44ed2dbb4301a3f1	1	23116	player	26916	rips/MOD_Diabolik09/MOD.st2
@@ -7601,7 +7601,7 @@ a12854cfaa7f89094943a2a3c4e4327a	8	5969	player
 a12af994b2bf90c08b53ee26a9063a6c	0	70620	player	26852	examples/KH_TestDrive2/KH.TestDrive2
 a131d4a8a3adca863f0ecaacdc2ad1a4	1	92213	player	26608	rips/MOD_Tex02/MOD.st1
 a131d4a8a3adca863f0ecaacdc2ad1a4	1	92213	player	26608	rips/MOD_Tex05/MOD.st1
-a1356104fb5cc4e05960cf89393ed0e3	0	260084	loop	65708	customs/DarkCentury/CUST.DarkCentury
+a1356104fb5cc4e05960cf89393ed0e3	0	264194	loop	65708	customs/DarkCentury/CUST.DarkCentury
 a1375b78485c109370a054a94f93c1db	1	49847	player+silence	42608	rips/ST_BioChallenge/MOD.toyota6
 a1389382a197d038400d80a9b76c525d	0	172741	player	15196	examples/TFMX_DasSchmutzigeErbe/MDAT.Erbe2
 a1389382a197d038400d80a9b76c525d	1	81925	player
@@ -7621,7 +7621,7 @@ a18dbe9eed821c0d90a0fca4487ebd4f	0	9399	player	646	examples/TINY_TheGamesWinterE
 a18e4f412ca5c825890fd4dfc866ab09	1	222785	player	22818	rips/MOD_NoiseFromHeaven2/MOD.chronological order
 a1974dcf8ba9f0479daf12a0bed088f5	1	3937	player	57340	rips/PHA_BrianTheLion/PHA.BrianTheLion 43
 a1a02faf7dcd3b4b8ac9f4de4fba2fc9	1	184426	player	68838	rips/MOD_VikingChild/MOD.prophecy3
-a1ae25bf1d052e5983f5a9f00c9668f6	0	62917	loop	58168	customs/EnglandChamp/CUST.EnglandChampionship
+a1ae25bf1d052e5983f5a9f00c9668f6	0	46147	loop	58168	customs/EnglandChamp/CUST.EnglandChampionship
 a1b60a5003bb38b7871b9b2a5d0963e3	0	0	nosound	2352	examples/SMUS_AlternateReality/Alternate Reality/SMUS.dwarftune2
 a1bd960c6a0f5adadd2746e4d1bd426d	0	127	player	56	examples/AGI_GoldRush/AGI.GoldRush 30
 a1c84ff480beba35b49e9cf05ed80858	1	407240	loop	48608	examples/DLN_KingsQuest6/DLN.King'sQuest6 2
@@ -7651,7 +7651,7 @@ a22bea66754b5809a19479d204488ff8	1	38485	player	119274	rips/MOD_3DWorldBoxing/MO
 a22bea66754b5809a19479d204488ff8	2	84592	player
 a22bea66754b5809a19479d204488ff8	3	46106	player
 a22ed67ba168e3adb401a1903f808e6f	0	16130	player	30044	rips/SFX_BushBuck/SFX.BushBuck 05
-a2474c344ef516e9bf378af290fee8b6	0	200462	player+volume	8680	examples/TFMX_GemZ/MDAT.Gem'Z title
+a2474c344ef516e9bf378af290fee8b6	0	200463	player+volume	8680	examples/TFMX_GemZ/MDAT.Gem'Z title
 a2474c344ef516e9bf378af290fee8b6	1	48011	player
 a2474c344ef516e9bf378af290fee8b6	2	15368	player
 a2474c344ef516e9bf378af290fee8b6	3	15368	player
@@ -7839,10 +7839,10 @@ a7de805f467c7eb63ea2171e61ad7ee2	0	172741	player	260468	examples/BSS_Katakis/BSS
 a7e35c89e8fcf9966b898d8288ae31f8	0	52711	player	82160	examples/SCR_HongKongPhooey/SCR.HongKongPhooey
 a7e35c89e8fcf9966b898d8288ae31f8	1	5715	player
 a7e35c89e8fcf9966b898d8288ae31f8	2	2413	player
-a7e38a8108d0d6b4f0647e9694ecdf85	1	70760	loop	68776	customs/UNSquadron/CUST.U.N.Squadron
-a7e38a8108d0d6b4f0647e9694ecdf85	2	36317	loop
-a7e38a8108d0d6b4f0647e9694ecdf85	3	40170	loop
-a7e38a8108d0d6b4f0647e9694ecdf85	4	8764	loop
+a7e38a8108d0d6b4f0647e9694ecdf85	1	70759	loop	68776	customs/UNSquadron/CUST.U.N.Squadron
+a7e38a8108d0d6b4f0647e9694ecdf85	2	87015	loop
+a7e38a8108d0d6b4f0647e9694ecdf85	3	39926	loop
+a7e38a8108d0d6b4f0647e9694ecdf85	4	11515	loop
 a7ecbcb838716a187f45edfef229b1f1	1	38485	player	128842	examples/NT_HisMastersNoise/mod.Wafcandyman
 a7f749cef2672e7ef505fcadf588500c	1	112662	player	29666	rips/MOD_TimeRunners25/MOD.tens
 a7fcb61ad05a2ee8925c79997402742d	0	56140	player	63564	rips/SoundFX13Sets3/Mods/SFX.FW suite21
@@ -8098,7 +8098,7 @@ ad595a805acefe2be2765735ecbbb4c0	0	61856	player	66380	rips/SFX_HighwayPatrol2/SF
 ad5d0a587773092791d71b0aa011903b	0	635	player	156	examples/AGI_GoldRush/AGI.GoldRush 40
 ad60e021fd8a7f374a3c7518ce2f5bc6	0	2159	player	161	examples/AGI_Manhunter2/AGI.ManhunterII 149
 ad70b0e876307772d38aad6b7ef5bffc	1	182902	player	29856	rips/MED_SoulCrystal/MED.Mallet Mood
-ad7842d19469dd1df1ba45ff11174404	0	257216	loop	3040	examples/TFMX_DasTelekommando2/MDAT.outro (author)
+ad7842d19469dd1df1ba45ff11174404	0	70909	loop	3040	examples/TFMX_DasTelekommando2/MDAT.outro (author)
 ad920d1e1ab9c79b27e98e265bb21f74	1	71763	player	36558	rips/PRU2_Overdrive/PRU2.Overdrive choose pilot
 ada722f52905d73ff32417c7aaed85ea	0	3048	player	161	examples/AGI_KingsQuest3/AGI.King'sQuestIII 15
 ada722f52905d73ff32417c7aaed85ea	0	3048	player	161	examples/AGI_SierraDemo1/AGI.Demo 04
@@ -8200,7 +8200,7 @@ b01594ad51fcae10ba708b3d5b595ac2	3	2540	player
 b01594ad51fcae10ba708b3d5b595ac2	4	3175	player
 b01594ad51fcae10ba708b3d5b595ac2	5	9018	player
 b01594ad51fcae10ba708b3d5b595ac2	6	635	player
-b01594ad51fcae10ba708b3d5b595ac2	7	8977	player+silence
+b01594ad51fcae10ba708b3d5b595ac2	7	8973	player+silence
 b01594ad51fcae10ba708b3d5b595ac2	8	51187	player
 b018e5207890f3bd64f9bcb6f9c85cc7	1	67318	player	72556	rips/MOD_1869AGA/MOD.karibik
 b018e9d11520178ed5c8f42aaa489cab	0	10161	player	1564	examples/TFMX_BiFi2/MDAT.BiFi2 ingame (author)
@@ -8359,7 +8359,7 @@ b4890451acf139f8fa7859b1adbbf4d5	0	10288	player	4484	examples/MDAT_EinmalKanzler
 b48c90e3a5c1518c46defe218ebb2bd7	1	76844	player	18668	rips/MOD_NoiseFromHeaven2/MOD.italotion
 b4927bb72385df4eb78d4a5a5051a381	0	255682	player	17740	examples/QTS_ProjectyleST/QTS.ProjectyleST 3
 b4a063db300b3500a5444d1f33c2df2b	0	1524	player	40286	examples/DSC_DragonsBreath/DSC.Dragon'sBreath DBFX
-b4a063db300b3500a5444d1f33c2df2b	1	12628	silence
+b4a063db300b3500a5444d1f33c2df2b	1	10215	silence
 b4a9b7c1826a1e9b7a2d3acb44d7366d	0	46106	player	8464	examples/TFMX_DungeonsOfAvalon2/MDAT.DungeonsOfAvalon2 ingame
 b4a9b7c1826a1e9b7a2d3acb44d7366d	1	56267	player
 b4a9b7c1826a1e9b7a2d3acb44d7366d	10	15368	player
@@ -8937,7 +8937,7 @@ beb9dcd9e9630e3505149cd9eaa36eaf	1	61475	player	51880	rips/PHA_BrianTheLion/PHA.
 beb9dcd9e9630e3505149cd9eaa36eaf	2	61475	player
 bebbdc8ec3e857bd8c4597d851afb740	1	19306	player	32296	rips/MOD_Lotus2/MOD.jingle8
 bebe7d08418575627b9da2eb6ce1ff52	0	92086	player	4232	examples/TFMX_MetalLaw/MDAT.MetalLaw 2
-bec5f99239633b6edbf4ff5402ad7642	0	403278	player+volume	20896	examples/MDAT_MasterBlazerST/MDAT.MasterBlazerST intro
+bec5f99239633b6edbf4ff5402ad7642	0	403393	player+volume	20896	examples/MDAT_MasterBlazerST/MDAT.MasterBlazerST intro
 bec5f99239633b6edbf4ff5402ad7642	1	889	player
 bec5f99239633b6edbf4ff5402ad7642	2	889	player
 bec5f99239633b6edbf4ff5402ad7642	3	889	player
@@ -9049,7 +9049,7 @@ c168050fd1e9efc3e8536e991ff17cbc	0	254	player	76	examples/AGI_Manhunter1/AGI.Man
 c1798df5ff311856a4f6c18151245e22	1	99961	player	54198	rips/MOD_Diabolik02/MOD.in_action
 c183a1db9f1160b4095d8c2913d794f1	0	89164	player	6798	examples/MAX_DinosaurDetective/MAX.DinosaurDetective music4
 c193698970cfd4262ac7db375bf292da	1	76844	player	22478	rips/MOD_Simulman11/MOD.sigsm93
-c19f70eb78cabf85ec2160ebdc6de826	0	159000	player+silence	7528	examples/TFMX_Transplant/MDAT.Transplant
+c19f70eb78cabf85ec2160ebdc6de826	0	158740	player+silence	7528	examples/TFMX_Transplant/MDAT.Transplant
 c19f70eb78cabf85ec2160ebdc6de826	1	159000	player+silence
 c19f70eb78cabf85ec2160ebdc6de826	2	38358	player
 c19f70eb78cabf85ec2160ebdc6de826	3	41534	player
@@ -9317,10 +9317,10 @@ c92319191df545cdc3e347ea48950f10	10	6532	silence
 c92319191df545cdc3e347ea48950f10	11	7421	silence
 c92319191df545cdc3e347ea48950f10	12	5897	silence
 c92319191df545cdc3e347ea48950f10	13	4626	silence
-c92319191df545cdc3e347ea48950f10	14	46998	loop
-c92319191df545cdc3e347ea48950f10	15	49041	loop
-c92319191df545cdc3e347ea48950f10	16	21587	loop
-c92319191df545cdc3e347ea48950f10	17	142366	loop
+c92319191df545cdc3e347ea48950f10	14	47021	loop
+c92319191df545cdc3e347ea48950f10	15	40690	loop
+c92319191df545cdc3e347ea48950f10	16	42908	loop
+c92319191df545cdc3e347ea48950f10	17	143786	loop
 c92319191df545cdc3e347ea48950f10	18	8183	silence
 c92319191df545cdc3e347ea48950f10	19	8183	silence
 c92319191df545cdc3e347ea48950f10	2	5007	silence
@@ -9342,7 +9342,7 @@ c92319191df545cdc3e347ea48950f10	33	4626	silence
 c92319191df545cdc3e347ea48950f10	34	4626	silence
 c92319191df545cdc3e347ea48950f10	35	5388	silence
 c92319191df545cdc3e347ea48950f10	36	3229	silence
-c92319191df545cdc3e347ea48950f10	37	3229	silence
+c92319191df545cdc3e347ea48950f10	37	3356	silence
 c92319191df545cdc3e347ea48950f10	38	3610	silence
 c92319191df545cdc3e347ea48950f10	39	3356	silence
 c92319191df545cdc3e347ea48950f10	4	3229	silence
@@ -9427,7 +9427,7 @@ ca38d152372fd4520a815beaf4ad9a97	0	9526	player	18472	examples/NTP_Castlevania/NT
 ca3a963658396f9c8bad7bfacb869bb4	1	115203	player	26498	examples/SOC_Tangram/SOC.Tangram ongame
 ca4119e7127548f9435897d802a8df83	1	23933	silence	22950	rips/MOD_Lotus3/MOD.l3_mountain
 ca4c6c435d3f7ecacdf1ae271e9327f1	0	9653	player	4652	examples/MDAT_EinmalKanzlerSein/MDAT.EinmalKanzlerSein 48
-ca58fa6fae4a9016a3614686e902dd6f	0	9606	player+silence	4440	examples/MDAT_EinmalKanzlerSein/MDAT.EinmalKanzlerSein 01
+ca58fa6fae4a9016a3614686e902dd6f	0	9612	player+silence	4440	examples/MDAT_EinmalKanzlerSein/MDAT.EinmalKanzlerSein 01
 ca6f0c1a6ef42608eb5d6852a67f2be0	1	7489	player+silence	11444	rips/ST_MrHeli/MOD.helidie
 ca8591036fd91bf5dc677f9578e5a0d5	0	2921	player	94	examples/SNX_RiseOfTheDragon/Rise Of The Dragon/SNX.Dengthem
 ca8724259e8bb7bb2563faf13a282be9	1	3937	player	29184	rips/ST_Cabal/MOD.perdu
@@ -9736,10 +9736,10 @@ d18c0074ceda5f42793ae0cc40c6a33b	1	76844	player	44454	rips/MOD_Diabolik11/MOD.pa
 d197e8cef7548ed4fd236a1b8476d3cd	0	12574	player	436	examples/AGI_GoldRush/AGI.GoldRush 16
 d19b691bf21bae904036161aeda58c44	0	8818	silence	20632	customs/Arkanoid2/CUST.Arkanoid2
 d19b691bf21bae904036161aeda58c44	1	5897	silence
-d19b691bf21bae904036161aeda58c44	2	11380	loop
+d19b691bf21bae904036161aeda58c44	2	11566	loop
 d19b691bf21bae904036161aeda58c44	3	5007	silence
 d19b691bf21bae904036161aeda58c44	4	5643	silence
-d19b691bf21bae904036161aeda58c44	5	26585	loop
+d19b691bf21bae904036161aeda58c44	5	29604	loop
 d1a3d651ce0bd74a5c8820c5e2e70ca9	0	7747	player	2550	examples/OSP_CenterBase/OSP.CenterBase AniMus
 d1a3d651ce0bd74a5c8820c5e2e70ca9	1	7747	player
 d1a3d651ce0bd74a5c8820c5e2e70ca9	2	9018	player
@@ -10388,7 +10388,7 @@ e0d89cbf25f6860c6208b2108a2fc0ae	0	25149	player	416	examples/AGI_GoldRush/AGI.Go
 e0dca6c4ad621e8750560757b55ff847	0	122824	player	19156	examples/TFMX_Tony&Friends/MDAT.ongame (author)
 e0dca6c4ad621e8750560757b55ff847	1	122824	player
 e0dca6c4ad621e8750560757b55ff847	10	15368	player
-e0dca6c4ad621e8750560757b55ff847	2	7742	player+silence
+e0dca6c4ad621e8750560757b55ff847	2	7747	player+silence
 e0dca6c4ad621e8750560757b55ff847	3	1270	player
 e0dca6c4ad621e8750560757b55ff847	4	84465	player
 e0dca6c4ad621e8750560757b55ff847	5	84465	player
@@ -10516,7 +10516,7 @@ e3a059119c492945ab869a45ba90f50f	3	2540	player
 e3a059119c492945ab869a45ba90f50f	4	3175	player
 e3a059119c492945ab869a45ba90f50f	5	9018	player
 e3a059119c492945ab869a45ba90f50f	6	635	player
-e3a059119c492945ab869a45ba90f50f	7	8981	player+silence
+e3a059119c492945ab869a45ba90f50f	7	8975	player+silence
 e3a059119c492945ab869a45ba90f50f	8	51187	player
 e3ae40adef77679dfe48ffb373784c54	0	8001	player	561	examples/AGI_KingsQuest4/AGI.King'sQuestIV 31
 e3b84524f34cc5d7aa9d7b26a1d59a16	1	30737	player	7506	rips/MOD_Draggy&Croco/MOD.dragon28
@@ -10639,25 +10639,25 @@ e757f15b21098dbd6ef7e3324771661c	1	230533	player	99936	rips/ST_LesPortesDuTemps/
 e75d781578604b5d6af2bc6ed473d1e9	0	381	player	71	examples/AGI_Manhunter2/AGI.ManhunterII 039
 e75f9f9f8d569180ba14c2e8ef4c8bb3	0	12193	player	216	examples/AGI_KingsQuest4/AGi.King'sQuestIV 55
 e78210f4a88ca2a24a937907827341a5	1	15804	silence	279672	customs/BanditKings/CUST.BanditKingsOfAncientChina
-e78210f4a88ca2a24a937907827341a5	10	67396	loop
-e78210f4a88ca2a24a937907827341a5	11	30786	loop
+e78210f4a88ca2a24a937907827341a5	10	36887	loop
+e78210f4a88ca2a24a937907827341a5	11	140950	loop
 e78210f4a88ca2a24a937907827341a5	12	28632	silence
 e78210f4a88ca2a24a937907827341a5	13	8818	silence
 e78210f4a88ca2a24a937907827341a5	14	8691	silence
-e78210f4a88ca2a24a937907827341a5	15	82163	loop
-e78210f4a88ca2a24a937907827341a5	16	101634	loop
-e78210f4a88ca2a24a937907827341a5	17	53805	loop
+e78210f4a88ca2a24a937907827341a5	15	55386	loop
+e78210f4a88ca2a24a937907827341a5	16	194956	loop
+e78210f4a88ca2a24a937907827341a5	17	53829	loop
 e78210f4a88ca2a24a937907827341a5	18	11612	silence
 e78210f4a88ca2a24a937907827341a5	19	9580	silence
-e78210f4a88ca2a24a937907827341a5	2	48959	loop
+e78210f4a88ca2a24a937907827341a5	2	40386	loop
 e78210f4a88ca2a24a937907827341a5	20	14280	silence
-e78210f4a88ca2a24a937907827341a5	3	322629	loop
-e78210f4a88ca2a24a937907827341a5	4	28659	loop
-e78210f4a88ca2a24a937907827341a5	5	36531	loop
-e78210f4a88ca2a24a937907827341a5	6	36445	loop
-e78210f4a88ca2a24a937907827341a5	7	53366	loop
-e78210f4a88ca2a24a937907827341a5	8	62929	loop
-e78210f4a88ca2a24a937907827341a5	9	20973	loop
+e78210f4a88ca2a24a937907827341a5	3	53515	loop
+e78210f4a88ca2a24a937907827341a5	4	51181	loop
+e78210f4a88ca2a24a937907827341a5	5	143574	loop
+e78210f4a88ca2a24a937907827341a5	6	38139	loop
+e78210f4a88ca2a24a937907827341a5	7	46853	loop
+e78210f4a88ca2a24a937907827341a5	8	36336	loop
+e78210f4a88ca2a24a937907827341a5	9	20688	loop
 e799b848b39d21cb4af191a41dfff232	0	46106	player	37580	examples/BSS_Tristar/BSS.Tristar cracktro
 e79f482bf3a7101e024c6a2a435f8d47	0	312331	player	8250	examples/MFP_KidChaos/MFP.KidChaos Level 2-3
 e7b0828f55e45a87d4f697268f7e4d20	0	124094	player	51560	customs/Vortex42/CUST.Vortex42 demo
@@ -11110,13 +11110,13 @@ f09b0a9f4d3a688633b6dcab6b1bdada	0	381427	player	124192	examples/TME_Hawkeye/TME
 f09b0a9f4d3a688633b6dcab6b1bdada	1	28705	player
 f09b0a9f4d3a688633b6dcab6b1bdada	2	55632	player
 f09b0a9f4d3a688633b6dcab6b1bdada	3	28705	player
-f09b7e257a439c6d275aa3d16dc39629	0	32111	loop	62568	customs/RoboCop/CUST.RoboCop
-f09b7e257a439c6d275aa3d16dc39629	1	52906	loop
-f09b7e257a439c6d275aa3d16dc39629	2	15621	repeat
+f09b7e257a439c6d275aa3d16dc39629	0	32205	loop	62568	customs/RoboCop/CUST.RoboCop
+f09b7e257a439c6d275aa3d16dc39629	1	35652	loop
+f09b7e257a439c6d275aa3d16dc39629	2	15620	repeat
 f09b7e257a439c6d275aa3d16dc39629	3	36382	silence
 f09b7e257a439c6d275aa3d16dc39629	4	95189	silence
 f09b7e257a439c6d275aa3d16dc39629	5	97094	silence
-f09b7e257a439c6d275aa3d16dc39629	6	49074	loop
+f09b7e257a439c6d275aa3d16dc39629	6	49617	loop
 f09b7e257a439c6d275aa3d16dc39629	7	10215	silence
 f09b7e257a439c6d275aa3d16dc39629	8	9000	repeat
 f09b7e257a439c6d275aa3d16dc39629	9	5261	silence
@@ -11246,7 +11246,7 @@ f31806f415ed99423132a3a5df20443b	1	128031	player	35426	rips/MOD_Adrenalynn/MOD.a
 f31b9990453c751002949b051d7cefdf	0	5969	player	246	examples/AGI_KingsQuest4/AGI.King'sQuestIV 10
 f3244b40bdaa7169f6175f996b24e2ba	0	7620	player	980	examples/TFMX_DinoPark/MDAT.DinoTown
 f331a0141863bc0b370a5c997733b226	1	41026	player	23196	rips/MOD_SimonTheSorcerer/MOD.SKULLPATH
-f345566b842f5b5964fbd62bbc3f6874	0	200486	player+volume	8392	examples/TFMX_GemZBV/MDAT.Gem'Z title
+f345566b842f5b5964fbd62bbc3f6874	0	200463	player+volume	8392	examples/TFMX_GemZBV/MDAT.Gem'Z title
 f345566b842f5b5964fbd62bbc3f6874	1	48011	player
 f345566b842f5b5964fbd62bbc3f6874	2	15368	player
 f345566b842f5b5964fbd62bbc3f6874	3	15368	player
@@ -11271,9 +11271,9 @@ f386c7b60fe2d04f73de6e73117eed66	0	188738	loop	89236	customs/WCF_intro/CUST.WCF 
 f3a9b32de3fcfceb5c7103b5a5cbfd88	1	51314	player	36944	rips/ST_Gilbert/MOD.g-completion
 f3bf01b85491526279e8b1dbe0d41478	0	48138	player	27180	examples/KH_GrandPrixCircuit/KH.GrandPrixCircuit 2
 f3c296ec2cc2e25be4c7c63ec8f620cd	0	38540	silence	29844	customs/Wizball/CUST.Wizball
-f3c296ec2cc2e25be4c7c63ec8f620cd	1	25760	loop
-f3c296ec2cc2e25be4c7c63ec8f620cd	2	89027	loop
-f3c296ec2cc2e25be4c7c63ec8f620cd	3	210932	loop
+f3c296ec2cc2e25be4c7c63ec8f620cd	1	27958	loop
+f3c296ec2cc2e25be4c7c63ec8f620cd	2	93162	loop
+f3c296ec2cc2e25be4c7c63ec8f620cd	3	224371	loop
 f3c296ec2cc2e25be4c7c63ec8f620cd	4	3737	silence
 f3c296ec2cc2e25be4c7c63ec8f620cd	5	4245	silence
 f3cb0b577724cccc196f2b77e450c926	0	261398	player	9428	examples/SMUS_Classix1/Classix 1/SMUS.Brandenburg4_3
@@ -11492,12 +11492,12 @@ f784b87523c37af7552959dc802013ea	162	0	nosound
 f784b87523c37af7552959dc802013ea	163	0	nosound
 f784b87523c37af7552959dc802013ea	164	0	nosound
 f784b87523c37af7552959dc802013ea	165	0	nosound
-f784b87523c37af7552959dc802013ea	166	112288	loop
+f784b87523c37af7552959dc802013ea	166	111224	loop
 f784b87523c37af7552959dc802013ea	167	0	nosound
 f784b87523c37af7552959dc802013ea	168	0	nosound
 f784b87523c37af7552959dc802013ea	169	0	nosound
 f784b87523c37af7552959dc802013ea	17	0	nosound
-f784b87523c37af7552959dc802013ea	170	116134	loop
+f784b87523c37af7552959dc802013ea	170	133391	loop
 f784b87523c37af7552959dc802013ea	171	0	nosound
 f784b87523c37af7552959dc802013ea	172	0	nosound
 f784b87523c37af7552959dc802013ea	173	0	nosound
@@ -11507,7 +11507,7 @@ f784b87523c37af7552959dc802013ea	176	0	nosound
 f784b87523c37af7552959dc802013ea	177	0	nosound
 f784b87523c37af7552959dc802013ea	178	0	nosound
 f784b87523c37af7552959dc802013ea	179	0	nosound
-f784b87523c37af7552959dc802013ea	18	77419	loop
+f784b87523c37af7552959dc802013ea	18	77059	loop
 f784b87523c37af7552959dc802013ea	180	0	nosound
 f784b87523c37af7552959dc802013ea	181	0	nosound
 f784b87523c37af7552959dc802013ea	182	0	nosound
@@ -11516,7 +11516,7 @@ f784b87523c37af7552959dc802013ea	184	0	nosound
 f784b87523c37af7552959dc802013ea	185	0	nosound
 f784b87523c37af7552959dc802013ea	186	0	nosound
 f784b87523c37af7552959dc802013ea	187	0	nosound
-f784b87523c37af7552959dc802013ea	188	137560	loop
+f784b87523c37af7552959dc802013ea	188	141038	loop
 f784b87523c37af7552959dc802013ea	189	0	nosound
 f784b87523c37af7552959dc802013ea	19	0	nosound
 f784b87523c37af7552959dc802013ea	190	0	nosound
@@ -11592,7 +11592,7 @@ f784b87523c37af7552959dc802013ea	252	0	nosound
 f784b87523c37af7552959dc802013ea	253	0	nosound
 f784b87523c37af7552959dc802013ea	254	0	nosound
 f784b87523c37af7552959dc802013ea	255	0	nosound
-f784b87523c37af7552959dc802013ea	26	77289	loop
+f784b87523c37af7552959dc802013ea	26	77061	loop
 f784b87523c37af7552959dc802013ea	27	0	nosound
 f784b87523c37af7552959dc802013ea	28	0	nosound
 f784b87523c37af7552959dc802013ea	29	0	nosound
@@ -11605,13 +11605,13 @@ f784b87523c37af7552959dc802013ea	34	0	nosound
 f784b87523c37af7552959dc802013ea	35	0	nosound
 f784b87523c37af7552959dc802013ea	36	0	nosound
 f784b87523c37af7552959dc802013ea	37	0	nosound
-f784b87523c37af7552959dc802013ea	38	140524	loop
+f784b87523c37af7552959dc802013ea	38	140525	loop
 f784b87523c37af7552959dc802013ea	39	0	nosound
 f784b87523c37af7552959dc802013ea	4	0	nosound
 f784b87523c37af7552959dc802013ea	40	32161	loop
 f784b87523c37af7552959dc802013ea	41	0	nosound
 f784b87523c37af7552959dc802013ea	42	0	nosound
-f784b87523c37af7552959dc802013ea	43	35923	loop
+f784b87523c37af7552959dc802013ea	43	35873	loop
 f784b87523c37af7552959dc802013ea	44	0	nosound
 f784b87523c37af7552959dc802013ea	45	42464	loop
 f784b87523c37af7552959dc802013ea	46	114683	loop
@@ -11623,7 +11623,7 @@ f784b87523c37af7552959dc802013ea	50	116135	loop
 f784b87523c37af7552959dc802013ea	51	0	nosound
 f784b87523c37af7552959dc802013ea	52	0	nosound
 f784b87523c37af7552959dc802013ea	53	0	nosound
-f784b87523c37af7552959dc802013ea	54	112297	loop
+f784b87523c37af7552959dc802013ea	54	110433	loop
 f784b87523c37af7552959dc802013ea	55	0	nosound
 f784b87523c37af7552959dc802013ea	56	0	nosound
 f784b87523c37af7552959dc802013ea	57	0	nosound
@@ -11667,7 +11667,7 @@ f784b87523c37af7552959dc802013ea	90	0	nosound
 f784b87523c37af7552959dc802013ea	91	0	nosound
 f784b87523c37af7552959dc802013ea	92	0	nosound
 f784b87523c37af7552959dc802013ea	93	0	nosound
-f784b87523c37af7552959dc802013ea	94	112298	loop
+f784b87523c37af7552959dc802013ea	94	112297	loop
 f784b87523c37af7552959dc802013ea	95	0	nosound
 f784b87523c37af7552959dc802013ea	96	0	nosound
 f784b87523c37af7552959dc802013ea	97	0	nosound
@@ -11907,19 +11907,19 @@ fea7b4ecac46f030ed725e942bb5a852	1	164326	player+silence	8202	examples/HST_Crown
 feb54c89945671e9a7812ba167a06ee5	1	53854	player	53668	rips/ST_AustralopiticusMechanic/MOD.freddy
 feb5d09f2ac859712967a829e4061fd8	0	5897	silence	65908	customs/Fire&Forget2/CUST.Fire&Forget2
 feb5d09f2ac859712967a829e4061fd8	1	4245	silence
-feb5d09f2ac859712967a829e4061fd8	10	122787	loop
-feb5d09f2ac859712967a829e4061fd8	11	143834	loop
-feb5d09f2ac859712967a829e4061fd8	12	93391	loop
-feb5d09f2ac859712967a829e4061fd8	13	100425	loop
-feb5d09f2ac859712967a829e4061fd8	14	116219	loop
+feb5d09f2ac859712967a829e4061fd8	10	61890	loop
+feb5d09f2ac859712967a829e4061fd8	11	79990	loop
+feb5d09f2ac859712967a829e4061fd8	12	111668	loop
+feb5d09f2ac859712967a829e4061fd8	13	111031	loop
+feb5d09f2ac859712967a829e4061fd8	14	56545	loop
 feb5d09f2ac859712967a829e4061fd8	2	5897	silence
 feb5d09f2ac859712967a829e4061fd8	3	39175	silence
 feb5d09f2ac859712967a829e4061fd8	4	5134	silence
-feb5d09f2ac859712967a829e4061fd8	5	128068	loop
-feb5d09f2ac859712967a829e4061fd8	6	51149	loop
-feb5d09f2ac859712967a829e4061fd8	7	50385	loop
-feb5d09f2ac859712967a829e4061fd8	8	247828	loop
-feb5d09f2ac859712967a829e4061fd8	9	158331	loop
+feb5d09f2ac859712967a829e4061fd8	5	120016	loop
+feb5d09f2ac859712967a829e4061fd8	6	342488	loop
+feb5d09f2ac859712967a829e4061fd8	7	40677	loop
+feb5d09f2ac859712967a829e4061fd8	8	88257	loop
+feb5d09f2ac859712967a829e4061fd8	9	647263	loop
 fec3609aed3902f9927b2b2f6f1c008c	0	3175	player	151	examples/AGI_Manhunter2/AGI.ManhunterII 123
 fec88d664e3b5956c3e3b5a090236103	1	143400	player	80352	rips/MOD_ZoneWarrior/MOD.highscore
 fece97a7a4198b665d20ff6622e2a67e	1	155340	player	44398	rips/MOD_NoiseFromHeaven2/MOD.spacefuck
@@ -11938,7 +11938,7 @@ ff21d110232f26850c34acdcd860df6c	0	150670	loop	15000	examples/DAT_AshesOfEmpire/
 ff58a7a39e6f13b2c90d1a761585686f	0	70495	player+volume	28970	examples/MMDC_Knightmare/MMDC.Knightmare death
 ff5fb6f7a3fede4cb26834d84cbac0b6	0	431726	player	18460	examples/MDA7_Turrican2/MDAT.Turrican2 title
 ff5fb6f7a3fede4cb26834d84cbac0b6	1	185823	player
-ff5fb6f7a3fede4cb26834d84cbac0b6	2	142181	player+silence
+ff5fb6f7a3fede4cb26834d84cbac0b6	2	142294	player+silence
 ff72c5a98b30f63e73d4083710423212	0	1905	player	221	examples/AGI_Manhunter2/AGI.ManhunterII 043
 ff750375fefde53deabac71089f4322f	1	71636	player	135572	examples/DL_StreetFighter2/DL.StreetFighter2
 ff750375fefde53deabac71089f4322f	2	61475	player
@@ -11965,9 +11965,9 @@ ffe0e0aa052f6c2376eac7c3bf866b71	1	69223	player	59966	rips/MOD_BardsTaleConstrSe
 ffe7d97813c84054759c99268ceb95e1	0	24005	player	761	examples/AGI_MixedUpMotherGoose/AGI.MixedUpMotherGoose 06
 ffe86b4c5c9e52bc36bac980f27edc10	0	19179	player	501	examples/AGI_BlackCauldron/AGI.BlackCauldron 12
 ffee756c47d7d09eea4b2fc97f6fe20b	1	115203	player	176580	rips/PHA_BrianTheLion/PHA.BrianTheLion 02
-fffdc1d765c3a1ddc3024bb48609116e	0	45065	loop	206016	customs/JoeAndMac/CUST.Joe&Mac-CavemanNinja
-fffdc1d765c3a1ddc3024bb48609116e	1	117104	loop
+fffdc1d765c3a1ddc3024bb48609116e	0	40873	loop	206016	customs/JoeAndMac/CUST.Joe&Mac-CavemanNinja
+fffdc1d765c3a1ddc3024bb48609116e	1	117128	loop
 fffdc1d765c3a1ddc3024bb48609116e	2	8818	silence
-fffdc1d765c3a1ddc3024bb48609116e	3	78635	loop
+fffdc1d765c3a1ddc3024bb48609116e	3	79402	loop
 fffdc1d765c3a1ddc3024bb48609116e	4	8183	silence
 fffdc1d765c3a1ddc3024bb48609116e	5	18979	silence

@@ -37,7 +37,7 @@
 01ab66d7ca23c93a82aee9bcdead73f0	1	5207	player	55372	workshop/P41A/Allister Brimble/Super Loopz/jingle.p41a
 01b222534406a674e0e64df5bb1daa58	1	231918	player+silence	149708	delivery bay/from_Chip/Protracker/Thomas Tscheulin/sunny rock.mod
 01bcdab68f5f100fb27da1cd94fd3f09	1	121073	player+silence	106740	delivery bay/various/Zacco/Muzak1
-01bdf0235e48b16650ff0b2ff8202cbb	0	159000	player+silence	10560	laboratory/various_formats_from_amiga_games/transplant_soundtrack/mdat.Transplant-Title
+01bdf0235e48b16650ff0b2ff8202cbb	0	158740	player+silence	10560	laboratory/various_formats_from_amiga_games/transplant_soundtrack/mdat.Transplant-Title
 01c1602d5e13044b30ed5671a1b321ee	1	752694	player	62650	laboratory/unsorted gamemusic/Dark Side/wb.dark side
 01e453388f651c1f13cdac2d746bf116	0	34548	player	3432	laboratory/unsorted gamemusic/War Zone (Paradox)/jmf.war zone
 01e453388f651c1f13cdac2d746bf116	0	34548	player	3432	laboratory/various_formats_from_amiga_games/warzone_soundtrack/war zone.jmf
@@ -755,7 +755,7 @@
 169294e6f1cef779c329c44ba63dd98a	1	107201	player
 169294e6f1cef779c329c44ba63dd98a	2	107201	player
 169294e6f1cef779c329c44ba63dd98a	3	17655	player
-169294e6f1cef779c329c44ba63dd98a	4	11048	player+silence
+169294e6f1cef779c329c44ba63dd98a	4	11047	player+silence
 169da8178a0519e9177538449572fa53	0	8383	player	340	vault/Sonix/scores/- unknown/berks halloween.smus
 169e54ee3a2160f6fa8c451c2c9548a4	0	240186	player	12648	laboratory/SUNTronicTunes/tank1
 16ca83407af377727744e89fcffe3c27	1	131715	player	113260	warehouse/MOD/games/Statix/g.electro indian.mod
@@ -860,7 +860,7 @@
 1a878e988193dd2100fdb7b221079aba	1	224182	player	139660	delivery bay/mbnet_mods/MOD/wannabewannabee.mod
 1a8e0ddc1d36996681b124811facf87e	0	308266	player	22912	laboratory/unsorted gamemusic/Turrican 3/mdat.intro and title
 1a8e0ddc1d36996681b124811facf87e	1	47884	player
-1a8e0ddc1d36996681b124811facf87e	2	289188	player+silence
+1a8e0ddc1d36996681b124811facf87e	2	289174	player+silence
 1a9088700edc46d952bf432971d6e1f1	1	58808	player	40136	laboratory/unsorted gamemusic/Black Hornet/dl.black hornet
 1a9088700edc46d952bf432971d6e1f1	2	99199	player
 1aa4a7f2ced79f26d27cc55dbfad245a	1	15241	player	40946	laboratory/unsorted gamemusic/1990 - Die 1993'er Edition/med.presskon.snd
@@ -1248,7 +1248,7 @@
 28a7123c11c7690bef5a5ca26bc39d0c	10	1651	player
 28a7123c11c7690bef5a5ca26bc39d0c	11	4981	player+silence
 28a7123c11c7690bef5a5ca26bc39d0c	12	4980	player+silence
-28a7123c11c7690bef5a5ca26bc39d0c	13	5575	player+silence
+28a7123c11c7690bef5a5ca26bc39d0c	13	5578	player+silence
 28a7123c11c7690bef5a5ca26bc39d0c	14	5569	player+silence
 28a7123c11c7690bef5a5ca26bc39d0c	15	6490	player+silence
 28a7123c11c7690bef5a5ca26bc39d0c	16	97293	player
@@ -1259,7 +1259,7 @@
 28a7123c11c7690bef5a5ca26bc39d0c	6	45979	player
 28a7123c11c7690bef5a5ca26bc39d0c	7	3429	player
 28a7123c11c7690bef5a5ca26bc39d0c	8	1397	player
-28a7123c11c7690bef5a5ca26bc39d0c	9	5259	player+silence
+28a7123c11c7690bef5a5ca26bc39d0c	9	5215	player+silence
 28b426ee1bb124362730966b345915ce	1	53854	player	13720	workshop/P61A/bbs intro.p61a
 28b77f1d356c36d925875e12d1043da8	1	116092	player	46052	laboratory/unsorted gamemusic/Stardust/p4x.stardust
 28b77f1d356c36d925875e12d1043da8	1	116092	player	46052	workshop/P4X/Risto Vuori/Stardust/stardust.p4x
@@ -1449,7 +1449,7 @@
 2f1ce22af0041f9c2145764a1da10438	0	297597	player	114686	laboratory/unsorted gamemusic/Zarathrusta/pvp.zarathrusta
 2f1e567198016cf9809fe6e3fb5ccf07	1	86370	player	2208	laboratory/various_formats_from_amiga_games/amberstar_soundtrack/HIPC.Ode to Schnism
 2f2468a480e1fa30aa1864af513c6a90	1	192047	player	67946	delivery bay/from_Chip/Protracker/Cobburn/starfly.mod
-2f376920bf45875fc387586ce0a091d4	0	403278	player+volume	15384	laboratory/unsorted gamemusic/Masterblazer/mdat.intro
+2f376920bf45875fc387586ce0a091d4	0	403393	player+volume	15384	laboratory/unsorted gamemusic/Masterblazer/mdat.intro
 2f376920bf45875fc387586ce0a091d4	1	889	player
 2f376920bf45875fc387586ce0a091d4	2	889	player
 2f376920bf45875fc387586ce0a091d4	3	889	player
@@ -2720,7 +2720,7 @@
 60a639b3bc3b797c4cc992b6fe86413b	1	93356	player	22190	workshop/P4X/Allister Brimble/Body Blows Galactic/titanica.p4x
 60bcee5fbb6f19113eafdf684d92eab6	1	36072	player	38654	delivery bay/from_Chip/Protracker/Dietmar Gosseringer/super nibbly ingame 3.mod
 60c287632d9771e49bb2ddb9b57fc6bd	1	173363	player+volume	1450	laboratory/various_formats_from_amiga_games/amberstar_soundtrack/HIPC.Mystic Moments
-60c79b6e61ba1ef56832362710ab57c8	0	84255	loop	205480	laboratory/various_formats_from_amiga_games/fa18interceptor_soundtrack/delicustom- f-a-18 interceptor, (c) 1988 intelliso.cus
+60c79b6e61ba1ef56832362710ab57c8	0	84311	loop	205480	laboratory/various_formats_from_amiga_games/fa18interceptor_soundtrack/delicustom- f-a-18 interceptor, (c) 1988 intelliso.cus
 60cfbcbd6b55a5b6ce3fbb0c06d42244	1	23116	player	56948	workshop/NP2/Spaceman/Universe/universe-ingame 06.np2
 60cfbcbd6b55a5b6ce3fbb0c06d42244	2	38485	player
 60cfbcbd6b55a5b6ce3fbb0c06d42244	3	30737	player
@@ -2813,7 +2813,7 @@
 63a6196d4b229f45d248cbb4d115b8fc	6	78114	player
 63a6196d4b229f45d248cbb4d115b8fc	7	77098	player
 63a6196d4b229f45d248cbb4d115b8fc	8	3937	player
-63a6196d4b229f45d248cbb4d115b8fc	9	4572	player
+63a6196d4b229f45d248cbb4d115b8fc	9	4699	player
 63aca945ade773fe271857938a05dd5a	0	3175	player	278	vault/Sonix/scores/- unknown/Spirit Of Excalibur/startbattle.smus
 63b9c7f9f08cdf7c78e22cf2187a84a5	1	6239	player+silence	37940	delivery bay/from_Chip/Protracker/Dietmar Gosseringer/super nibbly map 3.mod
 63c903c0a1fb0cfd5dd3e186009a4756	1	42296	player	136432	delivery bay/mbnet_mods/MOD/sick2bsick.mod
@@ -3650,9 +3650,9 @@
 8461ac86c297fd54323996677304924c	1	108979	player
 8461ac86c297fd54323996677304924c	2	268384	player
 8461ac86c297fd54323996677304924c	3	0	nosound
-8461ac86c297fd54323996677304924c	4	126484	loop
+8461ac86c297fd54323996677304924c	4	9000	repeat
 84721abfde90d7b54a19a8fd971a9d6a	1	234531	player+silence	178076	delivery bay/mbnet_mods/MOD/vadelmahessu!.mod
-8473e4cd7b0afa6717132cb01d7e22ad	0	188917	player+silence	4728	laboratory/unsorted gamemusic/Log!cal/mdat.logical-titelmusic
+8473e4cd7b0afa6717132cb01d7e22ad	0	188900	player+silence	4728	laboratory/unsorted gamemusic/Log!cal/mdat.logical-titelmusic
 8494a39da0383b7feb7d5864c76227cc	1	169057	player	66678	delivery bay/from_Chip/Protracker/- unknown/nostalgia 2.mod
 8498a942c7896a32ea27cfa1c55a8a30	0	12066	player	575	vault/Sonix/snx/Rise Of The Dragon/chen lu mutate.snx
 84a656b8b440984836e286b8e315ac0d	0	438966	player	2472	laboratory/unsorted gamemusic/Overlander (Elite)/mcr.overlander
@@ -4410,7 +4410,7 @@
 9d46107f50bde31aa8b22e41a45dd5d2	1	30737	player	55944	workshop/P41A/Allister Brimble/Super Loopz/lev44.p41a
 9d771d8ad21e3e622aa7a9692c15f69a	1	61475	player	24956	workshop/P4X/Allister Brimble/Incredible Crash Dummies/ingame 2.p4x
 9d8ad24375276941428bc7d05b777e74	1	198017	player	317196	workshop/TP3/delirious vi.bak.tp3
-9d9f944336e0a967981a6ba5739daa2c	0	55127	loop	3028	laboratory/unsorted gamemusic/Ramses/mdat.titel
+9d9f944336e0a967981a6ba5739daa2c	0	55812	loop	3028	laboratory/unsorted gamemusic/Ramses/mdat.titel
 9d9f944336e0a967981a6ba5739daa2c	1	38358	player
 9d9f944336e0a967981a6ba5739daa2c	2	45979	player
 9dc8ff0f985ecacb35748afe6fbecb7e	1	125491	player	117242	delivery bay/principium/S/satanic.mod
@@ -4623,7 +4623,7 @@ a1decf70fc66186493fdf3f2c9514720	1	198067	player+silence	235134	workshop/NP3/pas
 a1e03d9002c9726cf9125fe9afc44103	0	30102	player	2150	vault/Sonix/scores/- unknown/Mindroll/demo.smus
 a1e5bbc64c5bf77948a402b74873221a	1	115203	player	2096	laboratory/various_formats_from_amiga_games/amberstar_soundtrack/HIPC.High Seas
 a1efeadf372730ca95ef7bed308566b4	1	23116	player	49932	workshop/P60/Martin Demsky/Strangers/fatality.p60
-a2474c344ef516e9bf378af290fee8b6	0	200462	player+volume	8680	laboratory/unsorted gamemusic/Super Gem'Z/mdat.title
+a2474c344ef516e9bf378af290fee8b6	0	200463	player+volume	8680	laboratory/unsorted gamemusic/Super Gem'Z/mdat.title
 a2474c344ef516e9bf378af290fee8b6	1	48011	player
 a2474c344ef516e9bf378af290fee8b6	2	15368	player
 a2474c344ef516e9bf378af290fee8b6	3	15368	player
@@ -6654,7 +6654,7 @@ eae07ab4c35496f04accd20e9f566e1a	1	78114	player	9164	workshop/NP2/fairlight.np2
 eae51abedbf8278c07a99d388f680084	0	76717	player	55842	laboratory/unsorted gamemusic/Wacky Races/scr.wacky races
 eaf1fced805b47580bfd3af04deb4177	1	115203	player	16782	delivery bay/noise/chiptunes/packs/Protracker/it's-ram-hot.mod
 eafaffb8026ff9de82a092f57812763b	0	185061	player	9552	laboratory/unsorted gamemusic/P.P. Hammer and His Pneumatic Weapon/mdat.title
-eafaffb8026ff9de82a092f57812763b	1	131207	player
+eafaffb8026ff9de82a092f57812763b	1	131334	player
 eafaffb8026ff9de82a092f57812763b	2	48646	player
 eafe95fa53d7d2dbe5e38908b488d860	1	126922	player+silence	101000	delivery bay/from_Chip/Protracker/Aerokid/spectrumsong 1991.mod
 eaff8e5249dc483f82502aa0cc1129a6	1	136939	player+silence	160818	delivery bay/from_Chip/Protracker/Thomas Tscheulin/cool drumming.mod
@@ -6804,7 +6804,7 @@ f11b85da37211fc52fafc24fe6c0d7fb	1	50933	player	15352	laboratory/unsorted gamemu
 f128475bebe34f88d4ab289392808767	1	481189	silence	222616	delivery bay/principium/E/erotic malfunction.mod
 f1289de202406d3bbcfc5d578a0cf356	1	60078	player	101018	laboratory/unsorted gamemusic/Ryder Cup - Johnnie Walker (AGA)/med.rydercup
 f1309d11dc6598159fe3a95009b701b1	1	126253	player	52374	delivery bay/from_Chip/Protracker/- unknown/western piano.mod
-f14eeab046d30659e54b31ec7259ac75	0	159000	player+silence	7536	laboratory/unsorted gamemusic/Transplant/mdat.transplant
+f14eeab046d30659e54b31ec7259ac75	0	158740	player+silence	7536	laboratory/unsorted gamemusic/Transplant/mdat.transplant
 f14eeab046d30659e54b31ec7259ac75	1	159000	player+silence
 f14eeab046d30659e54b31ec7259ac75	2	38358	player
 f14eeab046d30659e54b31ec7259ac75	3	41534	player
@@ -7162,7 +7162,7 @@ ff3103dffb6876ae51534901ef089fab	1	143654	player	13961	delivery bay/noise/chiptu
 ff5f390a59fd863b9e17fd4ec9ccdc2a	1	390060	player+silence	189594	delivery bay/principium/E/eurochart#19.mod
 ff5fb6f7a3fede4cb26834d84cbac0b6	0	431726	player	18460	laboratory/unsorted gamemusic/Turrican II - The Final Fight/mdat.intro and title
 ff5fb6f7a3fede4cb26834d84cbac0b6	1	185823	player
-ff5fb6f7a3fede4cb26834d84cbac0b6	2	142181	player+silence
+ff5fb6f7a3fede4cb26834d84cbac0b6	2	142294	player+silence
 ff73dce619585c5fa7c1d497df5ffd9f	1	140098	player	190882	delivery bay/mbnet_mods/MOD/game score iii(nhp).mod
 ff750375fefde53deabac71089f4322f	1	71636	player	135572	laboratory/unsorted gamemusic/Street Fighter II - The World Warrior/dl.street fighter ii
 ff750375fefde53deabac71089f4322f	2	61475	player
