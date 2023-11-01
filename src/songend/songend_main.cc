@@ -16,14 +16,14 @@
 
 using namespace std;
 
-constexpr size_t MINLENGTH = songend::PRECALC_FREQ * 2 * 2 * (songend::PRECALC_TIMEOUT - 1);
+constexpr size_t MINLENGTH = songend::PRECALC_FREQ_UADE * 2 * 2 * (songend::PRECALC_TIMEOUT - 1);
 
 int main(int argc, char *argv[]) {
     char buf[4096];
     ssize_t total = 0;
     ssize_t count;
 
-    songend::SongEndDetector detector(songend::PRECALC_FREQ);
+    songend::SongEndDetector detector(songend::PRECALC_FREQ_UADE, false);
 
     if (!freopen(NULL, "rb", stdin)) {
         fprintf(stderr, "Failed to freopen(rb) stdin\n");

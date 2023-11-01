@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "config.h"
+extern "C" {
 #if SYSTEM_LIBUADE
 #include <uade/uade.h>
 #else
@@ -21,7 +22,7 @@
 #include "../uade/src/frontends/include/uade/uadeconfstructure.h"
 #include "../uade/src/frontends/include/uade/uade.h"
 #endif
-
+}
 #include "common.h"
 #include "extensions.h"
 
@@ -45,11 +46,9 @@ const set<string> extension_blacklist ({
     ".ft", // Fast Tracker
     // No support
     ".ct", // Cybertracker
-    ".dbm", // Digibooster Pro
     ".dsm", // Dynamic Studio Professional
     ".fuchs", // Fuchs Tracker
     ".dux", // GT Game Systems
-    ".hvl", // HivelyTracker
     ".mxtx", // MaxTrax
     ".stp", // SoundTracker Pro II
     ".spm", // Stonetracker
@@ -74,13 +73,11 @@ const set<string> prefix_blacklist ({
     "669.",
     "AMF.",
     "AMS.",
-    "DBM.", // amiga
     "DMF.",
     "DTM.",
     "FAR.",
     "FST.",
     "GT2.",
-    "HVL.", // amiga
     "IT.",
     "MDL.",
     "MPTM.",

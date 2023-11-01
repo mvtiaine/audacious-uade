@@ -1,0 +1,30 @@
+version 1.2 (13.02.2014)
+------------------------
+
+- All systems: added missing newlines at end of "dbminfo.c" and dbm2wav.c".
+- All systems: Executables are built without '-s' flag, then stripped
+  separately. Using '-s' produces crashing executables on AmigaOS 4.
+- All systems: added missing dependencies for "dbminfo.o" and "dbm2wav.o" in
+  the makefile.
+- AmigaOS4: Fixed broken declaration of 'IDOS' interface.
+- AmigaOS4: AllocVecTags() used for memory allocation.
+
+
+version 1.1 (09.02.2014)
+------------------------
+
+- Added Win32 project for Visual C++.
+- Added compiled *.lib for Win32 and compiled 'dbminfo' and 'dbm2wav'
+  executables.
+- Platform tested: Win32/x86 [VC++].
+- Platform tested: Linux/aarch64.
+- Platform tested: Linux/x86_64.
+- Platform tested: MacOS X/x86_64 [Clang].
+
+
+version 1.0 (09.02.2014)
+------------------------
+
+- Initial release.
+- Platform tested: MorphOS/PowerPC.
+- Platform tested: Linux/x86.

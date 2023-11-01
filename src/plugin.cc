@@ -14,6 +14,7 @@
 #include <libaudcore/vfs.h>
 
 #include "config.h"
+extern "C" {
 #if SYSTEM_LIBUADE
 #include <uade/uade.h>
 #else
@@ -21,7 +22,7 @@
 #include "../uade/src/frontends/include/uade/uadeconfstructure.h"
 #include "../uade/src/frontends/include/uade/uade.h"
 #endif
-
+}
 #include "common.h"
 #include "extensions.h"
 #include "hacks.h"
@@ -30,6 +31,7 @@
 #include "uade_common.h"
 #include "uade_config.h"
 #include "converter/converter.h"
+#include "player/player.h"
 #include "songend/songend.h"
 #include "3rdparty/md5.h"
 
@@ -66,6 +68,16 @@ bool is_our_file_uade(VFSFile &file, const string &fname, uade_state *state) {
     return uade_is_our_file_from_buffer(fname.c_str(), buf.begin(), buf.len(), state) != 0;
 }
 
+bool is_our_file_player(VFSFile &file) {
+    char magic[player::MAGIC_SIZE];
+    fseek0(file);
+    if (file.fread(magic, 1, player::MAGIC_SIZE) < player::MAGIC_SIZE)  {
+        WARN("uade_plugin could not read player magic for %s\n", file.filename());
+        return false;
+    }
+    return player::is_our_file(magic, player::MAGIC_SIZE);
+}
+
 int parse_uri(const char *uri, string &path, string &name, string &ext) {
     int subsong;
     const char *tmpName, *sub, *tmpExt;
@@ -85,6 +97,15 @@ void update_tuple_song_end(Tuple &tuple, const song_end &song_end, const struct 
     const auto comment = "songend=" + song_end.status_string();
     tuple.set_str(Tuple::Comment, comment.c_str());
     if (song_end.length > 0 && status != song_end::NOSOUND && (status != song_end::ERROR || allow_songend_error(info))) {
+        tuple.set_int(Tuple::Length, song_end.length);
+    }
+}
+
+void update_tuple_song_end_player(Tuple &tuple, const song_end &song_end) {
+    const auto status = song_end.status;
+    const auto comment = "songend=" + song_end.status_string();
+    tuple.set_str(Tuple::Comment, comment.c_str());
+    if (song_end.length > 0 && status != song_end::NOSOUND && status != song_end::ERROR) {
         tuple.set_int(Tuple::Length, song_end.length);
     }
 }
@@ -130,6 +151,33 @@ void update_tuple_songdb(Tuple &tuple, const SongInfo &songinfo, const string &n
     } else {
         TRACE("No Modland/AMP/UnExotica data for %s %s\n", songinfo.md5.c_str(), name.c_str());
     }
+}
+
+bool update_tuple_player(Tuple &tuple, const string &name, int subsong, const player::ModuleInfo &info, const string &modulemd5) {
+    tuple.set_str(Tuple::Title, name.c_str()); 
+    tuple.set_str(Tuple::Codec, info.format.c_str());
+    tuple.set_str(Tuple::Quality, "sequenced");
+    if (info.channels > 0) {
+        tuple.set_int(Tuple::Channels, info.channels);
+    }
+    // initial probe
+    if (subsong == -1) {
+        update_tuple_subsong_range(tuple, 0, info.maxsubsong);
+    } else {
+        if (info.maxsubsong > 0) {
+            tuple.set_int(Tuple::NumSubtunes, info.maxsubsong + 1);
+            tuple.set_int(Tuple::Subtune, subsong);
+            tuple.set_int(Tuple::Track, subsong);
+        }
+        const auto songinfo = songdb_lookup(modulemd5.c_str(), subsong, info.fname);
+        if (songinfo.has_value()) {
+            update_tuple_songdb(tuple, songinfo.value(), name, info.format);
+            return true;
+        } else {
+            TRACE("No songlength data for %s %s\n", modulemd5.c_str(), name.c_str());
+        }
+    }
+    return false;
 }
 
 bool update_tuple(Tuple &tuple, const string &name, int subsong, const struct uade_song_info* info,
@@ -178,7 +226,7 @@ bool needs_conversion(VFSFile &file) {
     char magic[converter::MAGIC_SIZE];
     fseek0(file);
     if (file.fread(magic, 1, converter::MAGIC_SIZE) < converter::MAGIC_SIZE)  {
-        WARN("uade_plugin could not read magic for %s\n", file.filename());
+        WARN("uade_plugin could not read converter magic for %s\n", file.filename());
         return false;
     }
     return converter::needs_conversion(magic, converter::MAGIC_SIZE);
@@ -209,6 +257,15 @@ int play_uade(
     }
 };
 
+optional<player::PlayerState> play_player(
+    VFSFile &file,
+    int subsong,
+    int frequency
+) {
+    const Index<char> buf = read_all(file);
+    return player::play(file.filename(), buf.begin(), buf.len(), subsong, frequency);
+};
+
 void stop_uade(probe_state *probe_state, const char *uri) {
     TRACE("stop_uade id %d - %s\n", probe_state->id, uri);
     if (uade_stop(probe_state->state)) {
@@ -216,6 +273,11 @@ void stop_uade(probe_state *probe_state, const char *uri) {
         cleanup_uade_state(probe_state->state, probe_state->id, uri);
         probe_state->state = create_uade_probe_state();
     }
+}
+
+const optional<player::ModuleInfo> player_parse(VFSFile &file) {
+    const Index<char> buf = read_all(file);
+    return player::parse(file.filename(), buf.begin(), buf.len());
 }
 
 const struct uade_song_info *get_song_info(const uade_state *state) {
@@ -266,9 +328,16 @@ public:
 #endif
         "\n"
         "Simplistic Binary Streams 1.0.3\n"
-        "Copyright (C) 2014 - 2019\n"
-        "by Wong Shao Voon (shaovoon@yahoo.com)\n"
-        "https://opensource.org/licenses/MIT\n",
+        "Copyright (C) 2014-2019, Wong Shao Voon\n"
+        "https://opensource.org/licenses/MIT\n"
+        "\n"
+        "HivelyTracker 1.9\n"
+        "Copyright (c) 2006-2018, Pete Gordon\n"
+        "https://opensource.org/license/bsd-3-clause\n"
+        "\n"
+        "libdigibooster3 1.2\n"
+        "Copyright (c) 2014, Grzegorz Kraszewski\n"
+        "https://opensource.org/license/bsd-2-clause\n",
         &plugin_prefs
     };
 
@@ -286,6 +355,7 @@ public:
 
 private:
     pair<song_end,bool> playback_loop(uade_state* state, int timeout);
+    pair<song_end,bool> playback_loop_player(player::PlayerState &state, int timeout);
 
 }; // class UADEPlugin
 
@@ -299,6 +369,7 @@ bool UADEPlugin::init() {
     for (int i = 0; i < MAX_PROBES; ++i) {
         probes[i] = {};
     }
+    player::init();
     songdb_init();
     return true;
 }
@@ -335,6 +406,11 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
     if (needs_conversion(file)) {
         DEBUG("uade_plugin_is_our_file needs conversion: %s\n", uri);
         // don't try uade_play yet
+        return true;
+    }
+
+    if (is_our_file_player(file)) {
+        TRACE("uade_plugin_is_our_file accepted (player) %s\n", uri);
         return true;
     }
 
@@ -412,12 +488,6 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
         return true;
     }
 
-    const auto playback_file = aud_drct_get_filename();
-    const auto for_playback = playback_file && string(playback_file) == string(uri);
-
-    probe_state *probe_state = get_probe_state();
-    TRACE("uade_plugin_read_tag using probe id %d - %s\n", probe_state->id, uri);
-
     // hack for files which actually contain ? in their name, e.g. MOD.louzy-house?2 or MOD.how low can we go?1
     // which conflicts with audacious subsong uri scheme
     bool needfix = subsong >= 0 && string(uri).find_last_of("?") == string::npos;
@@ -433,6 +503,44 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
             WARN("uade_plugin_read_tag could not determine subsong for %s\n", uri);
         }
     }
+
+    const auto playback_file = aud_drct_get_filename();
+    const auto for_playback = playback_file && string(playback_file) == string(uri);
+
+    // non-UADE
+    if (is_our_file_player(file)) {
+        const auto info = player_parse(file);
+        if (!info.has_value()) {
+            WARN("uade_plugin_read_tag could not parse module %s\n", uri);
+            return false;
+        }
+        TRACE("uade_plugin_read_tag fname %s format %s maxsubsong %d channels %d\n", info->fname.c_str(), info->format.c_str(), info->maxsubsong, info->channels);
+        if (subsong < 0) {
+            update_tuple_subsong_range(tuple, 0, info->maxsubsong);
+            return true;
+        } else {
+            bool has_db_entry = update_tuple_player(tuple, name, subsong, info.value(), md5);
+            const bool do_precalc = !has_db_entry && !for_playback &&
+                tuple.get_int(Tuple::Length) <= 0 && aud_get_bool(PLUGIN_NAME, PRECALC_SONGLENGTHS);
+            if (do_precalc) {
+                auto state = play_player(file, subsong, songend::PRECALC_FREQ_PLAYER);
+                if (!state.has_value()) {
+                    return false;
+                }
+                const auto songend = precalc_song_length_player(state.value(), path.c_str());
+                update_tuple_song_end_player(tuple, songend);
+                player::stop(state.value());
+                // update songdb (runtime only) so next read_tag call doesn't precalc again
+                const SongInfo info = { md5, subsong, songend.length, songend.status_string(), file.fsize()};
+                songdb_update(info);
+            }
+            return true;
+        }
+    }
+
+    // UADE
+    probe_state *probe_state = get_probe_state();
+    TRACE("uade_plugin_read_tag using probe id %d - %s\n", probe_state->id, uri);
 
     switch (play_uade(uri, file, path, name, subsong, probe_state->state, formatname)) {
         case 1: {
@@ -486,14 +594,15 @@ pair<song_end, bool> UADEPlugin::playback_loop(uade_state* state, int timeout) {
     size_t maxbytes = timeout > 0 ? timeout * bytespersec / 1000 : songend::PRECALC_TIMEOUT * bytespersec;
     size_t totalbytes = 0;
 
-    while (!(stopped = check_stop()) && (totalbytes < maxbytes || seeked)) {
-        int seek_value = check_seek();
-        if (seek_value >= 0) {
+    while (!(stopped = check_stop()) && totalbytes < maxbytes) {
+        int seek_millis = check_seek();
+        if (seek_millis >= 0) {
             seeked = true;
-            if (uade_seek(UADE_SEEK_SUBSONG_RELATIVE, seek_value / 1000.0, -1, state)) {
-                ERR("Could not seek to %d\n", seek_value);
+            if (uade_seek(UADE_SEEK_SUBSONG_RELATIVE, seek_millis / 1000.0, -1, state)) {
+                ERR("Could not seek to %d\n", seek_millis);
             } else {
-                DEBUG("Seek to %d\n", seek_value);
+                DEBUG("Seek to %d\n", seek_millis);
+                totalbytes = seek_millis * bytespersec / 1000;
             };
         }
         const auto res = render_audio(buffer, sizeof buffer, state);
@@ -538,6 +647,54 @@ pair<song_end, bool> UADEPlugin::playback_loop(uade_state* state, int timeout) {
     return pair(songend, seeked);
 }
 
+pair<song_end, bool> UADEPlugin::playback_loop_player(player::PlayerState &state, int timeout) {
+    char buffer[player::MIXBUFSIZE];
+    song_end songend;
+    songend.status = song_end::TIMEOUT;
+    songend.length = timeout;
+    bool stopped = false;
+    bool seeked = false;
+    const int frequency = aud_get_int(PLUGIN_NAME, "frequency");
+    const size_t bytespersec = 4 * frequency;
+    size_t maxbytes = timeout > 0 ? timeout * bytespersec / 1000 : songend::PRECALC_TIMEOUT * bytespersec;
+    size_t totalbytes = 0;
+
+    while (!(stopped = check_stop()) && totalbytes < maxbytes) {
+        int seek_millis = check_seek();
+        if (seek_millis >= 0) {
+            seeked = true;
+            DEBUG("Seek to %d\n", seek_millis);
+            if (player::seek(state, seek_millis)) {
+                songend.status = song_end::PLAYER;
+                break;
+            }
+            totalbytes = seek_millis * bytespersec / 1000;
+        }
+        const auto res = render_audio_player(buffer, sizeof buffer, state);
+        if (res.second > 0) {
+            write_audio(buffer, res.second);
+            totalbytes += res.second;
+        }
+        if (res.first == song_end::ERROR) {
+            ERR("Playback error.\n");
+            songend.status = song_end::ERROR;
+            break;
+        } else if (res.first == song_end::PLAYER) {
+            TRACE("Song end.\n");
+            songend.status = song_end::PLAYER;
+            break;
+        }
+    }
+    if (stopped) {
+        songend.status = song_end::STOP;
+    } else if (songend.length <= 0 && songend.status == song_end::TIMEOUT) {
+        songend.length = aud_get_int(PLUGIN_NAME, "subsong_timeout") * 1000;
+    } else if (!seeked) {
+        songend.length = totalbytes * 1000 / bytespersec;
+    }
+    return pair(songend, seeked);
+}
+
 bool UADEPlugin::play(const char *uri, VFSFile &file) {
     TRACE("uade_plugin_play %s\n", uri);
 
@@ -573,14 +730,38 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
         }
     }
 
+    rate = aud_get_int(PLUGIN_NAME, "frequency");
+    open_audio(FMT_S16_NE, rate, 2);
+
+    // non-UADE
+    if (is_our_file_player(file)) {
+        auto state = play_player(file, subsong, rate);
+        if (!state.has_value()) {
+            return false;
+        }
+        const auto [songend, seeked] = playback_loop_player(state.value(), known_timeout);
+        if (songend.status == song_end::ERROR) {
+            ERR("Error playing %s\n", uri);
+            ret = false;
+        } else {
+            TRACE("Playback status for %s - %d\n", uri, songend.status);
+            ret = true;
+        }
+        if (known_timeout <= 0 && songend.status != song_end::STOP && !seeked) {
+            update_tuple_song_end_player(tuple, songend);
+            set_playback_tuple(tuple.ref());
+        }
+        player::stop(state.value());
+        return ret;
+    }
+
+    // UADE
     state = create_uade_state(known_timeout);
     if (!state) {
         ERR("Could not init uade state\n");
         return false;
     }
     rate = uade_get_sampling_rate(state);
-
-    open_audio(FMT_S16_NE, rate, 2);
 
     switch (play_uade(uri, file, path, name, subsong, state, formatname)) {
         case 1: {

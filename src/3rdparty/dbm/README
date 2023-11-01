@@ -1,0 +1,435 @@
+Intro
+=====
+
+Libdigibooster3 is the official loader/replayer portable library for
+DigiBooster 3 music modules (usually with *.dbm extension). As it is mostly
+backward compatible with DigiBooster Pro 2, and uses the same module format,
+it can also play its modules.
+
+The official module format specification can be found at
+
+http://digibooster.eu/pl/format.php
+
+The library source code as well as source code of example tools are licensed on
+the BSD two-clause license (see "COPYING").
+
+The library renders DigiBooster 3 modules as 16-bit signed integer stereo
+interleaved (left first) audio stream.
+
+
+
+Important
+=========
+
+Included tool "dbm2wav" does not check loaded module for infinite loops. Such
+loops may be created with backward Bxx (pattern jump) effect. If a module has
+such a loop, it will write to the output file endlessly until a write error is
+encountered. In the future a way to detect Bxx loops will be added to the API.
+
+
+
+Building
+========
+
+The makefile produces following objects/executables:
+
+libdigibooster3.a: - link library containing loader/player
+
+dbminfo - example program dumping module informations and patter tables to the
+	standard output
+
+dbm2wav - a simple module renderer writing 16-bit WAVE files @ 44.1 kHz.
+
+
+MorphOS
+-------
+
+Just run "make mos".
+
+
+AmigaOS 4
+---------
+
+Just run "make os4". Not tested.
+
+
+AmigaOS 3
+---------
+
+Just run "make os3". Note that it builds for 68020+. Not tested.
+
+
+Linux
+-----
+
+Just run "make linux". No configure required. Tested on:
+- i686
+- x86_64
+- aarch64
+
+
+Windows
+-------
+
+If using GCC derived compiler, "make linux" will do :-). If using Visual C++,
+there is a complete VC++ project in the "win32" directory.
+
+For lazy Windows users, "win32/release" directory contains "libdigibooster3.lib"
+static library and compiled "dbm2wav.exe" and "dbminfo.exe" programs. Executables
+are for Win32, but have been tested succesfully also on 64-bit version of
+Windows 7.
+
+
+MacOS X
+-------
+
+"make linux" works here too. Tested with x86_64 and Clang compiler.
+
+
+
+Dependencies
+============
+
+The libdigibooster3 has minimal dependencies. It uses only a few functions from
+the standard C library: calloc(), free(), memcpy(), strcpy(), strlen(), fopen(),
+fclose(), fread(). All these functions are wrapped by macros. These macros
+use Amiga API native calls for AmigaOS and MorphOS. Similarly native API of any
+other system may be used. For Linux and Windows, macros use just the stdlib calls.
+
+The 'dbminfo' and 'dbm2wav' tools use a few more stdlib calls.
+
+No additional libraries are needed.
+
+
+
+Testing
+=======
+
+1. Build "dbm2wav".
+2. Download test DBM module from "http://krashan.ppa.pl/music/Krashan%20-%20M2.dbm".
+   (NOTE: krashan.ppa.pl is down, I will upload the module somewhere else)
+3. Convert it to WAVE file using dbm2wav (dbm2wav <module> <wavefile>).
+4. Calculate MD5 sum of the resulting WAVE file.
+5. Check if the MD5 sum is aeeb1a5dfb8a13f476b52ce4e0b009de. 
+
+
+
+Usage
+=====
+
+To use libdigibooster3 in your code just perform these steps:
+
+- Place libdigibooster3.a in a place where compiler will find it.
+- Include "libdigibooster3.h".
+- Link with '-ldigibooster3'.
+
+Typical workflow of a player is shown as following pseudocode:
+
+if (mod = DB3_Load(...))
+{
+	if (engine = DB3_NewEngine(mod, ...))
+	{
+		[DB3_SetCallback()] optional
+		[DB3_SetPos()]      optional
+		[DB3_SetVolume()]   optional
+
+		for (some loop)
+		{
+			DB3_Mix(to a buffer)
+			play_audio(from buffer)
+		}
+
+		DB3_DisposeEngine(engine)
+	}
+
+	DB3_Unload(mod)
+}
+
+
+
+Author
+======
+
+The code is written by Grzegorz Kraszewski. Questions and bugraports may be
+sent to <grzegorz.kraszewski@gmail.com>.
+
+
+
+API documentation
+=================
+
+libdigibooster3/DB3_DisposeEngine()
+
+NAME
+   DB3_DisposeEngine() -- disposes a module synthesizer.
+
+SYNOPSIS
+   void DB3_DisposeEngine(void *engine);
+
+FUNCTION
+   Disposes a module synthesizer, frees all resources.
+
+INPUTS
+   engine - a blackbox pointer to the synthesizer engine. Passing NULL is
+     OK (function returns immediately).
+
+RESULT
+   None.
+
+SEE ALSO
+   DB3_NewEngine()
+
+
+
+libdigibooster3/DB3_Load
+
+NAME
+   DBM0_Load() -- loads a DigiBooster3 module from a file.
+
+SYNOPSIS
+   struct DB3Module* DB3_Load(char *filename, int *errptr);
+
+FUNCTION
+   Loads and parses a DigiBooster 3 (DBM0 type) module stored as a file.
+
+INPUTS
+   filename - path to a file
+   errptr - optional pointer to a variable where error code will be stored.
+     Note that the variable is not cleared if the call succeeds.
+
+RESULT
+   Module structure as defined in "musicmodule.h" with complete set of
+   patterns, songs, samples and instruments. Samples are converted to 16
+   bits. In case of failure, function returns NULL. May be caused by
+   NULL filename, corrupted module data, out of memory.
+
+
+
+libdigibooster3/DB3_Mix()
+
+NAME
+   DB3_Mix() -- Mixes down a next chunk of module.
+
+SYNOPSIS
+   uint32_t DB3_Mix(void *engine, uint32_t frames, int16_t *output);
+
+FUNCTION
+   Synthetises and mixes frame chunk of module sound. Mixed frames are
+   stored in 'output'. If a position callback is defined, it is called for
+   every module position change within rendered audio frames range.
+   Following calls to this function need not to use the same number of
+   audio frames.
+
+INPUTS
+   engine - a blackbox pointer to the synthesizer engine.
+   frames - number of audio frames to render. Must not be higher than buffer
+     size declared in DB3_NewEngine(), will be clipped if higher. Passing 0
+     is OK (function returns immediately).
+   output - buffer for rendered frames. Note that frames are stereo, so the
+     buffer must have at least (4 * frames) bytes. It must point to a valid
+     buffer.
+
+RESULT
+   Number of valid frames in the buffer. It may be less than 'frames' in
+   case the sequencer has been stopped.
+
+SEE ALSO
+   DB3_NewEngine(), DB3_SetCallback()
+
+
+
+libdigibooster3/DB3_NewEngine
+
+NAME
+   DB3_NewEngine() -- creates and setups a new module synthesizer.
+
+SYNOPSIS
+   void* DB3_NewEngine(struct DB3Module *mod, uint32_t mixfreq, uint32_t
+   maxbuf);
+
+FUNCTION
+   Creates and setups a new module synthesizer for passed module, mixing
+   frequency and declared maximum mixing buffer size. Allocates all buffers
+   needed.
+
+INPUTS
+   mod - complete music module as defined in "musicmodule.h". NULL is safe,
+     function just returns NULL.
+   mixfreq - downmix sampling frequency in Hz. Allowed frequencies are 8 kHz
+     to 192 kHz (including).
+   maxbuf - maximum number of frames that will be requested in DB3_Mix()
+     calls. Note that some internal buffers are allocated based on this
+     value, so setting it high may result in unexpected memory consumption.
+     Values up to mixing frequency (which yields one second buffer) are
+     reasonable. Very short buffers are allowed (yes, even one single
+     frame), but highly ineffective. Zero passed here causes the function to
+     quit immediately with NULL result.
+
+RESULT
+   An opaque pointer to the new module synthesizer, or NULL in case of wrong
+   arguments or memory shortage.
+
+SEE ALSO
+   DB3_Mix()
+
+
+
+libdigibooster3/DB3_SetCallback()
+
+NAME
+   DB3_SetCallback() -- Sets a position update callback function for a
+   synthesizer.
+
+SYNOPSIS
+   void DB3_SetCallback(void *engine, void(*callback)(void*, struct
+   UpdateEvent*), void *userdata);
+
+FUNCTION
+   This function is provided for players that want to know exact time of
+   position changes in a module. Useful for example for displaying current
+   pattern/row number, scrolling pattern display or synchronizing something
+   to the music. Using this callback it is possible to get position change
+   timing with single downmix frame accuracy. The callback gets number of
+   row, pattern, song order and delay, measured in downmix frames relative
+   to the start of last module fragment rendered with ModSynth_Mix(). To get
+   realtime trigger, audio interrupts or timers may be used, depending on
+   features available on host. To convert the delay to seconds one just
+   divides delay in frames by mixing frequency.
+
+INPUTS
+   engine - an opaque pointer to the module synthesizer created with
+     DB3_NewEngine(). NULL is safe, the function does nothing in the case.
+
+   callback - a callback function defined as:
+
+     void callback(void *udata, struct UpdateEvent *uevent);
+
+     where:
+       udata - may be anything. This is just a pointer passed as userdata to
+         DB3_SetCallback(), untouched.
+       uevent - pointer to a read-only UpdateEvent structure:
+         From "libdigibooster3.h":
+
+         struct UpdateEvent
+         {
+           int32_t ue_Order;     // number of order in the playlist
+           int32_t ue_Pattern;   // ordinal number of pattern
+           int32_t ue_Row;       // number of row (position) in the pattern
+           int32_t ue_Delay;     // event delay in sample frames
+           int32_t ue_Tempo;     // current module tempo ("CIA tempo"), BPM
+           int32_t ue_Speed;     // current module speed (ticks per row)
+           int32_t ue_SeqHalted; // TRUE if sequencer is halted
+         };
+
+     NULL callback is safe and is considered as turning the callback feature
+     off. Callback may be turned on and off (or changed) as needed.
+
+   userdata - any value, just passed to the callback as described above.
+
+RESULT
+   None.
+
+EXAMPLE
+   A step by step instruction how to get realtime position change triggers
+   using Amiga timers:
+   - Be prepared that one call to ModSynth_Mix() will call your callback
+     more than one time.
+   - In the callback convert delay from samples to timer units (usually
+     EClocks or CPU clocks). Prepare a timer request for every callback.
+   - Get current system clock.
+   - Push the rendered buffer to audio hardware.
+   - Add current clock to requests and sent them all to timer (WAITECLOCK or
+     WAITCPUCLOCK unit).
+   - while buffer is playing, wait for timer requests to be replied and take
+     desired actions.
+   There may be some additional delay if an event occurs just a few frames
+   after buffer start (adding time and sending requests takes some CPU
+   cycles). It may be compensated by using triple buffering and sending time
+   requests one buffer earlier (a buffer length in frames should be added to the
+   delay before conversion to timer units).
+
+SEE ALSO
+   DB3_Mix()
+
+
+
+libdigibooster3/DB3_SetPos()
+
+NAME
+   DB3_SetPos() -- Sets the current sequencer position.
+
+SYNOPSIS
+   void DB3_SetPos(void *modsynth, uint32_t song, uint32_t order, uint32_t
+   row);
+
+FUNCTION
+   Immediately moves the engine sequencer to a new position in a module.
+   Note that this function does not reset the engine, so doing it in the
+   middle of a module may result in some unexpected results.
+
+INPUTS
+   engine - an opaque pointer to the module synthesizer created with
+     DB3_NewEngine(). Must not be NULL.
+   song - number of song in the module. Starting from 0.
+   order - number of playlist order in the song. Starting from 0.
+   row - number of row in the pattern selected with order. Starting from 0.
+
+RESULT
+   None.
+
+NOTES
+   All three parameters *must* specify a valid position inside the module.
+   If not, the sequencer will read random data and probably crash.
+
+
+
+libdigibooster3/DB3_SetVolume()
+
+NAME
+   DB3_SetVolume() -- sets the current master volume level.
+
+SYNOPSIS
+   void DB3_SetVolume(void *engine, int16_t level);
+
+FUNCTION
+   The function sets the master volume level in decibels. 0 dB level is
+   defined in the following way: if one assumes full amplitude on all the
+   tracks in the module, the final downmix will have full amplitude too.
+   Then 0 dB and below is overdrive-safe. Master volume above 0 dB may cause
+   overdrive, which is then saturated. The allowed range is from -84 dB to
+   +24 dB including.
+
+   Master volume level operates inside the internal 32-bit mixer. Then
+   adjusting volume with this function gives less quantization noise than
+   scaling the output 16-bit stream.
+
+INPUTS
+   engine - an opaque pointer to the module synthesizer created with
+     DB3_NewEngine(). Must not be NULL.
+   level - master volume level in decibels. Must be inside <-84, +24> range.
+
+RESULT
+   None.
+
+
+
+libdigibooster3/DB3_Unload
+
+NAME
+   DB3_Unload -- unloads DigiBooster 3 module from memory.
+
+SYNOPSIS
+   void DB3_Unload(struct DB3Module *m);
+
+FUNCTION
+   Properly unloads DigiBooster 3 module loaded with DB3_Load().
+
+INPUTS
+   m - pointer to the module returned by DB3_Load(). NULL is valid input,
+     function is a no-op in this case.
+
+RESULT
+   None.
+
+SEE ALSO
+   DB3_Load

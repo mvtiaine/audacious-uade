@@ -121,7 +121,7 @@ probe_state *get_probe_state() {
         if (probes[i].available) {
             probes[i].available = false;
             if (!probes[i].initialized) {
-                probes[i].state = create_uade_probe_state(songend::PRECALC_FREQ);
+                probes[i].state = create_uade_probe_state(songend::PRECALC_FREQ_UADE);
                 probes[i].initialized = true;
                 probes[i].id = i;
             }

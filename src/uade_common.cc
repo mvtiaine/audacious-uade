@@ -9,6 +9,60 @@
 
 using namespace std;
 
+namespace {
+
+void apply_detector(songend::SongEndDetector &detector, song_end &songend) {
+    int silence = detector.detect_silence(songend::SILENCE_TIMEOUT);
+    if (silence > 0) {
+        if (detector.trim_silence(silence) == silence) {
+            songend.length = 0;
+            songend.status = song_end::NOSOUND;
+        } else {
+            songend.length = silence + songend::MAX_SILENCE;
+            songend.status = song_end::DETECT_SILENCE;
+        }
+    } else {
+        int volume = detector.detect_volume();
+        if (volume > 0) {
+            if (detector.trim_volume(volume) == volume) {
+                songend.length = 0;
+                songend.status = song_end::NOSOUND;
+            } else {
+                songend.length = volume + songend::MAX_SILENCE;
+                songend.status = song_end::DETECT_VOLUME;
+            }
+        } else {
+            int repeat = detector.detect_repeat();
+            if (repeat > 0) {
+                songend.length = repeat;
+                songend.status = song_end::DETECT_REPEAT;
+            } else {
+                int loop = detector.detect_loop();
+                if (loop > 0) {
+                    songend.length = loop;
+                    songend.status = song_end::DETECT_LOOP;
+                    int silence = detector.trim_silence(songend.length);
+                    if (silence > songend::MAX_SILENCE) {
+                        songend.length = songend.length - silence + songend::MAX_SILENCE;
+                        songend.status = song_end::LOOP_PLUS_SILENCE;
+                    } else {
+                        int volume = detector.trim_volume(songend.length);
+                        if (volume > songend::MAX_SILENCE && volume < songend.length) {
+                            songend.length = songend.length - volume + songend::MAX_SILENCE;
+                            songend.status = song_end::LOOP_PLUS_VOLUME;
+                        }
+                    }
+                } else {
+                    songend.length = songend::PRECALC_TIMEOUT * 1000;
+                    songend.status = song_end::TIMEOUT;
+                }
+            }
+        }
+    }
+}
+
+} // namespace {}
+
 struct uade_state *create_uade_probe_state(int freq) {
     struct uade_config *uc = uade_new_config();
 #if DEBUG_TRACE
@@ -80,15 +134,27 @@ pair<song_end::Status, ssize_t> render_audio(char *buffer, const int bufsize, ua
     return pair(status,nbytes);
 }
 
+pair<song_end::Status, ssize_t> render_audio_player(char *buffer, const int bufsize, player::PlayerState &state) {
+    song_end::Status status = song_end::NONE;
+    const auto [songend, nbytes] = player::render(state, buffer, bufsize);
+    if (songend || nbytes == 0) {
+        status = song_end::PLAYER;
+    }
+    if (nbytes < 0) {
+        status = song_end::ERROR;
+    }
+    return pair(status,nbytes);
+}
+
 song_end precalc_song_length(uade_state *state, const struct uade_song_info *info) {
     song_end songend;
     char buffer[4096];
     pair<song_end::Status, ssize_t> render;
     size_t totalbytes = 0;
-    const int bytespersec = UADE_BYTES_PER_FRAME * uade_get_sampling_rate(state);
+    const size_t bytespersec = UADE_BYTES_PER_FRAME * uade_get_sampling_rate(state);
     // UADE plays some mods for hours or possibly forever (with always_ends default)
     size_t maxbytes = songend::PRECALC_TIMEOUT * bytespersec;
-    songend::SongEndDetector detector(songend::PRECALC_FREQ);
+    songend::SongEndDetector detector(songend::PRECALC_FREQ_UADE, false);
     while ((render = render_audio(buffer, sizeof buffer, state)).second > 0) {
         // ignore "tail bytes" to avoid pop in end of audio if song restarts
         // messing up with silence/volume trimming etc.
@@ -103,32 +169,7 @@ song_end precalc_song_length(uade_state *state, const struct uade_song_info *inf
         }
     }
     if (totalbytes >= maxbytes || render.first == song_end::TIMEOUT) {
-        int silence = detector.detect_silence(songend::SILENCE_TIMEOUT);
-        if (silence > 0) {
-            songend.length = silence + songend::MAX_SILENCE;
-            songend.status = song_end::DETECT_SILENCE;
-        } else {
-            int volume = detector.detect_volume();
-            if (volume > 0) {
-                songend.length = volume + songend::MAX_SILENCE;
-                songend.status = song_end::DETECT_VOLUME;
-            } else {
-                int repeat = detector.detect_repeat();
-                if (repeat > 0) {
-                    songend.length = repeat;
-                    songend.status = song_end::DETECT_REPEAT;
-                } else {
-                    int loop = detector.detect_loop();
-                    if (loop > 0) {
-                        songend.length = loop;
-                        songend.status = song_end::DETECT_LOOP;
-                    } else {
-                        songend.length = songend::PRECALC_TIMEOUT * 1000;
-                        songend.status = song_end::TIMEOUT;
-                    }
-                }
-            }
-        }
+        apply_detector(detector, songend);
         TRACE("precalc_song_length %s - status: %d length: %d\n", info->modulefname, songend.status, songend.length);
         return songend;
     }
@@ -147,21 +188,12 @@ song_end precalc_song_length(uade_state *state, const struct uade_song_info *inf
                 songend.status = song_end::PLAYER_PLUS_SILENCE;
             } else {
                 int volume = detector.trim_volume(songend.length);
-                if (volume > songend::MAX_SILENCE && volume < songend.length) {
+                if (volume == songend.length) {
+                    songend.status = song_end::NOSOUND;
+                    songend.length = 0;
+                } else if (volume > songend::MAX_SILENCE && volume < songend.length) {
                     songend.length = songend.length - volume + songend::MAX_SILENCE;
                     songend.status = song_end::PLAYER_PLUS_VOLUME;
-                }
-            }
-        } else if (songend.status == song_end::DETECT_LOOP) {
-            int silence = detector.trim_silence(songend.length);
-            if (silence > songend::MAX_SILENCE) {
-                songend.length = songend.length - silence + songend::MAX_SILENCE;
-                songend.status = song_end::LOOP_PLUS_SILENCE;
-            } else {
-                int volume = detector.trim_volume(songend.length);
-                if (volume > songend::MAX_SILENCE && volume < songend.length) {
-                    songend.length = songend.length - volume + songend::MAX_SILENCE;
-                    songend.status = song_end::LOOP_PLUS_VOLUME;
                 }
             }
         } else if (songend.status == song_end::UADE_SILENCE) {
@@ -174,11 +206,63 @@ song_end precalc_song_length(uade_state *state, const struct uade_song_info *inf
             }
         } else if (songend.status == song_end::TIMEOUT) {
             songend.length = songend::PRECALC_TIMEOUT * 1000;
+        } else {
+            assert(false);
         }
         TRACE("precalc_song_length %s - status: %d length: %d\n", info->modulefname, songend.status, songend.length);
     } else {
         songend.status = song_end::ERROR;
         ERR("Error precalcing %s\n", info->modulefname);
+    }
+    return songend;
+}
+
+song_end precalc_song_length_player(player::PlayerState &state, const char *fname) {
+    song_end songend;
+    char buffer[player::MIXBUFSIZE];
+    pair<bool, size_t> render;
+    size_t totalbytes = 0;
+    const size_t bytespersec = 4 * songend::PRECALC_FREQ_PLAYER;
+    size_t maxbytes = songend::PRECALC_TIMEOUT * bytespersec;
+    songend::SongEndDetector detector(songend::PRECALC_FREQ_PLAYER, true);
+    while ((render = player::render(state, buffer, sizeof buffer)).second > 0) {
+        state.pos_millis = totalbytes * 1000 / bytespersec;
+        totalbytes += render.second;
+        detector.update(buffer, render.second);
+        if (totalbytes >= maxbytes || render.first) {
+            break;
+        }
+    }
+    if (totalbytes >= maxbytes || !render.first) {
+        apply_detector(detector, songend);
+        TRACE("precalc_song_length_player %s - status: %d length: %d\n", fname, songend.status, songend.length);
+        return songend;
+    }
+
+    if (render.first) {
+        songend.length = totalbytes * 1000 / bytespersec;
+        songend.status = song_end::PLAYER;
+        int silence = detector.trim_silence(songend.length);
+        if (silence == songend.length) {
+            songend.status = song_end::NOSOUND;
+            songend.length = 0;
+        } else if (silence > songend::MAX_SILENCE) {
+            songend.length = songend.length - silence + songend::MAX_SILENCE;
+            songend.status = song_end::PLAYER_PLUS_SILENCE;
+        } else {
+            int volume = detector.trim_volume(songend.length);
+            if (volume == songend.length) {
+                songend.status = song_end::NOSOUND;
+                songend.length = 0;
+            } else if (volume > songend::MAX_SILENCE && volume < songend.length) {
+                songend.length = songend.length - volume + songend::MAX_SILENCE;
+                songend.status = song_end::PLAYER_PLUS_VOLUME;
+            }
+        }
+        TRACE("precalc_song_length_player %s - status: %d length: %d\n", fname, songend.status, songend.length);
+    } else {
+        songend.status = song_end::ERROR;
+        ERR("Error precalcing %s\n", fname);
     }
     return songend;
 }

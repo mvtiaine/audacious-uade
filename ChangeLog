@@ -1,3 +1,9 @@
+0.9-dev
+- Implement support for non-UADE players:
+-- Add HivelyTracker player (http://www.hivelytracker.co.uk/)
+-- Add DigiBooster 3 & DigiBooster Pro 2 (http://www.digibooster.de/)
+- Misc fixes and updates
+
 0.8.4 - 2023-10-12
 - UADE updates:
 -- Enable ADPCM player

@@ -331,6 +331,7 @@ size_t get_loopstart(const vector<char> &buf, const unsigned int SAMPLES_PER_SEC
         size_t loopstart = SIZE_MAX;
         size_t earliest = SIZE_MAX;
 
+        size_t exactcnt = 0;
         size_t incstop = SIZE_MAX;
         size_t decstop = SIZE_MAX;
         int64_t smoothed = 0;
@@ -341,13 +342,18 @@ size_t get_loopstart(const vector<char> &buf, const unsigned int SAMPLES_PER_SEC
             const auto val1 = buf[i + window];
             const auto val2 = buf[i + looplen];
             const auto val3 = buf[i + window + looplen];
+
+            if (val0 == val1 && val0 == val2 && val0 == val3) {
+                exactcnt++;
+            }
+
             bottom -= val0;
             bottom += val1;
             top -= val2;
             top += val3;
             const auto diffsum = top - bottom;
             
-            if (diffsum == 0) {
+            if (diffsum == 0 && smallestdiff != 0 && biggestdiff != 0) {
                 TRACE2("(%lu) diffsum %lld smallestdiff %lld, biggestdiff %lld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
             }
             
@@ -389,8 +395,7 @@ size_t get_loopstart(const vector<char> &buf, const unsigned int SAMPLES_PER_SEC
             }
         }
 
-        TRACE1("loopstart (%lu/%lu) %lu earliest %lu incstop %zu decstop %zu\n", offs / SAMPLES_PER_SEC, window / SAMPLES_PER_SEC, loopstart / SAMPLES_PER_SEC, earliest / SAMPLES_PER_SEC, incstop / SAMPLES_PER_SEC, decstop / SAMPLES_PER_SEC);
-
+        TRACE1("loopstart (%lu/%lu) %lu earliest %lu incstop %zu decstop %zu exact %d\n", offs / SAMPLES_PER_SEC, window / SAMPLES_PER_SEC, loopstart / SAMPLES_PER_SEC, earliest / SAMPLES_PER_SEC, incstop / SAMPLES_PER_SEC, decstop / SAMPLES_PER_SEC, exact);
         if (loopstart < SIZE_MAX) {
             return loopstart;
         }
@@ -400,6 +405,11 @@ size_t get_loopstart(const vector<char> &buf, const unsigned int SAMPLES_PER_SEC
         if (!strict && incstop < SIZE_MAX && decstop < SIZE_MAX) {
             TRACE2("INCSTOP %zu DECSTOP %zu\n", incstop/SAMPLES_PER_SEC, decstop/SAMPLES_PER_SEC);
             return max(incstop, decstop);
+        }
+        // sometimes sample data and loop len match is almost "bit perfect", assume looping from start
+        if (exactcnt > window * 99 / 100) {
+            TRACE2("EXACTCNT %zu WINDOW %zu\n", exactcnt, window);
+            return 0;
         }
         return SIZE_MAX;
     };
@@ -462,7 +472,13 @@ void SongEndDetector::update(const char *bytes, const size_t nbytes) {
     for (size_t i = 0; i < nbytes; i+=4) {
         const int b0 = bytes[i];
         const int b1 = bytes[i+1];
-        const int val = b1 * 256 + b0;
+        int val = b1 * 256 + b0;
+
+        if (stereo) {
+            const int b2 = bytes[i+2];
+            const int b3 = bytes[i+3];
+            val = (val + (b3 * 256 + b2)) / 2;
+        }
 
         tmp[itmp] = val;
         itmp = idx(+1);
