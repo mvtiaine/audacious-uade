@@ -14,7 +14,7 @@ namespace {
 void apply_detector(songend::SongEndDetector &detector, song_end &songend) {
     int silence = detector.detect_silence(songend::SILENCE_TIMEOUT);
     if (silence > 0) {
-        if (detector.trim_silence(silence) == silence) {
+        if (songend.length == silence) {
             songend.length = 0;
             songend.status = song_end::NOSOUND;
         } else {
@@ -24,13 +24,8 @@ void apply_detector(songend::SongEndDetector &detector, song_end &songend) {
     } else {
         int volume = detector.detect_volume();
         if (volume > 0) {
-            if (detector.trim_volume(volume) == volume) {
-                songend.length = 0;
-                songend.status = song_end::NOSOUND;
-            } else {
-                songend.length = volume + songend::MAX_SILENCE;
-                songend.status = song_end::DETECT_VOLUME;
-            }
+            songend.length = volume + songend::MAX_SILENCE;
+            songend.status = song_end::DETECT_VOLUME;
         } else {
             int repeat = detector.detect_repeat();
             if (repeat > 0) {
@@ -188,10 +183,7 @@ song_end precalc_song_length(uade_state *state, const struct uade_song_info *inf
                 songend.status = song_end::PLAYER_PLUS_SILENCE;
             } else {
                 int volume = detector.trim_volume(songend.length);
-                if (volume == songend.length) {
-                    songend.status = song_end::NOSOUND;
-                    songend.length = 0;
-                } else if (volume > songend::MAX_SILENCE && volume < songend.length) {
+                if (volume > songend::MAX_SILENCE && volume < songend.length) {
                     songend.length = songend.length - volume + songend::MAX_SILENCE;
                     songend.status = song_end::PLAYER_PLUS_VOLUME;
                 }
@@ -251,10 +243,7 @@ song_end precalc_song_length_player(player::PlayerState &state, const char *fnam
             songend.status = song_end::PLAYER_PLUS_SILENCE;
         } else {
             int volume = detector.trim_volume(songend.length);
-            if (volume == songend.length) {
-                songend.status = song_end::NOSOUND;
-                songend.length = 0;
-            } else if (volume > songend::MAX_SILENCE && volume < songend.length) {
+            if (volume > songend::MAX_SILENCE && volume < songend.length) {
                 songend.length = songend.length - volume + songend::MAX_SILENCE;
                 songend.status = song_end::PLAYER_PLUS_VOLUME;
             }
