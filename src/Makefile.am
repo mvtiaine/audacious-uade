@@ -5,7 +5,7 @@ if BUILD_MACOS
 AM_LDFLAGS = -Wl,-dead_strip -Wl,-undefined,error
 SHREXT = -shrext .dylib
 else
-AM_LDFLAGS = -Wl,--gc-sections -Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -WL,--no-undefined -Wl,-O1
+AM_LDFLAGS = -Wl,--gc-sections -Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,-O1
 endif
 uadedir = $(prefix)/share/audacious-uade
 uadedatadir = $(uadedir)/share/uade
@@ -66,13 +66,14 @@ lib3rdparty_a_SOURCES = \
 
 lib3rdparty_a_CPPFLAGS = -DTARGET_LINUX=1
 lib3rdparty_a_CFLAGS = ${AM_CFLAGS} -Wno-parentheses
+lib3rdparty_a_CXXFLAGS = ${AM_CFLAGS} -fpermissive
 noinst_LIBRARIES = lib3rdparty.a
 
 if !SYSTEM_LIBUADE
 uade_la_DEPENDENCIES = lib3rdparty.a $(UADE_LIBS)
 endif
 uade_la_LIBADD = lib3rdparty.a $(UADE_LIBS) $(AUDACIOUS_LIBS) $(LIBBSD_LIBS)
-uade_la_LDFLAGS = -avoid-version -module -shared  ${AM_LDFLAGS} ${SHREXT}
+uade_la_LDFLAGS = -avoid-version -module -shared ${AM_LDFLAGS} ${SHREXT}
 uade_la_CPPFLAGS = -DAUDACIOUS=1 -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(uadedatadir)\""
 uade_la_CFLAGS = ${AM_CFLAGS} $(UADE_CFLAGS) $(AUDACIOUS_CFLAGS)
 uade_la_CXXFLAGS = ${AM_CXXFLAGS} $(UADE_CFLAGS) $(AUDACIOUS_CFLAGS)

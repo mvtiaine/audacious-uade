@@ -54,6 +54,7 @@ lib3rdparty_a_SOURCES = \
 
 lib3rdparty_a_CPPFLAGS = -DTARGET_LINUX=1
 lib3rdparty_a_CFLAGS = -Wno-parentheses
+lib3rdparty_a_CXXFLAGS = -fpermissive
 
 uade_songend_CPPFLAGS = -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(uadedatadir)\""
 uade_songend_CFLAGS = $(UADE_CFLAGS)
@@ -64,5 +65,5 @@ if BUILD_MACOS
 uade_songend_LDFLAGS = -Wl,-dead_strip -Wl,-undefined,error
 SHREXT = -shrext .dylib
 else
-uade_songend_LDFLAGS = -Wl,--gc-sections -Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -WL,--no-undefined -Wl,-O1
+uade_songend_LDFLAGS = -Wl,--gc-sections -Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,-O1
 endif

@@ -4,6 +4,7 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
+#include <optional>
 #include <string>
 
 using namespace std;

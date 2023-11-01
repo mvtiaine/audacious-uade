@@ -2,6 +2,7 @@
 // Copyright (C) 2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include <cassert>
+#include <cstdint>
 
 #include "../common.h"
 #include "player.h"
