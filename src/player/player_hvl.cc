@@ -45,6 +45,11 @@ optional<PlayerState> play(const char *fname, const char *buf, size_t size, int 
         return {};
     }
 
+    if (subsong == -1) {
+        subsong = ht->ht_SongNum;
+    }
+
+    assert(subsong >= 0 && subsong <= ht->ht_SubsongNr);
     if (!hvl_InitSubsong(ht, subsong)) {
         ERR("player_hvl::play init subsong failed for %s\n", fname);
         hvl_FreeTune(ht);

@@ -93,6 +93,10 @@ optional<PlayerState> play(const char *fname, const char *buf, size_t size, int 
         return {};
     }
 
+    if (subsong == -1) {
+        subsong = 0;
+    }
+
     int frames = MIXBUFSIZE / 4;
     void *engine = DB3_NewEngine(mod, frequency, frames);
     if (!engine) {
@@ -107,6 +111,7 @@ optional<PlayerState> play(const char *fname, const char *buf, size_t size, int 
 
     PlayerState state = {DIGIBOOSTERPRO, subsong, frequency, context, 0, false};
 
+    assert(subsong >= 0 && subsong <= mod->NumSongs - 1);
     DB3_SetPos(engine, subsong, 0, 0);
     DB3_SetCallback(engine, [](void *context, struct UpdateEvent *event) {
         if (event->ue_Order == -1 && event->ue_Pattern == -1 && event->ue_Row == -1) {
