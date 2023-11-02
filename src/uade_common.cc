@@ -198,8 +198,6 @@ song_end precalc_song_length(uade_state *state, const struct uade_song_info *inf
             }
         } else if (songend.status == song_end::TIMEOUT) {
             songend.length = songend::PRECALC_TIMEOUT * 1000;
-        } else {
-            assert(false);
         }
         TRACE("precalc_song_length %s - status: %d length: %d\n", info->modulefname, songend.status, songend.length);
     } else {
