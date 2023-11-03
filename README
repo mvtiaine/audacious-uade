@@ -1,7 +1,18 @@
 This is Audacious (https://audacious-media-player.org/) input plugin for UADE (https://zakalwe.fi/uade/).
 
-Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/) and UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) are used as sources for precalculated song lengths and author/album meta data.
+Main features:
+- Song length and author database (see below)
+- Player independent songend detection (similar to "deep songend scan" option in DeliPlayer for Windows)
+- Preferences UI for configuring UADE playback options etc.
+- Custom fork of UADE including support for additional formats not (yet) supported in official UADE releases:
+-- Face The Music
+-- OctaMED Soundstudio / MMD3
+-- Protracker4 / Protracker IFF
+- MED4 sng+samples format support via MED4->MMD0 conversion
+- DigiBooster 3 and DigiBooster Pro 2 (http://www.digibooster.de/) support using the official portable replay
+- HivelyTracker (http://www.hivelytracker.co.uk/) support using the official portable replay
 
+Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/) and UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) are used as sources for precalculated song lengths and author/album meta data.
 In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
 
 * Dependencies:
@@ -24,20 +35,28 @@ makepkg -s
 
 * To build and install with Debian:
 debian/make_deb.sh
-sudo dpkg -i build-deb/audacious-uade*.deb
+(sudo) dpkg -i build-deb/audacious-uade*.deb
 
 * To build and install from source:
-autoreconf -i
-./configure
+(autoreconf -i)
+mkdir -p build
+cd build
+../configure
 make
 (sudo) make install
 
 * To use system libuade instead of bundled one:
-./configure --with-system-libuade
+../configure --with-system-libuade
 
 * Other notes:
 - The bundled uade includes some bug fixes and format support updates not (yet) merged to uade master branch
 - Case sensitive filesystems may cause issues for formats with external samples
 - Tested on OSX and Linux
 - My custom Audacious playlist entry template:
-${?codec:[${codec}]}  -  ${?artist:${artist}  -  }${?album:${album}  -  }${title}  ${?copyright:-  (${copyright})} ${?year:- (${year})} ${?subsong-id:${?subsong-num:-  [${subsong-id}/${subsong-num}]}}
+${?codec:[${codec}${?channels: (${channels}ch)}]} -  ${?artist:${artist}  -  }${?album:${album}  -  }${title}  ${?copyright:-  (${copyright})} ${?year:- (${year})} ${?subsong-id:${?subsong-num:-  [${subsong-id}/${subsong-num}]}}
+
+* License (source code)
+The project as a whole is licensed under GPL-2.0-or-later.
+Some parts are also licensed under LGPL-2.0-or-later, for example sources under src/converter and src/player.
+See src/3rdparty for 3rd party source code licenses.
+See https://zakalwe.fi/uade/ for UADE license information.

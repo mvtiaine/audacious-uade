@@ -5,6 +5,7 @@
 #define UADE_COMMON_H_
 
 #include "config.h"
+extern "C" {
 #if SYSTEM_LIBUADE
 #include <uade/uade.h>
 #else
@@ -12,10 +13,11 @@
 #include "../uade/src/frontends/include/uade/uadeconfstructure.h"
 #include "../uade/src/frontends/include/uade/uade.h"
 #endif
-
+}
 #include <cassert>
 #include <pthread.h>
 
+#include "player/player.h"
 #include "songend/songend.h"
 
 constexpr string_view TYPE_PREFIX = "type: ";
@@ -64,9 +66,11 @@ struct song_end {
     }
 };
 
-uade_state *create_uade_probe_state(int freq = songend::PRECALC_FREQ);
+uade_state *create_uade_probe_state(int freq = songend::PRECALC_FREQ_UADE);
 pair<song_end::Status, ssize_t> render_audio(char *buffer, const int bufsize, uade_state *state);
+pair<song_end::Status, ssize_t> render_audio_player(char *buffer, const int bufsize, player::PlayerState &state);
 song_end precalc_song_length(uade_state *state, const struct uade_song_info *info);
+song_end precalc_song_length_player(player::PlayerState &state, const char *fname);
 string parse_codec(const struct uade_song_info *info);
 
 #endif // UADE_COMMON_H_

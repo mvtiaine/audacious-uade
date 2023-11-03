@@ -218,13 +218,15 @@ static const char * const plugin_extensions[] = {
     "ptm", "mod3", // Protracker IFF (Protracker4)
     "mmd3", "oss", // Octamed SoundStudio / MMD3
 
+    // non-UADE/native player
+    "hvl", // HivelyTracker
+    "dbm", // Digibooster Pro
+    
     // no replay
     //"ct", Cybertracker
-    //"dbm", // Digibooster Pro
     //"dsm", // Dynamic Studio Professional
     //"fuchs", // Fuchs Tracker
     //"dux", // GT Game Systems
-    //"hvl", // HivelyTracker
     //"mxtx", // MaxTrax
     //"stp", // SoundTracker Pro II
     //"spm", // Stonetracker

@@ -37,3 +37,5 @@ bak
 *.tar.bz2
 debian/changelog
 build-deb
+build
+lib3rdparty.a

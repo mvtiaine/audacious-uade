@@ -1,4 +1,4 @@
-EXTRA_PROGRAMS = uade_convert
+noinst_PROGRAMS = uade_convert
 uade_convertdir = $(prefix)/bin
 uade_convert_SOURCES = \
     big_endian.h \

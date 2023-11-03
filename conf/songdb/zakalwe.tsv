@@ -231,7 +231,7 @@
 0428190380cd119d394cf59c8968652c	2	21211	player
 0428190380cd119d394cf59c8968652c	3	44709	player
 04296fb6d078a9e07063e42e94907ca5	1	38049	player+volume	269962	mod15/Shadow_of_the_Beast_2/Reconstructed/mod.gameover
-0432057ba4c9e1bac57c625b47ebabec	0	145715	loop	135364	face_the_music/Stranger8.ftm
+0432057ba4c9e1bac57c625b47ebabec	0	283062	player+silence	135364	face_the_music/Stranger8.ftm
 0433318ad5f4ba100d000e5eab5fd996	0	89673	player	7052	tfmx/Apidya/mdat.Apidya-Title
 0433318ad5f4ba100d000e5eab5fd996	1	0	nosound
 0433318ad5f4ba100d000e5eab5fd996	2	91197	player
@@ -1781,7 +1781,7 @@
 212d1e5c19a0d6ede0880d031e49216c	2	3737	silence
 212d68a295f2a58d746c72d711bd36b4	0	155688	loop	10522	pretracker/Mystra/salto mortale.prt
 2131f57478da83f4904e688434d5019f	1	102501	player	60336	mod/estrayk/estrayk-her2.mod
-213c47f8367d6e168bc3ffa2d8474a10	0	353709	loop	161768	misc/FTM.Ceve
+213c47f8367d6e168bc3ffa2d8474a10	0	347744	player+volume	161768	misc/FTM.Ceve
 214b9419dabe11f554df13129b5dc249	25	42836	loop	57676	cust/CUST.Swords_Of_Twilight
 214b9419dabe11f554df13129b5dc249	26	59769	loop
 214b9419dabe11f554df13129b5dc249	27	35609	loop
@@ -2243,7 +2243,7 @@
 274f4a672b05eeff51655867cc8186a8	2	324006	loop
 274f4a672b05eeff51655867cc8186a8	3	351439	loop
 274f4a672b05eeff51655867cc8186a8	4	157368	loop
-274f4a672b05eeff51655867cc8186a8	5	421979	loop
+274f4a672b05eeff51655867cc8186a8	5	419951	loop+volume
 27846f31e181ddf1099e8d4ec9f1a828	0	56394	player	1515	ahx/Xeron/too far.ahx
 278c51ba3c73f0b2e7c1edc209ebe351	0	84483	loop	13209	music_line_editor/krister_fundin/stolen.ml
 27a91bb9456006d1eebba0dee6ff2e46	1	192047	player	8724	hip/HIP.SkidRow
@@ -3355,7 +3355,7 @@
 3a39cc932db69482c146c638b3765ef5	0	31880	player	1970	ufo/UFO/NewMars.ufo
 3a3bf8b5ebde5131cce29d89bc224514	1	94118	player	16092	mod/other/SUPRSKNK.MOD
 3a472f6e45b4379960901e5f8918f472	1	23116	player	66808	jesper_olsen/VibrantsMusicCol1/JO.24th bike old
-3a59ea1826f0029c1a0fdebe499faa58	0	210134	loop	99290	misc/FTM.GetOffTheBase
+3a59ea1826f0029c1a0fdebe499faa58	0	173249	player	99290	misc/FTM.GetOffTheBase
 3a5ef113e6372efa186d2d7ddef24046	1	57538	player	8646	med/Hook/med.ingame_3
 3a5feeef3e76da4d2b60589309e01971	0	38358	player	8972	suntronic_custom/suntronic-phantasy
 3a728d1811db2c5604055615b5fb53a3	0	131080	player	6704	pumatracker/Toki/puma.game_over
@@ -4945,7 +4945,7 @@
 55d269b0d3e0f7d449acf3403f1120de	0	115203	player	22254	sonic_arranger/Ambermoon/sa.MellowCamelFunk
 55d389250063acb6613ea1ce959e41e5	1	165247	player	31072	mod/other/jozz-dozey.mod
 55d3e5dab279423abe62f596be13c8dd	0	210527	loop	6023	ahx/Syphus/booster (2nd version).ahx
-55d8039f8ccf0e2e4ba954d7e35afe01	0	24875	loop	5303	music_line_editor/krister_fundin/wild & crazy.ml
+55d8039f8ccf0e2e4ba954d7e35afe01	0	24336	loop+silence	5303	music_line_editor/krister_fundin/wild & crazy.ml
 55d859b28b3c5e13a9703a541a3b9a32	0	81653	player+silence	3721	ahx/Jazz/AHX.We're Maniacs
 55e2430731e6faf6d00e8ef470861b51	1	147811	player+silence	69484	mod/Star_Control_2/MOD.W2
 55f682366163f34b528f9b7c709b64a8	1	161055	player	59998	jesper_olsen/LollyPop/JO.LollyPop 26
@@ -7114,7 +7114,7 @@
 7d28325d295a78172ba073125a2ec2ab	1	0	nosound
 7d290673af9942fe77f1f7bd5575e448	1	99961	player	24998	mod/tdk/DOOBREY.MOD
 7d353ac9ac03af2ccdad6ce4ce94b3cd	0	69096	player	61254	digital_sound_studio/paulas_lost_dss/DSS.Yo!LookAtThis
-7d48b1f103d5a31444dbbb2d7c71bbfb	0	198318	loop	18198	bp/BP.Dimension_Five
+7d48b1f103d5a31444dbbb2d7c71bbfb	0	179725	loop+silence	18198	bp/BP.Dimension_Five
 7d50945d133af02b377bacde62856a0d	0	44455	player	459	midi-loriciel/MIDI.Entity L2
 7d5419b6ca38831c33c86bee3007437c	0	151656	player	61962	peter_verswyvelen_packer/Ziriax/PVP.Ziriax title
 7d5b8f4ead11f2e85268b0dbdb2680e9	0	245194	silence	9507	ahx/MIM/atheist.ahx
@@ -10984,7 +10984,7 @@ c46e9aae14c3bf1e6b9592982d2efa36	1	7256	player+silence	110902	mod_packer/the_pla
 c48aff97dbb0b6c5e30af70f81d2f500	0	30737	player	10894	amos/Genesia/abk.lave_atelier
 c48e7d2aa9a13797c7c3909653e3f701	1	12533	player+silence	25978	med/Black_Crypt/med.wind_fx
 c4ada0ba060d1e3de259b30cb19ca168	0	74558	player	4718	cineware/Wings/CIN.Wings 02
-c4af7e85b340b34c4b98c1d6a81bf88a	0	275452	loop	250916	misc/FTM.Hama
+c4af7e85b340b34c4b98c1d6a81bf88a	0	276200	player+silence	250916	misc/FTM.Hama
 c4c91b1bac7a15ad2e5bfa33df66c663	0	59488	loop	2064	music_line_editor/krister_fundin/cash.ml
 c4e47e8e3c8d39e1a110abcee5db3915	0	303313	player	125788	mark2/MKII.Hades_Nebula
 c4e5d16e95beca8b99d02cbac47f83cc	0	325591	player+silence	88618	mod_packer/kris_tracker/Little_Music_Demo/KRIS.THALAMUSIC-SP
@@ -11606,7 +11606,7 @@ cf1566f4acfd3da5bf00934fbeed3c87	0	104279	player	56586	sonic_arranger/sa.sledge_
 cf172ff867d15c6ba29078146e63b72b	0	189634	player	6198	sonix/Empire/Empire.smus
 cf17a71b849db62a200be5ce4688e59e	0	28832	player	1327	ahx/Jazz/AHX.Splonky
 cf46fad79db757ff20283414a1d4c074	1	78114	player	17892	mod/other/zoef-fairlight.mod
-cf64387f6cc4f01754d1d365749e3037	0	399756	loop	213680	misc/FTM.Life
+cf64387f6cc4f01754d1d365749e3037	0	392169	player+volume	213680	misc/FTM.Life
 cf6e74864a9f0dff991c9bbdb921cd3f	0	83322	player	401164	cust/BangkokKnights/CUST.BangkokKnights intro
 cf7abfc2193c7b32f21ea9f801972777	1	163850	player	18908	mod/other/latyl-greasy_duck_v1.mod
 cf7e5737a0468cecb34c11f08c11895d	0	24841	loop	14628	music_line_editor/krister_fundin/piano tune.ml
