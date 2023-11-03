@@ -259,11 +259,12 @@ int play_uade(
 
 optional<player::PlayerState> play_player(
     VFSFile &file,
+    const string &fname,
     int subsong,
     int frequency
 ) {
     const Index<char> buf = read_all(file);
-    return player::play(file.filename(), buf.begin(), buf.len(), subsong, frequency);
+    return player::play(fname.c_str(), buf.begin(), buf.len(), subsong, frequency);
 };
 
 void stop_uade(probe_state *probe_state, const char *uri) {
@@ -275,9 +276,9 @@ void stop_uade(probe_state *probe_state, const char *uri) {
     }
 }
 
-const optional<player::ModuleInfo> player_parse(VFSFile &file) {
+const optional<player::ModuleInfo> player_parse(VFSFile &file, const string &fname) {
     const Index<char> buf = read_all(file);
-    return player::parse(file.filename(), buf.begin(), buf.len());
+    return player::parse(fname.c_str(), buf.begin(), buf.len());
 }
 
 const struct uade_song_info *get_song_info(const uade_state *state) {
@@ -509,7 +510,7 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
 
     // non-UADE
     if (is_our_file_player(file)) {
-        const auto info = player_parse(file);
+        const auto info = player_parse(file, path);
         if (!info.has_value()) {
             WARN("uade_plugin_read_tag could not parse module %s\n", uri);
             return false;
@@ -523,7 +524,7 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
             const bool do_precalc = !has_db_entry && !for_playback &&
                 tuple.get_int(Tuple::Length) <= 0 && aud_get_bool(PLUGIN_NAME, PRECALC_SONGLENGTHS);
             if (do_precalc) {
-                auto state = play_player(file, subsong, songend::PRECALC_FREQ_PLAYER);
+                auto state = play_player(file, path, subsong, songend::PRECALC_FREQ_PLAYER);
                 if (!state.has_value()) {
                     return false;
                 }
@@ -735,7 +736,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
 
     // non-UADE
     if (is_our_file_player(file)) {
-        auto state = play_player(file, subsong, rate);
+        auto state = play_player(file, path, subsong, rate);
         if (!state.has_value()) {
             return false;
         }
