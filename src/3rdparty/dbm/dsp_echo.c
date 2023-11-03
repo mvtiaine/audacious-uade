@@ -116,7 +116,7 @@ int dsp_echo_pull(struct DSPObject *obj0, int16_t *dest, int32_t frames)
 	struct DSPObject *prev;
 	int32_t al, ar, l, r, l_del, r_del;
 	int16_t b[32], *src, *del;
-	int chunk, read_pos;
+	int chunk, read_pos, leave_active = TRUE;
 
 	prev = obj->object.dsp_prev;
 
@@ -127,7 +127,7 @@ int dsp_echo_pull(struct DSPObject *obj0, int16_t *dest, int32_t frames)
 		chunk = 16;
 		if (chunk > frames) chunk = frames;
 		
-		prev->dsp_pull(prev, b, chunk);
+		leave_active = prev->dsp_pull(prev, b, chunk);
 		src = b;
 		frames -= chunk;
 

@@ -762,6 +762,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
         ERR("Could not init uade state\n");
         return false;
     }
+    rate = uade_get_sampling_rate(state);
 
     switch (play_uade(uri, file, path, name, subsong, state, formatname)) {
         case 1: {
