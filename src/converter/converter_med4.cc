@@ -118,6 +118,7 @@ void readBlock(const vector<char> &med4, MMD0Block &block, size_t &offs) {
 
 void readSynthInstr(const vector<char> &med4, SynthInstr &instr, size_t &offs) {
     int instroffs = offs;
+    (void)instroffs;
     readu32be(med4, offs); // synth instr header(?)
     reads16be(med4, offs); // FFFF (?)
     instr.defaultdecay = readu8be(med4, offs);

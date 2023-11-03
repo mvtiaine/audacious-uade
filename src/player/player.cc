@@ -19,7 +19,7 @@ namespace player::hvl {
 void init();
 optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size);
 optional<PlayerState> play(const char *fname, const char *buf, size_t size, int subsong, int frequency);
-pair<bool,ssize_t> render(PlayerState &state, char *buf, size_t size);
+pair<bool,size_t> render(PlayerState &state, char *buf, size_t size);
 void stop(PlayerState &state);
 bool restart(PlayerState &state);
 
@@ -30,7 +30,7 @@ namespace player::dbm {
 void init();
 optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size);
 optional<PlayerState> play(const char *fname, const char *buf, size_t size, int subsong, int frequency);
-pair<bool,ssize_t> render(PlayerState &state, char *buf, size_t size);
+pair<bool,size_t> render(PlayerState &state, char *buf, size_t size);
 void stop(PlayerState &state);
 bool restart(PlayerState &state);
 
@@ -67,7 +67,7 @@ optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size) {
         case HIVELY: return hvl::parse(fname, buf, size);
         case DIGIBOOSTERPRO: return dbm::parse(fname, buf, size);
         case NONE: return {};
-        default: assert(false);
+        default: assert(false); return {};
     }
 }
 
@@ -76,7 +76,7 @@ optional<PlayerState> play(const char *fname, const char *buf, size_t size, int 
         case HIVELY: return hvl::play(fname, buf, size, subsong, frequency);
         case DIGIBOOSTERPRO: return dbm::play(fname, buf, size, subsong, frequency);
         case NONE: return {};
-        default: assert(false);
+        default: assert(false); return {};
     }
 }
 
@@ -97,7 +97,7 @@ pair<bool,size_t> render(PlayerState &state, char *buf, size_t size) {
     switch (state.player) {
         case HIVELY: res = hvl::render(state, buf, size); break;
         case DIGIBOOSTERPRO: res = dbm::render(state, buf, size); break;
-        case NONE: default: assert(false);
+        case NONE: default: assert(false); return pair(false,0);
     }
     const size_t bytespersec = 4 * state.frequency;
     state.pos_millis += res.second * 1000 / bytespersec;
@@ -124,7 +124,7 @@ bool seek(PlayerState &state, int millis) {
         switch (state.player) {
             case HIVELY: res = hvl::render(state, dummybuf, sizeof dummybuf); break;
             case DIGIBOOSTERPRO: res = dbm::render(state, dummybuf, sizeof dummybuf); break;
-            case NONE: default: assert(false);
+            case NONE: default: assert(false); return false;
         }
         seeked += res.second;
     }
@@ -140,7 +140,7 @@ bool restart(PlayerState &state) {
     switch (state.player) {
         case HIVELY: res = hvl::restart(state); break;
         case DIGIBOOSTERPRO: res = dbm::restart(state); break;
-        case NONE: default: assert(false);
+        case NONE: default: assert(false); return false;
     }
     if (res) {
         state.pos_millis = 0;

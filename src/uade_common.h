@@ -61,7 +61,7 @@ struct song_end {
             case song_end::NOSOUND: return "nosound";
             case song_end::NONE: return "none";
             case song_end::STOP: return "stop";
-            default: assert(false);
+            default: assert(false); return "error";
         }
     }
 };
