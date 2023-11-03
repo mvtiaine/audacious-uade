@@ -359,7 +359,7 @@
 0668a69b63225f8848531e7dceaa4335	1	7747	player	5766	Mods-4/Modules/Misc/ChipTune.G-N/Legacy-1.mod
 066b83a311ec43b2c4e7f08b5a427982	1	46106	player	15576	Mods-2/Modules/Authors.G-Q/Hardfire/Jumpin'_Awake.mod
 066b83a311ec43b2c4e7f08b5a427982	1	46106	player	15576	Mods-2/Modules/Authors.G-Q/Hardfire/MS-DOS/Jumpin'_Awake.mod
-067f06fad4edbc3816d05c45ebd7f92f	0	32256	loop	24188	Mods-4/Modules/Synth/FTM/FTM.Acco_Hop
+067f06fad4edbc3816d05c45ebd7f92f	0	30610	player	24188	Mods-4/Modules/Synth/FTM/FTM.Acco_Hop
 067f43e93c11f6431b1c3101cc4a4394	0	215037	player	25522	Mods-4/Modules/Synth/Synthesi/SYN.Alcazzar
 067ff9b3ee599cef5aaecd45c8dea88b	1	126126	player	31878	Mods-3/Modules/Groups/Abyss/DizneeL2_Amaretto_Allergy.mod
 06850dbb1a0a1755a8c2611f55eaf44b	1	330367	player	63004	Mods-2/Modules/Authors.G-Q/Jesp_Kyd/Down_Under.mod
@@ -454,7 +454,7 @@
 083cc39059035982106a9691c5d3d527	1	153688	player	72114	Mods-1/Modules/Authors.A-F/Dean/Reggae.mod
 083dcb6d93a8c53dffd18a0fcdd23398	1	365964	player+silence	308226	Mods-3/Modules/Authors.R-Z/Shad/Black_Sun.mod
 084380ec1037200543b5288508d1ff59	1	36112	player+silence	51004	Mods-4/Modules/Misc/Misc.G-L/Griff-U96.mod
-0846c6f52899d2c9a62109e3f2223854	0	212577	loop	169454	Mods-4/Modules/Synth/FTM/FTM.View_Into_Imagine
+0846c6f52899d2c9a62109e3f2223854	0	165120	player	169454	Mods-4/Modules/Synth/FTM/FTM.View_Into_Imagine
 084d2647ccfcdec5bc7cc703dee65ecf	1	152418	player	52518	Mods-1/Modules/Authors.A-F/A_Brimbl/MS-DOS/Skull-07.mod
 084d2647ccfcdec5bc7cc703dee65ecf	1	152418	player	52518	Mods-1/Modules/Authors.A-F/A_Brimbl/SkullKeep-07.mod
 0851b20b243ca0529f361d54f8a30c03	1	192047	player	328546	Mods-2/Modules/Authors.G-Q/Mindfuck/Trance_machine.mod
@@ -730,7 +730,7 @@
 0d463a79245e43b7f114c08f485cbc7d	1	38485	player	6666	Mods-4/Modules/Misc/ChipTune.O-Z/Prodigal_Son.mod
 0d4ae95e7eeda10754e3a8dcc871b99d	1	38485	player	15140	Mods-2/Modules/Authors.G-Q/Hardfire/Hurry_up!.mod
 0d4e9ed5976877a04ec64bcbeadef7f9	0	53600	player	3616	Mods-4/Modules/Synth/SoundMon/BP.Commando-Hiscore
-0d5546c86142eed1fdb8928681b842ce	0	115303	loop	80372	Mods-4/Modules/Synth/FTM/FTM.Ballade_pour_Adeline
+0d5546c86142eed1fdb8928681b842ce	0	122443	player	80372	Mods-4/Modules/Synth/FTM/FTM.Ballade_pour_Adeline
 0d58311e31aa20fe3b2f332c40ac4e42	1	163850	player	18908	Mods-4/Modules/Misc/ChipTune.G-N/Greasy_Duck_v1.mod
 0d5977fed72e5bc07ff4836293adc8f3	1	340693	player+silence	116868	Mods-1/Modules/Authors.A-F/Dr_Aweso/Monsieur_Gastone.mod
 0d5b4292a556617b9dc9179f29fec7df	1	314998	player	185932	Mods-1/Modules/Authors.A-F/Adamski/Opera_de_Nuit-1.mod
@@ -1273,7 +1273,7 @@
 1618cf4a546c338b24332b2bae621779	1	92213	player	30000	Mods-3/Modules/Groups/Analog/Just_for_Harmony.mod
 161a1b2e7a0ccb0a2efbfa39f5216104	1	210242	player+silence	246248	Mods-4/Modules/Misc/D-Techno.A-F/Bi_(Cyber_Edit).mod
 161ad88f92317f301cd8814d076ef5f7	1	383211	player+silence	182976	Mods-1/Modules/Authors.A-F/Dr_Aweso/Fire_on_High.mod
-161bf2aa4a97b58127ae919ba1e6bca7	0	142892	loop	139456	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Zamba-Samba
+161bf2aa4a97b58127ae919ba1e6bca7	0	745073	player	139456	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Zamba-Samba
 16227e423a926bdd81d0f37b9b582709	1	438076	player	170310	Mods-3/Modules/Groups/Heretiqu/Relax.mod
 162e876b334c6ede0b48f53805239a7e	1	130699	player	129470	Mods-1/Modules/Authors.A-F/Dr_Aweso/Frequency_Feed.mod
 1630f98df9df6e0a5e6f38675d48e355	1	115796	player+silence	184296	Mods-3/Modules/Authors.R-Z/XTD/X-unlimited-1.mod
@@ -1371,7 +1371,7 @@
 17c4112be092d8377910c4b72226f461	1	99961	player	56962	Mods-4/Modules/Misc/Misc_Old.S-Z/Soft-Brain-T.mod
 17c45f5229d1668f1e02bf55f123a406	1	154012	player+silence	79736	Mods-4/Modules/Misc/Misc_Old.L-R/Lts-3_Lotus-3.mod
 17c9d77576e1459c8e8e0dd6a16bd220	1	46081	player+silence	82448	Mods-4/Modules/Misc/Delirium/G5-Amicalememt_Garden.mod
-17cbb3ad240e9315eef514525558bee8	0	291540	loop	191040	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Already_Lost
+17cbb3ad240e9315eef514525558bee8	0	284387	player	191040	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Already_Lost
 17cef98c4be614459f41a4f96e29a477	1	156483	player	134814	Mods-2/Modules/Authors.G-Q/Lizard/Andromeda_Intro-2!!.mod
 17cef98c4be614459f41a4f96e29a477	1	156483	player	134814	Mods-2/Modules/Authors.G-Q/Lizard/MS-DOS/Andromeda_Intro-2!!.mod
 17d194b50d6035c19623b66004e0fb64	1	181378	player	97016	Mods-1/Modules/Authors.A-F/Bc/Blood'n_Tears.mod
@@ -1735,7 +1735,7 @@
 1d8eab60b9d3eed798c1b9b949e68481	1	102501	player	72154	Mods-4/Modules/Misc/Misc_Old.A-D/Beach_Volley-Bahamas.mod
 1d93cf4693ab8f49505838df2ea5bda1	1	116403	player+silence	34054	Mods-1/Modules/Authors.A-F/Foxx/Game-2.mod
 1d9443fa9faff365279ce62e42e874aa	1	185188	player	70086	Mods-3/Modules/Groups/Rebels/MD1-Stilleogrowli.mod
-1d94d5b800491eb2e80f8c62f9ca7eee	0	204565	loop	156008	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Padre_I_Love_You
+1d94d5b800491eb2e80f8c62f9ca7eee	0	199922	player	156008	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Padre_I_Love_You
 1d99cde5e3bb589d94def9da87adb79d	1	148255	player+silence	92310	Mods-2/Modules/Authors.G-Q/Otis/B-o-matic_'93.mod
 1da68f795fa8ecca2acd0b9aade0633d	1	138320	player	88606	Mods-1/Modules/Authors.A-F/A_Brimbl/SuperFrog_!Preview!.mod
 1daf9c9a2bec57f999f1a5e0a0449b67	1	145559	player	73968	Mods-1/Modules/Authors.A-F/Dean/Aquarium-2.mod
@@ -1944,7 +1944,7 @@
 211f880173e2f6be2383a8ea47f11fd7	1	284260	player	65860	Mods-3/Modules/Groups/Kefrens/MD1-Kefrens-1.mod
 2124f03ac3b1cf3a939dbe1c9ed3b542	1	16639	player	27532	Mods-1/Modules/Authors.A-F/FBY/Desert.mod
 2132cfb88a6e5aa8b8ae0a6b20bcee75	1	330621	player	129234	Mods-2/Modules/Authors.G-Q/Lizardkg/Wild_Impressions-2.mod
-213c47f8367d6e168bc3ffa2d8474a10	0	353709	loop	161768	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Christmas_Eve
+213c47f8367d6e168bc3ffa2d8474a10	0	347642	player+volume	161768	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Christmas_Eve
 213e98006c1b7b1c633b4b5270157ac8	1	526534	silence	90078	Mods-4/Modules/Misc/Misc.A-F/FiRe!.mod
 213f7982d91f93f7439787a47836ea7a	1	108393	player+silence	97208	Mods-2/Modules/Authors.G-Q/M_Furnis/MS-DOS/Manchester_United_Title.mod
 213f7982d91f93f7439787a47836ea7a	1	108393	player+silence	97208	Mods-2/Modules/Authors.G-Q/M_Furnis/Manchester_United_Title.mod
@@ -2124,7 +2124,7 @@
 23c7a5bc9a85dde421378a9620fbc721	1	158769	player	79750	Mods-4/Modules/Misc/Misc_Old.S-Z/WASP_Level-1.mod
 23cc9d3a8155025ab46e688514c3fb1c	1	171464	player+silence	247022	Mods-2/Modules/Authors.G-Q/Mr_Man/Rhetoric.mod
 23d302eaa3f77cf672cdce0d76459685	1	122189	player	249638	Mods-3/Modules/Authors.R-Z/Vince/GOtaklOon'n_my_head!.mod
-23d90b496135c6fe9060b5a795b0ce7b	0	136279	loop	283464	Mods-1/Modules/Authors.A-F/A_Eicklr/FTM.Danger_Mix
+23d90b496135c6fe9060b5a795b0ce7b	0	180743	player	283464	Mods-1/Modules/Authors.A-F/A_Eicklr/FTM.Danger_Mix
 23dbde79b26555fcae1ac935d4d55e30	1	23116	player	10096	Mods-4/Modules/Misc/ChipTune.O-Z/Pukki(s).mod
 23de8d6b3b8e4793cf91316b4b489069	1	87767	player	20084	Mods-2/Modules/Authors.G-Q/James/Speech_Disorder.mod
 23dfc86439124f6202b93110b567a2c1	1	267604	player+silence	658174	Mods-4/Modules/Misc/Compos/TP94.4CH/Murderers_of_Passion.mod
@@ -2618,7 +2618,7 @@
 2cb899959ff8e6817c16eba61d63957e	1	192047	player	201522	Mods-2/Modules/Authors.G-Q/Psynomix/Housemusic.mod
 2cbf444d6a33bd16235002eb34eb1d7d	0	71001	player	18024	Mods-4/Modules/Synth/DeltaMus/DM2.WaterWarriorsTune
 2cc35ec928e8944cfc11010f44e13080	1	99961	player	146746	Mods-4/Modules/Misc/Misc_Old.L-R/La_Inocencia.mod
-2cca1744c3bd2340b2c678ad88918fcb	0	151769	loop	187692	Mods-1/Modules/Authors.A-F/A_Eicklr/FTM.Rock
+2cca1744c3bd2340b2c678ad88918fcb	0	144035	player	187692	Mods-1/Modules/Authors.A-F/A_Eicklr/FTM.Rock
 2ccad3e7c92e0cd6d648ea793c9f26d0	1	125491	player	47952	Mods-1/Modules/Authors.A-F/Airon/Overdose.mod
 2cd3fa40ade23a39107cc002d09a386a	1	182171	player+silence	103682	Mods-3/Modules/Groups/Degenera/Bad_Words.mod
 2cd574d3c8819337d0458b99eb02e1c2	1	38485	player	6654	Mods-1/Modules/Authors.A-F/Airwalk/Hvide_cykler.mod
@@ -2902,7 +2902,7 @@
 314fb6bc9187abd581eaa9b1bf515129	1	80654	player	64338	Mods-1/Modules/Authors.A-F/A_Brimbl/MS-DOS/Bub-Title.mod
 315c6f9f420b4dc1b90c6baff6cbfcf7	1	296708	player	324232	Mods-3/Modules/Authors.R-Z/Sidewind/Nxlcio.mod
 315f72672f7a721ff8afc8b5df0ff607	1	84592	player	47388	Mods-1/Modules/Authors.A-F/Clawz/Syntax_Terror.mod
-31633dfb607bb413fefe1f8fc0d15f74	0	177763	loop	91808	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.I_Love_The_Night
+31633dfb607bb413fefe1f8fc0d15f74	0	296340	player+volume	91808	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.I_Love_The_Night
 316546fdd0e4e031f91956cd26a5ce31	1	41026	player	28640	Mods-1/Modules/Authors.A-F/Acc&Deel/Loading_Sequence.mod
 31676c0d5940f037436f6262511ee31b	1	44582	player	93228	Mods-1/Modules/Authors.A-F/Brainbug/Home_Alone_Partaj.mod
 316d321d40df118b4fad5b207cea8339	0	4318	player	4540	Mods-4/Modules/Synth/Whittakr/DW.Carrier_Command
@@ -3661,7 +3661,7 @@
 3cf839205c561655fe4f1b0e935e3fe4	1	107582	player	50702	Mods-1/Modules/Authors.A-F/Dr_Aweso/MS-DOS/Airl-2.mod
 3cff8e3ee5265abd9944defe9e0468c9	1	271553	player+silence	309530	Mods-1/Modules/Authors.A-F/Delorean/Nation_of_Losers.mod
 3d0226a436d4a6866cc41e7ef00f0a02	1	17909	player	93228	Mods-3/Modules/Authors.R-Z/Soul/Uh_b_good_to_me.mod
-3d04319cade075d06c162934f04b2692	0	348206	loop	204502	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Expecting_The_Worst
+3d04319cade075d06c162934f04b2692	0	324651	player	204502	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Expecting_The_Worst
 3d0fcf7974839ebb772bb69a887b265f	1	46106	player	28238	Mods-3/Modules/Authors.R-Z/XTD/Economy-12.mod
 3d0fcf7974839ebb772bb69a887b265f	1	46106	player	28238	Mods-3/Modules/Authors.R-Z/XTD/MS-DOS/Eco-12.mod
 3d139cdb1b803089c3561914482bb687	1	479102	player	766916	Mods-1/Modules/Authors.A-F/DSX/Renegade_v1_8.mod
@@ -3772,7 +3772,7 @@
 3e2167d3e0a729bdb9e405db1118315f	1	51314	player	63826	Mods-2/Modules/Authors.G-Q/Lizard/Introtune-3.mod
 3e234d69151f3951596eb0aeff75f85d	1	84592	player	21892	Mods-3/Modules/Groups/Analog/MenuSong_W.mod
 3e243609402d413f1fd88183582431e4	0	299502	player	13218	Mods-4/Modules/Synth/FC14/FC14.Dextrous-4
-3e2ce77ded71d0278de04f67a969a525	0	202599	loop	320898	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Tekk-No
+3e2ce77ded71d0278de04f67a969a525	0	198525	player	320898	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Tekk-No
 3e47f6cb3aa5316ad22d0c42d1d60abb	1	116346	player	91148	Mods-4/Modules/Misc/Misc.M-R/Rising_Sun.mod
 3e484916ded726b8f295f7d89b4d0b51	0	286039	player	23032	Mods-4/Modules/Synth/FC14/FC14.Dextrous-2
 3e4950b2cb0915ceba8411b9b28c73ad	1	84465	player	79576	Mods-2/Modules/Authors.G-Q/Nuke/Frozen_Gloves.mod
@@ -4651,7 +4651,7 @@
 4bd1b7aa8060c05e70ccdb32f70eb830	1	314998	player	94752	Mods-4/Modules/Misc/Misc_Old.E-K/Introduction.mod
 4bdcbfbf8e025fd725ff8e20815d5919	1	187013	player+silence	78322	Mods-4/Modules/Misc/Misc_Old.L-R/Romance.mod
 4bdfa03904ac69b0f3f50908d0233758	1	30737	player	18666	Mods-2/Modules/Authors.G-Q/Nao/Sonyman_Returns.mod
-4be51039d63b57fa53311920533ae935	0	217634	loop	46048	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Scotsman_Will_Die
+4be51039d63b57fa53311920533ae935	0	209448	player	46048	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Scotsman_Will_Die
 4be7a2884d7741b6cf3206bb6a47ee7d	1	111392	player	170994	Mods-1/Modules/Authors.A-F/Dreamer/Wall_of_Silence.mod
 4be913e5b5225a6d06c3d0b3a58674fe	1	153688	player	42094	Mods-4/Modules/Misc/ChipTune.G-N/Non_Grease-3.mod
 4bea6b0da95aabf991abbde569c31939	1	259480	player+silence	245036	Mods-4/Modules/Misc/Compos/TP95.4CH/Digital_Revolution.mod
@@ -5137,7 +5137,7 @@
 54d8b42ffc100ee8894314d25aa297fa	1	281526	player+silence	60398	Mods-2/Modules/Authors.G-Q/N_Tausch/Teddyful_Long_Remix.mod
 54e0fa0998b1cd270886b1378c1cb53b	1	46106	player	52628	Mods-3/Modules/Authors.R-Z/XTD/Shower.mod
 54e6aa8d97439ecdbe17bd0d60b775f1	1	30483	player	17896	Mods-1/Modules/Authors.A-F/Dean/Cyberdance.mod
-54e9a69dabfe90fa25b4027cfd32b35f	0	170723	loop	141786	Mods-1/Modules/Authors.A-F/A_Eicklr/FTM.Menolly's_Song
+54e9a69dabfe90fa25b4027cfd32b35f	0	122316	player	141786	Mods-1/Modules/Authors.A-F/A_Eicklr/FTM.Menolly's_Song
 54f072171bd3a91f58972c9552824247	1	46106	player	62832	Mods-3/Modules/Groups/Deathstr/MD-Defender.mod
 54f5ec1209a05ca08974d3264afa0620	1	256317	player	140248	Mods-2/Modules/Authors.G-Q/Jellybea/Phantasy.mod
 54faa39de54f21da559fd66a75d5d9b4	1	135779	player	33164	Mods-3/Modules/Groups/M_O_N/C64_Song.mod
@@ -5293,7 +5293,7 @@
 57d1c3bd3f98bcd5bdae844eafb7b556	1	472200	player+silence	291864	Mods-2/Modules/Authors.G-Q/Jam&Spoo/3rd_World.mod
 57d4cfeaadfe9e0d8912389a39847727	1	26927	player	3172	Mods-2/Modules/Authors.G-Q/Maf/Presque_Rien.mod
 57d5620a08091266a6561928c40f8740	1	259873	player	103202	Mods-3/Modules/Groups/Analog/M-L-K.mod
-57da1368b46101de799d2ad8dd2ed2f2	0	135525	loop	230822	Mods-1/Modules/Authors.A-F/A_Eicklr/FTM.New_Generation
+57da1368b46101de799d2ad8dd2ed2f2	0	130191	player	230822	Mods-1/Modules/Authors.A-F/A_Eicklr/FTM.New_Generation
 57dad78f5236a622c114b71bb2eba908	1	272471	player+silence	81118	Mods-2/Modules/Authors.G-Q/Gryzor/TBC-83_Funk_Riff.mod
 57dd28871d5113c973659c916c2a481a	1	102501	player	63952	Mods-1/Modules/Authors.A-F/911/En_Noir_et_Blanc.mod
 57e069d9cd4d284a03a1b9337dce4ec8	1	30737	player	9312	Mods-1/Modules/Authors.A-F/DeathJes/10k_Blur.mod
@@ -5490,7 +5490,7 @@
 5b41ed94e3b3a8c6efbd258f7b86e2f9	1	113933	player	59904	Mods-2/Modules/Authors.G-Q/J_Alpmar/Sunburn.mod
 5b441a3d1e487d9cb87b29246a47b3a6	1	57411	player	2172	Mods-1/Modules/Authors.A-F/Diesel/Le_Canard_est_Mort.mod
 5b443d37cdc4768595fc2f7c6e102340	1	23116	player	15874	Mods-2/Modules/Authors.G-Q/Oxbow/Nebulus_Colaptus.mod
-5b4a9d08490d6337b9f39b51a28e60cd	0	174356	loop	230510	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Antom
+5b4a9d08490d6337b9f39b51a28e60cd	0	180767	loop	230510	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Antom
 5b4aa96746c87ec1d0bd3c5b07f54e48	1	123205	player	97658	Mods-4/Modules/Synth/MED/Football.MED
 5b4b647b992949a0efe9f5fcdab7634d	1	51949	player	12122	Mods-3/Modules/Groups/Abyss/Walk_a_bout.mod
 5b5044d78a79e99455466802f94d5a32	1	32643	player	15246	Mods-2/Modules/Authors.G-Q/Lizardkg/Sune_Cyklar_Hycklar.mod
@@ -5558,7 +5558,7 @@
 5c235a9af0bacb9fb5d3323e2f5f121c	1	135007	player+silence	202622	Mods-2/Modules/Authors.G-Q/Oxbow/Mr_Soulmaniac!.mod
 5c337580b1485a3744dbdce7752659ae	1	50044	player	15048	Mods-2/Modules/Authors.G-Q/Nebula/Zylonyte.mod
 5c378e2e6c8d77808896595d4dba8916	1	199795	player	117760	Mods-4/Modules/Misc/Oldies/Doc-Demons_Soundtrack.mod
-5c39e1f06740c05c1882aaa23641052e	0	225085	loop	159036	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Here_and_Tonight
+5c39e1f06740c05c1882aaa23641052e	0	216564	player+silence	159036	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Here_and_Tonight
 5c425d04913c5892da673fd9bcd7e2d3	1	20249	silence	12746	Mods-4/Modules/Misc/ChipTune.O-Z/Tracejump.mod
 5c448ab8fd6e43540793c5df9b1a826e	1	117108	player	211550	Mods-1/Modules/Authors.A-F/Bar/Exhausted.mod
 5c4d823e67a4ed0368b85fe57fa2562d	1	158769	player	133338	Mods-2/Modules/Authors.G-Q/J_Alpmar/Saucer_Soul.mod
@@ -5581,7 +5581,7 @@
 5cad60b1c408faf47279de45584fddff	1	152102	player+silence	168362	Mods-4/Modules/Misc/Compos/SouthSea.94/Worp_Nine.mod
 5caf3b1705219b5181f7d1f9c223203d	1	96150	player	78806	Mods-4/Modules/Misc/Misc.A-F/For_You.mod
 5caf6f352d8e2edeb59719b210696b44	1	46106	player	4462	Mods-4/Modules/Misc/ChipTune.A-F/Chip-1.mod
-5caf87623d66094a8c9ae44163253d94	0	178928	loop	206894	Mods-4/Modules/Synth/FTM/FTM.Midnight_Beats
+5caf87623d66094a8c9ae44163253d94	0	261525	player	206894	Mods-4/Modules/Synth/FTM/FTM.Midnight_Beats
 5cce2b72ff8d2a720549dad7072c644d	1	434306	player+silence	106462	Mods-2/Modules/Authors.G-Q/Moby/Amazin_Beat.mod
 5cd610e42f0b8dc93386d1ff86a7f99e	1	259569	player+silence	123448	Mods-3/Modules/Groups/Analog/Command-2.mod
 5ce16ef0d02cee85d70cd657256c6b59	1	181611	player+silence	116882	Mods-4/Modules/Misc/Misc_Old.E-K/First_Shot.mod
@@ -5649,7 +5649,7 @@
 5e1f10c501adeb2db98afd4d0176a17d	3	72271	player
 5e1fc5010a4774e44ac7fa88e792535b	1	6477	player	12196	Mods-3/Modules/Authors.R-Z/Tatoufo/MS-DOS/TLD_Technik.mod
 5e1fc5010a4774e44ac7fa88e792535b	1	6477	player	12196	Mods-3/Modules/Authors.R-Z/Tatoufo/TLoader_Technik.mod
-5e24c90c80d89221eac72eb07fe62f56	0	88857	loop	150330	Mods-3/Modules/Authors.R-Z/SSilk/FTM.No_Return
+5e24c90c80d89221eac72eb07fe62f56	0	182841	loop	150330	Mods-3/Modules/Authors.R-Z/SSilk/FTM.No_Return
 5e2aaec290aa575d501cdc4cc0c2d2eb	1	153688	player	224002	Mods-2/Modules/Authors.G-Q/Mindfuck/Back_To_France.mod
 5e2d8bf1f7e619c25bed71fb1372bcd4	1	219216	player+silence	240762	Mods-3/Modules/Authors.R-Z/Sparky/Never_Again.MED
 5e3651afe6121924ae46795ab9a0b21c	1	324651	player	177486	Mods-3/Modules/Groups/Extreme/Song_for_Pleiades.mod
@@ -7063,7 +7063,7 @@
 77754349297b56f53bd1525da5bfc881	6	111392	player
 777917ceadca6ded36e74b57278d609d	1	245775	player	60002	Mods-4/Modules/Misc/Misc_Old.S-Z/MS-DOS/Zo1_Rave.mod
 777917ceadca6ded36e74b57278d609d	1	245775	player	60002	Mods-4/Modules/Misc/Misc_Old.S-Z/Zool-1_Rave.mod
-777da1b8c7c9318047a06952b049c87e	0	231361	loop	320146	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.It_Started_To_Rain
+777da1b8c7c9318047a06952b049c87e	0	337988	player	320146	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.It_Started_To_Rain
 778097858e72d310ab010538c814b06b	1	18036	player	37568	Mods-1/Modules/Authors.A-F/Dreamer/Intro_Drums_2.mod
 778097858e72d310ab010538c814b06b	10	18036	player
 778097858e72d310ab010538c814b06b	11	18036	player
@@ -7270,7 +7270,7 @@
 79c2648654fb743f44edc6080dbe431c	1	86497	player	305316	Mods-4/Modules/Misc/Misc.M-R/Rascarcarpacs_Armb.mod
 79c3de2419118c933a1c3f8187124c41	1	169819	player	128662	Mods-1/Modules/Authors.A-F/Dean/BRB_Theme.mod
 79c55d358039acad082f7da2fe3e71e2	1	218186	player+silence	219502	Mods-4/Modules/Misc/Compos/TP94.4CH/Redophobia.mod
-79cce4f692bae5d7b814b6e262203a6f	0	496498	loop	305452	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Summer_Holidays
+79cce4f692bae5d7b814b6e262203a6f	0	463843	player+silence	305452	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Summer_Holidays
 79d61e56c0bf79c391888acd1d8ab73c	1	308393	player	321320	Mods-3/Modules/Authors.R-Z/Yannis/Jamboree.mod
 79d7872c448303e8a609e32bf62e4030	1	80273	player	259886	Mods-1/Modules/Authors.A-F/B_&_H/It's_in_your_Brain.mod
 79d8616b3c46aebcf42d940794e60b6b	1	169057	player	564512	Mods-3/Modules/Authors.R-Z/Vinnie/A_Few_Chords.mod
@@ -7474,7 +7474,7 @@
 7d2bd9632d1ebd08a4a7653062be9dbc	1	38485	player	10288	Mods-3/Modules/Authors.R-Z/Strobo/Popcorn.mod
 7d3e55d5c8f82b3d0f0c7d0539a20091	1	35818	player	296922	Mods-3/Modules/Authors.R-Z/TJM/Maentsalae.mod
 7d3ea52fb2ceb462e9bad6fc05029bb6	1	184823	player+silence	101988	Mods-1/Modules/Authors.A-F/Airon/Action_Run.mod
-7d48b1f103d5a31444dbbb2d7c71bbfb	0	198318	loop	18198	Mods-4/Modules/Synth/SoundMon/BP.Dimension_Five
+7d48b1f103d5a31444dbbb2d7c71bbfb	0	179725	loop+silence	18198	Mods-4/Modules/Synth/SoundMon/BP.Dimension_Five
 7d4cce834037a25b0afb9e0703d871e3	0	97929	player	23698	Mods-4/Modules/Synth/DeltaMus/DM2.Warfalcons
 7d4ec781e152975f696e4eaf995bee1c	1	222785	player	85558	Mods-3/Modules/Authors.R-Z/Steel/Inconnue.mod
 7d54b61dacaa6a6a747d03b8b56c16fa	1	176678	player	100302	Mods-1/Modules/Authors.A-F/Arios/Think_Over_The_Star.mod
@@ -7622,7 +7622,7 @@
 7f63050c9b0016e7ce85dbcff34ad724	1	143400	player	80352	Mods-4/Modules/Misc/Misc_Old.S-Z/Zone_Highscore.mod
 7f6969b3599a2d572013f83cdb6d6892	1	143090	player+silence	192420	Mods-2/Modules/Authors.G-Q/Nutcase/Child_Porn_Bust.mod
 7f6cc5274fa83e57340faf427c1ef421	1	21465	player	128718	Mods-1/Modules/Authors.A-F/Dreamer/Pierwszy_Maja.mod
-7f71b403e218126768202851ab79d30d	0	308496	loop	123138	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Herbst_mit_Wehmut
+7f71b403e218126768202851ab79d30d	0	293761	player+silence	123138	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Herbst_mit_Wehmut
 7f79427fff1a2f3762f973cffc7bc4e0	1	130353	player+silence	93750	Mods-1/Modules/Authors.A-F/Dr_Aweso/No_one_Home.mod
 7f7d5e9f49d7643255c1c1b36b430778	1	138320	player	65228	Mods-3/Modules/Groups/Heretiqu/Evilwalk-2.mod
 7f7e23f71c170d20e12a6c7c2dc1950f	1	243346	player+silence	314964	Mods-2/Modules/Authors.G-Q/Lizard/Mytesaltimus-2.mod
@@ -8310,7 +8310,7 @@
 8b19201049f695f29e64f707108922a5	1	8028	player+silence	36054	Mods-1/Modules/Authors.A-F/A_Brimbl/MS-DOS/ArcPool2.mod
 8b1b142893627ec75c4b38f93f9d8101	1	82306	player	156028	Mods-3/Modules/Groups/LSD/Joes-11.mod
 8b1c28eb506ef3b09209e7e8f6db7edb	0	217302	player+silence	218296	Mods-1/Modules/Authors.A-F/Absys/Les_Granges_Brulees.OKT
-8b2c5725d603e300a50a1857b8516dab	0	296579	loop	118918	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Surprise_Song
+8b2c5725d603e300a50a1857b8516dab	0	221642	player	118918	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Surprise_Song
 8b30048c80c4bd1132a4931c0e480c19	1	192047	player	145890	Mods-3/Modules/Groups/Analog/Tuxedo.mod
 8b35ca782d6528958be57451f709b0ef	1	5842	player	57034	Mods-3/Modules/Authors.R-Z/Tatoufo/Solitude_Eternelle.mod
 8b4196a6b633c8a80866c9034700a047	1	346269	player+silence	268472	Mods-4/Modules/Misc/D-Techno.R-Z/Synchronized_Minds.mod
@@ -8964,7 +8964,7 @@
 973eb19756f45a0f04382befa95f7c53	1	723183	player+silence	215728	Mods-1/Modules/Authors.A-F/4mat/In_Your_Shadow.mod
 9753e53e22f50bde56e5d8a25ceebaf0	1	61852	player+silence	311756	Mods-3/Modules/Groups/Melon-D/We_Killed_Dr_Black.mod
 975504eed380a2522eb4b0612c160186	1	38485	player	57692	Mods-2/Modules/Authors.G-Q/J_Alpmar/Skotta.mod
-975fab7eb37b45532b0b57a523259f4f	0	294731	loop	243120	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.WR
+975fab7eb37b45532b0b57a523259f4f	0	290738	player	243120	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.WR
 9763119a7e4997087cff7957dd3cfa13	1	253396	player	548296	Mods-3/Modules/Authors.R-Z/TJM/Wet_Dreams-2_1.mod
 976506847b10a757b2195897d28b19c3	1	7747	player	2310	Mods-2/Modules/Authors.G-Q/Jelace/Chip-060.mod
 976af09fefe001619fedb94765100f2f	1	237657	player+silence	131040	Mods-4/Modules/Misc/D-Techno.A-F/Cubic-You_Got_It.mod
@@ -9063,7 +9063,7 @@
 98fdde7d3d96e9b365f36b6b0a16f5d2	1	190904	player	142288	Mods-1/Modules/Authors.A-F/Accord/Getting_Inspiration.mod
 990304f9a8c31b7e33a4f55ec33ad754	1	245775	player	215774	Mods-2/Modules/Authors.G-Q/Nuke/Lemonade.mod
 9905f897da9d52edc7f7a6abb42e4789	1	172551	player+silence	134992	Mods-1/Modules/Authors.A-F/4mat/Cardiaxx-1.mod
-990a62f70f1638a0d9e5178f7ebde560	0	199606	loop	140948	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.You_Have_To_Wait
+990a62f70f1638a0d9e5178f7ebde560	0	357548	player	140948	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.You_Have_To_Wait
 99104cddb675a0db9d50cfc80e77fc84	1	57665	player	10978	Mods-1/Modules/Authors.A-F/Dreamfsh/Comic_Bakery-2.mod
 99104cddb675a0db9d50cfc80e77fc84	1	57665	player	10978	Mods-1/Modules/Authors.A-F/Dreamfsh/MS-DOS/Comic_B2.mod
 99133f94d88f4a4772a136372792a570	1	51314	player	6022	Mods-1/Modules/Authors.A-F/Clawz/Criminal_Tears-1.mod
@@ -9193,14 +9193,14 @@
 9adbf732592ad127edf12185d028c4d4	8	2286	player
 9adbf732592ad127edf12185d028c4d4	9	1651	player
 9aec4a052c99cc4d2a8f7c2cd2129112	0	145940	player	21644	Mods-4/Modules/Synth/SidMon/SID1.Enigma_Gun
-9aef0f6d81f9e033f7f277d9a2d17973	0	157513	loop	179594	Mods-1/Modules/Authors.A-F/A_Eicklr/FTM.Stormcloud
+9aef0f6d81f9e033f7f277d9a2d17973	0	151951	player+volume	179594	Mods-1/Modules/Authors.A-F/A_Eicklr/FTM.Stormcloud
 9afa47001e3b5a5604d612e8d6414b2a	1	214061	player+silence	116924	Mods-2/Modules/Authors.G-Q/Moby/Antarctica.mod
 9afdf68af9fd5736260095d2ae34bff4	1	11558	player	9642	Mods-1/Modules/Authors.A-F/Facet/ChiptuneComp-5.mod
 9afdf68af9fd5736260095d2ae34bff4	1	11558	player	9642	Mods-1/Modules/Authors.A-F/Facet/MS-DOS/ChipCo-5.mod
 9b01f7a47638ae21252ff5c89cca3d40	0	129289	loop	50720	Mods-4/Modules/Synth/Custom/CUST.Agony-Ingame-4
 9b03caa5766c9a3c3ed876a6148db8af	1	7747	player	2142	Mods-2/Modules/Authors.G-Q/Groo/Basilisk-Its.mod
 9b03caa5766c9a3c3ed876a6148db8af	1	7747	player	2142	Mods-2/Modules/Authors.G-Q/Groo/MS-DOS/Basili-Its.mod
-9b051e43a77f8aced1865427ade713e5	0	98075	loop	171622	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Jonahara
+9b051e43a77f8aced1865427ade713e5	0	218893	loop	171622	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Jonahara
 9b06023fa1f9a0cbe45d5c3f2261b2d2	1	62745	player	95904	Mods-2/Modules/Authors.G-Q/Lizard/Get_on_the_Move.mod
 9b09025764db892329cbeae667db6b8e	1	76844	player	43394	Mods-2/Modules/Authors.G-Q/NHP&BKH/Whynot.mod
 9b0ce7ee3cf457aa66dee6a0b3f97756	1	15368	player	18468	Mods-4/Modules/Synth/Hippel/HIP.Axis_Loader
@@ -9211,7 +9211,7 @@
 9b1ee850e124d81a53d14763f6649081	1	61475	player	15568	Mods-3/Modules/Authors.R-Z/Strobo/Octagon.mod
 9b20a61f549e4655faa673aacd0668b2	1	264065	player	137260	Mods-4/Modules/Misc/Misc_Old.S-Z/Tomorrow_Land.mod
 9b233ebd00fe83f2c695baeed121a092	1	220604	player+silence	221064	Mods-3/Modules/Authors.R-Z/Twil&Doc/The_obj(ttz)e.mod
-9b237a8d382994c85dd730deedb27213	0	441238	loop	139830	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Tag_der_Disonanz
+9b237a8d382994c85dd730deedb27213	0	426634	player+volume	139830	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Tag_der_Disonanz
 9b264940761fdd968811064a185389f9	1	56013	player	100006	Mods-3/Modules/Authors.R-Z/Tatoufo/Rap'olomatic.mod
 9b26757a0c9510f80595caa53a777509	1	34040	player	42462	Mods-3/Modules/Groups/Analog/Difficult.mod
 9b343179584800f7f18570e127c04782	1	41026	player	10730	Mods-4/Modules/Misc/ChipTune.O-Z/Offence.mod
@@ -9725,7 +9725,7 @@ a35227e5a53d6e55f6fbc8485780ff7f	0	84592	player	13224	Mods-4/Modules/Synth/FC13/
 a35553a86cd4cd474462ea344fdc6784	1	61475	player	37970	Mods-2/Modules/Authors.G-Q/Nao/Bicycle_Pump_World.mod
 a355c3b5f2233288c3e61c8712b6f0ed	1	259114	player+volume	377630	Mods-3/Modules/Authors.R-Z/Slide/Ultimate_Seduction-3.mod
 a358fc2dc54ab59e1f58dd1eec03a0e8	1	61475	player	8140	Mods-1/Modules/Authors.A-F/Baroque/Frantic.mod
-a365905eaf2104b4416acf6c1f75ab2b	0	161282	volume	35018	Mods-3/Modules/Authors.R-Z/SSilk/FTM.If_Life_is_Too_Fun
+a365905eaf2104b4416acf6c1f75ab2b	0	88529	player	35018	Mods-3/Modules/Authors.R-Z/SSilk/FTM.If_Life_is_Too_Fun
 a365d492f793f4ad0d3295714e1ce846	1	304481	player+silence	265598	Mods-1/Modules/Authors.A-F/Delorean/Deltasleep.mod
 a367bc6852319db20e3e583669d3ad98	1	169057	player	117368	Mods-4/Modules/Misc/Misc.M-R/Mafia_Overload.mod
 a3686ad339d50a0db825e7481f341b33	1	98691	player	122024	Mods-2/Modules/Authors.G-Q/Moby/Fury---Intro-2.mod
@@ -9965,7 +9965,7 @@ a78f4e6c693481600d1048cf8ac00997	1	122951	player	101302	Mods-4/Modules/Misc/Comp
 a790ea73d217a473f7deadea7ef84fe8	1	374079	player+silence	184918	Mods-1/Modules/Authors.A-F/4mat/Voyage.mod
 a793cebdaee5d1dc1ceaae1538965996	1	253168	player+silence	198340	Mods-1/Modules/Authors.A-F/Feedback/Hell_&_Paradise.mod
 a79755a41c1e2f1dc33999566bae8616	1	161309	player	100006	Mods-3/Modules/Groups/Extreme/Every_Moment.mod
-a797a5a4b33362256e7eea40add93e93	0	140989	loop	96934	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Slow_Sing_Slow
+a797a5a4b33362256e7eea40add93e93	0	171380	loop	96934	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Slow_Sing_Slow
 a79f59bd46de53c5db1cfc791d9dab14	1	803921	player+silence	467700	Mods-4/Modules/Synth/MED/Yogi4.MED
 a7a424a9d16d773b817ed3444d1a2135	1	131461	player	160286	Mods-4/Modules/Misc/Misc.A-F/Crab_Stix.mod
 a7a4c1342115ed38a792ef4f2d8acf59	1	115203	player	70064	Mods-3/Modules/Authors.R-Z/Strobo/Two-Way.mod
@@ -10041,7 +10041,7 @@ a8be2d39074207b7a23d75c92b5d6966	1	238154	player	56644	Mods-3/Modules/Authors.R-
 a8c1130171d3d1f280858c289c0088b6	1	83322	player	24648	Mods-3/Modules/Authors.R-Z/Roberts/Zabijacz_Much.mod
 a8c95ce69c4da200d1fde5087fc4e8d3	1	207416	player	121282	Mods-1/Modules/Authors.A-F/4mat/Phantasmagoria.mod
 a8cd8df7f6c3b563835ff69ef94f37bb	1	753283	player+silence	281664	Mods-1/Modules/Authors.A-F/4mat/Eclipse.mod
-a8cdafc2f62e10058340a5c6a69ba581	0	297059	loop	135238	Mods-3/Modules/Authors.R-Z/SSilk/FTM.ReLex
+a8cdafc2f62e10058340a5c6a69ba581	0	279359	player+silence	135238	Mods-3/Modules/Authors.R-Z/SSilk/FTM.ReLex
 a8d8639dcacd24f9e7cc75cbd67cd278	1	62491	player	46982	Mods-2/Modules/Authors.G-Q/Heatbeat/MS-DOS/Smty_b1.mod
 a8d8639dcacd24f9e7cc75cbd67cd278	1	62491	player	46982	Mods-2/Modules/Authors.G-Q/Heatbeat/Smarty_Ingame_b1.mod
 a8d880f4ecdc0421a93129852158dd6d	1	399464	player	320466	Mods-1/_Bonus!/Saturne.96/Music/NotSelec/Old_School_Disco.mod
@@ -10897,7 +10897,7 @@ b7674c11235cc9597fedc473aabf9c22	1	15368	player	7478	Mods-1/Modules/Authors.A-F/
 b7674c11235cc9597fedc473aabf9c22	1	15368	player	7478	Mods-1/Modules/Authors.A-F/Dr_Aweso/MS-DOS/Intro-4.mod
 b76807bf820be90d1019861d83c24d2d	1	276513	player	81348	Mods-4/Modules/Misc/Misc_Old.E-K/Eyes.mod
 b768db06485dbfc4e314b8fbc95dfcf3	1	473515	player+silence	189866	Mods-3/Modules/Authors.R-Z/Tip&Mtx/CS2_Sweat_Shop.mod
-b76a9f8c66c467e85e65429cf3568ba7	0	289957	loop	165590	Mods-1/Modules/Authors.A-F/A_Eicklr/FTM.A_Walk_In_The_Dark
+b76a9f8c66c467e85e65429cf3568ba7	0	232565	player	165590	Mods-1/Modules/Authors.A-F/A_Eicklr/FTM.A_Walk_In_The_Dark
 b76c6804c4f6aae288fc706be6b9a8b7	1	153688	player	291182	Mods-3/Modules/Authors.R-Z/Strobo/Electrofobia.mod
 b76c7143838a5ee9f31916282f0f80e0	1	209321	player	189184	Mods-1/Modules/Authors.A-F/Doh/Starification-2.mod
 b76e867b5c2e79325670368402851093	1	55505	player	25774	Mods-2/Modules/Authors.G-Q/Gandbox/Calamar_Free.mod
@@ -11061,7 +11061,7 @@ ba6c37ea4991b7ed61dea55770b65f4d	0	176678	player	21230	Mods-4/Modules/Synth/FC14
 ba71f751d0ec61132396b335453d4f7e	1	6477	player	20994	Mods-3/Modules/Authors.R-Z/TDK/Suneigen.mod
 ba77cc4e046036a09c83e82470433ce3	0	393621	player	28098	Mods-4/Modules/Synth/FC13/FC13.Astaroth-1
 ba77cc4e046036a09c83e82470433ce3	0	393621	player	28098	Mods-4/Modules/Synth/FC13/FC13.Spider
-ba7991c060a9c24b1b431b9cfdc92c3e	0	385488	loop	221176	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Schlendering
+ba7991c060a9c24b1b431b9cfdc92c3e	0	373934	player	221176	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Schlendering
 ba800c41039eb1c56032a197ccd5dd76	1	84592	player	52630	Mods-1/Modules/Authors.A-F/Delorean/Infinity.mod
 ba8860eeffa4bbd8290449bb2bd4907d	1	160039	player	94240	Mods-3/Modules/Groups/Applause/Dikke_Gabber.mod
 ba926daa5dcfab9ed9ac9fe45d70426b	1	30737	player	206068	Mods-2/Modules/Authors.G-Q/Jazz.fra/Through_the_Light.mod
@@ -11226,7 +11226,7 @@ bd8e7cb4e6efa3a96dd5aab4bfc0233b	1	212878	player	79892	Mods-4/Modules/Misc/Misc.
 bd96280c35cb435574f126f27b1845ab	1	20576	player	15664	Mods-2/Modules/Authors.G-Q/Jelace/Chip-088.mod
 bdb288712dffd0f9c89c0ab3fb649f23	1	203304	player+silence	60492	Mods-1/Modules/Authors.A-F/Blaizer/Gobbprew.mod
 bdb2edce6cd9d578682f012dea3137bb	1	92213	player	9294	Mods-1/Modules/Authors.A-F/Dr_Aweso/Intro_Music-2.mod
-bdb3b6c818f1305db0491d86bed9e8b1	0	422341	loop	262188	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Dog_of_Baskerville
+bdb3b6c818f1305db0491d86bed9e8b1	0	384857	player	262188	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Dog_of_Baskerville
 bdb5c10cf988b2d56ed58809bf6d6a04	1	229589	player+silence	357392	Mods-1/Modules/Authors.A-F/Delorean/Schwing!!!.mod
 bdb9fc43e265e995137be7446f18921a	1	793593	player	145076	Mods-3/Modules/Groups/Analog/Gods_Trick.mod
 bdbad6e978feebb5ee58edc982d636b2	1	337988	player	191498	Mods-1/Modules/Authors.A-F/Dax/Ik_will_danzen!!!.mod
@@ -11281,7 +11281,7 @@ becaad061786a3b7660d752e251b1bdd	1	200684	player	225936	Mods-3/Modules/Authors.R
 bed84a4fb4ba6ed96e06430f81b67492	1	405687	player	152206	Mods-2/Modules/Authors.G-Q/Monty/The_Mean_of_Life.mod
 bee89b0f79230bc047e5705d7602bd7b	1	336083	player	154218	Mods-3/Modules/Authors.R-Z/S_Picq/Dune_Fremens.mod
 beeb32a22f0c6d11acd864f50faa5048	1	35183	player	10502	Mods-1/Modules/Authors.A-F/Doh/Ccccc_Gang.mod
-beed87854967262ec2103704ec684033	0	365605	silence	203754	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Life_is_a_Sequence-mix
+beed87854967262ec2103704ec684033	0	366295	player+silence	203754	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Life_is_a_Sequence-mix
 beedd8c626131ed2793cff1e3e7b0e59	1	88903	player+silence	16650	Mods-4/Modules/Misc/ChipTune.G-N/Noise_Let's_go_Panic.mod
 bef4414e1cd64af5f5fc5d9c38074d9a	1	184426	player	28706	Mods-4/Modules/Misc/ChipTune.G-N/Non_No_Cool.mod
 befe1efea3e6a741df2d9ba96813731a	1	98691	player	29652	Mods-3/Modules/Authors.R-Z/Reflex/Tix05-Turritune.mod
@@ -11582,8 +11582,8 @@ c499c98f2b40d2e5528635acaff87cd4	1	253789	player+silence	208176	Mods-2/Modules/A
 c499c98f2b40d2e5528635acaff87cd4	1	253789	player+silence	208176	Mods-2/Modules/Authors.G-Q/Nuke/Stolen-Data-10-Tune.mod
 c4a257acbdedb3c1eece460c3651736a	1	91324	player	288312	Mods-3/Modules/Authors.R-Z/Reflex/Iphar_Aldea's_Funk.mod
 c4a3e2102f8a1003f0ccad7ee9b07aef	1	122951	player	215612	Mods-1/Modules/Authors.A-F/Chrylian/June.mod
-c4af7e85b340b34c4b98c1d6a81bf88a	0	275452	loop	250916	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Hand_Made
-c4b1c6dc39eb32c268fa8eb21322075a	0	314180	loop	193278	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.And_Cry_Alone
+c4af7e85b340b34c4b98c1d6a81bf88a	0	276196	player+silence	250916	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Hand_Made
+c4b1c6dc39eb32c268fa8eb21322075a	0	307516	player+silence	193278	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.And_Cry_Alone
 c4b2904b3ab950a6355269ccd2ddff42	1	174900	player	46000	Mods-1/Modules/Authors.A-F/911/46k_Gabberrr.mod
 c4b2a5025d2c2d564c7130417e966f59	1	230528	player+silence	550664	Mods-2/Modules/Authors.G-Q/Jam&Spoo/We_are_an_Item_Girl.mod
 c4bbca48f78cb2dc6467196c6fe5f925	0	81925	player	38378	Mods-4/Modules/Synth/JCBrooke/JCB.Space_Harrier
@@ -11724,7 +11724,7 @@ c67fdc3379f0f2c8909c631641be1206	1	84592	player	58484	Mods-2/Modules/Authors.G-Q
 c67fdc3379f0f2c8909c631641be1206	1	84592	player	58484	Mods-2/Modules/Authors.G-Q/Nuke/Stolen-Data-07-Tune.mod
 c6823aacd6a76edc12a4d6ff0ce81d86	1	140860	player	76816	Mods-3/Modules/Groups/TJC/TD-Hello.mod
 c6837b0b0531bad26879c121046c92b5	1	122889	player+silence	108662	Mods-3/Modules/Authors.R-Z/Spin/Grapevine-17.mod
-c683e25fc46ae26791d63ba2e6e42059	0	3600000	timeout	252476	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Sparky_Goes_To_NZ
+c683e25fc46ae26791d63ba2e6e42059	0	646636	player	252476	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Sparky_Goes_To_NZ
 c6948eed4b004c936642a8517e411589	1	176170	player	197000	Mods-2/Modules/Authors.G-Q/Jogeir/Christmas.mod
 c6970c15b9eb1ad42c14b4b5803e4144	1	115330	player	186336	Mods-4/Modules/Misc/Compos/Asm94.4CH/Keep_up_the_Steam.mod
 c699844a80825b403cd3ddd93824f08d	1	126761	player	63000	Mods-2/Modules/Authors.G-Q/Jogeir/Beetle_Music.mod
@@ -12087,7 +12087,7 @@ cc6459f4685b3946a40b6b0402400b3b	1	105877	player+silence	58440	Mods-1/Modules/Au
 cc68f24e7ae711f05743d3dc2ffc5466	1	245775	player	149990	Mods-3/Modules/Authors.R-Z/SMT/Artcore.mod
 cc6913d92a94b3d6b6da232907f96f36	1	326125	player+silence	152424	Mods-1/Modules/Authors.A-F/Axel/One_Step_Closer.mod
 cc69632555490d661519bc7511f8ce6b	1	120664	player+silence	25010	Mods-1/Modules/Authors.A-F/Dreamfsh/Uridium-2_(loader).mod
-cc709574edeeae43fb7d26d86f345855	0	477778	loop	97220	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.I_Don't_Want_a_Relief
+cc709574edeeae43fb7d26d86f345855	0	261398	player	97220	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.I_Don't_Want_a_Relief
 cc78e6c3ea13b7e10e1eac054704c9cb	1	150132	player	31862	Mods-3/Modules/Authors.R-Z/Stargazr/Maryjane.mod
 cc7ed6386645316b9eee31ecb3bfc683	1	340405	player+silence	108216	Mods-1/Modules/Authors.A-F/Audiomon/A_Song_To_Sonia.mod
 cc8237b5ee0ed10b05fe12d76e2d801f	1	221181	player+silence	117024	Mods-4/Modules/Misc/Misc_Old.S-Z/Winner's_Deal.mod
@@ -12243,7 +12243,7 @@ cf32172010931beecd3cba727b66c14c	1	299629	player	114040	Mods-2/Modules/Authors.G
 cf45b906488ca61fe962e0124219f321	1	84592	player	15220	Mods-2/Modules/Authors.G-Q/Gandbox/Synthetik.mod
 cf58510409c119d98033175895960afb	1	247030	player+silence	112802	Mods-4/Modules/Misc/Misc_Old.A-D/Beyond.mod
 cf61ffa1f1df79e1683a11cb68a030e2	1	236284	player+silence	496368	Mods-3/Modules/Authors.R-Z/TrickTrx/Mountain_High.mod
-cf64387f6cc4f01754d1d365749e3037	0	399756	loop	213680	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Life_is_a_Sequence
+cf64387f6cc4f01754d1d365749e3037	0	392064	player+volume	213680	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Life_is_a_Sequence
 cf64c937d09f7b67d4082950383a2ae5	1	176678	player	211396	Mods-3/Modules/Authors.R-Z/Strobo/Movin'.mod
 cf6994ac67e48181003b8506aa34e586	1	278545	player	367906	Mods-3/Modules/Groups/Analog/Wildlife.mod
 cf878c7f1a9c3fe9af4dc3e5c7407faa	1	145940	player	61992	Mods-4/Modules/Misc/Misc_Old.L-R/Push_Pop.mod
@@ -12956,12 +12956,12 @@ dca866dd740fe7e72ce658b2bc5685f4	1	31499	player	15200	Mods-3/Modules/Authors.R-Z
 dcab57ce7bb8663a278d42353b3ed30f	1	45979	player	355102	Mods-4/Modules/Misc/Delirium/G4-Table_a_ongles.mod
 dcae864faeeffa4800adeb97ecebdc08	1	226976	player	175758	Mods-3/Modules/Authors.R-Z/Romeo_K/I'm_gonna_be_Infectious.mod
 dcb10599c68e432e90f98fd9d1228524	1	89927	player	233618	Mods-2/Modules/Authors.G-Q/Heatbeat/Guinea_out_of_phase.mod
-dcb58e474c3ea1cb771c3333a10c5f60	0	379154	loop	163554	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Since_I_Started_To_Think
+dcb58e474c3ea1cb771c3333a10c5f60	0	331227	player+volume	163554	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Since_I_Started_To_Think
 dcb6d53f2866d554cbb619019b20270a	1	99356	player+silence	21794	Mods-2/Modules/Authors.G-Q/Gryzor/Chip_a'Choup-5.mod
 dcb6d53f2866d554cbb619019b20270a	1	99356	player+silence	21794	Mods-2/Modules/Authors.G-Q/Gryzor/MS-DOS/ChipCh-5.mod
 dcba09db18394450bc99369b2a8c5053	1	187348	player	198472	Mods-2/Modules/Authors.G-Q/Gryzor/V-O-X.mod
 dcbdfffc87792b798e83e519c116e198	1	74939	player	25318	Mods-4/Modules/Misc/ChipTune.O-Z/Oh_Yes.mod
-dcc9b49942c5a27e11671d8f35ed6ba8	0	300568	loop	95342	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.60h_at_The_White_House
+dcc9b49942c5a27e11671d8f35ed6ba8	0	386220	player+silence	95342	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.60h_at_The_White_House
 dccd1ec320b1c11f2fe4f0b70baa226b	1	69223	player	49822	Mods-2/Modules/Authors.G-Q/Nutcase/2_Fast_4_U.mod
 dcd19ddd30ba90aeefcb90165eb5be85	1	48265	player	21824	Mods-2/Modules/Authors.G-Q/Jelace/Chip-090.mod
 dcdf046faf6e4eeab91dae655ad071c5	1	250235	player+silence	799404	Mods-4/Modules/Misc/Compos/TG96/Spooky_Blues.mod
@@ -14529,7 +14529,7 @@ f76ad2a94431f693a399d942d0af651e	1	249712	player	256088	Mods-4/Modules/Misc/Misc
 f76ecc425155b26db7685bac36be9387	1	80654	player	14722	Mods-4/Modules/Misc/ChipTune.O-Z/Ozone-Free_Intro-40k.mod
 f76f1d2ab2112f9e4fa88eadd4534b86	1	83801	player+silence	162808	Mods-2/Modules/Authors.G-Q/Lizardkg/Blind_Intro.mod
 f7754f30ec5b4d3b01046c813b13ab1e	1	177694	player	333282	Mods-4/Modules/Misc/Compos/TP95.4CH/Hans_em_Schnaugaloch.mod
-f7899ac2d024f98ce662ad7e64718c07	0	367356	loop	236952	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Mysteries
+f7899ac2d024f98ce662ad7e64718c07	0	339374	player+silence	236952	Mods-2/Modules/Authors.G-Q/Kasi_Mir/FTM.Mysteries
 f78c5031e24c67cd9863b39d4244084d	1	194079	player	195540	Mods-4/Modules/Misc/Misc_Old.S-Z/MS-DOS/Zo2_Title.mod
 f78c5031e24c67cd9863b39d4244084d	1	194079	player	195540	Mods-4/Modules/Misc/Misc_Old.S-Z/Zool-2_Title.mod
 f794d4d254501390d45e6976d5826657	1	57665	player	39816	Mods-3/Modules/Groups/Extreme/Extroduxion.mod
@@ -14872,7 +14872,7 @@ fd659fffb6f478ff2de63400f26be5f4	1	115203	player	21604	Mods-1/Modules/Authors.A-
 fd67a86a1cdd21c658f0d890142d64c5	1	160110	player+silence	91470	Mods-3/Modules/Groups/Abyss/2_Years_Crest.mod
 fd69f5299e54059ad274c56eff3472fa	1	389135	player+volume	199354	Mods-2/Modules/Authors.G-Q/Jogeir/Nearly_There.mod
 fd7749fd1545c41cfdea6c957bc924bf	1	204105	player+silence	208634	Mods-3/Modules/Authors.R-Z/Strobo/Poised.mod
-fd7c03b387269ab0d274c42b23e1b0c2	0	210134	loop	99290	Mods-4/Modules/Synth/FTM/FTM.Get_off_the_Base
+fd7c03b387269ab0d274c42b23e1b0c2	0	173249	player	99290	Mods-4/Modules/Synth/FTM/FTM.Get_off_the_Base
 fd88894f966b3397175d669d2bae9a44	1	374042	player+silence	159870	Mods-3/Modules/Authors.R-Z/Rymix/First_Voyage.mod
 fd8f9b1fa9613196d2310703349be40e	1	72017	player	41364	Mods-2/Modules/Authors.G-Q/Melo'Dee/Turrican.mod
 fd9280b861dd5b474488d945540ee7cd	1	238154	player	208492	Mods-1/Modules/Authors.A-F/Delorean/B-Drum_Denied.mod
@@ -14945,7 +14945,7 @@ ff081858cd3b6e21d9bf2e58ecd390ea	1	57665	player	27890	Mods-3/Modules/Authors.R-Z
 ff081858cd3b6e21d9bf2e58ecd390ea	1	57665	player	27890	Mods-3/Modules/Authors.R-Z/XTD/MS-DOS/Eco-18.mod
 ff0972ae723c57db916333951e556fee	1	103771	player	21498	Mods-4/Modules/Misc/ChipTune.O-Z/Rythm_is_a_Dancer.mod
 ff148b651df0b49aa76dda66d83d5dec	1	153942	player	116086	Mods-1/Modules/Authors.A-F/Delorean/Easy_Sax-excercises.mod
-ff18502e7ce929703da9c908fbc4a71a	0	119726	loop	66552	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Ode_To_Africa
+ff18502e7ce929703da9c908fbc4a71a	0	190142	player	66552	Mods-3/Modules/Authors.R-Z/SSilk/FTM.Ode_To_Africa
 ff18ba1ee8608392b774497c04254f8a	1	169057	player	80144	Mods-3/Modules/Authors.R-Z/Static/Feeling_Funky.mod
 ff1f82d070f294b8687f8fa622f0a7aa	1	79003	player	9568	Mods-2/Modules/Authors.G-Q/Gandbox/Krusty_Delire.mod
 ff1f82d070f294b8687f8fa622f0a7aa	2	40390	player

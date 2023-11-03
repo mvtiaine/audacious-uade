@@ -4654,7 +4654,7 @@
 616c60779163de068b3ab697a65aaba1	1	7620	player	2986	examples/HST_LifesABitch/HST.Life'sABitch loader
 616dbb47394c9b34c5abefd410e42a4f	0	2413	player	558	examples/SMUS_Spot/Spot/SMUS.pole3
 617caab0d606597b7190ed29da0d21d8	0	14098	player	1316	examples/AGI_SpaceQuest1/AGI.SpaceQuestI 48
-617d3a9cc01389fefb0be9fd62dad494	0	168669	loop	3300	examples/SDR_NoBuddiesLand/SDR.NoBuddiesLand 3
+617d3a9cc01389fefb0be9fd62dad494	0	168127	loop+silence	3300	examples/SDR_NoBuddiesLand/SDR.NoBuddiesLand 3
 618d58552bd753119d1ff5342339ff8b	0	50171	player	46444	rips/ST_HoleInOne/MOD.m9.
 6191ba40c269e91f02da0679b27a4431	0	121553	player	64088	examples/MOSH_EarwaxCollection1/MOSH.Rockin'Ruler
 619a6f01b3223adaaa269bce30a0fd29	0	79257	player	4311	examples/SJS_Lemmings/SJS.beastI
