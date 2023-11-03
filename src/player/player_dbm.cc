@@ -125,6 +125,7 @@ optional<PlayerState> play(const char *fname, const char *buf, size_t size, int 
 
     assert(subsong >= 0 && subsong <= mod->NumSongs - 1);
     DB3_SetPos(engine, subsong, 0, 0);
+    DB3_SetVolume(engine, 6);
     DB3_SetCallback(engine, [](void *context, struct UpdateEvent *event) {
         if (event->ue_Order == -1 && event->ue_Pattern == -1 && event->ue_Row == -1) {
             ((PlayerState&)context).songend = true;
