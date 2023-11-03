@@ -59,7 +59,7 @@ lib3rdparty_a_CXXFLAGS = -fpermissive
 uade_songend_CPPFLAGS = -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(uadedatadir)\""
 uade_songend_CFLAGS = $(UADE_CFLAGS)
 uade_songend_CXXFLAGS = $(UADE_CFLAGS) -fno-rtti -Wall
-uade_songend_DEPENDENCIES = lib3rdparty.a $(UADE_LIBS) $(LIBBSD_LIBS)
+uade_songend_DEPENDENCIES = lib3rdparty.a $(UADE_LIBS)
 uade_songend_LDADD = lib3rdparty.a $(UADE_LIBS) $(LIBBSD_LIBS)
 if BUILD_MACOS
 uade_songend_LDFLAGS = -Wl,-dead_strip -Wl,-undefined,error
