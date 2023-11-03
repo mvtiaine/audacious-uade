@@ -129,12 +129,10 @@ bool seek(PlayerState &state, int millis) {
         seeked += res.second;
     }
     state.pos_millis = millis;
-    TRACE("POSMILLIS %d - %d\n", state.pos_millis, res.first);
     return res.first;
 }
 
 bool restart(PlayerState &state) {
-    TRACE("RESTART\n");
     assert(state.player != NONE);
     bool res = false;
     switch (state.player) {
