@@ -75,8 +75,9 @@ then
   AC_SUBST(UADE_SYSTEM_DATADIR, $ac_uade_datadir)
 else
   AC_MSG_RESULT(no)
-  AC_CHECK_FILE([$srcdir/uade], [], AC_MSG_ERROR([Could not find uade submodule. Please retry after running: git submodule update --init --recursive]))
-
+  if ! test -d "$srcdir/uade"; then
+    AC_MSG_ERROR([Could not find uade submodule. Please retry after running: git submodule update --init --recursive])
+  fi
   if test "$build_linux" = "yes"
   then
     PKG_CHECK_MODULES([LIBBSD],[libbsd],

@@ -2,7 +2,7 @@
 
 set -e
 
-sudo apt install build-essential audacious-dev libbsd-dev autotools-dev autoconf autoconf-archive automake libtool pkg-config
+sudo apt install build-essential audacious-dev libbsd-dev autotools-dev autoconf autoconf-archive automake libtool pkg-config debhelper
 VERSION=$(cat VERSION)
 autoreconf -i && ./configure && make clean && make -j distcheck && make clean
 mkdir -p build-deb

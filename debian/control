@@ -12,7 +12,6 @@ Build-Depends:
  automake,
  libtool,
  pkg-config,
- make,
 Standards-Version: 4.6.2
 
 Package: audacious-uade
