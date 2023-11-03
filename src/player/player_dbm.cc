@@ -25,8 +25,8 @@ struct DB3Context {
 
 struct DB3Handle {
     const char *buf;
-    size_t size;
-    size_t pos;
+    ssize_t size;
+    ssize_t pos;
 };
 
 const char* ErrorReasons[] = {
@@ -39,14 +39,20 @@ const char* ErrorReasons[] = {
     "wrong chunk order in the module"
 };
 
-struct DB3Module *my_DB3_Load(const char *buf, size_t size, int *errptr) {
+struct DB3Module *my_DB3_Load(const char *buf, ssize_t size, int *errptr) {
 	struct AbstractHandle ah;
     DB3Handle ah_Handle = {buf, size, 0};
 
     const auto ah_Read = [](struct AbstractHandle *ah, void *db3buf, int db3bytes) {
+        errno = 0;
         DB3Handle *handle = static_cast<DB3Handle*>(ah->ah_Handle);
-        size_t bytes = min((size_t)db3bytes, handle->size - handle->pos);
-        if (!bytes) return 0;
+        ssize_t bytes = min((ssize_t)db3bytes, handle->size - handle->pos);
+        if (bytes <= 0) return 0;
+        assert(db3buf);
+        assert(handle->buf);
+        assert(bytes > 0);
+        assert(handle->pos >= 0 && handle->pos <= handle->size);
+        assert(handle->pos + bytes <= handle->size);
         memcpy(db3buf, handle->buf + handle->pos, bytes);
         handle->pos += bytes;
         return 1;
@@ -66,9 +72,12 @@ void init() {
 }
 
 optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size) {
-    int error;
+    int error = 0;
     struct DB3Module *mod = my_DB3_Load(buf, size, &error);
-    if (!mod) {
+    if (!mod || error) {
+        if (mod) {
+            DB3_Unload(mod);
+        }
         ERR("player_dbm::parse parsing failed for %s reason %s\n", fname, ErrorReasons[error]);
         return {};
     }
@@ -86,9 +95,12 @@ optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size) {
 }
 
 optional<PlayerState> play(const char *fname, const char *buf, size_t size, int subsong, int frequency) {
-    int error;
+    int error = 0;
     struct DB3Module *mod = my_DB3_Load(buf, size, &error);
-    if (!mod) {
+    if (!mod || error) {
+        if (mod) {
+            DB3_Unload(mod);
+        }
         ERR("player_dbm::play parsing failed for %s reason %s\n", fname, ErrorReasons[error]);
         return {};
     }
