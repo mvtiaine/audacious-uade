@@ -1,4 +1,4 @@
-0.9-dev
+0.9 - 2023-11-03
 - Implement support for non-UADE players:
 -- Add HivelyTracker player (http://www.hivelytracker.co.uk/)
 -- Add DigiBooster 3 & DigiBooster Pro 2 (http://www.digibooster.de/)
