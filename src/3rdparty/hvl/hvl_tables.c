@@ -507,8 +507,8 @@ void hvl_GenFilterWaves( const int8 *buf, int8 *lowbuf, int8 *highbuf )
 			int32 in, fre, high, mid, low;
 			uint32  j;
 			
-			mid  = *mid_table++ << 8;
-			low = *low_table++ << 8;
+			mid  = *mid_table++ * 256;
+			low = *low_table++ * 256;
 			
 			for( j=0; j<=lentab[wv]; j++ )
 			{
