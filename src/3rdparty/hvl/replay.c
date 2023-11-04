@@ -17,7 +17,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "types.h"
 #include <string.h>
 
 #include "replay.h"
