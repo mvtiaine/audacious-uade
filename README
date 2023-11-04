@@ -37,6 +37,11 @@ makepkg -s
 debian/make_deb.sh
 (sudo) dpkg -i build-deb/audacious-uade*.deb
 
+* To build and install with FreeBSD ports:
+git clone https://github.com/mvtiaine/freebsd-overlay.git
+cd freebsd-overlay/multimedia/audacious-uade
+make install clean
+
 * To build and install from source:
 (autoreconf -i)
 mkdir -p build
