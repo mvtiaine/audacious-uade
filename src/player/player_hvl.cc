@@ -8,7 +8,7 @@
 #include "player.h"
 extern "C"
 {
-#include "../3rdparty/hvl/hvl_replay.h"
+#include "../3rdparty/hvl/replay.h"
 }
 
 using namespace std;
@@ -21,7 +21,7 @@ void init() {
 }
 
 optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size) {
-    struct hvl_tune *ht = hvl_ParseTune((const uint8_t*)buf, size, 0, 0);
+    struct hvl_tune *ht = hvl_reset((uint8_t*)buf, size, 0, 0);
     if (!ht) {
         ERR("player_hvl::parse parsing failed for %s\n", fname);
         return {};
@@ -39,7 +39,7 @@ optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size) {
 }
 
 optional<PlayerState> play(const char *fname, const char *buf, size_t size, int subsong, int frequency) {
-    struct hvl_tune *ht = hvl_ParseTune((const uint8_t*)buf, size, frequency, 0);
+    struct hvl_tune *ht = hvl_reset((uint8_t*)buf, size, 0, frequency);
     if (!ht) {
         ERR("player_hvl::play parsing failed for %s\n", fname);
         return {};
@@ -72,7 +72,7 @@ pair<bool,size_t> render(PlayerState &state, char *buf, size_t size) {
     auto ht = (struct hvl_tune*)state.context;
     bool songend = ht->ht_SongEndReached;
     size_t totalbytes = 0;
-    char *mixbuf = buf;
+    int8_t *mixbuf = (int8_t*)buf;
     int framelen = state.frequency*2*2/50;
     while (!songend && totalbytes + framelen <= size) {
         hvl_DecodeFrame(ht, mixbuf, mixbuf + 2, 4);
