@@ -51,8 +51,8 @@ lib3rdparty_a_SOURCES = \
     ../3rdparty/dbm/player.c
 
 lib3rdparty_a_CPPFLAGS = -DTARGET_LINUX=1
-lib3rdparty_a_CFLAGS = -Wno-parentheses
-lib3rdparty_a_CXXFLAGS = -fpermissive
+lib3rdparty_a_CFLAGS = -Wno-parentheses -fPIC
+lib3rdparty_a_CXXFLAGS = -fpermissive -fPIC
 
 uade_songend_CPPFLAGS = -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(uadedatadir)\""
 uade_songend_CFLAGS = $(UADE_CFLAGS)

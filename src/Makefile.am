@@ -63,8 +63,8 @@ lib3rdparty_a_SOURCES = \
     3rdparty/dbm/player.c
 
 lib3rdparty_a_CPPFLAGS = -DTARGET_LINUX=1
-lib3rdparty_a_CFLAGS = ${AM_CFLAGS} -Wno-parentheses
-lib3rdparty_a_CXXFLAGS = ${AM_CFLAGS} -fpermissive
+lib3rdparty_a_CFLAGS = ${AM_CFLAGS} -Wno-parentheses -fPIC
+lib3rdparty_a_CXXFLAGS = ${AM_CFLAGS} -fpermissive -fPIC
 noinst_LIBRARIES = lib3rdparty.a
 
 if !SYSTEM_LIBUADE
