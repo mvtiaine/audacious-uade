@@ -46,10 +46,8 @@ lib3rdparty_a_SOURCES = \
     3rdparty/md5.cc \
     3rdparty/proplayer.h \
     3rdparty/SimpleBinStream.h \
-    3rdparty/hvl/hvl_replay.h \
-    3rdparty/hvl/hvl_replay.c \
-    3rdparty/hvl/hvl_tables.h \
-    3rdparty/hvl/hvl_tables.c \
+    3rdparty/hvl/replay.h \
+    3rdparty/hvl/replay.c \
     3rdparty/dbm/dsp.h \
     3rdparty/dbm/dsp_echo.c \
     3rdparty/dbm/dsp_fetchinstr.c \
