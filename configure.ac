@@ -14,6 +14,7 @@ AC_CANONICAL_HOST
 build_linux=no
 build_windows=no
 build_macos=no
+build_bsd=no
 
 # Detect the target system
 case "${host_os}" in
@@ -21,19 +22,24 @@ case "${host_os}" in
         build_linux=yes
         ;;
     cygwin*|mingw*)
+        AC_MSG_WARN(["OS $host_os is not supported"])
         build_windows=yes
         ;;
     darwin*)
         build_macos=yes
         ;;
+    *bsd*)
+        build_bsd=yes
+        ;;
     *)
-        AC_MSG_ERROR(["OS $host_os is not supported"])
+        AC_MSG_WARN(["OS $host_os is not supported"])
         ;;
 esac
 
 AM_CONDITIONAL([BUILD_LINUX], [test "$build_linux" = "yes"])
 AM_CONDITIONAL([BUILD_WIN32], [test "$build_windows" = "yes"])
 AM_CONDITIONAL([BUILD_MACOS], [test "$build_macos" = "yes"])
+AM_CONDITIONAL([BUILD_BSD], [test "$build_bsd" = "yes"])
 
 AC_ARG_WITH([system-libuade],
   AS_HELP_STRING([--with-system-libuade],[Use system libuade instead of bundled one]),
