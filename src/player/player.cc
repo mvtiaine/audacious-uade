@@ -8,45 +8,58 @@
 
 #include "../common.h"
 #include "player.h"
+#include "foreach.h"
 
 using namespace std;
 using namespace player;
 
-// TODO DRY
+// never stop the madness
+#define DEFINE_PLAYER(ns) \
+namespace ns { \
+void init(); \
+bool is_our_file(const char *buf, size_t size); \
+optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size); \
+optional<PlayerState> play(const char *fname, const char *buf, size_t size, int subsong, int frequency); \
+pair<bool,size_t> render(PlayerState &state, char *buf, size_t size); \
+bool stop(PlayerState &state); \
+bool restart(PlayerState &state); \
+} // namespace ns
 
-namespace player::hvl {
+#define INIT_PLAYER(p) \
+    p::init();
 
-void init();
-optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size);
-optional<PlayerState> play(const char *fname, const char *buf, size_t size, int subsong, int frequency);
-pair<bool,size_t> render(PlayerState &state, char *buf, size_t size);
-void stop(PlayerState &state);
-bool restart(PlayerState &state);
+#define CHECK(f,p) \
+    if (player::p::f) return Player::p;
 
-} // namespace player::hvl
+#define CASE(f, p) \
+    case Player::p: res = p::f; break;
 
-namespace player::dbm {
+#define SWITCH_MAGIC(buf,size,res,f) \
+    switch (parse_magic(buf, size)) { \
+        FOREACHA(CASE, f, PLAYERS) \
+        case Player::NONE: res = {}; break; \
+        default: assert(false); res = {}; \
+    }
 
-void init();
-optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size);
-optional<PlayerState> play(const char *fname, const char *buf, size_t size, int subsong, int frequency);
-pair<bool,size_t> render(PlayerState &state, char *buf, size_t size);
-void stop(PlayerState &state);
-bool restart(PlayerState &state);
+#define SWITCH_PLAYER(p,res,f) \
+    switch (p) { \
+        FOREACHA(CASE, f, PLAYERS) \
+        case Player::NONE: \
+        default: assert(false); \
+    }
 
-} // namespace player::dbm
+namespace player {
+
+FOREACH(DEFINE_PLAYER, PLAYERS)
+
+} // namespace player
 
 namespace {
 
 Player parse_magic(const char *buf, size_t size) {
-    if (size < MAGIC_SIZE) return NONE;
-    if (buf[0] == 'H' && buf[1] == 'V' && buf[2] == 'L' && buf[3] < 2) {
-        return HIVELY;
-    }
-    if (buf[0] == 'D' && buf[1] == 'B' && buf[2] == 'M' && buf[3] == '0') {
-        return DIGIBOOSTERPRO;
-    }
-    return NONE;
+    if (size < MAGIC_SIZE) return Player::NONE;
+    FOREACHA(CHECK, is_our_file(buf, size), PLAYERS)
+    return Player::NONE;
 }
 
 } // namespace {}
@@ -54,58 +67,53 @@ Player parse_magic(const char *buf, size_t size) {
 namespace player {
 
 void init() {
-    hvl::init();
-    dbm::init();
+    FOREACH(INIT_PLAYER, PLAYERS)
 }
 
 bool is_our_file(const char *buf, size_t size) {
-    return parse_magic(buf, size) != NONE;
+    return parse_magic(buf, size) != Player::NONE;
 }
 
 optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size) {
-    switch (parse_magic(buf, size)) {
-        case HIVELY: return hvl::parse(fname, buf, size);
-        case DIGIBOOSTERPRO: return dbm::parse(fname, buf, size);
-        case NONE: return {};
-        default: assert(false); return {};
-    }
+    optional<ModuleInfo> res;
+    SWITCH_MAGIC(buf, size, res,
+        parse(fname, buf, size)
+    )
+    return res;
 }
 
 optional<PlayerState> play(const char *fname, const char *buf, size_t size, int subsong, int frequency) {
-    switch (parse_magic(buf, size)) {
-        case HIVELY: return hvl::play(fname, buf, size, subsong, frequency);
-        case DIGIBOOSTERPRO: return dbm::play(fname, buf, size, subsong, frequency);
-        case NONE: return {};
-        default: assert(false); return {};
-    }
+    optional<PlayerState> res;
+    SWITCH_MAGIC(buf, size, res,
+        play(fname, buf, size, subsong, frequency)
+    )
+    return res;
 }
 
-void stop(PlayerState &state) {
-    assert(state.player != NONE);
-    switch (state.player) {
-        case HIVELY: hvl::stop(state); break;
-        case DIGIBOOSTERPRO: dbm::stop(state); break;
-        case NONE: default: assert(false);
-    }
-    state.player = NONE;
+bool stop(PlayerState &state) {
+    assert(state.player != Player::NONE);
+    bool res = false;
+    SWITCH_PLAYER(state.player, res,
+        stop(state)
+    )
+    state.player = Player::NONE;
+    return res;
 }
 
 pair<bool,size_t> render(PlayerState &state, char *buf, size_t size) {
-    assert(state.player != NONE);
+    assert(state.player != Player::NONE);
     assert(size == MIXBUFSIZE);
-    pair<bool,size_t> res;
-    switch (state.player) {
-        case HIVELY: res = hvl::render(state, buf, size); break;
-        case DIGIBOOSTERPRO: res = dbm::render(state, buf, size); break;
-        case NONE: default: assert(false); return pair(false,0);
-    }
+    pair<bool,size_t> res = pair(false, 0);
+    SWITCH_PLAYER(state.player, res,
+        render(state, buf, size)
+    )
     const size_t bytespersec = 4 * state.frequency;
     state.pos_millis += res.second * 1000 / bytespersec;
     return res;
 }
 
 bool seek(PlayerState &state, int millis) {
-    assert(state.player != NONE);
+    assert(state.player != Player::NONE);
     char dummybuf[MIXBUFSIZE];
     if (millis < state.pos_millis) {
         bool res = restart(state);
@@ -119,13 +127,12 @@ bool seek(PlayerState &state, int millis) {
     const int millistoseek = millis - state.pos_millis;
     const size_t bytestoseek = bytespersec * millistoseek / 1000;
     size_t seeked = 0;
-    pair<bool,size_t> res;
+    pair<bool,size_t> res = pair(false, 0);
     while (seeked < bytestoseek && !res.first) {
-        switch (state.player) {
-            case HIVELY: res = hvl::render(state, dummybuf, sizeof dummybuf); break;
-            case DIGIBOOSTERPRO: res = dbm::render(state, dummybuf, sizeof dummybuf); break;
-            case NONE: default: assert(false); return false;
-        }
+        SWITCH_PLAYER(state.player, res,
+            render(state, dummybuf, sizeof dummybuf)
+        )
+        if (!res.first) return false;
         seeked += res.second;
     }
     state.pos_millis = millis;
@@ -133,13 +140,11 @@ bool seek(PlayerState &state, int millis) {
 }
 
 bool restart(PlayerState &state) {
-    assert(state.player != NONE);
+    assert(state.player != Player::NONE);
     bool res = false;
-    switch (state.player) {
-        case HIVELY: res = hvl::restart(state); break;
-        case DIGIBOOSTERPRO: res = dbm::restart(state); break;
-        case NONE: default: assert(false); return false;
-    }
+    SWITCH_PLAYER(state.player, res,
+        restart(state)
+    )
     if (res) {
         state.pos_millis = 0;
         state.songend = false;
@@ -147,4 +152,4 @@ bool restart(PlayerState &state) {
     return res;
 }
 
-}
+} // namespace player

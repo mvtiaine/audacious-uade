@@ -50,9 +50,6 @@ cd build
 make
 (sudo) make install
 
-* To use system libuade instead of bundled one:
-../configure --with-system-libuade
-
 * Other notes:
 - The bundled uade includes some bug fixes and format support updates not (yet) merged to uade master branch
 - Case sensitive filesystems may cause issues for formats with external samples

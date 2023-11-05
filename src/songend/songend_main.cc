@@ -16,7 +16,7 @@
 
 using namespace std;
 
-constexpr size_t MINLENGTH = songend::PRECALC_FREQ_UADE * 2 * 2 * (songend::PRECALC_TIMEOUT - 1);
+constexpr ssize_t MINLENGTH = songend::PRECALC_FREQ_UADE * 2 * 2 * (songend::PRECALC_TIMEOUT - 1);
 
 int main(int argc, char *argv[]) {
     char buf[4096];

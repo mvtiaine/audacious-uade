@@ -13,11 +13,15 @@ namespace player {
 
 constexpr int MIXBUFSIZE = 8192;
 
-enum Player {
+// TODO make externally configurable
+#define PLAYERS \
+    hvl, \
+    dbm
+
+enum class Player {
     NONE,
     //UADE,
-    HIVELY,
-    DIGIBOOSTERPRO
+    PLAYERS
 };
 
 struct ModuleInfo {
@@ -44,7 +48,7 @@ bool is_our_file(const char *buf, size_t size);
 optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size);
 optional<PlayerState> play(const char *fname, const char *buf, size_t size, int subsong, int frequency);
 pair<bool,size_t> render(PlayerState &state, char *buf, size_t size);
-void stop(PlayerState &state);
+bool stop(PlayerState &state);
 bool seek(PlayerState &state, int millis);
 bool restart(PlayerState &state);
 

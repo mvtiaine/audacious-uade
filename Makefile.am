@@ -1,7 +1,7 @@
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = $(subdirs_extra) src src/converter src/songend
-DIST_SUBDIRS = src src/converter src/songend
+DIST_SUBDIRS = src/3rdparty src/converter src/player src/songend src
+SUBDIRS = $(subdirs_extra) $(DIST_SUBDIRS)
 EXTRA_DIST = default.nix conf tools NOTICE
 
 AM_DISTCHECK_DVI_TARGET =
