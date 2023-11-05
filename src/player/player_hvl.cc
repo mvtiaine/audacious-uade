@@ -20,6 +20,11 @@ void init() {
     hvl_InitReplayer();
 }
 
+bool is_our_file(const char *buf, size_t size) {
+    assert(size >= 4);
+    return buf[0] == 'H' && buf[1] == 'V' && buf[2] == 'L' && buf[3] < 2;
+}
+
 optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size) {
     struct hvl_tune *ht = hvl_reset((uint8_t*)buf, size, 0, 0);
     if (!ht) {
@@ -56,19 +61,20 @@ optional<PlayerState> play(const char *fname, const char *buf, size_t size, int 
         return {};
     }
 
-    PlayerState state = {HIVELY, subsong, frequency, ht, 0, false};
+    PlayerState state = {Player::hvl, subsong, frequency, ht, 0, false};
     return state;
 }
 
-void stop(PlayerState &state) {
-    assert(state.player == HIVELY);
+bool stop(PlayerState &state) {
+    assert(state.player == Player::hvl);
     if (state.context) {
         hvl_FreeTune((struct hvl_tune*)state.context);
     }
+    return true;
 }
 
 pair<bool,size_t> render(PlayerState &state, char *buf, size_t size) {
-    assert(state.player == HIVELY);
+    assert(state.player == Player::hvl);
     auto ht = (struct hvl_tune*)state.context;
     bool songend = ht->ht_SongEndReached;
     size_t totalbytes = 0;
@@ -84,7 +90,7 @@ pair<bool,size_t> render(PlayerState &state, char *buf, size_t size) {
 }
 
 bool restart(PlayerState &state) {
-    assert(state.player == HIVELY);
+    assert(state.player == Player::hvl);
     auto ht = (struct hvl_tune*)state.context;
     return hvl_InitSubsong(ht, state.subsong);
 }

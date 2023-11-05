@@ -71,6 +71,11 @@ namespace player::dbm {
 void init() {
 }
 
+bool is_our_file(const char *buf, size_t size) {
+    assert(size >= 4);
+    return buf[0] == 'D' && buf[1] == 'B' && buf[2] == 'M' && buf[3] == '0';
+}
+
 optional<ModuleInfo> parse(const char *fname, const char *buf, size_t size) {
     int error = 0;
     struct DB3Module *mod = my_DB3_Load(buf, size, &error);
@@ -121,7 +126,7 @@ optional<PlayerState> play(const char *fname, const char *buf, size_t size, int 
     context->engine = engine;
     context->module = mod;
 
-    PlayerState state = {DIGIBOOSTERPRO, subsong, frequency, context, 0, false};
+    PlayerState state = {Player::dbm, subsong, frequency, context, 0, false};
 
     assert(subsong >= 0 && subsong <= mod->NumSongs - 1);
     DB3_SetPos(engine, subsong, 0, 0);
@@ -135,19 +140,19 @@ optional<PlayerState> play(const char *fname, const char *buf, size_t size, int 
     return state;
 }
 
-void stop(PlayerState &state) {
-    assert(state.player == DIGIBOOSTERPRO);
+bool stop(PlayerState &state) {
+    assert(state.player == Player::dbm);
     if (state.context) {
         const auto context = (DB3Context*)(state.context);
         DB3_DisposeEngine(context->engine);
         DB3_Unload(context->module);
         delete context;
     }
+    return true;
 }
 
 pair<bool,size_t> render(PlayerState &state, char *buf, size_t size) {
-    assert(state.player == DIGIBOOSTERPRO);
-
+    assert(state.player == Player::dbm);
     const auto context = (DB3Context*)(state.context);
     size_t totalbytes = DB3_Mix(context->engine, size / 4, (int16_t*)buf) * 4;
     bool songend = state.songend || totalbytes < size;
@@ -156,8 +161,7 @@ pair<bool,size_t> render(PlayerState &state, char *buf, size_t size) {
 }
 
 bool restart(PlayerState &state) {
-    assert(state.player == DIGIBOOSTERPRO);
-
+    assert(state.player == Player::dbm);
     const auto context = (DB3Context*)(state.context);
     DB3_SetPos(context->engine, state.subsong, 0, 0);
 
