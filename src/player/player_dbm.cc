@@ -8,7 +8,7 @@
 
 extern "C"
 {
-#include "../3rdparty/dbm/libdigibooster3.h"
+#include "../3rdparty/replay/dbm/libdigibooster3.h"
 // expose method from loader.c
 struct DB3Module *DB3_LoadFromHandle(struct AbstractHandle *ah, int *errptr);
 }

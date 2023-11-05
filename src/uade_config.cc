@@ -35,16 +35,9 @@ void uade_common_options(struct uade_config *uc, const int known_timeout) {
 #if DEBUG_TRACE
     uade_config_set_option(uc, UC_VERBOSE, nullptr);
 #endif
-    // use our uade.conf, song.conf and contentdb even with system libuade
+    // use our uade.conf, song.conf and contentdb
     uade_config_set_option(uc, UC_BASE_DIR, UADEDATADIR);
-#if SYSTEM_LIBUADE
-    // make sure to use system version for these
-    uade_config_set_option(uc, UC_UAE_CONFIG_FILE, UADE_CONFIG_BASE_DIR "/uaerc");
-    uade_config_set_option(uc, UC_SCORE_FILE, UADE_CONFIG_BASE_DIR "/score");
-    uade_config_set_option(uc, UC_UADECORE_FILE, UADE_CONFIG_UADE_CORE);
-#else
     uade_config_set_option(uc, UC_NO_CONTENT_DB, nullptr);
-#endif
     uade_config_set_option(uc, UC_ONE_SUBSONG, nullptr);
     // use just subsong timeout
     uade_config_set_option(uc, UC_TIMEOUT_VALUE, "-1");

@@ -8,7 +8,7 @@
 #include "player.h"
 extern "C"
 {
-#include "../3rdparty/hvl/replay.h"
+#include "../3rdparty/replay/hvl/replay.h"
 }
 
 using namespace std;
