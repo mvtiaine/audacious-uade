@@ -3,9 +3,9 @@
 
 #include <string>
 
-#include "uade_common.h"
+#include "uade/uade_common.h"
 #include "common.h"
-#include "hacks.h"
+#include "uade/hacks.h"
 
 using namespace std;
 

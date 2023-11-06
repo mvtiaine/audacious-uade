@@ -21,10 +21,10 @@ extern "C" {
 }
 #include "common.h"
 #include "extensions.h"
-#include "hacks.h"
-#include "songdb.h"
+#include "uade/hacks.h"
+#include "songdb/songdb.h"
 #include "prefs.h"
-#include "uade_common.h"
+#include "uade/uade_common.h"
 #include "uade_config.h"
 #include "converter/converter.h"
 #include "player/player.h"

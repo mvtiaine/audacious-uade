@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "../common.h"
-#include "player.h"
-#include "foreach.h"
+#include "common.h"
+#include "player/player.h"
+#include "player/foreach.h"
 
 using namespace std;
 using namespace player;

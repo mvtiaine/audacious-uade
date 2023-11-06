@@ -10,9 +10,8 @@
 #include <vector>
 
 #include "common.h"
-#include "hacks.h"
-#include "songdb.h"
-#include "prefs.h"
+#include "uade/hacks.h"
+#include "songdb/songdb.h"
 
 namespace {
 

@@ -18,12 +18,12 @@
 #include <iostream>
 #include <vector>
 
-#include "songend.h"
-#include "../uade_common.h"
-#include "../hacks.h"
-#include "../converter/converter.h"
-#include "../player/player.h"
-#include "../3rdparty/md5.h"
+#include "songend/songend.h"
+#include "uade/uade_common.h"
+#include "uade/hacks.h"
+#include "converter/converter.h"
+#include "player/player.h"
+#include "3rdparty/md5.h"
 
 using namespace std;
 

@@ -1,6 +1,8 @@
 AUTOMAKE_OPTIONS = subdir-objects
 noinst_LIBRARIES = libplayer.a
 
+AM_CPPFLAGS = -I$(top_srcdir)/src
+
 libplayer_a_SOURCES = \
     foreach.h \
     player.h \
@@ -9,4 +11,4 @@ libplayer_a_SOURCES = \
     player_hvl.cc
 
 libplayer_a_DEPENDENCIES = \
-    ../3rdparty/lib3rdparty.a
+    ../3rdparty/libreplay.a

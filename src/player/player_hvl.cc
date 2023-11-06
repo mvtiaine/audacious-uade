@@ -4,11 +4,11 @@
 #include <cassert>
 #include <cstdint>
 
-#include "../common.h"
-#include "player.h"
+#include "common.h"
+#include "player/player.h"
 extern "C"
 {
-#include "../3rdparty/replay/hvl/replay.h"
+#include "3rdparty/replay/hvl/replay.h"
 }
 
 using namespace std;

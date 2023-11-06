@@ -8,7 +8,7 @@
 #include <cstdint>
 #include <stdexcept>
 #ifdef __APPLE__
-#include "../3rdparty/macos_endian.h"
+#include "3rdparty/macos_endian.h"
 #define CONSTEXPR constexpr
 #else
 #include <endian.h>

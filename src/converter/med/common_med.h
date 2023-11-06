@@ -7,7 +7,7 @@
 #include <optional>
 #include <string>
 #include <vector>
-#include "big_endian.h"
+#include "converter/big_endian.h"
 
 namespace converter::med {
 
@@ -19,7 +19,7 @@ typedef int8_t          BYTE;           /* signed 8-bit quantity */
 typedef uint8_t         UBYTE;          /* unsigned 8-bit quantity */
 typedef char *          STRPTR;         /* string pointer (NUL-terminated) */
 #define EXEC_TYPES_H
-#include "../3rdparty/proplayer.h"
+#include "3rdparty/proplayer.h"
 #undef EXEC_TYPES_H
 
 const ULONG MMD0ID = 0x4d4d4430; // "MMD0"

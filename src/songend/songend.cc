@@ -26,8 +26,8 @@
 #include <set>
 #include <utility>
 
-#include "../common.h"
-#include "songend.h"
+#include "common.h"
+#include "songend/songend.h"
 
 using namespace std;
 

@@ -97,10 +97,12 @@ AC_SUBST([UADE_LIBS])
 
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_FILES(Makefile
-                src/Makefile
                 src/3rdparty/Makefile
                 src/converter/Makefile
                 src/player/Makefile
-                src/songend/Makefile)
+                src/plugin/audacious/Makefile
+                src/songdb/Makefile
+                src/songend/Makefile
+                src/uade/Makefile)
 
 AC_OUTPUT
