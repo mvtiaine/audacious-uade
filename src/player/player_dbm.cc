@@ -3,12 +3,12 @@
 
 #include <cassert>
 
-#include "../common.h"
-#include "player.h"
+#include "common.h"
+#include "player/player.h"
 
 extern "C"
 {
-#include "../3rdparty/replay/dbm/libdigibooster3.h"
+#include "3rdparty/replay/dbm/libdigibooster3.h"
 // expose method from loader.c
 struct DB3Module *DB3_LoadFromHandle(struct AbstractHandle *ah, int *errptr);
 }

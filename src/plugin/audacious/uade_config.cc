@@ -6,8 +6,8 @@
 #include <libaudcore/runtime.h>
 
 #include "uade_config.h"
-#include "uade_common.h"
-#include "hacks.h"
+#include "uade/uade_common.h"
+#include "uade/hacks.h"
 #include "songend/songend.h"
 
 using namespace std;

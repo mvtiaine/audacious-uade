@@ -4,37 +4,31 @@ uadedir = $(prefix)/share/audacious-uade
 uadedatadir = $(uadedir)/share/uade
 uadelibdir = $(uadedir)/lib/uade
 plugindir = $(AUDACIOUS_PLUGINDIR)/Input
+
+AM_CPPFLAGS = -I$(top_srcdir)/src
+
 plugin_LTLIBRARIES = uade.la
 uade_la_SOURCES = \
-    common.h \
-    extensions.h \
+    ../../common.h \
+    ../../extensions.h \
     prefs.h \
     plugin.cc \
-    hacks.h \
-    hacks.cc \
-    modland.h \
-    modland.cc \
-    songdb.h \
-    songdb.cc \
-    uade_common.h \
-    uade_common.cc \
     uade_config.h \
-    uade_config.cc \
-    3rdparty/md5.h \
-    converter/converter.h \
-    player/player.h \
-    songend/songend.h
+    uade_config.cc
 
 uade_la_DEPENDENCIES = \
-    songend/libsongend.a \
-    player/libplayer.a \
-    converter/libconverter.a \
-    3rdparty/lib3rdparty.a \
+    ../../songdb/libsongdb.a \
+    ../../player/libplayer.a \
+    ../../songend/libsongend.a \
+    ../../uade/libuadesupport.a \
+    ../../converter/libconverter.a \
+    ../../3rdparty/libreplay.a \
+    ../../3rdparty/libmd5.a \
     $(UADE_LIBS)
 
 uade_la_LIBADD = $(uade_la_DEPENDENCIES) $(AUDACIOUS_LIBS) $(LIBBSD_LIBS)
 uade_la_LDFLAGS = -avoid-version -module -shared $(SHREXT)
-uade_la_CPPFLAGS = -DAUDACIOUS=1 -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(uadedatadir)\""
+uade_la_CPPFLAGS = $(AM_CPPFLAGS) -DAUDACIOUS=1 -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(uadedatadir)\""
 uade_la_CFLAGS = $(AUDACIOUS_CFLAGS) $(UADE_CFLAGS)
 uade_la_CXXFLAGS = $(AUDACIOUS_CFLAGS) $(UADE_CFLAGS)
 
@@ -43,14 +37,14 @@ install-data-hook:
 # remove .la cruft
 	rm -f "$(DESTDIR)$(plugindir)/uade.la" || true
 	mkdir -p "$(DESTDIR)$(uadedir)"
-	cp -rf "$(srcdir)/../conf/songdb" "$(DESTDIR)$(uadedir)/"
-	cp -rf "$(srcdir)/../conf/ext" "$(DESTDIR)$(uadedir)/"
+	cp -rf "$(top_srcdir)/conf/songdb" "$(DESTDIR)$(uadedir)/"
+	cp -rf "$(top_srcdir)/conf/ext" "$(DESTDIR)$(uadedir)/"
 	mkdir -p "$(DESTDIR)$(uadedir)/doc"
-	cp -f "$(srcdir)/../README" "$(srcdir)/../NOTICE" "$(srcdir)/../AUTHORS" "$(srcdir)/../COPYING" "$(srcdir)/../VERSION" "$(srcdir)/../ChangeLog" "$(DESTDIR)$(uadedir)/doc/"
+	cp -f "$(top_srcdir)/README" "$(top_srcdir)/NOTICE" "$(top_srcdir)/AUTHORS" "$(top_srcdir)/COPYING" "$(top_srcdir)/VERSION" "$(top_srcdir)/ChangeLog" "$(DESTDIR)$(uadedir)/doc/"
 	mkdir -p "$(DESTDIR)$(uadedatadir)"
-	cp -f "$(srcdir)/../conf/song.conf" "$(srcdir)/../conf/uade.conf" "$(DESTDIR)$(uadedatadir)/"
-	cp -f "$(srcdir)/../uade/amigasrc/score/score" "$(srcdir)/../uade/uaerc" "$(srcdir)/../uade/eagleplayer.conf" "$(DESTDIR)$(uadedatadir)/"
-	cp -rf "$(srcdir)/../uade/players" "$(DESTDIR)$(uadedatadir)/"
+	cp -f "$(top_srcdir)/conf/song.conf" "$(top_srcdir)/conf/uade.conf" "$(DESTDIR)$(uadedatadir)/"
+	cp -f "$(top_srcdir)/uade/amigasrc/score/score" "$(top_srcdir)/uade/uaerc" "$(top_srcdir)/uade/eagleplayer.conf" "$(DESTDIR)$(uadedatadir)/"
+	cp -rf "$(top_srcdir)/uade/players" "$(DESTDIR)$(uadedatadir)/"
 	mkdir -m 755 -p "$(DESTDIR)$(uadelibdir)"
 	install "$(top_builddir)/uade/src/uadecore" "$(DESTDIR)$(uadelibdir)/"
 	chmod -R 755 "$(DESTDIR)$(uadedir)"

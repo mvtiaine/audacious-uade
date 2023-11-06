@@ -1,14 +1,14 @@
 ACLOCAL_AMFLAGS = -I m4
 
-DIST_SUBDIRS = src/3rdparty src/converter src/player src/songend src
+DIST_SUBDIRS = src/3rdparty src/converter src/player src/songend src/uade src/songdb src/plugin/audacious
 SUBDIRS = $(subdirs_extra) $(DIST_SUBDIRS)
 EXTRA_DIST = default.nix conf tools NOTICE
 
 AM_DISTCHECK_DVI_TARGET =
 DISTCHECK_CONFIGURE_FLAGS = --with-audacious-plugindir="$$dc_install_base/lib/audacious"
 
-install installdirs: SUBDIRS = src src/converter src/songend
-uninstall uninstalldirs: SUBDIRS = src src/converter src/songend
+install installdirs: SUBDIRS = src/plugin/audacious
+uninstall uninstalldirs: SUBDIRS = src/plugin/audacious
 
 dist-hook:
 	mkdir -p "$(distdir)/uade"

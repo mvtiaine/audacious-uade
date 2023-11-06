@@ -1,7 +1,9 @@
 AUTOMAKE_OPTIONS = subdir-objects
-noinst_LIBRARIES = lib3rdparty.a
+noinst_LIBRARIES = libmd5.a libreplay.a
 
-md5_SOURCES = \
+AM_CPPFLAGS = -I$(top_srcdir)/src
+
+libmd5_a_SOURCES = \
     md5.h \
     md5.cc
 
@@ -24,7 +26,7 @@ dbm_SOURCES = \
     replay/dbm/player.h \
     replay/dbm/player.c
 
-lib3rdparty_a_SOURCES = $(md5_SOURCES) $(hvl_SOURCES) $(dbm_SOURCES)
-lib3rdparty_a_CPPFLAGS = -DTARGET_LINUX=1
-lib3rdparty_a_CFLAGS = -Wno-parentheses -fPIC
-lib3rdparty_a_CXXFLAGS = -fpermissive -fPIC
+libreplay_a_SOURCES = $(hvl_SOURCES) $(dbm_SOURCES)
+libreplay_a_CPPFLAGS = $(AM_CPPFLAGS) -DTARGET_LINUX=1
+libreplay_a_CFLAGS = -Wno-parentheses
+libreplay_a_CXXFLAGS = -fpermissive

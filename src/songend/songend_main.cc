@@ -12,7 +12,7 @@
 #include <cstdlib>
 #include <unistd.h>
 
-#include "songend.h"
+#include "songend/songend.h"
 
 using namespace std;
 
