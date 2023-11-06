@@ -58,6 +58,6 @@ ${?codec:[${codec}${?channels: (${channels}ch)}]} -  ${?artist:${artist}  -  }${
 
 * License (source code)
 The project as a whole is licensed under GPL-2.0-or-later.
-Some parts are also licensed under LGPL-2.0-or-later, for example sources under src/converter and src/player.
+Some parts are also licensed under LGPL-2.0-or-later, specifically sources under src/converter, src/player, src/songdb and src/uade.
 See src/3rdparty for 3rd party source code licenses.
 See https://zakalwe.fi/uade/ for UADE license information.
