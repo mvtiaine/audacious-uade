@@ -19,8 +19,8 @@ uade_la_SOURCES = \
 uade_la_DEPENDENCIES = \
     ../../songdb/libsongdb.a \
     ../../player/libplayer.a \
-    ../../songend/libsongend.a \
     ../../uade/libuadesupport.a \
+    ../../songend/libsongend.a \
     ../../converter/libconverter.a \
     ../../3rdparty/libreplay.a \
     ../../3rdparty/libmd5.a \
