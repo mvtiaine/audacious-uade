@@ -5,8 +5,9 @@
 #include <set>
 #include <string>
 
-#include "common.h"
-#include "modland.h"
+#include "common/common.h"
+#include "common/logger.h"
+#include "songdb/songdb.h"
 
 using namespace std;
 
@@ -277,10 +278,12 @@ constexpr string_view UNUSED = "Unused";
 
 } // namespace
 
-bool parse_modland_path(const string &path, ModlandData &item, bool incoming) {
+namespace songdb::modland {
+
+bool parse_path(const string &path, ModlandData &item, bool incoming) {
     string format, author, album, filename;
     
-    vector<string> tokens = split(path, "/");
+    vector<string> tokens = common::split(path, "/");
     const int count = tokens.size();
 
     if (count < 3) {
@@ -373,3 +376,5 @@ bool parse_modland_path(const string &path, ModlandData &item, bool incoming) {
 
     return true;
 }
+
+} // namespace songdb::modland

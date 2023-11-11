@@ -50,7 +50,6 @@ make
 (sudo) make install
 
 * Other notes:
-- The bundled uade includes some bug fixes and format support updates not (yet) merged to uade master branch
 - Case sensitive filesystems may cause issues for formats with external samples
 - Tested on OSX and Linux
 - My custom Audacious playlist entry template:
@@ -58,6 +57,6 @@ ${?codec:[${codec}${?channels: (${channels}ch)}]} -  ${?artist:${artist}  -  }${
 
 * License (source code)
 The project as a whole is licensed under GPL-2.0-or-later.
-Some parts are also licensed under LGPL-2.0-or-later, specifically sources under src/converter, src/player, src/songdb and src/uade.
+Some parts are also licensed under LGPL-2.0-or-later, specifically sources under src/common, src/converter, src/player and src/songdb.
 See src/3rdparty for 3rd party source code licenses.
 See https://zakalwe.fi/uade/ for UADE license information.

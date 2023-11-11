@@ -10,9 +10,12 @@
 #include <set>
 #include <vector>
 
-#include "common.h"
-#include "uade/hacks.h"
+#include "common/common.h"
+#include "common/logger.h"
 #include "songdb/songdb.h"
+
+using namespace std;
+using namespace songdb;
 
 namespace {
 
@@ -28,14 +31,14 @@ enum Source {
 };
 
 const vector<pair<string, Source>> tsvfiles ({
-    {UADEDIR "/songdb/modland.tsv", Modland},
-    {UADEDIR "/songdb/amp.tsv", AMP},
-    {UADEDIR "/songdb/unexotica.tsv", UnExotica},
-    {UADEDIR "/songdb/modsanthology.tsv", Mods_Anthology},
-    {UADEDIR "/songdb/wantedteam.tsv", Wanted_Team},
-    {UADEDIR "/songdb/zakalwe.tsv", Zakalwe},
-    {UADEDIR "/songdb/aminet.tsv", Aminet},
-    {UADEDIR "/songdb/modland_incoming.tsv", Modland_Incoming},
+    {"modland.tsv", Modland},
+    {"amp.tsv", AMP},
+    {"unexotica.tsv", UnExotica},
+    {"modsanthology.tsv", Mods_Anthology},
+    {"wantedteam.tsv", Wanted_Team},
+    {"zakalwe.tsv", Zakalwe},
+    {"aminet.tsv", Aminet},
+    {"modland_incoming.tsv", Modland_Incoming},
 });
 
 bool initialized = false;
@@ -44,107 +47,11 @@ map<pair<string,int>, vector<SongInfo>> db;
 map<string,pair<int,int>> db_subsongs;
 set<pair<string,ssize_t>> db_filenames;
 
-constexpr string_view UNKNOWN = "Unknown";
-const set<string> pseudonyms ({
-    "Creative_Thought",
-    "DJ_Braincrack",
-    "Digital_Masters",
-    "MC_Slack",
-    "Mad_Jack",
-    "Mad_Phantom",
-    "McMullan_and_Low",
-    "Pipe_Smokers_Cough",
-    "Private_Affair",
-    "Radio_Poland",
-    "Sonic_Boom_Boy",
-    "Sonicom_Music",
-    "Ten_Pin_Alley",
-    "Urban_Shakedown",
-});
+} // namespace {}
 
-bool parse_unexotica_path(const string &path, UnExoticaData &item) {
-    string author, album, note, filename;
+namespace songdb {
 
-    vector<string> tokens = split(path, "/");
-    const int count = tokens.size();
-
-    if (count < 4) {
-        WARN("Skipping path: %s\n", path.c_str());
-        return false;
-    }
-
-    author = tokens[1];
-    album = tokens[2];
-
-    if (count > 4) {
-        note = tokens[3];
-        filename = tokens[4];
-    } else {
-        filename = tokens[3];
-    }
-
-    vector<string> author_tokens = split(author, "_");
-    const auto first = author_tokens[0];
-    const bool pseudonym = pseudonyms.count(author);
-
-    if (!pseudonym && (first == "Da" || first == "de" || first == "van" || first == "Pieket")) {
-        const auto last = author_tokens.back();
-        author_tokens.erase(author_tokens.end() - 1);
-        author_tokens.insert(author_tokens.begin(), last);
-    } else if (!pseudonym && first != "The") {
-        author_tokens.erase(author_tokens.begin());
-        author_tokens.push_back(first);
-    }
-    item.path = path;
-
-    if (author == UNKNOWN) {
-        item.author = UNKNOWN_AUTHOR;
-    } else {
-        item.author = accumulate(begin(author_tokens), end(author_tokens), string(),[](string &ss, string &s) {
-            return ss.empty() ? s : ss + " " + s;
-        });
-    }
-
-    item.album = album;
-    item.note = note;
-    item.filename = filename;
-
-    replace(item.album.begin(), item.album.end(), '_', ' ');
-    replace(item.note.begin(), item.note.end(), '_', ' ');
-
-    return true;
-}
-
-constexpr string_view UNKNOWN_COMPOSERS = "UnknownComposers";
-
-bool parse_amp_path(const string &path, AMPData &item) {
-    string author, filename;
-    
-    vector<string> tokens = split(path, "/");
-    const int count = tokens.size();
-
-    if (count < 3) {
-        WARN("Skipping path: %s\n", path.c_str());
-        return false;
-    }
-
-    author = tokens[1];
-    filename = tokens[2];
-
-    item.path = path;
-    if (author == UNKNOWN_COMPOSERS) {
-        item.author = UNKNOWN_AUTHOR;
-    } else {
-        item.author = author;
-    }
-    item.filename = filename;
-
-    return true;
-}
-
-} // namespace
-
-void songdb_init(void) {
+void init(const string &songdb_path) {
     if (initialized) {
         return;
     }
@@ -170,21 +77,21 @@ void songdb_init(void) {
                 case Modland:
                 case Modland_Incoming: {
                     ModlandData item {};
-                    if (parse_modland_path(path, item, source == Modland_Incoming)) {
+                    if (modland::parse_path(path, item, source == Modland_Incoming)) {
                         modland_items.push_back(item);
                     }
                     break;
                 }
                 case AMP: {
                     AMPData item {};
-                    if (parse_amp_path(path, item)) {
+                    if (amp::parse_path(path, item)) {
                         amp_items.push_back(item);
                     }
                     break;
                 }
                 case UnExotica: {
                     UnExoticaData item {};
-                    if (parse_unexotica_path(path, item)) {
+                    if (unexotica::parse_path(path, item)) {
                         unexotica_items.push_back(item);
                     }
                     break;
@@ -195,20 +102,21 @@ void songdb_init(void) {
         };
 
         while (getline(songdbtsv, line)) {
-            const auto cols = split(line, "\t");
+            const auto cols = common::split(line, "\t");
             if (cols.size() < 4) {
                 ERR("Invalid line %s\n", line.c_str());
                 return;
             }
             string md5 = cols[0];
-            int subsong = atoi(cols[1].c_str());
-            int length = atoi(cols[2].c_str());
+            int subsong = stoi(cols[1]);
+            int length = stoi(cols[2]);
             string reason = cols[3];
+            size = cols.size() > 4 ? stoi(cols[4]) : size;
             string path = cols.size() > 5 ? cols[5] : "";
 
             if (prevmd5 != md5) {
                 if (path.empty()) {
-                    INFO("No path for MD5 %s\n", md5.c_str());
+                    TRACE("No path for MD5 %s\n", md5.c_str());
                 }
                 modland_items.clear();
                 amp_items.clear();
@@ -224,22 +132,22 @@ void songdb_init(void) {
             if (modland_items.size()) {
                 for (const auto &item : modland_items) {
                     const SongInfo info = { md5, subsong, length, reason, size, item };
-                    songdb_update(info);
+                    update(info);
                 }
             } else if (amp_items.size()) {
                for (const auto &item : amp_items) {
                     const SongInfo info = { md5, subsong, length, reason, size, item };
-                    songdb_update(info);
+                    update(info);
                 }
             } else if (unexotica_items.size()) {
                 for (const auto &item : unexotica_items) {
                     const SongInfo info = { md5, subsong, length, reason, size, item };
-                    songdb_update(info);
+                    update(info);
                 }
             } else {
                 const SongInfo info = { md5, subsong, length, reason, size };
                 if (!db.count(pair(info.md5, info.subsong))) {
-                    songdb_update(info);
+                    update(info);
                 }
             }
 
@@ -247,8 +155,6 @@ void songdb_init(void) {
                 if (!db_subsongs.count(prevmd5)) {
                     db_subsongs[prevmd5] = pair(minsubsong, maxsubsong);
                 }
-                size = cols.size() > 4 ? atoi(cols[4].c_str()) : -1;
-
                 minsubsong = subsong;
                 maxsubsong = subsong;
 
@@ -258,7 +164,7 @@ void songdb_init(void) {
             }
 
             if (path.size()) {
-                string filename = split(path,"/").back();
+                string filename = common::split(path,"/").back();
                 transform(filename.begin(), filename.end(), filename.begin(), ::tolower);
                 const auto key = pair(filename, size);
                 if (!db_filenames.count(key)) {
@@ -275,7 +181,7 @@ void songdb_init(void) {
     db_subsongs.clear();
 
     for (const auto &tsv : tsvfiles) {
-        parsetsv(tsv.first, tsv.second);
+        parsetsv(songdb_path + "/" + tsv.first, tsv.second);
     }
 
     initialized = true;
@@ -283,9 +189,9 @@ void songdb_init(void) {
     return;
 }
 
-optional<SongInfo> songdb_lookup(const string &md5, int subsong, const string &path) {
+optional<SongInfo> lookup(const string &md5, int subsong, const string &path) {
     const auto key = pair(md5, subsong);
-    const auto filename = split(path, "/").back();
+    const auto filename = common::split(path, "/").back();
     if (db.count(key)) {
         bool foundPath = false;
         bool foundAuthor = false;
@@ -293,24 +199,24 @@ optional<SongInfo> songdb_lookup(const string &md5, int subsong, const string &p
         optional<SongInfo> found;
         for (const auto& data : db[key]) {
             if (foundPath && foundAuthor && foundFilename) break;
-            if (!found.has_value()) {
+            if (!found) {
                 found = data;
             }
             if (!foundPath) {
-                const auto modland_path = data.modland_data.has_value() ?
-                    data.modland_data.value().path : "";
-                const auto amp_path = data.amp_data.has_value() ?
-                    data.amp_data.value().path : "";
-                const auto unexotica_path = data.unexotica_data.has_value() ?
-                    data.unexotica_data.value().path : "";
+                const auto modland_path = data.modland_data ?
+                    data.modland_data->path : "";
+                const auto amp_path = data.amp_data ?
+                    data.amp_data->path : "";
+                const auto unexotica_path = data.unexotica_data ?
+                    data.unexotica_data->path : "";
 
-                if (!foundPath && !modland_path.empty() && ends_with(path, modland_path)) {
+                if (!foundPath && !modland_path.empty() && path.ends_with(modland_path)) {
                     foundPath = true;
                 }
-                if (!foundPath && !amp_path.empty() && ends_with(path, amp_path)) {
+                if (!foundPath && !amp_path.empty() && path.ends_with(amp_path)) {
                     foundPath = true;
                 }
-                if (!foundPath && !unexotica_path.empty() && ends_with(path, unexotica_path)) {
+                if (!foundPath && !unexotica_path.empty() && path.ends_with(unexotica_path)) {
                     foundPath = true;
                 }
                 if (foundPath) {
@@ -320,57 +226,57 @@ optional<SongInfo> songdb_lookup(const string &md5, int subsong, const string &p
                 }
             }
             if (!foundAuthor) {
-                const auto modland_author = data.modland_data.has_value() ?
-                    data.modland_data.value().author : "";
-                const auto amp_author = data.amp_data.has_value() ?
-                    data.amp_data.value().author : "";
-                const auto unexotica_author = data.unexotica_data.has_value() ?
-                    data.unexotica_data.value().author : "";
+                const auto modland_author = data.modland_data ?
+                    data.modland_data->author : "";
+                const auto amp_author = data.amp_data ?
+                    data.amp_data->author : "";
+                const auto unexotica_author = data.unexotica_data ?
+                    data.unexotica_data->author : "";
 
                 if (!foundAuthor && !modland_author.empty() && modland_author != UNKNOWN_AUTHOR) {
                     found = data;
                     foundAuthor = true;
-                    if (data.modland_data.value().filename == filename) {
+                    if (data.modland_data->filename == filename) {
                         foundFilename = true;
                     }
                 }
                 if (!foundAuthor && !amp_author.empty() && amp_author != UNKNOWN_AUTHOR) {
                     found = data;
                     foundAuthor = true;
-                    if (data.amp_data.value().filename == filename) {
+                    if (data.amp_data->filename == filename) {
                         foundFilename = true;
                     }
                 }
                 if (!foundAuthor && !unexotica_author.empty() && unexotica_author != UNKNOWN_AUTHOR) {
                     found = data;
                     foundAuthor = true;
-                    if (data.unexotica_data.value().filename == filename) {
+                    if (data.unexotica_data->filename == filename) {
                         foundFilename = true;
                     }
                 }
             }
             if (!foundFilename) {
-                const auto modland_filename = data.modland_data.has_value() ?
-                    data.modland_data.value().filename : "";
-                const auto amp_filename = data.amp_data.has_value() ?
-                    data.amp_data.value().filename : "";
-                const auto unexotica_filename = data.unexotica_data.has_value() ?
-                    data.unexotica_data.value().filename : "";
+                const auto modland_filename = data.modland_data ?
+                    data.modland_data->filename : "";
+                const auto amp_filename = data.amp_data ?
+                    data.amp_data->filename : "";
+                const auto unexotica_filename = data.unexotica_data ?
+                    data.unexotica_data->filename : "";
 
                 if (!foundFilename && modland_filename == filename) {
-                    if (!foundAuthor || (foundAuthor && data.modland_data.value().author != UNKNOWN_AUTHOR)) {
+                    if (!foundAuthor || (foundAuthor && data.modland_data->author != UNKNOWN_AUTHOR)) {
                         found = data;
                         foundFilename = true;
                     }
                 }
                 if (!foundFilename && amp_filename == filename) {
-                    if (!foundAuthor || (foundAuthor && data.amp_data.value().author != UNKNOWN_AUTHOR)) {
+                    if (!foundAuthor || (foundAuthor && data.amp_data->author != UNKNOWN_AUTHOR)) {
                         found = data;
                         foundFilename = true;
                     }
                 }
                 if (!foundFilename && unexotica_filename == filename) {
-                    if (!foundAuthor || (foundAuthor && data.unexotica_data.value().author != UNKNOWN_AUTHOR)) {
+                    if (!foundAuthor || (foundAuthor && data.unexotica_data->author != UNKNOWN_AUTHOR)) {
                         found = data;
                         foundFilename = true;
                     }
@@ -383,12 +289,23 @@ optional<SongInfo> songdb_lookup(const string &md5, int subsong, const string &p
     return {};
 }
 
-void songdb_update(const SongInfo &info) {
+vector<SongInfo> lookup_all(const string &md5, int subsong) {
+    vector<SongInfo> infos;
+    const auto key = pair(md5, subsong);
+    if (db.count(key)) {
+        for (const auto &data : db[key]) {
+            infos.push_back(data);
+        }
+    }
+    return infos;
+}
+
+void update(const SongInfo &info) {
     if (info.md5.empty() || info.subsong < 0) {
         WARN("Invalid songdb key md5:%s subsong:%d\n", info.md5.c_str(), info.subsong);
         return;
     }
-    if (is_blacklisted_songdb(info.md5)) {
+    if (blacklist::is_blacklisted_songdb_key(info.md5)) {
         INFO("Blacklisted songdb key md5:%s\n", info.md5.c_str());
         return;
     }
@@ -406,15 +323,17 @@ void songdb_update(const SongInfo &info) {
     return;
 }
 
-optional<pair<int,int>> songdb_subsong_range(const string &md5) {
+optional<pair<int,int>> subsong_range(const string &md5) {
     if (db_subsongs.count(md5)) {
         return db_subsongs[md5];
     }
     return {};
 }
 
-bool songdb_exists(const string &filename, const ssize_t size) {
-    auto lcname = filename;
+bool exists(const string &path, const ssize_t size) {
+    auto lcname = common::split(path, "/").back();
     transform(lcname.begin(), lcname.end(), lcname.begin(), ::tolower);
     return db_filenames.count(pair(lcname,size));
 }
+
+} // namespace songdb

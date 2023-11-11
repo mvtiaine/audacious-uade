@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: LGPL-2.0-or-later
 // Copyright (C) 2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
-#ifndef BIGENDIAN_H_
-#define BIGENDIAN_H_
+#pragma once
 
 #include <cassert>
 #include <cstdint>
@@ -14,8 +13,6 @@
 #include <endian.h>
 #define CONSTEXPR
 #endif
-
-using namespace std;
 
 namespace converter {
 
@@ -58,21 +55,21 @@ struct be_uint16_t {
 
 inline void verify(const bool cond) {
     if (!cond) {
-        throw out_of_range("read past EOF");
+        throw std::out_of_range("read past EOF");
     }
 }
 
-inline int8_t reads8be(const vector<char> &buf, size_t &offs) {
+inline int8_t reads8be(const std::vector<char> &buf, size_t &offs) {
     verify(buf.size() > offs);
     return buf[offs++];
 }
 
-inline uint8_t readu8be(const vector<char> &buf, size_t &offs) {
+inline uint8_t readu8be(const std::vector<char> &buf, size_t &offs) {
     verify(buf.size() > offs);
     return buf[offs++];
 }
 
-inline be_int16_t reads16be(const vector<char> &buf, size_t &offs) {
+inline be_int16_t reads16be(const std::vector<char> &buf, size_t &offs) {
     verify(buf.size() >= offs + 2);
     int8_t a;
     uint8_t b;
@@ -82,7 +79,7 @@ inline be_int16_t reads16be(const vector<char> &buf, size_t &offs) {
     return be_int16_t((a << 8) | b);
 }
 
-inline be_uint16_t readu16be(const vector<char> &buf, size_t &offs) {
+inline be_uint16_t readu16be(const std::vector<char> &buf, size_t &offs) {
     verify(buf.size() >= offs + 2);
     uint8_t a, b;
     a = buf[offs];
@@ -91,7 +88,7 @@ inline be_uint16_t readu16be(const vector<char> &buf, size_t &offs) {
     return be_uint16_t((a << 8) | b);
 }
 
-inline be_int32_t reads32be(const vector<char> &buf, size_t &offs) {
+inline be_int32_t reads32be(const std::vector<char> &buf, size_t &offs) {
     verify(buf.size() >= offs + 4);
     int8_t a;
     uint8_t b, c, d;
@@ -103,7 +100,7 @@ inline be_int32_t reads32be(const vector<char> &buf, size_t &offs) {
     return be_int32_t((a << 24) | (b << 16) | (c << 8) | d);
 }
 
-inline be_uint32_t readu32be(const vector<char> &buf, size_t &offs) {
+inline be_uint32_t readu32be(const std::vector<char> &buf, size_t &offs) {
     verify(buf.size() >= offs + 4);
     uint8_t a, b, c, d;
     a = buf[offs];
@@ -114,32 +111,32 @@ inline be_uint32_t readu32be(const vector<char> &buf, size_t &offs) {
     return be_uint32_t((a << 24) | (b << 16) | (c << 8) | d);
 }
 
-inline vector<char> readbytes(const vector<char> &buf, size_t &offs, const size_t n) {
+inline std::vector<char> readbytes(const std::vector<char> &buf, size_t &offs, const size_t n) {
     assert(n > 0);
     verify(buf.size() >= offs + n);
-    vector<char> chars(n);
+    std::vector<char> chars(n);
     copy(buf.begin() + offs, buf.begin() + offs + n, chars.begin());
     offs += n;
     return chars;
 }
 
-inline vector<uint8_t> readu8bytes(const vector<char> &buf, size_t &offs, const size_t n) {
+inline std::vector<uint8_t> readu8bytes(const std::vector<char> &buf, size_t &offs, const size_t n) {
     assert(n > 0);
     verify(buf.size() >= offs + n);
-    vector<uint8_t> chars(n);
+    std::vector<uint8_t> chars(n);
     copy(buf.begin() + offs, buf.begin() + offs + n, chars.begin());
     offs += n;
     return chars;
 }
 
-inline void copybytes(const vector<char> &buf, char *dst, size_t &offs, const size_t n) {
+inline void copybytes(const std::vector<char> &buf, char *dst, size_t &offs, const size_t n) {
     if (n == 0) return;
     verify(buf.size() >= offs + n);
     copy(buf.begin() + offs, buf.begin() + offs + n, dst);
     offs += n;
 }
 
-inline void copyu8bytes(const vector<char> &buf, uint8_t *dst, size_t &offs, const size_t n) {
+inline void copyu8bytes(const std::vector<char> &buf, uint8_t *dst, size_t &offs, const size_t n) {
     if (n == 0) return;
     assert(n > 0);
     verify(buf.size() >= offs + n);
@@ -148,5 +145,3 @@ inline void copyu8bytes(const vector<char> &buf, uint8_t *dst, size_t &offs, con
 }
 
 } // namespace converter
-
-#endif // BIGENDIAN_H_

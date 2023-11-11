@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: LGPL-2.0-or-later
 // Copyright (C) 2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
-#ifndef COMMON_MED_H_
-#define COMMON_MED_H_
+#pragma once
 
 #include <optional>
 #include <string>
@@ -28,28 +27,28 @@ constexpr int MAX_SAMPLES = 63;
 struct MMD0Block {
     UBYTE numtracks;
     UBYTE lines;
-    vector<char> data; // size = 3 * (lines + 1) * trks
+    std::vector<char> data; // size = 3 * (lines + 1) * trks
 };
 
 struct MMDSample0 : MMDSample {
-    vector<char> sample; // size = length
+    std::vector<char> sample; // size = length
 };
 
 struct SynthWF {
     UWORD length;   /* length in words */
-    vector<char> wfdata; /* the waveform */
+    std::vector<char> wfdata; /* the waveform */
 };
 
 struct SynthWF0 {
-    optional<SynthWF> synthwf;
-    optional<MMDSample0> sample; // wf[0] when type == HYBRID
+    std::optional<SynthWF> synthwf;
+    std::optional<MMDSample0> sample; // wf[0] when type == HYBRID
 };
 
 struct SynthInstr {
     ULONG   length;     /* length of this struct */
     WORD    type;       /* -1 or -2 (offs: 4) */
     UBYTE   defaultdecay;
-    vector<char> reserved{0,0,0};
+    std::vector<char> reserved{0,0,0};
     UWORD   rep;
     UWORD   replen;
     UWORD   voltbllen;  /* offs: 14 */
@@ -57,35 +56,33 @@ struct SynthInstr {
     UBYTE   volspeed;   /* offs: 18 */
     UBYTE   wfspeed;    /* offs: 19 */
     UWORD   wforms;     /* offs: 20 */
-    vector<char> voltbl; /* offs: 22 */
-    vector<char> wftbl; /* offs: 150 */
-    vector<SynthWF0> wf; /* offs: 278 */
+    std::vector<char> voltbl; /* offs: 22 */
+    std::vector<char> wftbl; /* offs: 150 */
+    std::vector<SynthWF0> wf; /* offs: 278 */
     SynthInstr() : voltbllen(128), wftbllen(128), voltbl(128), wftbl(128) {};
 };
 
 struct Instr {
-    optional<MMDSample0> sample;
-    optional<SynthInstr> synthinstr;
+    std::optional<MMDSample0> sample;
+    std::optional<SynthInstr> synthinstr;
 };
 
 struct MMD0exp0 : MMD0exp {
-    vector<char> annotxt;
-    vector<vector<char>> iinfo; // sample names
+    std::vector<char> annotxt;
+    std::vector<std::vector<char>> iinfo; // sample names
 };
 
 UBYTE GetNibble(UBYTE *mem, UWORD *nbnum);
 UWORD GetNibbles(UBYTE *mem, UWORD *nbnum, UBYTE nbs);
 void UnpackData(ULONG *lmptr, ULONG *cmptr, UBYTE *from, UBYTE *to, UWORD lines, UBYTE trkn);
 
-vector<char> serializeMMD0(
+std::vector<char> serializeMMD0(
     const MMD0 &mmd0,
     const MMD0song &song,
-    const vector<MMD0Block> &blockarr,
-    const vector<Instr> &smplarr,
+    const std::vector<MMD0Block> &blockarr,
+    const std::vector<Instr> &smplarr,
     const MMD0exp0 &exp,
-    const vector<InstrExt> &exp_smp
+    const std::vector<InstrExt> &exp_smp
 );
 
 } // namespace converter::med
-
-#endif // COMMON_MED_H_

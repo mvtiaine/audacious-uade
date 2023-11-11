@@ -1,7 +1,7 @@
 AC_PREREQ(2.59)
 AC_INIT([audacious-uade], m4_normalize(m4_include([VERSION])), [], [], [https://github.com/mvtiaine/audacious-uade])
 AC_PROG_CXX
-AX_CXX_COMPILE_STDCXX_17
+AX_CXX_COMPILE_STDCXX(20)
 
 AM_INIT_AUTOMAKE([tar-ustar dist-bzip2 no-dist-gzip])
 AC_CONFIG_MACRO_DIRS([m4])
@@ -87,8 +87,6 @@ AX_SUBDIRS_CONFIGURE([uade], [
   [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
   [CFLAGS=${CFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE -Wno-format -Wno-format-security],
 ],[])
-UADE_CFLAGS="-I\${top_srcdir}/uade/src/frontends/include -I\${top_builddir}/uade/src/frontends/include"
-AC_SUBST([UADE_CFLAGS])
 # TODO shutup libtool warning:
 # *** Warning: Linking the shared library uade.la against the
 # *** static library uade/src/frontends/libuade/libuade.a is not portable!
@@ -97,12 +95,6 @@ AC_SUBST([UADE_LIBS])
 
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_FILES(Makefile
-                src/3rdparty/Makefile
-                src/converter/Makefile
-                src/player/Makefile
-                src/plugin/audacious/Makefile
-                src/songdb/Makefile
-                src/songend/Makefile
-                src/uade/Makefile)
+                src/Makefile)
 
 AC_OUTPUT

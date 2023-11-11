@@ -1,54 +1,82 @@
 // SPDX-License-Identifier: LGPL-2.0-or-later
 // Copyright (C) 2014-2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
-#ifndef SONGDB_H_
-#define SONGDB_H_
+#pragma once
 
 #include <optional>
 #include <string>
+#include <utility>
 
-#include "modland.h"
+namespace songdb {
 
-using namespace std;
+constexpr std::string_view UNKNOWN_AUTHOR = "<Unknown>";
+
+struct ModlandData {
+    std::string path;
+    std::string format;
+    std::string author;
+    std::string album;
+    std::string filename;
+};
 
 struct UnExoticaData {
-    string path;
-    string author;
-    string album;
-    string note;
-    string filename;
+    std::string path;
+    std::string author;
+    std::string album;
+    std::string note;
+    std::string filename;
 };
 
 struct AMPData {
-    string path;
-    string author;
-    string filename;
+    std::string path;
+    std::string author;
+    std::string filename;
 };
 
 struct SongInfo {
-    string md5;
+    std::string md5;
     int subsong;
     int length;
-    string status;
+    std::string status;
     ssize_t size;
-    optional<ModlandData> modland_data;
-    optional<AMPData> amp_data;
-    optional<UnExoticaData> unexotica_data;
+    std::optional<ModlandData> modland_data;
+    std::optional<AMPData> amp_data;
+    std::optional<UnExoticaData> unexotica_data;
 
-    SongInfo(string md5, int subsong, int length, string status, ssize_t size)
+    SongInfo(std::string md5, int subsong, int length, std::string status, ssize_t size)
         : md5(md5), subsong(subsong), length(length), status(status), size(size) {}
-    SongInfo(string md5, int subsong, int length, string status, ssize_t size, optional<ModlandData> modland_data)
+    SongInfo(std::string md5, int subsong, int length, std::string status, ssize_t size, std::optional<ModlandData> modland_data)
         : md5(md5), subsong(subsong), length(length), status(status), size(size), modland_data(modland_data) {}
-    SongInfo(string md5, int subsong, int length, string status, ssize_t size, optional<AMPData> amp_data)
+    SongInfo(std::string md5, int subsong, int length, std::string status, ssize_t size, std::optional<AMPData> amp_data)
         : md5(md5), subsong(subsong), length(length), status(status), size(size), amp_data(amp_data) {}
-    SongInfo(string md5, int subsong, int length, string status, ssize_t size, optional<UnExoticaData> unexotica_data)
+    SongInfo(std::string md5, int subsong, int length, std::string status, ssize_t size, std::optional<UnExoticaData> unexotica_data)
         : md5(md5), subsong(subsong), length(length), status(status), size(size), unexotica_data(unexotica_data) {}
 };
 
-void songdb_init();
-optional<SongInfo> songdb_lookup(const string &md5, int subsong, const string &path);
-void songdb_update(const SongInfo &songinfo);
-optional<pair<int,int>> songdb_subsong_range(const string &md5);
-bool songdb_exists(const string &filename, const ssize_t size);
+void init(const std::string &songdb_path);
+std::optional<SongInfo> lookup(const std::string &md5, int subsong, const std::string &path);
+std::vector<SongInfo> lookup_all(const std::string &md5, int subsong);
+void update(const SongInfo &songinfo);
+std::optional<std::pair<int,int>> subsong_range(const std::string &md5);
+bool exists(const std::string &path, const ssize_t size);
 
-#endif /* SONGDB_H_ */
+
+namespace modland {
+    bool parse_path(const std::string &path, songdb::ModlandData &item, bool incoming);
+} // namespace songdb::modland
+
+namespace amp {
+    bool parse_path(const std::string &path, songdb::AMPData &item);
+} // namespace songdb::amp
+
+namespace unexotica {
+    bool parse_path(const std::string &path, songdb::UnExoticaData &item);
+} // namespace songdb::unexotica
+
+namespace blacklist {
+    bool is_blacklisted_extension(const std::string &path, const std::string &ext);
+    bool is_blacklisted_md5(const std::string &md5hex);
+    bool is_blacklisted_songdb_key(const std::string &md5hex);
+} // namespace songdb::blacklist
+
+} // namespace songdb
