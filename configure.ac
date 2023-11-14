@@ -66,7 +66,7 @@ then
 fi
 
 CFLAGS="-fPIC -fvisibility=hidden -fdata-sections -ffunction-sections ${CFLAGS}"
-CXXFLAGS="-fno-rtti -Wall ${CFLAGS}"
+CXXFLAGS="-fno-rtti -Wall ${CFLAGS} ${CXXFLAGS}"
 if test "$build_macos" = "yes"
 then
   LDFLAGS="-Wl,-dead_strip -Wl,-undefined,error ${LDFLAGS}"
