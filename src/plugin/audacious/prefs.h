@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2014-2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
-#ifndef PREFS_H_
-#define PREFS_H_
+#pragma once
 
 #include <libaudcore/preferences.h>
 
-#include "common.h"
-#include "uade_config.h"
+#include "uade_prefs.h"
 
 // pref keys
 constexpr const char *PRECALC_SONGLENGTHS = "precalc_songlengths";
@@ -55,5 +53,3 @@ const PreferencesWidget prefs_widget[] = {
 };
 
 const PluginPreferences plugin_prefs = {{ prefs_widget }};
-
-#endif /* PREFS_H_ */

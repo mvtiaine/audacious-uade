@@ -40,3 +40,6 @@ audacious-uade-*
 debian/changelog
 build-deb
 build
+test-driver
+*.log
+*.trs

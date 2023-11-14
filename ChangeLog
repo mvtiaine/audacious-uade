@@ -1,3 +1,11 @@
+0.10-dev
+- Massive refactorings and cleanups
+- Switch to C++20
+- Relicense some more sources as LGPL (from GPL)
+- Add unit tests
+- Fix UADE gain prefs
+- Fix UADE multifile support (broken since 0.9.2)
+
 0.9.3 - 2023-11-04
 - FreeBSD support
 

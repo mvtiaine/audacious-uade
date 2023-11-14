@@ -9,9 +9,11 @@
 #include "3rdparty/SimpleBinStream.h"
 #pragma GCC diagnostic pop
 
+using namespace std;
 using namespace converter::med;
 
 namespace {
+
 const ULONG nil = 0;
 
 vector<char> align(simple::mem_ostream<true_type> &out) {
@@ -52,13 +54,13 @@ void serializeSamples(simple::mem_ostream<true_type> &out, const MMD0song& song,
     int i = 0;
     for (const auto& instr : smplarr) {
         simple::mem_ostream<true_type> out;
-        if (instr.sample.has_value()) {
+        if (instr.sample) {
             const MMDSample0& sample = instr.sample.value();
             out << sample.length;                                   TRACE("mmd0sample[%d].length: %u\n", i, (uint32_t)sample.length);
             out << sample.type;                                     TRACE("mmd0sample[%d].type: %d\n", i, (int16_t)sample.type);
             out << sample.sample;                                   TRACE("mmd0sample[%d].data[%lu]\n", i, sample.sample.size());
             samples[i] = align(out);
-        } else if (instr.synthinstr.has_value()) {
+        } else if (instr.synthinstr) {
             const SynthInstr& synthinstr = instr.synthinstr.value();
             out << synthinstr.length;                               TRACE("mmd0sample[%d].length: %u\n", i, (uint32_t)synthinstr.length);
             out << synthinstr.type;                                 TRACE("mmd0sample[%d].type: %d\n", i, (int16_t)synthinstr.type);
