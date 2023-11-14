@@ -14,5 +14,4 @@ cp -rp ../debian audacious-uade-${VERSION}/
 cd audacious-uade-${VERSION}
 sed s/VERSION/${VERSION}/g debian/changelog.in > debian/changelog
 # XXX fix properly
-LDFLAGS=-lbsd
-dpkg-buildpackage
+LDFLAGS=-lbsd dpkg-buildpackage
