@@ -584,6 +584,7 @@ bool stop(PlayerState &state) {
 
 bool restart(PlayerState &/*state*/) {
     assert(false);
+    return false;
 }
 
 bool seek(PlayerState &state, int millis) {
