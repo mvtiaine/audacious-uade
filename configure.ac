@@ -62,6 +62,7 @@ then
   PKG_CHECK_MODULES([LIBBSD],[libbsd],
     [ac_libbsd_libs=`$PKG_CONFIG --libs libbsd`],
     [ac_libbsd_libs=;])
+  AC_SUBST(LIBBSD_LIBS)
 fi
 
 CFLAGS="-fPIC -fvisibility=hidden -fdata-sections -ffunction-sections ${CFLAGS}"
@@ -86,6 +87,7 @@ AX_SUBDIRS_CONFIGURE([uade], [
   [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
   [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
   [CFLAGS=${CFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE -Wno-format -Wno-format-security],
+  [LDFLAGS=${LDFLAGS} ${LIBBSD_LIBS}],
 ],[])
 UADE_CPPFLAGS="-I\${top_srcdir}/uade/src/frontends/include -I\${top_builddir}/uade/src/frontends/include"
 AC_SUBST([UADE_CPPFLAGS])
