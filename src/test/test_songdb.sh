@@ -2,7 +2,7 @@
 
 set -e
 
-source $(dirname "$0")/common/header.sh
+. $(dirname "$0")/common/header.sh
 
 MD5=${top_builddir}/src/test/md5
 SONGDB_BIN=${top_builddir}/src/plugin/cli/songdb/songdb
@@ -16,4 +16,4 @@ export SONGDB_DIR=${SONGDB_DIR}
 EXPECTED_OUTPUT=$(cd ${SONGDB_DIR}; grep $TESTMD5 amp.tsv modland.tsv unexotica.tsv)
 TEST_OUTPUT=$(${SONGDB_BIN} ${TESTMOD})
 
-source $(dirname "$0")/common/check.sh
+. $(dirname "$0")/common/check.sh
