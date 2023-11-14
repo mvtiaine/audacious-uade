@@ -1,4 +1,7 @@
-0.10-dev
+0.10.1 - 2023-11-14
+- Build hotfixes
+
+0.10.0 - 2023-11-14
 - Massive refactorings and cleanups
 - Switch to C++20
 - Relicense some more sources as LGPL (from GPL)
