@@ -17,3 +17,4 @@ EXPECTED_OUTPUT=$(cd ${SONGDB_DIR}; grep $TESTMD5 amp.tsv modland.tsv unexotica.
 TEST_OUTPUT=$(${SONGDB_BIN} ${TESTMOD})
 
 . $(dirname "$0")/common/check.sh
+exit 0

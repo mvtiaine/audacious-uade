@@ -15,7 +15,8 @@ TESTS_ENVIRONMENT = \
 
 TESTS = \
     test/test_converter.sh \
-    test/test_songdb.sh
+    test/test_songdb.sh \
+    test/test_player.sh
 
 EXTRA_DIST += \
     test/common/header.sh \

@@ -13,4 +13,4 @@ if [ "$TEST_OUTPUT" != "$EXPECTED_OUTPUT" ]; then
 fi
 
 echo "SUCCESS"
-exit 0
+

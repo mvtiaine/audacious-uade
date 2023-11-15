@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2023 Matti Tiainen <mvtiaine@cc.hut.fi>
 
+#include <bit>
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -45,9 +46,16 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    const player::PlayerConfig player_config = { frequency };
-    const player::uade::UADEConfig uade_config = {{ frequency }};
-    const auto &config = player == player::Player::uade ? uade_config : player_config;
+    player::PlayerConfig player_config = { frequency };
+    player::uade::UADEConfig uade_config = {{ frequency }};
+    auto &config = player == player::Player::uade ? uade_config : player_config;
+
+    const char *endian_ = getenv("PLAYER_ENDIAN");
+    if (endian_ && string(endian_) == "big") {
+        config.endian = endian::big;
+    } else if (endian_ && string(endian_) == "little") {
+        config.endian = endian::little;
+    }
 
     if (subsong < 0) {
         subsong = info->defsubsong;
