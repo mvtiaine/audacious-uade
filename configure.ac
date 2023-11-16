@@ -65,7 +65,7 @@ then
   AC_SUBST(LIBBSD_LIBS)
 fi
 
-CFLAGS="-fPIC -fvisibility=hidden -fdata-sections -ffunction-sections ${CFLAGS}"
+CFLAGS="-fPIC -fvisibility=hidden -fvisibility-inlines-hidden -fdata-sections -ffunction-sections ${CFLAGS}"
 CXXFLAGS="-fno-rtti -Wall ${CFLAGS} ${CXXFLAGS}"
 if test "$build_macos" = "yes"
 then
