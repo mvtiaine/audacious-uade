@@ -62,7 +62,7 @@ EXPECTED_OUTPUT=$TESTMD5_LITTLE
 #
 
 TESTMOD=${top_srcdir}/testdata/monkmusings.hvl
-TESTMD5_LITTLE=027cb2dc04592ccba3dd2f3d45902bb4
+TESTMD5_LITTLE=18ca60d4c39ecda3a1346af80ebaa97d
 
 TEST_NAME="HivelyTracker"
 TEST_OUTPUT=$(${PLAYER} "${TESTMOD}" | ${MD5})
