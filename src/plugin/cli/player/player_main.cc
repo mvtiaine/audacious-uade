@@ -8,6 +8,7 @@
 
 #include "player/player.h"
 
+using namespace player;
 using namespace std;
 
 int main(int argc, char *argv[]) {
@@ -32,23 +33,30 @@ int main(int argc, char *argv[]) {
     input.seekg(0, ios::beg);
     input.read(buffer.data(), buffer.size());
 
-    const player::support::PlayerScope p;
+    const support::PlayerScope p;
 
-    const auto player = player::check(fname, buffer.data(), buffer.size());
-    if (player == player::Player::NONE) {
+    const auto player = check(fname, buffer.data(), buffer.size());
+    if (player == Player::NONE) {
         fprintf(stderr, "Could not recognize %s\n", fname);
         return EXIT_FAILURE;
     }
 
-    auto info = player::parse(fname, buffer.data(), buffer.size());
+    auto info = parse(fname, buffer.data(), buffer.size());
     if (!info) {
         fprintf(stderr, "Could not parse %s\n", fname);
         return EXIT_FAILURE;
     }
 
-    player::PlayerConfig player_config = { frequency };
-    player::uade::UADEConfig uade_config = {{ frequency }};
-    auto &config = player == player::Player::uade ? uade_config : player_config;
+    PlayerConfig player_config = { frequency };
+    uade::UADEConfig uade_config = {{ frequency }};
+    if (getenv("SONGEND_MODE")) {
+        uade_config.subsong_timeout = player::PRECALC_TIMEOUT;
+        uade_config.silence_timeout = player::PRECALC_TIMEOUT;
+        uade_config.filter = uade::Filter::NONE;
+        uade_config.resampler = uade::Resampler::NONE;
+        uade_config.panning = 1;
+    }
+    auto &config = player == Player::uade ? uade_config : player_config;
 
     const char *endian_ = getenv("PLAYER_ENDIAN");
     if (endian_ && string(endian_) == "big") {
@@ -61,7 +69,7 @@ int main(int argc, char *argv[]) {
         subsong = info->defsubsong;
     }
 
-    auto state = player::play(fname, buffer.data(), buffer.size(), subsong, config);
+    auto state = play(fname, buffer.data(), buffer.size(), subsong, config);
     if (!state) {
         fprintf(stderr, "Could not play %s\n", fname);
         return EXIT_FAILURE;
@@ -73,13 +81,14 @@ int main(int argc, char *argv[]) {
         fwrite(buf, bytes, 1, stdout);
     };
 
-    const auto res = player::support::playback_loop(state.value(), config, check_stop, check_seek, write_audio);
+    const auto res = support::playback_loop(state.value(), config, check_stop, check_seek, write_audio);
+    fflush(stdout);
 
-    if (!player::stop(state.value())) {
+    if (!stop(state.value())) {
         fprintf(stderr, "Could not stop %s\n", fname);
     }
 
-    if (res.songend.status == player::SongEnd::ERROR) {
+    if (res.songend.status == SongEnd::ERROR) {
         fprintf(stderr, "Error playing %s\n", fname);
         return EXIT_FAILURE;
     }

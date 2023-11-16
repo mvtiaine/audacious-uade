@@ -41,8 +41,6 @@ int main(int /*argc*/, char *[]/*argv[]*/) {
         return EXIT_FAILURE;
     }
 
-    fprintf(stderr, "got %zu required %zu\n", total, MINLENGTH);
- 
     int res = detector.detect_silence(player::SILENCE_TIMEOUT);
     if (res) {
         fprintf(stdout, "%d\n", res + player::MAX_SILENCE);
