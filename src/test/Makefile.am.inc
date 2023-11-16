@@ -10,8 +10,17 @@ test_md5_LDADD = \
 	3rdparty/libmd5.la
 
 TESTS_ENVIRONMENT = \
+    export top_srcdir=$(top_srcdir); \
     export top_builddir=$(top_builddir); \
-    export top_srcdir=$(top_srcdir);
+    export UADE_CORE_FILE=$(top_builddir)/uade/src/uadecore; \
+    export UADE_BASE_DIR=$(top_builddir)/build-tmp/uade; \
+    mkdir -p $(top_builddir)/build-tmp/uade 2>/dev/null;\
+    cp -f $(top_srcdir)/conf/*.conf $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
+    cp -f $(top_srcdir)/uade/eagleplayer.conf $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
+    cp -f $(top_srcdir)/uade/uaerc $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
+    cp -f $(top_srcdir)/uade/amigasrc/score/score $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
+    cp -rf $(top_srcdir)/uade/players $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
+    chmod -R 755 $(top_builddir)/build-tmp/uade;
 
 TESTS = \
     test/converter/test_converter.sh \
@@ -40,3 +49,4 @@ EXTRA_DIST += \
     test/common/header.sh \
     test/common/check.sh \
     $(TESTS)
+
