@@ -107,7 +107,6 @@ bool allow_songend_error(const ModuleInfo &info) {
         is_octamed(info) || is_vss(info));
 }
 
-
 SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, int subsong, const string &md5hex) {
     const auto check_stop = []() { return false; };
     const auto check_seek = []() { return -1; };

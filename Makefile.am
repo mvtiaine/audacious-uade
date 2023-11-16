@@ -23,3 +23,7 @@ distclean-local:
 	if test "$(srcdir)" != "."; then \
 	    rm -rf uade; \
 	fi
+	rm -rf $(top_builddir)/build-tmp
+
+clean-local:
+	rm -rf $(top_builddir)/build-tmp

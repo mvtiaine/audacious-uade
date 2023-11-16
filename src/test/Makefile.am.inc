@@ -10,14 +10,43 @@ test_md5_LDADD = \
 	3rdparty/libmd5.la
 
 TESTS_ENVIRONMENT = \
+    export top_srcdir=$(top_srcdir); \
     export top_builddir=$(top_builddir); \
-    export top_srcdir=$(top_srcdir);
+    export UADE_CORE_FILE=$(top_builddir)/uade/src/uadecore; \
+    export UADE_BASE_DIR=$(top_builddir)/build-tmp/uade; \
+    mkdir -p $(top_builddir)/build-tmp/uade 2>/dev/null;\
+    cp -f $(top_srcdir)/conf/*.conf $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
+    cp -f $(top_srcdir)/uade/eagleplayer.conf $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
+    cp -f $(top_srcdir)/uade/uaerc $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
+    cp -f $(top_srcdir)/uade/amigasrc/score/score $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
+    cp -rf $(top_srcdir)/uade/players $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
+    chmod -R 755 $(top_builddir)/build-tmp/uade;
 
 TESTS = \
-    test/test_converter.sh \
-    test/test_songdb.sh
+    test/converter/test_converter.sh \
+    test/songdb/test_songdb.sh \
+    test/songend/test_songend.sh \
+    test/player/test_player1.sh \
+    test/player/test_player2.sh \
+    test/player/test_player3.sh \
+    test/player/test_player4.sh \
+    test/player/test_player5.sh \
+    test/player/test_player6.sh \
+    test/precalc/test_precalc1.sh \
+    test/precalc/test_precalc2.sh \
+    test/precalc/test_precalc3.sh \
+    test/precalc/test_precalc4.sh \
+    test/precalc/test_precalc5.sh \
+    test/precalc/test_precalc6.sh \
+    test/precalc/test_precalc7.sh \
+    test/precalc/test_precalc8.sh \
+    test/precalc/test_precalc9.sh \
+    test/precalc/test_precalc10.sh \
+    test/precalc/test_precalc11.sh \
+    test/precalc/test_precalc12.sh
 
 EXTRA_DIST += \
     test/common/header.sh \
     test/common/check.sh \
     $(TESTS)
+

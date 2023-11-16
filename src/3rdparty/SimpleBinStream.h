@@ -628,7 +628,11 @@ public:
 #endif
 		compute_length(input_file_ptr);
 		m_arr = new char[m_size];
-		std::fread(m_arr, m_size, 1, input_file_ptr);
+		if (std::fread(m_arr, m_size, 1, input_file_ptr) != 1)
+		{
+			fclose(input_file_ptr);
+			throw std::runtime_error("Read Error!");
+		}
 		fclose(input_file_ptr);
 	}
 #ifdef _MSC_VER

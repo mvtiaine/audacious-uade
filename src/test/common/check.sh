@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 echo Checking test result for $TEST_NAME
 
 if [ "$TEST_OUTPUT" != "$EXPECTED_OUTPUT" ]; then
@@ -13,4 +15,4 @@ if [ "$TEST_OUTPUT" != "$EXPECTED_OUTPUT" ]; then
 fi
 
 echo "SUCCESS"
-exit 0
+
