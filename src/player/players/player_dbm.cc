@@ -21,7 +21,7 @@ namespace {
 struct DB3Context {
     void *engine;
     DB3Module *module;
-    bool songend;
+    bool songend = false;
 };
 
 struct DB3Handle {
