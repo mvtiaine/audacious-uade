@@ -59,9 +59,3 @@ if BUILD_MACOS
 else
 	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade.so" || true
 endif
-
-clean-local:
-	rm -rf $(top_builddir)/build-tmp
-
-distclean-local:
-	rm -rf $(top_builddir)/build-tmp
