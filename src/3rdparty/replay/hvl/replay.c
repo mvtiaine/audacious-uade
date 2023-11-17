@@ -1552,7 +1552,8 @@ void hvl_process_frame( struct hvl_tune *ht, struct hvl_voice *voice )
       d3 += voice->vc_SquareSign;
       voice->vc_SquarePos   = d3;
       voice->vc_PlantSquare = 1;
-      voice->vc_SquareWait  = voice->vc_Instrument->ins_SquareSpeed;
+      if (voice->vc_Instrument)
+        voice->vc_SquareWait  = voice->vc_Instrument->ins_SquareSpeed;
     }
   }
   
