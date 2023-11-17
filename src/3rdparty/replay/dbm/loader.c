@@ -276,11 +276,10 @@ static int db3_bcd2bin(uint8_t x)
 static int read_data(struct DataChunk *dc, struct AbstractHandle *ah, void *buf, int length)
 {
 	int error = 0;
-	int k;
 
 	if (length <= dc->Size - dc->Pos)
 	{
-		if (k = ah->ah_Read(ah, buf, length)) dc->Pos += length;
+		if (ah->ah_Read(ah, buf, length)) dc->Pos += length;
 		else error = DB3_ERROR_READING_DATA;
 	}
 	else error = DB3_ERROR_DATA_CORRUPTED;
