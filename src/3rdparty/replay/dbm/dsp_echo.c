@@ -258,7 +258,8 @@ struct DSPObject *dsp_echo_new(int mixfreq, int type)
 			obj->DelayTime = (64 * mixfreq + 250) / 500;   // default echo delay = 0x40;
 			obj->WritePos = 0;
 			return &obj->object;
-		}
+
+		} else db3_free(obj);
 	}
 	return NULL;
 }
