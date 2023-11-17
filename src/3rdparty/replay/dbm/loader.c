@@ -194,7 +194,7 @@ static int verify_sampled_instruments(struct DB3Module *m)
 				mis->Flags &= ~IF_LOOP_MASK;
 			}
 
-			if ((mis->C3Freq < 2000) || (mis->C3Freq > 192000)) return 0;
+			if ((mis->C3Freq < 1000) || (mis->C3Freq > 192000)) return 0;
 		}
 	}
 
