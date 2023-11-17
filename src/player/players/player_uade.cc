@@ -192,7 +192,7 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
         return uade_load(bundled.c_str(), playerdir, state);
     }
 
-    if (player.find("/ZoundMonitor") != player.npos || player.find("/SonixMusicDriver")) {
+    if (player.find("/ZoundMonitor") != player.npos || player.find("/SonixMusicDriver") != player.npos) {
         return sample_loader_wrapper(name, playerdir, state);
     }
 
@@ -417,33 +417,19 @@ void cleanup_context(uade_context *context, const string &path) {
     }
 }
 
-bool is_octamed(const struct uade_song_info *info) {
-    const string formatname = info->formatname;
-    return formatname.find("MMD0") == 0 ||
-           formatname.find("MMD1") == 0 ||
-           formatname.find("MMD2") == 0;
-}
-
 string parse_codec(const struct uade_song_info *info) {
     constexpr string_view TYPE_PREFIX = "type: ";
-    const string_view formatname(info->formatname);
-    const string_view playername(info->playername);
+    const string playername = info->playername;
+    string formatname = info->formatname;
     if (!formatname.empty()) {
-        // remove "type: " included in some formats
-        if (formatname.find(TYPE_PREFIX) == 0) {
-            string name (formatname.substr(TYPE_PREFIX.length()));
-            if (is_octamed(info)) {
-                return "OctaMED (" + name + ")";
-            }
-            return name;
-        } else {
-            return info->formatname;
-        }
+        // remove "type: " prefix included in some formats
+        if (formatname.starts_with(TYPE_PREFIX)) formatname = formatname.substr(TYPE_PREFIX.length());
+        if (formatname.length() == 4 && formatname.starts_with("MMD")) formatname = "OctaMED " + formatname;
+        return formatname;
     } else if (!playername.empty()) {
-        return info->playername;
-
+        return playername;
     } else {
-        return UNKNOWN_CODEC.begin();
+        return UNKNOWN_CODEC;
     }
 }
 

@@ -144,7 +144,7 @@ PlaybackResult playback_loop(
 
 namespace player::uade {
 
-constexpr std::string_view UNKNOWN_CODEC = "UADE";
+constexpr const char* UNKNOWN_CODEC = "UADE";
 
 enum class Filter {
     NONE,

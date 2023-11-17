@@ -322,9 +322,9 @@ bool parse_path(const string &path, ModlandData &item, bool incoming) {
         case 4: {
             author = tokens[1];
             string token = tokens[2];
-            if (token.find(COOP) == 0) {
+            if (token.starts_with(COOP)) {
                 author = author + " & " + token.substr(COOP.length());
-            } else if (token.find(NOTBY) != 0) {
+            } else if (!token.starts_with(NOTBY)) {
                 album = token;
             }
             filename = tokens[3];
@@ -333,7 +333,7 @@ bool parse_path(const string &path, ModlandData &item, bool incoming) {
         case 5: {
             author = tokens[1];
             string token = tokens[2];
-            if (token.find(COOP) == 0) {
+            if (token.starts_with(COOP)) {
                 author = author + " & " + token.substr(COOP.length());
                 album = tokens[3];
                 filename = tokens[4];

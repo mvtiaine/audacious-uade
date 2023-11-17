@@ -41,7 +41,7 @@ const char* ErrorReasons[] = {
 };
 
 struct DB3Module *my_DB3_Load(const char *buf, ssize_t size, int *errptr) {
-	struct AbstractHandle ah;
+    struct AbstractHandle ah;
     DB3Handle ah_Handle = {buf, size, 0};
 
     const auto ah_Read = [](struct AbstractHandle *ah, void *db3buf, int db3bytes) {
@@ -63,7 +63,7 @@ struct DB3Module *my_DB3_Load(const char *buf, ssize_t size, int *errptr) {
     ah.ah_Handle = &ah_Handle;
     ah.ah_Read = ah_Read;
 
-	return DB3_LoadFromHandle(&ah, errptr);
+    return DB3_LoadFromHandle(&ah, errptr);
 }
 
 ModuleInfo get_info(const string &path, struct DB3Module *mod) {
