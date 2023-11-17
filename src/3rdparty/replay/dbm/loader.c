@@ -372,7 +372,7 @@ static int read_envelope(struct DataChunk *dc, struct DB3ModEnvelope *menv, stru
 
 			if (flags & DBM0_ENV_LOOP)
 			{
-				if ((b[6] <= menv->NumSections) && (b[5] < b[6]))
+				if ((b[6] <= menv->NumSections) && (b[5] <= b[6]))
 				{
 					menv->LoopFirst = b[5];
 					menv->LoopLast = b[6];
