@@ -414,7 +414,6 @@ void cleanup_context(uade_context *context, const string &path) {
         release_probe_context(context, path);
     } else {
         uade_cleanup_state(context->state);
-        delete context;
     }
 }
 
@@ -533,6 +532,10 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         default:
             ERR("Could not play %s\n", path);
             cleanup_context(context, path);
+            if (!config.probe) {
+                assert(!context->probe);
+                delete context;
+            }
             return {};
     }
 }
@@ -586,6 +589,8 @@ bool stop(PlayerState &state) {
     if (state.context) {
         auto context = static_cast<uade_context*>(state.context);
         cleanup_context(context, state.info.path);
+        if (!context->probe)
+            delete context;
         state.context = nullptr;
     }
     return true;
