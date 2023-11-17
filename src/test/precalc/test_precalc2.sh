@@ -8,7 +8,7 @@ set -e
 
 TESTMOD="${top_srcdir}/testdata/i wanna show you all my warez.ahx"
 TEST_NAME="Precalc songend - repeat"
-TEST_OUTPUT=$(${PRECALC} "${TESTMOD}")
+TEST="${PRECALC} \"${TESTMOD}\""
 EXPECTED_OUTPUT="82f244a2ce0dd8fdbf5bcac3e9476337	0	9000	repeat	26993"
 . $(dirname "$0")/../common/check.sh
 

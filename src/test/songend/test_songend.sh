@@ -11,7 +11,7 @@ TESTMOD="${top_srcdir}/testdata/spellbound dizzy.bp"
 
 export SONGEND_MODE=1
 TEST_NAME="Songend loop detection"
-TEST_OUTPUT=$(${PLAYER} "${TESTMOD}" | ${SONGEND})
+TEST="${PLAYER} \"${TESTMOD}\" | ${SONGEND}"
 EXPECTED_OUTPUT=220368
 . $(dirname "$0")/../common/check.sh
 

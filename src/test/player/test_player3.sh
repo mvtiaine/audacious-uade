@@ -13,7 +13,7 @@ SUBSONG=4
 export PLAYER_ENDIAN=little
 
 TEST_NAME="UADE little endian + subsong"
-TEST_OUTPUT=$(${PLAYER} ${TESTMOD} ${SUBSONG} | ${MD5})
+TEST="${PLAYER} \"${TESTMOD}\" ${SUBSONG} | ${MD5}"
 EXPECTED_OUTPUT=$TESTMD5_LITTLE
 . $(dirname "$0")/../common/check.sh
 
