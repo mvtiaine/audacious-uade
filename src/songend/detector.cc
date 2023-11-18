@@ -691,7 +691,7 @@ int SongEndDetector::detect_repeat() {
         }
     }
 
-    TRACE2("MINWINDOWSUM %lld MAXWINDOWSUM %lld\n", minwindowsum, maxwindowsum);
+    TRACE2("MAXI %d MINI %d MINWINDOWSUM %lld MAXWINDOWSUM %lld\n", maxi, mini, minwindowsum, maxwindowsum);
 
     if (abs(maxwindowsum - minwindowsum) > abs(minwindowsum)/5) {
         return 0;
@@ -722,22 +722,20 @@ int SongEndDetector::detect_repeat() {
 
         TRACE2("REPEAT2 MAXMIN %zu MAXMAX %zu LASTMIN %zu LASTMAX %zu threshold %d\n", maxmin, maxmax, lastmin, lastmax, threshold);
  
-        size_t repeat = 0;
-        size_t loopstart = 0;
         if (maxmin > 0 && maxmax > 0 && lastmin <= threshold && lastmax <= threshold && maxmin <= threshold && maxmax < threshold) {
             const auto looplen = max((size_t)REPEAT_THRESHOLD * SAMPLES_PER_SEC / 2000, max(maxmin,maxmax) * 2);
-            loopstart = max((size_t)REPEAT_THRESHOLD * SAMPLES_PER_SEC / 2000, get_loopstart(buf, SAMPLES_PER_SEC, looplen, 0));
-            repeat = (looplen + loopstart) * 1500 / SAMPLES_PER_SEC;
+            const auto loopstart = max((size_t)REPEAT_THRESHOLD * SAMPLES_PER_SEC / 2000, get_loopstart(buf, SAMPLES_PER_SEC, looplen, 0));
+            const auto repeat = (looplen + loopstart) * 1500 / SAMPLES_PER_SEC;
             TRACE1("REPEATa %lu looplen %zu loopstart %zu\n", repeat, looplen * 1000 / SAMPLES_PER_SEC, loopstart * 1000 / SAMPLES_PER_SEC);
-
+            // XXX avoid some suspicious results / false positives
+            if (repeat > 0) {
+                if (repeat > 60000) return 0;
+                if (loopstart * 1000 / SAMPLES_PER_SEC <= 3000) return repeat > 9000 ? 0 : repeat;
+            }
+            return repeat;
         } else if (maxmin > 0 && maxmax > 0 && maxmin <= threshold && maxmax < threshold) {
-            repeat = max(lastmin, lastmax) * 1000 / SAMPLES_PER_SEC + max((size_t)REPEAT_THRESHOLD, (max(maxmin, maxmax)) * 1500 / SAMPLES_PER_SEC);
+            const auto repeat = max(lastmin, lastmax) * 1000 / SAMPLES_PER_SEC + max((size_t)REPEAT_THRESHOLD, (max(maxmin, maxmax)) * 1500 / SAMPLES_PER_SEC);
             TRACE1("REPEATb %lu\n", repeat);
-        }
-        // XXX avoid some suspicious results / false positives
-        if (repeat > 0) {
-            if (repeat > 60000) return 0;
-            if (loopstart * 1000 / SAMPLES_PER_SEC <= 3000) return repeat > 9000 ? 0 : repeat;
             return repeat;
         }
     }
