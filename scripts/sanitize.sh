@@ -36,5 +36,6 @@ make clean && \
 
 # valgrind
 #make clean && \
-#  CFLAGS="-Werror" ./configure && \
-#  VALGRIND="$(which valgrind || echo valgrind) --quiet --error-exitcode=1 --track-origins=yes --leak-check=full " make -j check
+#  CFLAGS="-gdwarf-4 -Werror" ./configure && \
+#  make -j check && \
+#  VALGRIND="$(which valgrind || echo valgrind) --quiet --exit-on-first-error=yes --error-exitcode=1 --track-origins=yes --leak-check=full " make -j check
