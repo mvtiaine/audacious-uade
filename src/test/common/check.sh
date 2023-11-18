@@ -4,7 +4,9 @@ set -e
 
 echo Checking test result for $TEST_NAME
 echo Running ${TEST}
-TEST_OUTPUT=$(eval time ${TEST})
+# doesn't work on Debian
+#TEST_OUTPUT=$(eval time ${TEST})
+TEST_OUTPUT=$(eval ${TEST})
 
 if [ "$TEST_OUTPUT" != "$EXPECTED_OUTPUT" ]; then
     echo "FAILURE"
