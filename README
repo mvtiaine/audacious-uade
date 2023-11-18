@@ -46,7 +46,8 @@ make install clean
 mkdir -p build
 cd build
 ../configure
-make
+make -j
+make -j check
 (sudo) make install
 
 * Other notes:
