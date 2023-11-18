@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# NOTE: this is obsolete as uade contentdb is no longer used
+
 # TODO lldb > crash/abort(kill) trace + filename
 run_uade() {
   HOME=/tmp/uade_contentdb/$1
