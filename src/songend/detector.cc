@@ -31,6 +31,9 @@
 
 using namespace std;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat" // FIXME Xcode wants %lld and GCC wants %ld for int64_t :P
+
 //#define TRACE1(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
 //#define TRACE2(fmt,...) fprintf(stderr, fmt, ## __VA_ARGS__)
 #define TRACE1(fmt,...) while (0)
@@ -770,3 +773,5 @@ int SongEndDetector::trim_volume(int offs_millis) {
 }
 
 } // namespace songend
+
+#pragma GCC diagnostic pop
