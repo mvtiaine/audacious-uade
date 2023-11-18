@@ -109,10 +109,10 @@ vector<int64_t> calc_diffsums(const vector<char> &buf, const size_t begin, const
         diffsums[i - begin] = diffsum;
         
         if (diffsum == 0) {
-            TRACE2("(%lu) diffsum %lld smallestdiff %lld, biggestdiff %lld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
+            TRACE2("(%lu) diffsum %ld smallestdiff %ld, biggestdiff %ld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
         }
         if (i % SAMPLES_PER_SEC == 0) {
-            TRACE2("(%lu) diffsum %lld smallestdiff %lld, biggestdiff %lld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
+            TRACE2("(%lu) diffsum %ld smallestdiff %ld, biggestdiff %ld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
         }
         
         smallestdiff = min(diffsum, smallestdiff);
@@ -127,10 +127,10 @@ vector<int64_t> calc_diffsums(const vector<char> &buf, const size_t begin, const
         for (size_t i = 0; i < diffsums.size(); ++i) {
             const auto diffsum = diffsums[i];
             if (diffsum == 0) {
-                TRACE2("FLATTENED (%zu) diffsum %lld smallestdiff %lld, biggestdiff %lld\n", i/SAMPLES_PER_SEC + 1200, diffsum, smallestdiff, biggestdiff);
+                TRACE2("FLATTENED (%zu) diffsum %ld smallestdiff %ld, biggestdiff %ld\n", i/SAMPLES_PER_SEC + 1200, diffsum, smallestdiff, biggestdiff);
             }
             if (i % SAMPLES_PER_SEC == 0) {
-                TRACE2("FLATTENED (%zu) diffsum %lld smallestdiff %lld, biggestdiff %lld\n", i/SAMPLES_PER_SEC + 1200, diffsum, smallestdiff, biggestdiff);
+                TRACE2("FLATTENED (%zu) diffsum %ld smallestdiff %ld, biggestdiff %ld\n", i/SAMPLES_PER_SEC + 1200, diffsum, smallestdiff, biggestdiff);
             }
         }
     }
@@ -148,7 +148,7 @@ pair<size_t, int> get_looplen(const vector<char> &buf, const size_t begin, const
     for (auto i = begin; i < buf.size(); ++i) {
         basesum += buf[i];
     }
-    TRACE1("basesum %lld buf size %lu avg %lld\n", basesum, buf.size(), basesum / (int64_t)(buf.size() - begin));
+    TRACE1("basesum %ld buf size %lu avg %ld\n", basesum, buf.size(), basesum / (int64_t)(buf.size() - begin));
 
     const auto diffsums = calc_diffsums(buf, begin, SAMPLES_PER_SEC, basesum, flatten);
 
@@ -165,14 +165,14 @@ pair<size_t, int> get_looplen(const vector<char> &buf, const size_t begin, const
         tmpbuf.push_back(diffsum);
         
         if (diffsum == 0) {
-            TRACE2("(%zu) diffsum %lld smallestdiff %lld, biggestdiff %lld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
+            TRACE2("(%zu) diffsum %ld smallestdiff %ld, biggestdiff %ld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
         }
         
         smallestdiff = min(diffsum, smallestdiff);
         biggestdiff = max(diffsum, biggestdiff);
         
         if (i % SAMPLES_PER_SEC == 0) {
-            TRACE2("(%zu) diffsum %lld smallestdiff %lld, biggestdiff %lld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
+            TRACE2("(%zu) diffsum %ld smallestdiff %ld, biggestdiff %ld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
         }
         
         // smooth / sample 50Hz
@@ -189,7 +189,7 @@ pair<size_t, int> get_looplen(const vector<char> &buf, const size_t begin, const
     int64_t avg1 = diffsumavg / (int64_t)(buf.size() - begin);
     int64_t avg2 = (biggestdiff + smallestdiff) / 2;
     diffsumavg = (avg1 + avg2) / 2;
-    TRACE1("AVG %lld MAX %lld MIN %lld AVG1 %lld AVG2 %lld buf %lu\n", diffsumavg, biggestdiff, smallestdiff, avg1, avg2, tmpbuf2.size());
+    TRACE1("AVG %ld MAX %ld MIN %ld AVG1 %ld AVG2 %ld buf %lu\n", diffsumavg, biggestdiff, smallestdiff, avg1, avg2, tmpbuf2.size());
     int64_t prevdiffsum = INT64_MAX;
     vector<int> acrplus;
     vector<int> acrminus;
@@ -199,11 +199,11 @@ pair<size_t, int> get_looplen(const vector<char> &buf, const size_t begin, const
         auto diffsum = tmpbuf2[i];
         if (prevdiffsum != INT64_MAX) {
             if (diffsum >= diffsumavg && prevdiffsum < diffsumavg && minus) {
-                TRACE2("(%lu) ACR + diffsum %lld\n", begin / SAMPLES_PER_SEC + i/ACR_PER_SEC, diffsum);
+                TRACE2("(%lu) ACR + diffsum %ld\n", begin / SAMPLES_PER_SEC + i/ACR_PER_SEC, diffsum);
                 acrplus.push_back(i);
                 minus = false;
             } else if (diffsum < diffsumavg && prevdiffsum >= diffsumavg && plus) {
-                TRACE2("(%lu) ACR - diffsum %lld\n", begin / SAMPLES_PER_SEC + i/ACR_PER_SEC, diffsum); 
+                TRACE2("(%lu) ACR - diffsum %ld\n", begin / SAMPLES_PER_SEC + i/ACR_PER_SEC, diffsum); 
                 acrminus.push_back(i);
                 plus = false;
             }
@@ -232,7 +232,7 @@ pair<size_t, int> get_looplen(const vector<char> &buf, const size_t begin, const
     }
     double pacravg = pacrcnt > 0 ? pacrsum / pacrcnt : 0;
 
-    TRACE2("PACRCNT %d PACRSUM %lld PACRAVG %f PACRSIZE %lu\n", pacrcnt, pacrsum, pacravg/ACR_PER_SEC, acrplus.size());
+    TRACE2("PACRCNT %d PACRSUM %ld PACRAVG %f PACRSIZE %lu\n", pacrcnt, pacrsum, pacravg/ACR_PER_SEC, acrplus.size());
 
     vector<int> nvals;
     for (size_t i = 1; i < acrminus.size(); ++i) {
@@ -249,7 +249,7 @@ pair<size_t, int> get_looplen(const vector<char> &buf, const size_t begin, const
     }
     double nacravg = nacrcnt > 0 ? nacrsum / nacrcnt : 0;
 
-    TRACE2("NACRCNT %d NACRSUM %lld NACRAVG %f NACRSIZE %lu\n", nacrcnt, nacrsum, nacravg/ACR_PER_SEC, acrminus.size());
+    TRACE2("NACRCNT %d NACRSUM %ld NACRAVG %f NACRSIZE %lu\n", nacrcnt, nacrsum, nacravg/ACR_PER_SEC, acrminus.size());
 
     int mincnt = strict ? 2 : 1;
     int pok = nacrcnt >= mincnt && (pacrcnt > mincnt || pacrcnt * 2 == nacrcnt);
@@ -278,7 +278,7 @@ pair<size_t, int> get_looplen(const vector<char> &buf, const size_t begin, const
     }
 
     if ((biggestdiff < UCHAR_MAX && smallestdiff > -UCHAR_MAX) || (biggestdiff - smallestdiff) < UCHAR_MAX) {
-        TRACE1("INVALID SMALLEST/BIGGESTDIFF smallestdiff %lld biggestdiff %lld\n", smallestdiff, biggestdiff);
+        TRACE1("INVALID SMALLEST/BIGGESTDIFF smallestdiff %ld biggestdiff %ld\n", smallestdiff, biggestdiff);
         looplen = 0;
     }
 
@@ -317,7 +317,7 @@ size_t get_loopstart(const vector<char> &buf, const unsigned int SAMPLES_PER_SEC
             basesum1 += buf[i + looplen];
         }
 
-        TRACE1("offs %lu window %lu looplen %lu basesum0 %lld basesum1 %lld\n", offs, window, looplen, basesum0, basesum1);
+        TRACE1("offs %lu window %lu looplen %lu basesum0 %ld basesum1 %ld\n", offs, window, looplen, basesum0, basesum1);
 
         int64_t smallestdiff = INT64_MAX;
         int64_t biggestdiff = INT64_MIN;
@@ -354,22 +354,22 @@ size_t get_loopstart(const vector<char> &buf, const unsigned int SAMPLES_PER_SEC
             const auto diffsum = top - bottom;
             
             if (diffsum == 0 && smallestdiff != 0 && biggestdiff != 0) {
-                TRACE2("(%lu) diffsum %lld smallestdiff %lld, biggestdiff %lld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
+                TRACE2("(%lu) diffsum %ld smallestdiff %ld, biggestdiff %ld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
             }
             
             smallestdiff = min(diffsum, smallestdiff);
             biggestdiff = max(diffsum, biggestdiff);
             
             if (i % SAMPLES_PER_SEC == 0) {
-                TRACE2("(%lu) diffsum %lld smallestdiff %lld, biggestdiff %lld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
+                TRACE2("(%lu) diffsum %ld smallestdiff %ld, biggestdiff %ld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
             }
             
             if (prevdiffsum != INT64_MAX && prevdiffsum < 0 && diffsum >= 0) {
-                TRACE2("(%lu) diffsum+ %lld smallestdiff %lld, biggestdiff %lld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
+                TRACE2("(%lu) diffsum+ %ld smallestdiff %ld, biggestdiff %ld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
                 pcnt++;
                 earliest = min(earliest, i);
             } else if (prevdiffsum != INT64_MAX && prevdiffsum >= 0 && diffsum < 0) {
-                TRACE2("(%lu) diffsum- %lld smallestdiff %lld, biggestdiff %lld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
+                TRACE2("(%lu) diffsum- %ld smallestdiff %ld, biggestdiff %ld\n", i/SAMPLES_PER_SEC, diffsum, smallestdiff, biggestdiff);
                 mcnt++;
                 earliest = min(earliest, i);
             }
@@ -383,11 +383,11 @@ size_t get_loopstart(const vector<char> &buf, const unsigned int SAMPLES_PER_SEC
             if (i > 0 && i % (SAMPLES_PER_SEC * 2) == 0) {
                 const auto diffsum = smoothed / (SAMPLES_PER_SEC * 2);
                 if (prevsmoothed != INT64_MAX && diffsum > prevsmoothed) {
-                    //TRACE2("INC %zu diffsum %lld prev %lld\n", i / SAMPLES_PER_SEC, diffsum, prevsmoothed);
+                    //TRACE2("INC %zu diffsum %ld prev %ld\n", i / SAMPLES_PER_SEC, diffsum, prevsmoothed);
                     decstop = min(i, decstop);
                 }
                 if (prevsmoothed != INT64_MAX && diffsum < prevsmoothed) {
-                    //TRACE2("DEC %zu diffsum %lld prev %lld\n", i / SAMPLES_PER_SEC, diffsum, prevsmoothed);
+                    //TRACE2("DEC %zu diffsum %ld prev %ld\n", i / SAMPLES_PER_SEC, diffsum, prevsmoothed);
                     incstop = min(i, incstop);
                 }
                 prevsmoothed = diffsum;
@@ -691,7 +691,7 @@ int SongEndDetector::detect_repeat() {
         }
     }
 
-    TRACE2("MAXI %d MINI %d MINWINDOWSUM %lld MAXWINDOWSUM %lld\n", maxi, mini, minwindowsum, maxwindowsum);
+    TRACE2("MAXI %d MINI %d MINWINDOWSUM %ld MAXWINDOWSUM %ld\n", maxi, mini, minwindowsum, maxwindowsum);
 
     if (abs(maxwindowsum - minwindowsum) > abs(minwindowsum)/5) {
         return 0;
