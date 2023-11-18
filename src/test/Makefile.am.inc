@@ -25,6 +25,7 @@ TESTS_ENVIRONMENT = \
 # should be sorted by longest running ones first for better parallelisation
 TESTS = \
     test/songend/test_songend.sh \
+    test/precalc/test_precalc13.sh \
     test/precalc/test_precalc12.sh \
     test/precalc/test_precalc11.sh \
     test/precalc/test_precalc2.sh \
