@@ -248,7 +248,7 @@ void uade_common_options(struct uade_config *uc) {
         // for unit tests
         string core = getenv("UADE_CORE_FILE");
         if (getenv("VALGRIND")) {
-            core = core + " " + getenv("VALGRIND");
+            core = string(getenv("VALGRIND")) + " " + core;
         }
         uade_config_set_option(uc, UC_UADECORE_FILE, core.c_str());
     }
