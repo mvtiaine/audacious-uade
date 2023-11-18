@@ -88,23 +88,12 @@ void apply_trimmer(SongEndDetector &detector, SongEnd &songend) {
     }
 }
 
-bool is_octamed(const ModuleInfo &info) {
-    return info.format.starts_with("MMD0") ||
-           info.format.starts_with("MMD1") ||
-           info.format.starts_with("MMD2");
-}
-
-bool is_vss(const ModuleInfo &info) {
-    return info.format.starts_with("VSS");
-}
-
 } // namespace {}
 
 namespace songend::precalc {
 
 bool allow_songend_error(const ModuleInfo &info) {
-    return info.player == Player::uade && (
-        is_octamed(info) || is_vss(info));
+    return info.player == Player::uade && info.format == "VSS";
 }
 
 SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, int subsong, const string &md5hex) {
