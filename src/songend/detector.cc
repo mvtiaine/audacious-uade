@@ -470,13 +470,13 @@ void SongEndDetector::update(const char *bytes, const size_t nbytes) {
     };
 
     for (size_t i = 0; i < nbytes; i+=4) {
-        const int b0 = (endian == endian::little) ? bytes[i] : bytes[i+1];
-        const int b1 = (endian == endian::little) ? bytes[i+1] : bytes[i];
+        const int b0 = (endian == endian::little) ? (int8_t)bytes[i] : (int8_t)bytes[i+1];
+        const int b1 = (endian == endian::little) ? (int8_t)bytes[i+1] : (int8_t)bytes[i];
         int val = b1 * 256 + b0;
 
         if (stereo) {
-            const int b2 = (endian == endian::little) ? bytes[i+2] : bytes[i+3];
-            const int b3 = (endian == endian::little) ? bytes[i+3] : bytes[i+2];
+            const int b2 = (endian == endian::little) ? (int8_t)bytes[i+2] : (int8_t)bytes[i+3];
+            const int b3 = (endian == endian::little) ? (int8_t)bytes[i+3] : (int8_t)bytes[i+2];
             val = (val + (b3 * 256 + b2)) / 2;
         }
 
