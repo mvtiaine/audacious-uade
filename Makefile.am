@@ -5,9 +5,10 @@ SUBDIRS = $(subdirs_extra) $(DIST_SUBDIRS)
 EXTRA_DIST = \
 	NOTICE \
 	conf \
-	tools \
-    default.nix \
-	testdata
+	debian \
+	scripts \
+	testdata \
+	tools
 
 AM_DISTCHECK_DVI_TARGET =
 DISTCHECK_CONFIGURE_FLAGS = --with-audacious-plugindir="$$dc_install_base/lib/audacious"
