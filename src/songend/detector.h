@@ -32,7 +32,7 @@ public:
     const bool stereo;
     const std::endian endian;
 private:
-    std::vector<char> buf;
+    std::vector<int8_t> buf;
     int16_t tmp[8];
     int itmp = 0;
     int ctmp = 0;

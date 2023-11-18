@@ -95,7 +95,7 @@ void flatten_diffsums(vector<int64_t> &diffsums) {
     shift(upshifts, diffsums);
 };
 
-vector<int64_t> calc_diffsums(const vector<char> &buf, const size_t begin, const unsigned int SAMPLES_PER_SEC, const int64_t basesum, const bool flatten) {
+vector<int64_t> calc_diffsums(const vector<int8_t> &buf, const size_t begin, const unsigned int SAMPLES_PER_SEC, const int64_t basesum, const bool flatten) {
     vector<int64_t> diffsums(buf.size() - begin);
 
     int64_t smallestdiff = INT64_MAX;
@@ -141,7 +141,7 @@ vector<int64_t> calc_diffsums(const vector<char> &buf, const size_t begin, const
     return diffsums;
 }
 
-pair<size_t, int> get_looplen(const vector<char> &buf, const size_t begin, const unsigned int SAMPLES_PER_SEC, const bool flatten, const bool strict) {
+pair<size_t, int> get_looplen(const vector<int8_t> &buf, const size_t begin, const unsigned int SAMPLES_PER_SEC, const bool flatten, const bool strict) {
     assert(buf.size() < INT32_MAX);
 
     constexpr unsigned int ACR_PER_SEC = 50;
@@ -309,7 +309,7 @@ pair<size_t, int> get_looplen(const vector<char> &buf, const size_t begin, const
     return pair(round(looplen * SAMPLES_PER_SEC / ACR_PER_SEC), ok);
 }
 
-size_t get_loopstart(const vector<char> &buf, const unsigned int SAMPLES_PER_SEC, const size_t looplen, const size_t offs) {
+size_t get_loopstart(const vector<int8_t> &buf, const unsigned int SAMPLES_PER_SEC, const size_t looplen, const size_t offs) {
     assert(buf.size() < INT32_MAX);
 
     const auto _loopstart = [&](const size_t offs, const size_t window, const bool strict) -> size_t {
@@ -432,7 +432,7 @@ size_t get_loopstart(const vector<char> &buf, const unsigned int SAMPLES_PER_SEC
     return loopstart;
 }
 
-size_t volume_detect(const vector<char> &buf, size_t maxcnt, int threshold) {
+size_t volume_detect(const vector<int8_t> &buf, size_t maxcnt, int threshold) {
     bool seenhigher = false;
     size_t volumecnt = 0;
     for (size_t i = 0; i < buf.size(); ++i) {
@@ -450,7 +450,7 @@ size_t volume_detect(const vector<char> &buf, size_t maxcnt, int threshold) {
     return 0;
 }
 
-size_t volume_trim(const vector<char> &buf, int threshold, size_t offs) {
+size_t volume_trim(const vector<int8_t> &buf, int threshold, size_t offs) {
     ssize_t i = offs - 1;
     while(i >= 0 && abs(buf[i]) <= threshold) i--;
     return i >= 0 ? offs - (i+1) : offs;
@@ -505,7 +505,7 @@ void SongEndDetector::update(const char *bytes, const size_t nbytes) {
 
 int SongEndDetector::detect_loop() {
     const auto SAMPLES_PER_SEC = rate / 2;
-    vector<char> buf0(buf.size());
+    vector<int8_t> buf0(buf.size());
 
     TRACE2("MAXI %d MINI %d\n", maxi, mini);
     const int maximini = maxi - mini;
@@ -519,7 +519,7 @@ int SongEndDetector::detect_loop() {
         }
     }
 
-    vector<char>& bufz = buf;
+    vector<int8_t>& bufz = buf;
 
     const auto _looplen = [&](const size_t begin, const bool strict) -> size_t {
         pair<size_t, int> looplen0 = pair(0,0);
@@ -576,8 +576,8 @@ int SongEndDetector::detect_loop() {
     size_t songlen = _songlen0();
 
     const auto _songlen1 = [&](const size_t minoffs, const size_t maxoffs) {
-        char mini = CHAR_MAX;
-        char maxi = CHAR_MIN;
+        int8_t mini = CHAR_MAX;
+        int8_t maxi = CHAR_MIN;
         for (auto i = maxoffs; i >= minoffs; --i) {
             mini = min(bufz[i], mini);
             maxi = max(bufz[i], maxi);
