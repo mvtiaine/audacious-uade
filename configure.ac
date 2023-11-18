@@ -1,7 +1,6 @@
 AC_PREREQ(2.59)
 AC_INIT([audacious-uade], m4_normalize(m4_include([VERSION])), [], [], [https://github.com/mvtiaine/audacious-uade])
 AC_PROG_CXX
-AX_CXX_COMPILE_STDCXX(20)
 
 AM_INIT_AUTOMAKE([tar-ustar dist-bzip2 no-dist-gzip])
 AC_CONFIG_MACRO_DIRS([m4])
@@ -66,7 +65,7 @@ then
 fi
 
 CFLAGS="-fPIC -fvisibility=hidden -fdata-sections -ffunction-sections ${CFLAGS}"
-CXXFLAGS="-fvisibility-inlines-hidden -fno-rtti -Wall ${CFLAGS} ${CXXFLAGS}"
+CXXFLAGS="-std=c++20 -fvisibility-inlines-hidden -fno-rtti -Wall ${CFLAGS} ${CXXFLAGS}"
 if test "$build_macos" = "yes"
 then
   LDFLAGS="-Wl,-dead_strip -Wl,-undefined,error ${LDFLAGS}"
