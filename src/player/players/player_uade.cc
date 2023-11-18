@@ -246,7 +246,11 @@ void uade_common_options(struct uade_config *uc) {
     }
     if (getenv("UADE_CORE_FILE")) {
         // for unit tests
-        uade_config_set_option(uc, UC_UADECORE_FILE, getenv("UADE_CORE_FILE"));
+        string core = getenv("UADE_CORE_FILE");
+        if (getenv("VALGRIND")) {
+            core = core + " " + getenv("VALGRIND");
+        }
+        uade_config_set_option(uc, UC_UADECORE_FILE, core.c_str());
     }
     uade_config_set_option(uc, UC_NO_CONTENT_DB, nullptr);
     uade_config_set_option(uc, UC_ONE_SUBSONG, nullptr);

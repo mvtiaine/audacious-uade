@@ -20,3 +20,12 @@ SONGEND="${top_builddir}/src/plugin/cli/songend/songend"
 PLAYER="${top_builddir}/src/plugin/cli/player/player 8000"
 SONGDB_BIN=${top_builddir}/src/plugin/cli/songdb/songdb
 SONGDB_DIR=${top_srcdir}/conf/songdb
+
+if [ "${VALGRIND}" != "" ]; then
+    MD5="${VALGRIND} ${MD5}"
+    CONVERTER="${VALGRIND} ${CONVERTER}"
+    PRECALC="${VALGRIND} ${PRECALC}"
+    SONGEND="${VALGRIND} ${SONGEND}"
+    PLAYER="${VALGRIND} ${PLAYER}"
+    SONGDB_BIN="${VALGRIND} ${SONGDB_BIN}"
+fi
