@@ -12,6 +12,6 @@ run_uade() {
 mkdir -p /tmp/songdb
 
 export -f run_uade
-find -L  . -type f | sed "s/^\.\///g" | parallel --timeout 900 run_uade {%} {}
+find -L  . -type f | sed "s/^\.\///g" | parallel --timeout 1200 run_uade {%} {}
 
 cat /tmp/songdb/*/songdb_tmp.tsv | sort | uniq > /tmp/songdb/songdb.tsv
