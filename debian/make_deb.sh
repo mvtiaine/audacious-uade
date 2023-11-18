@@ -13,4 +13,5 @@ tar xvjf ../audacious-uade-${VERSION}.tar.bz2
 cp -rp ../debian audacious-uade-${VERSION}/
 cd audacious-uade-${VERSION}
 sed s/VERSION/${VERSION}/g debian/changelog.in > debian/changelog
-dpkg-buildpackage
+# hively works differently on Ubuntu with default -O2 -flto, force -Os
+CFLAGS="-g -Os" dpkg-buildpackage
