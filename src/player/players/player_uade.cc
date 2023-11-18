@@ -246,11 +246,7 @@ void uade_common_options(struct uade_config *uc) {
     }
     if (getenv("UADE_CORE_FILE")) {
         // for unit tests
-        string core = getenv("UADE_CORE_FILE");
-        if (getenv("VALGRIND")) {
-            core = string(getenv("VALGRIND")) + " " + core;
-        }
-        uade_config_set_option(uc, UC_UADECORE_FILE, core.c_str());
+        uade_config_set_option(uc, UC_UADECORE_FILE, getenv("UADE_CORE_FILE"));
     }
     uade_config_set_option(uc, UC_NO_CONTENT_DB, nullptr);
     uade_config_set_option(uc, UC_ONE_SUBSONG, nullptr);
@@ -260,6 +256,7 @@ void uade_common_options(struct uade_config *uc) {
 
 uade_state *create_uade_probe_state() {
     uade_config *uc = uade_new_config();
+    assert(uc);
     uade_common_options(uc);
     uade_config_set_option(uc, UC_SUBSONG_TIMEOUT_VALUE, to_string(PRECALC_TIMEOUT).c_str());
     uade_config_set_option(uc, UC_SILENCE_TIMEOUT_VALUE,to_string(SILENCE_TIMEOUT).c_str());
@@ -271,6 +268,7 @@ uade_state *create_uade_probe_state() {
     uade_config_set_option(uc, UC_NO_HEADPHONES, nullptr);
  
     uade_state *state = uade_new_state(uc);
+    assert(state);
     uade_set_amiga_loader(amiga_loader_wrapper, nullptr, state);
 #if DEBUG_TRACE
     uade_enable_uadecore_log_collection(state);
@@ -346,6 +344,7 @@ struct uade_state *create_uade_state(const UADEConfig &config) {
           config.headphones, config.headphones2, config.gain, config.subsong_timeout, config.silence_timeout);
 
     struct uade_config *uc = uade_new_config();
+    assert(uc);
     uade_common_options(uc);
 
     // UC_ENABLE_TIMEOUTS is also enabled in uade.conf, must not be enabled here by default as it otherwise
@@ -376,6 +375,7 @@ struct uade_state *create_uade_state(const UADEConfig &config) {
         uade_config_set_option(uc, UC_NO_HEADPHONES, nullptr);
 
     struct uade_state *state = uade_new_state(uc);
+    assert(state);
     uade_set_amiga_loader(amiga_loader_wrapper, nullptr, state);
 #if DEBUG_TRACE
     uade_enable_uadecore_log_collection(state);

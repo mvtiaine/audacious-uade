@@ -14,7 +14,7 @@ using namespace converter::med;
 
 namespace {
 
-const ULONG nil = 0;
+constexpr ULONG nil = 0;
 
 vector<char> align(simple::mem_ostream<true_type> &out) {
     vector<char> data = out.get_internal_vec();
