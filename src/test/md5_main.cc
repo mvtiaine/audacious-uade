@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-#include "3rdparty/md5.h"
+#include "common/md5.h"
 #include "3rdparty/SimpleBinStream.h"
 
 using namespace std;

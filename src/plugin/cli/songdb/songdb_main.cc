@@ -8,7 +8,7 @@
 #include <iostream>
 #include <vector>
 
-#include "3rdparty/md5.h"
+#include "common/md5.h"
 #include "songdb/songdb.h"
 
 using namespace std;

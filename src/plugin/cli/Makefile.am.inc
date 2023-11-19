@@ -39,7 +39,7 @@ plugin_cli_precalc_precalc_SOURCES = \
 plugin_cli_precalc_precalc_LDADD = \
     songend/libsongend.la \
     songdb/libsongdb.la \
-    3rdparty/libmd5.la \
+    common/libmd5.la \
     $(UADE_LIBS) \
     $(LIBBSD_LIBS)
 
@@ -50,7 +50,7 @@ plugin_cli_songdb_songdb_SOURCES = \
 
 plugin_cli_songdb_songdb_LDADD = \
     songdb/libsongdb.la \
-    3rdparty/libmd5.la
+    common/libmd5.la
 
 # songend
 plugin_cli_songend_songend_SOURCES = \

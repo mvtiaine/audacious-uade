@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: CC-PDDC
+// original: https://dev.to/sgf4/foreach-macro-in-c-48ic
 
 #pragma once
 

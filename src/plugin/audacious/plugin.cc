@@ -21,11 +21,11 @@ extern "C" {
 #include "common/common.h"
 #include "common/extensions.h"
 #include "common/logger.h"
+#include "common/md5.h"
 #include "prefs.h"
 #include "player/player.h"
 #include "songend/precalc.h"
 #include "songdb/songdb.h"
-#include "3rdparty/md5.h"
 
 using namespace std;
 

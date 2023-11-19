@@ -8,10 +8,10 @@
 #include <vector>
 #include <unistd.h>
 
+#include "common/foreach.h"
 #include "common/logger.h"
 #include "converter/converter.h"
 #include "player/player.h"
-#include "player/foreach.h"
 
 using namespace std;
 using namespace player;

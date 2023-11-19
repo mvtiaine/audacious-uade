@@ -14,6 +14,7 @@ EXTRA_DIST =
 noinst_LTLIBRARIES = 
 
 include $(srcdir)/3rdparty/Makefile.am.inc
+include $(srcdir)/common/Makefile.am.inc
 include $(srcdir)/converter/Makefile.am.inc
 include $(srcdir)/player/Makefile.am.inc
 include $(srcdir)/songdb/Makefile.am.inc

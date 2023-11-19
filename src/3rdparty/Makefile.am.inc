@@ -1,14 +1,9 @@
 # NOT a standalone Makefile.am
 
 noinst_LTLIBRARIES += \
-    3rdparty/libmd5.la \
     3rdparty/replay/libreplay_hvl.la \
     3rdparty/replay/libreplay_dbm.la \
     3rdparty/libreplay.la
-
-3rdparty_libmd5_la_SOURCES = \
-    3rdparty/md5.h \
-    3rdparty/md5.cc
 
 
 3rdparty_replay_libreplay_hvl_la_SOURCES = \

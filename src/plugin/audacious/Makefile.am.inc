@@ -13,7 +13,7 @@ plugin_audacious_uade_la_SOURCES = \
 plugin_audacious_uade_la_LIBADD = \
     songend/libsongend.la \
     songdb/libsongdb.la \
-    3rdparty/libmd5.la \
+    common/libmd5.la \
 	$(UADE_LIBS) \
 	$(AUDACIOUS_LIBS) \
 	$(LIBBSD_LIBS)
