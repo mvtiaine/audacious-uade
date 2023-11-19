@@ -1,5 +1,10 @@
-0.10-dev
-- Fix debian build
+0.10.2 - 2023-11-19
+- Fix Debian build
+- Fix Fedora build
+- Add more unit tests
+- Fix test inconsistencies between platforms
+- Make DBM validation a bit less strict to fix some modules
+- Misc fixes and updates
 
 0.10.1 - 2023-11-14
 - Build hotfixes
