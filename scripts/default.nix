@@ -16,7 +16,6 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [
     autoreconfHook
-    autoconf-archive
     libtool
     pkg-config
     which
@@ -27,8 +26,6 @@ stdenv.mkDerivation rec {
     libbsd
   ];
 
-  env.NIX_CFLAGS_COMPILE = "-Wno-format-security";
-  
   configureFlags = [ "--with-audacious-plugindir=${placeholder "out"}/lib/audacious" ];
 
   meta = with lib; {

@@ -8,7 +8,6 @@ Build-Depends:
  libbsd-dev,
  autotools-dev,
  autoconf,
- autoconf-archive,
  automake,
  libtool,
  pkg-config,
