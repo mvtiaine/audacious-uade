@@ -15,33 +15,35 @@ Main features:
 Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/) and UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) are used as sources for precalculated song lengths and author/album meta data.
 In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
 
+Project is hosted at https://github.com/mvtiaine/audacious-uade
+
 * Dependencies:
 Audacious >= 3.8
 libbsd on Linux
 
-* To install via Homebrew:
+* To install via Homebrew (latest release):
 brew install mvtiaine/repo/audacious-uade
 
-* To install from Gentoo overlay:
+* To install from Gentoo overlay (latest release):
 # Add https://github.com/mvtiaine/gentoo-overlay.git via layman or eselect repository
 emerge -p media-plugins/audacious-uade
 emerge media-plugins/audacious-uade
 
-* To build and install with Arch:
+* To install with Arch (latest release):
 wget https://raw.githubusercontent.com/mvtiaine/arch-repo/main/audacious-uade/PKGBUILD
 makepkg -s
 (sudo) pacman -U audacious-uade*.pkg*
 
-* To build and install with Debian:
-debian/make_deb.sh
-(sudo) dpkg -i build-deb/audacious-uade*.deb
-
-* To build and install with FreeBSD ports:
+* To install with FreeBSD ports (latest release):
 git clone https://github.com/mvtiaine/freebsd-overlay.git
 cd freebsd-overlay/multimedia/audacious-uade
 make install clean
 
-* To build and install from source:
+* To build and install with Debian from sources (git or latest release):
+debian/make_deb.sh
+(sudo) dpkg -i build-deb/audacious-uade*.deb
+
+* To build and install from sources (git or latest release):
 (autoreconf -i)
 mkdir -p build
 cd build
@@ -61,3 +63,14 @@ The project as a whole is licensed under GPL-2.0-or-later.
 Some parts are also licensed under LGPL-2.0-or-later, specifically sources under src/common, src/converter, src/player and src/songdb.
 See src/3rdparty for 3rd party source code licenses.
 See https://zakalwe.fi/uade/ for UADE license information.
+
+* Some future plans (in no particular order)
+- Include UnExotica and Demozoo meta data in songdb (release date/year, author, "album", "publisher", OCS/AGA etc. info like you get with SIDs and SNDHs)
+- Automatic A500/A1200/None filter selection depending on format/year/etc. meta data
+- Plugin support for GStreamer, Hollywood, ...
+- Support Haiku, AmigaOS/AROS/MorphOS, Win32, Wasix, ...
+- Add PC-tracker portable replays from 8bitbubsy (XM,IT,S3M,...)
+- SC68 replay support (for Atari formats)
+- PTK-Prowiz converter support (portable C-version)
+- Improve UADE format support
+- Project might need a new name...
