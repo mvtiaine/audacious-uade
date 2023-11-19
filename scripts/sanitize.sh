@@ -2,14 +2,11 @@
 
 set -e
 
-# scan-build needs this
-autoreconf -i
-
 # -Werror
 make clean && CFLAGS="-Werror" ./configure && make -j && make -j check
 
 # assert disabled
-make clean && CPPFLAGS=-DNDEBUG CFLAGS="-Werror" ./configure && make -j && make -j check
+make clean && CPPFLAGS="-DNDEBUG" CFLAGS="-Werror" ./configure && make -j && make -j check
 
 # scan-build
 #export CXXFLAGS=-std=gnu++20
@@ -40,4 +37,4 @@ make clean && \
 #  make -j check && \
 #  VALGRIND="$(which valgrind || echo valgrind) --quiet --exit-on-first-error=yes --error-exitcode=1 --trace-children=yes --undef-value-errors=no --leak-check=full " make -j check
 # TODO fix uninitialized value errors (false positives?)
-#  VALGRIND="$(which valgrind || echo valgrind) --quiet --exit-on-first-error=yes --error-exitcode=1 --trace-children=yes --track-origins=yes --leak-check=full " make -j check
+# VALGRIND="$(which valgrind || echo valgrind) --quiet --exit-on-first-error=yes --error-exitcode=1 --trace-children=yes --track-origins=yes --leak-check=full " make -j check
