@@ -3166,7 +3166,7 @@
 3523367943881de6bd578eae311f798e	1	198041	silence	162618	Mods-1/Modules/Authors.A-F/Bethoven/Freezers-Wit_Premium-1.mod
 3523367943881de6bd578eae311f798e	1	198041	silence	162618	Mods-1/Modules/Authors.A-F/Bethoven/MS-DOS/Wit_Premium-1.mod
 3527fe301fdc0551a2fee2711a57f0e8	1	82224	loop	107318	Mods-4/Modules/Synth/M_O_N/MON.Rubicon-End
-3527fe301fdc0551a2fee2711a57f0e8	2	10740	repeat
+3527fe301fdc0551a2fee2711a57f0e8	2	7608	loop
 352839ba13da1654cd7e0c8f715a1185	1	225325	player	167242	Mods-3/Modules/Authors.R-Z/Snoopy/Partro.mod
 352a9b88fd84130b8c7d434568fe5df1	1	135652	player	108656	Mods-1/Modules/Authors.A-F/Dizzy/Camomile.mod
 352c5fe28de4bb7fcc259275a3925b3d	1	236249	player	138330	Mods-3/Modules/Groups/TJC/Pabo-2.mod
@@ -7450,7 +7450,7 @@
 7cf09d73614547067dbb28fec33528dd	1	211067	player+silence	120304	Mods-3/Modules/Groups/Solution/Daily_Disco.mod
 7cf4f6fede727f66b1be1c7e25bc48c0	1	34548	player	71518	Mods-2/Modules/Authors.G-Q/Nuke/Emus_Orgasm!.mod
 7d031546293ecd88c14f3bd39fa3d166	0	254031	player	78384	Mods-4/Modules/Synth/MusicAss/MA.Confuzed_Piano
-7d031546293ecd88c14f3bd39fa3d166	1	10103	repeat
+7d031546293ecd88c14f3bd39fa3d166	1	7297	loop
 7d031546293ecd88c14f3bd39fa3d166	2	0	nosound
 7d031546293ecd88c14f3bd39fa3d166	3	0	nosound
 7d031546293ecd88c14f3bd39fa3d166	4	0	nosound
@@ -12530,7 +12530,7 @@ d470017f995bf299e56dacae5b583739	1	195858	player	306698	Mods-4/Modules/Misc/Comp
 d47156e89fcc7e858b7677a8885b1b73	1	114822	player	137230	Mods-1/Modules/Authors.A-F/Bruno/Pornolaulu.mod
 d471d6bba12ce979f997a3c201c59624	1	25403	player	59214	Mods-4/Modules/Misc/Misc_Old.E-K/Forsv_Danskere.mod
 d4798409fb80ea25973095ff3965156e	1	245648	player	100006	Mods-3/Modules/Groups/LSD/Spacey-Synthesizer.mod
-d47fbb9968770fa3750b0c5b6a90b8aa	1	11604	repeat	7936	Mods-4/Modules/Synth/M_O_N/MON.Conspiracy
+d47fbb9968770fa3750b0c5b6a90b8aa	1	63041	loop	7936	Mods-4/Modules/Synth/M_O_N/MON.Conspiracy
 d483b29595c0d6ece9e829753e8e3ba0	1	225579	player	158684	Mods-3/Modules/Groups/Analog/Remote_v1_1a.mod
 d4860aa6d407b2985ec6bd3d9dd41ce8	1	69096	player	422402	Mods-2/Modules/Authors.G-Q/Mindfuck/01W_Korg_Motion.mod
 d48a67c5b791b3f4abbb6ee2c466fe4b	1	370631	player	103090	Mods-4/Modules/Misc/Misc_Old.E-K/Friend_or_Fom.mod
@@ -14976,7 +14976,7 @@ ff6f30513779fdcbce29f8901a05526b	1	67408	loop
 ff6f30513779fdcbce29f8901a05526b	2	29082	loop
 ff6f30513779fdcbce29f8901a05526b	3	72777	loop
 ff6f30513779fdcbce29f8901a05526b	4	64693	loop
-ff6f30513779fdcbce29f8901a05526b	5	21988	repeat
+ff6f30513779fdcbce29f8901a05526b	5	16450	loop
 ff6f9ae708e6e05bc391c0addcb8c397	1	331738	player+silence	63172	Mods-2/Modules/Authors.G-Q/Gryzor/OutRun-3.mod
 ff7054d826a4be472b097a825f113a99	1	140225	player	254386	Mods-2/Modules/Authors.G-Q/Lizard/Alone_with_You!.mod
 ff827589c3902f8f6e93cf1c89c852bc	1	158007	player	181530	Mods-3/Modules/Authors.R-Z/Reflex/Flower_Dop.mod

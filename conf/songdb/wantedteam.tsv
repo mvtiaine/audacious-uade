@@ -3372,7 +3372,7 @@
 451e94550d53fff6105cfa0207fcb39f	10	39714	loop
 451e94550d53fff6105cfa0207fcb39f	11	64777	loop
 451e94550d53fff6105cfa0207fcb39f	12	26316	silence
-451e94550d53fff6105cfa0207fcb39f	13	12144	repeat
+451e94550d53fff6105cfa0207fcb39f	13	98276	loop
 451e94550d53fff6105cfa0207fcb39f	14	63778	loop
 451e94550d53fff6105cfa0207fcb39f	15	24089	loop
 451e94550d53fff6105cfa0207fcb39f	16	28041	loop
@@ -6034,7 +6034,7 @@
 80890d526645f1b8683f64b925e0943c	6	44709	player
 80890d526645f1b8683f64b925e0943c	7	192555	player
 80890d526645f1b8683f64b925e0943c	8	115584	player
-80890d526645f1b8683f64b925e0943c	9	9388	repeat
+80890d526645f1b8683f64b925e0943c	9	11400	loop
 809a9ef80e2b3226aa1dfb12ab0addd6	1	92213	player	26192	rips/MOD_Diabolik09/MOD.st4
 80a970e0fec9e4c2a8129bbcdf3f3c06	0	0	error	4360	examples/SDR_NoBuddiesLand/SDR.NoBuddiesLand game 2
 80b4e28375239a339471c45b87622dd1	0	14479	player	741	examples/AGI_BlackCauldron/AGI.BlackCauldron 09
@@ -6987,9 +6987,9 @@
 941af34209b495fcbe68a101d7cdd77a	1	5080	player	49024	rips/PHA_BrianTheLion/PHA.BrianTheLion 19
 9436ed0ebe584be8258b372075718a1a	0	762	player	91	examples/AGI_SpaceQuest1/AGI.SpaceQuestI 29
 9442e35100fc8b9a30f82b178d6abc3a	1	53854	player	67054	rips/MOD_LamborghiniAmericanCha/MOD.carte
-944bad1ca6ab41897320bf12d78afe2e	1	21628	repeat	70956	customs/SaddamHussein/CUST.SaddamHussein
+944bad1ca6ab41897320bf12d78afe2e	1	77210	loop	70956	customs/SaddamHussein/CUST.SaddamHussein
 944bad1ca6ab41897320bf12d78afe2e	2	77956	loop
-944bad1ca6ab41897320bf12d78afe2e	3	10099	repeat
+944bad1ca6ab41897320bf12d78afe2e	3	75605	loop
 944bad1ca6ab41897320bf12d78afe2e	4	42320	silence
 944efba8363e4a2e9a6c96eae008f5ea	0	0	error	2896	examples/TFMX_Anstoss/MDAT.anstoss4
 94765b46e9458d3210d9cbf88163e445	0	296708	player	3634991	examples/TWO_Retrospectacular/TWO.Retrospectacular
@@ -9080,7 +9080,7 @@ c24031557135f97570f80751a91afb47	0	187983	player	136096	examples/SCT_Dyter07/SCT
 c262ee961c6ca8b5ad2be7ed7f5a3106	0	204749	player	6244	examples/QTS_TimeMachine/QTS.TimeMachine 3
 c26ad723f3070937b966848ffe370a0d	0	5334	player	95	examples/SNX_RiseOfTheDragon/Rise Of The Dragon/SNX.Blade mutate
 c26ad723f3070937b966848ffe370a0d	0	5334	player	95	examples/SNX_RiseOfTheDragon/Rise Of The Dragon/SNX.evolution mutate
-c270b131310c4a1787ac995c7084adc5	0	16124	repeat	129808	customs/CrazyCars/CUST.CrazyCars
+c270b131310c4a1787ac995c7084adc5	0	23719	loop	129808	customs/CrazyCars/CUST.CrazyCars
 c2746d28729b6006bdc0785b237b1824	0	75701	player	2899	examples/SNX_A10TankKiller/A-10 Tank Killer/SNX.Winning
 c28475be9a56569faecad7c657d1044b	1	74939	player	144350	rips/MOD_1000Miglia/MOD.millemiglia'32
 c28f7f0e98b5d9aea6599e1ab207f504	1	468433	player	28824	rips/MOD_NoiseFromHeaven1/MOD.dcn_chipsanity-v3+
@@ -9926,7 +9926,7 @@ d68f33756a8e0217bbcde62bce91cf6a	2	27443	loop
 d68f33756a8e0217bbcde62bce91cf6a	3	10399	loop
 d68f33756a8e0217bbcde62bce91cf6a	4	30737	player
 d68f33756a8e0217bbcde62bce91cf6a	5	11431	player
-d68f33756a8e0217bbcde62bce91cf6a	6	16011	repeat
+d68f33756a8e0217bbcde62bce91cf6a	6	7497	loop
 d68f33756a8e0217bbcde62bce91cf6a	7	12701	player
 d6e57ecd807cbbf0915714b89501f0e0	0	1016	player	91	examples/AGI_Manhunter2/AGI.ManhunterII 056
 d6e63c44b139de83601bebd05e8d51dc	0	46487	player	1882	examples/SMUS_RocketRanger/Rocket Ranger/SMUS.SxRF
@@ -10055,7 +10055,7 @@ d939a509cdd1cfa9f303886c06fd3dab	1	38358	player	26656	rips/MOD_Diabolik06/MOD.st
 d94380635246521de8db980c952f5e4e	1	107455	player	4564	examples/HST_SyntaxTerror/Syntax Terror/HST.TheSnurkelTwister
 d94380635246521de8db980c952f5e4e	2	53600	player
 d94ac57224912f2c7a9abcf27215fe60	1	82224	loop	107318	rips/MIX_Rubicon/MON.Rubicon end
-d94ac57224912f2c7a9abcf27215fe60	2	10740	repeat
+d94ac57224912f2c7a9abcf27215fe60	2	7608	loop
 d94e3733cfcac8c6b62bfe76539d4876	0	73669	player	36928	rips/SoundFX13Sets1/Mods/SFX.CORP8
 d95c52fde37ba56f9f001c6e5d422fe0	1	3556	player	3090	rips/MOD_StarControl2/MOD.Victory Ditty 23
 d9621220bfdcfccf8f212a86a3d94410	0	84165	loop	14640	customs/WinterChalleng/CUST.WinterChallenge Slalom
@@ -10094,7 +10094,7 @@ da3088ce5481f7a78cc34ec920ec9b34	11	254	player
 da3088ce5481f7a78cc34ec920ec9b34	12	4778	volume
 da3088ce5481f7a78cc34ec920ec9b34	13	1270	player
 da3088ce5481f7a78cc34ec920ec9b34	14	158	player
-da3088ce5481f7a78cc34ec920ec9b34	15	16878	repeat
+da3088ce5481f7a78cc34ec920ec9b34	15	44814	loop
 da3088ce5481f7a78cc34ec920ec9b34	16	218	player
 da3088ce5481f7a78cc34ec920ec9b34	17	508	player
 da3088ce5481f7a78cc34ec920ec9b34	18	1270	player
@@ -11316,7 +11316,7 @@ f522736a7af171c34e26cfc2899eb924	3	2794	player
 f523145922865269acfce021cb3537de	1	40390	player	17970	rips/MOD_Tex07/MOD.st2
 f52ab537ab077b3562816d7abce47ace	1	165960	loop	52256	customs/X-OutST/CUST.X-Out ST (Mad Max)
 f52ab537ab077b3562816d7abce47ace	2	18441	silence
-f52ab537ab077b3562816d7abce47ace	3	13520	repeat
+f52ab537ab077b3562816d7abce47ace	3	7770	loop
 f52ab537ab077b3562816d7abce47ace	4	201389	loop
 f52ab537ab077b3562816d7abce47ace	5	163958	loop
 f52ab537ab077b3562816d7abce47ace	6	165095	loop

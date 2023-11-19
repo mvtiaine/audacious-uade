@@ -4350,7 +4350,7 @@
 451e94550d53fff6105cfa0207fcb39f	10	39714	loop
 451e94550d53fff6105cfa0207fcb39f	11	64777	loop
 451e94550d53fff6105cfa0207fcb39f	12	26316	silence
-451e94550d53fff6105cfa0207fcb39f	13	12144	repeat
+451e94550d53fff6105cfa0207fcb39f	13	98276	loop
 451e94550d53fff6105cfa0207fcb39f	14	63778	loop
 451e94550d53fff6105cfa0207fcb39f	15	24089	loop
 451e94550d53fff6105cfa0207fcb39f	16	28041	loop
@@ -5182,7 +5182,7 @@
 52c57093a4f7f107f57f6801448e9821	1	176551	player	49790	Game/Schlichtholz_Daniel/Second_World/mod.feeling like heaven
 52e0db6854b613fc5248d5238dcd8ef7	1	10371	player+silence	103350	Game/Brimble_Allister/Star_Trek_25th_Anniversary/p4x.jingle_7
 52e6141e02210390eaf4c8fa7bf68e2f	0	53982	loop	54408	Game/Loriaux_Pierre-Eric/Pang/Custom_Version/cust.ingame
-52e6141e02210390eaf4c8fa7bf68e2f	1	18983	repeat
+52e6141e02210390eaf4c8fa7bf68e2f	1	11580	loop
 52e6141e02210390eaf4c8fa7bf68e2f	10	24687	loop
 52e6141e02210390eaf4c8fa7bf68e2f	11	8812	loop
 52e6141e02210390eaf4c8fa7bf68e2f	12	48681	loop
@@ -6871,7 +6871,7 @@
 6bb7f2879580df13d94f4c18c41d8ddf	1	7620	player	11468	Game/McGinty_Andi/Simpsons_Bart_vs_The_World/mod.simpsons(bartman)
 6bb9c6f2a93e28166a160198450a1fed	1	6350	player	34496	Game/Enfors_Christer/Bratwurst/mod.gedeon et barnabe
 6bba5bfdfd2f0a05c71cac4a1debb466	1	66060	player+silence	73060	Demo/Nielsen_Klaus/Zinko/mod.got to be funky
-6bbe905bc82e2eb81065d34226363552	0	14769	repeat	4866	Game/Kane_Matthew/Zak_McKracken/scumm.kazoo
+6bbe905bc82e2eb81065d34226363552	0	207965	loop	4866	Game/Kane_Matthew/Zak_McKracken/scumm.kazoo
 6bc9b48c4241fee74c306fa91a55ec32	1	208290	player+silence	140870	Game/Leitch_Barry/Harlequin/mod.h23
 6bcc3886c8fb589f3f6e458dff27aefa	1	10161	player	13892	Game/Grignon_Jean-Marc/Chrono_Quest_2/mod.reine2
 6bcc3886c8fb589f3f6e458dff27aefa	1	10161	player	13892	Game/Grignon_Jean-Marc/Explora_2/mod.reine2
@@ -8330,7 +8330,7 @@
 80890d526645f1b8683f64b925e0943c	6	44709	player
 80890d526645f1b8683f64b925e0943c	7	192555	player
 80890d526645f1b8683f64b925e0943c	8	115584	player
-80890d526645f1b8683f64b925e0943c	9	9316	repeat
+80890d526645f1b8683f64b925e0943c	9	9231	loop
 809028ff98642d4cfdfec4ac8f966ef9	1	33278	player	6032	Game/Parton_Andrew/Civilization/med.napoleon
 80a226c96b66d6c71547e4ed47362115	0	138193	player	63162	Game/Whittaker_David/Sidewinder/dw.Sidewinder
 80a92c78ed03a696e18c2812a2961466	1	270289	player	130150	Demo/Gesqua_Raphael/Virtual_World/mod.(((((apocalypse))))
@@ -8375,7 +8375,7 @@
 81335a98242526a17e04b332d7ae22ce	0	110601	loop	162112	Game/Hogg_Ashley/CJ_in_the_USA/Custom_Version/cust.CJ_in_the_USA
 81335a98242526a17e04b332d7ae22ce	1	26062	silence
 81335a98242526a17e04b332d7ae22ce	2	70584	loop
-81335a98242526a17e04b332d7ae22ce	3	17940	repeat
+81335a98242526a17e04b332d7ae22ce	3	22050	loop
 81335a98242526a17e04b332d7ae22ce	4	7518	silence
 81335a98242526a17e04b332d7ae22ce	5	5994	silence
 81335a98242526a17e04b332d7ae22ce	6	3961	silence
@@ -9324,7 +9324,7 @@
 8e70874fa9ad119f0a3ba1ae1acefbd6	0	10923	player	496	Game/Elliot_James/Mixed-Up_Mother_Goose/agi.ingame_28
 8e805a8e1baf63983be8a4bbc88cd010	0	134748	loop	323160	Game/Bialluch_Dirk/Time_Lock/Custom_Versions/cust.menu_and_ingame
 8e805a8e1baf63983be8a4bbc88cd010	1	118186	loop
-8e805a8e1baf63983be8a4bbc88cd010	10	9433	repeat
+8e805a8e1baf63983be8a4bbc88cd010	10	471627	loop
 8e805a8e1baf63983be8a4bbc88cd010	2	157183	loop
 8e805a8e1baf63983be8a4bbc88cd010	3	87204	loop
 8e805a8e1baf63983be8a4bbc88cd010	4	234793	loop
@@ -9810,9 +9810,9 @@
 9436ed0ebe584be8258b372075718a1a	0	762	player	91	Game/Unknown/Space_Quest_1/agi.ingame_28
 94375bb73e8de3b739c692bd0c92b4d9	1	157753	player	156734	Game/Evans_Dean/Jurassic_Park/AGA_Version/med.ingame_5
 9447479c31b5110fb9c400b09e4e938b	1	57919	player	63038	Game/Bartlett_Tim/Akira/mod.akira6-shootemup
-944bad1ca6ab41897320bf12d78afe2e	1	21628	repeat	70956	Game/Oliver_James/Saddam_Hussein_Game/cust.The_Saddam_Hussein_Game
+944bad1ca6ab41897320bf12d78afe2e	1	77210	loop	70956	Game/Oliver_James/Saddam_Hussein_Game/cust.The_Saddam_Hussein_Game
 944bad1ca6ab41897320bf12d78afe2e	2	77956	loop
-944bad1ca6ab41897320bf12d78afe2e	3	10099	repeat
+944bad1ca6ab41897320bf12d78afe2e	3	75605	loop
 944bad1ca6ab41897320bf12d78afe2e	4	42320	silence
 9455a323fe6433b593a3d6057cd6d5ba	1	69096	player	43104	Game/Fruergaard_Christian/Eskimo_Games/mod.eskimo20
 945892109865392b5b4b47f79c5a55d4	1	57665	player	15866	Game/Whitely_Jason/Road_Rash/mod.level2
@@ -12542,7 +12542,7 @@ c25c9bfeb22b52a1b375c1271f87cca3	0	61372	silence	2818	Game/Callet_Charles/Bob_Mo
 c25c9bfeb22b52a1b375c1271f87cca3	0	61372	silence	2818	Game/Callet_Charles/Operation_Neptune/BOB4B.DUM
 c25c9bfeb22b52a1b375c1271f87cca3	0	61372	silence	2818	Game/Callet_Charles/Project_Neptune/BOB4B.DUM
 c26245c9a155e62a87481fd613db226b	1	388921	player	511822	Game/Ravn_Simon/Foundation/mod.FoundationMenu
-c270b131310c4a1787ac995c7084adc5	0	16124	repeat	129808	Game/Unknown/Crazy_Cars/cust.Crazy_Cars
+c270b131310c4a1787ac995c7084adc5	0	23719	loop	129808	Game/Unknown/Crazy_Cars/cust.Crazy_Cars
 c2746d28729b6006bdc0785b237b1824	0	75701	player	2899	Game/Riley_Mark/A-10_Tank_Killer/snx.Winning
 c27ea113198044165082815891550ed7	1	121680	player	36676	Game/Page_Jason/Master_Axe/mod.redneck
 c297abe1af1ac9c7ebb413394e6dee3b	1	53854	player	288450	Game/Cummings_Adrian/Tin_Toy_Adventure/mod.the_spooky_attic
@@ -13976,7 +13976,7 @@ d92d4e365d111d57a87acf8b9113a24a	1	140733	player	76380	Game/Nagy_Denes/Wendetta_
 d934bda5f1665b314b02d090a80175f8	1	57416	player+silence	14056	Game/Ithell_Darren/Steg_the_Slug/mod.intro
 d939d2771cd7bba4c1717e7e80cdd45e	1	69096	player	46014	Game/Brimble_Allister/Lion_King/p4x.level_3
 d94ac57224912f2c7a9abcf27215fe60	1	82224	loop	107318	Game/Deenen_Charles/Rubicon/mon.game_end
-d94ac57224912f2c7a9abcf27215fe60	2	10740	repeat
+d94ac57224912f2c7a9abcf27215fe60	2	7608	loop
 d94e3733cfcac8c6b62bfe76539d4876	0	73669	player	36928	Game/Baudlot_Jean/Cruise_for_a_Corpse/sfx.CORP8
 d9621220bfdcfccf8f212a86a3d94410	0	84165	loop	14640	Game/Beben_Wally/Winter_Challenge/cust.slalom
 d9667e1138d65b070c77495b328ff993	1	74685	player	26204	Game/Gaiba_Gian_Luca/Time_Runners_06/mod.ST1

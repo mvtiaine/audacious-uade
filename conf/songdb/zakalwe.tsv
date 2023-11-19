@@ -41,7 +41,7 @@
 00dbf6c66bb2b85019fc6c48d9ec7a98	0	184819	player+silence	1871	ahx/Granny/garfield.ahx
 00e7a7cfd6a2b9fcc11668a9ad5da77f	1	28197	player	3526	mod/other/cover_action_team-enchantment15.mod
 00f697fee5e244b5e2edf6d96f376aa3	0	99580	player	54246	mod_packer/kris_tracker/Little_Music_Demo/KRIS.eurobeat
-0106bbede1d0855cb8b7d5685e24ba44	0	21749	repeat	26023	music_line_editor/krister_fundin/fnord double.ml
+0106bbede1d0855cb8b7d5685e24ba44	0	10303	loop	26023	music_line_editor/krister_fundin/fnord double.ml
 010d5594e933d099364d09c4d6c56676	0	81889	loop	3407	music_line_editor/krister_fundin/kinalåten.ml
 0113cbbeb9c16ae19f047aa44a4f7a73	1	92213	player	14128	med/UltimaVI/MED.UltimaVI-3
 011cfd4a55f306c4118843899c5dbb4d	0	12473	loop	36080	music_line_editor/krister_fundin/laser beams iii.ml
@@ -333,7 +333,7 @@
 061c44a3a7d26aec382fa1e3e84a83fa	4	10566	silence
 061c44a3a7d26aec382fa1e3e84a83fa	5	4215	silence
 061c44a3a7d26aec382fa1e3e84a83fa	6	7772	silence
-061c44a3a7d26aec382fa1e3e84a83fa	7	20082	repeat
+061c44a3a7d26aec382fa1e3e84a83fa	7	19273	loop
 061c44a3a7d26aec382fa1e3e84a83fa	8	20727	silence
 061c44a3a7d26aec382fa1e3e84a83fa	9	15647	silence
 06262f8798ee8c3b5c247998e890f3dd	0	175281	player	5188	quartet_st/SonEtLumiere/QTS.SonEtLumiere 07
@@ -356,7 +356,7 @@
 0686994732e1d873cfc51023f21adabe	1	15241	player	4368	mod/4mat/4mat-cardiaxx-pause.mod
 0693c47e254959cef900f035d5355249	1	40899	player	5882	mod/other/mattis-lowsi_jeti_maah.mod
 06b84f1368b7a09c409f6b861561bfee	1	45979	player	3276	mod_packer/noisepacker/np3/NP3.trz-jhlp
-06b890430af28b89de13435e00f820b2	1	14416	repeat	7788	mon/new/MON.Gyroscope_Bug
+06b890430af28b89de13435e00f820b2	1	48029	loop	7788	mon/new/MON.Gyroscope_Bug
 06be02e465330f4af6b0dddfecc8f771	0	98715	silence	2179	infogrames/Ween/mus2c.dum
 06bfc40041dd1982c838ac633446f564	1	189507	player	66082	wally_beben/WB.Elite
 06cfd68e6f52dd5dd12f043a2acb64a1	1	112837	player+silence	23624	mod/other/doh-hydrozen.mod
@@ -1623,7 +1623,7 @@
 1daa37977a9afeee38eab790d0df8615	7	25911	player
 1daa37977a9afeee38eab790d0df8615	8	36834	player
 1daa37977a9afeee38eab790d0df8615	9	17020	player
-1db37b6e64d6da4946edf15319511b9e	0	10596	repeat	2987	music_line_editor/krister_fundin/stilla, o stilla!.ml
+1db37b6e64d6da4946edf15319511b9e	0	79098	loop	2987	music_line_editor/krister_fundin/stilla, o stilla!.ml
 1db7771f667612fd19f51af6db118e33	1	112027	player	20234	mod/other/emax-enjoy_the_silence.mod
 1db89f4f644c35e609a4fb062a2dc7dc	0	41407	player	7830	pumatracker/Toki/puma.Newmod4
 1dc08be8c139870a792a5e23c2f16eb2	0	96869	loop	98906	jesper_olsen/HaraldHardtand/JO.Haraldhordtand_Intro
@@ -2340,7 +2340,7 @@
 2833fce56fe7312d8f2457e5b9073bc5	0	46995	player	31608	soundfx/HistoryLine/SFX.ongame3
 2838d146a9202266b79292e196966f18	0	92721	player	6884	ahx/Jazz/AHX.Stamp
 283a7612f6afc3a54666423bdfccb594	1	3048	player	24074	jesper_olsen/LollyPop/jo.level_start
-284ff88d89ed9ed9ddaf248e654a8769	0	16009	repeat	66055	music_line_editor/krister_fundin/drums 'r' us.ml
+284ff88d89ed9ed9ddaf248e654a8769	0	101571	loop	66055	music_line_editor/krister_fundin/drums 'r' us.ml
 2854172f5b2fc91a019e0efe32e9a081	0	57665	player	9980	suntronic_custom/energy.src
 2858c283990065b508bf7371c4c5d6e1	1	64015	player	61932	dave_lowe/dln/KingsQuest6/DLN.King'sQuest6 7
 2858c283990065b508bf7371c4c5d6e1	2	22100	player
@@ -3550,7 +3550,7 @@
 3d44b61218a717241c0a2825eb9efdae	1	2032	player
 3d44b61218a717241c0a2825eb9efdae	2	2032	player
 3d44b61218a717241c0a2825eb9efdae	3	1778	player
-3d49bede08dc5f76a05e9b86178f16fa	0	12901	repeat	56596	music_line_editor/krister_fundin/psycho ii.ml
+3d49bede08dc5f76a05e9b86178f16fa	0	7025	loop	56596	music_line_editor/krister_fundin/psycho ii.ml
 3d5a204edd9a144678eaf43df8a5870c	0	294930	player	8802	ufo/UFO-CD32/Geo.ufo
 3d5a204edd9a144678eaf43df8a5870c	0	294930	player	8802	ufo/UFO/Geo.ufo
 3d5a62385ff45445c952c4d1e9befa2c	0	28705	player	10140	suntronic_custom/ox20.src
@@ -4029,7 +4029,7 @@
 451e94550d53fff6105cfa0207fcb39f	10	39714	loop
 451e94550d53fff6105cfa0207fcb39f	11	64777	loop
 451e94550d53fff6105cfa0207fcb39f	12	26316	silence
-451e94550d53fff6105cfa0207fcb39f	13	12144	repeat
+451e94550d53fff6105cfa0207fcb39f	13	98276	loop
 451e94550d53fff6105cfa0207fcb39f	14	63778	loop
 451e94550d53fff6105cfa0207fcb39f	15	24089	loop
 451e94550d53fff6105cfa0207fcb39f	16	28041	loop
@@ -4495,7 +4495,7 @@
 4e808d3a6746331bc0f7cfdd04166bf7	1	144797	player	40772	mod/other/tempest-free_fjortis_facials.mod
 4e857d3f9f6cbc7076c725d3f476f309	0	392124	loop	2572	aps/APS.StairWalking
 4e87afca9cf37a887e8f465593d49e41	0	74042	loop	5970	music_line_editor/krister_fundin/battle forces.ml
-4e8beb199b0d2b35ceb6f6442e597aee	0	17681	repeat	2460	music_line_editor/krister_fundin/unnamed 24.ml
+4e8beb199b0d2b35ceb6f6442e597aee	0	9913	loop	2460	music_line_editor/krister_fundin/unnamed 24.ml
 4e9cbbd0af9087d86f4eeff830210d50	0	85608	player	36328	soundfx/Rolling_Ronny/SFX.Rolling_Ronny_2
 4eb169555e128a3a242fd0118bf1a2c8	0	122697	player	7724	musicasm/MA.WAVES&
 4eb169555e128a3a242fd0118bf1a2c8	1	30483	player
@@ -4725,7 +4725,7 @@
 52e120f9ec2e4402532e44130ce73828	0	133112	player	7142	ahx/Lloyd Rosen/eliminator.ahx
 52e6141e02210390eaf4c8fa7bf68e2f	0	53982	loop	54408	cust/CUST.Pang
 52e6141e02210390eaf4c8fa7bf68e2f	0	53982	loop	54408	pierre_adane/Pang/Custom_Version/cust.ingame
-52e6141e02210390eaf4c8fa7bf68e2f	1	18983	repeat
+52e6141e02210390eaf4c8fa7bf68e2f	1	11580	loop
 52e6141e02210390eaf4c8fa7bf68e2f	10	24687	loop
 52e6141e02210390eaf4c8fa7bf68e2f	11	8812	loop
 52e6141e02210390eaf4c8fa7bf68e2f	12	48681	loop
@@ -6109,7 +6109,7 @@
 69859ddf3123fe497a2d65bcd898bc95	1	69096	player	12686	mod/other/dreamfish-burt&ernie.mod
 698b75f9fcc1d4f9bcc6338909ab1136	0	116346	player	37910	mod_packer/kris_tracker/Premiere/KRIS.level1
 69a3f4084a74c214925aea17faab18d3	0	14987	player	2619	sonix/Stellar_7/SNX.level5
-69a499c04248fe2d71f11c19a3284515	1	11604	repeat	7940	mon/new/MON.B-CRYPT.MUSI
+69a499c04248fe2d71f11c19a3284515	1	63041	loop	7940	mon/new/MON.B-CRYPT.MUSI
 69b17fb9686de2dfd9599f2698eb1714	1	142511	player	28542	mod/stargazer/stargazer-red_dream.mod
 69b37a060be2449882e004fd3b1a8952	1	86370	player	28910	jesper_olsen/VibrantsMusicCol1/JO.24th newwave
 69b50ba6e41754738e6b9060e8d4896d	0	30483	player	3103	sonix/Rise_Of_The_Dragon/SNX.free Karyn
@@ -6225,7 +6225,7 @@
 6ab0f71e266d734a275d92619b68b1c2	5	87508	loop
 6ab0f71e266d734a275d92619b68b1c2	6	7775	loop
 6ab0f71e266d734a275d92619b68b1c2	7	91574	loop
-6ab0f71e266d734a275d92619b68b1c2	8	14297	repeat
+6ab0f71e266d734a275d92619b68b1c2	8	76062	loop
 6ab0f71e266d734a275d92619b68b1c2	9	46791	loop
 6abfedb668a911a249488e027b49139d	0	47503	player	2096	sonix/TV_Sports_Baseball/SMUS.annouami
 6ac7073d8cf569fccc5b29d1176f33d5	0	47505	loop	55080	cust/CrackDown/CUST.CrackDown
@@ -6312,7 +6312,7 @@
 6baa0e6b39d64556e5edce835ffe14f8	1	440236	player	50574	jochen_hippel/hip.Battle_Valley
 6baa0e6b39d64556e5edce835ffe14f8	2	327700	player
 6babb9256c9670856369c5d58c92eb4b	0	63761	player	432	mod_packer/alcatraz_packer/ALP.Cedric 4
-6bbe905bc82e2eb81065d34226363552	0	14769	repeat	4866	scumm/Zak/SCUMM.ZakKazoo
+6bbe905bc82e2eb81065d34226363552	0	207965	loop	4866	scumm/Zak/SCUMM.ZakKazoo
 6bc0d5b344662a593ec46219e7bacc85	1	61475	player	29762	mod/2pac/spaceeggs.mod
 6bc39e239730178fcf843c4578a9e923	0	102374	player	4490	ahx/Keito/broken promise.ahx
 6bc82d48a451686733967efa50617c6e	0	110503	player	132777	am_composer/magicjumper-hiscore.amc
@@ -6542,7 +6542,7 @@
 707b0e9da982c6196a45eecd9414d460	0	170963	player	9975	ahx/Jazz/AHX.Opq2FoetusWriter
 7086db97cb07f1e6f99d289726113773	1	322111	player	114658	mod_packer/noisepacker/np3/Last_Ninja_3/np3.intro
 708c3a62276a6f2ba705d365b28ca78b	0	34548	player	2342	ahx/Jeano/tjo halla.ahx
-70967863364378657613a362cd87efee	0	16884	repeat	45648	music_line_editor/krister_fundin/unnamed 4.ml
+70967863364378657613a362cd87efee	0	25906	loop	45648	music_line_editor/krister_fundin/unnamed 4.ml
 709a0a8239422e037af20c024a928ee4	0	15241	player	5536	art_of_noise/twice_revolution/Twice-Revolution/AON.revolution-0008
 70a166e4ee03d64b1f51a8e6f05d391d	1	167690	player+silence	80532	mod_packer/promizer/pm1/PM1.Abnormalia2
 70a3ff138e38fceff055e103492326aa	1	23116	player	26938	mod_packer/the_player/p6x/Strangers/Unused/p60.Loader01
@@ -6692,7 +6692,7 @@
 73fbc32b566b5571d13c37bd055c5ace	0	96023	player	11454	syntracker/SYNMOD.Tip Tap Tribe
 740a4b80223bc5d975cf0712eb6142dd	1	54870	player	16624	med/Civilization/MED.CIV_Ghandi
 7415abbfb620e3e1c8c6f3f0948eb915	0	114904	loop	2672	music_line_editor/krister_fundin/i män av höga sinnen.ml
-742952dfe5e20cf8f80e017c029ddbfa	1	11604	repeat	7884	mon/new/MON.Conspiracy-Cracktro
+742952dfe5e20cf8f80e017c029ddbfa	1	63041	loop	7884	mon/new/MON.Conspiracy-Cracktro
 743269ba3fadb32740cdbcfb511914b4	0	21592	player	31182	david_whittaker/dw.SpittingImage
 743269ba3fadb32740cdbcfb511914b4	1	21592	player
 743269ba3fadb32740cdbcfb511914b4	2	4064	player
@@ -7320,7 +7320,7 @@
 81335a98242526a17e04b332d7ae22ce	0	110601	loop	162112	cust/CUST.CJ_In_The_USA
 81335a98242526a17e04b332d7ae22ce	1	26062	silence
 81335a98242526a17e04b332d7ae22ce	2	70584	loop
-81335a98242526a17e04b332d7ae22ce	3	17940	repeat
+81335a98242526a17e04b332d7ae22ce	3	22050	loop
 81335a98242526a17e04b332d7ae22ce	4	7518	silence
 81335a98242526a17e04b332d7ae22ce	5	5994	silence
 81335a98242526a17e04b332d7ae22ce	6	3961	silence
@@ -8456,9 +8456,9 @@
 943b34e7113171d81ec55974e99a50dd	1	61983	player	5180	mod/wotw/Intro_Number_007.mod
 9442e35100fc8b9a30f82b178d6abc3a	1	53854	player	67054	mod/Don_Adan_rips/MOD_LamborghiniAmericanCha/MOD.carte
 944568c78e748cc961e1d35a58730fe3	0	70366	player	5654	sid/sid2.ice-runner_tune1
-944bad1ca6ab41897320bf12d78afe2e	1	21628	repeat	70956	cust/SaddamHussein/CUST.SaddamHussein
+944bad1ca6ab41897320bf12d78afe2e	1	77210	loop	70956	cust/SaddamHussein/CUST.SaddamHussein
 944bad1ca6ab41897320bf12d78afe2e	2	77956	loop
-944bad1ca6ab41897320bf12d78afe2e	3	10099	repeat
+944bad1ca6ab41897320bf12d78afe2e	3	75605	loop
 944bad1ca6ab41897320bf12d78afe2e	4	42320	silence
 9452d2367df66b905a9c646525e7b049	0	102374	player	4730	ahx/Varthall/mr.heli in-game.ahx
 946ba6997a93adac5ad5619c3f6365e0	0	61221	player	9908	art_of_noise/twice_revolution/Twice-Revolution/AON.revolution-0036
@@ -9365,7 +9365,7 @@ a7828ae8b420292aa3846553a2fd0645	3	5994	silence
 a7828ae8b420292aa3846553a2fd0645	4	187713	loop
 a7828ae8b420292aa3846553a2fd0645	5	32442	loop
 a7828ae8b420292aa3846553a2fd0645	6	148260	loop
-a7828ae8b420292aa3846553a2fd0645	7	12035	repeat
+a7828ae8b420292aa3846553a2fd0645	7	3315	loop
 a7828ae8b420292aa3846553a2fd0645	8	0	nosound
 a7828ae8b420292aa3846553a2fd0645	9	5994	silence
 a78511fd7751746ab9f8e4afcc3d41ac	1	194587	player	62958	hip/LeavinTeramis/SOG.Leavin'Teramis 12
@@ -10526,7 +10526,7 @@ bb4f707b6f1c123cb7cde85bf8e79956	0	139868	silence	12142	pretracker/Pink/wesley b
 bb5a42973527c9d1d10d7f73faa59469	0	13209	player	49768	soundcontrol/Biing/sct.BONGDRUA
 bb69210bda9e17178e4b2183174e0f27	1	299502	player	70000	mod_packer/kris_tracker/Leander/mod.world one.1
 bb71fd3a44e8278cde35efee69c42436	0	22862	player	656	nick_pelling_packer/NPP_Battletoads/NPP.firept1
-bb77967ea9670cb13a83537b0502934f	0	18916	repeat	12138	music_line_editor/krister_fundin/distortion.ml
+bb77967ea9670cb13a83537b0502934f	0	16072	loop	12138	music_line_editor/krister_fundin/distortion.ml
 bb7feb5bf162011944e684a387b5188c	0	52076	player	1738	sonix/TV_Sports_Football/SMUS.Chrl
 bb877cfec5b8ba35d59180893c50989f	0	147084	player	11496	amos/Genesia/abk.moyen10.2
 bb8d91a5ae2306602cdd5f96ecf414e4	0	105422	player	6828	sonic_arranger/Ambermoon/sa.ChickenSoup
@@ -10883,7 +10883,7 @@ c262ee961c6ca8b5ad2be7ed7f5a3106	0	204749	player	6244	quartet_st/TimeMachine/QTS
 c2646f4456a28233f9e5fcf211e7ee62	1	46487	player	5666	mod/other/hollywood-what_wuh.mod
 c26ad723f3070937b966848ffe370a0d	0	5334	player	95	sonix/Rise_Of_The_Dragon/SNX.Blade mutate
 c26ad723f3070937b966848ffe370a0d	0	5334	player	95	sonix/Rise_Of_The_Dragon/SNX.evolution mutate
-c270b131310c4a1787ac995c7084adc5	0	16124	repeat	129808	cust/CrazyCars/CUST.CrazyCars
+c270b131310c4a1787ac995c7084adc5	0	23719	loop	129808	cust/CrazyCars/CUST.CrazyCars
 c2746d28729b6006bdc0785b237b1824	0	75701	player	2899	sonix/A-10_Tank_Killer/SNX.Winning
 c27fa686ee2dc9a496e3608206326ddf	0	278672	player	62556	david_whittaker/dw.Quadralien
 c27fa686ee2dc9a496e3608206326ddf	1	222023	player
@@ -14016,7 +14016,7 @@ ff6f30513779fdcbce29f8901a05526b	1	67408	loop
 ff6f30513779fdcbce29f8901a05526b	2	29082	loop
 ff6f30513779fdcbce29f8901a05526b	3	72777	loop
 ff6f30513779fdcbce29f8901a05526b	4	64693	loop
-ff6f30513779fdcbce29f8901a05526b	5	21988	repeat
+ff6f30513779fdcbce29f8901a05526b	5	16450	loop
 ff748992acf271fad0b12a1009e036fd	0	46533	loop	4158	music_line_editor/krister_fundin/and no further shall we go.ml
 ff750375fefde53deabac71089f4322f	1	71636	player	135572	dave_lowe/dl/StreetFighter2/DL.Streetfighter2
 ff750375fefde53deabac71089f4322f	2	61475	player
