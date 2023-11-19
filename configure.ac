@@ -40,6 +40,15 @@ AM_CONDITIONAL([BUILD_WIN32], [test "$build_windows" = "yes"])
 AM_CONDITIONAL([BUILD_MACOS], [test "$build_macos" = "yes"])
 AM_CONDITIONAL([BUILD_BSD], [test "$build_bsd" = "yes"])
 
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM([
+    #if defined __FAST_MATH__
+    #error Building with -ffast-math and/or -Ofast not supported!
+    #endif
+  ])],
+  [],
+  [AC_MSG_ERROR([Building with -ffast-math and/or -Ofast not supported!])])
+
 PKG_CHECK_MODULES([AUDACIOUS],[audacious >= 3.8],
   [ac_audacious_plugindir=`$PKG_CONFIG --variable=plugin_dir audacious`],
   [ac_audacious_plugindir=;])

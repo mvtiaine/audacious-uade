@@ -16,7 +16,7 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/hvl/replay.c
 
 # try keep byte-by-byte consistent audio output across platforms, by disabling some floating point optimizations
-3rdparty_replay_libreplay_hvl_la_CFLAGS = $(AM_CFLAGS) -ffp-contract=off
+3rdparty_replay_libreplay_hvl_la_CFLAGS = $(AM_CFLAGS) -ffp-contract=off -fno-fast-math
 
 3rdparty_replay_libreplay_dbm_la_SOURCES = \
     3rdparty/replay/dbm/dsp.h \
