@@ -1,7 +1,6 @@
 { lib
 , stdenv
 , autoreconfHook
-, autoconf-archive
 , libtool
 , pkg-config
 , which
