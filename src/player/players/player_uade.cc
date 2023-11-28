@@ -437,6 +437,15 @@ string parse_codec(const struct uade_song_info *info) {
     }
 }
 
+// .sid extension conflict with SIDMon vs C64 SID files
+bool is_sid(const char *path, const char *buf, size_t size) {
+    string p = path;
+    transform(p.begin(), p.end(), p.begin(), ::tolower);
+    if (!p.ends_with(".sid") && !p.starts_with("sid.")) return false;
+    assert(size >= 4);
+    return (buf[0] == 'P' || buf[0] == 'R') && buf[1] == 'S' && buf[2] == 'I' && buf[3] == 'D';
+};
+
 } // namespace {}
 
 namespace player::uade {
@@ -462,7 +471,7 @@ void shutdown() {
 bool is_our_file(const char *path, const char *buf, size_t size) {
     const probe_scope probe(path);
     TRACE("uade::is_our_file using probe id %d - %s\n", probe.context->id, path);
-    return uade_is_our_file_from_buffer(path, buf, size, probe.context->state) != 0;
+    return uade_is_our_file_from_buffer(path, buf, size, probe.context->state) != 0 && !is_sid(path,buf,size);
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {

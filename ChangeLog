@@ -1,3 +1,6 @@
+0.11-dev
+- Avoid claiming C64 .sid files for UADE
+
 0.10.2 - 2023-11-19
 - Fix Debian build
 - Fix Fedora build
