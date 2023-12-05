@@ -80,8 +80,8 @@ void apply_trimmer(SongEndDetector &detector, SongEnd &songend) {
         if (silence == songend.length) {
             songend.status = SongEnd::NOSOUND;
             songend.length = 0;
-        } else {
-            songend.length = songend.length - SILENCE_TIMEOUT * 1000 + MAX_SILENCE;
+        } else if (silence > MAX_SILENCE) {
+            songend.length = songend.length - silence + MAX_SILENCE;
         }
     } else if (songend.status == SongEnd::TIMEOUT) {
         songend.length = PRECALC_TIMEOUT * 1000;
