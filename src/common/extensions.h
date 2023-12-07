@@ -129,9 +129,6 @@ static constexpr const char *plugin_extensions[] = {
     "pyg","pygm","pygmy","skt","skyt","snt","snt!","st2","st26","st30","star",
     "stpk","tp","tp1","tp2","tp3","un2","unic","unic2","wn","xan","xann","zen",
 
-    // non-Amiga tracker, avoid using UADE
-    "ft" // Fast Tracker
-
     "ntp", // NovoTrade Packer
     "two", // NTSP-System
 
@@ -223,6 +220,9 @@ static constexpr const char *plugin_extensions[] = {
     "hvl", // HivelyTracker
     "dbm", // Digibooster Pro
     
+    // non-Amiga tracker, avoid using UADE
+    //"ft" // Fast Tracker
+
     // no replay
     //"ct", Cybertracker
     //"dsm", // Dynamic Studio Professional

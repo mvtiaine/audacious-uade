@@ -43,7 +43,7 @@ bool is_our_file(const char */*path*/, const char *buf, size_t size) {
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
     struct hvl_tune *ht = hvl_reset((uint8_t*)buf, size, 0, 0);
     if (!ht) {
-        ERR("player_hvl::parse parsing failed for %s\n", path);
+        WARN("player_hvl::parse parsing failed for %s\n", path);
         return {};
     }
 

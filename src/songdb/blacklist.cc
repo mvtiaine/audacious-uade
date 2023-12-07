@@ -156,7 +156,7 @@ bool is_blacklisted_extension(const string &path, const string &ext) {
 bool is_blacklisted_md5(const string &md5hex) {
     const bool blacklisted = md5_blacklist.count(md5hex);
     if (blacklisted) {
-        WARN("Blacklisted md5 %s\n", md5hex.c_str());
+        DEBUG("Blacklisted md5 %s\n", md5hex.c_str());
     }
     return blacklisted;
 }

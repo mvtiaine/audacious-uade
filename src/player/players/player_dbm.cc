@@ -95,7 +95,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
         if (mod) {
             DB3_Unload(mod);
         }
-        ERR("player_dbm::parse parsing failed for %s reason %s\n", path, ErrorReasons[error]);
+        WARN("player_dbm::parse parsing failed for %s reason %s\n", path, ErrorReasons[error]);
         return {};
     }
 
