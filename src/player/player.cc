@@ -14,6 +14,7 @@
 #include "player/player.h"
 
 using namespace std;
+using namespace common;
 using namespace player;
 
 namespace player {

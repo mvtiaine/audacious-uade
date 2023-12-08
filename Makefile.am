@@ -6,9 +6,7 @@ EXTRA_DIST = \
 	NOTICE \
 	conf \
 	debian \
-	scripts \
-	testdata \
-	tools
+	testdata
 
 AM_DISTCHECK_DVI_TARGET =
 DISTCHECK_CONFIGURE_FLAGS = --with-audacious-plugindir="$$dc_install_base/lib/audacious"

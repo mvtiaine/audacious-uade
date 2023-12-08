@@ -44,3 +44,6 @@ test-driver
 *.log
 *.trs
 build-tmp
+.metals
+.scala-build
+.bsp

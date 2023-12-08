@@ -74,12 +74,12 @@ int parse_uri(const char *uri, string &path, string &ext) {
     return strlen(sub) > 0 ? subsong : -1;
 }
 
-void update_tuple_song_end(Tuple &tuple, const player::SongEnd &songend, const player::ModuleInfo &info) {
+void update_tuple_song_end(Tuple &tuple, const common::SongEnd &songend, const player::ModuleInfo &info) {
     const auto status = songend.status;
     const auto comment = "songend=" + songend.status_string();
     tuple.set_str(Tuple::Comment, comment.c_str());
-    if (songend.length > 0 && status != player::SongEnd::NOSOUND &&
-        (status != player::SongEnd::ERROR || songend::precalc::allow_songend_error(info))) {
+    if (songend.length > 0 && status != common::SongEnd::NOSOUND &&
+        (status != common::SongEnd::ERROR || songend::precalc::allow_songend_error(info))) {
         tuple.set_int(Tuple::Length, songend.length);
     }
 }
@@ -93,37 +93,113 @@ void update_tuple_subsong_range(Tuple &tuple, int minsubsong, int maxsubsong) {
     tuple.set_subtunes(subtunes.len(), subtunes.begin());
 }
 
-// TODO formatname to songdb
-void update_tuple_songdb(Tuple &tuple, const songdb::SongInfo &songinfo, const player::ModuleInfo &modinfo) {
-    TRACE("Found songlength data for %s:%d %s, length:%d, status:%s\n", songinfo.md5.c_str(), songinfo.subsong, modinfo.path.c_str(), songinfo.length, songinfo.status.c_str());
-    if (songinfo.length > 0)
-        tuple.set_int(Tuple::Length, songinfo.length);
-    if (songinfo.status.size())
-        tuple.set_str(Tuple::Comment, ("songend="+songinfo.status).c_str());
+void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInfo &songinfo, const player::ModuleInfo &modinfo, const string &md5) {
+    TRACE("Found songlength data for %s:%d %s, length:%d, status:%s\n", md5.c_str(), songinfo.subsong, modinfo.path.c_str(), songinfo.songlength, songinfo.songend.c_str());
+    const auto set_str = [&tuple](Tuple::Field field, const string &value) {
+        if (!tuple.is_set(field) && !value.empty()) {
+            tuple.set_str(field, value.c_str());
+        }
+    };
+    const auto set_int = [&tuple](Tuple::Field field, const int value) {
+        if (!tuple.is_set(field) && value > 0) {
+            tuple.set_int(field, value);
+        }
+    };
+
+    set_int(Tuple::Length, songinfo.songlength);
+    set_str(Tuple::Comment, "songend="+songinfo.songend);
+
+    if (!songinfo.demozoo_data && !songinfo.modland_data && !songinfo.amp_data && !songinfo.unexotica_data) {
+        TRACE("No Demozoo/Modland/UnExotica/AMP data for %s %s\n", md5.c_str(), modinfo.path.c_str());
+        return;
+    }
+
+    if (songinfo.unexotica_data) {
+        const auto &data = songinfo.unexotica_data.value();
+        TRACE("Found UnExotica data for %s:%d %s, author:%s, album:%s, publisher:%s, year:%d\n", md5.c_str(), songinfo.subsong, modinfo.path.c_str(),  data.author.c_str(), data.album.c_str(), data.publisher.c_str(), data.year);
+        //set_author(data.author); // prefer other sources
+        set_str(Tuple::Album, data.album);
+#if AUDACIOUS_HAS_PUBLISHER
+// since Audacious 4.3
+        set_str(Tuple::Publisher, data.publisher);
+#else
+        set_str(Tuple::Copyright, data.publisher);
+#endif
+        set_int(Tuple::Year, data.year);
+    }
+    if (songinfo.demozoo_data) {
+        const auto &data = songinfo.demozoo_data.value();
+        TRACE("Found Demozoo data for %s:%d %s, author:%s, album:%s, publisher:%s, year:%d\n", md5.c_str(), songinfo.subsong, modinfo.path.c_str(),  data.author.c_str(), data.album.c_str(), data.publisher.c_str(), data.year);
+        //set_author(data.author); // prefer other sources
+        set_str(Tuple::Album, data.album);
+#if AUDACIOUS_HAS_PUBLISHER
+// since Audacious 4.3
+        set_str(Tuple::Publisher, data.publisher);
+#else
+        set_str(Tuple::Copyright, data.publisher);
+#endif
+        set_int(Tuple::Year, data.year);
+    }
+
+    const auto set_author = [&tuple](const string &author) {
+        if ((!tuple.is_set(Tuple::Artist) && !author.empty())) {
+            tuple.set_str(Tuple::Artist, author.c_str());
+        } else {
+            const char *oldartist = tuple.get_str(Tuple::Artist);
+            const int oldcount = oldartist ? common::split(oldartist, " & ").size() : 0;
+            const int newcount = common::split(author, " & ").size();
+            if ((!oldartist || oldartist == songdb::UNKNOWN_AUTHOR) && !author.empty() && author != songdb::UNKNOWN_AUTHOR) {
+                tuple.set_str(Tuple::Artist, author.c_str());
+            } else if (!author.empty() && author != songdb::UNKNOWN_AUTHOR && newcount > oldcount) {
+                tuple.set_str(Tuple::Artist, author.c_str());
+            }
+        }
+    };
+
+    auto tokens = common::split(path,"/");
+    reverse(tokens.begin(), tokens.end());
+
+    const auto has_author = [&tokens](const string& author, const int max_tokens) {
+        const auto authors = common::split(author, " & ");
+        const auto end = min(tokens.begin() + max_tokens, tokens.end());
+        for (const auto &author : authors) {
+            if (find(tokens.begin(), end, author) != end) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    bool modland_path = false;
     if (songinfo.modland_data) {
-        const auto data = songinfo.modland_data.value();
-        TRACE("Found Modland data for %s:%d %s, format:%s, author:%s, album:%s, filename:%s\n", songinfo.md5.c_str(), songinfo.subsong, modinfo.path.c_str(), data.format.c_str(), data.author.c_str(), data.album.c_str(), data.filename.c_str());
-        if (!data.author.empty())
-            tuple.set_str(Tuple::Artist, data.author.c_str());
-        // prefer UADE codec names, but fall back to modland if not available
-        if (string_view(modinfo.format) == player::uade::UNKNOWN_CODEC)
-            tuple.set_str(Tuple::Codec, data.format.c_str());
-        if (!data.album.empty())
-            tuple.set_str(Tuple::Album, data.album.c_str());
-    } else if (songinfo.amp_data) {
-        const auto data = songinfo.amp_data.value();
-        TRACE("Found AMP data for %s:%d %s, author:%s, filename:%s\n", songinfo.md5.c_str(), songinfo.subsong, modinfo.path.c_str(), data.author.c_str(), data.filename.c_str());
-        if (!data.author.empty())
-            tuple.set_str(Tuple::Artist, data.author.c_str());
-    } else if (songinfo.unexotica_data) {
-        const auto data = songinfo.unexotica_data.value();
-        TRACE("Found UnExotica data for %s:%d %s, author:%s, album:%s, filename:%s\n", songinfo.md5.c_str(), songinfo.subsong, modinfo.path.c_str(),  data.author.c_str(), data.album.c_str(), data.filename.c_str());
-        if (!data.author.empty())
-            tuple.set_str(Tuple::Artist, data.author.c_str());
-        if (!data.album.empty())
-            tuple.set_str(Tuple::Album, data.album.c_str());
+        const auto &data = songinfo.modland_data.value();
+        TRACE("Found Modland data for %s:%d %s, author:%s, album:%s\n", md5.c_str(), songinfo.subsong, modinfo.path.c_str(),  data.author.c_str(), data.album.c_str());
+        set_str(Tuple::Album, data.album);
+        modland_path = has_author(data.author, 4);
+    }
+    bool amp_path = false;
+    if (songinfo.amp_data) {
+        const auto &data = songinfo.amp_data.value();
+        TRACE("Found AMP data for %s:%d %s, author:%s\n", md5.c_str(), songinfo.subsong, modinfo.path.c_str(), data.author.c_str());
+        amp_path = has_author(data.author, 2);
+    }
+    bool unexotica_path = false;
+    if (songinfo.unexotica_data) {
+        const auto &data = songinfo.unexotica_data.value();
+        const auto author_path = songdb::unexotica::author_path(data.author);
+        unexotica_path = has_author(author_path, 4);
+    }
+    if (modland_path) {
+        set_author(songinfo.modland_data->author);
+    } else if (amp_path) {
+        set_author(songinfo.amp_data->author);
+    } else if (unexotica_path) {
+        set_author(songinfo.unexotica_data->author);
     } else {
-        TRACE("No Modland/AMP/UnExotica data for %s %s\n", songinfo.md5.c_str(), modinfo.path.c_str());
+        if (songinfo.modland_data.has_value()) set_author(songinfo.modland_data->author);
+        if (songinfo.amp_data.has_value()) set_author(songinfo.amp_data->author);
+        if (songinfo.demozoo_data.has_value()) set_author(songinfo.demozoo_data->author);
+        if (songinfo.unexotica_data.has_value()) set_author(songinfo.unexotica_data->author);
     }
 }
 
@@ -150,9 +226,9 @@ bool update_tuple(Tuple &tuple, const string &path, int subsong, const player::M
             tuple.set_int(Tuple::Subtune, subsong);
             tuple.set_int(Tuple::Track, subsong);
         }
-        const auto songinfo = songdb::lookup(modulemd5.c_str(), subsong, info.path);
+        const auto songinfo = songdb::lookup(modulemd5.c_str(), subsong);
         if (songinfo) {
-            update_tuple_songdb(tuple, songinfo.value(), info);
+            update_tuple_songdb(tuple, path, songinfo.value(), info, modulemd5);
             return true;
         } else {
             TRACE("No songlength data for %s %s\n", modulemd5.c_str(), path.c_str());
@@ -161,7 +237,7 @@ bool update_tuple(Tuple &tuple, const string &path, int subsong, const player::M
     return false;
 }
 
-player::SongEnd precalc_song_end(
+common::SongEnd precalc_song_end(
     VFSFile &file,
     const player::ModuleInfo &info,
     int subsong,
@@ -299,13 +375,6 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
     string path, ext;
     parse_uri(uri, path, ext);
 
-    if (songdb::exists(path, file.fsize())) {
-        TRACE("uade_plugin_is_our_file accepted from songdb (%s,%zd) %s\n", path.c_str(), (ssize_t)file.fsize(), uri);
-        return true;
-    } else {
-        //TRACE("uade_plugin_is_our_file NOT accepted from songdb (%s,%lld) %s\n", name.c_str(), file.fsize(), uri);
-    }
-
     if (songdb::blacklist::is_blacklisted_extension(path, ext)) {
         TRACE("uade_plugin_is_our_file blacklisted %s\n", uri);
         return false;
@@ -375,8 +444,7 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
             const auto &songend = precalc_song_end(file, modinfo.value(), subsong, md5);
             update_tuple_song_end(tuple, songend, modinfo.value());
             // update songdb (runtime only) so next read_tag call doesn't precalc again
-            const songdb::SongInfo info = { md5, subsong, songend.length, songend.status_string(), file.fsize()};
-            songdb::update(info);
+            songdb::update(md5, subsong, songend.length, songend.status);
         }
     }
     return true;
@@ -438,7 +506,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
         WARN("Could not stop %s\n", uri);
     }
 
-    if (res.songend.status == player::SongEnd::ERROR) {
+    if (res.songend.status == common::SongEnd::ERROR) {
         ERR("Error playing %s\n", uri);
         return false;
     }

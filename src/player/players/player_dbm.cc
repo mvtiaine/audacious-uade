@@ -3,6 +3,7 @@
 
 #include <cassert>
 
+#include "common/common.h"
 #include "common/logger.h"
 #include "player/player.h"
 
@@ -14,6 +15,7 @@ struct DB3Module *DB3_LoadFromHandle(struct AbstractHandle *ah, int *errptr);
 }
 
 using namespace std;
+using namespace common;
 using namespace player;
 
 namespace {

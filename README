@@ -1,7 +1,7 @@
 This is Audacious (https://audacious-media-player.org/) input plugin for UADE (https://zakalwe.fi/uade/).
 
 Main features:
-- Song length and author database (see below)
+- Database for song lengths and author/album/publisher/year meta data (see below)
 - Player independent songend detection (similar to "deep songend scan" option in DeliPlayer for Windows)
 - Preferences UI for configuring UADE playback options etc.
 - Custom fork of UADE including support for additional formats not (yet) supported in official UADE releases:
@@ -12,7 +12,7 @@ Main features:
 - DigiBooster 3 and DigiBooster Pro 2 (http://www.digibooster.de/) support using the official portable replay
 - HivelyTracker (http://www.hivelytracker.co.uk/) support using the official portable replay
 
-Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/) and UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) are used as sources for precalculated song lengths and author/album meta data.
+Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
 In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
 
 Project is hosted at https://github.com/mvtiaine/audacious-uade
@@ -56,7 +56,7 @@ make -j check
 - Case sensitive filesystems may cause issues for formats with external samples
 - Tested on OSX and Linux
 - My custom Audacious playlist entry template:
-${?codec:[${codec}${?channels: (${channels}ch)}]} -  ${?artist:${artist}  -  }${?album:${album}  -  }${title}  ${?copyright:-  (${copyright})} ${?year:- (${year})} ${?subsong-id:${?subsong-num:-  [${subsong-id}/${subsong-num}]}}
+${?codec:[${codec}${?channels: (${channels}ch)}]}  -  ${?artist:${artist}  -  }${title}${?album: - (${album})} ${?copyright:-  (${copyright})}${?publisher:- (${publisher}) }${?year:- (${year}) }${?subsong-id:${?subsong-num:- [${subsong-id}/${subsong-num}]}}
 
 * License (source code)
 The project as a whole is licensed under GPL-2.0-or-later.
@@ -65,8 +65,7 @@ See src/3rdparty for 3rd party source code licenses.
 See https://zakalwe.fi/uade/ for UADE license information.
 
 * Some future plans (in no particular order)
-- Include UnExotica and Demozoo meta data in songdb (release date/year, author, "album", "publisher", OCS/AGA etc. info like you get with SIDs and SNDHs)
-- Automatic A500/A1200/None filter selection depending on format/year/etc. meta data
+- Automatic A500/A1200/None filter selection depending on format/year/platform (OCS/AGA/DOS) etc. meta data
 - Plugin support for GStreamer, Hollywood, ...
 - Support Haiku, AmigaOS/AROS/MorphOS, Win32, Wasix, ...
 - Add PC-tracker portable replays from 8bitbubsy (XM,IT,S3M,...)

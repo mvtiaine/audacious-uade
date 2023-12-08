@@ -6,20 +6,19 @@
 #include <cassert>
 #include <cstdint>
 #include <stdexcept>
+#include <vector>
 #ifdef __APPLE__
 #include "macos_endian.h"
-#define CONSTEXPR constexpr
 #else
 #include <endian.h>
-#define CONSTEXPR
 #endif
 
-namespace converter {
+namespace common {
 
 struct be_int32_t {
     constexpr be_int32_t() : be_val(0) {}
-    CONSTEXPR be_int32_t(const int32_t &val) : be_val(htobe32(val)) {}
-    CONSTEXPR operator int32_t() const {
+    be_int32_t(const int32_t &val) : be_val(htobe32(val)) {}
+    operator int32_t() const {
         return be32toh(be_val);
     }
     int32_t be_val;
@@ -27,8 +26,8 @@ struct be_int32_t {
 
 struct be_uint32_t {
     constexpr be_uint32_t() : be_val(0) {}
-    CONSTEXPR be_uint32_t(const uint32_t &val) : be_val(htobe32(val)) {}
-    CONSTEXPR operator uint32_t() const {
+    be_uint32_t(const uint32_t &val) : be_val(htobe32(val)) {}
+    operator uint32_t() const {
         return be32toh(be_val);
     }
     uint32_t be_val;
@@ -37,17 +36,17 @@ struct be_uint32_t {
 
 struct be_int16_t {
     constexpr be_int16_t() : be_val(0) {}
-    CONSTEXPR be_int16_t(const int16_t &val) : be_val(htobe16(val)) {}
-    CONSTEXPR operator int16_t() const {
+    be_int16_t(const int16_t &val) : be_val(htobe16(val)) {}
+    operator int16_t() const {
         return be16toh(be_val);
     }
     int16_t be_val;
 } __attribute__((packed));
 
 struct be_uint16_t {
-    constexpr be_uint16_t() : be_val(0) {}
-    CONSTEXPR be_uint16_t(const uint16_t &val) : be_val(htobe16(val)) {}
-    CONSTEXPR operator uint16_t() const {
+    be_uint16_t() : be_val(0) {}
+    be_uint16_t(const uint16_t &val) : be_val(htobe16(val)) {}
+    operator uint16_t() const {
         return be16toh(be_val);
     }
     uint16_t be_val;
@@ -144,4 +143,4 @@ inline void copyu8bytes(const std::vector<char> &buf, uint8_t *dst, size_t &offs
     offs += n;
 }
 
-} // namespace converter
+} // namespace common
