@@ -1,4 +1,4 @@
-0.11-dev
+0.11.0 - 2023-12-08
 - Songdb rewrite:
 -- Add author/album/publisher/year from Demozoo SQL export
 -- Add publisher/year from UnExotica
