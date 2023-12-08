@@ -65,6 +65,22 @@ AC_ARG_WITH([audacious-plugindir],
 AC_SUBST(AUDACIOUS_PLUGINDIR)
 AC_MSG_RESULT($AUDACIOUS_PLUGINDIR)
 
+saved_cxxflags="$CXXFLAGS"
+CXXFLAGS=-std=c++20
+AC_LANG_PUSH(C++)
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM([
+    #include <libaudcore/tuple.h>
+    int test() {
+      return Tuple::Publisher;
+    }
+  ])],
+  [AC_DEFINE([AUDACIOUS_HAS_PUBLISHER], [1], [Defined if Audacious version supports Publisher tuple.])],
+  []
+)
+AC_LANG_POP
+CXXFLAGS="$saved_cxxflags"
+
 if test "$build_linux" = "yes"
 then
   PKG_CHECK_MODULES([LIBBSD],[libbsd],

@@ -8,6 +8,6 @@
 namespace songend::precalc {
 
 bool allow_songend_error(const player::ModuleInfo &info);
-player::SongEnd precalc_song_end(const player::ModuleInfo &info, const char *buf, size_t size, int subsong, const std::string &md5hex);
+common::SongEnd precalc_song_end(const player::ModuleInfo &info, const char *buf, size_t size, int subsong, const std::string &md5hex);
 
 } // namespace songend::precalc

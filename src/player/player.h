@@ -12,6 +12,8 @@
 #include <type_traits>
 #include <utility>
 
+#include "common/common.h"
+
 namespace player {
 
 constexpr int MAGIC_SIZE = 4;
@@ -64,53 +66,13 @@ struct PlayerState {
     int pos_millis = 0;
 };
 
-struct SongEnd {
-    enum Status {
-        ERROR = -1,
-        NONE = 0,
-        PLAYER = 1,
-        TIMEOUT = 2,
-        DETECT_SILENCE = 3,
-        // these only with precalcing
-        DETECT_LOOP = 4,
-        DETECT_VOLUME = 5,
-        DETECT_REPEAT = 6,
-        PLAYER_PLUS_SILENCE = 7,
-        PLAYER_PLUS_VOLUME = 8,
-        LOOP_PLUS_SILENCE = 9,
-        LOOP_PLUS_VOLUME = 10,
-        NOSOUND = 11,
-    };
-    Status status;
-    int length = 0;
-
-    std::string status_string() const {
-        switch (status) {
-            case ERROR: return "error";
-            case NONE: return "none";
-            case PLAYER: return "player";
-            case TIMEOUT: return "timeout";
-            case DETECT_SILENCE: return "silence";
-            case DETECT_LOOP: return "loop";
-            case DETECT_VOLUME: return "volume";
-            case DETECT_REPEAT: return "repeat";
-            case PLAYER_PLUS_SILENCE: return "player+silence";
-            case PLAYER_PLUS_VOLUME: return "player+volume";
-            case LOOP_PLUS_SILENCE: return "loop+silence";
-            case LOOP_PLUS_VOLUME: return "loop+volume";
-            case NOSOUND: return "nosound";
-            default: assert(false); return "error";
-        }
-    }
-};
-
 void init();
 void shutdown();
 
 Player check(const char *path, const char *buf, size_t size);
 std::optional<ModuleInfo> parse(const char *path, const char *buf, size_t size);
 std::optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config);
-std::pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size);
+std::pair<common::SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size);
 bool stop(PlayerState &state);
 bool seek(PlayerState &state, int millis);
 
@@ -128,7 +90,7 @@ struct PlayerScope {
 };
 
 struct PlaybackResult {
-    SongEnd songend;
+    common::SongEnd songend;
     bool seeked;
     bool stopped;
 };

@@ -7,6 +7,7 @@
 #include "songend/detector.h"
 #include "songend/precalc.h"
 
+using namespace common;
 using namespace player;
 using namespace songend;
 using namespace songend::detector;

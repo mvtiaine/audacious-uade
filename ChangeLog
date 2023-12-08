@@ -1,5 +1,11 @@
 0.11-dev
+- Songdb rewrite:
+-- Add author/album/publisher/year from Demozoo SQL export
+-- Add publisher/year from UnExotica
+-- Support multiple authors from AMP
+-- Optimize songdb storage size and runtime memory usage
 - Avoid claiming C64 .sid files for UADE
+- Misc fixes and updates
 
 0.10.2 - 2023-11-19
 - Fix Debian build

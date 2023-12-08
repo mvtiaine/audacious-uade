@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cstdint>
 
+#include "common/common.h"
 #include "common/logger.h"
 #include "player/player.h"
 extern "C"
@@ -12,6 +13,7 @@ extern "C"
 }
 
 using namespace std;
+using namespace common;
 using namespace player;
 
 namespace {

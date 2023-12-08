@@ -6,10 +6,11 @@ noinst_LTLIBRARIES += \
 songdb_libsongdb_la_SOURCES = \
     songdb/songdb.h \
     songdb/songdb.cc \
-    songdb/amp.cc \
-    songdb/modland.cc \
-    songdb/unexotica.cc \
     songdb/blacklist.cc \
+    songdb/sources/amp.cc \
+    songdb/sources/demozoo.cc \
+    songdb/sources/modland.cc \
+    songdb/sources/unexotica.cc \
     common/common.h \
     common/extensions.h \
     common/logger.h

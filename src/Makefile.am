@@ -41,6 +41,7 @@ install-data-hook:
 # remove .la cruft
 	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade.la" || true
 	mkdir -p "$(DESTDIR)$(uadedir)"
+	rm -f "$(DESTDIR)$(uadedir)/songdb/"* || true
 	cp -rf "$(top_srcdir)/conf/songdb" "$(DESTDIR)$(uadedir)/"
 	cp -rf "$(top_srcdir)/conf/ext" "$(DESTDIR)$(uadedir)/"
 	mkdir -p "$(DESTDIR)$(uadedir)/doc"

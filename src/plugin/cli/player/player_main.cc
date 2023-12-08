@@ -8,6 +8,7 @@
 
 #include "player/player.h"
 
+using namespace common;
 using namespace player;
 using namespace std;
 

@@ -26,7 +26,7 @@ using namespace std;
 
 namespace {
 
-void print(const player::SongEnd &songend, int subsong, int minsubsong, vector<char> &buf, const char *path, bool includepath, const string &md5hex) {
+void print(const common::SongEnd &songend, int subsong, int minsubsong, vector<char> &buf, const char *path, bool includepath, const string &md5hex) {
     const auto reason = songend.status_string();
     if (subsong == minsubsong) {
         if (includepath) {
@@ -50,7 +50,7 @@ int player_songend(vector<char> &buf, const char *path, bool includepath, const 
     const int maxsubsong = info->maxsubsong;
     for (int subsong = minsubsong; subsong <= maxsubsong; subsong++) {
         auto songend = songend::precalc::precalc_song_end(info.value(), buf.data(), buf.size(), subsong, md5hex);
-        if (songend.status == player::SongEnd::ERROR && !songend::precalc::allow_songend_error(info.value())) {
+        if (songend.status == common::SongEnd::ERROR && !songend::precalc::allow_songend_error(info.value())) {
             songend.length = 0;
         }
         print(songend, subsong, minsubsong, buf, path, includepath, md5hex);

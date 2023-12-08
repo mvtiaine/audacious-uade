@@ -22,6 +22,7 @@ extern "C" {
 using namespace std;
 using namespace player;
 using namespace player::uade;
+using namespace common;
 
 namespace {
 
@@ -139,7 +140,7 @@ struct uade_file *sample_loader_wrapper(const char *name, const char *playerdir,
 
     struct uade_file *amiga_file = load(name);
     if (!amiga_file) {
-        vector<string> stokens = common::split(name, "/");
+        vector<string> stokens = split(name, "/");
         bool absolute = string(name).rfind('/', 0) == 0;
         if (stokens.size() >= 3 && stokens[0] != ".") {
             int cnt = 0;
@@ -150,9 +151,7 @@ struct uade_file *sample_loader_wrapper(const char *name, const char *playerdir,
             while (!amiga_file && cnt++ < 3) {
                 if (stokens.size() > 0) {
                     stokens.erase(stokens.end() - 1);
-                    const string parent = accumulate(begin(stokens), end(stokens), string(),[](const string &ss, const string &s) {
-                        return ss.empty() ? s : ss + "/" + s;
-                    });
+                    const string parent = mkString(stokens, "/");
                     const string newpath = (absolute ? "/" : "") + (parent.empty() ? sample : parent + "/" + sample);
                     amiga_file = load(newpath.c_str());
                 } else {
@@ -184,7 +183,7 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
     const string player = info->playerfname;
     TRACE("amiga_loader_wrapper name: %s player: %s\n", name, player.c_str());
 
-    const string fname = common::split(name, "/").back();
+    const string fname = split(name, "/").back();
     const auto key = pair(string(info->modulemd5),fname);
     if (bundled_extfiles.count(key)) {
         const auto bundled = bundled_extfiles.at(key);

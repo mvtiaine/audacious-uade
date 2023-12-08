@@ -16,6 +16,7 @@
 using namespace std;
 using namespace converter;
 using namespace converter::med;
+using namespace common;
 
 namespace {
 
