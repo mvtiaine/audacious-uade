@@ -274,6 +274,7 @@ const string make_string(const string_t s) {
 
 template <_Data_ T>
 optional<T> find(const vector<T> &db, const md5_t md5) {
+    if (md5 >= md5_idx.size()) return optional<T>();
     unsigned int idx = ((double)md5 / md5_idx.size()) * db.size();
     assert(idx < db.size());
     T val = db[idx];
