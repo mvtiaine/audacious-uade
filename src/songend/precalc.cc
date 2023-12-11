@@ -114,7 +114,7 @@ SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, i
     auto state = player::play(info.path.c_str(), buf, size, subsong, config);
     if (!state) {
         WARN("Could not play %s subsong %d md5 %s\n", info.path.c_str(), subsong, md5hex.c_str());
-        return {};
+        return { SongEnd::ERROR, 0 };
     }
 
     auto res = support::playback_loop(state.value(), config, check_stop, check_seek, write_audio);
