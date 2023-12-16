@@ -21,7 +21,7 @@ using namespace player;
 
 namespace {
 
-constexpr int mixBufSize(int frequency) {
+constexpr size_t mixBufSize(int frequency) {
     if (frequency > 96000) return 8192;
     else if (frequency > 48000) return 4096;
     else if (frequency > 24000) return 2048;
