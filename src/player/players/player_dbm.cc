@@ -10,6 +10,7 @@
 extern "C"
 {
 #include "3rdparty/replay/dbm/libdigibooster3.h"
+#include "3rdparty/replay/dbm/player.h"
 // expose method from loader.c
 struct DB3Module *DB3_LoadFromHandle(struct AbstractHandle *ah, int *errptr);
 }
@@ -177,6 +178,7 @@ bool restart(PlayerState &state) {
     assert(state.info.player == Player::dbm);
     const auto context = static_cast<DB3Context*>(state.context);
     assert(context);
+    msynth_reset((struct ModSynth *)context->engine, true);
     DB3_SetPos(context->engine, state.subsong, 0, 0);
 
     return true;
