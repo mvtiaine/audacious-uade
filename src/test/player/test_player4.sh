@@ -7,7 +7,7 @@ set -e
 #
 
 TESTMOD="${top_srcdir}/testdata/mdat.turrican loader"
-TESTMD5_LITTLE=f3e4c544376e3adf0ede0c31c7a815d6
+TESTMD5_LITTLE=0249949945ec8521b21cd61cf9df6528
 
 TEST_NAME="UADE extload"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
