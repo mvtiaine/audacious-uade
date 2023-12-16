@@ -198,6 +198,7 @@ void create_string_pool(const set<string> &strings) {
 }
 
 md5_t dedup_md5(const string &md5) {
+    if (md5_idx.size() == 0) return MD5_NOT_FOUND;
     assert(md5.size() == 12 || md5.size() == 32);
     const hash_t hash = stoul(md5.substr(0, 12), 0, 16);
     unsigned int idx = ((double)hash / HASH_T_MAX) * md5_idx.size();
