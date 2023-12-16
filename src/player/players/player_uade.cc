@@ -26,6 +26,14 @@ using namespace common;
 
 namespace {
 
+constexpr int mixBufSize(int frequency) {
+    if (frequency > 96000) return 8192;
+    else if (frequency > 48000) return 4096;
+    else if (frequency > 24000) return 2048;
+    else if (frequency > 12000) return 1024;
+    else return 512;
+}
+
 struct uade_context {
     uade_state *state;
     bool initialized = false;
@@ -539,13 +547,14 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) {
+    assert(size >= mixBufSize(state.frequency));
     assert(state.info.player == Player::uade);
     const auto context = static_cast<uade_context*>(state.context);
     assert(context);
     assert(context->state);
     uade_notification n;
     SongEnd::Status status = SongEnd::NONE;
-    ssize_t nbytes = uade_read(buf, size, context->state);
+    ssize_t nbytes = uade_read(buf, mixBufSize(state.frequency), context->state);
     while (uade_read_notification(&n, context->state)) {
         switch (n.type) {
             case UADE_NOTIFICATION_MESSAGE:

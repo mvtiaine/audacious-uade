@@ -16,8 +16,8 @@
 
 namespace player {
 
-constexpr int MAGIC_SIZE = 4;
-constexpr int MIXBUFSIZE = 8192;
+constexpr int MAGIC_SIZE = 16;
+constexpr int MAX_MIXBUFSIZE = 65536;
 
 constexpr int PRECALC_FREQ = 8000;
 constexpr int PRECALC_FREQ_UADE = 8062;

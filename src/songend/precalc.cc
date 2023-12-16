@@ -106,8 +106,8 @@ SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, i
          detector.update(mixbuf, size);
     };
 
-    const player::PlayerConfig player_config = { frequency, 0, std::endian::native, true };
-    player::uade::UADEConfig uade_config = {{ frequency, 0, std::endian::native, true }};
+    const player::PlayerConfig player_config = { frequency, 0, endian::native, true };
+    player::uade::UADEConfig uade_config = {{ frequency, 0, endian::native, true }};
     uade_config.silence_timeout = SILENCE_TIMEOUT;
     const auto &config = info.player == player::Player::uade ? uade_config : player_config;
 

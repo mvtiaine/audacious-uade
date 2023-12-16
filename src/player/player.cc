@@ -148,19 +148,21 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     assert(initialized);
     assert(state.info.player != Player::NONE);
     assert(buf);
-    assert(size == MIXBUFSIZE);
+    assert(size <= MAX_MIXBUFSIZE);
     pair<SongEnd::Status,size_t> res = pair(SongEnd::ERROR, 0);
-    vector<char> tmpbuf(MIXBUFSIZE);
+    vector<char> tmpbuf;
     char *mixbuf;
     if (!state.swap_endian) {
         mixbuf = buf;
     } else {
+        tmpbuf.resize(MAX_MIXBUFSIZE);
         mixbuf = tmpbuf.data();
     }
     SWITCH_PLAYER(state.info.player, res,
         render(state, mixbuf, size)
     )
     assert(res.second % 2 == 0);
+    assert(res.second <= MAX_MIXBUFSIZE);
     const size_t bytespersec = 4 * state.frequency;
     state.pos_millis += res.second * 1000 / bytespersec;
 
@@ -192,7 +194,7 @@ bool seek(PlayerState &state, int millis) {
     // use UADEs own seek as it doesn't support "restart"
     if (state.info.player == Player::uade) return uade::seek(state, millis);
 
-    char dummybuf[MIXBUFSIZE];
+    char dummybuf[MAX_MIXBUFSIZE];
     if (millis < state.pos_millis) {
         bool res = restart(state);
         if (!res) {
@@ -228,7 +230,7 @@ PlaybackResult playback_loop(
     const function<int(void)> check_seek,
     const function<void(char *, int)> write_audio) {
 
-    char buffer[MIXBUFSIZE];
+    char buffer[MAX_MIXBUFSIZE];
     SongEnd songend;
     songend.status = SongEnd::TIMEOUT;
     songend.length = PRECALC_TIMEOUT;
@@ -257,8 +259,7 @@ PlaybackResult playback_loop(
         if (res.second > 0 && res.first != SongEnd::ERROR) {
             // ignore "tail bytes" to avoid pop in end of audio if song restarts
             // messing up with silence/volume trimming etc.
-            // TODO check if needed for non-UADE cases
-            if (state.info.player != Player::uade || res.first == SongEnd::NONE || totalbytes == 0) {
+            if (!config.probe || res.first == SongEnd::NONE || totalbytes == 0) {
                 write_audio(buffer, res.second);
                 totalbytes += res.second;
             }

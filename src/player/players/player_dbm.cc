@@ -21,6 +21,14 @@ using namespace player;
 
 namespace {
 
+constexpr int mixBufSize(int frequency) {
+    if (frequency > 96000) return 8192;
+    else if (frequency > 48000) return 4096;
+    else if (frequency > 24000) return 2048;
+    else if (frequency > 12000) return 1024;
+    else return 512;
+}
+
 struct DB3Context {
     void *engine;
     DB3Module *module;
@@ -123,7 +131,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         subsong = 0;
     }
 
-    int frames = MIXBUFSIZE / 4;
+    int frames = mixBufSize(config.frequency) / 4;
     void *engine = DB3_NewEngine(mod, config.frequency, frames);
     if (!engine) {
         DB3_Unload(mod);
@@ -165,11 +173,12 @@ bool stop(PlayerState &state) {
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) {
+    assert(size >= mixBufSize(state.frequency));
     assert(state.info.player == Player::dbm);
     const auto context = static_cast<DB3Context*>(state.context);
     assert(context);
-    size_t totalbytes = DB3_Mix(context->engine, size / 4, (int16_t*)buf) * 4;
-    bool songend = context->songend || totalbytes < size;
+    size_t totalbytes = DB3_Mix(context->engine, mixBufSize(state.frequency) / 4, (int16_t*)buf) * 4;
+    bool songend = context->songend || totalbytes < mixBufSize(state.frequency);
 
     return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
 }

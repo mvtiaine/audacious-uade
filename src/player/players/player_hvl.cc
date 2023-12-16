@@ -18,6 +18,14 @@ using namespace player;
 
 namespace {
 
+constexpr int mixBufSize(int frequency) {
+    if (frequency > 96000) return 16384;
+    else if (frequency > 48000) return 8192;
+    else if (frequency > 24000) return 4096;
+    else if (frequency > 12000) return 2048;
+    else return 1024;
+}
+
 ModuleInfo get_info(const string &path, struct hvl_tune *ht) {
     const int maxsubsong = ht->ht_SubsongNr;
     const int channels = ht->ht_Channels;
@@ -88,6 +96,7 @@ bool stop(PlayerState &state) {
 }
 
 pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) {
+    assert(size >= mixBufSize(state.frequency));
     assert(state.info.player == Player::hvl);
     auto ht = static_cast<struct hvl_tune*>(state.context);
     assert(ht);
@@ -95,7 +104,7 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     size_t totalbytes = 0;
     int8_t *mixbuf = (int8_t*)buf;
     size_t framelen = state.frequency*2*2/50;
-    while (!songend && totalbytes + framelen <= size) {
+    while (!songend && totalbytes + framelen <= mixBufSize(state.frequency)) {
         hvl_DecodeFrame(ht, mixbuf, mixbuf + 2, 4);
         totalbytes += framelen;
         songend = ht->ht_SongEndReached;
