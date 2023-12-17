@@ -17,10 +17,8 @@
 namespace player {
 
 constexpr int MAGIC_SIZE = 16;
-constexpr int MAX_MIXBUFSIZE = 65536;
 
-constexpr int PRECALC_FREQ = 8000;
-constexpr int PRECALC_FREQ_UADE = 8062;
+constexpr int PRECALC_FREQ = 8062;
 constexpr int PRECALC_TIMEOUT = 3600;
 
 constexpr int SILENCE_TIMEOUT = 30;
@@ -63,6 +61,7 @@ struct PlayerState {
     bool swap_endian;
     void *context;
     bool stereo;
+    size_t buffer_size;
     int pos_millis = 0;
 };
 

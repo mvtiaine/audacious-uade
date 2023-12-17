@@ -26,12 +26,8 @@ using namespace common;
 
 namespace {
 
-constexpr size_t mixBufSize(int frequency) {
-    if (frequency > 96000) return 8192;
-    else if (frequency > 48000) return 4096;
-    else if (frequency > 24000) return 2048;
-    else if (frequency > 12000) return 1024;
-    else return 512;
+constexpr size_t mixBufSize(const int frequency) {
+    return 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
 }
 
 struct uade_context {
@@ -267,7 +263,7 @@ uade_state *create_uade_probe_state() {
     uade_common_options(uc);
     uade_config_set_option(uc, UC_SUBSONG_TIMEOUT_VALUE, to_string(PRECALC_TIMEOUT).c_str());
     uade_config_set_option(uc, UC_SILENCE_TIMEOUT_VALUE,to_string(SILENCE_TIMEOUT).c_str());
-    uade_config_set_option(uc, UC_FREQUENCY, to_string(PRECALC_FREQ_UADE).c_str());
+    uade_config_set_option(uc, UC_FREQUENCY, to_string(PRECALC_FREQ).c_str());
     uade_config_set_option(uc, UC_FILTER_TYPE, "none");
     uade_config_set_option(uc, UC_RESAMPLER, "none");
     uade_config_set_option(uc, UC_PANNING_VALUE, "1");
@@ -532,7 +528,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
             assert(minsubsong <= maxsubsong);
             // TODO channels
             const ModuleInfo modinfo = {Player::uade, format, path, minsubsong, maxsubsong, info->subsongs.def, 0};
-            PlayerState state = {modinfo, subsong, config.frequency, config.endian != endian::native, context, false, 0};
+            PlayerState state = {modinfo, subsong, config.frequency, config.endian != endian::native, context, !config.probe, mixBufSize(config.frequency), 0};
             return state;
         }
         default:
@@ -547,8 +543,8 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) {
-    assert(size >= mixBufSize(state.frequency));
     assert(state.info.player == Player::uade);
+    assert(size >= mixBufSize(state.frequency));
     const auto context = static_cast<uade_context*>(state.context);
     assert(context);
     assert(context->state);

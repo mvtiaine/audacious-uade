@@ -21,12 +21,8 @@ using namespace player;
 
 namespace {
 
-constexpr size_t mixBufSize(int frequency) {
-    if (frequency > 96000) return 8192;
-    else if (frequency > 48000) return 4096;
-    else if (frequency > 24000) return 2048;
-    else if (frequency > 12000) return 1024;
-    else return 512;
+constexpr size_t mixBufSize(const int frequency) {
+    return 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
 }
 
 struct DB3Context {
@@ -144,7 +140,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     context->module = mod;
 
     const auto &info = get_info(path, mod);
-    PlayerState state = {info, subsong, config.frequency, config.endian != endian::native, context, true, 0};
+    PlayerState state = {info, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
 
     assert(subsong >= 0 && subsong <= mod->NumSongs - 1);
     DB3_SetPos(engine, subsong, 0, 0);
@@ -173,8 +169,8 @@ bool stop(PlayerState &state) {
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) {
-    assert(size >= mixBufSize(state.frequency));
     assert(state.info.player == Player::dbm);
+    assert(size >= mixBufSize(state.frequency));
     const auto context = static_cast<DB3Context*>(state.context);
     assert(context);
     size_t totalbytes = DB3_Mix(context->engine, mixBufSize(state.frequency) / 4, (int16_t*)buf) * 4;

@@ -7,7 +7,7 @@ set -e
 #
 
 TESTMOD=${top_srcdir}/testdata/tomaatti.dbm
-TESTMD5_LITTLE=e149f7b5210d61cb13083f5cd6641c9f
+TESTMD5_LITTLE=3bc10b4aaa678ac37bf724e1a5818911
 
 TEST_NAME="libdigibooster3"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"

@@ -148,21 +148,21 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     assert(initialized);
     assert(state.info.player != Player::NONE);
     assert(buf);
-    assert(size <= MAX_MIXBUFSIZE);
+    assert(size >= state.buffer_size);
     pair<SongEnd::Status,size_t> res = pair(SongEnd::ERROR, 0);
     vector<char> tmpbuf;
     char *mixbuf;
     if (!state.swap_endian) {
         mixbuf = buf;
     } else {
-        tmpbuf.resize(MAX_MIXBUFSIZE);
+        tmpbuf.resize(size);
         mixbuf = tmpbuf.data();
     }
     SWITCH_PLAYER(state.info.player, res,
         render(state, mixbuf, size)
     )
     assert(res.second % 2 == 0);
-    assert(res.second <= MAX_MIXBUFSIZE);
+    assert(res.second <= size);
     const size_t bytespersec = 4 * state.frequency;
     state.pos_millis += res.second * 1000 / bytespersec;
 
@@ -194,7 +194,7 @@ bool seek(PlayerState &state, int millis) {
     // use UADEs own seek as it doesn't support "restart"
     if (state.info.player == Player::uade) return uade::seek(state, millis);
 
-    char dummybuf[MAX_MIXBUFSIZE];
+    char dummybuf[state.buffer_size];
     if (millis < state.pos_millis) {
         bool res = restart(state);
         if (!res) {
@@ -230,7 +230,7 @@ PlaybackResult playback_loop(
     const function<int(void)> check_seek,
     const function<void(char *, int)> write_audio) {
 
-    char buffer[MAX_MIXBUFSIZE];
+    char buffer[state.buffer_size];
     SongEnd songend;
     songend.status = SongEnd::TIMEOUT;
     songend.length = PRECALC_TIMEOUT;
@@ -257,12 +257,8 @@ PlaybackResult playback_loop(
         }
         const auto res = render(state, buffer, sizeof buffer);
         if (res.second > 0 && res.first != SongEnd::ERROR) {
-            // ignore "tail bytes" to avoid pop in end of audio if song restarts
-            // messing up with silence/volume trimming etc.
-            if (!config.probe || res.first == SongEnd::NONE || totalbytes == 0) {
-                write_audio(buffer, res.second);
-                totalbytes += res.second;
-            }
+            write_audio(buffer, res.second);
+            totalbytes += res.second;
         }
 
         if (res.first == SongEnd::ERROR) {

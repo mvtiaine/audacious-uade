@@ -7,8 +7,8 @@ set -e
 #
 
 TESTMOD=${top_srcdir}/testdata/chipsong.med
-TESTMD5_BIG=ed0b58caf1944307cf346f202398ec76
-TESTMD5_LITTLE=88995d09b0fd1fb0efc611bcd7d1c3de
+TESTMD5_BIG=58e92a4b6be4ca25ccc7bebbc1de61b8
+TESTMD5_LITTLE=109e14e01fffcad9cf8084bd7b29526f
 
 TEST_NAME="UADE native endian + converted"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"

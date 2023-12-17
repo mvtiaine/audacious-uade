@@ -17,14 +17,14 @@
 using namespace songend;
 using namespace std;
 
-constexpr ssize_t MINLENGTH = player::PRECALC_FREQ_UADE * 2 * 2 * (player::PRECALC_TIMEOUT - 1);
+constexpr ssize_t MINLENGTH = player::PRECALC_FREQ * 2 * 2 * (player::PRECALC_TIMEOUT - 1);
 
 int main(int /*argc*/, char *[]/*argv[]*/) {
     char buf[4096];
     ssize_t total = 0;
     ssize_t count;
 
-    detector::SongEndDetector detector(player::PRECALC_FREQ_UADE, false, endian::native);
+    detector::SongEndDetector detector(player::PRECALC_FREQ, false, endian::native);
 
     if (!freopen(NULL, "rb", stdin)) {
         fprintf(stderr, "Failed to freopen(rb) stdin\n");

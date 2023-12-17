@@ -100,7 +100,7 @@ bool allow_songend_error(const ModuleInfo &info) {
 SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, int subsong, const string &md5hex) {
     const auto check_stop = []() { return false; };
     const auto check_seek = []() { return -1; };
-    int frequency = info.player == player::Player::uade ? PRECALC_FREQ_UADE : PRECALC_FREQ;
+    const int frequency = PRECALC_FREQ;
     SongEndDetector detector(frequency, info.player != Player::uade, endian::native);
     const auto write_audio = [&detector](char *mixbuf, int size) {
          detector.update(mixbuf, size);

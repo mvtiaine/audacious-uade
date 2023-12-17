@@ -17,7 +17,7 @@ MD5=${top_builddir}/src/test/md5
 CONVERTER=${top_builddir}/src/plugin/cli/converter/converter
 PRECALC="${top_builddir}/src/plugin/cli/precalc/precalc"
 SONGEND="${top_builddir}/src/plugin/cli/songend/songend"
-PLAYER="${top_builddir}/src/plugin/cli/player/player 8000"
+PLAYER="${top_builddir}/src/plugin/cli/player/player 8062"
 SONGDB_BIN=${top_builddir}/src/plugin/cli/songdb/songdb
 SONGDB_DIR=${top_srcdir}/conf/songdb
 

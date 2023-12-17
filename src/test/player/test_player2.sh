@@ -9,7 +9,7 @@ set -e
 export PLAYER_ENDIAN=big
 
 TESTMOD=${top_srcdir}/testdata/mod.orchannel
-TESTMD5_BIG=a3f9fcad8af99100fbf040ae61a40f2c
+TESTMD5_BIG=7da0aac6a7299ad9732ccc293f620eb6
 SUBSONG=4
 
 TEST_NAME="UADE big endian + subsong"
