@@ -122,8 +122,8 @@ enum class Resampler {
 // TODO set default audacious config based on this
 struct UADEConfig : PlayerConfig {
     Player player = Player::uade;
-    Filter filter = Filter::A500;
-    Resampler resampler = Resampler::DEFAULT;
+    Filter filter = Filter::A1200;
+    Resampler resampler = Resampler::SINC;
     std::optional<bool> force_led = {};
     bool headphones = false;
     bool headphones2 = false;
