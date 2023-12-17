@@ -24,14 +24,17 @@ case class TsvEntry (
   subsong: Int,
   songlength: Int,
   songend: String,
+  player: String,
+  format: String,
+  channels: Int,
   filesize: Int,
   path: String,
 )
 
 lazy val tsvs = tsvfiles.par.map(tsv => (tsv._2, Using(scala.io.Source.fromFile(s"sources/${tsv._1}"))(_.getLines.map(line =>
   val l = line.split("\t")
-  if (l.length > 5) TsvEntry(l(0), l(1).toInt, l(2).toInt, l(3), l(4).toInt, l(5))
-  else TsvEntry(l(0), l(1).toInt, l(2).toInt, l(3), -1, "")
+  if (l.length > 8) TsvEntry(l(0), l(1).toInt, l(2).toInt, l(3), l(4), l(5), l(6).toInt, l(7).toInt, l(8))
+  else TsvEntry(l(0), l(1).toInt, l(2).toInt, l(3), l(4), l(5), l(6).toInt, -1, "")
 ).toBuffer).get.groupBy(_.md5))).seq
 
 case class SourceDBEntry (

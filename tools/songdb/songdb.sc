@@ -32,6 +32,8 @@ val songlengthsTsv = Future { Files.write(Paths.get("/tmp/songdb/songlengths.tsv
   songlengths.db.sortBy(_.md5).map(e =>
     Buffer(
       _md5(e.md5),
+      e.format,
+      e.channels,
       e.minsubsong,
       e.subsongs.sortBy(_.subsong).map(s =>
         assert(s.songlength >= 0)

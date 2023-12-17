@@ -11,6 +11,7 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <tuple>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -124,6 +125,11 @@ struct _Data {
 } __attribute__((packed));
 template <typename T>
 concept _Data_ = is_base_of<_Data, T>::value;
+
+struct _ModInfo {
+    string_t format;
+    uint8_t channels;
+} __attribute__((packed));
 
 struct _ModlandData : _Data {
     string_t author;
@@ -260,7 +266,8 @@ const vector<pair<string, Source>> tsvfiles ({
 });
 
 vector<vector<_SongInfo>> db_songlengths; // md5_t ->
-map<hash_t, vector<_SongInfo>> extra_songlengths; // runtime only
+vector<_ModInfo> db_modinfos; // md5_t ->
+map<hash_t, tuple<string, uint8_t, vector<_SongInfo>>> extra_songlengths; // runtime only
 vector<_ModlandData> db_modland;
 vector<_AMPData> db_amp;
 vector<_UnExoticaData> db_unexotica;
@@ -344,11 +351,13 @@ optional<DemozooData> make_demozoo(const md5_t md5) {
     return {};
 }
 
-SongInfo make_info(const md5_t md5, const _SongInfo &info) {
+SongInfo make_info(const md5_t md5, const string &format, const uint8_t channels, const _SongInfo &info) {
     return {
         info.subsong,
         info.songlength,
         common::SongEnd::status_string(info.songend),
+        format,
+        channels,
         make_modland(md5),
         make_amp(md5),
         make_unexotica(md5),
@@ -356,7 +365,7 @@ SongInfo make_info(const md5_t md5, const _SongInfo &info) {
     };
 }
 
-void parse_songlengths(const string &tsv) {
+void parse_songlengths(const string &tsv, set<string> &strings) {
     ifstream songdbtsv(tsv, ios::in);
     if (!songdbtsv.is_open()) {
         ERR("Could not open songdb file %s\n", tsv.c_str());
@@ -374,6 +383,8 @@ void parse_songlengths(const string &tsv) {
         assert(hash > prevhash);
         md5s.insert(hash);
         prevhash = hash;
+        const auto &format = cols[1];
+        strings.insert(format);
     }
 
     create_md5_idx(md5s);
@@ -385,8 +396,8 @@ void parse_songlengths(const string &tsv) {
     while (getline(songdbtsv, line)) {
         const auto cols = common::split(line, "\t");
         const auto md5 = cols[0];
-        const uint8_t minsubsong = stoi(cols[1]);
-        const auto subsongs = common::split(cols[2], " ");
+        const uint8_t minsubsong = stoi(cols[2]);
+        const auto subsongs = common::split(cols[3], " ");
         uint8_t subsong = minsubsong;
         vector<_SongInfo> infos;
         for (const auto &col : subsongs) {
@@ -394,13 +405,12 @@ void parse_songlengths(const string &tsv) {
             const uint24_t songlength = stoi(e[0]);
             const auto songend = parse_songend(e[1]);
             infos.push_back({ subsong++, songlength, songend});
-        }       
+        }
         db_songlengths.push_back(infos);
     }
 }
 
-void parse_strings(const string &songdb_path, const vector<pair<string, Source>> tsvfiles) {
-    set<string> strings;
+void parse_strings(const string &songdb_path, const vector<pair<string, Source>> tsvfiles, set<string> strings) {
     for (const auto &tsv : tsvfiles) {
         ifstream songdbtsv(songdb_path + "/" + tsv.first, ios::in);
         if (!songdbtsv.is_open()) {
@@ -448,7 +458,6 @@ void parse_strings(const string &songdb_path, const vector<pair<string, Source>>
             }
         }
     }
-    create_string_pool(strings);
 }
 
 void parse_tsv(const string &tsv, const Source source) {
@@ -524,6 +533,27 @@ void parse_tsv(const string &tsv, const Source source) {
     };
 }
 
+void parse_modinfos(const string &tsv) {
+    ifstream songdbtsv(tsv, ios::in);
+    if (!songdbtsv.is_open()) {
+        ERR("Could not open songdb file %s\n", tsv.c_str());
+        return;
+    }
+    string line;
+    uint32_t i = 0;
+    while (getline(songdbtsv, line)) {
+        const auto cols = common::split(line, "\t");
+        assert(cols.size() == 3);
+        const auto &md5 = cols[0];
+        assert(dedup_md5(md5) == md5_t {i++});
+        const auto &format = cols[1];
+        const auto fmt = dedup_string(format);
+        const uint8_t channels = stoi(cols[2]);
+        const _ModInfo info = {fmt, channels};
+        db_modinfos.push_back(info);
+    }
+}
+
 } // namespace {}
 
 namespace songdb {
@@ -533,15 +563,19 @@ optional<SongInfo> lookup(const string &md5, int subsong) {
     if (md5_t != MD5_NOT_FOUND) { 
         for (const auto &info : db_songlengths[md5_t]) {
             if (info.subsong == subsong) {
-                return make_info(md5_t, info);
+                const auto &modinfo = db_modinfos[md5_t];
+                return make_info(md5_t, make_string(modinfo.format), modinfo.channels, info);
             }
         }
     }
     const hash_t hash = stoul(md5.substr(0, 12), 0, 16);
     if (extra_songlengths.contains(hash)) {
-        for (const auto &info : extra_songlengths[hash]) {
+        const auto &tuple = extra_songlengths[hash];
+        const auto &format = get<0>(tuple);
+        const auto channels = get<1>(tuple);
+        for (const auto &info : get<2>(tuple)) {
             if (info.subsong == subsong) {
-                return make_info(md5_t, info);
+                return make_info(md5_t, format, channels, info);
             }
         }
     }
@@ -551,9 +585,10 @@ optional<SongInfo> lookup(const string &md5, int subsong) {
 vector<SongInfo> lookup_all(const string &md5) {
     const auto md5_t = dedup_md5(md5);
     if (md5_t != MD5_NOT_FOUND) {        
+        const auto &modinfo = db_modinfos[md5_t];
         vector<SongInfo> res;
         for (const auto &i : db_songlengths[md5_t]) {
-            res.push_back(make_info(md5_t, i));
+            res.push_back(make_info(md5_t, make_string(modinfo.format), modinfo.channels, i));
         }
         return res;
     }
@@ -564,8 +599,12 @@ void init(const string &songdb_path) {
     if (initialized) {
         return;
     }
-    parse_songlengths(songdb_path + "/songlengths.tsv");
-    parse_strings(songdb_path, tsvfiles);
+    set<string> strings;
+    parse_songlengths(songdb_path + "/songlengths.tsv", strings);
+    parse_strings(songdb_path, tsvfiles, strings);
+    create_string_pool(strings);
+
+    parse_modinfos(songdb_path + "/songlengths.tsv");
 
     for (const auto &tsv : tsvfiles) {
         parse_tsv(songdb_path + "/" + tsv.first, tsv.second);
@@ -579,7 +618,7 @@ void init(const string &songdb_path) {
     initialized = true;
 }
 
-void update(const string &md5, const int subsong, const int songlength, common::SongEnd::Status songend) {
+void update(const string &md5, const int subsong, const int songlength, common::SongEnd::Status songend, const string &format, const int channels) {
     if (md5.empty() || subsong < 0 || subsong > 255) {
         WARN("Invalid songdb key md5:%s subsong:%d\n", md5.c_str(), subsong);
         return;
@@ -596,7 +635,8 @@ void update(const string &md5, const int subsong, const int songlength, common::
 
     _SongInfo info = { static_cast<subsong_t>(subsong), static_cast<songlength_t>(songlength), songend };
     if (extra_songlengths.contains(hash)) {
-        auto &infos = extra_songlengths[hash];
+        auto &entry = extra_songlengths[hash];
+        auto &infos = get<2>(entry);
         for (const auto &info : infos) {
             if (info.subsong == subsong) {
                 WARN("Skipped songdb update for %s:%d, already exists\n", md5.c_str(), subsong);
@@ -607,7 +647,7 @@ void update(const string &md5, const int subsong, const int songlength, common::
     } else {
         vector<_SongInfo> infos;
         infos.push_back(info);
-        extra_songlengths.insert({hash, infos});
+        extra_songlengths.insert({hash, {format, channels, infos}});
     }
 }
 
