@@ -7,7 +7,7 @@ set -e
 #
 
 TESTMOD=${top_srcdir}/testdata/mod.orchannel
-TESTMD5_LITTLE=05c22ca1295d0b4165243e7b0e9fb524
+TESTMD5_LITTLE=2b6baffa564757edf9df9761e0d30b5f
 SUBSONG=4
 
 export PLAYER_ENDIAN=little

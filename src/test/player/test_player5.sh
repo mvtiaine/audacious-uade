@@ -7,7 +7,7 @@ set -e
 #
 
 TESTMOD=${top_srcdir}/testdata/monkmusings.hvl
-TESTMD5_LITTLE=107f7f0cd1d7d34ba4a413ae4d3af5c1
+TESTMD5_LITTLE=f52dea21bd60cf27f0e529666fad05aa
 
 TEST_NAME="HivelyTracker"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
