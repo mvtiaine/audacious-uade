@@ -31,6 +31,14 @@ using namespace std;
 
 namespace {
 
+struct Info {
+    player::Player player;
+    std::string format;
+    int channels;
+    int minsubsong;
+    int maxsubsong;
+};
+
 void fseek0(VFSFile &file) {
     if (file.fseek(0, VFS_SEEK_SET)) {
         WARN("uade_plugin could not seek %s\n", file.filename());
@@ -74,12 +82,12 @@ int parse_uri(const char *uri, string &path, string &ext) {
     return strlen(sub) > 0 ? subsong : -1;
 }
 
-void update_tuple_song_end(Tuple &tuple, const common::SongEnd &songend, const player::ModuleInfo &info) {
+void update_tuple_song_end(Tuple &tuple, const common::SongEnd &songend, const string &format) {
     const auto status = songend.status;
     const auto comment = "songend=" + songend.status_string();
     tuple.set_str(Tuple::Comment, comment.c_str());
     if (songend.length > 0 && status != common::SongEnd::NOSOUND &&
-        (status != common::SongEnd::ERROR || songend::precalc::allow_songend_error(info))) {
+        (status != common::SongEnd::ERROR || songend::precalc::allow_songend_error(format))) {
         tuple.set_int(Tuple::Length, songend.length);
     }
 }
@@ -93,8 +101,8 @@ void update_tuple_subsong_range(Tuple &tuple, int minsubsong, int maxsubsong) {
     tuple.set_subtunes(subtunes.len(), subtunes.begin());
 }
 
-void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInfo &songinfo, const player::ModuleInfo &modinfo, const string &md5) {
-    TRACE("Found songlength data for %s:%d %s, length:%d, status:%s\n", md5.c_str(), songinfo.subsong, modinfo.path.c_str(), songinfo.songlength, songinfo.songend.c_str());
+void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInfo &songinfo, const Info &info, const string &md5) {
+    TRACE("Found songlength data for %s:%d %s, length:%d, status:%s\n", md5.c_str(), songinfo.subsong, path.c_str(), songinfo.songlength, songinfo.songend.c_str());
     const auto set_str = [&tuple](Tuple::Field field, const string &value) {
         if (!tuple.is_set(field) && !value.empty()) {
             tuple.set_str(field, value.c_str());
@@ -110,13 +118,13 @@ void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInf
     set_str(Tuple::Comment, "songend="+songinfo.songend);
 
     if (!songinfo.demozoo_data && !songinfo.modland_data && !songinfo.amp_data && !songinfo.unexotica_data) {
-        TRACE("No Demozoo/Modland/UnExotica/AMP data for %s %s\n", md5.c_str(), modinfo.path.c_str());
+        TRACE("No Demozoo/Modland/UnExotica/AMP data for %s %s\n", md5.c_str(), path.c_str());
         return;
     }
 
     if (songinfo.unexotica_data) {
         const auto &data = songinfo.unexotica_data.value();
-        TRACE("Found UnExotica data for %s:%d %s, author:%s, album:%s, publisher:%s, year:%d\n", md5.c_str(), songinfo.subsong, modinfo.path.c_str(),  data.author.c_str(), data.album.c_str(), data.publisher.c_str(), data.year);
+        TRACE("Found UnExotica data for %s:%d %s, author:%s, album:%s, publisher:%s, year:%d\n", md5.c_str(), songinfo.subsong, path.c_str(), data.author.c_str(), data.album.c_str(), data.publisher.c_str(), data.year);
         //set_author(data.author); // prefer other sources
         set_str(Tuple::Album, data.album);
 #if AUDACIOUS_HAS_PUBLISHER
@@ -129,7 +137,7 @@ void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInf
     }
     if (songinfo.demozoo_data) {
         const auto &data = songinfo.demozoo_data.value();
-        TRACE("Found Demozoo data for %s:%d %s, author:%s, album:%s, publisher:%s, year:%d\n", md5.c_str(), songinfo.subsong, modinfo.path.c_str(),  data.author.c_str(), data.album.c_str(), data.publisher.c_str(), data.year);
+        TRACE("Found Demozoo data for %s:%d %s, author:%s, album:%s, publisher:%s, year:%d\n", md5.c_str(), songinfo.subsong, path.c_str(), data.author.c_str(), data.album.c_str(), data.publisher.c_str(), data.year);
         //set_author(data.author); // prefer other sources
         set_str(Tuple::Album, data.album);
 #if AUDACIOUS_HAS_PUBLISHER
@@ -173,14 +181,14 @@ void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInf
     bool modland_path = false;
     if (songinfo.modland_data) {
         const auto &data = songinfo.modland_data.value();
-        TRACE("Found Modland data for %s:%d %s, author:%s, album:%s\n", md5.c_str(), songinfo.subsong, modinfo.path.c_str(),  data.author.c_str(), data.album.c_str());
+        TRACE("Found Modland data for %s:%d %s, author:%s, album:%s\n", md5.c_str(), songinfo.subsong, path.c_str(), data.author.c_str(), data.album.c_str());
         set_str(Tuple::Album, data.album);
         modland_path = has_author(data.author, 4);
     }
     bool amp_path = false;
     if (songinfo.amp_data) {
         const auto &data = songinfo.amp_data.value();
-        TRACE("Found AMP data for %s:%d %s, author:%s\n", md5.c_str(), songinfo.subsong, modinfo.path.c_str(), data.author.c_str());
+        TRACE("Found AMP data for %s:%d %s, author:%s\n", md5.c_str(), songinfo.subsong, path.c_str(), data.author.c_str());
         amp_path = has_author(data.author, 2);
     }
     bool unexotica_path = false;
@@ -203,22 +211,23 @@ void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInf
     }
 }
 
-bool update_tuple(Tuple &tuple, const string &path, int subsong, const player::ModuleInfo &info, const string &modulemd5) {
+bool update_tuple(Tuple &tuple, const string &path, int subsong, const Info &info, const string &modulemd5) {
     /* prefer filename as title for now, maybe make configurable in future
     bool modulename_ok = strnlen(info->modulename, 256) > 0 &&
                             !is_blacklisted_title(info);
     const char *title = modulename_ok ? info->modulename : name;
     */
     tuple.set_str(Tuple::Title, common::split(path, "/").back().c_str());
-
-    tuple.set_str(Tuple::Codec, info.format.c_str());
+    if (info.format.size()) {
+        tuple.set_str(Tuple::Codec, info.format.c_str());
+    }
     tuple.set_str(Tuple::Quality, "sequenced");
     if (info.channels > 0) {
         tuple.set_int(Tuple::Channels, info.channels);
     }
     const int subsongs = info.maxsubsong - info.minsubsong + 1;
     // initial probe
-    if (subsong == -1) {
+    if (subsong == -1 && info.minsubsong != info.maxsubsong) {
         update_tuple_subsong_range(tuple, info.minsubsong, info.maxsubsong);
     } else {
         if (subsongs > 1) {
@@ -239,17 +248,45 @@ bool update_tuple(Tuple &tuple, const string &path, int subsong, const player::M
 
 common::SongEnd precalc_song_end(
     VFSFile &file,
-    const player::ModuleInfo &info,
-    int subsong,
-    const string &md5
+    const string &path,
+    const string &md5,
+    const int subsong
 ) {
     const Index<char> buf = read_all(file);
-    return songend::precalc::precalc_song_end(info, buf.begin(), buf.len(), subsong, md5);
+    const auto modinfo = player::parse(path.c_str(), buf.begin(), buf.len());
+    if (!modinfo) {
+        return { common::SongEnd::ERROR, 0 };
+    }
+    return songend::precalc::precalc_song_end(modinfo.value(), buf.begin(), buf.len(), subsong, md5);
 };
 
-optional<player::ModuleInfo> player_parse(VFSFile &file, const string &path) {
+optional<Info> parse_info(VFSFile &file, const string &path, const string &md5, const int subsong) {
+    const auto &infos = songdb::lookup_all(md5);
+    if (infos.size() > 0) {
+        const auto player = check_player(file, path);
+        const auto &info = infos.front();
+        const auto minsubsong = info.subsong;
+        const auto maxsubsong = infos.back().subsong;
+        return Info {
+            player,
+            info.format,
+            info.channels,
+            minsubsong,
+            maxsubsong,
+        };
+    }
     const Index<char> buf = read_all(file);
-    return player::parse(path.c_str(), buf.begin(), buf.len());
+    const auto modinfo = player::parse(path.c_str(), buf.begin(), buf.len());
+    if (modinfo.has_value()) {
+        return Info {
+            modinfo->player,
+            modinfo->format,
+            modinfo->channels,
+            modinfo->minsubsong,
+            modinfo->maxsubsong,
+        };
+    }
+    return {};
 }
 
 player::uade::Filter uade_filter(const int filter) {
@@ -404,7 +441,7 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
 
     // try read subsongs directly from songdb
     const auto &subsongs = songdb::subsong_range(md5);
-    if (subsongs && subsong < 0) {
+    if (subsongs && subsong < 0 && subsongs->first != subsongs->second) {
         TRACE("uade_plugin_read_tag read subsong range from songdb for md5 %s uri %s\n", md5.c_str(), uri);
         const auto &minmax = subsongs.value();
         update_tuple_subsong_range(tuple, minmax.first, minmax.second);
@@ -415,7 +452,6 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
     // which conflicts with audacious subsong uri scheme
     bool needfix = subsong >= 0 && string(uri).find_last_of("?") == string::npos;
     if (needfix) {
-        const string &md5 = md5hex(file);
         const auto &subsongs = songdb::subsong_range(md5);
         if (subsongs && subsongs->first == subsongs->second) {
             WARN("uade_plugin_read_tag enforced subsong %d (was %d) for %s\n", subsongs->first, subsong, uri);
@@ -428,23 +464,25 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
     const auto playback_file = aud_drct_get_filename();
     const auto for_playback = playback_file && string(playback_file) == string(uri);
 
-    const auto modinfo = player_parse(file, path);
-    if (!modinfo) {
+    const auto info = parse_info(file, path, md5, subsong);
+    if (!info) {
         WARN("uade_plugin_read_tag could not parse module %s\n", uri);
         return false;
     }
-    TRACE("uade_plugin_read_tag path %s format %s minsubsong %d maxsubsong %d channels %d\n", modinfo->path.c_str(), modinfo->format.c_str(), modinfo->minsubsong, modinfo->maxsubsong, modinfo->channels);
-    if (subsong < 0) {
-        update_tuple_subsong_range(tuple, modinfo->minsubsong, modinfo->maxsubsong);
+    TRACE("uade_plugin_read_tag path %s format %s minsubsong %d maxsubsong %d channels %d\n", path.c_str(), info->format.c_str(), info->minsubsong, info->maxsubsong, info->channels);
+    if (subsong < 0 && info->minsubsong != info->maxsubsong) {
+        update_tuple_subsong_range(tuple, info->minsubsong, info->maxsubsong);
     } else {
-        bool has_db_entry = update_tuple(tuple, path, subsong, modinfo.value(), md5);
+        assert(subsong >= 0 || (subsong == -1 && info->minsubsong == info->maxsubsong));
+        subsong = subsong == -1 ? info->minsubsong : subsong;
+        bool has_db_entry = update_tuple(tuple, path, subsong, info.value(), md5);
         const bool do_precalc = !has_db_entry && !for_playback &&
             tuple.get_int(Tuple::Length) <= 0 && aud_get_bool(PLUGIN_NAME, PRECALC_SONGLENGTHS);
         if (do_precalc) {
-            const auto &songend = precalc_song_end(file, modinfo.value(), subsong, md5);
-            update_tuple_song_end(tuple, songend, modinfo.value());
+            const auto &songend = precalc_song_end(file, path, md5, subsong);
+            update_tuple_song_end(tuple, songend, info->format);
             // update songdb (runtime only) so next read_tag call doesn't precalc again
-            songdb::update(md5, subsong, songend.length, songend.status);
+            songdb::update(md5, subsong, songend.length, songend.status, info->format, info->channels);
         }
     }
     return true;
@@ -492,6 +530,11 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     const auto write_audio_ = [](char *buf, int bytes) { write_audio(buf, bytes); };
 
     const Index<char> buf = read_all(file);
+    if (subsong == -1) {
+        const auto info = player::parse(path.c_str(), buf.begin(), buf.len());
+        assert(info->minsubsong == info->maxsubsong);
+        subsong = info->minsubsong;
+    };    
     auto state = player::play(path.c_str(), buf.begin(), buf.len(), subsong, config);
     if (!state) {
         ERR("Could not play %s", uri);
@@ -514,7 +557,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     TRACE("Playback status for %s - %d\n", uri, res.songend.status);
 
     if (known_timeout <= 0 && !res.stopped && !res.seeked) {
-        update_tuple_song_end(tuple, res.songend, state->info);
+        update_tuple_song_end(tuple, res.songend, state->info.format);
         set_playback_tuple(tuple.ref());
     }
 

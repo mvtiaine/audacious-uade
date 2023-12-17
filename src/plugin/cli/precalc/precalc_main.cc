@@ -26,13 +26,19 @@ using namespace std;
 
 namespace {
 
-void print(const common::SongEnd &songend, int subsong, int minsubsong, vector<char> &buf, const char *path, bool includepath, const string &md5hex) {
+void print(const common::SongEnd &songend, const player::ModuleInfo &info, int subsong, vector<char> &buf, bool includepath, const string &md5hex) {
     const auto reason = songend.status_string();
-    if (subsong == minsubsong) {
+    if (subsong == info.minsubsong) {
+        const auto pl = [&info]() { switch(info.player) {
+            case player::Player::hvl: return "hvl";
+            case player::Player::dbm: return "dbm";
+            case player::Player::uade: return "uade";
+            default: assert(false); return "";
+        }}();
         if (includepath) {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t%zu\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),buf.size(),path);
+            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl,info.format.c_str(),info.channels,buf.size(),info.path.c_str());
         } else {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t%zu\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),buf.size());
+            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl,info.format.c_str(),info.channels,buf.size());
         }
     } else {
         fprintf(stdout, "%s\t%d\t%d\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str());
@@ -50,10 +56,10 @@ int player_songend(vector<char> &buf, const char *path, bool includepath, const 
     const int maxsubsong = info->maxsubsong;
     for (int subsong = minsubsong; subsong <= maxsubsong; subsong++) {
         auto songend = songend::precalc::precalc_song_end(info.value(), buf.data(), buf.size(), subsong, md5hex);
-        if (songend.status == common::SongEnd::ERROR && !songend::precalc::allow_songend_error(info.value())) {
+        if (songend.status == common::SongEnd::ERROR && !songend::precalc::allow_songend_error(info->format)) {
             songend.length = 0;
         }
-        print(songend, subsong, minsubsong, buf, path, includepath, md5hex);
+        print(songend, info.value(), subsong, buf, includepath, md5hex);
     }
 
     return EXIT_SUCCESS;
@@ -89,9 +95,9 @@ int main(int argc, char *argv[]) {
     if (songdb::blacklist::is_blacklisted_md5(md5hex)) {
         fprintf(stderr, "Blacklisted md5 for %s\n", path);
         if (includepath) {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t%zu\t%s\n", md5hex.c_str(),0,0,"error",buf.size(),path);
+            fprintf(stdout, "%s\t%d\t%d\t%s\t\t\t\t%zu\t%s\n", md5hex.c_str(),0,0,"error",buf.size(),path);
         } else {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t%zu\n", md5hex.c_str(),0,0,"error",buf.size());
+            fprintf(stdout, "%s\t%d\t%d\t%s\t\t\t\t%zu\n", md5hex.c_str(),0,0,"error",buf.size());
         }
         return EXIT_FAILURE;
     }

@@ -93,8 +93,8 @@ void apply_trimmer(SongEndDetector &detector, SongEnd &songend) {
 
 namespace songend::precalc {
 
-bool allow_songend_error(const ModuleInfo &info) {
-    return info.player == Player::uade && info.format == "VSS";
+bool allow_songend_error(const string &format) {
+    return format == "VSS";
 }
 
 SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, int subsong, const string &md5hex) {
@@ -128,7 +128,7 @@ SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, i
         apply_detector(detector, res.songend);
     }
 
-    if (res.songend.status != SongEnd::ERROR || allow_songend_error(info)) {
+    if (res.songend.status != SongEnd::ERROR || allow_songend_error(info.format)) {
         apply_trimmer(detector, res.songend);
         TRACE("precalc_song_length %s - status: %d length: %d\n", info.path.c_str(), res.songend.status, res.songend.length);
     } else {

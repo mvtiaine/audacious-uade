@@ -41,6 +41,8 @@ struct SongInfo {
     const uint8_t subsong;
     const uint32_t songlength;
     const std::string songend;
+    const std::string format;
+    const uint8_t channels;
     const std::optional<ModlandData> modland_data;
     const std::optional<AMPData> amp_data;
     const std::optional<UnExoticaData> unexotica_data;
@@ -50,7 +52,7 @@ struct SongInfo {
 void init(const std::string &songdb_path);
 std::optional<SongInfo> lookup(const std::string &md5, int subsong);
 std::vector<SongInfo> lookup_all(const std::string &md5);
-void update(const std::string &md5, int subsong, int songlength, common::SongEnd::Status songend);
+void update(const std::string &md5, const int subsong, const int songlength, common::SongEnd::Status songend, const std::string &format, const int channels);
 std::optional<std::pair<int,int>> subsong_range(const std::string &md5);
 
 namespace blacklist {
