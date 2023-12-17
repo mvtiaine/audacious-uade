@@ -257,8 +257,12 @@ PlaybackResult playback_loop(
         }
         const auto res = render(state, buffer, sizeof buffer);
         if (res.second > 0 && res.first != SongEnd::ERROR) {
-            write_audio(buffer, res.second);
-            totalbytes += res.second;
+            // ignore "tail bytes" to avoid pop in end of audio if song restarts
+            // messing up with silence/volume trimming etc.
+            if (res.first == SongEnd::NONE || totalbytes == 0) {
+                write_audio(buffer, res.second);
+                totalbytes += res.second;
+            }
         }
 
         if (res.first == SongEnd::ERROR) {
