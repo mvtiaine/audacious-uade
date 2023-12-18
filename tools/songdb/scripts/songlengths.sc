@@ -12,21 +12,26 @@ case class SonglengthEntry (
   minsubsong: Int,
   maxsubsong: Int,
   subsongs: Seq[Subsong],
+  format: String,
+  channels: Int,
 )
 
 lazy val db = sources.tsvs.par.flatMap(_._2).map({case (md5,subsongs) => {
   val minsubsong = subsongs.minBy(_.subsong).subsong
   val maxsubsong = subsongs.maxBy(_.subsong).subsong
   val songs = subsongs.map(s => Subsong(s.subsong, s.songlength, s.songend)).distinct.toSeq
+  val e = subsongs.filterNot(_.format.isEmpty)
+  val format = e.headOption.map(_.format).getOrElse("")
+  val channels = e.headOption.map(_.channels).getOrElse(0)
   if (songs.length > maxsubsong - minsubsong + 1) {
       System.err.println("WARN: inconsistent songlengths for " + md5 + ": " + songs)
       val subsongs = Buffer.empty[Subsong]
       for (subsong <- minsubsong to maxsubsong) {
         subsongs.append(songs.filter(_.subsong == subsong).maxBy(_.songlength))
       }
-      SonglengthEntry(md5, minsubsong, maxsubsong, subsongs.toSeq)
+      SonglengthEntry(md5, minsubsong, maxsubsong, subsongs.toSeq, format, channels)
   } else {
-    SonglengthEntry(md5, minsubsong, maxsubsong, songs)
+    SonglengthEntry(md5, minsubsong, maxsubsong, songs, format, channels)
   }
 }}).distinct.groupBy(_.md5).map({case (md5, entries) =>
   var best = entries.head

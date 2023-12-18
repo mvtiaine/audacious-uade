@@ -376,7 +376,7 @@ void parse_songlengths(const string &tsv, set<string> &strings) {
     hash_t prevhash = 0;
     while (getline(songdbtsv, line)) {
         const auto cols = common::split(line, "\t");
-        assert(cols.size() == 3);
+        assert(cols.size() == 5);
         const auto &md5 = cols[0];
         assert(md5.size() == 12);
         const hash_t hash = stoul(md5.substr(0, 12), 0, 16);
@@ -396,8 +396,8 @@ void parse_songlengths(const string &tsv, set<string> &strings) {
     while (getline(songdbtsv, line)) {
         const auto cols = common::split(line, "\t");
         const auto md5 = cols[0];
-        const uint8_t minsubsong = stoi(cols[2]);
-        const auto subsongs = common::split(cols[3], " ");
+        const uint8_t minsubsong = stoi(cols[3]);
+        const auto subsongs = common::split(cols[4], " ");
         uint8_t subsong = minsubsong;
         vector<_SongInfo> infos;
         for (const auto &col : subsongs) {
@@ -410,7 +410,7 @@ void parse_songlengths(const string &tsv, set<string> &strings) {
     }
 }
 
-void parse_strings(const string &songdb_path, const vector<pair<string, Source>> tsvfiles, set<string> strings) {
+void parse_strings(const string &songdb_path, const vector<pair<string, Source>> &tsvfiles, set<string> &strings) {
     for (const auto &tsv : tsvfiles) {
         ifstream songdbtsv(songdb_path + "/" + tsv.first, ios::in);
         if (!songdbtsv.is_open()) {
@@ -543,7 +543,7 @@ void parse_modinfos(const string &tsv) {
     uint32_t i = 0;
     while (getline(songdbtsv, line)) {
         const auto cols = common::split(line, "\t");
-        assert(cols.size() == 3);
+        assert(cols.size() == 5);
         const auto &md5 = cols[0];
         assert(dedup_md5(md5) == md5_t {i++});
         const auto &format = cols[1];

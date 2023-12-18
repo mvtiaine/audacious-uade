@@ -33,8 +33,8 @@ case class TsvEntry (
 
 lazy val tsvs = tsvfiles.par.map(tsv => (tsv._2, Using(scala.io.Source.fromFile(s"sources/${tsv._1}"))(_.getLines.map(line =>
   val l = line.split("\t")
-  if (l.length > 8) TsvEntry(l(0), l(1).toInt, l(2).toInt, l(3), l(4), l(5), l(6).toInt, l(7).toInt, l(8))
-  else TsvEntry(l(0), l(1).toInt, l(2).toInt, l(3), l(4), l(5), l(6).toInt, -1, "")
+  if (l.length > 8) TsvEntry(l(0), l(1).toInt, l(2).toInt, l(3), l(4), l(5), if (l(6).isEmpty) 0 else l(6).toInt, l(7).toInt, l(8))
+  else TsvEntry(l(0), l(1).toInt, l(2).toInt, l(3), "", "", 0, -1, "")
 ).toBuffer).get.groupBy(_.md5))).seq
 
 case class SourceDBEntry (

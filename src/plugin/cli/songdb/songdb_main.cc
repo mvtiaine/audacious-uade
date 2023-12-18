@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
         songends.push_back(buf);
     }
 
-    fprintf(stdout, "songlengths.tsv:%s\t%d\t%s\n", md5short.c_str(), info.subsong, common::mkString(songends, " ").c_str());
+    fprintf(stdout, "songlengths.tsv:%s\t%s\t%d\t%d\t%s\n", md5short.c_str(), info.format.c_str(), info.channels, info.subsong, common::mkString(songends, " ").c_str());
 
     if (info.amp_data) {
         // TODO handle extra authors
