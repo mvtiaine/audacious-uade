@@ -227,7 +227,7 @@ bool update_tuple(Tuple &tuple, const string &path, int subsong, const Info &inf
     }
     const int subsongs = info.maxsubsong - info.minsubsong + 1;
     // initial probe
-    if (subsong == -1 && info.minsubsong != info.maxsubsong) {
+    if (subsong == -1) {
         update_tuple_subsong_range(tuple, info.minsubsong, info.maxsubsong);
     } else {
         if (subsongs > 1) {
@@ -441,7 +441,7 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
 
     // try read subsongs directly from songdb
     const auto &subsongs = songdb::subsong_range(md5);
-    if (subsongs && subsong < 0 && subsongs->first != subsongs->second) {
+    if (subsongs && subsong < 0) {
         TRACE("uade_plugin_read_tag read subsong range from songdb for md5 %s uri %s\n", md5.c_str(), uri);
         const auto &minmax = subsongs.value();
         update_tuple_subsong_range(tuple, minmax.first, minmax.second);
@@ -470,11 +470,9 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
         return false;
     }
     TRACE("uade_plugin_read_tag path %s format %s minsubsong %d maxsubsong %d channels %d\n", path.c_str(), info->format.c_str(), info->minsubsong, info->maxsubsong, info->channels);
-    if (subsong < 0 && info->minsubsong != info->maxsubsong) {
+    if (subsong < 0) {
         update_tuple_subsong_range(tuple, info->minsubsong, info->maxsubsong);
     } else {
-        assert(subsong >= 0 || (subsong == -1 && info->minsubsong == info->maxsubsong));
-        subsong = subsong == -1 ? info->minsubsong : subsong;
         bool has_db_entry = update_tuple(tuple, path, subsong, info.value(), md5);
         const bool do_precalc = !has_db_entry && !for_playback &&
             tuple.get_int(Tuple::Length) <= 0 && aud_get_bool(PLUGIN_NAME, PRECALC_SONGLENGTHS);
@@ -530,11 +528,6 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     const auto write_audio_ = [](char *buf, int bytes) { write_audio(buf, bytes); };
 
     const Index<char> buf = read_all(file);
-    if (subsong == -1) {
-        const auto info = player::parse(path.c_str(), buf.begin(), buf.len());
-        assert(info->minsubsong == info->maxsubsong);
-        subsong = info->minsubsong;
-    };    
     auto state = player::play(path.c_str(), buf.begin(), buf.len(), subsong, config);
     if (!state) {
         ERR("Could not play %s", uri);
