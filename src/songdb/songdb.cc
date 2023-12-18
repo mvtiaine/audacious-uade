@@ -540,12 +540,9 @@ void parse_modinfos(const string &tsv) {
         return;
     }
     string line;
-    uint32_t i = 0;
     while (getline(songdbtsv, line)) {
         const auto cols = common::split(line, "\t");
         assert(cols.size() == 5);
-        const auto &md5 = cols[0];
-        assert(dedup_md5(md5) == md5_t {i++});
         const auto &format = cols[1];
         const auto fmt = dedup_string(format);
         const uint8_t channels = stoi(cols[2]);
