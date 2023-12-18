@@ -1,3 +1,11 @@
+0.11.1 - 2023-12-18
+- Avoid claiming XM/S3M/etc. files for UADE
+- Updated default UADE playback config:
+-- Frequency=48000 (was 44100), Filter=A1200 (was A500), Resampler=Sinc (was Default)
+- Made audio buffer size dynamic, depending on frequency
+- Include format + channels (if available) in songdb
+- Misc fixes and updates
+
 0.11.0 - 2023-12-08
 - Songdb rewrite:
 -- Add author/album/publisher/year from Demozoo SQL export
