@@ -31,7 +31,7 @@ case class DemozooMeta (
 
 lazy val ml_by_path = sources.modland.groupBy(_.path)
 
-lazy val metas = Using(scala.io.Source.fromFile("/tmp/demozoo.tsv"))(_.getLines.flatMap(line =>
+lazy val metas = Using(scala.io.Source.fromFile("sources/demozoo.tsv"))(_.getLines.flatMap(line =>
   def split(s: String) = s.replaceFirst("\\{","").replaceAll("\\}$","").split(",").filterNot(_ == "NULL")
   def trim(s: String) = s.trim.replaceFirst("\"","").replaceAll("\"$","")
   def precision(s: String) = s match {
