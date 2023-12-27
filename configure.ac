@@ -40,6 +40,9 @@ AM_CONDITIONAL([BUILD_WIN32], [test "$build_windows" = "yes"])
 AM_CONDITIONAL([BUILD_MACOS], [test "$build_macos" = "yes"])
 AM_CONDITIONAL([BUILD_BSD], [test "$build_bsd" = "yes"])
 
+# defines WORDS_BIGENDIAN
+AC_C_BIGENDIAN
+
 AC_COMPILE_IFELSE(
   [AC_LANG_PROGRAM([
     #if defined __FAST_MATH__

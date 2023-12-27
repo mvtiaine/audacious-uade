@@ -6,6 +6,8 @@ set -e
 
 #
 
+export PLAYER_ENDIAN=little
+
 TESTMOD=${top_srcdir}/testdata/tomaatti.dbm
 TESTMD5_LITTLE=7ee7c819bad8d828aa535809ddad5c7c
 

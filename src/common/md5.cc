@@ -24,6 +24,8 @@
 #include <string.h>
 /* for stupid systems */
 #include <sys/types.h>
+/* for endianess */
+#include "config.h"
 
 #include "md5.h"
 

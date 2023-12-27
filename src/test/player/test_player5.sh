@@ -6,6 +6,8 @@ set -e
 
 #
 
+export PLAYER_ENDIAN=little
+
 TESTMOD=${top_srcdir}/testdata/monkmusings.hvl
 TESTMD5_LITTLE=f52dea21bd60cf27f0e529666fad05aa
 

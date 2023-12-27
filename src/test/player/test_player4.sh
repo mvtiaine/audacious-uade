@@ -6,6 +6,8 @@ set -e
 
 #
 
+export PLAYER_ENDIAN=little
+
 TESTMOD="${top_srcdir}/testdata/mdat.turrican loader"
 TESTMD5_LITTLE=2ddda025613580a93b4e07cc3b850362
 

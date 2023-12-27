@@ -12,7 +12,7 @@ TESTMD5_LITTLE=109e14e01fffcad9cf8084bd7b29526f
 
 TEST_NAME="UADE native endian + converted"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
-if [ $ENDIAN == $BIG ]; then
+if [ $ENDIAN -eq $BIG ]; then
   echo 'Detected big endian host'
   EXPECTED_OUTPUT=$TESTMD5_BIG
 else
