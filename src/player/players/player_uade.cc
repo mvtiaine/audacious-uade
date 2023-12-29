@@ -269,6 +269,7 @@ uade_state *create_uade_probe_state() {
     uade_config_set_option(uc, UC_PANNING_VALUE, "1");
     uade_config_set_option(uc, UC_NO_FILTER, nullptr);
     uade_config_set_option(uc, UC_NO_HEADPHONES, nullptr);
+    uc->gain_enable = 0;
  
     uade_state *state = uade_new_state(uc);
     assert(state);
