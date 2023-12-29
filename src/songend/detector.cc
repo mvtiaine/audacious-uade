@@ -384,7 +384,7 @@ size_t get_loopstart(const vector<int8_t> &buf, const size_t SAMPLES_PER_SEC, co
             prevdiffsum = diffsum;
 
             if (i > 0 && i % (SAMPLES_PER_SEC * 2) == 0) {
-                const auto diffsum = smoothed / (SAMPLES_PER_SEC * 2);
+                const int64_t diffsum = smoothed / (SAMPLES_PER_SEC * 2);
                 if (prevsmoothed != INT64_MAX && diffsum > prevsmoothed) {
                     //TRACE2("INC %zu diffsum %ld prev %ld\n", i / SAMPLES_PER_SEC, diffsum, prevsmoothed);
                     decstop = min(i, decstop);
