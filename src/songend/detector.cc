@@ -462,15 +462,16 @@ namespace songend::detector {
 
 // does some smoothing for input audio and converts to 8-bit/single channel
 void SongEndDetector::update(const char *bytes, const size_t nbytes) {
-    const auto idx = [&](const int i) {
-        int newi = (itmp + i) % 8;
-        if (newi < 0)
-            newi = 8 + newi;
-        return newi;
+    const auto idx = [&](const int i) constexpr {
+        const int newi = (itmp + i) % 8;
+        return newi < 0 ? 8 + newi : newi;
     };
-    const auto b = [&](const int i) -> int {
+    const auto b = [&](const int i) constexpr -> int {
         return tmp[idx(i-8)];
     };
+
+    int8_t buftmp[nbytes / 8 + 1];
+    int n = 0;
 
     for (size_t i = 0; i < nbytes; i+=4) {
         const int b0 = (endian == endian::little) ? (int8_t)bytes[i] : (int8_t)bytes[i+1];
@@ -487,12 +488,13 @@ void SongEndDetector::update(const char *bytes, const size_t nbytes) {
         itmp = idx(+1);
         ctmp++;
         if (ctmp == 8) {
-            const int val0 = (b(0) + b(1) + b(2) + b(3) + b(4) + b(5)) / (6*256);
-            buf.push_back(val0);
+            const int tmp = b(2) + b(3) + b(4) + b(5);
+            const int val0 = (b(0) + b(1) + tmp) / (6*256);
+            buftmp[n++] = val0;
             itmp = idx(+2);
-            const int val1 = (b(0) + b(1) + b(2) + b(3) + b(4) + b(5)) / (6*256);
+            const int val1 = (tmp + b(4) + b(5)) / (6*256);
             itmp = idx(-2);
-            buf.push_back(val1);
+            buftmp[n++] = val1;
             ctmp -= 4;
 
             maxi = max(maxi, val0);
@@ -501,6 +503,7 @@ void SongEndDetector::update(const char *bytes, const size_t nbytes) {
             mini = min(mini, val1);
         }
     }
+    buf.insert(buf.end(), buftmp, buftmp+n);
 }
 
 int SongEndDetector::detect_loop() {
