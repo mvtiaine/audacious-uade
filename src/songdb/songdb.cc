@@ -81,7 +81,7 @@ struct uint48_t {
         data[2] = other.data[2];
     }
     constexpr uint48_t(const uint64_t val) {
-        assert(val <= (1ul << 48) - 1);
+        assert(val <= (1ull << 48) - 1);
         data[0] = (val >> 32) & 0xffff;
         data[1] = (val >> 16) & 0xffff;
         data[2] = val & 0xffff;
@@ -105,7 +105,7 @@ struct uint48_t {
         return value() > other.value();
     }
 } __attribute__((packed));
-constexpr int64_t UINT48_T_MAX = (1ul << 48) - 1;
+constexpr int64_t UINT48_T_MAX = (1ull << 48) - 1;
 
 typedef uint8_t subsong_t;
 typedef uint8_t year_t;
@@ -206,7 +206,7 @@ void create_string_pool(const set<string> &strings) {
 md5_t dedup_md5(const string &md5) {
     if (md5_idx.size() == 0) return MD5_NOT_FOUND;
     assert(md5.size() == 12 || md5.size() == 32);
-    const hash_t hash = stoul(md5.substr(0, 12), 0, 16);
+    const hash_t hash = stoull(md5.substr(0, 12), 0, 16);
     unsigned int idx = ((double)hash / HASH_T_MAX) * md5_idx.size();
     assert(idx < md5_idx.size());
     hash_t cmp = md5_idx[idx];
@@ -379,7 +379,7 @@ void parse_songlengths(const string &tsv, set<string> &strings) {
         assert(cols.size() == 5);
         const auto &md5 = cols[0];
         assert(md5.size() == 12);
-        const hash_t hash = stoul(md5.substr(0, 12), 0, 16);
+        const hash_t hash = stoull(md5.substr(0, 12), 0, 16);
         assert(hash > prevhash);
         md5s.insert(hash);
         prevhash = hash;
@@ -565,7 +565,7 @@ optional<SongInfo> lookup(const string &md5, int subsong) {
             }
         }
     }
-    const hash_t hash = stoul(md5.substr(0, 12), 0, 16);
+    const hash_t hash = stoull(md5.substr(0, 12), 0, 16);
     if (extra_songlengths.contains(hash)) {
         const auto &tuple = extra_songlengths[hash];
         const auto &format = get<0>(tuple);
@@ -624,7 +624,7 @@ void update(const string &md5, const int subsong, const int songlength, common::
         INFO("Blacklisted songdb key md5:%s\n", md5.c_str());
         return;
     }
-    const hash_t hash = stoul(md5.substr(0, 12), 0, 16);
+    const hash_t hash = stoull(md5.substr(0, 12), 0, 16);
     assert(subsong >= 0);
     assert(subsong <= 255);
     assert(songlength >= 0);

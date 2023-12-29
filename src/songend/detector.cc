@@ -309,7 +309,7 @@ pair<size_t, int> get_looplen(const vector<int8_t> &buf, const size_t begin, con
     return pair(round(looplen * SAMPLES_PER_SEC / ACR_PER_SEC), ok);
 }
 
-size_t get_loopstart(const vector<int8_t> &buf, const unsigned int SAMPLES_PER_SEC, const size_t looplen, const size_t offs) {
+size_t get_loopstart(const vector<int8_t> &buf, const size_t SAMPLES_PER_SEC, const size_t looplen, const size_t offs) {
     assert(buf.size() < INT32_MAX);
 
     const auto _loopstart = [&](const size_t offs, const size_t window, const bool strict) -> size_t {
@@ -417,7 +417,7 @@ size_t get_loopstart(const vector<int8_t> &buf, const unsigned int SAMPLES_PER_S
         return SIZE_MAX;
     };
 
-    auto len = max(looplen, 60ul * SAMPLES_PER_SEC);
+    auto len = max(looplen, 60 * SAMPLES_PER_SEC);
     auto maxlen = len;
     auto loopstart = _loopstart(offs, min(buf.size() / 4 - 1, maxlen), true);
     while (loopstart == SIZE_MAX && maxlen < buf.size() / 4 - 1) {
@@ -605,7 +605,7 @@ int SongEndDetector::detect_loop() {
                     const auto newlooplen = looplen < SIZE_MAX && looplen > 0 ? looplen : (size_t)REPEAT_THRESHOLD * SAMPLES_PER_SEC / 1000;
                     auto newloopstart = get_loopstart(bufz, SAMPLES_PER_SEC, newlooplen, offs);
                     if (newloopstart < SIZE_MAX) {
-                        const auto newsonglen = (newloopstart + newlooplen) * 1000ul / SAMPLES_PER_SEC + 1000;
+                        const size_t newsonglen = (newloopstart + newlooplen) * 1000ul / SAMPLES_PER_SEC + 1000;
                         TRACE1("SONGLEN1 %zu OLDSONGLEN %zu NEWLOOPLEN %zu NEWLOOPSTART %zu offs %zu mini %d maxi %d lastmin %zu lastmax %zu newmin %d newmax %d buf %d i %zu\n", newsonglen, songlen, newlooplen / SAMPLES_PER_SEC, newloopstart / SAMPLES_PER_SEC, offs / SAMPLES_PER_SEC, mini, maxi, lastmin / SAMPLES_PER_SEC, lastmax / SAMPLES_PER_SEC, newmin, newmax, val, i / SAMPLES_PER_SEC);
                         songlen = max(songlen, newsonglen);
                     } else {
