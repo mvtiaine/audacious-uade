@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include <mutex>
 
 #include "common/common.h"
 #include "common/logger.h"
@@ -31,13 +32,24 @@ ModuleInfo get_info(const string &path, struct hvl_tune *ht) {
     return {Player::hvl, format, path, 0, maxsubsong, 0, channels};
 }
 
+bool initialized = false;
+mutex init_guard;
+void lazy_init() {
+    if (!initialized) {
+        init_guard.lock();
+        if (!initialized) {
+            hvl_InitReplayer();
+            initialized = true;
+        }
+        init_guard.unlock();
+    }
+}
+
 } // namespace {}
 
 namespace player::hvl {
 
-void init() {
-    hvl_InitReplayer();
-}
+void init() {}
 
 void shutdown() {}
 
@@ -59,6 +71,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) {
+    lazy_init();
     struct hvl_tune *ht = hvl_reset((uint8_t*)buf, size, 0, config.frequency);
     if (!ht) {
         ERR("player_hvl::play parsing failed for %s\n", path);
