@@ -470,7 +470,7 @@ void SongEndDetector::update(const char *bytes, const size_t nbytes) {
         return tmp[idx(i-8)];
     };
 
-    int8_t buftmp[nbytes / 8 + 1];
+    int8_t buftmp[nbytes / 8 + 2];
     int n = 0;
 
     for (size_t i = 0; i < nbytes; i+=4) {
