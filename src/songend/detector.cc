@@ -51,7 +51,7 @@ void flatten_diffsums(vector<int64_t> &diffsums) {
         auto baseval = shifts.back().second;
         uint32_t previdx = baseidx;
         for (int32_t i = shifts.size() - 2; i >= 0; --i) {
-            const uint32_t newidx = shifts[i].first;
+            const int32_t newidx = shifts[i].first;
             const auto val = shifts[i].second;
             const auto shift = baseval - val;
 
@@ -473,7 +473,7 @@ void SongEndDetector::update(const char *bytes, const int32_t nbytes) {
     int8_t buftmp[nbytes / 8 + 2];
     int32_t n = 0;
 
-    for (uint32_t i = 0; i < nbytes; i+=4) {
+    for (int32_t i = 0; i < nbytes; i+=4) {
         const int32_t b0 = (endian == endian::little) ? (int8_t)bytes[i] : (int8_t)bytes[i+1];
         const int32_t b1 = (endian == endian::little) ? (int8_t)bytes[i+1] : (int8_t)bytes[i];
         int32_t val = b1 * 256 + b0;
