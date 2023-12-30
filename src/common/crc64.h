@@ -71,7 +71,7 @@ static const uint64_t crcTable[256] = {
 
 
 // Reference implementation
-inline uint64_t crc64(uint64_t crc, const char* data, size_t length)
+constexpr inline uint64_t crc64(uint64_t crc, const char* data, size_t length)
 {
 	crc = ~crc;
 	for (size_t j = 0; j < length; j++)
