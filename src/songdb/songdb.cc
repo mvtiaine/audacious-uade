@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "common/common.h"
+#include "common/crc64.h"
 #include "common/logger.h"
 #include "songdb/songdb.h"
 
@@ -163,14 +164,13 @@ struct _SongInfo {
 vector<hash_t> md5_idx;
 vector<string> string_pool;
 
-hash_t _hash(const string &str) {
-    const uint64_t hash = ::hash<string>{}(str);
-    return { hash >> 16 };
+constexpr hash_t _hash(const string &str) {
+    return crc64(0, str.data(), str.length()) & 0x0000FFFFFFFFFFFF;
 }
 
 string_t dedup_string(const string &str) {
     const auto hash = _hash(str);
-    unsigned int idx = ((double)hash / HASH_T_MAX) * string_pool.size();
+    uint32_t idx = ((double)hash / HASH_T_MAX) * string_pool.size();
     assert(idx < string_pool.size());
     hash_t cmp = _hash(string_pool[idx]);
     if (cmp == hash) {
@@ -195,12 +195,15 @@ void create_string_pool(const set<string> &strings) {
     for (const auto &str : strings) {
         string tmp = str;
         tmp.shrink_to_fit();
-        hashes.insert({_hash(tmp), tmp});
+        const auto hash = _hash(tmp);
+        assert(!hashes.contains(hash));
+        hashes.insert({hash, tmp});
     }
     assert(string_pool.empty());
     for (const auto &hash : hashes) {
         string_pool.push_back(hash.second);
     }
+    assert(string_pool.size() == strings.size());
 }
 
 md5_t dedup_md5(const string &md5) {
