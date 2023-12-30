@@ -18,7 +18,7 @@ EXPECTED_OUTPUT=$TESTMD5_LITTLE
 # XXX on x86 (32-bit) HivelyTracker replay produces slightly different output
 # TODO figure out root cause
 OUTPUT=$(eval ${TEST})
-if [ "$OUTPUT" -eq "db12f1eaf5a14ec73cc4e45a56086936" ]; then
+if [ "$OUTPUT" = "db12f1eaf5a14ec73cc4e45a56086936" ]; then
     EXPECTED_OUTPUT=db12f1eaf5a14ec73cc4e45a56086936
 fi
 
