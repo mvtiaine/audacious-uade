@@ -163,7 +163,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     )
     assert(res.second % 2 == 0);
     assert(res.second <= size);
-    const size_t bytespersec = 4 * state.frequency;
+    const uint64_t bytespersec = 4 * state.frequency;
     state.pos_millis += res.second * 1000 / bytespersec;
 
     if (state.swap_endian && res.second > 0) {
@@ -203,10 +203,10 @@ bool seek(PlayerState &state, int millis) {
             return false;
         }
     }
-    const size_t bytespersec = 4 * state.frequency;
-    const int millistoseek = millis - state.pos_millis;
-    const size_t bytestoseek = bytespersec * millistoseek / 1000;
-    size_t seeked = 0;
+    const uint64_t bytespersec = 4 * state.frequency;
+    const int64_t millistoseek = millis - state.pos_millis;
+    const uint64_t bytestoseek = bytespersec * millistoseek / 1000;
+    uint64_t seeked = 0;
     pair<SongEnd::Status,size_t> res = pair(SongEnd::ERROR, 0);
     while (seeked < bytestoseek) {
         SWITCH_PLAYER(state.info.player, res,
@@ -236,7 +236,7 @@ PlaybackResult playback_loop(
     songend.length = PRECALC_TIMEOUT;
     bool stopped = false;
     bool seeked = false;
-    const size_t bytespersec = 4 * state.frequency;
+    const uint64_t bytespersec = 4 * state.frequency;
     // UADE plays some mods for hours or possibly forever (with always_ends default)
     uint64_t maxbytes = config.known_timeout > 0 ?
         config.known_timeout * bytespersec / 1000 : PRECALC_TIMEOUT * bytespersec;
