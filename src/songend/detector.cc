@@ -41,22 +41,22 @@ using namespace std;
 
 namespace {
 
-constexpr int32_t THRESHOLD_SILENCE = 1;
-constexpr int32_t THRESHOLD_VOLUME = 4;
-constexpr uint32_t REPEAT_THRESHOLD = 6000u;
+constexpr int64_t THRESHOLD_SILENCE = 1;
+constexpr int64_t THRESHOLD_VOLUME = 4;
+constexpr uint64_t REPEAT_THRESHOLD = 6000u;
 
 void flatten_diffsums(vector<int64_t> &diffsums) {
-    const auto shift = [&](const vector<pair<uint32_t,int64_t>> &shifts, vector<int64_t> &diffsums) {
-        uint32_t baseidx = shifts.back().first;
+    const auto shift = [&](const vector<pair<uint64_t,int64_t>> &shifts, vector<int64_t> &diffsums) {
+        int64_t baseidx = shifts.back().first;
         auto baseval = shifts.back().second;
-        uint32_t previdx = baseidx;
-        for (int32_t i = shifts.size() - 2; i >= 0; --i) {
-            const int32_t newidx = shifts[i].first;
+        int64_t previdx = baseidx;
+        for (int64_t i = shifts.size() - 2; i >= 0; --i) {
+            const int64_t newidx = shifts[i].first;
             const auto val = shifts[i].second;
             const auto shift = baseval - val;
 
-            for (int32_t j = previdx - 1; j >= 0 && j >= newidx; --j) {
-                const int32_t mirrorj = diffsums.size() / 2 + (diffsums.size() / 2 - j - 1);
+            for (auto j = previdx - 1; j >= newidx; --j) {
+                const auto mirrorj = diffsums.size() / 2 + (diffsums.size() / 2 - j - 1);
                 auto newval = diffsums[j] + shift;
                 diffsums[j] = newval;
                 newval = diffsums[mirrorj] + shift;
@@ -66,12 +66,12 @@ void flatten_diffsums(vector<int64_t> &diffsums) {
         }
     };
 
-    vector<pair<uint32_t,int64_t>> downshifts;
-    vector<pair<uint32_t,int64_t>> upshifts;
+    vector<pair<uint64_t,int64_t>> downshifts;
+    vector<pair<uint64_t,int64_t>> upshifts;
     int64_t smallestdiff = INT64_MAX;
     int64_t biggestdiff = INT64_MIN;
 
-    for (uint32_t i = 0; i < diffsums.size(); ++i) {
+    for (uint64_t i = 0; i < diffsums.size(); ++i) {
         const auto diffsum = diffsums[i];
         int64_t newsmallestdiff = min(diffsum, smallestdiff);
         if (smallestdiff != newsmallestdiff) {
@@ -95,7 +95,7 @@ void flatten_diffsums(vector<int64_t> &diffsums) {
     shift(upshifts, diffsums);
 };
 
-vector<int64_t> calc_diffsums(const vector<int8_t> &buf, const uint32_t begin, const uint32_t SAMPLES_PER_SEC, const int64_t basesum, const bool flatten) {
+vector<int64_t> calc_diffsums(const vector<int8_t> &buf, const uint64_t begin, const unsigned int SAMPLES_PER_SEC, const int64_t basesum, const bool flatten) {
     vector<int64_t> diffsums(buf.size() - begin);
 
     int64_t smallestdiff = INT64_MAX;
@@ -127,7 +127,7 @@ vector<int64_t> calc_diffsums(const vector<int8_t> &buf, const uint32_t begin, c
         flatten_diffsums(diffsums);
         flatten_diffsums(diffsums);
         flatten_diffsums(diffsums);
-        for (uint32_t i = 0; i < diffsums.size(); ++i) {
+        for (uint64_t i = 0; i < diffsums.size(); ++i) {
             const auto diffsum = diffsums[i];
             if (diffsum == 0) {
                 TRACE2("FLATTENED (%zu) diffsum %ld smallestdiff %ld, biggestdiff %ld\n", i/SAMPLES_PER_SEC + 1200, diffsum, smallestdiff, biggestdiff);
@@ -141,10 +141,10 @@ vector<int64_t> calc_diffsums(const vector<int8_t> &buf, const uint32_t begin, c
     return diffsums;
 }
 
-pair<uint32_t, int32_t> get_looplen(const vector<int8_t> &buf, const uint32_t begin, const uint32_t SAMPLES_PER_SEC, const bool flatten, const bool strict) {
+pair<uint64_t, int> get_looplen(const vector<int8_t> &buf, const uint64_t begin, const unsigned int SAMPLES_PER_SEC, const bool flatten, const bool strict) {
     assert(buf.size() < INT32_MAX);
 
-    constexpr uint32_t ACR_PER_SEC = 50;
+    constexpr unsigned int ACR_PER_SEC = 50;
     TRACE1("SAMPLES_PER_SEC %d ACR_PER_SEC %d\n", SAMPLES_PER_SEC, ACR_PER_SEC);
 
     int64_t basesum = 0;
@@ -162,7 +162,7 @@ pair<uint32_t, int32_t> get_looplen(const vector<int8_t> &buf, const uint32_t be
     vector<int64_t> tmpbuf2;
     int64_t diffsumavg = 0;
 
-    for (uint32_t i = 0; i < diffsums.size(); ++i) {
+    for (uint64_t i = 0; i < diffsums.size(); ++i) {
         int64_t diffsum = diffsums[i];
         diffsumavg += diffsum;
         tmpbuf.push_back(diffsum);
@@ -181,7 +181,7 @@ pair<uint32_t, int32_t> get_looplen(const vector<int8_t> &buf, const uint32_t be
         // smooth / sample 50Hz
         if (tmpbuf.size() == (SAMPLES_PER_SEC / ACR_PER_SEC)) {
             int64_t avg = 0;
-            for (uint32_t j = 0; j < SAMPLES_PER_SEC / ACR_PER_SEC; ++j) {
+            for (uint64_t j = 0; j < SAMPLES_PER_SEC / ACR_PER_SEC; ++j) {
                 avg += tmpbuf[j];
             }
             avg = avg * ACR_PER_SEC / SAMPLES_PER_SEC;
@@ -194,11 +194,11 @@ pair<uint32_t, int32_t> get_looplen(const vector<int8_t> &buf, const uint32_t be
     diffsumavg = (avg1 + avg2) / 2;
     TRACE1("AVG %ld MAX %ld MIN %ld AVG1 %ld AVG2 %ld buf %lu\n", diffsumavg, biggestdiff, smallestdiff, avg1, avg2, tmpbuf2.size());
     int64_t prevdiffsum = INT64_MAX;
-    vector<int32_t> acrplus;
-    vector<int32_t> acrminus;
+    vector<int> acrplus;
+    vector<int> acrminus;
     bool minus = false;
     bool plus = false;
-    for (uint32_t i = 0; i < tmpbuf2.size(); ++i) {
+    for (uint64_t i = 0; i < tmpbuf2.size(); ++i) {
         auto diffsum = tmpbuf2[i];
         if (prevdiffsum != INT64_MAX) {
             if (diffsum >= diffsumavg && prevdiffsum < diffsumavg && minus) {
@@ -220,16 +220,16 @@ pair<uint32_t, int32_t> get_looplen(const vector<int8_t> &buf, const uint32_t be
         prevdiffsum = diffsum;
     }
 
-    vector<int32_t> pvals;
-    for (uint32_t i = 1; i < acrplus.size(); ++i) {
+    vector<int> pvals;
+    for (uint64_t i = 1; i < acrplus.size(); ++i) {
         const auto val = acrplus[i] - acrplus[i - 1];
         pvals.push_back(val);
     }
     sort(pvals.begin(), pvals.end());
 
     int64_t pacrsum = 0;
-    int32_t pacrcnt = 0;
-    for (uint32_t i = pvals.size() / 3; i < pvals.size() * 2 / 3; ++i) {
+    int pacrcnt = 0;
+    for (uint64_t i = pvals.size() / 3; i < pvals.size() * 2 / 3; ++i) {
         pacrsum += pvals[i];
         pacrcnt++;
     }
@@ -237,16 +237,16 @@ pair<uint32_t, int32_t> get_looplen(const vector<int8_t> &buf, const uint32_t be
 
     TRACE2("PACRCNT %d PACRSUM %ld PACRAVG %f PACRSIZE %lu\n", pacrcnt, pacrsum, pacravg/ACR_PER_SEC, acrplus.size());
 
-    vector<int32_t> nvals;
-    for (uint32_t i = 1; i < acrminus.size(); ++i) {
+    vector<int> nvals;
+    for (uint64_t i = 1; i < acrminus.size(); ++i) {
         const auto val = acrminus[i] - acrminus[i - 1];
         nvals.push_back(val);
     }
     sort(nvals.begin(), nvals.end());
 
     int64_t nacrsum = 0;
-    int32_t nacrcnt = 0;
-    for (uint32_t i = nvals.size() / 3; i < nvals.size() * 2 / 3; ++i) {
+    int nacrcnt = 0;
+    for (uint64_t i = nvals.size() / 3; i < nvals.size() * 2 / 3; ++i) {
         nacrsum += nvals[i];
         nacrcnt++;
     }
@@ -254,9 +254,9 @@ pair<uint32_t, int32_t> get_looplen(const vector<int8_t> &buf, const uint32_t be
 
     TRACE2("NACRCNT %d NACRSUM %ld NACRAVG %f NACRSIZE %lu\n", nacrcnt, nacrsum, nacravg/ACR_PER_SEC, acrminus.size());
 
-    int32_t mincnt = strict ? 2 : 1;
-    int32_t pok = nacrcnt >= mincnt && (pacrcnt > mincnt || pacrcnt * 2 == nacrcnt);
-    int32_t nok = pacrcnt >= mincnt && (nacrcnt > mincnt || nacrcnt * 2 == pacrcnt);
+    int mincnt = strict ? 2 : 1;
+    int pok = nacrcnt >= mincnt && (pacrcnt > mincnt || pacrcnt * 2 == nacrcnt);
+    int nok = pacrcnt >= mincnt && (nacrcnt > mincnt || nacrcnt * 2 == pacrcnt);
     double looplen = 0;
     
     if (pok == nok) {
@@ -280,12 +280,12 @@ pair<uint32_t, int32_t> get_looplen(const vector<int8_t> &buf, const uint32_t be
         looplen = 0;
     }
 
-    if ((biggestdiff < UCHAR_MAX && smallestdiff > -UCHAR_MAX) || (biggestdiff - smallestdiff) < UCHAR_MAX) {
+    if ((biggestdiff < UINT8_MAX && smallestdiff > -UINT8_MAX) || (biggestdiff - smallestdiff) < UINT8_MAX) {
         TRACE1("INVALID SMALLEST/BIGGESTDIFF smallestdiff %ld biggestdiff %ld\n", smallestdiff, biggestdiff);
         looplen = 0;
     }
 
-    int32_t ok = pok || nok;
+    int ok = pok || nok;
     ok += pok && nok && pacrcnt > 0 && nacrcnt > 0;
     ok += pacrcnt > 0 && nacrcnt > 0 && abs(pacravg / ACR_PER_SEC - nacravg / ACR_PER_SEC) <= 1;
     ok += pacrcnt > 0 && nacrcnt > 0 && abs(2 * pacravg / ACR_PER_SEC - nacravg / ACR_PER_SEC) <= 1;
@@ -309,10 +309,10 @@ pair<uint32_t, int32_t> get_looplen(const vector<int8_t> &buf, const uint32_t be
     return pair(round(looplen * SAMPLES_PER_SEC / ACR_PER_SEC), ok);
 }
 
-uint32_t get_loopstart(const vector<int8_t> &buf, const uint32_t SAMPLES_PER_SEC, const uint32_t looplen, const uint32_t offs) {
+uint64_t get_loopstart(const vector<int8_t> &buf, const uint64_t SAMPLES_PER_SEC, const uint64_t looplen, const uint64_t offs) {
     assert(buf.size() < INT32_MAX);
 
-    const auto _loopstart = [&](const uint32_t offs, const uint32_t window, const bool strict) -> uint32_t {
+    const auto _loopstart = [&](const uint64_t offs, const uint64_t window, const bool strict) -> uint64_t {
         int64_t basesum0 = 0;
         int64_t basesum1 = 0;
         for (auto i = offs; i < offs + window; ++i) {
@@ -328,19 +328,19 @@ uint32_t get_loopstart(const vector<int8_t> &buf, const uint32_t SAMPLES_PER_SEC
         int64_t top = basesum1;
         int64_t prevdiffsum = INT64_MAX;
 
-        int32_t mcnt = 0;
-        int32_t pcnt = 0;
+        int mcnt = 0;
+        int pcnt = 0;
 
-        uint32_t loopstart = UINT32_MAX;
-        uint32_t earliest = UINT32_MAX;
+        uint64_t loopstart = UINT64_MAX;
+        uint64_t earliest = UINT64_MAX;
 
-        uint32_t exactcnt = 0;
-        uint32_t incstop = UINT32_MAX;
-        uint32_t decstop = UINT32_MAX;
+        uint64_t exactcnt = 0;
+        uint64_t incstop = UINT64_MAX;
+        uint64_t decstop = UINT64_MAX;
         int64_t smoothed = 0;
         int64_t prevsmoothed = INT64_MAX;
 
-        for (uint32_t i = offs; i < offs + window; ++i) {
+        for (uint64_t i = offs; i < offs + window; ++i) {
             const auto val0 = buf[i];
             const auto val1 = buf[i + window];
             const auto val2 = buf[i + looplen];
@@ -399,13 +399,13 @@ uint32_t get_loopstart(const vector<int8_t> &buf, const uint32_t SAMPLES_PER_SEC
         }
 
         TRACE1("loopstart (%lu/%lu) %lu earliest %lu incstop %zu decstop %zu exactcnt %zu\n", offs / SAMPLES_PER_SEC, window / SAMPLES_PER_SEC, loopstart / SAMPLES_PER_SEC, earliest / SAMPLES_PER_SEC, incstop / SAMPLES_PER_SEC, decstop / SAMPLES_PER_SEC, exactcnt);
-        if (loopstart < UINT32_MAX) {
+        if (loopstart < UINT64_MAX) {
             return loopstart;
         }
-        if (earliest < UINT32_MAX) {
+        if (earliest < UINT64_MAX) {
             return earliest;
         }
-        if (!strict && incstop < UINT32_MAX && decstop < UINT32_MAX) {
+        if (!strict && incstop < UINT64_MAX && decstop < UINT64_MAX) {
             TRACE2("INCSTOP %zu DECSTOP %zu\n", incstop/SAMPLES_PER_SEC, decstop/SAMPLES_PER_SEC);
             return max(incstop, decstop);
         }
@@ -414,29 +414,29 @@ uint32_t get_loopstart(const vector<int8_t> &buf, const uint32_t SAMPLES_PER_SEC
             TRACE2("EXACTCNT %zu WINDOW %zu\n", exactcnt, window);
             return 0;
         }
-        return UINT32_MAX;
+        return UINT64_MAX;
     };
 
-    size_t len = max(looplen, 60 * SAMPLES_PER_SEC);
-    size_t maxlen = len;
-    auto loopstart = _loopstart(offs, min(buf.size() / 4 - 1, maxlen), true);
-    while (loopstart == UINT32_MAX && maxlen < buf.size() / 4 - 1) {
+    auto len = max(looplen, 60 * SAMPLES_PER_SEC);
+    auto maxlen = len;
+    auto loopstart = _loopstart(offs, min((uint64_t)buf.size() / 4 - 1, maxlen), true);
+    while (loopstart == UINT64_MAX && maxlen < buf.size() / 4 - 1) {
         maxlen += len;
-        loopstart = _loopstart(offs, min(buf.size() / 4 - 1, maxlen), true);
+        loopstart = _loopstart(offs, min((uint64_t)buf.size() / 4 - 1, maxlen), true);
     }
-    if (loopstart == UINT32_MAX) {
-        loopstart = _loopstart(offs, min(buf.size() / 4 - 1, len), false);
+    if (loopstart == UINT64_MAX) {
+        loopstart = _loopstart(offs, min((uint64_t)buf.size() / 4 - 1, len), false);
     }
     TRACE1("LOOP START %lu\n", loopstart / SAMPLES_PER_SEC);
 
     return loopstart;
 }
 
-uint32_t volume_detect(const vector<int8_t> &buf, uint32_t maxcnt, int32_t threshold) {
+uint64_t volume_detect(const vector<int8_t> &buf, uint64_t maxcnt, int threshold) {
     bool seenhigher = false;
-    uint32_t volumecnt = 0;
-    for (uint32_t i = 0; i < buf.size(); ++i) {
-        const int32_t val = buf[i];
+    uint64_t volumecnt = 0;
+    for (uint64_t i = 0; i < buf.size(); ++i) {
+        const int val = buf[i];
         if (abs(val) <= threshold) {
             volumecnt++;
             if (volumecnt > maxcnt && seenhigher) {
@@ -450,8 +450,8 @@ uint32_t volume_detect(const vector<int8_t> &buf, uint32_t maxcnt, int32_t thres
     return 0;
 }
 
-uint32_t volume_trim(const vector<int8_t> &buf, int32_t threshold, uint32_t offs) {
-    int32_t i = offs - 1;
+uint64_t volume_trim(const vector<int8_t> &buf, int threshold, uint64_t offs) {
+    int64_t i = offs - 1;
     while(i >= 0 && abs(buf[i]) <= threshold) i--;
     return i >= 0 ? offs - (i+1) : offs;
 }
@@ -461,26 +461,26 @@ uint32_t volume_trim(const vector<int8_t> &buf, int32_t threshold, uint32_t offs
 namespace songend::detector {
 
 // does some smoothing for input audio and converts to 8-bit/single channel
-void SongEndDetector::update(const char *bytes, const int32_t nbytes) {
-    const auto idx = [&](const int32_t i) constexpr -> uint32_t {
-        const int32_t newi = (itmp + i) % 8;
+void SongEndDetector::update(const char *bytes, const int nbytes) {
+    const auto idx = [&](const int i) constexpr {
+        const int newi = (itmp + i) % 8;
         return newi < 0 ? 8 + newi : newi;
     };
-    const auto b = [&](const int32_t i) constexpr -> int32_t {
+    const auto b = [&](const int i) constexpr -> int {
         return tmp[idx(i-8)];
     };
 
     int8_t buftmp[nbytes / 8 + 2];
-    int32_t n = 0;
+    int n = 0;
 
-    for (int32_t i = 0; i < nbytes; i+=4) {
-        const int32_t b0 = (endian == endian::little) ? (int8_t)bytes[i] : (int8_t)bytes[i+1];
-        const int32_t b1 = (endian == endian::little) ? (int8_t)bytes[i+1] : (int8_t)bytes[i];
-        int32_t val = b1 * 256 + b0;
+    for (int i = 0; i < nbytes; i+=4) {
+        const int b0 = (endian == endian::little) ? (int8_t)bytes[i] : (int8_t)bytes[i+1];
+        const int b1 = (endian == endian::little) ? (int8_t)bytes[i+1] : (int8_t)bytes[i];
+        int val = b1 * 256 + b0;
 
         if (stereo) {
-            const int32_t b2 = (endian == endian::little) ? (int8_t)bytes[i+2] : (int8_t)bytes[i+3];
-            const int32_t b3 = (endian == endian::little) ? (int8_t)bytes[i+3] : (int8_t)bytes[i+2];
+            const int b2 = (endian == endian::little) ? (int8_t)bytes[i+2] : (int8_t)bytes[i+3];
+            const int b3 = (endian == endian::little) ? (int8_t)bytes[i+3] : (int8_t)bytes[i+2];
             val = (val + (b3 * 256 + b2)) / 2;
         }
 
@@ -488,11 +488,11 @@ void SongEndDetector::update(const char *bytes, const int32_t nbytes) {
         itmp = idx(+1);
         ctmp++;
         if (ctmp == 8) {
-            const int32_t tmp = b(2) + b(3) + b(4) + b(5);
-            const int32_t val0 = (b(0) + b(1) + tmp) / (6*256);
+            const int tmp = b(2) + b(3) + b(4) + b(5);
+            const int val0 = (b(0) + b(1) + tmp) / (6*256);
             buftmp[n++] = val0;
             itmp = idx(+2);
-            const int32_t val1 = (tmp + b(4) + b(5)) / (6*256);
+            const int val1 = (tmp + b(4) + b(5)) / (6*256);
             itmp = idx(-2);
             buftmp[n++] = val1;
             ctmp -= 4;
@@ -506,14 +506,14 @@ void SongEndDetector::update(const char *bytes, const int32_t nbytes) {
     buf.insert(buf.end(), buftmp, buftmp+n);
 }
 
-uint32_t SongEndDetector::detect_loop() {
-    const uint32_t SAMPLES_PER_SEC = rate / 2;
+int SongEndDetector::detect_loop() {
+    const auto SAMPLES_PER_SEC = rate / 2;
     vector<int8_t> buf0(buf.size());
 
     TRACE2("MAXI %d MINI %d\n", maxi, mini);
-    const int32_t maximini = maxi - mini;
-    for (uint32_t i = 0; i < buf.size(); ++i) {
-        const int32_t val = buf[i];
+    const int maximini = maxi - mini;
+    for (uint64_t i = 0; i < buf.size(); ++i) {
+        const int val = buf[i];
         const auto val0 = -16 + (val - mini) * 32 / maximini;
         if (val0 < 0) {
             buf0[i] = -(val0 * val0) / 2;
@@ -524,13 +524,13 @@ uint32_t SongEndDetector::detect_loop() {
 
     vector<int8_t>& bufz = buf;
 
-    const auto _looplen = [&](const uint32_t begin, const bool strict) -> uint32_t {
-        pair<uint32_t, int32_t> looplen0 = pair(0,0);
-        pair<uint32_t, int32_t> looplen1 = pair(0,0);
-        pair<uint32_t, int32_t> looplen2 = pair(0,0);
-        pair<uint32_t, int32_t> looplen3 = pair(0,0);
-        pair<uint32_t, int32_t> looplen = pair(0,0);
-        const auto check = [&](pair<uint32_t, int32_t> len) -> bool {
+    const auto _looplen = [&](const uint64_t begin, const bool strict) -> uint64_t {
+        pair<uint64_t, int> looplen0 = pair(0,0);
+        pair<uint64_t, int> looplen1 = pair(0,0);
+        pair<uint64_t, int> looplen2 = pair(0,0);
+        pair<uint64_t, int> looplen3 = pair(0,0);
+        pair<uint64_t, int> looplen = pair(0,0);
+        const auto check = [&](pair<uint64_t, int> len) -> bool {
             if (len.second > looplen.second) {
                 looplen = len;
                 return true;
@@ -552,7 +552,7 @@ uint32_t SongEndDetector::detect_loop() {
             if (check(looplen2 = get_looplen(buf0, begin, SAMPLES_PER_SEC, false, strict))) bufz = buf0;
             if (check(looplen3 = get_looplen(buf0, begin, SAMPLES_PER_SEC, true, strict))) bufz = buf0;
         }
-        if (looplen0.second > 0 && abs((int32_t)looplen.first * 2 - (int32_t)looplen0.first) < SAMPLES_PER_SEC) {
+        if (looplen0.second > 0 && abs((int64_t)looplen.first * 2 - (int64_t)looplen0.first) < SAMPLES_PER_SEC) {
             looplen = looplen0;
             bufz = buf;
         }
@@ -564,11 +564,11 @@ uint32_t SongEndDetector::detect_loop() {
         looplen = max(REPEAT_THRESHOLD * SAMPLES_PER_SEC / 1000, looplen);
     }
 
-    const auto _songlen0 = [&]() -> uint32_t {
-        uint32_t songlen = 0;
-        if (looplen < UINT32_MAX && looplen > 0) {
-            uint32_t loopstart = get_loopstart(bufz, SAMPLES_PER_SEC, looplen, 0);
-            if (loopstart >= 0 && loopstart < UINT32_MAX) {
+    const auto _songlen0 = [&]() -> uint64_t {
+        uint64_t songlen = 0;
+        if (looplen < UINT64_MAX && looplen > 0) {
+            uint64_t loopstart = get_loopstart(bufz, SAMPLES_PER_SEC, looplen, 0);
+            if (loopstart >= 0 && loopstart < UINT64_MAX) {
                 songlen = (loopstart + looplen) * 1000 / SAMPLES_PER_SEC + 1000;
                 TRACE1("SONGLEN0 %zu loopstart %zu looplen %zu\n", songlen, loopstart / SAMPLES_PER_SEC, looplen / SAMPLES_PER_SEC);
             }
@@ -576,20 +576,20 @@ uint32_t SongEndDetector::detect_loop() {
         return songlen;
     };
 
-    uint32_t songlen = _songlen0();
+    uint64_t songlen = _songlen0();
 
-    const auto _songlen1 = [&](const uint32_t minoffs, const uint32_t maxoffs) {
-        int8_t mini = CHAR_MAX;
-        int8_t maxi = CHAR_MIN;
+    const auto _songlen1 = [&](const uint64_t minoffs, const uint64_t maxoffs) {
+        int8_t mini = INT8_MAX;
+        int8_t maxi = INT8_MIN;
         for (auto i = maxoffs; i >= minoffs; --i) {
             mini = min(bufz[i], mini);
             maxi = max(bufz[i], maxi);
         }
-        int32_t newmin = 0;
-        int32_t newmax = 0;
-        uint32_t lastmin = UINT32_MAX;
-        uint32_t lastmax = UINT32_MAX;
-        int32_t i = 0;
+        int newmin = 0;
+        int newmax = 0;
+        uint64_t lastmin = UINT64_MAX;
+        uint64_t lastmax = UINT64_MAX;
+        int64_t i = 0;
         for (i = minoffs; i >= 0; --i) {
             const auto val = bufz[i];
             if (val < mini) {
@@ -602,13 +602,13 @@ uint32_t SongEndDetector::detect_loop() {
             } else if (val == maxi) {
                 lastmax = i;
             }
-            if (newmin > 12 && newmax > 12 && lastmin < UINT32_MAX && lastmax < UINT32_MAX) {
+            if (newmin > 12 && newmax > 12 && lastmin < UINT64_MAX && lastmax < UINT64_MAX) {
                 const auto offs = min(lastmax, lastmin);
-                if (offs < UINT32_MAX) {
-                    const auto newlooplen = looplen < UINT32_MAX && looplen > 0 ? looplen : REPEAT_THRESHOLD * SAMPLES_PER_SEC / 1000;
+                if (offs < UINT64_MAX) {
+                    const auto newlooplen = looplen < UINT64_MAX && looplen > 0 ? looplen : REPEAT_THRESHOLD * SAMPLES_PER_SEC / 1000;
                     auto newloopstart = get_loopstart(bufz, SAMPLES_PER_SEC, newlooplen, offs);
-                    if (newloopstart < UINT32_MAX) {
-                        const uint32_t newsonglen = (newloopstart + newlooplen) * 1000ul / SAMPLES_PER_SEC + 1000;
+                    if (newloopstart < UINT64_MAX) {
+                        const uint64_t newsonglen = (newloopstart + newlooplen) * 1000ul / SAMPLES_PER_SEC + 1000;
                         TRACE1("SONGLEN1 %zu OLDSONGLEN %zu NEWLOOPLEN %zu NEWLOOPSTART %zu offs %zu mini %d maxi %d lastmin %zu lastmax %zu newmin %d newmax %d buf %d i %zu\n", newsonglen, songlen, newlooplen / SAMPLES_PER_SEC, newloopstart / SAMPLES_PER_SEC, offs / SAMPLES_PER_SEC, mini, maxi, lastmin / SAMPLES_PER_SEC, lastmax / SAMPLES_PER_SEC, newmin, newmax, val, i / SAMPLES_PER_SEC);
                         songlen = max(songlen, newsonglen);
                     } else {
@@ -638,42 +638,42 @@ uint32_t SongEndDetector::detect_loop() {
     return songlen;
 }
 
-uint32_t SongEndDetector::detect_silence(int32_t seconds) {
+int SongEndDetector::detect_silence(int seconds) {
     TRACE2("MAXI %d MINI %d\n", maxi, mini);
-    const uint32_t SAMPLES_PER_SEC = rate / 2;
-    uint32_t songlen = volume_detect(buf, SAMPLES_PER_SEC * seconds, THRESHOLD_SILENCE) * 1000 / SAMPLES_PER_SEC;
+    const int64_t SAMPLES_PER_SEC = rate / 2;
+    int songlen = volume_detect(buf, SAMPLES_PER_SEC * seconds, THRESHOLD_SILENCE) * 1000 / SAMPLES_PER_SEC;
     if (songlen) {
         TRACE1("SILENCE SONGLEN %d\n", songlen);
     }
     return songlen;
 }
 
-uint32_t SongEndDetector::detect_volume(int32_t seconds) {
+int SongEndDetector::detect_volume(int seconds) {
     TRACE2("MAXI %d MINI %d\n", maxi, mini);
-    const uint32_t SAMPLES_PER_SEC = rate / 2;
-    uint32_t songlen = volume_detect(buf, SAMPLES_PER_SEC * seconds, THRESHOLD_VOLUME) * 1000 / SAMPLES_PER_SEC;
+    const int64_t SAMPLES_PER_SEC = rate / 2;
+    int songlen = volume_detect(buf, SAMPLES_PER_SEC * seconds, THRESHOLD_VOLUME) * 1000 / SAMPLES_PER_SEC;
     if (songlen) {
         TRACE1("VOLUME SONGLEN %d\n", songlen);
     }
     return songlen;
 }
 
-uint32_t SongEndDetector::detect_repeat() {
+int SongEndDetector::detect_repeat() {
     TRACE2("MAXI %d MINI %d\n", maxi, mini);
-    const uint32_t SAMPLES_PER_SEC = rate / 2;
-    const uint32_t WINDOW = REPEAT_THRESHOLD * SAMPLES_PER_SEC / 1000;
-    uint32_t lastmin = UINT32_MAX;
-    uint32_t lastmax = UINT32_MAX;
-    uint32_t maxmin = 0;
-    uint32_t maxmax = 0;
-    int32_t maxi = INT_MIN;
-    int32_t mini = INT_MAX;
+    const auto SAMPLES_PER_SEC = rate / 2;
+    const uint64_t WINDOW = REPEAT_THRESHOLD * SAMPLES_PER_SEC / 1000;
+    uint64_t lastmin = UINT64_MAX;
+    uint64_t lastmax = UINT64_MAX;
+    uint64_t maxmin = 0;
+    uint64_t maxmax = 0;
+    int maxi = INT_MIN;
+    int mini = INT_MAX;
     int64_t windowsum = 0;
     int64_t minwindowsum = INT64_MAX;
     int64_t maxwindowsum = INT64_MIN;
-    for (int32_t i = buf.size() - 1; i >= (int32_t)buf.size() / 2; --i) {
-        const int32_t val0 = buf[i];
-        const int32_t val = val0 >= 0 ? sqrt(val0) : -sqrt(-val0);
+    for (int64_t i = buf.size() - 1; i >= (int64_t)buf.size() / 2; --i) {
+        const int val0 = buf[i];
+        const int val = val0 >= 0 ? sqrt(val0) : -sqrt(-val0);
         if (val > maxi) {
             lastmax = i;
             maxi = val;
@@ -703,15 +703,15 @@ uint32_t SongEndDetector::detect_repeat() {
         return 0;
     }
 
-    const uint32_t threshold = REPEAT_THRESHOLD * SAMPLES_PER_SEC / 1000;
+    const auto threshold = REPEAT_THRESHOLD * SAMPLES_PER_SEC / 1000;
 
     TRACE2("REPEAT1 MAXMIN %zu MAXMAX %zu LASTMIN %zu LASTMAX %zu threshold %d\n", maxmin, maxmax, lastmin - buf.size() / 2, lastmax - buf.size() / 2, threshold);
  
     if (maxmin > 0 && maxmax > 0 && lastmin <= buf.size() / 2 + threshold && lastmax <= buf.size() / 2 + threshold && maxmin <= threshold && maxmax < threshold) {
-        int32_t i = 0;
+        int64_t i = 0;
         for (i = buf.size()/2 - 1; i >= 0; --i) {
-            const int32_t val0 = buf[i];
-            const int32_t val = val0 >= 0 ? sqrt(val0) : -sqrt(-val0);
+            const int val0 = buf[i];
+            const int val = val0 >= 0 ? sqrt(val0) : -sqrt(-val0);
             if (val > maxi) {
                 break;
             } else if (val == maxi) {
@@ -729,9 +729,9 @@ uint32_t SongEndDetector::detect_repeat() {
         TRACE2("REPEAT2 MAXMIN %zu MAXMAX %zu LASTMIN %zu LASTMAX %zu threshold %d\n", maxmin, maxmax, lastmin, lastmax, threshold);
  
         if (maxmin > 0 && maxmax > 0 && lastmin <= threshold && lastmax <= threshold && maxmin <= threshold && maxmax < threshold) {
-            const uint32_t looplen = max(REPEAT_THRESHOLD * SAMPLES_PER_SEC / 2000, max(maxmin,maxmax) * 2);
-            const uint32_t loopstart = max(REPEAT_THRESHOLD * SAMPLES_PER_SEC / 2000, get_loopstart(buf, SAMPLES_PER_SEC, looplen, 0));
-            const uint32_t repeat = (looplen + loopstart) * 1500 / SAMPLES_PER_SEC;
+            const auto looplen = max(REPEAT_THRESHOLD * SAMPLES_PER_SEC / 2000, max(maxmin,maxmax) * 2);
+            const auto loopstart = max(REPEAT_THRESHOLD * SAMPLES_PER_SEC / 2000, get_loopstart(buf, SAMPLES_PER_SEC, looplen, 0));
+            const auto repeat = (looplen + loopstart) * 1500 / SAMPLES_PER_SEC;
             TRACE1("REPEATa %lu looplen %zu loopstart %zu\n", repeat, looplen * 1000 / SAMPLES_PER_SEC, loopstart * 1000 / SAMPLES_PER_SEC);
             // XXX avoid some suspicious results / false positives
             if (repeat > 0) {
@@ -740,7 +740,7 @@ uint32_t SongEndDetector::detect_repeat() {
             }
             return repeat;
         } else if (maxmin > 0 && maxmax > 0 && maxmin <= threshold && maxmax < threshold) {
-            const uint32_t repeat = max(lastmin, lastmax) * 1000 / SAMPLES_PER_SEC + max(REPEAT_THRESHOLD, (max(maxmin, maxmax)) * 1500 / SAMPLES_PER_SEC);
+            const auto repeat = max(lastmin, lastmax) * 1000 / SAMPLES_PER_SEC + max(REPEAT_THRESHOLD, (max(maxmin, maxmax)) * 1500 / SAMPLES_PER_SEC);
             TRACE1("REPEATb %lu\n", repeat);
             return repeat;
         }
@@ -749,27 +749,27 @@ uint32_t SongEndDetector::detect_repeat() {
     return 0;
 }
 
-uint32_t SongEndDetector::trim_silence(int32_t offs_millis) {
+int SongEndDetector::trim_silence(int offs_millis) {
     TRACE2("MAXI %d MINI %d\n", maxi, mini);
-    const uint32_t SAMPLES_PER_SEC = rate / 2;
-    const uint32_t MARGIN = SAMPLES_PER_SEC / 1000 - 1;
-    const uint32_t offs = offs_millis * SAMPLES_PER_SEC / 1000;
+    const auto SAMPLES_PER_SEC = rate / 2;
+    const auto MARGIN = SAMPLES_PER_SEC / 1000 - 1;
+    const auto offs = (uint64_t)offs_millis * SAMPLES_PER_SEC / 1000;
     assert(offs <= buf.size() + MARGIN);
-    const uint32_t offs_fixed = offs >= buf.size() ? buf.size() : offs;
-    int32_t trimmed = volume_trim(buf, THRESHOLD_SILENCE, offs_fixed) * 1000 / SAMPLES_PER_SEC;
+    const auto offs_fixed = offs >= buf.size() ? buf.size() : offs;
+    int trimmed = volume_trim(buf, THRESHOLD_SILENCE, offs_fixed) * 1000 / SAMPLES_PER_SEC;
     if (trimmed)
         TRACE1("TRIMSILENCE %d offs_millis %d offs %zu offs_fixed %zu bufsize %zu \n", trimmed, offs_millis, offs, offs_fixed, buf.size());
     return abs(offs_millis - trimmed) <= MARGIN ? offs_millis : trimmed;
 }
 
-uint32_t SongEndDetector::trim_volume(int32_t offs_millis) {
+int SongEndDetector::trim_volume(int offs_millis) {
     TRACE2("MAXI %d MINI %d\n", maxi, mini);
-    const uint32_t SAMPLES_PER_SEC = rate / 2;
-    const uint32_t MARGIN = SAMPLES_PER_SEC / 1000 - 1;
-    const uint32_t offs = offs_millis * SAMPLES_PER_SEC / 1000;
+    const auto SAMPLES_PER_SEC = rate / 2;
+    const auto MARGIN = SAMPLES_PER_SEC / 1000 - 1;
+    const auto offs = (uint64_t)offs_millis * SAMPLES_PER_SEC / 1000;
     assert(offs <= buf.size() + MARGIN);
-    const uint32_t offs_fixed = offs >= buf.size() ? buf.size() : offs;
-    int32_t trimmed = volume_trim(buf, THRESHOLD_VOLUME, offs_fixed) * 1000 / SAMPLES_PER_SEC;
+    const auto offs_fixed = offs >= buf.size() ? buf.size() : offs;
+    int trimmed = volume_trim(buf, THRESHOLD_VOLUME, offs_fixed) * 1000 / SAMPLES_PER_SEC;
     if (trimmed)
         TRACE1("TRIMVOLUME %d offs_millis %d offs %zu offs_fixed %zu bufsize %zu \n", trimmed, offs_millis, offs, offs_fixed, buf.size());
     return abs(offs_millis - trimmed) <= MARGIN ? offs_millis : trimmed;

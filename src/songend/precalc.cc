@@ -16,7 +16,7 @@ using namespace std;
 namespace {
 
 void apply_detector(SongEndDetector &detector, SongEnd &songend) {
-    uint32_t silence = detector.detect_silence(SILENCE_TIMEOUT);
+    int silence = detector.detect_silence(SILENCE_TIMEOUT);
     if (silence > 0) {
         if (songend.length == silence) {
             songend.length = 0;
@@ -26,26 +26,26 @@ void apply_detector(SongEndDetector &detector, SongEnd &songend) {
             songend.status = SongEnd::DETECT_SILENCE;
         }
     } else {
-        uint32_t volume = detector.detect_volume(SILENCE_TIMEOUT);
+        int volume = detector.detect_volume(SILENCE_TIMEOUT);
         if (volume > 0) {
             songend.length = volume + MAX_SILENCE;
             songend.status = SongEnd::DETECT_VOLUME;
         } else {
-            uint32_t repeat = detector.detect_repeat();
+            int repeat = detector.detect_repeat();
             if (repeat > 0) {
                 songend.length = repeat;
                 songend.status = SongEnd::DETECT_REPEAT;
             } else {
-                uint32_t loop = detector.detect_loop();
+                int loop = detector.detect_loop();
                 if (loop > 0) {
                     songend.length = loop;
                     songend.status = SongEnd::DETECT_LOOP;
-                    uint32_t silence = detector.trim_silence(songend.length);
+                    int silence = detector.trim_silence(songend.length);
                     if (silence > MAX_SILENCE) {
                         songend.length = songend.length - silence + MAX_SILENCE;
                         songend.status = SongEnd::LOOP_PLUS_SILENCE;
                     } else {
-                        uint32_t volume = detector.trim_volume(songend.length);
+                        int volume = detector.trim_volume(songend.length);
                         if (volume > MAX_SILENCE && volume < songend.length) {
                             songend.length = songend.length - volume + MAX_SILENCE;
                             songend.status = SongEnd::LOOP_PLUS_VOLUME;
@@ -62,7 +62,7 @@ void apply_detector(SongEndDetector &detector, SongEnd &songend) {
 
 void apply_trimmer(SongEndDetector &detector, SongEnd &songend) {
     if (songend.status == SongEnd::PLAYER) {
-        uint32_t silence = detector.trim_silence(songend.length);
+        int silence = detector.trim_silence(songend.length);
         if (silence == songend.length) {
             songend.status = SongEnd::NOSOUND;
             songend.length = 0;
@@ -70,14 +70,14 @@ void apply_trimmer(SongEndDetector &detector, SongEnd &songend) {
             songend.length = songend.length - silence + MAX_SILENCE;
             songend.status = SongEnd::PLAYER_PLUS_SILENCE;
         } else {
-            uint32_t volume = detector.trim_volume(songend.length);
+            int volume = detector.trim_volume(songend.length);
             if (volume > MAX_SILENCE && volume < songend.length) {
                 songend.length = songend.length - volume + MAX_SILENCE;
                 songend.status = SongEnd::PLAYER_PLUS_VOLUME;
             }
         }
     } else if (songend.status == SongEnd::DETECT_SILENCE) {
-        uint32_t silence = detector.trim_silence(songend.length);
+        int silence = detector.trim_silence(songend.length);
         if (silence == songend.length) {
             songend.status = SongEnd::NOSOUND;
             songend.length = 0;

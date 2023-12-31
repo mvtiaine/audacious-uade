@@ -29,7 +29,7 @@ struct SongEnd {
         NOSOUND = 11,
     };
     Status status;
-    uint32_t length = 0;
+    int length = 0;
     constexpr static std::string status_string(const Status status) {
         switch (status) {
             case ERROR: return "error";
