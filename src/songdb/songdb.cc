@@ -309,7 +309,7 @@ optional<T> find(const vector<T> &db, const md5_t md5) {
 
 optional<ModlandData> make_modland(const md5_t md5) {
     const auto data = find(db_modland, md5);
-    if (data.has_value()) {
+    if (data) {
         return ModlandData {
             make_string(data->author),
             make_string(data->album),
@@ -320,7 +320,7 @@ optional<ModlandData> make_modland(const md5_t md5) {
 
 optional<AMPData> make_amp(const md5_t md5) {
     const auto data = find(db_amp, md5);
-    if (data.has_value()) {
+    if (data) {
         return AMPData {
            make_string(data->author),
         };
@@ -330,7 +330,7 @@ optional<AMPData> make_amp(const md5_t md5) {
 
 optional<UnExoticaData> make_unexotica(const md5_t md5) {
     const auto data = find(db_unexotica, md5);
-    if (data.has_value()) {
+    if (data) {
         return UnExoticaData {
             make_string(data->author),
             make_string(data->album),
@@ -343,7 +343,7 @@ optional<UnExoticaData> make_unexotica(const md5_t md5) {
 
 optional<DemozooData> make_demozoo(const md5_t md5) {
     const auto data = find(db_demozoo, md5);
-    if (data.has_value()) {
+    if (data) {
         return DemozooData {
             make_string(data->author),
             make_string(data->album),

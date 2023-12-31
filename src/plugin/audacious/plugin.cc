@@ -204,10 +204,10 @@ void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInf
     } else if (unexotica_path) {
         set_author(songinfo.unexotica_data->author);
     } else {
-        if (songinfo.modland_data.has_value()) set_author(songinfo.modland_data->author);
-        if (songinfo.amp_data.has_value()) set_author(songinfo.amp_data->author);
-        if (songinfo.demozoo_data.has_value()) set_author(songinfo.demozoo_data->author);
-        if (songinfo.unexotica_data.has_value()) set_author(songinfo.unexotica_data->author);
+        if (songinfo.modland_data) set_author(songinfo.modland_data->author);
+        if (songinfo.amp_data) set_author(songinfo.amp_data->author);
+        if (songinfo.demozoo_data) set_author(songinfo.demozoo_data->author);
+        if (songinfo.unexotica_data) set_author(songinfo.unexotica_data->author);
     }
 }
 
@@ -277,7 +277,7 @@ optional<Info> parse_info(VFSFile &file, const string &path, const string &md5, 
     }
     const Index<char> buf = read_all(file);
     const auto modinfo = player::parse(path.c_str(), buf.begin(), buf.len());
-    if (modinfo.has_value()) {
+    if (modinfo) {
         return Info {
             modinfo->player,
             modinfo->format,
