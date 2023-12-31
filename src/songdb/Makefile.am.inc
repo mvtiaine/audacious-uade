@@ -13,4 +13,5 @@ songdb_libsongdb_la_SOURCES = \
     songdb/sources/unexotica.cc \
     common/common.h \
     common/extensions.h \
-    common/logger.h
+    common/logger.h \
+    common/crc64.h

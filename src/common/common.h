@@ -4,6 +4,7 @@
 #pragma once
 
 #include <cassert>
+#include <cstdint>
 #include <numeric>
 #include <string>
 #include <vector>
@@ -28,7 +29,7 @@ struct SongEnd {
         NOSOUND = 11,
     };
     Status status;
-    int length = 0;
+    uint32_t length = 0;
     constexpr static std::string status_string(const Status status) {
         switch (status) {
             case ERROR: return "error";
