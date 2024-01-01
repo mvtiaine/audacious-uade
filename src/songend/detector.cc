@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-// Copyright (C) 2023 Matti Tiainen <mvtiaine@cc.hut.fi>
+// Copyright (C) 2023-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 // This code tries to detect song end in the input audio, similar to Deliplayer "deep songend scan" feature.
 // It first tries to detect loop length and then find the start of first loop based on that.
