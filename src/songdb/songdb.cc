@@ -204,6 +204,7 @@ void create_string_pool(const set<string> &strings) {
         string_pool.push_back(hash.second);
     }
     assert(string_pool.size() == strings.size());
+    assert(string_pool.size() < UINT16_MAX);
 }
 
 md5_t dedup_md5(const string &md5) {
