@@ -32,6 +32,7 @@ constexpr size_t mixBufSize(const int frequency) {
 
 struct uade_context {
     uade_state *state;
+    uade_config *config;
     bool initialized = false;
     bool available = true;
     int id;
@@ -257,8 +258,7 @@ void uade_common_options(struct uade_config *uc) {
     uade_config_set_option(uc, UC_DISABLE_TIMEOUTS, nullptr);
 }
 
-uade_state *create_uade_probe_state() {
-    uade_config *uc = uade_new_config();
+uade_state *create_uade_probe_state(uade_config *uc) {
     assert(uc);
     uade_common_options(uc);
     uade_config_set_option(uc, UC_SUBSONG_TIMEOUT_VALUE, to_string(PRECALC_TIMEOUT).c_str());
@@ -288,7 +288,9 @@ uade_context *get_probe_context() {
             if (probes[i].available) {
                 probes[i].available = false;
                 if (!probes[i].initialized) {
-                    probes[i].state = create_uade_probe_state();
+                    uade_config *uc = uade_new_config();
+                    probes[i].config = uc;
+                    probes[i].state = create_uade_probe_state(uc);
                     probes[i].initialized = true;
                     probes[i].id = i;
                 }
@@ -313,7 +315,7 @@ void cleanup_probe_context(uade_context *context, const string &path) {
     (void)path;
     TRACE("cleanup_probe_context id %d - %s\n", context->id, path.c_str());
     uade_cleanup_state(context->state);
-    context->state = create_uade_probe_state();
+    context->state = create_uade_probe_state(context->config);
 }
 
 void stop_probe_context(uade_context *context, const string &path) {
@@ -340,14 +342,12 @@ struct probe_scope {
     }
 };
 
-struct uade_state *create_uade_state(const UADEConfig &config) {
+struct uade_state *create_uade_state(const UADEConfig &config, struct uade_config *uc) {
     DEBUG("uade_config: frequency %d, filter %d, force_led_enabled %d, force_led %d, resampler %d, panning %f, "
           "headphones %d, headphones2 %d, gain %f, subsong_timeout %d, silence_timeout %d\n",
           config.frequency, static_cast<int>(config.filter), config.force_led.has_value(),
           config.force_led.has_value() ? config.force_led.value() : -1, static_cast<int>(config.resampler), config.panning,
           config.headphones, config.headphones2, config.gain, config.subsong_timeout, config.silence_timeout);
-
-    struct uade_config *uc = uade_new_config();
     assert(uc);
     uade_common_options(uc);
 
@@ -422,6 +422,8 @@ void cleanup_context(uade_context *context, const string &path) {
         release_probe_context(context, path);
     } else {
         uade_cleanup_state(context->state);
+        free(context->config->resampler);
+        free(context->config);
     }
 }
 
@@ -467,7 +469,10 @@ void shutdown() {
             probes[i].initialized = false;
             assert(probes[i].state);
             uade_cleanup_state(probes[i].state);
+            free(probes[i].config->resampler);
+            free(probes[i].config);
             probes[i].state = nullptr;
+            probes[i].config = nullptr;
         }
     }
 }
@@ -514,7 +519,9 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         context->probe = false;
         const auto &uade_config = static_cast<const UADEConfig&>(config);
         assert(uade_config.player == Player::uade);
-        context->state = create_uade_state(uade_config);
+        struct uade_config *uc = uade_new_config();
+        context->config = uc;
+        context->state = create_uade_state(uade_config, uc);
     }
 
     switch (uade_play_from_buffer(path, buf, size, subsong, context->state)) {
