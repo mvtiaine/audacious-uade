@@ -35,8 +35,6 @@ make clean && \
 #make clean && \
 #  CFLAGS="-gdwarf-4 -Werror" ./configure && \
 #  make -j check && \
-#  VALGRIND="$(which valgrind || echo valgrind) --quiet --exit-on-first-error=yes --error-exitcode=1 --trace-children=yes --undef-value-errors=no --leak-check=full " make -j check
-# TODO fix uninitialized value errors (false positives?)
 # VALGRIND="$(which valgrind || echo valgrind) --quiet --exit-on-first-error=yes --error-exitcode=1 --trace-children=yes --track-origins=yes --leak-check=full " make -j check
 
 # callgrind
