@@ -24,15 +24,15 @@ case class AMPMod (
   filesize: Int,
 )
 
-lazy val amp_by_path = sources.amp.groupBy(_.path)
+lazy val amp_by_path = sources.amp.groupBy(_.path.toLowerCase)
 
 lazy val amp_mods = Files.list(Paths.get(amp_path + "downmod/")).toScala(Buffer).par.map(f =>
   val loc = Using(scala.io.Source.fromFile(f.toFile())(scala.io.Codec.UTF8))( _.getLines.find(_.startsWith("location:"))).get
   if (loc.isDefined) {
     val url = loc.get.replace("location: ","")
     val path = java.net.URLDecoder.decode(url,"UTF-8").replaceAll("http[s]?://amp.dascene.net/modules/","").replace(".gz","")
-    if (amp_by_path.contains(path)) {
-      val e = amp_by_path(path).head
+    if (amp_by_path.contains(path.toLowerCase)) {
+      val e = amp_by_path(path.toLowerCase).head
       Some(AMPMod(f.toString().split("=").last.toInt, e.md5, path, e.filesize))
     } else None
   } else None

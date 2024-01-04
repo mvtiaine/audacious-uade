@@ -23,13 +23,19 @@ case class DemozooMeta (
   authors: Seq[String],
   modPublishers: Seq[String],
   prodPublishers: Seq[String],
-  imageUrls: Seq[String],
+  //imageUrls: Seq[String],
   party: Option[String],
   partyDate: Option[String],
   partyDatePrecision: Option[Precision],
 )
 
-lazy val ml_by_path = sources.modland.groupBy(_.path)
+lazy val ml_by_path = sources.modland.groupBy(_.path.toLowerCase)
+lazy val aminet_by_path = sources.aminet.groupBy(_.path.split("/").take(3).mkString("/").toLowerCase)
+lazy val demozoo_leftovers_by_path = sources.demozoo_leftovers.groupBy(_.path.toLowerCase)
+lazy val modarchive_by_id = sources.demozoo_leftovers
+  .filter(_.path.startsWith("api.modarchive.org")).groupBy(_.path.split("/").take(2).last)
+lazy val wantedteam_by_path = sources.wantedteam.groupBy(_.path.split("/").take(2).mkString("/").toLowerCase)
+lazy val unexotica_by_path = sources.unexotica.groupBy(_.path.split("/").take(3).mkString("/").toLowerCase)
 
 lazy val metas = Using(scala.io.Source.fromFile("sources/demozoo.tsv"))(_.getLines.flatMap(line =>
   def split(s: String) = s.replaceFirst("\\{","").replaceAll("\\}$","").split(",").filterNot(_ == "NULL")
@@ -51,20 +57,70 @@ lazy val metas = Using(scala.io.Source.fromFile("sources/demozoo.tsv"))(_.getLin
   val modPlatform = l(6)
   val prodPlatforms = split(l(7)) map trim
   val prod = l(8)
-  val url = l(9)
-  val authors = split(l(10)) map trim
-  val modPublishers = split(l(11)) map trim
-  val prodPublishers = split(l(12)) map trim
-  val imageUrls = split(l(13))
+  val linkClass = l(9)
+  val url = l(10)
+  val authors = split(l(11)) map trim
+  val modPublishers = split(l(12)) map trim
+  val prodPublishers = split(l(13)) map trim
+  //val imageUrls = split(l(14))
   val party = if (l.length > 14) Some(l(14)) else None
   val partyDate = if (l.length > 15) Some(l(15)) else None
   val partyDatePrecision = if (l.length > 16) Some(precision(l(16))) else None
 
   val meta = DemozooMeta(id, prodId, modDate, modDatePrecision, prodDate, prodDatePrecision,
-    modPlatform, prodPlatforms.toSeq, prod, authors.toSeq, modPublishers.toSeq, prodPublishers.toSeq, imageUrls.toSeq,
+    modPlatform, prodPlatforms.toSeq, prod, authors.toSeq, modPublishers.toSeq, prodPublishers.toSeq, // imageUrls.toSeq,
     party, partyDate, partyDatePrecision)
 
-  if (url.contains("://amp.dascene.net/downmod.php?index=")) {
+  // non-url links
+  if (linkClass == "AmigascneFile") {
+    val path = "ftp.amigascne.org/pub/amiga" + url.toLowerCase
+    if (demozoo_leftovers_by_path.contains(path)) {
+      val md5 = demozoo_leftovers_by_path(path).head.md5
+      Some(md5, meta)
+    } else None
+  } else if (linkClass == "FujiologyFile") {
+    val path = "ftp.untergrund.net/users/ltk_tscc/fujiology" + url.toLowerCase
+    if (demozoo_leftovers_by_path.contains(path)) {
+      val md5 = demozoo_leftovers_by_path(path).head.md5
+      Some(md5, meta)
+    } else None
+  } else if (linkClass == "ModarchiveModule") {
+    if (modarchive_by_id.contains(url)) {
+      val md5 = modarchive_by_id(url).head.md5
+      Some(md5, meta)
+    } else None
+  } else if (linkClass == "ModlandFile" && url.startsWith("/pub/modules/")) {
+    val path = url.replaceFirst("/pub/modules/", "").toLowerCase
+    if (ml_by_path.contains(path)) {
+      val md5 = ml_by_path(path).head.md5
+      Some(md5, meta)
+    } else None
+  } else if (linkClass == "PaduaOrgFile") {
+    val path = "ftp.padua.org/pub/c64" + url.toLowerCase
+    if (demozoo_leftovers_by_path.contains(path)) {
+      val md5 = demozoo_leftovers_by_path(path).head.md5
+      Some(md5, meta)
+    } else None
+  } else if (linkClass == "SceneOrgFile") {
+    val path = "files.scene.org/get" + url.toLowerCase
+    if (demozoo_leftovers_by_path.contains(path)) {
+      val md5 = demozoo_leftovers_by_path(path).head.md5
+      Some(md5, meta)
+    } else None
+  } else if (linkClass == "UntergrundFile") {
+    val path = "ftp.untergrund.net" + url.toLowerCase
+    if (demozoo_leftovers_by_path.contains(path)) {
+      val md5 = demozoo_leftovers_by_path(path).head.md5
+      Some(md5, meta)
+    } else None
+  } else if (linkClass == "WaybackMachinePage") {
+    val path = "web.archive.org/web/" + url.toLowerCase
+    if (demozoo_leftovers_by_path.contains(path)) {
+      val md5 = demozoo_leftovers_by_path(path).head.md5
+      Some(md5, meta)
+    } else None
+  // embedded sources
+  } else if (url.contains("://amp.dascene.net/downmod.php?index=")) {
     val id = url.split("=").last.toInt
     if (amp.amp_mods_by_id.contains(id)) {
       val md5 = amp.amp_mods_by_id(id).head.md5
@@ -72,18 +128,57 @@ lazy val metas = Using(scala.io.Source.fromFile("sources/demozoo.tsv"))(_.getLin
     } else None
   } else if (url.contains("://amp.dascene.net/modules/")) {
     // url should have been decoded already
-    val path = url.replaceAll("http[s]?://amp.dascene.net/modules/","").replace(".gz","")
+    val path = url
+      .replaceAll("http[s]?://amp.dascene.net/modules/","")
+      .replace(".gz","").toLowerCase
     if (amp.amp_by_path.contains(path)) {
       val md5 = amp.amp_by_path(path).head.md5
       Some(md5, meta)
     } else None
-  } else if (url.startsWith("/pub/modules/")) {
-    val path = url.replaceFirst("/pub/modules/", "")
-    if (ml_by_path.contains(path)) {
-      val md5 = ml_by_path(path).head.md5
+  } else if (url.contains("://aminet.net/")) {
+    val path = url
+      .replaceAll("http[s]?://aminet.net/package/","")
+      .replaceAll("http[s]?://aminet.net/","").toLowerCase
+      .replace(".lzx","")
+      .replace(".lha","")
+    if (aminet_by_path.contains(path)) {
+      val entries = aminet_by_path(path)
+      if (entries.size > 1) {
+          System.err.println("WARN: ignoring aminet path " + path + " - multiple entries - " + entries)
+          None
+      } else Some(entries.head.md5, meta)
+    } else None
+  } else if (url.contains("://wt.exotica.org.uk/files/")) {
+    val path = url.replaceAll("http[s]?://wt.exotica.org.uk/files/","").toLowerCase
+      .replace(".lzx","")
+      .replace(".lha","")
+    if (wantedteam_by_path.contains(path)) {
+      val md5 = wantedteam_by_path(path).head.md5
       Some(md5, meta)
     } else None
-  } else None
+  } else if (url.contains("://files.exotica.org.uk/?file=exotica/media/audio/UnExoticA/") ||
+             url.contains("://www.exotica.org.uk/download.php?file=media/audio/UnExoticA/")) {
+    val path = url
+      .replaceAll("http[s]?://files.exotica.org.uk/\\?file=exotica/media/audio/UnExoticA/","")
+      .replaceAll("http[s]?://www.exotica.org.uk/download.php\\?file=media/audio/UnExoticA/", "")
+      .toLowerCase
+      .replace(".lzx","")
+      .replace(".lha","")
+    if (unexotica_by_path.contains(path)) {
+      val entries = unexotica_by_path(path)
+      if (entries.size > 1) {
+        System.err.println("WARN: ignoring unexotica path " + path + " - multiple entries - " + entries)
+        None
+      } else Some(entries.head.md5, meta)
+    } else None
+  // leftovers
+  } else {
+    val path = url.replaceAll("http[s]?://","").toLowerCase
+    if (demozoo_leftovers_by_path.contains(path)) {
+      val md5 = demozoo_leftovers_by_path(path).head.md5
+      Some(md5, meta)
+    } else None
+  }
 
 ).distinct.toBuffer).get.groupBy(_._1).flatMap({case (md5, metas) =>
   var best: Option[DemozooMeta] = None
