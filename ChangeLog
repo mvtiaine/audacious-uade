@@ -1,4 +1,4 @@
-0.11.2 - 2023-01-05
+0.11.2 - 2024-01-05
 - Sync songdb sources to around 2024-01-03 snapshots
 - Improve songdb demozoo meta data sourcing/matching
 - Fix big endian and 32-bit host support
