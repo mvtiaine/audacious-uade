@@ -1,3 +1,10 @@
+0.11.2 - 2023-01-05
+- Sync songdb sources to around 2024-01-03 snapshots
+- Improve songdb demozoo meta data sourcing/matching
+- Fix big endian and 32-bit host support
+- Fix valgrind reported memory leaks in UADE
+- Misc fixes and updates
+
 0.11.1 - 2023-12-18
 - Avoid claiming XM/S3M/etc. files for UADE
 - Updated default UADE playback config:
