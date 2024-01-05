@@ -1092,6 +1092,7 @@ fb504cabfa32	ADKD
 43039cf39924	ADN	
 9604025d900a	ADR Design	
 710a967258f1	ADR Design	
+e70ed324647f	ADR Design	
 1aa839b8b5a1	ADR Design	
 a28c390f58e1	ADR Design	
 956fc03e90ff	ADR Design	
@@ -1108,7 +1109,6 @@ d1f0c02254d2	ADR Design
 7386a7f5d616	ADR Design	
 73e6469cf344	ADR Design	
 2a8fc70e0908	ADR Design	
-e70ed324647f	ADR Design	
 56ae025ee2b5	ADR Design	
 6db7f56c160d	ADR Design	
 e3a9d0d045ff	ADR Design	
@@ -3127,6 +3127,7 @@ d58210c1cfc0	Albert Colldeforns
 ee81d26cfa7b	Alberto Tapias	
 cca6448e6202	Alberto Tapias	
 91fa50e13df3	Alberto Tapias	
+64febf1d87ef	Alberto Tapias	
 17007dd74b7f	Alberto Tapias	
 7e0b7471e7a9	Alberto Tapias	
 2773d89c7d9c	Alberto Tapias	
@@ -4397,6 +4398,11 @@ a7bbffc3929a	Andreas Starr
 bca953c8e5d2	Andreas Starr	
 459536c9ae3e	Andreas Turowski	
 3473d85cdab6	Andreas Viklund	
+697a3226be7f	Andrew Campbell	
+26af56b83e63	Andrew Campbell	
+6bf40056efff	Andrew Campbell	
+188601bb75cf	Andrew Campbell	
+4f3da5950658	Andrew Campbell	
 5c6ed5aab561	Andrew Chilton	
 985cf0cbba61	Andrew Chilton	
 95c4e5a71a9a	Andrew Chilton	
@@ -6264,6 +6270,7 @@ e105cc56f785	Assasin
 423f6c085ae0	Assasin	
 62a18b1be086	Assasin	
 0ad23d07b4e3	Assasin	
+e20a0626e19e	Assasin	
 4b1b1e529859	Assasin	
 b4806201f968	Assasin	
 cca1f6db075c	Assasin	
@@ -6302,7 +6309,6 @@ f8e10dd27717	Assasin
 1ed06cd5cc70	Assasin	
 9c9e655b79b9	Assasin	
 124623be370a	Assasin	
-e20a0626e19e	Assasin	
 9cf6c7985613	Assasin	
 cb1300edb870	Assasin	
 23a96ec8f2cf	Assasin	
@@ -7687,6 +7693,8 @@ b368153f6c66	BakedFred
 48ec7a521bf9	Bal(UK)	
 4e1a6934a1d1	Bal(UK)	
 3091b945e314	Bal(UK)	
+6a7508af3055	Balcer(Poland)	
+3e06ecc54eca	Balcer(Poland)	
 3828d7cef191	Baldis	
 1f47d97463a3	Baldis	3C,Baldis
 8725603d3aba	Baldis	
@@ -8075,13 +8083,17 @@ a90ff4449f92	Baroque
 7de6c98c66d6	Baroque	
 d0561d1153ec	Barry Lancaster	
 1e96a19dcb60	Barry Landcaster	
+0fa3486cca80	Barry Leitch	
 12318e1bcafc	Barry Leitch	Barry Leitch,Dean Evans
 a8759ecc6c56	Barry Leitch	Barry Leitch,Dean Evans
 11b1261ae086	Barry Leitch	Barry Leitch,Dean Evans
+9433ca1eceb4	Barry Leitch	
+263ea922e5be	Barry Leitch	
 add9606383dc	Barry Leitch	Barry Leitch,Dean Evans
+3122f4e90f01	Barry Leitch	
 92ba7a740d56	Barry Leitch	Barry Leitch,Dean Evans
+d18770c28e41	Barry Leitch	
 5a4bf3b5039a	Barry Leitch	Barry Leitch,Dean Evans
-0fa3486cca80	Barry Leitch	
 49d11323be7d	Barry Leitch	
 ece8009c32b9	Barry Leitch	Barry Leitch,Keith Tinman
 f665c1819e7f	Barry Leitch	Barry Leitch,Keith Tinman
@@ -8092,10 +8104,6 @@ f665c1819e7f	Barry Leitch	Barry Leitch,Keith Tinman
 d6d72922e2e9	Barry Leitch	
 23ff99dbb18a	Barry Leitch	
 c3dd32023a22	Barry Leitch	
-9433ca1eceb4	Barry Leitch	
-263ea922e5be	Barry Leitch	
-3122f4e90f01	Barry Leitch	
-d18770c28e41	Barry Leitch	
 a5c563e29c16	Barry Leitch	
 90b65595169b	Barry Leitch	
 b94ef8c29d48	Barry Leitch	
@@ -8602,8 +8610,10 @@ d937bf67bbc2	Bassline
 dcf4b97e3633	Bassline	
 331e0244fc65	Bassline	
 67730362bde3	Bassline	
+d96c49428d9d	Bassline	
 4feeef03782d	Bassline	
 cec21647a1e4	Bassline	
+a76da1892c85	Bassline	
 4dc52137e598	Bassline	
 b012659ca9a5	Bassline	
 b5bb14a8eb39	Bassline	
@@ -9873,8 +9883,6 @@ da8ad2a344b6	Bev
 35ead9439a24	Bex	
 670b4567d5ca	Bex	
 131c75ee2432	Bex	
-d96c49428d9d	Bex	
-a76da1892c85	Bex	
 2cf920cba566	Bex	
 923cfd7f5e9b	Bex	
 5cb436610385	Bex	
@@ -10353,6 +10361,7 @@ c322a0beda7a	Bla
 82b3219c6bba	Black Dragon	
 7167469c1511	Black Dragon	
 173577dc9953	Black Dragon	
+438073b65c5b	Black Dragon	
 8cf2463c8124	Black Dragon	Black Dragon,HP
 cfb9f4db750f	Black Dragon	
 eae3fdb76722	Black Dragon	
@@ -10910,6 +10919,7 @@ b487b82afc98	Blaizer
 f50f49f309a2	Blaizer	
 015ca82ccb0a	Blaizer	
 294be142f1f1	Blaizer	
+a0f33255c7cd	Blaizer	
 dcdfbdd69257	Blaizer	
 44265b20367e	Blaizer	
 4bece09b7370	Blakkhar	
@@ -17563,7 +17573,6 @@ fd37e60373b2	Climber
 2fc83b7e2579	Climber	
 095fd6de9543	Clive B.	
 f8fcc02bfd6f	Clo(France)	
-438073b65c5b	Clo(France)	
 42e3ba5a5be0	Cloaker	
 5fbcc91d2890	Clodhopper-Dog	
 d3c63b0c0a65	Clodhopper-Dog	
@@ -26306,6 +26315,7 @@ e604d24b028c	DeeJay Jones (B)
 3f635064e254	DeeJay Jones (B)	
 c18ea97e8899	DeeJay Jones (B)	
 49456025f5e8	DeeJay Jones (B)	
+19b6aff7d240	DeeJay Jones	
 89d453aeb0e4	DeeJay Jones (B)	
 7ce4cc5eb516	DeeJay Jones (B)	
 06d26b9405e9	DeeJay Jones (B)	
@@ -26850,7 +26860,6 @@ a1133038ade5	DeeJay Jones
 8825e9df6614	DeeJay Jones	
 7e4dfc10a967	DeeJay Jones	
 a968c540307e	DeeJay Jones	
-19b6aff7d240	DeeJay Jones	
 ae2d41b9b469	DeeJay Jones	
 3034c6ce9e3f	DeeJay Jones	
 e5d950491287	DeeJay Jones	
@@ -27196,7 +27205,6 @@ caf626a6b412	Deejay Jones
 d58d22f1aae2	Deejay Jones	
 73a006f62cd6	Deejay Jones	
 402b39f0fbc9	Deejay Jones	
-2f5ecd96864f	Deejay Jones	
 90a572eb30de	Deejay Jones	
 6e683ab3028f	Deejay Jones	
 3e841a0bf7ae	Deejay Jones	
@@ -29168,9 +29176,9 @@ e9ad8f3b7209	Dirtie	Dirtie,Elapse
 605615310669	Dirtie	
 9e99580ae5df	Dirtie	
 f6feb945b8cd	Dirtie	
+333ba52ac2c9	Dirtie	
 42f7e15cb31b	Dirtie	
 3dc6b1eb208b	Dirtie	
-333ba52ac2c9	Dirtie	
 3eac0d77a3be	Dirtie	
 345fa7178d10	Dirtie	
 4199662e1aef	Dirtie	Dirtie,Elapse
@@ -30261,6 +30269,7 @@ b184536808c1	Domino(USA)
 c02c85b653f8	Domino(USA)	
 14a5fac191ab	Domm	
 c679c7e2d826	Domm	
+06a707b8c5b5	Domm	
 ea73cad9886f	Domm	
 e2ec56258b1e	Domm	
 f34c7a3953bd	Domm	
@@ -30274,7 +30283,6 @@ f6c243b85180	Domm
 1bb5878616df	Domm	
 9f8860867775	Domm	
 3d679d8b6015	Domm	
-06a707b8c5b5	Domm	
 5e2347b7a96c	Domm	
 524ef2d44fbb	Domm	
 95cb2161c44b	Domm	
@@ -31123,6 +31131,7 @@ b56b02eee23c	Dr. Awesome
 21aad0a1407c	Dr. Awesome	
 fa70d039272e	Dr. Awesome	
 69a58aab25e6	Dr. Awesome	
+023812d2a14f	Dr. Awesome	
 153d01a83bcf	Dr. Awesome	
 c5376f91a5dc	Dr. Awesome	
 32f5e810feda	Dr. Awesome	
@@ -31809,6 +31818,7 @@ c7fcf28e7809	Dragonball(FR)
 64bf5fd42722	Dragonball(FR)	
 f90a54e0dbad	Dragonball(FR)	
 d43f82f8c7c0	Dragonball(FR)	
+1745b3414596	Dragonball(FR)	
 f1aea68ee786	Dragonball(FR)	
 88fefb5cc3fc	Dragonball(FR)	
 ba29aae6b1fd	Dragonball(FR)	
@@ -33663,6 +33673,7 @@ ce90b876f837	Efecto
 53da07391518	Effron	
 817dcbd222d6	Ego the Avatar	
 82fa17e62fae	Egyptian Girl	
+ad66606427f1	Egyptian Girl	
 064a9d8b2e36	Einhart Po	Sko,Spiced Out Cowboy
 3a8accd71b77	Einhart Po	Sko,Spiced Out Cowboy
 fe859f261ae6	Eino Keskitalo	
@@ -35349,7 +35360,6 @@ fd416287f1af	Estrayk
 0ba1d1721918	Estrayk	
 95c26c772ec7	Estrayk	
 ffac9a6fc694	Estrayk	
-64febf1d87ef	Estrayk	
 3aa4d78b3dea	Estrayk	
 9a9cd264e769	Estrayk	
 d0b6f735d8a3	Estrayk	
@@ -39880,6 +39890,7 @@ bd77826d8deb	Fudge
 16c12877b606	Fudge	
 8260746ae3fe	Fudge	
 87422c142301	Fugaz(Poland)	
+9238eed10842	Fugaz(Poland)	
 c55763d5b6a6	Fugaz(Poland)	
 fd68eabc8404	Fugaz(Poland)	
 4a92560f1bf5	Fugaz(Poland)	
@@ -41732,6 +41743,7 @@ c437e260e524	Gianluca Gaiba
 d522ded5eaef	Gianluca Gaiba	
 fa34ed61f45d	Gianluca Gaiba	
 442ea644d17b	Gianluca Gaiba	
+62f9f245c59e	Gianluca Gaiba	
 a6b3a7441e70	Gianluca Gaiba	
 3cae2ea2229a	Gianluca Gaiba	
 f9748a5680c0	Gianluca Gaiba	
@@ -41743,7 +41755,6 @@ f9748a5680c0	Gianluca Gaiba
 30f7ff51b6ee	Gianluca Gaiba	
 13ea7d2df76d	Gianluca Gaiba	
 1d0126e90713	Gianluca Gaiba	
-62f9f245c59e	Gianluca Gaiba	
 38334b9bf881	Gianluca Gaiba	
 ebe0ebf5afce	Gianluca Gaiba	
 2d7d63db075d	Gianluca Gaiba	
@@ -41829,8 +41840,12 @@ f451b393acd4	Gianluca Gaiba
 9256683cc2de	Gianluca Gaiba	
 e77b948534de	Gianluca Gaiba	
 58275e4c0c37	Gianluca Gaiba	
+47d8c117bccf	Gianluca Gaiba	
 87f126d9512d	Gianluca Gaiba	
+6dfef79cbcbc	Gianluca Gaiba	
 ed081aa64b9e	Gianluca Gaiba	
+ce019a2361fa	Gianluca Gaiba	
+7a8f715e45e7	Gianluca Gaiba	
 7be256bd4831	Gianluca Gaiba	
 c9d76ba7d5df	Gianluca Gaiba	
 c116cda883e7	Gianluca Gaiba	
@@ -41841,6 +41856,7 @@ b0414d451789	Gianluca Gaiba
 f5adac368798	Gianluca Gaiba	
 0741153910a4	Gianluca Gaiba	
 24d51b508d3a	Gianluca Gaiba	
+b296d7964a73	Gianluca Gaiba	
 2a927b5a5bef	Gianluca Gaiba	
 dc2f1552251e	Gianluca Gaiba	
 2ceffea2a2ed	Gianluca Gaiba	
@@ -41851,7 +41867,6 @@ fdbcbb00afb0	Gianluca Gaiba
 04681d776e91	Gianluca Gaiba	
 6baebabe9e81	Gianluca Gaiba	Fabio Cortese,Gianluca Gaiba
 17b3a097e5d9	Gianluca Gaiba	Fabio Cortese,Gianluca Gaiba
-b296d7964a73	Gianluca Gaiba	Fabio Cortese,Gianluca Gaiba
 ef8217edafd2	Gianluca Gaiba	Fabio Cortese,Gianluca Gaiba
 bde5378768e6	Gianluca Gaiba	Fabio Cortese,Gianluca Gaiba
 76007074eeea	Gianluca Gaiba	Fabio Cortese,Gianluca Gaiba
@@ -42076,13 +42091,9 @@ e5d2738c9a89	Gianluca Gaiba
 9d1caf1bab1b	Gianluca Gaiba	
 055a5aa03c02	Gianluca Gaiba	
 dcda995b7f8c	Gianluca Gaiba	
-47d8c117bccf	Gianluca Gaiba	
 bab677344bdd	Gianluca Gaiba	
 300808e67535	Gianluca Gaiba	
-6dfef79cbcbc	Gianluca Gaiba	
 02adbe59c9e8	Gianluca Gaiba	
-ce019a2361fa	Gianluca Gaiba	
-7a8f715e45e7	Gianluca Gaiba	
 b18ef3d9c3bd	Gianluca Gaiba	
 4b2e892b6b74	Gianluca Gaiba	
 27f26922f07b	Gianluca Gaiba	
@@ -42402,9 +42413,12 @@ b247a6e78e2f	Ginseng
 723a4b25f79c	Ginseng	
 66905e435a19	Ginseng	
 bd53a9627295	Ginseng	
+bfcfe5b591a9	Giorgio Piazza(Italy)	
 6aa54e170292	Gioser	
 3bcf43e9e15a	Giovanni Cardona	
 390505578b76	Gipsyman	
+2cbef815eddb	Giraffljud	
+ee0124307441	Giraffljud	
 7942094fe879	Giuseppe Ippoliti	
 d36e8a2f1027	Giz(NL)	
 58be5d5058d5	Giz(NL)	
@@ -42726,6 +42740,7 @@ b5d5b13c5730	Godzilla
 cba51a6b2ff7	Godzilla	
 4be5ca96595c	Godzilla	
 9ebc6f0ab430	Godzilla	
+56befb055b1f	Gold Mc Green	
 2d178b344a6f	Goldcrest	
 bcc04a5b204b	Golden Axe	
 ad0c3277b1f2	Golgotha	
@@ -43227,8 +43242,6 @@ e66e7cdb71e8	Gouafhg
 4859cdbcc63e	Gouafhg	
 cf460eb2cb6e	Gouafhg	
 af5a54ed923b	Gouafhg	
-2cbef815eddb	Gouafhg	
-ee0124307441	Gouafhg	
 8c9ed5556626	Gouafhg	
 f58c969efd80	Gouafhg	
 3e6d3b681d95	Gouafhg	
@@ -44707,6 +44720,9 @@ ba0f7556f526	Haiko Ruttman
 6fbd467bf27b	Haiko Ruttman	
 7b607ce65ea0	Haiko Ruttman	
 b9afcab5f312	Haiko Ruttman	
+8b25793e14f8	Hairio Projekti	
+0364522a8790	Hairio Projekti	
+b8f7ca752ce1	Hairio Projekti	
 ec8cf781934d	Halfbyte	
 72cad7ca4912	Halfbyte	
 8e55b1ead4fc	Halfbyte	
@@ -44830,6 +44846,9 @@ cdad1aa81ddb	Hans Hermann Franck
 e0b015e62757	Hans Hermann Franck	
 6b3cfd808615	Hans Hermann Franck	
 202eb886fad5	Hans Hermann Franck	
+26ac53faa48c	Hans Hermann Franck	
+03e6a02d1d51	Hans Hermann Franck	
+7860aec1e068	Hans Hermann Franck	
 1d3a3b79f3b8	Hans Hermann Franck	
 5a175718ef81	Hans Hermann Franck	
 f17ef898e6a1	Hans Hermann Franck	
@@ -45066,6 +45085,7 @@ fe9b7dae89e3	Hawk(ND)
 ca9d80f75c61	Hawk(ND)	
 cc5b283e4169	Hawk(ND)	
 cbbb3be58287	Hawk(ND)	
+b98de5c07a1f	Hawk(ND)	
 9223f38688d0	Hawk(ND)	
 8dd6b383a68b	Hawk(ND)	
 73845eeccfbd	Hawk(ND)	
@@ -47024,6 +47044,7 @@ ed2b7f1433ae	Holger K.
 883a40b796ad	Holger K.	
 8c2b8108f798	Holger K.	
 39246831cd19	Holger K.	
+dab8aaecd3c7	Holger K.	
 d329f01fcdc0	Holger K.	
 22f406481284	Holger K.	
 a535423a7440	Holger K.	
@@ -47031,7 +47052,6 @@ a535423a7440	Holger K.
 f62f04906db3	Holger K.	
 4fd2169065fb	Holger K.	
 66d6593581bd	Holger K.	
-dab8aaecd3c7	Holger K.	
 01615f32ba7c	Holger K.	
 2bf80e1d6dae	Holger K.	
 a57f85a28326	Holger K.	
@@ -49625,6 +49645,7 @@ fa48b8939032	JPM
 57ffea8fc5c1	JPM	
 7cec8896d1ad	JPM	
 09582081f47e	JPN(Germany)	
+02a75a7dbe14	JPN(Germany)	
 2695d1c39e4c	JPN(Germany)	
 cf80d9efe5ae	JPN(Germany)	
 d59594e59e5f	JPN(Germany)	
@@ -49642,7 +49663,6 @@ be15011ac4d8	JPN(Germany)
 5f05a57b0588	JPN(Germany)	
 3329d4e5b595	JPN(Germany)	
 45c9d2adeb56	JPN(Germany)	
-02a75a7dbe14	JPN(Germany)	
 15a3015390ec	JPN(Germany)	
 6af5f3e62937	JPN(Germany)	
 2574910e78f1	JPN(Germany)	
@@ -52068,9 +52088,6 @@ b1e4f5083b65	Jens
 dfc84254c594	Jens	
 bfb24b6fc3af	Jens	
 61c7146e48e0	Jens	
-26ac53faa48c	JensOnnen(German)	
-03e6a02d1d51	JensOnnen(German)	
-7860aec1e068	JensOnnen(German)	
 29d78fbb0509	JensOnnen(German)	
 221b4e264efc	Jenx	
 37a451dc3aff	Jenx	
@@ -58915,8 +58932,8 @@ dadaeb53f5de	Lizardking
 869f04e4938f	Lizardking	
 bf7406746e02	Lizardking	
 a33252ea377e	Lizardking	
-cf94221eb8c6	Lizardking	
 b06fbea13b9c	Lizardking	
+cf94221eb8c6	Lizardking	
 1e0ea77b6425	Lizardking	
 8107ddb660c8	Lizardking	
 aeac56038c91	Lizardking	
@@ -60089,7 +60106,6 @@ dee62cbde97a	M-Litz
 31ec6c31a1e0	M-Litz	
 f711002c4f05	M-Litz	
 bde46ea8275f	M. Bednarik	
-9238eed10842	M. Bilinski	
 b052fc2d65df	M. Dogan	
 a447ccb9eff7	M. Emrah Oral	
 e70d51346297	M. Emrah Oral	
@@ -60181,7 +60197,6 @@ fe72f8869c71	MC Clearasil
 ea4601428f5b	MC Coolbeat	
 9f86e8bbfad5	MC Coolbeat	
 07eb15354c4f	MC Escher	
-56befb055b1f	MC Green	
 5c8871866e16	MC Green	
 6656984f0011	MC Green	
 d0ced9259041	MC Green	MC Green,MCS
@@ -60360,21 +60375,16 @@ b686a3001f5d	MC MP
 ba3d231aa630	MC Matrix	
 dadb041fd98c	MC Matrix	
 1f2f97e36049	MC Matrix	
-697a3226be7f	MC Matrix	
 cd733ec4ae47	MC Matrix	
 6785a5b50d33	MC Matrix	
 feb096068f08	MC Matrix	
 e6da59b44f9b	MC Matrix	
-26af56b83e63	MC Matrix	
 fa125bc3ab9b	MC Matrix	
-6bf40056efff	MC Matrix	
 3f826e05149c	MC Matrix	
-188601bb75cf	MC Matrix	
 6dc6b54391db	MC Matrix	
 02bb81d4c209	MC Matrix	
 4d8ec2f3254e	MC Matrix	
 eec25e4dc930	MC Matrix	
-4f3da5950658	MC Matrix	
 715a4bb43ba8	MC Merlin	
 7f31eb1cf8f8	MC Merlin	
 8008214cb96c	MC Miksoft	
@@ -60843,7 +60853,6 @@ cffc04661730	MSW
 6f3eaef74585	MSW	
 d561916b852b	MSW	
 1d8d9984392a	MSW	
-b98de5c07a1f	MSW	
 7946d1bf2063	MSW	
 1895114fc29d	MSW	
 4c7a7c427a54	MSW	
@@ -66901,9 +66910,6 @@ af93fa9807ec	Mem'O'Ree
 9de08d47c844	Mem'O'Ree	
 179904c79c17	Member 1	
 81ed2787d152	Member 1	
-8b25793e14f8	Member 2	
-0364522a8790	Member 2	
-b8f7ca752ce1	Member 3	
 358671a20fbf	Member 4	
 1f9b51453399	Memorys	
 7b288f753626	Memorys	
@@ -67737,7 +67743,6 @@ d3cf2b894620	Mexy
 04e1a1cbd433	Mexy	
 7ae21b83ccec	Mexy	
 9aff15476818	Mexy	
-ad66606427f1	Mexy	
 b0bb2b4161d6	Mezziha	
 ada84e40a5d0	MiG	
 58135ecd6390	MiG	
@@ -71699,7 +71704,6 @@ d71b85677cb5	Mr. Nuke(NL)
 3c101ad4a6b0	Mr. Pavelo	Mr. Pavelo,XTD
 cce34f611e59	Mr. Pavelo	
 c1992d44df27	Mr. Pavelo	
-6a7508af3055	Mr. Pavelo	
 60cd859e827d	Mr. Pavelo	
 4160c18f22c8	Mr. Pavelo	
 847eb03e8945	Mr. Pavelo	
@@ -71707,7 +71711,6 @@ c1992d44df27	Mr. Pavelo
 e4e5e82a7254	Mr. Pavelo	
 36f014f0161f	Mr. Pavelo	
 969ee542e985	Mr. Pavelo	
-3e06ecc54eca	Mr. Pavelo	
 2d41b462dba1	Mr. Pavelo	
 b579da0280fc	Mr. Pavelo	
 8029418b37be	Mr. Perfect	
@@ -74156,7 +74159,6 @@ fe1bc1295f59	Nicola Tomljanovich
 73f0d27eefb4	Nicola Tomljanovich	
 be0d82d7f820	Nicola Tomljanovich	
 9b61f1cc703a	Nicolas Daire	
-bfcfe5b591a9	Nicolas Heaps	
 8cfe5730d7f1	Niels de Koning(Hol)	
 93806d99e452	Nigel Sixsmith	
 ecb111ebc8df	Night Hawk	
@@ -74620,7 +74622,6 @@ d10cc2f5bf78	No. 1
 fdb88078bbc4	No. 1	
 c603747f7351	No. 1	
 3d299c585090	No. 1	
-a0f33255c7cd	No. 1	
 f7b6d46567b3	No. 1	
 c950a252149f	No. 1	
 327d9733a20f	No9	
@@ -79573,7 +79574,6 @@ cdf74035236e	Phoenix(IFT)
 7bdaabcda8d0	Phoenix(IFT)	
 8475cf2ea83b	Phoenix(IFT)	
 c13bc8f13056	Phoenix(IFT)	
-1745b3414596	Phoenix(IFT)	
 bd085fc63aca	Phoenix(UK)	
 e437d96c405b	Phoenix(UK)	
 65f76e8a530f	Phoenix(UK)	
@@ -86803,6 +86803,7 @@ d620cff449e2	Rhino(UK)	Manic,Rhino
 6d7b41fecba3	Rhino(UK)	Manic,Rhino
 6931242f4473	Rhino(UK)	Manic,Rhino
 eb1b1ef2ba5c	Rhino(UK)	Manic,Rhino
+568fb69ec366	Rhino(UK)	Manic,Rhino
 192b4f4c2e19	Rhino(UK)	Manic,Rhino
 2bc7abaab2b4	Rhino(UK)	
 36271411a6bc	Rhino(UK)	
@@ -93533,6 +93534,7 @@ a68fd5ca5965	Skuggemannen
 58977de764b1	Skullsaw	
 7bfdeb3a671b	Skullsaw	
 02d0d96041ee	Skullsaw	
+42e50b65d839	Skullsaw	
 e43dc3b01791	Skullsaw	
 4b6e476a4f14	Skullsaw	
 66902d0efc17	Skullsaw	
@@ -93554,7 +93556,6 @@ d3ef57bbc639	Skullsaw
 289d797b2097	Skullsaw	
 d8457628ad7a	Skullsaw	
 24fe7da77c13	Skullsaw	
-42e50b65d839	Skullsaw	
 7e16def3cc57	Skurk	
 265d6a26cbde	Skuter	
 a2b6efca7d69	Skuz	
@@ -95106,6 +95107,7 @@ dd159a179ec8	Soldier(SF)
 8f9a87238f3d	Soldier(SF)	
 829bbb660e58	Soldier(SF)	
 c34ad9ef22dd	Solid(Hol)	
+07bbf4f5fbf8	Solid	
 a2af764c2f82	Solid	
 7f8888dc56a0	Solid	
 14ce7a9a666e	Solid	
@@ -95127,7 +95129,6 @@ cc4b29fd2d1f	Solid
 0156386a967e	Solid	
 85494f400b88	Solid	
 f2e7451e6087	Solid	
-07bbf4f5fbf8	Solid	
 f1995439ed22	Solid	
 a259ece36294	Solo(N)	
 a32556447a33	Solo(N)	
@@ -97569,6 +97570,7 @@ c69de8f5a13f	Starray(Finland)
 2397e87d24f8	Starwize	
 6c0a6d38dcae	Stas Furtovsky	
 75495753c626	Stash(Holland)	
+a1fc2d6e49e5	Stash(Holland)	
 13b9cb43bce5	State of Mind	
 7ce3146ff06d	State of Mind	
 2be4f8d8e35c	State of Mind	
@@ -98398,7 +98400,6 @@ d14dff42577f	Strike(ND)
 f0b49a7533e4	Strike(ND)	
 b76e90aa28ec	Strike(ND)	
 447e32333e22	Strike(ND)	
-a1fc2d6e49e5	Strike(ND)	
 3b04a448dbe9	Strike(ND)	
 65768c9fa80d	Strike(ND)	
 d6407b360254	Strike(ND)	
@@ -101345,9 +101346,9 @@ c800b2290df8	TGR
 7fc5170a95f2	TGR	
 37d89ef172f2	TGR	
 9706635959ac	TGR	
+ff9bc9ca5211	THD	
 bd999de63029	THD	
 b82bc505a66a	THD	
-ff9bc9ca5211	THD	
 ad28a46473ae	THD	
 c4e9354bfcf2	THV	
 70bdb0d972f4	TII	
@@ -105875,6 +105876,7 @@ d5c90b60b4cf	Tim Wright
 8a1822e9f39a	Tim Wright	
 c2b324999b76	Tim Wright	
 6798a9113f70	Tim Wright	
+53c7d1668aaa	Tim Wright	
 8eb54e4274b7	Tim Wright	
 10cd1556ccda	Tim Wright	
 94b1f1d3ed19	Tim Wright	
@@ -105977,7 +105979,6 @@ fd2c895ea1a3	Tim Wright
 c60bb2fbdc90	Tim Wright	
 84809573f1bc	Tim Wright	
 002cf6cb2948	Tim Wright	
-53c7d1668aaa	Tim Wright	
 70df6ce9734e	Tim Wright	
 fdf929e153ea	Tim Wright	
 d0fa487e36ec	Tim Wright	
@@ -108437,11 +108438,11 @@ cb2ba7179132	Tri
 240cdc429421	Tri	
 0365b9ffcec0	Triace	
 27f67814aaa6	Triace	
+f446093e9df1	Triace	
 afcfb3e7f043	Triace	
 d48e30466df1	Triace	
 47b82cb801b6	Triace	
 148cf6cd453b	Triace	
-f446093e9df1	Triace	
 02ac08531fae	Triace	
 d2e5aeea0b06	Triace	
 c3709a53c7f5	Triace	
@@ -110714,93 +110715,6 @@ de2f4aea1dd0	Unknown Artist
 d619d59505ed	Unknown Artist	
 feb4a00a9baf	Unknown Artist	
 690daf0a3eae	Unknown(ger)	
-434d6428c5e6	UnknownComposers	
-be10679ebc98	UnknownComposers	
-c1fd891a976b	UnknownComposers	
-91b5bae19249	UnknownComposers	
-ee006a7d81eb	UnknownComposers	
-67a8296c129f	UnknownComposers	
-4d9b94ef48e7	UnknownComposers	
-9b65414dfea0	UnknownComposers	
-99828d858602	UnknownComposers	
-5cc932e684b7	UnknownComposers	
-a4669c54b69a	UnknownComposers	
-05b91aeece47	UnknownComposers	
-e6bc25ccbff7	UnknownComposers	
-437dbd1590c4	UnknownComposers	
-558ea6b618ca	UnknownComposers	
-6c57886af7c8	UnknownComposers	
-9ed05af10c60	UnknownComposers	
-88d946ecb0ff	UnknownComposers	
-00af79bd9db0	UnknownComposers	
-20634343bc28	UnknownComposers	
-51daeb49cdce	UnknownComposers	
-b2c80912959b	UnknownComposers	
-8841151db28c	UnknownComposers	
-b11238346514	UnknownComposers	
-95dcd385e25e	UnknownComposers	
-301b84e0ce80	UnknownComposers	
-02f415532684	UnknownComposers	
-de99a4874845	UnknownComposers	
-5123ee1caf05	UnknownComposers	
-7d414e554b99	UnknownComposers	
-2ca12337d06c	UnknownComposers	
-a74b30a3bddb	UnknownComposers	
-997ef9d87ae3	UnknownComposers	
-54e167a55a54	UnknownComposers	
-cefdddb0669f	UnknownComposers	
-921df831973f	UnknownComposers	
-b1165e8cd603	UnknownComposers	
-e05e0e02e98b	UnknownComposers	
-46bde9c2de7d	UnknownComposers	
-c7d2b73a70d9	UnknownComposers	
-2917927deb9f	UnknownComposers	
-c2c4a1b788f4	UnknownComposers	
-7f97479eca20	UnknownComposers	
-4aa9d06c212f	UnknownComposers	
-3754f84641f9	UnknownComposers	
-e46cab33f4f7	UnknownComposers	
-33b8d2154bad	UnknownComposers	
-3e7d6cca96bf	UnknownComposers	
-8a2933af085d	UnknownComposers	
-64983dc7853f	UnknownComposers	
-725890fba979	UnknownComposers	
-5e1fbe036ef9	UnknownComposers	
-4d46fccf5ec2	UnknownComposers	
-3ba00101c5ca	UnknownComposers	
-da16a3872108	UnknownComposers	
-c0e5b16f4a6c	UnknownComposers	
-bdf386caae25	UnknownComposers	
-a40afc2a9296	UnknownComposers	
-aa97fec77534	UnknownComposers	
-1796c78e5fc2	UnknownComposers	
-5c610124f238	UnknownComposers	
-f1755b2755ae	UnknownComposers	
-280747abf541	UnknownComposers	
-3afc35172a79	UnknownComposers	
-c8167e7cfee5	UnknownComposers	
-b5880cf06802	UnknownComposers	
-e29eea065fc2	UnknownComposers	
-a9e0d4c290e5	UnknownComposers	
-2b0ff9cb4923	UnknownComposers	
-8b70da648ef2	UnknownComposers	
-df649d4d8913	UnknownComposers	
-617c087a84eb	UnknownComposers	
-3a37e1448f29	UnknownComposers	
-1d64c1b2aa7b	UnknownComposers	
-26635fc5626e	UnknownComposers	
-fc09a5982bd5	UnknownComposers	
-72674efef637	UnknownComposers	
-4cdd21f93a63	UnknownComposers	
-3b0ca54290eb	UnknownComposers	
-e29af0f5e31d	UnknownComposers	
-c1fec533d3b8	UnknownComposers	
-6a37b53142bc	UnknownComposers	
-849c37b44a53	UnknownComposers	
-2b3659947971	UnknownComposers	
-b7382a5ffe9d	UnknownComposers	
-2ba0d6a55343	UnknownComposers	
-b520f8d05853	UnknownComposers	
 c26829e2f7d4	Unlimited	TKM,Unlimited
 55f3322b78ab	Unlimited	TKM,Unlimited
 b61bfd85a8fd	Unlimited	TKM,Unlimited
@@ -113687,7 +113601,6 @@ c8866d63faed	Walkman
 bae31ebd102e	Walkman	
 b2b7182f3c98	Wally Beben	
 d66ecb45bbf0	Wally Beben	
-023812d2a14f	Wally(DK)	
 554613d54045	Wally(DK)	
 b493b9974796	Wally(DK)	
 86580b037041	Wally(DK)	
@@ -115327,11 +115240,9 @@ b2f332518c36	Wotw
 2adf36b797b1	Wotw	
 0fe7125ff62b	Wotw	
 d71a3460639f	Wotw	
-da2299e2838f	Wotw	
 8781bdbbdbc1	Wotw	
 12d399567ec3	Wotw	
 4bffe91ecdd4	Wotw	
-6e061198de61	Wotw	
 6fee228aa820	Wotw	
 f971a4391c27	Wotw	
 261b5a5bffe2	Wotw	
@@ -118618,6 +118529,7 @@ c3f57fcd534b	Zox
 04f204f6e91e	Zox	
 bab2f49c18e8	Zox	
 91f65526636f	Zox	
+56cbdc0349e4	Zozo	
 746a8c0fe4e0	Zozo	Bartesek,Zozo
 76cdae228141	Zozo	Bartesek,Zozo
 24d9518943da	Zozo	
@@ -118635,7 +118547,6 @@ de76af15af06	Zozo
 317d2c97ef78	Zozo	
 b6a4c647f002	Zozo	
 5ccb72759731	Zozo	
-56cbdc0349e4	Zozo	
 7b4836a2a0d8	Zozo	
 be5bc3fbe66d	Zozo	
 9f254f02d52b	Zp!rX1n65	
@@ -118754,6 +118665,7 @@ bdcbe5a630b0	Zyx(Ger)
 fb589a609ec8	Zzap	
 c8dccaf97d51	Zzap	
 df6cd04cc096	Zzzax	Exodus,Zzzax
+c1fd891a976b	Zzzax	Exodus,Zzzax
 1830213453b5	Zzzax	Exodus,Zzzax
 bff0c8501931	Zzzax	
 e17cf07b2ced	Zzzax	

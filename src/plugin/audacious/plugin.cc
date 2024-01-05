@@ -114,11 +114,27 @@ void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInf
         }
     };
 
+    const auto set_author = [&tuple](const string &author) {
+        if ((!tuple.is_set(Tuple::Artist) && !author.empty())) {
+            tuple.set_str(Tuple::Artist, author.c_str());
+        } else {
+            const char *oldartist = tuple.get_str(Tuple::Artist);
+            const int oldcount = oldartist ? common::split(oldartist, " & ").size() : 0;
+            const int newcount = common::split(author, " & ").size();
+            if ((!oldartist || string(oldartist) == "" || oldartist == songdb::UNKNOWN_AUTHOR) && !author.empty() && author != songdb::UNKNOWN_AUTHOR) {
+                tuple.set_str(Tuple::Artist, author.c_str());
+            } else if (!author.empty() && author != songdb::UNKNOWN_AUTHOR && newcount > oldcount) {
+                tuple.set_str(Tuple::Artist, author.c_str());
+            }
+        }
+    };
+
     set_int(Tuple::Length, songinfo.songlength);
     set_str(Tuple::Comment, "songend="+songinfo.songend);
 
     if (!songinfo.demozoo_data && !songinfo.modland_data && !songinfo.amp_data && !songinfo.unexotica_data) {
         TRACE("No Demozoo/Modland/UnExotica/AMP data for %s %s\n", md5.c_str(), path.c_str());
+        set_author(songdb::UNKNOWN_AUTHOR);
         return;
     }
 
@@ -148,21 +164,6 @@ void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInf
 #endif
         set_int(Tuple::Year, data.year);
     }
-
-    const auto set_author = [&tuple](const string &author) {
-        if ((!tuple.is_set(Tuple::Artist) && !author.empty())) {
-            tuple.set_str(Tuple::Artist, author.c_str());
-        } else {
-            const char *oldartist = tuple.get_str(Tuple::Artist);
-            const int oldcount = oldartist ? common::split(oldartist, " & ").size() : 0;
-            const int newcount = common::split(author, " & ").size();
-            if ((!oldartist || oldartist == songdb::UNKNOWN_AUTHOR) && !author.empty() && author != songdb::UNKNOWN_AUTHOR) {
-                tuple.set_str(Tuple::Artist, author.c_str());
-            } else if (!author.empty() && author != songdb::UNKNOWN_AUTHOR && newcount > oldcount) {
-                tuple.set_str(Tuple::Artist, author.c_str());
-            }
-        }
-    };
 
     auto tokens = common::split(path,"/");
     reverse(tokens.begin(), tokens.end());

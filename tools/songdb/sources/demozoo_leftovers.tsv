@@ -2031,6 +2031,8 @@
 1f5ba46279948cfdc085af9facdbfad7	1	115321	player	uade	Protracker compatible	0	22496	media.demozoo.org/music/15/f1/disillus.MOD
 1f71a7cb2124154182439d01a4aa6c2f	1	121891	player	uade	Protracker	0	121074	fading-twilight.atari.org/fading_twilight_dual_layer_dvd/TUNEZ/B/BARTMAN/4CHANNEL/1_MINUTE.MOD
 1f71a7cb2124154182439d01a4aa6c2f	1	121891	player	uade	Protracker	0	121074	media.demozoo.org/music/1d/d1/1_minute.MOD
+1f7297f17b99aadfea63cbf8f74dc5d9	1	253569	player	uade	Noisetracker 1.x	0	112590	api.modarchive.org/34274/hymn_to_aurora.mod
+1f7297f17b99aadfea63cbf8f74dc5d9	1	253569	player	uade	Noisetracker 1.x	0	112590	api.modarchive.org/99684/hymn_to_aurora.mod
 1f7f0a7ceaed64516024b2812da58815	1	113693	player	uade	Noisetracker 1.x	0	93588	fading-twilight.atari.org/fading_twilight_dual_layer_dvd/TUNEZ/S/SINIS/4CHANNEL/S_3DMANI.MOD
 1f7f0a7ceaed64516024b2812da58815	1	113693	player	uade	Noisetracker 1.x	0	93588	media.demozoo.org/music/73/24/s_3dmani.MOD
 1f8acbca2f03538f32e9abb44af6c27c	1	46216	player	uade	Noisetracker 2.x	0	62320	fading-twilight.atari.org/fading_twilight_dual_layer_dvd/TUNEZ/W/WIZARD/4CHANNEL/LEMMINGS/LEMM1_12.MOD
@@ -13623,6 +13625,8 @@ d0b271adc37226582b2a112c8bd1b0b0	1	275311	player	uade	Protracker	0	179646	fading
 d0b271adc37226582b2a112c8bd1b0b0	1	275311	player	uade	Protracker	0	179646	media.demozoo.org/music/26/3d/tranceco.MOD
 d0b71602799e25c28c20794130495245	1	353418	player	uade	Protracker	0	104088	files.scene.org/get/parties/2017/deadline17/tracked_music/mod.mod.amiga.mod.mod
 d0b71602799e25c28c20794130495245	1	353418	player	uade	Protracker	0	104088	media.demozoo.org/music/f1/2c/modmodamigamod.mod
+d0e61283309c5d72a050d14fcb2e6704	1	300275	player+silence	uade	Protracker	0	347582	api.modarchive.org/57925/space_debris.mod
+d0e61283309c5d72a050d14fcb2e6704	1	300275	player+silence	uade	Protracker	0	347582	api.modarchive.org/57934/space_debris.mod
 d0f199431da2c6476acf4317706e9699	1	18097	silence	uade	Protracker	0	24664	ftp.untergrund.net/users/ltk_tscc/fujiology/MUSIC/FT/TUNEZ/GAMES/LOTUS3/L3_MOTOR.MOD
 d0f199431da2c6476acf4317706e9699	1	18097	silence	uade	Protracker	0	24664	media.demozoo.org/music/ab/2f/l3_motor.MOD
 d0f4de96ec9bddab690388cd4b4d0bd1	1	175658	player+volume	uade	Protracker	0	61856	fading-twilight.atari.org/fading_twilight_dual_layer_dvd/TUNEZ/P/PROFI/4CHANNEL/DYKTA.MOD
@@ -14431,6 +14435,8 @@ dd8c7538c097920ccdb67f6d16c40fb5	1	64120	player	uade	Protracker compatible	0	293
 dd8c7538c097920ccdb67f6d16c40fb5	1	64120	player	uade	Protracker compatible	0	29398	media.demozoo.org/music/d2/bb/in__bed.MOD
 dd925f9f0874cc47b360b50f525b30de	1	272598	player	uade	Protracker compatible	0	122342	fading-twilight.atari.org/fading_twilight_dual_layer_dvd/TUNEZ/M/MSG/4CHANNEL/SECTOR.MOD
 dd925f9f0874cc47b360b50f525b30de	1	272598	player	uade	Protracker compatible	0	122342	media.demozoo.org/music/24/8f/sector.MOD
+dd981457e5aba04ae355dfabc4df97ce	1	183621	player	uade	Protracker	0	153650	api.modarchive.org/114749/soul-o-matic.mod
+dd981457e5aba04ae355dfabc4df97ce	1	183621	player	uade	Protracker	0	153650	api.modarchive.org/57841/soul-o-matic.mod
 dd9a3ed9bb7741b62c66c31f270be2f5	1	211331	player	uade	Protracker compatible	0	126682	api.modarchive.org/117740/after_smoking.mod
 dd9c173df81b8451eba25e09e8b7994e	1	171625	player	uade	Protracker	0	59540	ftp.untergrund.net/users/ltk_tscc/fujiology/MUSIC/FT/TUNEZ/GAMES/LOTUS3/L3_CD5-M.MOD
 dd9c173df81b8451eba25e09e8b7994e	1	171625	player	uade	Protracker	0	59540	media.demozoo.org/music/43/86/l3_cd5-m.MOD
@@ -16318,6 +16324,8 @@ fa57eca6c892d313fdffbbf58fdee92b	1	162683	player	uade	Noisetracker 2.x	0	147264	
 fa57eca6c892d313fdffbbf58fdee92b	1	162683	player	uade	Noisetracker 2.x	0	147264	media.demozoo.org/music/b6/f8/habo4mus.MOD
 fa5a156b431b2ce8df40c60cd600fdf2	1	179321	player	uade	Protracker	0	91672	fading-twilight.atari.org/fading_twilight_dual_layer_dvd/TUNEZ/T/TYAN/4CHANNEL/SKA.MOD
 fa5a156b431b2ce8df40c60cd600fdf2	1	179321	player	uade	Protracker	0	91672	media.demozoo.org/music/0c/d3/ska.MOD
+fa5d5ae4360f5a8886950ffe012d762a	1	253629	player	uade	Protracker	0	145658	api.modarchive.org/36330/desert2.mod
+fa5d5ae4360f5a8886950ffe012d762a	1	253629	player	uade	Protracker	0	145658	api.modarchive.org/37611/desert2.mod
 fa6118d7996d91aea2f685bc3224fdae	1	300150	player+silence	uade	Protracker	0	105644	ftp.untergrund.net/users/ltk_tscc/fujiology/MUSIC/FT/TUNEZ/GAMES/FULLCONT/TITLE.MOD
 fa6118d7996d91aea2f685bc3224fdae	1	300150	player+silence	uade	Protracker	0	105644	media.demozoo.org/music/7b/4c/title.MOD
 fa718914d8cd45fc288bfaf509fc0004	1	255076	player	uade	Protracker	0	340386	ftp.untergrund.net/users/ltk_tscc/fujiology/MUSIC/FT/TUNEZ/DEMOS/ST/ZODIACT1/JBR.MOD

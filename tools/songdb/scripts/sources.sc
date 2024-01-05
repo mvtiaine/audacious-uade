@@ -47,11 +47,12 @@ case class SourceDBEntry (
 def readSourceDB(source: Source) = {
   tsvs.filter(_._1 == source).par.flatMap(_._2).map({case (md5,subsongs) =>
     if (subsongs.groupBy(_.subsong).exists(_._2.size > 1)) {
-      System.err.println("WARN: duplicate file in " + source + " for " + md5 + ": " + subsongs)
+      System.err.println("WARN: duplicate files in " + source + " for " + md5 + ": " + subsongs)
     }
-    val e = subsongs.filter(_.path != "").minBy(_.path.length)
-    SourceDBEntry(md5, e.path, e.filesize)
-  }).seq
+    subsongs.filter(_.path != "").map(e =>
+      SourceDBEntry(md5, e.path, e.filesize)
+    )
+  }).flatten.seq
 }
 
 lazy val modland = readSourceDB(Modland)

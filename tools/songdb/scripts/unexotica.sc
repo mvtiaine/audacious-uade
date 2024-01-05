@@ -50,8 +50,8 @@ lazy val metas = sources.unexotica.par.flatMap(e =>
   val file2 = unexotica_path + parent2.mkString("/") + ".txt"
 
   def parse(file: String) = {
-    val json = parser.parse(Using(scala.io.Source.fromFile(file)(scala.io.Codec.ISO8859))(_.mkString).get)
-    val meta = json
+    val yaml = parser.parse(Using(scala.io.Source.fromFile(file)(scala.io.Codec.ISO8859))(_.mkString).get)
+    val meta = yaml
       .leftMap(err => err: Error)
       .flatMap(_.as[UnExoticaMeta])
       .valueOr(throw _)
