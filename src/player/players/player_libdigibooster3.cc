@@ -9,8 +9,8 @@
 
 extern "C"
 {
-#include "3rdparty/replay/dbm/libdigibooster3.h"
-#include "3rdparty/replay/dbm/player.h"
+#include "3rdparty/replay/libdigibooster3/libdigibooster3.h"
+#include "3rdparty/replay/libdigibooster3/player.h"
 // expose method from loader.c
 struct DB3Module *DB3_LoadFromHandle(struct AbstractHandle *ah, int *errptr);
 }
@@ -80,12 +80,12 @@ ModuleInfo get_info(const string &path, struct DB3Module *mod) {
     const int maxsubsong = mod->NumSongs - 1;
     const int channels = mod->NumTracks;
 
-    return {Player::dbm, format, path, 0, maxsubsong, 0, channels};
+    return {Player::libdigibooster3, format, path, 0, maxsubsong, 0, channels};
 }
 
 }
 
-namespace player::dbm {
+namespace player::libdigibooster3 {
 
 void init() {}
 void shutdown() {}
@@ -102,7 +102,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
         if (mod) {
             DB3_Unload(mod);
         }
-        WARN("player_dbm::parse parsing failed for %s reason %s\n", path, ErrorReasons[error]);
+        WARN("player_libdigibooster3::parse parsing failed for %s reason %s\n", path, ErrorReasons[error]);
         return {};
     }
 
@@ -119,7 +119,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         if (mod) {
             DB3_Unload(mod);
         }
-        ERR("player_dbm::play parsing failed for %s reason %s\n", path, ErrorReasons[error]);
+        ERR("player_libdigibooster3::play parsing failed for %s reason %s\n", path, ErrorReasons[error]);
         return {};
     }
 
@@ -131,7 +131,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     void *engine = DB3_NewEngine(mod, config.frequency, frames);
     if (!engine) {
         DB3_Unload(mod);
-        ERR("player_dbm::play creating engine failed for %s\n", path);
+        ERR("player_libdigibooster3::play creating engine failed for %s\n", path);
         return {};
     }
 
@@ -157,7 +157,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 }
 
 bool stop(PlayerState &state) {
-    assert(state.info.player == Player::dbm);
+    assert(state.info.player == Player::libdigibooster3);
     if (state.context) {
         const auto context = static_cast<DB3Context*>(state.context);
         assert(context);
@@ -169,7 +169,7 @@ bool stop(PlayerState &state) {
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) {
-    assert(state.info.player == Player::dbm);
+    assert(state.info.player == Player::libdigibooster3);
     assert(size >= mixBufSize(state.frequency));
     const auto context = static_cast<DB3Context*>(state.context);
     assert(context);
@@ -180,7 +180,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
 }
 
 bool restart(PlayerState &state) {
-    assert(state.info.player == Player::dbm);
+    assert(state.info.player == Player::libdigibooster3);
     const auto context = static_cast<DB3Context*>(state.context);
     assert(context);
     msynth_reset((struct ModSynth *)context->engine, true);
@@ -189,4 +189,4 @@ bool restart(PlayerState &state) {
     return true;
 }
 
-} // namespace player::dbm
+} // namespace player::libdigibooster3

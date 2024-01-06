@@ -30,8 +30,8 @@ void print(const common::SongEnd &songend, const player::ModuleInfo &info, int s
     const auto reason = songend.status_string();
     if (subsong == info.minsubsong) {
         const auto pl = [&info]() { switch(info.player) {
-            case player::Player::hvl: return "hvl";
-            case player::Player::dbm: return "dbm";
+            case player::Player::hivelytracker: return "hivelytracker";
+            case player::Player::libdigibooster3: return "libdigibooster3";
             case player::Player::uade: return "uade";
             default: assert(false); return "";
         }}();

@@ -27,8 +27,8 @@ constexpr int MAX_SILENCE = 3000;
 // TODO make externally configurable
 // uade should be last as it has heaviest detection
 #define PLAYERS \
-    hvl, \
-    dbm, \
+    hivelytracker, \
+    libdigibooster3, \
     uade
 
 enum class Player {

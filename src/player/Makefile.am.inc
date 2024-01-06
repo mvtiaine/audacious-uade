@@ -6,8 +6,8 @@ noinst_LTLIBRARIES += \
 player_libplayer_la_SOURCES = \
     player/player.h \
     player/player.cc \
-    player/players/player_dbm.cc \
-    player/players/player_hvl.cc \
+    player/players/player_libdigibooster3.cc \
+    player/players/player_hivelytracker.cc \
     player/players/player_uade.cc \
     common/common.h \
     common/foreach.h \
