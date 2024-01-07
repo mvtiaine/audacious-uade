@@ -1,7 +1,10 @@
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdio.h>
+#ifndef AUDACIOUS_UADE
 #include "snd_masm.h"
 #include "pmplay.h"
+#endif
 
 /* 8bb: This is done in a slightly different way, but the result
 ** is the same (bit-accurate to FT2.08/FT2.09 w/ SB16, and WAV-writer).

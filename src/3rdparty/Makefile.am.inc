@@ -3,6 +3,7 @@
 noinst_LTLIBRARIES += \
     3rdparty/replay/libreplay_hivelytracker.la \
     3rdparty/replay/libreplay_libdigibooster3.la \
+    3rdparty/replay/libreplay_ft2play.la \
     3rdparty/libreplay.la
 
 
@@ -17,6 +18,7 @@ if !BUILD_AMIGAOS4
 # XXX -Os breaks amigaos4 build
 3rdparty_replay_libreplay_hivelytracker_la_CFLAGS += -Os
 endif
+
 
 3rdparty_replay_libreplay_libdigibooster3_la_SOURCES = \
     3rdparty/replay/libdigibooster3/dsp.h \
@@ -37,7 +39,32 @@ endif
 3rdparty_replay_libreplay_libdigibooster3_la_CFLAGS = $(AM_CFLAGS) -Wno-parentheses
 
 
+3rdparty_replay_libreplay_ft2play_la_SOURCES = \
+    3rdparty/replay/ft2play/ft2play.h \
+    3rdparty/replay/ft2play/ft2play.cc \
+    3rdparty/replay/ft2play/ft2play_probe.cc
+
+
 3rdparty_libreplay_la_SOURCES =
 3rdparty_libreplay_la_LIBADD = \
     3rdparty/replay/libreplay_hivelytracker.la \
-    3rdparty/replay/libreplay_libdigibooster3.la
+    3rdparty/replay/libreplay_libdigibooster3.la \
+    3rdparty/replay/libreplay_ft2play.la
+
+
+EXTRA_DIST += \
+    3rdparty/replay/hivelytracker/LICENSE \
+    3rdparty/replay/libdigibooster3/CHANGELOG \
+    3rdparty/replay/libdigibooster3/COPYING \
+    3rdparty/replay/ft2play/LICENSE \
+    3rdparty/replay/ft2play/README.md \
+    3rdparty/replay/ft2play/pmplay.h \
+    3rdparty/replay/ft2play/pmplay.c \
+    3rdparty/replay/ft2play/pmp_main.h \
+    3rdparty/replay/ft2play/pmp_main.c \
+    3rdparty/replay/ft2play/pmp_mix.h \
+    3rdparty/replay/ft2play/pmp_mix.c \
+    3rdparty/replay/ft2play/snd_masm.h \
+    3rdparty/replay/ft2play/snd_masm.c \
+    3rdparty/replay/ft2play/tables.h \
+    3rdparty/replay/ft2play/tables.c

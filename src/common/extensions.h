@@ -219,9 +219,10 @@ static constexpr const char *plugin_extensions[] = {
     // non-UADE/native player
     "hvl", // HivelyTracker
     "dbm", // Digibooster Pro
-    
-    // non-Amiga tracker, avoid using UADE
-    //"ft" // Fast Tracker
+
+    // PC-tracker
+    "ft", "fst", // Fasttracker 1
+    "xm", // Fasttracker 2
 
     // no replay
     //"ct", Cybertracker

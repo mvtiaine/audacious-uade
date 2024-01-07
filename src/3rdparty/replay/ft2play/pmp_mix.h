@@ -1,8 +1,10 @@
+#ifndef AUDACIOUS_UADE
 #pragma once
+#include "pmplay.h"
+#endif
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "pmplay.h"
 
 enum
 {

@@ -60,7 +60,6 @@ const set<string> prefix_blacklist ({
     "DMF.",
     "DTM.",
     "FAR.",
-    "FST.",
     "GT2.",
     "IT.",
     "MDL.",
@@ -74,7 +73,6 @@ const set<string> prefix_blacklist ({
     "STP.", // amiga
     "STP2.", // amiga
     "ULT.",
-    "XM.",
     "SMP.",
     "SMPL.",
     "smp.",

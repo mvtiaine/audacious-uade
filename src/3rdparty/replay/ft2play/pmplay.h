@@ -1,4 +1,6 @@
+#ifndef AUDACIOUS_UADE
 #pragma once
+#endif
 
 #include <stdint.h>
 #include <stdbool.h>

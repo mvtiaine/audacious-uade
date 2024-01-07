@@ -29,7 +29,8 @@ constexpr int MAX_SILENCE = 3000;
 #define PLAYERS \
     hivelytracker, \
     libdigibooster3, \
-    uade
+    uade, \
+    ft2play
 
 enum class Player {
     NONE,

@@ -375,7 +375,10 @@ public:
         "Copyright (c) 2006-2018, Pete Gordon\n"
         "\n"
         "libdigibooster3 1.2 (BSD-2-Clause)\n"
-        "Copyright (c) 2014, Grzegorz Kraszewski\n",
+        "Copyright (c) 2014, Grzegorz Kraszewski\n"
+        "\n"
+        "ft2play (BSD-3-Clause)\n"
+        "Copyright (c) 2020-2024, Olav Sørensen\n",
         &plugin_prefs
     };
 

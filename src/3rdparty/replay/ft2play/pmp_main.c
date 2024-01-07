@@ -12,10 +12,12 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#ifndef AUDACIOUS_UADE
 #include "pmplay.h"
 #include "pmp_mix.h"
 #include "snd_masm.h"
 #include "tables.h"
+#endif
 
 #define MAX_FRQ 32000
 #define MAX_NOTES (10*12*16+16)
