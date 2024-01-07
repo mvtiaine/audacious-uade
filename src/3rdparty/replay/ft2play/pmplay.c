@@ -632,7 +632,7 @@ static bool loadPatterns(MEMFILE *f, uint16_t antPtn)
 
 		if (meof(f))
 		{
-			mclose(&f);
+			//mclose(&f); // mvtiaine: fix crash with modland:Fasttracker 2/- unknown/bajs trek !.xm
 			return false;
 		}
 
