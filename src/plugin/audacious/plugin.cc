@@ -379,6 +379,9 @@ public:
         "libdigibooster3 1.2 (BSD-2-Clause)\n"
         "Copyright (c) 2014, Grzegorz Kraszewski\n"
         "\n"
+        "ft2play (BSD-3-Clause)\n"
+        "Copyright (c) 2020-2024, Olav Sørensen\n"
+        "\n"
         "Simplistic Binary Streams 1.0.3 (MIT)\n"
         "Copyright (c) 2014-2019, Wong Shao Voon\n",
         &plugin_prefs

@@ -1,6 +1,7 @@
+#ifndef AUDACIOUS_UADE
 #pragma once
-
 #include <stdint.h>
+#endif
 
 extern const uint32_t panningTab[257];
 extern const uint16_t amigaPeriods[1936];

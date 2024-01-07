@@ -5,6 +5,7 @@
 #define DEFAULT_AMP 4
 #define DEFAULT_MASTER_VOL 256
 
+#ifndef AUDACIOUS_UADE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,6 +17,7 @@
 #include "pmp_mix.h"
 #include "snd_masm.h"
 #include "tables.h"
+#endif
 
 #define INSTR_HEADER_SIZE 263
 
@@ -672,8 +674,11 @@ static bool loadMusicMOD(MEMFILE *f)
 	songMOD15HeaderTyp *h_MOD15 = (songMOD15HeaderTyp *)ha;
 
 	mread(ha, sizeof (ha), 1, f);
-	if (meof(f))
-		goto loadError2;
+	if (meof(f)) {
+		//goto loadError2; / mvtiaine: fix compile with c++:
+		mclose(&f);
+		return false;
+	}
 
 	memcpy(song.name, h_MOD31->name, 20);
 	song.name[20] = '\0';
@@ -723,9 +728,11 @@ static bool loadMusicMOD(MEMFILE *f)
 
 	song.antInstrs = ai; // 8bb: added this
 
-	if (meof(f))
-		goto loadError2;
-
+	if (meof(f)) {
+		//goto loadError2; / mvtiaine: fix compile with c++:
+		mclose(&f);
+		return false;
+	}
 	int32_t b = 0;
 	for (int32_t a = 0; a < 128; a++)
 	{
@@ -893,7 +900,7 @@ static bool loadMusicMOD(MEMFILE *f)
 loadError:
 	freeAllInstr();
 	freeAllPatterns();
-loadError2:
+//loadError2: // mvtiaine: fix compile with c++:
 	mclose(&f);
 	return false;
 }
@@ -917,8 +924,11 @@ bool loadMusicFromData(const uint8_t *data, uint32_t dataLength) // .XM/.MOD/.FT
 	instr[0]->samp[0].vol = 0;
 
 	mread(&h, sizeof (h), 1, f);
-	if (meof(f))
-		goto loadError2;
+	if (meof(f)) {
+		//goto loadError2; // mvtiaine: fix compile with c++:
+		mclose(&f);
+		return false;
+	}
 
 	if (memcmp(h.sig, "Extended Module: ", 17) != 0)
 	{
@@ -929,12 +939,17 @@ bool loadMusicFromData(const uint8_t *data, uint32_t dataLength) // .XM/.MOD/.FT
 	if (h.ver < 0x0102 || h.ver > 0x104 || h.antChn < 2 || h.antChn > 32 || (h.antChn & 1) != 0 ||
 		h.antPtn > 256 || h.antInstrs > 128)
 	{
-		goto loadError2;
+		//goto loadError2; // mvtiaine: fix compile with c++
+		mclose(&f);
+		return false;
 	}
 
 	mseek(f, 60+h.headerSize, SEEK_SET);
-	if (meof(f))
-		goto loadError2;
+	if (meof(f)) {
+		//goto loadError2; // mvtiaine: fix compile with c++
+		mclose(&f);
+		return false;
+	}
 
 	memcpy(song.name, h.name, 20);
 	song.name[20] = '\0';
@@ -1003,7 +1018,7 @@ bool loadMusicFromData(const uint8_t *data, uint32_t dataLength) // .XM/.MOD/.FT
 loadError:
 	freeAllInstr();
 	freeAllPatterns();
-loadError2:
+//loadError2: // mvtiaine: fix compile with c++:
 	mclose(&f);
 	return false;
 }

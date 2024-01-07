@@ -1,4 +1,6 @@
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
+#endif
 
 // 8bb: bit-accurate FT2 tables (FT2.08/FT2.09)
 

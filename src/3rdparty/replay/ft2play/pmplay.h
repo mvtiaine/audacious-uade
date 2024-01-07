@@ -1,7 +1,8 @@
+#ifndef AUDACIOUS_UADE
 #pragma once
-
 #include <stdint.h>
 #include <stdbool.h>
+#endif
 
 // AUDIO DRIVERS
 #if defined AUDIODRIVER_SDL

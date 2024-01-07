@@ -1,3 +1,4 @@
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -7,6 +8,7 @@
 #include "pmp_main.h"
 #include "snd_masm.h"
 #include "tables.h"
+#endif
 
 // fast 32-bit -> 16-bit clamp
 #define CLAMP16(i) if ((int16_t)(i) != i) i = 0x7FFF ^ (i >> 31)

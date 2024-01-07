@@ -1,8 +1,9 @@
+#ifndef AUDACIOUS_UADE
 #pragma once
-
+#include "pmp_mix.h"
 #include <stdint.h>
 #include <stdbool.h>
-#include "pmp_mix.h"
+#endif
 
 #define GET_VOL \
 	const int32_t CDA_LVol = v->SLVol1; \
