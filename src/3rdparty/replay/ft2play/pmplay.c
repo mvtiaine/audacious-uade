@@ -254,6 +254,12 @@ static void checkSampleRepeat(int32_t nr, int32_t nr2)
 	if (s->repL < 0) s->repL = 0;
 	if (s->repS > s->len) s->repS = s->len;
 	if (s->repS+s->repL > s->len) s->repL = s->len - s->repS;
+	// mvtiaine: fix modland:Fasttracker 2/- unknown/lebzino'97.xm etc. (endless loop)
+	// also modland:Fasttracker 2/- unknown/plutoinvaders.xm etc. (crash with -fsanitize=address)
+	if (s->repL < ((s->typ & SAMPLE_16BIT) ? 2 : 1)) {
+		s->typ &= ~LOOP_FORWARD;
+		s->typ &= ~LOOP_PINGPONG;
+	}
 }
 
 static void upDateInstrs(void)
