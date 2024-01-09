@@ -393,25 +393,30 @@ static void delta2Samp(int8_t *p, uint32_t len, bool sample16Bit)
 	}
 }
 
-static void unpackPatt(uint8_t *dst, uint16_t inn, uint16_t len, uint8_t antChn)
+static bool unpackPatt(uint8_t *dst, uint16_t inn, uint16_t len, uint8_t antChn)
 {
 	if (dst == NULL)
-		return;
+		return false;
 
 	const uint8_t *src = dst + inn;
 	const int32_t srcEnd = len * (sizeof (tonTyp) * antChn);
+	int32_t srcLeft = srcEnd - inn;
 
 	int32_t srcIdx = 0;
 	for (int32_t i = 0; i < len; i++)
 	{
 		for (int32_t j = 0; j < antChn; j++)
 		{
-			if (srcIdx >= srcEnd)
-				return; // error!
+			if (srcIdx >= srcEnd || --srcLeft < 0)
+				return false; // error!
 
 			const uint8_t note = *src++;
 			if (note & 0x80)
 			{
+				// mvtiaine: fix -fsanitize=address crash with modland:FastTracker 2/- unknown/bajs trek !.xm, acid xtc (97remix).xm etc.
+				srcLeft -= !!(note & 0x01) + !!(note & 0x02) + !!(note & 0x04) + !!(note & 0x08) + !!(note & 0x10);
+				if (srcLeft < 0)
+					return false;
 				*dst++ = (note & 0x01) ? *src++ : 0;
 				*dst++ = (note & 0x02) ? *src++ : 0;
 				*dst++ = (note & 0x04) ? *src++ : 0;
@@ -420,6 +425,9 @@ static void unpackPatt(uint8_t *dst, uint16_t inn, uint16_t len, uint8_t antChn)
 			}
 			else
 			{
+				srcLeft -= 4;
+				if (srcLeft < 0)
+					return false;
 				*dst++ = note;
 				*dst++ = *src++;
 				*dst++ = *src++;
@@ -434,6 +442,7 @@ static void unpackPatt(uint8_t *dst, uint16_t inn, uint16_t len, uint8_t antChn)
 			srcIdx += sizeof (tonTyp);
 		}
 	}
+	return true;
 }
 
 void freeMusic(void)
@@ -655,7 +664,8 @@ static bool loadPatterns(MEMFILE *f, uint16_t antPtn)
 
 			memset(pattPtr, 0, a);
 			mread(&pattPtr[a - ph.dataLen], 1, ph.dataLen, f);
-			unpackPatt(pattPtr, a - ph.dataLen, ph.pattLen, song.antChn);
+			if (!unpackPatt(pattPtr, a - ph.dataLen, ph.pattLen, song.antChn))
+				return false;
 		}
 
 		if (patternEmpty(i))
