@@ -1807,6 +1807,9 @@ static void getNextPos(void)
 
 		song.pattNr = song.songTab[(uint8_t)song.songPos];
 		song.pattLen = pattLens[(uint8_t)song.pattNr];
+		// mvtiaine: fix -fsanitize=address crash with modland:Fasttracker 2/AceMan/land of flying cubes.xm
+		if (song.pattPos >= song.pattLen)
+			song.pattPos = 0;
 	}
 }
 
