@@ -984,7 +984,7 @@ bool loadMusicFromData(const uint8_t *data, uint32_t dataLength) // .XM/.MOD/.FT
 	song.ver = h.ver;
 
 	// 8bb: bugfixes...
-	if (song.speed < 1) song.speed = 1;
+	if (song.speed < 32) song.speed = 32; // mvtiaine: fix min bpm (AMP:Slartibartfast/XM.Wonderful Day)
 	if (song.tempo < 1) song.tempo = 1;
 	// ----------------
 
