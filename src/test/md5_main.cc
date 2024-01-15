@@ -16,10 +16,12 @@ int main(int argc, char *argv[]) {
 
     ifstream file;
     if (is_stdin) {
+#ifndef __HAIKU__
         if (!freopen(NULL, "rb", stdin)) {
             fprintf(stderr, "Failed to freopen(rb) stdin\n");
             return EXIT_FAILURE;
         }
+#endif
     } else {
         file = ifstream(fname, ios::in | ios::binary);
         if (!file.is_open()) {

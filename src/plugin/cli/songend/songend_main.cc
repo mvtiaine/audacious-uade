@@ -26,11 +26,13 @@ int main(int /*argc*/, char *[]/*argv[]*/) {
 
     detector::SongEndDetector detector(player::PRECALC_FREQ, false, endian::native);
 
+#ifndef __HAIKU__
     if (!freopen(NULL, "rb", stdin)) {
         fprintf(stderr, "Failed to freopen(rb) stdin\n");
         return EXIT_FAILURE;
     }
-    
+#endif
+
     while ((count = read(STDIN_FILENO, buf, sizeof buf)) > 0) {
         detector.update(buf, count);
         total += count;

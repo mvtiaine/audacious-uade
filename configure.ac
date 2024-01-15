@@ -14,6 +14,7 @@ build_linux=no
 build_windows=no
 build_macos=no
 build_bsd=no
+build_haiku=no
 
 # Detect the target system
 case "${host_os}" in
@@ -30,6 +31,9 @@ case "${host_os}" in
     *bsd*)
         build_bsd=yes
         ;;
+    haiku*)
+        build_haiku=yes
+        ;;
     *)
         AC_MSG_WARN(["OS $host_os is not supported"])
         ;;
@@ -39,6 +43,7 @@ AM_CONDITIONAL([BUILD_LINUX], [test "$build_linux" = "yes"])
 AM_CONDITIONAL([BUILD_WIN32], [test "$build_windows" = "yes"])
 AM_CONDITIONAL([BUILD_MACOS], [test "$build_macos" = "yes"])
 AM_CONDITIONAL([BUILD_BSD], [test "$build_bsd" = "yes"])
+AM_CONDITIONAL([BUILD_HAIKU], [test "$build_haiku" = "yes"])
 
 # defines WORDS_BIGENDIAN
 AC_C_BIGENDIAN
@@ -90,8 +95,12 @@ then
     [ac_libbsd_libs=`$PKG_CONFIG --libs libbsd`],
     [ac_libbsd_libs=;])
   AC_SUBST(LIBBSD_LIBS)
+elif test "$build_haiku" = "yes"
+then
+  LIBBSD_LIBS="-lbsd -lnetwork"
 fi
 
+CPPFLAGS="-D_DEFAULT_SOURCE ${CPPFLAGS}"
 CFLAGS="-fPIC -fvisibility=hidden -fdata-sections -ffunction-sections ${CFLAGS}"
 CXXFLAGS="-std=c++20 -fvisibility-inlines-hidden -fno-rtti -Wall ${CFLAGS} ${CXXFLAGS}"
 if test "$build_macos" = "yes"
