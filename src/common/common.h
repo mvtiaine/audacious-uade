@@ -30,7 +30,7 @@ struct SongEnd {
     };
     Status status;
     int length = 0;
-    constexpr static std::string status_string(const Status status) {
+    static std::string status_string(const Status status) {
         switch (status) {
             case ERROR: return "error";
             case NONE: return "none";
@@ -48,7 +48,7 @@ struct SongEnd {
             default: assert(false); return "error";
         }
     }
-    constexpr std::string status_string() const {
+    std::string status_string() const {
         return status_string(status);
     }
 };
