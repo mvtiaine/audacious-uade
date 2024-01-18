@@ -164,7 +164,7 @@ struct _SongInfo {
 vector<hash_t> md5_idx;
 vector<string> string_pool;
 
-constexpr hash_t _hash(const string &str) {
+hash_t _hash(const string &str) {
     return crc64(0, str.data(), str.length()) & 0x0000FFFFFFFFFFFF;
 }
 
@@ -238,7 +238,7 @@ void create_md5_idx(const set<hash_t> &md5s) {
     }
 }
 
-constexpr songend_t parse_songend(const string &songend) {
+songend_t parse_songend(const string &songend) {
     if (songend == "e") return common::SongEnd::ERROR;
     if (songend == "p") return common::SongEnd::PLAYER;
     if (songend == "t") return common::SongEnd::TIMEOUT;
