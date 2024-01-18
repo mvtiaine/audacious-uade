@@ -15,6 +15,7 @@ build_windows=no
 build_macos=no
 build_bsd=no
 build_openbsd=no
+build_netbsd=no
 build_haiku=no
 
 # Detect the target system
@@ -33,6 +34,10 @@ case "${host_os}" in
         build_openbsd=yes
         build_bsd=yes
         ;;
+    netbsd*)
+        build_netbsd=yes
+        build_bsd=yes
+        ;;
     *bsd*|dragonfly*)
         build_bsd=yes
         ;;
@@ -49,6 +54,7 @@ AM_CONDITIONAL([BUILD_WIN32], [test "$build_windows" = "yes"])
 AM_CONDITIONAL([BUILD_MACOS], [test "$build_macos" = "yes"])
 AM_CONDITIONAL([BUILD_BSD], [test "$build_bsd" = "yes"])
 AM_CONDITIONAL([BUILD_OPENBSD], [test "$build_openbsd" = "yes"])
+AM_CONDITIONAL([BUILD_NETBSD], [test "$build_netbsd" = "yes"])
 AM_CONDITIONAL([BUILD_HAIKU], [test "$build_haiku" = "yes"])
 
 # defines WORDS_BIGENDIAN
@@ -137,15 +143,10 @@ AX_SUBDIRS_CONFIGURE([uade], [
 ],[])
 UADE_CPPFLAGS="-I\${top_srcdir}/uade/src/frontends/include -I\${top_builddir}/uade/src/frontends/include"
 AC_SUBST([UADE_CPPFLAGS])
-if test "$build_openbsd" = "yes"
-then
-UADE_LIBS="-Xcompiler \${top_builddir}/uade/src/frontends/libuade/libuade.a ${LIBBSD_LIBS}"
-else
 # TODO shutup libtool warning:
 # *** Warning: Linking the shared library uade.la against the
 # *** static library uade/src/frontends/libuade/libuade.a is not portable!
 UADE_LIBS="\${top_builddir}/uade/src/frontends/libuade/libuade.a ${LIBBSD_LIBS}"
-fi
 AC_SUBST([UADE_LIBS])
 
 AC_CONFIG_HEADERS([src/config.h])

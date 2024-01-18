@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
     ifstream file;
     if (is_stdin) {
 // TODO configure.ac check for freopen
-#if !defined(__HAIKU__) && !defined(__OpenBSD__)
+#if !defined(__HAIKU__) && !defined(__OpenBSD__) && !defined(__NetBSD__)
         if (!freopen(NULL, "rb", stdin)) {
             fprintf(stderr, "Failed to freopen(rb) stdin\n");
             return EXIT_FAILURE;
