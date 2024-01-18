@@ -137,10 +137,15 @@ AX_SUBDIRS_CONFIGURE([uade], [
 ],[])
 UADE_CPPFLAGS="-I\${top_srcdir}/uade/src/frontends/include -I\${top_builddir}/uade/src/frontends/include"
 AC_SUBST([UADE_CPPFLAGS])
+if test "$build_openbsd" = "yes"
+then
+UADE_LIBS="-Xcompiler \${top_builddir}/uade/src/frontends/libuade/libuade.a ${LIBBSD_LIBS}"
+else
 # TODO shutup libtool warning:
 # *** Warning: Linking the shared library uade.la against the
 # *** static library uade/src/frontends/libuade/libuade.a is not portable!
-UADE_LIBS="-Xcompiler \${top_builddir}/uade/src/frontends/libuade/libuade.a"
+UADE_LIBS="\${top_builddir}/uade/src/frontends/libuade/libuade.a ${LIBBSD_LIBS}"
+fi
 AC_SUBST([UADE_LIBS])
 
 AC_CONFIG_HEADERS([src/config.h])

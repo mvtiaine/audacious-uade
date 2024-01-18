@@ -28,8 +28,7 @@ plugin_cli_player_player_SOURCES = \
 
 plugin_cli_player_player_LDADD = \
     player/libplayer.la \
-    $(UADE_LIBS) \
-    $(LIBBSD_LIBS)
+    $(UADE_LIBS)
 
 # precalc
 plugin_cli_precalc_precalc_SOURCES = \
@@ -40,8 +39,7 @@ plugin_cli_precalc_precalc_LDADD = \
     songend/libsongend.la \
     songdb/libsongdb.la \
     common/libmd5.la \
-    $(UADE_LIBS) \
-    $(LIBBSD_LIBS)
+    $(UADE_LIBS)
 
 # songdb
 plugin_cli_songdb_songdb_SOURCES = \

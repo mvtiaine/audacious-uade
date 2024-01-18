@@ -16,7 +16,6 @@ player_libplayer_la_SOURCES = \
 player_libplayer_la_LIBADD = \
     converter/libconverter.la \
     3rdparty/libreplay.la \
-    $(UADE_LIBS) \
-    $(LIBBSD_LIBS)
+    $(UADE_LIBS)
 
 player_libplayer_la_CPPFLAGS = $(AM_CPPFLAGS) $(UADE_CPPFLAGS)
