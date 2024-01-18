@@ -3,9 +3,9 @@ AC_INIT([audacious-uade], m4_normalize(m4_include([VERSION])), [], [], [https://
 AC_PROG_CXX
 
 AM_INIT_AUTOMAKE([tar-ustar dist-bzip2 no-dist-gzip])
-AC_CONFIG_MACRO_DIRS([m4])
+AC_CONFIG_MACRO_DIR([m4])
 
-LT_INIT([disable-static])
+LT_INIT
 
 # AC_CANONICAL_HOST is needed to access the 'host_os' variable
 AC_CANONICAL_HOST
@@ -14,6 +14,7 @@ build_linux=no
 build_windows=no
 build_macos=no
 build_bsd=no
+build_openbsd=no
 build_haiku=no
 
 # Detect the target system
@@ -28,7 +29,11 @@ case "${host_os}" in
     darwin*)
         build_macos=yes
         ;;
-    *bsd*)
+    openbsd*)
+        build_openbsd=yes
+        build_bsd=yes
+        ;;
+    *bsd*|dragonfly*)
         build_bsd=yes
         ;;
     haiku*)
@@ -43,6 +48,7 @@ AM_CONDITIONAL([BUILD_LINUX], [test "$build_linux" = "yes"])
 AM_CONDITIONAL([BUILD_WIN32], [test "$build_windows" = "yes"])
 AM_CONDITIONAL([BUILD_MACOS], [test "$build_macos" = "yes"])
 AM_CONDITIONAL([BUILD_BSD], [test "$build_bsd" = "yes"])
+AM_CONDITIONAL([BUILD_OPENBSD], [test "$build_openbsd" = "yes"])
 AM_CONDITIONAL([BUILD_HAIKU], [test "$build_haiku" = "yes"])
 
 # defines WORDS_BIGENDIAN
@@ -108,6 +114,10 @@ then
   LDFLAGS="-Wl,-dead_strip -Wl,-undefined,error ${LDFLAGS}"
   SHREXT="-shrext .dylib"
   AC_SUBST([SHREXT])
+elif test "$build_openbsd" = "yes"
+then
+  # -Wl,--no-undefined is broken(?) on OpenBSD
+  LDFLAGS="-Wl,--gc-sections -Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,-O1 ${LDFLAGS}"
 else
   LDFLAGS="-Wl,--gc-sections -Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,-O1 ${LDFLAGS}"
 fi
@@ -130,7 +140,7 @@ AC_SUBST([UADE_CPPFLAGS])
 # TODO shutup libtool warning:
 # *** Warning: Linking the shared library uade.la against the
 # *** static library uade/src/frontends/libuade/libuade.a is not portable!
-UADE_LIBS="\${top_builddir}/uade/src/frontends/libuade/libuade.a"
+UADE_LIBS="-Xcompiler \${top_builddir}/uade/src/frontends/libuade/libuade.a"
 AC_SUBST([UADE_LIBS])
 
 AC_CONFIG_HEADERS([src/config.h])
