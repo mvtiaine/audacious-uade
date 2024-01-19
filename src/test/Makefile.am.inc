@@ -7,7 +7,7 @@ test_md5_SOURCES = \
     test/md5_main.cc
 
 test_md5_LDADD = \
-	common/libmd5.la
+    common/libmd5.la
 
 TESTS_ENVIRONMENT = \
     export top_srcdir=$(top_srcdir); \
@@ -51,4 +51,3 @@ EXTRA_DIST += \
     test/common/header.sh \
     test/common/check.sh \
     $(TESTS)
-

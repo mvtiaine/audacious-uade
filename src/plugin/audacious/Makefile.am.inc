@@ -7,15 +7,15 @@ plugin_audacious_uade_la_SOURCES = \
     common/logger.h \
     plugin/audacious/prefs.h \
     plugin/audacious/uade_prefs.h \
-	plugin/audacious/logger.cc \
+    plugin/audacious/logger.cc \
     plugin/audacious/plugin.cc
 
 plugin_audacious_uade_la_LIBADD = \
     songend/libsongend.la \
     songdb/libsongdb.la \
     common/libmd5.la \
-	$(UADE_LIBS) \
-	$(AUDACIOUS_LIBS)
+    $(UADE_LIBS) \
+    $(AUDACIOUS_LIBS)
 
 plugin_audacious_uade_la_LDFLAGS = -avoid-version -module -shared $(SHREXT) -Xcompiler $(UADE_LIBS)
 plugin_audacious_uade_la_CXXFLAGS = $(AUDACIOUS_CFLAGS)

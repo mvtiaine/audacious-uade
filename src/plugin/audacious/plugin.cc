@@ -223,9 +223,11 @@ bool update_tuple(Tuple &tuple, const string &path, int subsong, const Info &inf
         tuple.set_str(Tuple::Codec, info.format.c_str());
     }
     tuple.set_str(Tuple::Quality, "sequenced");
+#if AUDACIOUS_HAS_CHANNELS
     if (info.channels > 0) {
         tuple.set_int(Tuple::Channels, info.channels);
     }
+#endif
     const int subsongs = info.maxsubsong - info.minsubsong + 1;
     // initial probe
     if (subsong == -1) {
@@ -373,7 +375,11 @@ public:
     };
 
     constexpr UADEPlugin() : InputPlugin(info, InputInfo(FlagSubtunes)
+#if AUDACIOUS_HAS_DEFAULT_PRIO
         .with_priority(_AUD_PLUGIN_DEFAULT_PRIO - 1) // preempt openmpt, modplug, mpg123 etc. plugins (mpg123 has many false positives)
+#else
+        .with_priority(-1)
+#endif
         .with_exts(common::plugin_extensions)
         .with_mimes(common::plugin_mimes)) {}
 

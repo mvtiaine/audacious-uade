@@ -1,7 +1,7 @@
 # NOT a standalone Makefile.am
 
 noinst_LTLIBRARIES += \
-	songend/libsongend.la
+    songend/libsongend.la
 
 songend_libsongend_la_SOURCES = \
     songend/detector.h \

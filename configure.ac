@@ -17,13 +17,14 @@ build_bsd=no
 build_openbsd=no
 build_netbsd=no
 build_haiku=no
+build_cygwin=no
 
 # Detect the target system
 case "${host_os}" in
     linux*)
         build_linux=yes
         ;;
-    cygwin*|mingw*)
+    mingw*)
         AC_MSG_WARN(["OS $host_os is not supported"])
         build_windows=yes
         ;;
@@ -44,6 +45,9 @@ case "${host_os}" in
     haiku*)
         build_haiku=yes
         ;;
+    cygwin*)
+        build_cygwin=yes
+        ;;
     *)
         AC_MSG_WARN(["OS $host_os is not supported"])
         ;;
@@ -56,6 +60,7 @@ AM_CONDITIONAL([BUILD_BSD], [test "$build_bsd" = "yes"])
 AM_CONDITIONAL([BUILD_OPENBSD], [test "$build_openbsd" = "yes"])
 AM_CONDITIONAL([BUILD_NETBSD], [test "$build_netbsd" = "yes"])
 AM_CONDITIONAL([BUILD_HAIKU], [test "$build_haiku" = "yes"])
+AM_CONDITIONAL([BUILD_CYGWIN], [test "$build_cygwin" = "yes"])
 
 # defines WORDS_BIGENDIAN
 AC_C_BIGENDIAN
@@ -98,6 +103,26 @@ AC_COMPILE_IFELSE(
   [AC_DEFINE([AUDACIOUS_HAS_PUBLISHER], [1], [Defined if Audacious version supports Publisher tuple.])],
   []
 )
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM([
+    #include <libaudcore/tuple.h>
+    int test() {
+      return Tuple::Channels;
+    }
+  ])],
+  [AC_DEFINE([AUDACIOUS_HAS_CHANNELS], [1], [Defined if Audacious version supports Channels tuple.])],
+  []
+)
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM([
+    #include <libaudcore/plugin.h>
+    int test() {
+      return _AUD_PLUGIN_DEFAULT_PRIO;
+    }
+  ])],
+  [AC_DEFINE([AUDACIOUS_HAS_DEFAULT_PRIO], [1], [Defined if Audacious version supports _AUD_PLUGIN_DEFAULT_PRIO.])],
+  []
+)
 AC_LANG_POP
 CXXFLAGS="$saved_cxxflags"
 
@@ -112,7 +137,7 @@ then
   LIBBSD_LIBS="-lbsd -lnetwork"
 fi
 
-CPPFLAGS="-D_DEFAULT_SOURCE ${CPPFLAGS}"
+CPPFLAGS="-D_DEFAULT_SOURCE -D_GNU_SOURCE ${CPPFLAGS}"
 CFLAGS="-fPIC -fvisibility=hidden -fdata-sections -ffunction-sections ${CFLAGS}"
 CXXFLAGS="-std=c++20 -fvisibility-inlines-hidden -fno-rtti -Wall ${CFLAGS} ${CXXFLAGS}"
 if test "$build_macos" = "yes"

@@ -1,7 +1,7 @@
 # NOT a standalone Makefile.am
 
 noinst_LTLIBRARIES += \
-	converter/libconverter.la
+    converter/libconverter.la
 
 converter_libconverter_la_SOURCES = \
     converter/converter.h \

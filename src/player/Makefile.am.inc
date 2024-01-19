@@ -1,7 +1,7 @@
 # NOT a standalone Makefile.am
 
 noinst_LTLIBRARIES += \
-	player/libplayer.la
+    player/libplayer.la
 
 player_libplayer_la_SOURCES = \
     player/player.h \
