@@ -28,6 +28,8 @@ INSTALL
 .libs/
 *.a
 *.dSYM
+*.exe
+*.dll
 stamp-h1
 config.h
 config.h.in
