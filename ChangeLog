@@ -1,3 +1,8 @@
+0.11.3 - 2024-01-20
+- Fix build on Haiku, NetBSD, OpenBSD, DragonFlyBSD and Cygwin
+- Fix build on older Audacious versions (3.8+ still required)
+- Misc fixes and updates
+
 0.11.2 - 2024-01-05
 - Sync songdb sources to around 2024-01-03 snapshots
 - Improve songdb demozoo meta data sourcing/matching
