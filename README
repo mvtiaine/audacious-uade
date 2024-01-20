@@ -39,6 +39,12 @@ git clone https://github.com/mvtiaine/freebsd-overlay.git
 cd freebsd-overlay/multimedia/audacious-uade
 make install clean
 
+* To install with HaikuPorter (latest release):
+git clone https://github.com/mvtiaine/haikuports.git
+cp -rp haikuports/* /boot/home/haikuports/
+haikuporter audacious_uade
+pkgman install /boot/home/haikuports/packages/audacious_uade-*
+
 * To build and install with Debian from sources (git or latest release):
 debian/make_deb.sh
 (sudo) dpkg -i build-deb/audacious-uade*.deb
