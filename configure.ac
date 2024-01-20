@@ -1,5 +1,6 @@
 AC_PREREQ(2.59)
-AC_INIT([audacious-uade], m4_normalize(m4_include([VERSION])), [], [], [https://github.com/mvtiaine/audacious-uade])
+AC_INIT([audacious-uade], m4_normalize(m4_include([VERSION])), [https://github.com/mvtiaine/audacious-uade/issues], [], [https://github.com/mvtiaine/audacious-uade])
+AC_PROG_CC
 AC_PROG_CXX
 
 AM_INIT_AUTOMAKE([tar-ustar dist-bzip2 no-dist-gzip])
@@ -47,6 +48,7 @@ case "${host_os}" in
         ;;
     cygwin*)
         build_cygwin=yes
+        build_windows=yes
         ;;
     *)
         AC_MSG_WARN(["OS $host_os is not supported"])
@@ -54,7 +56,7 @@ case "${host_os}" in
 esac
 
 AM_CONDITIONAL([BUILD_LINUX], [test "$build_linux" = "yes"])
-AM_CONDITIONAL([BUILD_WIN32], [test "$build_windows" = "yes"])
+AM_CONDITIONAL([BUILD_WINDOWS], [test "$build_windows" = "yes"])
 AM_CONDITIONAL([BUILD_MACOS], [test "$build_macos" = "yes"])
 AM_CONDITIONAL([BUILD_BSD], [test "$build_bsd" = "yes"])
 AM_CONDITIONAL([BUILD_OPENBSD], [test "$build_openbsd" = "yes"])
@@ -126,7 +128,7 @@ AC_COMPILE_IFELSE(
 AC_LANG_POP
 CXXFLAGS="$saved_cxxflags"
 
-if test "$build_linux" = "yes"
+if test "$build_linux" = "yes" || test "$build_cygwin" = "yes"
 then
   PKG_CHECK_MODULES([LIBBSD],[libbsd],
     [ac_libbsd_libs=`$PKG_CONFIG --libs libbsd`],
@@ -135,6 +137,10 @@ then
 elif test "$build_haiku" = "yes"
 then
   LIBBSD_LIBS="-lbsd -lnetwork"
+fi
+if test "$build_cygwin" = "yes"
+then
+  LIBBSD_LIBS="${LIBBSD_LIBS} -lcygwin"
 fi
 
 CPPFLAGS="-D_DEFAULT_SOURCE -D_GNU_SOURCE ${CPPFLAGS}"
@@ -163,6 +169,7 @@ AX_SUBDIRS_CONFIGURE([uade], [
   [--prefix=\${uade_prefix}/share/audacious-uade],
   [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
   [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
+  [CC=${CC}],[CXX=${CXX}],
   [CFLAGS=${CFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE -Wno-format -Wno-format-security -Wno-unused-command-line-argument],
   [LDFLAGS=${LDFLAGS} ${LIBBSD_LIBS}],
 ],[])

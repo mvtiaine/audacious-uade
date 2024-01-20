@@ -19,7 +19,7 @@ Project is hosted at https://github.com/mvtiaine/audacious-uade
 
 * Dependencies:
 Audacious >= 3.8
-libbsd on Linux
+libbsd on Linux and Cygwin
 
 * To install via Homebrew (latest release):
 brew install mvtiaine/repo/audacious-uade
@@ -44,6 +44,8 @@ debian/make_deb.sh
 (sudo) dpkg -i build-deb/audacious-uade*.deb
 
 * To build and install from sources (git or latest release):
+- required (git or release): pkg-config, GNU make, gcc/clang with c++20 support
+- required (git): autoconf, automake, libtool
 (autoreconf -i)
 mkdir -p build
 cd build
@@ -54,7 +56,8 @@ make -j check
 
 * Other notes:
 - Case sensitive filesystems may cause issues for formats with external samples
-- Tested on OSX and Linux
+- Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Cygwin
+- Tested on 64-bit, 32-bit, big & little endian hosts
 - My custom Audacious playlist entry template:
 ${?codec:[${codec}${?channels: (${channels}ch)}]}  -  ${?artist:${artist}  -  }${title}${?album: - (${album})} ${?copyright:-  (${copyright})}${?publisher:- (${publisher}) }${?year:- (${year}) }${?subsong-id:${?subsong-num:- [${subsong-id}/${subsong-num}]}}
 
@@ -67,7 +70,7 @@ See https://zakalwe.fi/uade/ for UADE license information.
 * Some future plans (in no particular order)
 - Automatic A500/A1200/None filter selection depending on format/year/platform (OCS/AGA/DOS) etc. meta data
 - Plugin support for GStreamer, Hollywood, ...
-- Support Haiku, AmigaOS/AROS/MorphOS, Win32, Wasix, ...
+- Support AmigaOS/AROS/MorphOS, Win32, Wasix, ...
 - Add PC-tracker portable replays from 8bitbubsy (XM,IT,S3M,...)
 - SC68 replay support (for Atari formats)
 - PTK-Prowiz converter support (portable C-version)

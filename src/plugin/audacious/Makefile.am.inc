@@ -17,5 +17,9 @@ plugin_audacious_uade_la_LIBADD = \
     $(UADE_LIBS) \
     $(AUDACIOUS_LIBS)
 
-plugin_audacious_uade_la_LDFLAGS = -avoid-version -module -shared $(SHREXT) -Xcompiler $(UADE_LIBS)
+if BUILD_CYGWIN
+plugin_audacious_uade_la_LDFLAGS = -avoid-version -module -shared -no-undefined $(SHREXT) -Xcompiler $(UADE_LIBS) -Xcompiler -lcygwin
+else
+plugin_audacious_uade_la_LDFLAGS = -avoid-version -module -shared -no-undefined $(SHREXT) -Xcompiler $(UADE_LIBS)
+endif
 plugin_audacious_uade_la_CXXFLAGS = $(AUDACIOUS_CFLAGS)

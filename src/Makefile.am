@@ -40,6 +40,9 @@ install-data-hook:
 # TODO better way
 # remove .la cruft
 	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade.la" || true
+if BUILD_CYGWIN
+	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade.dll.a" || true
+endif
 	mkdir -p "$(DESTDIR)$(uadedir)"
 	rm -f "$(DESTDIR)$(uadedir)/songdb/"* || true
 	cp -rf "$(top_srcdir)/conf/songdb" "$(DESTDIR)$(uadedir)/"
@@ -56,8 +59,4 @@ install-data-hook:
 
 uninstall-hook:
 	rm -rf "$(DESTDIR)$(uadedir)" || true
-if BUILD_MACOS
-	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade.dylib" || true
-else
-	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade.so" || true
-endif
+	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade."* || true
