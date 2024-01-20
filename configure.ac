@@ -161,7 +161,9 @@ fi
 if test "$build_netbsd" = "yes"
 then
   # default libtool is broken(?) on NetBSD for C++ shared modules
-  postdeps=`echo " $postdeps " | sed 's, -lgcc,,g'`
+  postdeps_CXX=`echo " $postdeps_CXX " | sed 's, -lgcc,,g'`
+  postdeps_CXX=`echo " $postdeps_CXX " | sed 's, -lc_s,,g'`
+  postdeps_CXX=`echo " $postdeps_CXX " | sed 's, -lm_s,,g'`
 fi
 
 uade_prefix=${prefix}
