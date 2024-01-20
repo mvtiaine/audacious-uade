@@ -158,6 +158,11 @@ then
 else
   LDFLAGS="-Wl,--gc-sections -Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,-O1 ${LDFLAGS}"
 fi
+if test "$build_netbsd" = "yes"
+then
+  # default libtool is broken(?) on NetBSD for C++ shared modules
+  postdeps=`echo " $postdeps " | sed 's, -lgcc,,g'`
+fi
 
 uade_prefix=${prefix}
 if test "$uade_prefix" = "NONE"
