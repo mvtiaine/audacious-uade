@@ -50,9 +50,9 @@ debian/make_deb.sh
 mkdir -p build
 cd build
 ../configure
-make -j
-make -j check
-(sudo) make install
+gmake -j
+gmake -j check
+(sudo) gmake install
 
 * Other notes:
 - Case sensitive filesystems may cause issues for formats with external samples
