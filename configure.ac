@@ -131,7 +131,7 @@ CXXFLAGS="$saved_cxxflags"
 EXTRA_LIBS=""
 if test "$build_haiku" = "yes"
 then
-  EXTRA_LIBS="-lnetwork"
+  EXTRA_LIBS="-lbsd -lnetwork"
 elif test "$build_cygwin" = "yes"
 then
   EXTRA_LIBS="-lcygwin"
