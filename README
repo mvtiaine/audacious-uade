@@ -19,7 +19,6 @@ Project is hosted at https://github.com/mvtiaine/audacious-uade
 
 * Dependencies:
 Audacious >= 3.8
-libbsd on Linux and Cygwin
 
 * To install via Homebrew (latest release):
 brew install mvtiaine/repo/audacious-uade

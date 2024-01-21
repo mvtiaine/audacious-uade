@@ -128,19 +128,13 @@ AC_COMPILE_IFELSE(
 AC_LANG_POP
 CXXFLAGS="$saved_cxxflags"
 
-if test "$build_linux" = "yes" || test "$build_cygwin" = "yes"
+EXTRA_LIBS=""
+if test "$build_haiku" = "yes"
 then
-  PKG_CHECK_MODULES([LIBBSD],[libbsd],
-    [ac_libbsd_libs=`$PKG_CONFIG --libs libbsd`],
-    [ac_libbsd_libs=;])
-  AC_SUBST(LIBBSD_LIBS)
-elif test "$build_haiku" = "yes"
+  EXTRA_LIBS="-lnetwork"
+elif test "$build_cygwin" = "yes"
 then
-  LIBBSD_LIBS="-lbsd -lnetwork"
-fi
-if test "$build_cygwin" = "yes"
-then
-  LIBBSD_LIBS="${LIBBSD_LIBS} -lcygwin"
+  EXTRA_LIBS="-lcygwin"
 fi
 
 CPPFLAGS="-D_DEFAULT_SOURCE -D_GNU_SOURCE ${CPPFLAGS}"
@@ -178,14 +172,14 @@ AX_SUBDIRS_CONFIGURE([uade], [
   [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
   [CC=${CC}],[CXX=${CXX}],
   [CFLAGS=${CFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE -Wno-format -Wno-format-security -Wno-unused-command-line-argument],
-  [LDFLAGS=${LDFLAGS} ${LIBBSD_LIBS}],
+  [LDFLAGS=${LDFLAGS} ${EXTRA_LIBS}],
 ],[])
 UADE_CPPFLAGS="-I\${top_srcdir}/uade/src/frontends/include -I\${top_builddir}/uade/src/frontends/include"
 AC_SUBST([UADE_CPPFLAGS])
 # TODO shutup libtool warning:
 # *** Warning: Linking the shared library uade.la against the
 # *** static library uade/src/frontends/libuade/libuade.a is not portable!
-UADE_LIBS="\${top_builddir}/uade/src/frontends/libuade/libuade.a ${LIBBSD_LIBS}"
+UADE_LIBS="\${top_builddir}/uade/src/frontends/libuade/libuade.a ${EXTRA_LIBS}"
 AC_SUBST([UADE_LIBS])
 
 AC_CONFIG_HEADERS([src/config.h])

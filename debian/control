@@ -5,7 +5,6 @@ Maintainer: Matti Tiainen <mvtiaine@cc.hut.fi>
 Homepage: https://github.com/mvtiaine/audacious-uade
 Build-Depends:
  audacious-dev,
- libbsd-dev,
  autotools-dev,
  autoconf,
  automake,
@@ -17,6 +16,5 @@ Package: audacious-uade
 Architecture: any
 Multi-Arch: same
 Depends:
- audacious,
- libbsd0
+ audacious
 Description: UADE plugin for Audacious music player

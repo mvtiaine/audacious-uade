@@ -5,7 +5,6 @@
 , pkg-config
 , which
 , audacious
-, libbsd
 }:
 
 stdenv.mkDerivation rec {
@@ -22,7 +21,6 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     audacious
-    libbsd
   ];
 
   configureFlags = [ "--with-audacious-plugindir=${placeholder "out"}/lib/audacious" ];
