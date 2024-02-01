@@ -7,11 +7,8 @@
 #include <cstdint>
 #include <stdexcept>
 #include <vector>
-#ifdef __APPLE__
-#include "macos_endian.h"
-#else
-#include <endian.h>
-#endif
+
+#include "portable_endian.h"
 
 namespace common {
 

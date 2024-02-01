@@ -4,6 +4,8 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <unistd.h>
+
 #include "converter/converter.h"
 
 using namespace std;
@@ -29,6 +31,9 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Conversion failed: %s\n", res.reason_failed.c_str());
         return EXIT_FAILURE;
     }
+#ifdef __MINGW32__
+    _setmode(_fileno(stdout), 0x8000);
+#endif
     fwrite(res.data.data(), res.data.size(), 1, stdout);
 
     return EXIT_SUCCESS;

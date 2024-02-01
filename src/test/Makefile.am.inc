@@ -9,11 +9,19 @@ test_md5_SOURCES = \
 test_md5_LDADD = \
     common/libmd5.la
 
+if BUILD_MINGW
+uade_core_file=`cygpath -w -m $(top_builddir)/uade/src/uadecore`
+uade_base_dir=`cygpath -w -m $(top_builddir)/build-tmp/uade`
+else
+uade_core_file=$(top_builddir)/uade/src/uadecore
+uade_base_dir=$(top_builddir)/build-tmp/uade
+endif
+
 TESTS_ENVIRONMENT = \
     export top_srcdir=$(top_srcdir); \
     export top_builddir=$(top_builddir); \
-    export UADE_CORE_FILE=$(top_builddir)/uade/src/uadecore; \
-    export UADE_BASE_DIR=$(top_builddir)/build-tmp/uade; \
+    export UADE_CORE_FILE=$(uade_core_file); \
+    export UADE_BASE_DIR=$(uade_base_dir); \
     mkdir -p $(top_builddir)/build-tmp/uade 2>/dev/null;\
     cp -f $(top_srcdir)/conf/*.conf $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
     cp -f $(top_srcdir)/uade/eagleplayer.conf $(top_builddir)/build-tmp/uade/ 2>/dev/null; \

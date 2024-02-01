@@ -1,6 +1,10 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
+if BUILD_MINGW
+uadedir = `cygpath -w -m $(prefix)/share/audacious-uade`
+else
 uadedir = $(prefix)/share/audacious-uade
+endif
 uadedatadir = $(uadedir)/share/uade
 uadelibdir = $(uadedir)/lib/uade
 plugin_audaciousdir = $(AUDACIOUS_PLUGINDIR)/Input
@@ -40,7 +44,7 @@ install-data-hook:
 # TODO better way
 # remove .la cruft
 	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade.la" || true
-if BUILD_CYGWIN
+if BUILD_WINDOWS
 	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade.dll.a" || true
 endif
 	mkdir -p "$(DESTDIR)$(uadedir)"
