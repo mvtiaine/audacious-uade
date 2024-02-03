@@ -1,3 +1,7 @@
+0.12-dev
+- Dropped UADE libbsd dependency
+- Windows MinGW/MSYS2 support
+
 0.11.3 - 2024-01-20
 - Fix build on Haiku, NetBSD, OpenBSD, DragonFlyBSD and Cygwin
 - Fix build on older Audacious versions (3.8+ still required)
