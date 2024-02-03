@@ -26,12 +26,14 @@ int main(int /*argc*/, char *[]/*argv[]*/) {
 
     detector::SongEndDetector detector(player::PRECALC_FREQ, false, endian::native);
 
-// TODO configure.ac check for freopen
-#if !defined(__HAIKU__) && !defined(__OpenBSD__) && !defined(__NetBSD__)
+#ifndef NO_FREOPEN
     if (!freopen(NULL, "rb", stdin)) {
         fprintf(stderr, "Failed to freopen(rb) stdin\n");
         return EXIT_FAILURE;
     }
+#endif
+#ifdef __MINGW32__
+    setmode (fileno (stdin), 0x8000);
 #endif
 
     while ((count = read(STDIN_FILENO, buf, sizeof buf)) > 0) {

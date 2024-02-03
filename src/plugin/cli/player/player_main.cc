@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <unistd.h>
 
 #include "player/player.h"
 
@@ -75,6 +76,10 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Could not play %s\n", fname);
         return EXIT_FAILURE;
     }
+
+#ifdef __MINGW32__
+    _setmode(_fileno(stdout), 0x8000);
+#endif
 
     const auto check_stop = []() { return false; };
     const auto check_seek = []() { return -1; };

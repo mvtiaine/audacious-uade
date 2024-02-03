@@ -17,6 +17,14 @@ typedef common::be_uint16_t     UWORD;          /* unsigned 16-bit quantity */
 typedef int8_t          BYTE;           /* signed 8-bit quantity */
 typedef uint8_t         UBYTE;          /* unsigned 8-bit quantity */
 typedef char *          STRPTR;         /* string pointer (NUL-terminated) */
+// XXX needed to fix Windows typedef conflict
+#define LONG converter::med::LONG
+#define ULONG converter::med::ULONG
+#define WORD converter::med::WORD
+#define UWORD converter::med::UWORD
+#define BYTE converter::med::BYTE
+#define UBYTE converter::med::UBYTE
+#define STRPTR converter::med::STRPTR
 #define EXEC_TYPES_H
 #include "3rdparty/proplayer.h"
 #undef EXEC_TYPES_H

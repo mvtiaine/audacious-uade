@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <unistd.h>
 
 #include "common/md5.h"
 #include "songdb/songdb.h"
@@ -64,6 +65,10 @@ int main(int argc, char *argv[]) {
         snprintf(buf, sizeof buf, "%u,%s", info.songlength, se.c_str());
         songends.push_back(buf);
     }
+
+#ifdef __MINGW32__
+    _setmode(_fileno(stdout), 0x8000);
+#endif
 
     fprintf(stdout, "songlengths.tsv:%s\t%s\t%d\t%d\t%s\n", md5short.c_str(), info.format.c_str(), info.channels, info.subsong, common::mkString(songends, " ").c_str());
 

@@ -16,6 +16,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <unistd.h>
 
 #include "common/md5.h"
 #include "player/player.h"
@@ -91,6 +92,10 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Blacklisted songdb md5 for %s\n", path);
         return EXIT_FAILURE;
     }
+
+#ifdef __MINGW32__
+    _setmode(_fileno(stdout), 0x8000);
+#endif
 
     if (songdb::blacklist::is_blacklisted_md5(md5hex)) {
         fprintf(stderr, "Blacklisted md5 for %s\n", path);

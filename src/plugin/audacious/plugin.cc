@@ -72,10 +72,15 @@ player::Player check_player(VFSFile &file, const string &path) {
 int parse_uri(const char *uri, string &path, string &ext) {
     int subsong;
     const char *sub, *tmpExt;
+
+    uri_parse(uri, nullptr, &tmpExt, &sub, &subsong);
+#ifdef __MINGW32__
+    string p = string(uri_to_filename(uri));
+    replace(p.begin(), p.end(), '\\', '/');
+    const char *tmpPath = p.c_str();
+#else
     const char *tmpPath = uri_to_filename(uri);
-
-    uri_parse(tmpPath, nullptr, &tmpExt, &sub, &subsong);
-
+#endif
     path = string(tmpPath, strlen(tmpPath) - strlen(sub));
     ext = string(tmpExt, strlen(tmpExt) - strlen(sub));
 
