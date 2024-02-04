@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 /* - main XM replayer -
 **
 ** NOTE: Effect handling is slightly different because
