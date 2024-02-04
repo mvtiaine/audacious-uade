@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 #include <stdint.h>
 
 // 8bb: bit-accurate FT2 tables (FT2.08/FT2.09)
