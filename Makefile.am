@@ -5,7 +5,10 @@ SUBDIRS = $(subdirs_extra) $(DIST_SUBDIRS)
 EXTRA_DIST = \
 	NOTICE \
 	conf \
-	debian \
+	scripts/audacious-uade.spec \
+    scripts/debian \
+	scripts/make_deb.sh \
+	scripts/make_rpm.sh \
 	testdata
 
 AM_DISTCHECK_DVI_TARGET =

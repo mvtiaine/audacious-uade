@@ -41,6 +41,7 @@ audacious-uade-*
 *.tar.bz2
 debian/changelog
 build-deb
+build-rpm
 build
 test-driver
 *.log

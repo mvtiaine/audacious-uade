@@ -22,12 +22,13 @@ TESTS_ENVIRONMENT = \
     export top_builddir=$(top_builddir); \
     export UADE_CORE_FILE=$(uade_core_file); \
     export UADE_BASE_DIR=$(uade_base_dir); \
-    mkdir -p $(top_builddir)/build-tmp/uade 2>/dev/null;\
+    mkdir -p $(top_builddir)/build-tmp/uade 2>/dev/null; \
     cp -f $(top_srcdir)/conf/*.conf $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
     cp -f $(top_srcdir)/uade/eagleplayer.conf $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
     cp -f $(top_srcdir)/uade/uaerc $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
     cp -f $(top_srcdir)/uade/amigasrc/score/score $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
     cp -rf $(top_srcdir)/uade/players $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
+    sleep 1; \
     chmod -R 755 $(top_builddir)/build-tmp/uade;
 
 # should be sorted by longest running ones first for better parallelisation

@@ -11,6 +11,9 @@
 ** ... and for 1.8
 */
 
+// try keep byte-by-byte consistent audio output across platforms, by disabling some floating point optimizations
+// also -flto with -O2 affects output, explicitly use -Os to workaround this
+#pragma GCC optimize("fp-contract=off,no-fast-math,Os")
 
 #include <stdio.h>
 #include <string.h>

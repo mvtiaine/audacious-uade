@@ -1,6 +1,7 @@
 0.12-dev
 - Dropped UADE libbsd dependency
 - Windows MinGW/MSYS2 support
+- Add Fedora rpm build scripts
 
 0.11.3 - 2024-01-20
 - Fix build on Haiku, NetBSD, OpenBSD, DragonFlyBSD and Cygwin
