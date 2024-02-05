@@ -28,7 +28,7 @@ brew install mvtiaine/repo/audacious-uade
 emerge -p media-plugins/audacious-uade
 emerge media-plugins/audacious-uade
 
-* To install with Arch (latest release):
+* To install with Arch/Manjaro/etc. (latest release):
 wget https://raw.githubusercontent.com/mvtiaine/arch-repo/main/audacious-uade/PKGBUILD
 makepkg -s
 (sudo) pacman -U audacious-uade*.pkg*
@@ -44,13 +44,13 @@ cp -rp haikuports/* /boot/home/haikuports/
 haikuporter audacious_uade
 pkgman install /boot/home/haikuports/packages/audacious_uade-*
 
-* To build and install with Debian from sources (git or latest release):
+* To build and install with Debian/Ubuntu/etc. from sources (git or latest release):
 scripts/make_deb.sh
 (sudo) dpkg -i build-deb/audacious-uade*.deb
 
-* To build and install with Fedora from sources (git or latest release):
+* To build and install with Fedora/openSUSE/etc. from sources (git or latest release):
 scripts/make_rpm.sh
-(sudo) yum install build-rpm/rpmbuild/RPMS/*/*.rpm
+(sudo) dnf/yum/zypper install build-rpm/rpmbuild/RPMS/*/*.rpm
 
 * To build and install from sources (git or latest release):
 - required (git or release): pkg-config, GNU make, gcc/clang with c++20 support

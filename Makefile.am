@@ -6,7 +6,7 @@ EXTRA_DIST = \
 	NOTICE \
 	conf \
 	scripts/audacious-uade.spec \
-    scripts/debian \
+	scripts/debian \
 	scripts/make_deb.sh \
 	scripts/make_rpm.sh \
 	testdata

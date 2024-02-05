@@ -4,7 +4,7 @@
 
 Name:           audacious-uade
 Version:        %{VERSION}
-Release:        %autorelease
+Release:        1
 Requires:       audacious >= %{aud_ver}
 Summary:        UADE plugin for Audacious music player
 
