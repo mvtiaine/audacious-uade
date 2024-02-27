@@ -9,17 +9,18 @@
 
 #include <cstdio>
 #include <cstdlib>
-#include <unistd.h>
 
 #include "player/player.h"
 #include "songend/detector.h"
+
+#include <unistd.h>
 
 using namespace songend;
 using namespace std;
 
 constexpr ssize_t MINLENGTH = player::PRECALC_FREQ * 2 * 2 * (player::PRECALC_TIMEOUT - 1);
 
-int main(int /*argc*/, char *[]/*argv[]*/) {
+int main(int argc, char *argv[]) {
     char buf[4096];
     ssize_t total = 0;
     ssize_t count;
@@ -35,10 +36,24 @@ int main(int /*argc*/, char *[]/*argv[]*/) {
 #ifdef __MINGW32__
     setmode (fileno (stdin), 0x8000);
 #endif
+    const string fname = argc < 2 ? "-" : argv[1];
+    bool is_stdin = (fname == "-");
 
-    while ((count = read(STDIN_FILENO, buf, sizeof buf)) > 0) {
+    int fd = STDIN_FILENO;
+    if (!is_stdin) {
+        FILE *f = fopen(fname.c_str(), "rb"); 
+        if (!f) {
+            fprintf(stderr, "File not found: %s\n", fname.c_str());
+            return EXIT_FAILURE;
+        }
+        fd = fileno(f);
+    }
+    while ((count = read(fd, buf, sizeof buf)) > 0) {
         detector.update(buf, count);
         total += count;
+    }
+    if (!is_stdin) {
+        close(fd);
     }
 
     if (total < MINLENGTH) {

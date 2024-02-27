@@ -12,12 +12,18 @@ typedef uint32_t		uint32;
 typedef int32_t		int32;
 
 typedef double			float64;
+#if defined(__AMIGA__) || defined(__AROS__)
+typedef unsigned char			TEXT;
+#else
 typedef char			TEXT;
+#endif
 typedef short			BOOL;
 typedef int32_t			LONG;
 typedef uint32_t		ULONG;
+#ifndef FALSE
 #define FALSE 0
 #define TRUE 1
+#endif
 #define CONST const
 
 // Woohoo!

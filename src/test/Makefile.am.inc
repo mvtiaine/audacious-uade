@@ -9,6 +9,10 @@ test_md5_SOURCES = \
 test_md5_LDADD = \
     common/libmd5.la
 
+if BUILD_AMIGA
+test_md5_SOURCES += plugin/cli/common/compat.cc
+endif
+
 if BUILD_MINGW
 uade_core_file=`cygpath -w -m $(top_builddir)/uade/src/uadecore`
 uade_base_dir=`cygpath -w -m $(top_builddir)/build-tmp/uade`

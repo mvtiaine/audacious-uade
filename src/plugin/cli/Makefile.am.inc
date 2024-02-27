@@ -57,3 +57,9 @@ plugin_cli_songend_songend_SOURCES = \
 
 plugin_cli_songend_songend_LDADD = \
 	songend/libsongend.la
+
+plugin_cli_converter_converter_SOURCES += plugin/cli/common/compat.cc
+plugin_cli_player_player_SOURCES += plugin/cli/common/compat.cc
+plugin_cli_precalc_precalc_SOURCES += plugin/cli/common/compat.cc
+plugin_cli_songdb_songdb_SOURCES += plugin/cli/common/compat.cc
+plugin_cli_songend_songend_SOURCES += plugin/cli/common/compat.cc

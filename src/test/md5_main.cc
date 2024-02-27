@@ -4,12 +4,17 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include <unistd.h>
 
 #include "common/md5.h"
 #include "3rdparty/SimpleBinStream.h"
 
+#include <unistd.h>
+
 using namespace std;
+
+// Note, to support pipe + stdin with AmigaOS you need: Pipe-1.5 from Aminet, set _pchar | and using IN: as the file parameter, e.g.
+// set _pchar |
+// cat foo | md5 IN:
 
 int main(int argc, char *argv[]) {
     const string fname = argc < 2 ? "-" : argv[1];
@@ -33,7 +38,7 @@ int main(int argc, char *argv[]) {
             return EXIT_FAILURE;
         }
     }
-    
+
     istream& input = is_stdin ? cin : file;
     simple::mem_ostream<true_type> out;
 

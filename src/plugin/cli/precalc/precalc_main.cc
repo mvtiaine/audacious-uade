@@ -16,12 +16,13 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include <unistd.h>
 
 #include "common/md5.h"
 #include "player/player.h"
 #include "songend/precalc.h"
 #include "songdb/songdb.h"
+
+#include <unistd.h>
 
 using namespace std;
 
@@ -115,4 +116,6 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Could not recognize %s md5 %s\n", path, md5hex.c_str());
         return EXIT_FAILURE;
     }
+
+    return EXIT_SUCCESS;
 }

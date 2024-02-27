@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: LGPL-2.0-or-later
 // Copyright (C) 2023-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
+#if defined(__AROS__)
+// XXX avoid conflict with <exec/lists.h>
+#define _GLIBCXX_ATOMICITY_H 1
+#endif
+
 #include <cassert>
 
 #include "common/common.h"

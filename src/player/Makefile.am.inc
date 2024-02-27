@@ -10,6 +10,7 @@ player_libplayer_la_SOURCES = \
     player/players/player_hivelytracker.cc \
     player/players/player_uade.cc \
     common/common.h \
+    common/compat.h \
     common/foreach.h \
     common/logger.h
 
