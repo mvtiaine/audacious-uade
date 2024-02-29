@@ -5,9 +5,10 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include <unistd.h>
 
 #include "player/player.h"
+
+#include <unistd.h>
 
 using namespace common;
 using namespace player;

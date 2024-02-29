@@ -6,12 +6,15 @@
 #include <string>
 #include <type_traits>
 #include <vector>
-#include <unistd.h>
 
 #include "common/foreach.h"
 #include "common/logger.h"
 #include "converter/converter.h"
 #include "player/player.h"
+
+#include <unistd.h>
+// XXX fix morphos compile
+#undef shutdown
 
 using namespace std;
 using namespace common;

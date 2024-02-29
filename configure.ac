@@ -5,13 +5,16 @@ AC_INIT(
   [https://github.com/mvtiaine/audacious-uade/issues],
   [],
   [https://github.com/mvtiaine/audacious-uade])
+
+CXXSTD="-std=c++20"
+
 AC_PROG_CC
 AC_PROG_CXX
+# for cross compile support
+AX_PROG_CC_FOR_BUILD
 
 AM_INIT_AUTOMAKE([tar-ustar dist-bzip2 no-dist-gzip])
 AC_CONFIG_MACRO_DIR([m4])
-
-LT_INIT
 
 # AC_CANONICAL_HOST is needed to access the 'host_os' variable
 AC_CANONICAL_HOST
@@ -20,45 +23,93 @@ build_linux=no
 build_windows=no
 build_macos=no
 build_bsd=no
+build_haiku=no
+build_amiga=no
+
 build_openbsd=no
 build_netbsd=no
-build_haiku=no
 build_cygwin=no
 build_mingw=no
+build_amigaos=no
+build_morphos=no
+build_amigaos4=no
+build_warpos=no
+build_aros=no
+
+plugin_audacious=yes
 
 # Detect the target system
 case "${host_os}" in
-    linux*)
-        build_linux=yes
+  linux*)
+    build_linux=yes
+    ;;
+  mingw*|msys*)
+    build_mingw=yes
+    build_windows=yes
+    ;;
+  darwin*)
+    build_macos=yes
+    ;;
+  openbsd*)
+    build_openbsd=yes
+    build_bsd=yes
+    ;;
+  netbsd*)
+    build_netbsd=yes
+    build_bsd=yes
+    ;;
+  *bsd*|dragonfly*)
+    build_bsd=yes
+    ;;
+  haiku*)
+    build_haiku=yes
+    ;;
+  cygwin*)
+    build_cygwin=yes
+    build_windows=yes
+    ;;
+  amigaos*)
+    plugin_audacious=no
+    build_amiga=yes
+    case "${host_cpu}" in
+      powerpc*)
+        if test "$(echo|$CC -dM -E -|grep -q __amigaos4__ && echo yes)" = "yes"
+        then
+          # TODO compiles but executables crash at __start
+          build_amigaos4=yes
+          AC_MSG_WARN(["AmigaOS4 target not yet supported"])
+        elif test "$(echo|$CC --specs=warpup -dM -E -|grep -q WARPUP && echo yes)" = "yes"
+        then
+          build_warpos=yes
+          # TODO too old GCC (9.3.0) in gcc-mos2wos for proper c++20 support
+          # also undefined reference to `__gthr_morphos_active_p' etc.
+          AC_MSG_WARN(["WarpOS target not yet supported"])
+        else
+          # TODO PowerUP support also possible with mos2wos?
+          AC_MSG_WARN(["Unsupported PPC AmigaOS target"])
+        fi
         ;;
-    mingw*|msys*)
-        build_mingw=yes
-        build_windows=yes
+      m68k)
+        build_amigaos=yes
         ;;
-    darwin*)
-        build_macos=yes
-        ;;
-    openbsd*)
-        build_openbsd=yes
-        build_bsd=yes
-        ;;
-    netbsd*)
-        build_netbsd=yes
-        build_bsd=yes
-        ;;
-    *bsd*|dragonfly*)
-        build_bsd=yes
-        ;;
-    haiku*)
-        build_haiku=yes
-        ;;
-    cygwin*)
-        build_cygwin=yes
-        build_windows=yes
-        ;;
-    *)
-        AC_MSG_WARN(["OS $host_os is not supported"])
-        ;;
+      *)
+       AC_MSG_WARN(["${host_cpu} target not supported with AmigaOS"])
+       ;;
+    esac
+    ;;
+  morphos*)
+    plugin_audacious=no
+    build_morphos=yes
+    build_amiga=yes
+    ;;
+  aros*)
+    plugin_audacious=no
+    build_aros=yes
+    build_amiga=yes
+    ;;
+  *)
+    AC_MSG_WARN(["$host_os not supported"])
+    ;;
 esac
 
 AM_CONDITIONAL([BUILD_LINUX], [test "$build_linux" = "yes"])
@@ -70,30 +121,14 @@ AM_CONDITIONAL([BUILD_NETBSD], [test "$build_netbsd" = "yes"])
 AM_CONDITIONAL([BUILD_HAIKU], [test "$build_haiku" = "yes"])
 AM_CONDITIONAL([BUILD_CYGWIN], [test "$build_cygwin" = "yes"])
 AM_CONDITIONAL([BUILD_MINGW], [test "$build_mingw" = "yes"])
+AM_CONDITIONAL([BUILD_AMIGA], [test "$build_amiga" = "yes"])
+AM_CONDITIONAL([BUILD_AMIGAOS], [test "$build_amigaos" = "yes"])
+AM_CONDITIONAL([BUILD_MORPHOS], [test "$build_morphos" = "yes"])
+AM_CONDITIONAL([BUILD_AMIGAOS4], [test "$build_amigaos4" = "yes"])
+AM_CONDITIONAL([BUILD_WARPOS], [test "$build_warpos" = "yes"])
+AM_CONDITIONAL([BUILD_AROS], [test "$build_aros" = "yes"])
 
-ld_apple=no
-ld_lld=no
-ld_gnu=no
-
-linker_version=$($LD -v 2>&1)
-case "$linker_version" in
-    GNU*|mold*)
-	ld_gnu=yes
-        ;;
-    LLD*)
-        ld_lld=yes
-        ;;
-    *dyld*)
-        ld_apple=yes
-        ;;
-    *)
-        AC_MSG_WARN(["Linker $LD ($linker_version) is not supported"])
-        ;;
-esac
-
-AM_CONDITIONAL([LD_APPLE], [test "$ld_apple" = "yes"])
-AM_CONDITIONAL([LD_LLD], [test "$ld_lld" = "yes"])
-AM_CONDITIONAL([LD_GNU], [test "$ld_gnu" = "yes"])
+AM_CONDITIONAL([PLUGIN_AUDACIOUS], [test "$plugin_audacious" = "yes"])
 
 # defines WORDS_BIGENDIAN
 AC_C_BIGENDIAN
@@ -107,6 +142,8 @@ AC_COMPILE_IFELSE(
   [],
   [AC_MSG_ERROR([Building with -ffast-math and/or -Ofast not supported!])])
 
+if test "$plugin_audacious" = "yes"
+then
 PKG_CHECK_MODULES([AUDACIOUS],[audacious >= 3.8],
   [ac_audacious_plugindir=`$PKG_CONFIG --variable=plugin_dir audacious`],
   [ac_audacious_plugindir=;])
@@ -124,7 +161,7 @@ AC_SUBST(AUDACIOUS_PLUGINDIR)
 AC_MSG_RESULT($AUDACIOUS_PLUGINDIR)
 
 saved_cxxflags="$CXXFLAGS"
-CXXFLAGS="-std=c++20 $AUDACIOUS_CFLAGS"
+CXXFLAGS="$CXXSTD $AUDACIOUS_CFLAGS"
 AC_LANG_PUSH(C++)
 AC_COMPILE_IFELSE(
   [AC_LANG_PROGRAM([
@@ -158,8 +195,24 @@ AC_COMPILE_IFELSE(
 )
 AC_LANG_POP
 CXXFLAGS="$saved_cxxflags"
+fi # PLUGIN_AUDACIOUS
 
 EXTRA_LIBS=""
+CPPFLAGS="-D_DEFAULT_SOURCE ${CPPFLAGS}"
+if test "$build_cygwin" = "yes"
+then
+  CPPFLAGS="-D_GNU_SOURCE ${CPPFLAGS}"
+fi
+CFLAGS="-fvisibility=hidden ${CFLAGS}"
+# XXX shutup spammy AROS warning: "__PIC__" redefined.
+# also AROS and MorphOS doesn't support --gc-sections
+if test "$build_aros" != "yes" && test "$build_morphos" != "yes" && test "$build_warpos" != "yes"
+then
+  CFLAGS="-fPIC -fdata-sections -ffunction-sections ${CFLAGS}"
+fi
+# see AX_PROG_CC_FOR_BUILD
+CFLAGS_FOR_BUILD="${CFLAGS}"
+
 if test "$build_haiku" = "yes"
 then
   EXTRA_LIBS="-lbsd -lnetwork"
@@ -170,18 +223,75 @@ elif test "$build_mingw" = "yes"
 then
   CPPFLAGS="-I/usr/include ${CPPFLAGS}"
   CFLAGS="-I/usr/include ${CFLAGS}"
-  LIBS="$LIBS -lws2_32"
+  LIBS="-lws2_32 ${LIBS}"
+fi
+if test "$build_amigaos" = "yes"
+then
+  # -noixemul uses libnix
+  CFLAGS="-noixemul -m68020-60 ${CFLAGS} -fno-PIC"
+  # TODO with -O2, -foptimize-sibling-calls causes some exes to crash before main() (songdb/player/precalc)
+  CFLAGS="-fno-optimize-sibling-calls ${CFLAGS}"
+  # XXX some weirdness with <limits.h>/PATH_MAX not getting defined with libnix
+  CPPFLAGS="-DPATH_MAX=1024 ${CPPFLAGS}"
+  # XXX fix some c vs c++ header issues with clib2
+  CPPFLAGS="-include stdint.h -include math.h ${CPPFLAGS}"
+elif test "$build_morphos" = "yes"
+then
+  CFLAGS="-noixemul ${CFLAGS} -fno-PIC"
+  # <cstdint> does not work without this
+  CPPFLAGS="-D__STDC_LIMIT_MACROS ${CPPFLAGS}"
+elif test "$build_amigaos4" = "yes"
+then
+  CFLAGS="-athread=native ${CFLAGS}"
+  # static libstdc++ needs also postdeps_CXX hack below
+  CXXFLAGS="-static-libstdc++ ${CXXFLAGS}"
+  LIBS="-lauto ${LIBS}"
+elif test "$build_warpos" = "yes"
+then
+  CPPFLAGS="--specs=warpup -D__STDC_LIMIT_MACROS ${CPPFLAGS}"
+  CFLAGS="--specs=warpup -noixemul -mclib=newlib -pthread ${CFLAGS} -fno-PIC"
+  LDFLAGS="--specs=warpup ${LDFLAGS}"
+elif test "$build_aros" = "yes"
+then
+  LIBS="-lpthread ${LIBS}"
+  # <cstdint> does not work without this
+  CPPFLAGS="-D__STDC_LIMIT_MACROS ${CPPFLAGS}"
 fi
 
-CPPFLAGS="-D_DEFAULT_SOURCE -D_GNU_SOURCE ${CPPFLAGS}"
 # TODO proper freopen() test
-if test "$build_haiku" = "yes" || test "$build_openbsd" = "yes" || test "$build_netbsd" = "yes" || test "$build_mingw" = "yes"
+if test "$build_haiku" = "yes" || test "$build_openbsd" = "yes" || test "$build_netbsd" = "yes" || test "$build_mingw" = "yes" || test "$build_amiga" = "yes"
 then
   CPPFLAGS="-DNO_FREOPEN ${CPPFLAGS}"
 fi
 
-CFLAGS="-fPIC -fvisibility=hidden -fdata-sections -ffunction-sections ${CFLAGS}"
-CXXFLAGS="-std=c++20 -fvisibility-inlines-hidden -fno-rtti -Wall ${CFLAGS} ${CXXFLAGS}"
+CXXFLAGS="-fvisibility-inlines-hidden -fno-rtti -Wall ${CFLAGS} ${CXXSTD} ${CXXFLAGS}"
+
+# must be called after C(XX)FLAGS tweaks, as for example on MorphOS -noixemul must be set before LT_INIT
+LT_INIT
+
+ld_apple=no
+ld_lld=no
+ld_gnu=no
+
+linker_version=$($LD -v 2>&1)
+case "$linker_version" in
+    GNU*|mold*)
+	      ld_gnu=yes
+        ;;
+    LLD*)
+        ld_lld=yes
+        ;;
+    *dyld*)
+        ld_apple=yes
+        ;;
+    *)
+        AC_MSG_WARN(["Linker $LD ($linker_version) is not supported"])
+        ;;
+esac
+
+AM_CONDITIONAL([LD_APPLE], [test "$ld_apple" = "yes"])
+AM_CONDITIONAL([LD_LLD], [test "$ld_lld" = "yes"])
+AM_CONDITIONAL([LD_GNU], [test "$ld_gnu" = "yes"])
 
 if test "$ld_apple" = "yes"
 then
@@ -196,6 +306,18 @@ else
   then
     # mingw lld linker does not support --exclude-libs=ALL or --discard-all (?)
     LDFLAGS="-Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined -Wl,-O1 ${LDFLAGS}"
+  elif test "$build_amigaos" = "yes"
+  then
+    # no support for --exclude-libs=ALL in bebbos toolchain
+    LDFLAGS="-Wl,--gc-sections -Wl,--as-needed -Wl,--discard-all -Wl,--no-undefined -Wl,-O1 ${LDFLAGS}"
+  elif test "$build_morphos" = "yes" || test "$build_warpos" = "yes"
+  then
+    # no support for --exclude-libs=ALL, --gc-sections broken
+    LDFLAGS="-Wl,--as-needed -Wl,--discard-all -Wl,--no-undefined -Wl,-O1 ${LDFLAGS}"
+  elif test "$build_aros" = "yes"
+  then
+    # no support for --gc-sections
+    LDFLAGS="-Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,-O1 ${LDFLAGS}"
   else
     LDFLAGS="-Wl,--gc-sections -Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,-O1 ${LDFLAGS}"
   fi
@@ -211,6 +333,20 @@ then
   postdeps_CXX=`echo " $postdeps_CXX " | sed 's, -lgcc,,g'`
   postdeps_CXX=`echo " $postdeps_CXX " | sed 's, -lc_s,,g'`
   postdeps_CXX=`echo " $postdeps_CXX " | sed 's, -lm_s,,g'`
+elif test "$build_amigaos" = "yes" || test "$build_warpos" = "yes"
+then
+  TARGET_OS="--target-os=AmigaOS"
+elif test "$build_morphos" = "yes"
+then
+  TARGET_OS="--target-os=MorphOS"
+elif test "$build_amigaos4" = "yes"
+then
+  TARGET_OS="--target-os=AmigaOS4"
+  # hack libstdc++ to be statically linked
+  postdeps_CXX=`echo " $postdeps_CXX " | sed 's,-lstdc++,,g'`
+elif test "$build_aros" = "yes"
+then
+  TARGET_OS="--target-os=AROS"
 fi
 
 uade_prefix=${prefix}
@@ -219,20 +355,18 @@ then
   uade_prefix=/usr/local
 fi
 AX_SUBDIRS_CONFIGURE([uade], [
-  [--without-uade123], [--without-uadesimple], [--without-write-audio],[--without-uadefs],
+  [--without-uade123], [--without-uadesimple], [--without-write-audio],[--without-uadefs],[--without-libuade],
   [--prefix=\${uade_prefix}/share/audacious-uade],
   [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
   [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
-  [--target-ar=${AR}],[CC=${CC}],[CXX=${CXX}],
+  [--target-ar=${AR}],[--target-cc=${CC}],[CC=${CC_FOR_BUILD}],[CXX=${CXX}],
   [CFLAGS=${CFLAGS} ${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE -Wno-format -Wno-format-security -Wno-unused-command-line-argument],
   [LDFLAGS=${LDFLAGS} ${EXTRA_LIBS}],
+  [${TARGET_OS}],
 ],[])
 UADE_CPPFLAGS="-I\${top_srcdir}/uade/src/frontends/include -I\${top_builddir}/uade/src/frontends/include"
 AC_SUBST([UADE_CPPFLAGS])
-# TODO shutup libtool warning:
-# *** Warning: Linking the shared library uade.la against the
-# *** static library uade/src/frontends/libuade/libuade.a is not portable!
-UADE_LIBS="\${top_builddir}/uade/src/frontends/libuade/libuade.a ${EXTRA_LIBS}"
+UADE_LIBS="\${top_builddir}/uade/src/frontends/common/libuade.a ${EXTRA_LIBS}"
 AC_SUBST([UADE_LIBS])
 
 AC_CONFIG_HEADERS([src/config.h])

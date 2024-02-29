@@ -65,6 +65,13 @@ struct PlayerState {
     int pos_millis = 0;
 };
 
+// tai suoraan ahi/audio: output?
+// c++ "async" == amiga signal/msg port ("deuade service/handler/device" (process local)) (lambda?)
+// jos amiga exec/dos api:lla pystyy osoittamaan suoraan funkkareihin
+// "rest api" filesysteemin kautta (rexx compatible output/easily parsable)
+// "csv" (keys + values) (or keys known via "api")
+// handler == oma "fs"/device
+
 void init();
 void shutdown();
 

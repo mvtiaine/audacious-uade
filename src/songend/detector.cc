@@ -25,9 +25,10 @@
 #include <numeric>
 #include <set>
 #include <utility>
-#include <unistd.h>
 
 #include "songend/detector.h"
+
+#include <unistd.h>
 
 using namespace std;
 
@@ -305,8 +306,12 @@ pair<uint64_t, int> get_looplen(const vector<int8_t> &buf, const uint64_t begin,
     ok = max(ok, 0);
 
     TRACE1("LOOP LEN %f POS %f NEG %f pok %d nok %d ok %d\n", looplen / ACR_PER_SEC, pacravg / ACR_PER_SEC, nacravg / ACR_PER_SEC, pok, nok, ok);
-    
-    return pair(round(looplen * SAMPLES_PER_SEC / ACR_PER_SEC), ok);
+#ifdef __CLIB2__
+// XXX undefined reference to llround
+    return pair(lround(looplen * SAMPLES_PER_SEC / ACR_PER_SEC), ok);
+#else
+    return pair(llround(looplen * SAMPLES_PER_SEC / ACR_PER_SEC), ok);
+#endif
 }
 
 uint64_t get_loopstart(const vector<int8_t> &buf, const uint64_t SAMPLES_PER_SEC, const uint64_t looplen, const uint64_t offs) {

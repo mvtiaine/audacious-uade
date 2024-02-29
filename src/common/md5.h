@@ -50,7 +50,7 @@ public:
     uint8_t digest[16];
     MD5();
     MD5(const std::string& text);
-    void update(const unsigned char *buf, uint32_t length);
+    void update(const uint8_t *buf, uint32_t length);
     void finalize();
     std::string hexdigest() const;
     friend std::ostream& operator<<(std::ostream&, MD5 md5);

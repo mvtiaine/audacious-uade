@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+#include "common/compat.h"
+
 namespace common {
 
 struct SongEnd {

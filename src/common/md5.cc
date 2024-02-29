@@ -78,7 +78,7 @@ void MD5::init()
  * Update context to reflect the concatenation of another buffer full
  * of bytes.
  */
-void MD5::update(uint8_t const *inbuf, unsigned len)
+void MD5::update(uint8_t const *inbuf, uint32_t len)
 {
     uint32_t t;
 

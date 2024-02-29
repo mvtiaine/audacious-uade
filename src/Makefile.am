@@ -37,15 +37,18 @@ check_PROGRAMS =
 include $(srcdir)/test/Makefile.am.inc
 
 ## Audacious plugin
-
+if PLUGIN_AUDACIOUS
 include $(srcdir)/plugin/audacious/Makefile.am.inc
+endif
 
 install-data-hook:
 # TODO better way
 # remove .la cruft
+if PLUGIN_AUDACIOUS
 	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade.la" || true
 if BUILD_WINDOWS
 	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade.dll.a" || true
+endif
 endif
 	mkdir -p "$(DESTDIR)$(uadedir)"
 	rm -f "$(DESTDIR)$(uadedir)/songdb/"* || true
@@ -63,4 +66,6 @@ endif
 
 uninstall-hook:
 	rm -rf "$(DESTDIR)$(uadedir)" || true
+if PLUGIN_AUDACIOUS
 	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade."* || true
+endif

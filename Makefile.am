@@ -1,7 +1,7 @@
 ACLOCAL_AMFLAGS = -I m4
 
 DIST_SUBDIRS = src
-SUBDIRS = $(subdirs_extra) $(DIST_SUBDIRS)
+SUBDIRS = uade/src/frontends/common $(subdirs_extra) $(DIST_SUBDIRS)
 EXTRA_DIST = \
 	NOTICE \
 	conf \

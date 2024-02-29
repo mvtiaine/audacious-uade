@@ -13,7 +13,12 @@
 
 // try keep byte-by-byte consistent audio output across platforms, by disabling some floating point optimizations
 // also -flto with -O2 affects output, explicitly use -Os to workaround this
+#ifdef __amigaos4__
+// XXX -Os breaks amigaos4 build
+#pragma GCC optimize("fp-contract=off,no-fast-math")
+#else
 #pragma GCC optimize("fp-contract=off,no-fast-math,Os")
+#endif
 
 #include <stdio.h>
 #include <string.h>

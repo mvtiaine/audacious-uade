@@ -11,6 +11,11 @@
 #include "common/logger.h"
 #include "songdb/songdb.h"
 
+// XXX amigaos4/clib4 issue
+#ifdef UNUSED
+#undef UNUSED
+#endif
+
 using namespace std;
 
 namespace {

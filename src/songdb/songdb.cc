@@ -395,7 +395,7 @@ void parse_songlengths(const string &tsv, set<string> &strings) {
     md5s.clear();
 
     songdbtsv.clear();
-    songdbtsv.seekg(0);
+    songdbtsv.seekg(0, ios::beg);
 
     while (getline(songdbtsv, line)) {
         const auto cols = common::split(line, "\t");
