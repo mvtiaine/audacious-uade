@@ -65,8 +65,7 @@ gmake -j check
 
 * Other notes:
 - Case sensitive filesystems may cause issues for formats with external samples
-- Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin)
-- Tested on 64-bit, 32-bit, big & little endian hosts
+- Tested on 64-bit, 32-bit, big & little endian hosts. Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin), OpenIndiana. Libraries/CLI binaries also tested on AmigaOS3, MorphOS, AROS.
 - My custom Audacious playlist entry template:
 ${?codec:[${codec}${?channels: (${channels}ch)}]}  -  ${?artist:${artist}  -  }${title}${?album: - (${album})} ${?copyright:-  (${copyright})}${?publisher:- (${publisher}) }${?year:- (${year}) }${?subsong-id:${?subsong-num:- [${subsong-id}/${subsong-num}]}}
 
@@ -79,7 +78,7 @@ See https://zakalwe.fi/uade/ for UADE license information.
 * Some future plans (in no particular order)
 - Automatic A500/A1200/None filter selection depending on format/year/platform (OCS/AGA/DOS) etc. meta data
 - Plugin support for GStreamer, Hollywood, ...
-- Support AmigaOS/AROS/MorphOS, Wasix, ...
+- Support AmigaOS4, WarpOS/PowerUP, Wasix, ...
 - Add PC-tracker portable replays from 8bitbubsy (XM,IT,S3M,...)
 - SC68 replay support (for Atari formats)
 - PTK-Prowiz converter support (portable C-version)

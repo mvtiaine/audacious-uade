@@ -1,7 +1,9 @@
 0.12-dev
 - Dropped UADE libbsd dependency
 - Windows MinGW/MSYS2 support
-- Add Fedora rpm build scripts
+- Add Fedora/OpenSUSE/CentOS/etc. RPM build scripts
+- Fix build on OpenIndiana
+- Initial AmigaOS3/MorphOS/AROS support (lib/cli-only)
 
 0.11.3 - 2024-01-20
 - Fix build on Haiku, NetBSD, OpenBSD, DragonFlyBSD and Cygwin
