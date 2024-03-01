@@ -26,7 +26,7 @@ TESTS_ENVIRONMENT = \
     export top_builddir=$(top_builddir); \
     export UADE_CORE_FILE=$(uade_core_file); \
     export UADE_BASE_DIR=$(uade_base_dir); \
-    mkdir -p $(top_builddir)/build-tmp/uade 2>/dev/null; \
+    $(MKDIR_P) $(top_builddir)/build-tmp/uade 2>/dev/null; \
     cp -f $(top_srcdir)/conf/*.conf $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
     cp -f $(top_srcdir)/uade/eagleplayer.conf $(top_builddir)/build-tmp/uade/ 2>/dev/null; \
     cp -f $(top_srcdir)/uade/uaerc $(top_builddir)/build-tmp/uade/ 2>/dev/null; \

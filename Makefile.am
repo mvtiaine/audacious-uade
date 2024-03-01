@@ -18,7 +18,7 @@ install installdirs: SUBDIRS = src
 uninstall uninstalldirs: SUBDIRS = src
 
 dist-hook:
-	mkdir -p "$(distdir)/uade"
+	$(MKDIR_P) "$(distdir)/uade"
 	cd uade && git ls-files | tar Tc - | tar x -C "../$(distdir)/uade"
 
 distclean-local:

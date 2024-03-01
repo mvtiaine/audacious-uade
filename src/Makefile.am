@@ -50,18 +50,18 @@ if BUILD_WINDOWS
 	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade.dll.a" || true
 endif
 endif
-	mkdir -p "$(DESTDIR)$(uadedir)"
+	$(MKDIR_P) "$(DESTDIR)$(uadedir)"
 	rm -f "$(DESTDIR)$(uadedir)/songdb/"* || true
 	cp -rf "$(top_srcdir)/conf/songdb" "$(DESTDIR)$(uadedir)/"
 	cp -rf "$(top_srcdir)/conf/ext" "$(DESTDIR)$(uadedir)/"
-	mkdir -p "$(DESTDIR)$(uadedir)/doc"
+	$(MKDIR_P) "$(DESTDIR)$(uadedir)/doc"
 	cp -f "$(top_srcdir)/README" "$(top_srcdir)/NOTICE" "$(top_srcdir)/AUTHORS" "$(top_srcdir)/COPYING" "$(top_srcdir)/VERSION" "$(top_srcdir)/ChangeLog" "$(DESTDIR)$(uadedir)/doc/"
-	mkdir -p "$(DESTDIR)$(uadedatadir)"
+	$(MKDIR_P) "$(DESTDIR)$(uadedatadir)"
 	cp -f "$(top_srcdir)/conf/song.conf" "$(top_srcdir)/conf/uade.conf" "$(DESTDIR)$(uadedatadir)/"
 	cp -f "$(top_srcdir)/uade/amigasrc/score/score" "$(top_srcdir)/uade/uaerc" "$(top_srcdir)/uade/eagleplayer.conf" "$(DESTDIR)$(uadedatadir)/"
 	cp -rf "$(top_srcdir)/uade/players" "$(DESTDIR)$(uadedatadir)/"
-	mkdir -m 755 -p "$(DESTDIR)$(uadelibdir)"
-	install "$(top_builddir)/uade/src/uadecore" "$(DESTDIR)$(uadelibdir)/"
+	$(MKDIR_P) -m 755 "$(DESTDIR)$(uadelibdir)"
+	$(INSTALL) "$(top_builddir)/uade/src/uadecore" "$(DESTDIR)$(uadelibdir)/"
 	chmod -R 755 "$(DESTDIR)$(uadedir)"
 
 uninstall-hook:

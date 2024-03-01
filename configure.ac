@@ -25,6 +25,7 @@ build_macos=no
 build_bsd=no
 build_haiku=no
 build_amiga=no
+build_solaris=no
 
 build_openbsd=no
 build_netbsd=no
@@ -107,6 +108,9 @@ case "${host_os}" in
     build_aros=yes
     build_amiga=yes
     ;;
+  solaris*)
+    build_solaris=yes
+    ;;
   *)
     AC_MSG_WARN(["$host_os not supported"])
     ;;
@@ -127,6 +131,7 @@ AM_CONDITIONAL([BUILD_MORPHOS], [test "$build_morphos" = "yes"])
 AM_CONDITIONAL([BUILD_AMIGAOS4], [test "$build_amigaos4" = "yes"])
 AM_CONDITIONAL([BUILD_WARPOS], [test "$build_warpos" = "yes"])
 AM_CONDITIONAL([BUILD_AROS], [test "$build_aros" = "yes"])
+AM_CONDITIONAL([BUILD_SOLARIS], [test "$build_solaris" = "yes"])
 
 AM_CONDITIONAL([PLUGIN_AUDACIOUS], [test "$plugin_audacious" = "yes"])
 
@@ -256,10 +261,13 @@ then
   LIBS="-lpthread ${LIBS}"
   # <cstdint> does not work without this
   CPPFLAGS="-D__STDC_LIMIT_MACROS ${CPPFLAGS}"
+elif test "$build_solaris" = "yes"
+then
+  EXTRA_LIBS="-lsocket -lnsl"
 fi
 
 # TODO proper freopen() test
-if test "$build_haiku" = "yes" || test "$build_openbsd" = "yes" || test "$build_netbsd" = "yes" || test "$build_mingw" = "yes" || test "$build_amiga" = "yes"
+if test "$build_haiku" = "yes" || test "$build_openbsd" = "yes" || test "$build_netbsd" = "yes" || test "$build_mingw" = "yes" || test "$build_amiga" = "yes" || test "$build_solaris" = "yes"
 then
   CPPFLAGS="-DNO_FREOPEN ${CPPFLAGS}"
 fi
@@ -272,17 +280,21 @@ LT_INIT
 ld_apple=no
 ld_lld=no
 ld_gnu=no
+ld_solaris=no
 
-linker_version=$($LD -v 2>&1)
+linker_version=$(($LD -v >/dev/null 2>&1 && $LD -v 2>&1) || ($LD -V 2>&1))
 case "$linker_version" in
     GNU*|mold*)
-	      ld_gnu=yes
+        ld_gnu=yes
         ;;
     LLD*)
         ld_lld=yes
         ;;
     *dyld*)
         ld_apple=yes
+        ;;
+    *Solaris*)
+        ld_solaris=yes
         ;;
     *)
         AC_MSG_WARN(["Linker $LD ($linker_version) is not supported"])
@@ -292,10 +304,14 @@ esac
 AM_CONDITIONAL([LD_APPLE], [test "$ld_apple" = "yes"])
 AM_CONDITIONAL([LD_LLD], [test "$ld_lld" = "yes"])
 AM_CONDITIONAL([LD_GNU], [test "$ld_gnu" = "yes"])
+AM_CONDITIONAL([LD_SOLARIS], [test "$ld_solaris" = "yes"])
 
 if test "$ld_apple" = "yes"
 then
   LDFLAGS="-Wl,-dead_strip -Wl,-undefined,error ${LDFLAGS}"
+elif test "$ld_solaris" = "yes"
+then
+  LDFLAGS="-Wl,-B,reduce -Wl,-z,redlocsym -Wl,--no-undefined ${LDFLAGS}"
 else
   # assume GNU compatible linker
   if test "$build_openbsd" = "yes"
