@@ -269,7 +269,6 @@ const vector<pair<string, Source>> tsvfiles ({
     {"demozoo.tsv", Demozoo},
 });
 
-// TODO constexpr all, binääridataksi + takasin (ala protobuf,...) jos ei muuten
 vector<vector<_SongInfo>> db_songlengths; // md5_t ->
 vector<_ModInfo> db_modinfos; // md5_t ->
 map<hash_t, tuple<string, uint8_t, vector<_SongInfo>>> extra_songlengths; // runtime only
