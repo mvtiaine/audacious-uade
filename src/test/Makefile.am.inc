@@ -1,5 +1,4 @@
 # NOT a standalone Makefile.am
-
 check_PROGRAMS += \
     test/md5
 
@@ -9,8 +8,11 @@ test_md5_SOURCES = \
 test_md5_LDADD = \
     common/libmd5.la
 
-if BUILD_AMIGA
 test_md5_SOURCES += plugin/cli/common/compat.cc
+
+if STATIC_STDLIBS
+test_md5_LDFLAGS = $(AM_LDFLAGS) -static-libgcc -static-libstdc++ -Wl,--allow-multiple-definition
+test_md5_SOURCES += plugin/cli/common/tinynew.cc
 endif
 
 if BUILD_MINGW
@@ -52,13 +54,15 @@ TESTS = \
     test/precalc/test_precalc4.sh \
     test/precalc/test_precalc3.sh \
     test/converter/test_converter.sh \
-    test/songdb/test_songdb.sh \
+    test/songdb/test_songdb1.sh \
+    test/songdb/test_songdb2.sh \
     test/player/test_player1.sh \
     test/player/test_player2.sh \
     test/player/test_player3.sh \
     test/player/test_player4.sh \
     test/player/test_player5.sh \
-    test/player/test_player6.sh
+    test/player/test_player6.sh \
+    test/player/test_player7.sh
 
 EXTRA_DIST += \
     test/common/header.sh \

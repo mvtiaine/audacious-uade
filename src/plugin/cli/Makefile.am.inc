@@ -63,3 +63,19 @@ plugin_cli_player_player_SOURCES += plugin/cli/common/compat.cc
 plugin_cli_precalc_precalc_SOURCES += plugin/cli/common/compat.cc
 plugin_cli_songdb_songdb_SOURCES += plugin/cli/common/compat.cc
 plugin_cli_songend_songend_SOURCES += plugin/cli/common/compat.cc
+
+if STATIC_STDLIBS
+static_ldflags = $(AM_LDFLAGS) -static-libgcc -static-libstdc++ -Wl,--allow-multiple-definition
+
+plugin_cli_converter_converter_SOURCES += plugin/cli/common/tinynew.cc
+plugin_cli_player_player_SOURCES += plugin/cli/common/tinynew.cc
+plugin_cli_precalc_precalc_SOURCES += plugin/cli/common/tinynew.cc
+plugin_cli_songdb_songdb_SOURCES += plugin/cli/common/tinynew.cc
+plugin_cli_songend_songend_SOURCES += plugin/cli/common/tinynew.cc
+
+plugin_cli_converter_converter_LDFLAGS = $(static_ldflags)
+plugin_cli_player_player_LDFLAGS = $(static_ldflags)
+plugin_cli_precalc_precalc_LDFLAGS = $(static_ldflags)
+plugin_cli_songdb_songdb_LDFLAGS = $(static_ldflags)
+plugin_cli_songend_songend_LDFLAGS = $(static_ldflags)
+endif

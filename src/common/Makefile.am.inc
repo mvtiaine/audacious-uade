@@ -5,4 +5,6 @@ noinst_LTLIBRARIES += \
 
 common_libmd5_la_SOURCES = \
     common/md5.h \
-    common/md5.cc
+    common/md5.cc \
+    common/getdelim.h \
+    common/getdelim.c
