@@ -9,14 +9,14 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include "common/big_endian.h"
+
+#include "converter/big_endian.h"
 #include "converter/converter.h"
 #include "common_med.h"
 
 using namespace std;
 using namespace converter;
 using namespace converter::med;
-using namespace common;
 
 namespace {
 

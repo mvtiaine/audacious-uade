@@ -9,7 +9,7 @@ converter_libconverter_la_SOURCES = \
     converter/med/common_med.h \
     converter/med/common_med.cc \
     converter/med/converter_med4.cc \
-    common/big_endian.h \
+    converter/big_endian.h \
     common/portable_endian.h \
     3rdparty/SimpleBinStream.h \
     3rdparty/proplayer.h

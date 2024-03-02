@@ -272,7 +272,7 @@ then
   CPPFLAGS="-DNO_FREOPEN ${CPPFLAGS}"
 fi
 
-CXXFLAGS="-fvisibility-inlines-hidden -fno-rtti -Wall ${CFLAGS} ${CXXSTD} ${CXXFLAGS}"
+CXXFLAGS="-fvisibility-inlines-hidden -fno-rtti -fno-exceptions -Wall ${CFLAGS} ${CXXSTD} ${CXXFLAGS}"
 
 # must be called after C(XX)FLAGS tweaks, as for example on MorphOS -noixemul must be set before LT_INIT
 LT_INIT

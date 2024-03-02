@@ -4,13 +4,12 @@
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
-#include <fstream>
-#include <iostream>
 #include <vector>
-#include <unistd.h>
 
 #include "common/md5.h"
 #include "songdb/songdb.h"
+
+#include <unistd.h>
 
 using namespace std;
 
@@ -19,17 +18,23 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "File not given\n");
         return EXIT_FAILURE;
     }
-    const char* fname = argv[1];
-    ifstream input(fname, ios::in | ios::binary | ios::ate);
-    if (!input.is_open()) {
+    const char *fname = argv[1];
+    FILE *f = fopen(fname, "rb"); 
+    if (!f) {
         fprintf(stderr, "File not found: %s\n", fname);
         return EXIT_FAILURE;
     }
-    vector<char> buffer(input.tellg());
-    input.seekg(0, ios::beg);
-    input.read(buffer.data(), buffer.size());
+    int fd = fileno(f);
 
-    MD5 md5; md5.update((const unsigned char *)buffer.data(), buffer.size()); md5.finalize();
+    uint8_t buf[4096];
+    ssize_t count;
+    MD5 md5;
+    while ((count = read(fd, buf, sizeof buf)) > 0) {
+        md5.update(buf, count);
+    }
+    close(fd);
+
+    md5.finalize();
     string md5hex = md5.hexdigest();
 
     const char *songdbdir = getenv("SONGDB_DIR");

@@ -24,13 +24,16 @@
 #ifndef SimpleBinStream_H
 #define SimpleBinStream_H
 
-#include <fstream>
 #include <vector>
 #include <string>
 #include <cstring>
-#include <stdexcept>
 #include <stdint.h>
 #include <cstdio>
+// only mem_ostream and memfile_ostream code enabled/used by default
+#ifdef __EXCEPTIONS
+#include <fstream>
+#include <stdexcept>
+#endif
 
 namespace simple
 {
@@ -159,6 +162,7 @@ namespace simple
 		// same endian so do nothing.
 	}
 
+#ifdef __EXCEPTIONS
 template<typename same_endian_type>
 class file_istream
 {
@@ -897,6 +901,7 @@ template<typename same_endian_type>
 
 	return ostm;
 }
+#endif // __EXCEPTIONS
 
 template<typename same_endian_type>
 class mem_ostream

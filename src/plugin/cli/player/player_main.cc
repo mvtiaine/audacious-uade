@@ -2,12 +2,11 @@
 // Copyright (C) 2023-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include <bit>
-#include <fstream>
-#include <iostream>
 #include <vector>
 
 #include "player/player.h"
 
+#include <sys/stat.h>
 #include <unistd.h>
 
 using namespace common;
@@ -27,14 +26,29 @@ int main(int argc, char *argv[]) {
         subsong = stoi(argv[3]);
     }
 
-    ifstream input(fname, ios::in | ios::binary | ios::ate);
-    if (!input.is_open()) {
+    FILE *f = fopen(fname, "rb"); 
+    if (!f) {
         fprintf(stderr, "File not found: %s\n", fname);
         return EXIT_FAILURE;
     }
-    vector<char> buffer(input.tellg());
-    input.seekg(0, ios::beg);
-    input.read(buffer.data(), buffer.size());
+    int fd = fileno(f);
+
+    struct stat st;
+    if (fstat(fd, &st)) {
+        close(fd);
+        fprintf(stderr, "Failed to read file size for %s\n", fname);
+        return EXIT_FAILURE;
+    }
+
+    char buf[4096];
+    vector<char> buffer;
+    buffer.reserve(st.st_size);
+
+    ssize_t count;
+    while ((count = read(fd, buf, sizeof buf)) > 0) {
+        buffer.insert(buffer.end(), buf, buf + count);
+    }
+    close(fd);
 
     const support::PlayerScope p;
 

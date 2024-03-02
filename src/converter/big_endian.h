@@ -4,13 +4,15 @@
 #pragma once
 
 #include <cassert>
+#include <csetjmp>
 #include <cstdint>
-#include <stdexcept>
 #include <vector>
 
-#include "portable_endian.h"
+#include "common/portable_endian.h"
 
-namespace common {
+namespace converter {
+
+extern std::jmp_buf error_handler;
 
 struct be_int32_t {
     constexpr be_int32_t() : be_val(0) {}
@@ -51,7 +53,7 @@ struct be_uint16_t {
 
 inline void verify(const bool cond) {
     if (!cond) {
-        throw std::out_of_range("read past EOF");
+        std::longjmp(converter::error_handler, true);
     }
 }
 

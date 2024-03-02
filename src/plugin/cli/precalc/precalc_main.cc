@@ -13,8 +13,6 @@
 
 // NOTE: requires the audacious plugin to be installed to find some conf/data files
 
-#include <fstream>
-#include <iostream>
 #include <vector>
 
 #include "common/md5.h"
@@ -22,6 +20,7 @@
 #include "songend/precalc.h"
 #include "songdb/songdb.h"
 
+#include <sys/stat.h>
 #include <unistd.h>
 
 using namespace std;
@@ -77,16 +76,32 @@ int main(int argc, char *argv[]) {
     const char* path = argv[1];
     bool includepath = argc >= 3;
 
-    ifstream input(path, ios::in | ios::binary | ios::ate);
-    if (!input.is_open()) {
+    FILE *f = fopen(path, "rb"); 
+    if (!f) {
         fprintf(stderr, "File not found: %s\n", path);
         return EXIT_FAILURE;
     }
-    vector<char> buf(input.tellg());
-    input.seekg(0, ios::beg);
-    input.read(buf.data(), buf.size());
+    int fd = fileno(f);
 
-    MD5 md5; md5.update((const unsigned char *)buf.data(), buf.size()); md5.finalize();
+    struct stat st;
+    if (fstat(fd, &st)) {
+        close(fd);
+        fprintf(stderr, "Failed to read file size for %s\n", path);
+        return EXIT_FAILURE;
+    }
+
+    uint8_t buf[4096];
+    vector<char> buffer;
+    buffer.reserve(st.st_size);
+
+    ssize_t count;
+    MD5 md5;
+    while ((count = read(fd, buf, sizeof buf)) > 0) {
+        md5.update(buf, count);
+        buffer.insert(buffer.end(), buf, buf + count);
+    }
+    close(fd);
+    md5.finalize();
     string md5hex = md5.hexdigest();
 
     if (songdb::blacklist::is_blacklisted_songdb_key(md5hex)) {
@@ -94,23 +109,23 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-#ifdef __MINGW32__
-    _setmode(_fileno(stdout), 0x8000);
-#endif
-
     if (songdb::blacklist::is_blacklisted_md5(md5hex)) {
         fprintf(stderr, "Blacklisted md5 for %s\n", path);
         if (includepath) {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t\t\t\t%zu\t%s\n", md5hex.c_str(),0,0,"error",buf.size(),path);
+            fprintf(stdout, "%s\t%d\t%d\t%s\t\t\t\t%zu\t%s\n", md5hex.c_str(),0,0,"error",buffer.size(),path);
         } else {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t\t\t\t%zu\n", md5hex.c_str(),0,0,"error",buf.size());
+            fprintf(stdout, "%s\t%d\t%d\t%s\t\t\t\t%zu\n", md5hex.c_str(),0,0,"error",buffer.size());
         }
         return EXIT_FAILURE;
     }
 
+#ifdef __MINGW32__
+    _setmode(_fileno(stdout), 0x8000);
+#endif
+
     const player::support::PlayerScope p;
-    if (player::check(path, buf.data(), buf.size()) != player::Player::NONE) {
-        int res = player_songend(buf, path, includepath, md5hex);
+    if (player::check(path, buffer.data(), buffer.size()) != player::Player::NONE) {
+        int res = player_songend(buffer, path, includepath, md5hex);
         return res;
     } else {
         fprintf(stderr, "Could not recognize %s md5 %s\n", path, md5hex.c_str());

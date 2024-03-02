@@ -31,8 +31,10 @@
 
 /* system interface headers */
 #include <string>
-#include <iostream>
 #include <cstdint>
+#ifdef __EXCEPTIONS
+#include <iostream>
+#endif
 
 // a small class for calculating MD5 hashes of strings or byte arrays
 // it is not meant to be fast or secure
@@ -53,7 +55,9 @@ public:
     void update(const uint8_t *buf, uint32_t length);
     void finalize();
     std::string hexdigest() const;
+#ifdef __EXCEPTIONS
     friend std::ostream& operator<<(std::ostream&, MD5 md5);
+#endif
 
 private:
     uint32_t buf[4];
