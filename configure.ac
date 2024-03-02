@@ -339,7 +339,7 @@ else
   fi
 fi
 
-if test "$build_apple" = "yes"
+if test "$build_macos" = "yes"
 then
   SHREXT="-shrext .dylib"
   AC_SUBST([SHREXT])
