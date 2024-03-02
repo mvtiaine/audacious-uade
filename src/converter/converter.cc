@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LGPL-2.0-or-later
 // Copyright (C) 2023-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
-#include <stdexcept>
+#include <csetjmp>
 
 #include "converter/converter.h"
 
@@ -16,21 +16,27 @@ ConverterResult convertMED4(const char *buf, size_t size);
 
 namespace converter {
 
+jmp_buf error_handler;
+
 bool needs_conversion(const char *buf, const size_t size) {
     return med::isMED4(buf, size); 
 }
 
 ConverterResult convert(const char *buf, const size_t size) {
     ConverterResult res {};
-    try {
-        if (med::isMED4(buf, size)) {
-            res = med::convertMED4(buf, size);
-        } else {
-            res.reason_failed = "unsupported file";
-        }
-    } catch (const out_of_range& e) {
-        res.reason_failed = "corrupted file";
+
+    if (!med::isMED4(buf, size)) {
+        res.reason_failed = "unsupported file";
+        return res;
     }
+
+    if (setjmp(error_handler)) {
+        res.reason_failed = "corrupted file";
+        return res;
+    }
+
+    res = med::convertMED4(buf, size);
+
     return res;
 }
 

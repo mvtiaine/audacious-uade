@@ -12,11 +12,12 @@
 #include <mutex>
 #include <numeric>
 #include <string>
-#include <sys/stat.h>
 
 #include "common/common.h"
 #include "common/logger.h"
 #include "player/player.h"
+
+#include <sys/stat.h>
 
 extern "C" {
 #include "../uade/src/frontends/include/uade/options.h"

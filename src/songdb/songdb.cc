@@ -4,12 +4,12 @@
 #include <algorithm>
 #include <cassert>
 #include <climits>
-#include <fstream>
+#include <cstdio>
+#include <cstdlib>
 #include <map>
 #include <memory>
 #include <numeric>
 #include <set>
-#include <sstream>
 #include <string>
 #include <tuple>
 #include <type_traits>
@@ -269,6 +269,7 @@ const vector<pair<string, Source>> tsvfiles ({
     {"demozoo.tsv", Demozoo},
 });
 
+// TODO constexpr all, binääridataksi + takasin (ala protobuf,...) jos ei muuten
 vector<vector<_SongInfo>> db_songlengths; // md5_t ->
 vector<_ModInfo> db_modinfos; // md5_t ->
 map<hash_t, tuple<string, uint8_t, vector<_SongInfo>>> extra_songlengths; // runtime only
@@ -370,15 +371,19 @@ SongInfo make_info(const md5_t md5, const string &format, const uint8_t channels
 }
 
 void parse_songlengths(const string &tsv, set<string> &strings) {
-    ifstream songdbtsv(tsv, ios::in);
-    if (!songdbtsv.is_open()) {
+    FILE *f = fopen(tsv.c_str(), "r"); 
+    if (!f) {
         ERR("Could not open songdb file %s\n", tsv.c_str());
         return;
     }
+
     set<hash_t> md5s;
-    string line;
     hash_t prevhash = 0;
-    while (getline(songdbtsv, line)) {
+    char *line = NULL;
+    size_t cap = 0;
+    ssize_t len;
+    while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
+        if (line[len - 1] == '\n') line[len - 1] = 0;
         const auto cols = common::split(line, "\t");
         assert(cols.size() == 5);
         const auto &md5 = cols[0];
@@ -394,10 +399,10 @@ void parse_songlengths(const string &tsv, set<string> &strings) {
     create_md5_idx(md5s);
     md5s.clear();
 
-    songdbtsv.clear();
-    songdbtsv.seekg(0, ios::beg);
+    rewind(f);
 
-    while (getline(songdbtsv, line)) {
+    while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
+        if (line[len - 1] == '\n') line[len - 1] = 0;
         const auto cols = common::split(line, "\t");
         const auto md5 = cols[0];
         const uint8_t minsubsong = stoi(cols[3]);
@@ -412,17 +417,23 @@ void parse_songlengths(const string &tsv, set<string> &strings) {
         }
         db_songlengths.push_back(infos);
     }
+
+    free(line);
+    fclose(f);
 }
 
 void parse_strings(const string &songdb_path, const vector<pair<string, Source>> &tsvfiles, set<string> &strings) {
     for (const auto &tsv : tsvfiles) {
-        ifstream songdbtsv(songdb_path + "/" + tsv.first, ios::in);
-        if (!songdbtsv.is_open()) {
+        FILE *f = fopen((songdb_path + "/" + tsv.first).c_str(), "r"); 
+        if (!f) {
             ERR("Could not open songdb file %s\n", tsv.first.c_str());
             return;
         }
-        string line;
-        while (getline(songdbtsv, line)) {
+        char *line = NULL;
+        size_t cap = 0;
+        ssize_t len;
+        while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
+            if (line[len - 1] == '\n') line[len - 1] = 0;
             const auto cols = common::split(line, "\t");
             switch (tsv.second) {
                 case Modland: {
@@ -461,17 +472,22 @@ void parse_strings(const string &songdb_path, const vector<pair<string, Source>>
                 default: assert(false); break;
             }
         }
+        free(line);
+        fclose(f);
     }
 }
 
 void parse_tsv(const string &tsv, const Source source) {
-    ifstream songdbtsv(tsv, ios::in);
-    if (!songdbtsv.is_open()) {
+    FILE *f = fopen(tsv.c_str(), "r"); 
+    if (!f) {
         ERR("Could not open songdb file %s\n", tsv.c_str());
         return;
     }
-    string line;
-    while (getline(songdbtsv, line)) {
+    char *line = NULL;
+    size_t cap = 0;
+    ssize_t len;
+    while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
+        if (line[len - 1] == '\n') line[len - 1] = 0;
         const auto cols = common::split(line, "\t");
         const auto md5 = dedup_md5(cols[0]);
         assert(md5 != MD5_NOT_FOUND);
@@ -535,16 +551,21 @@ void parse_tsv(const string &tsv, const Source source) {
             default: assert(false); break;
         }
     };
+    free(line);
+    fclose(f);
 }
 
 void parse_modinfos(const string &tsv) {
-    ifstream songdbtsv(tsv, ios::in);
-    if (!songdbtsv.is_open()) {
+    FILE *f = fopen(tsv.c_str(), "r"); 
+    if (!f) {
         ERR("Could not open songdb file %s\n", tsv.c_str());
         return;
     }
-    string line;
-    while (getline(songdbtsv, line)) {
+    char *line = NULL;
+    size_t cap = 0;
+    ssize_t len;
+    while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
+        if (line[len - 1] == '\n') line[len - 1] = 0;
         const auto cols = common::split(line, "\t");
         assert(cols.size() == 5);
         const auto &format = cols[1];
@@ -553,6 +574,8 @@ void parse_modinfos(const string &tsv) {
         const _ModInfo info = {fmt, channels};
         db_modinfos.push_back(info);
     }
+    free(line);
+    fclose(f);
 }
 
 } // namespace {}
