@@ -6,6 +6,7 @@ AC_INIT(
   [],
   [https://github.com/mvtiaine/audacious-uade])
 
+CSTD="-std=c17"
 CXXSTD="-std=c++20"
 
 AC_PROG_CC
@@ -27,6 +28,7 @@ build_haiku=no
 build_amiga=no
 build_solaris=no
 
+build_freebsd=no
 build_openbsd=no
 build_netbsd=no
 build_cygwin=no
@@ -38,6 +40,8 @@ build_warpos=no
 build_aros=no
 
 plugin_audacious=yes
+
+static_stdlibs=yes
 
 # Detect the target system
 case "${host_os}" in
@@ -54,16 +58,23 @@ case "${host_os}" in
   openbsd*)
     build_openbsd=yes
     build_bsd=yes
+    static_stdlibs=no
     ;;
   netbsd*)
     build_netbsd=yes
     build_bsd=yes
+    ;;
+  freebsd*)
+    build_freebsd=yes
+    build_bsd=yes
+    static_stdlibs=no
     ;;
   *bsd*|dragonfly*)
     build_bsd=yes
     ;;
   haiku*)
     build_haiku=yes
+    static_stdlibs=no
     ;;
   cygwin*)
     build_cygwin=yes
@@ -120,6 +131,7 @@ AM_CONDITIONAL([BUILD_LINUX], [test "$build_linux" = "yes"])
 AM_CONDITIONAL([BUILD_WINDOWS], [test "$build_windows" = "yes"])
 AM_CONDITIONAL([BUILD_MACOS], [test "$build_macos" = "yes"])
 AM_CONDITIONAL([BUILD_BSD], [test "$build_bsd" = "yes"])
+AM_CONDITIONAL([BUILD_FREEBSD], [test "$build_freebsd" = "yes"])
 AM_CONDITIONAL([BUILD_OPENBSD], [test "$build_openbsd" = "yes"])
 AM_CONDITIONAL([BUILD_NETBSD], [test "$build_netbsd" = "yes"])
 AM_CONDITIONAL([BUILD_HAIKU], [test "$build_haiku" = "yes"])
@@ -203,20 +215,23 @@ CXXFLAGS="$saved_cxxflags"
 fi # PLUGIN_AUDACIOUS
 
 EXTRA_LIBS=""
-CPPFLAGS="-D_DEFAULT_SOURCE ${CPPFLAGS}"
-if test "$build_cygwin" = "yes"
-then
-  CPPFLAGS="-D_GNU_SOURCE ${CPPFLAGS}"
-fi
-CFLAGS="-fvisibility=hidden ${CFLAGS}"
+CPPFLAGS="-D_DEFAULT_SOURCE -D_GNU_SOURCE ${CPPFLAGS}"
+CFLAGS="-fvisibility=hidden ${CFLAGS} -fno-exceptions"
 # XXX shutup spammy AROS warning: "__PIC__" redefined.
 # also AROS and MorphOS doesn't support --gc-sections
 if test "$build_aros" != "yes" && test "$build_morphos" != "yes" && test "$build_warpos" != "yes"
 then
   CFLAGS="-fPIC -fdata-sections -ffunction-sections ${CFLAGS}"
 fi
+if test "$build_solaris" = "yes" || test "$build_aros" = "yes"
+then
+  # on OpenIndiana -std=<any> breaks PATH_MAX for some reason
+  # on AROS it breaks asm macros
+  CSTD=""
+fi
+
 # see AX_PROG_CC_FOR_BUILD
-CFLAGS_FOR_BUILD="${CFLAGS}"
+CFLAGS_FOR_BUILD="${CSTD} ${CFLAGS}"
 
 if test "$build_haiku" = "yes"
 then
@@ -229,8 +244,10 @@ then
   CPPFLAGS="-I/usr/include ${CPPFLAGS}"
   CFLAGS="-I/usr/include ${CFLAGS}"
   LIBS="-lws2_32 ${LIBS}"
-fi
-if test "$build_amigaos" = "yes"
+elif test "$build_solaris" = "yes"
+then
+  EXTRA_LIBS="-lsocket -lnsl"
+elif test "$build_amigaos" = "yes"
 then
   # -noixemul uses libnix
   CFLAGS="-noixemul -m68020-60 ${CFLAGS} -fno-PIC"
@@ -247,9 +264,8 @@ then
   CPPFLAGS="-D__STDC_LIMIT_MACROS ${CPPFLAGS}"
 elif test "$build_amigaos4" = "yes"
 then
-  CFLAGS="-athread=native ${CFLAGS}"
   # static libstdc++ needs also postdeps_CXX hack below
-  CXXFLAGS="-static-libstdc++ ${CXXFLAGS}"
+  CFLAGS="-athread=native ${CFLAGS}"
   LIBS="-lauto ${LIBS}"
 elif test "$build_warpos" = "yes"
 then
@@ -261,9 +277,6 @@ then
   LIBS="-lpthread ${LIBS}"
   # <cstdint> does not work without this
   CPPFLAGS="-D__STDC_LIMIT_MACROS ${CPPFLAGS}"
-elif test "$build_solaris" = "yes"
-then
-  EXTRA_LIBS="-lsocket -lnsl"
 fi
 
 # TODO proper freopen() test
@@ -272,7 +285,8 @@ then
   CPPFLAGS="-DNO_FREOPEN ${CPPFLAGS}"
 fi
 
-CXXFLAGS="-fvisibility-inlines-hidden -fno-rtti -fno-exceptions -Wall ${CFLAGS} ${CXXSTD} ${CXXFLAGS}"
+CXXFLAGS="-fvisibility-inlines-hidden -Wall ${CFLAGS} ${CXXSTD} ${CXXFLAGS} -fno-rtti -fno-exceptions"
+CFLAGS="${CSTD} ${CFLAGS}"
 
 # must be called after C(XX)FLAGS tweaks, as for example on MorphOS -noixemul must be set before LT_INIT
 LT_INIT
@@ -282,7 +296,7 @@ ld_lld=no
 ld_gnu=no
 ld_solaris=no
 
-linker_version=$(($LD -v >/dev/null 2>&1 && $LD -v 2>&1) || ($LD -V 2>&1))
+linker_version=$( ($LD -v >/dev/null 2>&1 && $LD -v 2>&1) || ($LD -V 2>&1) )
 case "$linker_version" in
     GNU*|mold*)
         ld_gnu=yes
@@ -292,6 +306,8 @@ case "$linker_version" in
         ;;
     *dyld*)
         ld_apple=yes
+        # does not work
+        static_stdlibs=no
         ;;
     *Solaris*)
         ld_solaris=yes
@@ -306,36 +322,40 @@ AM_CONDITIONAL([LD_LLD], [test "$ld_lld" = "yes"])
 AM_CONDITIONAL([LD_GNU], [test "$ld_gnu" = "yes"])
 AM_CONDITIONAL([LD_SOLARIS], [test "$ld_solaris" = "yes"])
 
+# static libgcc/libstdc++ used for executables (except on macOS)
+AM_CONDITIONAL([STATIC_STDLIBS], [test "$static_stdlibs" = "yes"])
+
 if test "$ld_apple" = "yes"
 then
-  LDFLAGS="-Wl,-dead_strip -Wl,-undefined,error ${LDFLAGS}"
+  LDFLAGS="-Wl,-dead_strip -Wl,-dead_strip_dylibs -Wl,-undefined,error -Wl,-no_weak_exports ${LDFLAGS}"
 elif test "$ld_solaris" = "yes"
 then
   LDFLAGS="-Wl,-B,reduce -Wl,-z,redlocsym -Wl,--no-undefined ${LDFLAGS}"
 else
   # assume GNU compatible linker
+  LDFLAGS="-Wl,--as-needed -Wl,-O1 ${LDFLAGS}"
   if test "$build_openbsd" = "yes"
   then
     # -Wl,--no-undefined is broken(?) on OpenBSD
-    LDFLAGS="-Wl,--gc-sections -Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,-O1 ${LDFLAGS}"
+    LDFLAGS="-Wl,--gc-sections -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--sort-common ${LDFLAGS}"
   elif test "$build_mingw" = "yes" && test "$ld_lld" = "yes"
   then
-    # mingw lld linker does not support --exclude-libs=ALL or --discard-all (?)
-    LDFLAGS="-Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined -Wl,-O1 ${LDFLAGS}"
+    # mingw lld linker does not support --exclude-libs=ALL,--discard-all,--sort-common (?)
+    LDFLAGS="-Wl,--gc-sections -Wl,--no-undefined ${LDFLAGS}"
   elif test "$build_amigaos" = "yes"
   then
     # no support for --exclude-libs=ALL in bebbos toolchain
-    LDFLAGS="-Wl,--gc-sections -Wl,--as-needed -Wl,--discard-all -Wl,--no-undefined -Wl,-O1 ${LDFLAGS}"
+    LDFLAGS="-Wl,--gc-sections -Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"
   elif test "$build_morphos" = "yes" || test "$build_warpos" = "yes"
   then
     # no support for --exclude-libs=ALL, --gc-sections broken
-    LDFLAGS="-Wl,--as-needed -Wl,--discard-all -Wl,--no-undefined -Wl,-O1 ${LDFLAGS}"
+    LDFLAGS="-Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"
   elif test "$build_aros" = "yes"
   then
     # no support for --gc-sections
-    LDFLAGS="-Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,-O1 ${LDFLAGS}"
+    LDFLAGS="-Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined  -Wl,--sort-common ${LDFLAGS}"
   else
-    LDFLAGS="-Wl,--gc-sections -Wl,--as-needed -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,-O1 ${LDFLAGS}"
+    LDFLAGS="-Wl,--gc-sections -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"
   fi
 fi
 
@@ -351,18 +371,19 @@ then
   postdeps_CXX=`echo " $postdeps_CXX " | sed 's, -lm_s,,g'`
 elif test "$build_amigaos" = "yes" || test "$build_warpos" = "yes"
 then
-  TARGET_OS="--target-os=AmigaOS"
+  _UADE_TARGET_OS="--target-os=AmigaOS"
 elif test "$build_morphos" = "yes"
 then
-  TARGET_OS="--target-os=MorphOS"
+  _UADE_TARGET_OS="--target-os=MorphOS"
 elif test "$build_amigaos4" = "yes"
 then
-  TARGET_OS="--target-os=AmigaOS4"
-  # hack libstdc++ to be statically linked
+  _UADE_TARGET_OS="--target-os=AmigaOS4"
+  # hack to support statically linked libgcc and libstdc++
+  postdeps_CXX=`echo " $postdeps_CXX " | sed 's,-lgcc,,g'`
   postdeps_CXX=`echo " $postdeps_CXX " | sed 's,-lstdc++,,g'`
 elif test "$build_aros" = "yes"
 then
-  TARGET_OS="--target-os=AROS"
+  _UADE_TARGET_OS="--target-os=AROS"
 fi
 
 uade_prefix=${prefix}
@@ -370,15 +391,22 @@ if test "$uade_prefix" = "NONE"
 then
   uade_prefix=/usr/local
 fi
+_UADE_CPPFLAGS="${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE"
+_UADE_CFLAGS="${CFLAGS} -Wno-format -Wno-format-security -Wno-unused-command-line-argument"
+_UADE_LDFLAGS="${LDFLAGS} ${EXTRA_LIBS}"
+if test "$static_stdlibs" = "yes"
+then
+  _UADE_LDFLAGS="-static-libgcc ${_UADE_LDFLAGS}"
+fi
 AX_SUBDIRS_CONFIGURE([uade], [
   [--without-uade123], [--without-uadesimple], [--without-write-audio],[--without-uadefs],[--without-libuade],
   [--prefix=\${uade_prefix}/share/audacious-uade],
   [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
   [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
   [--target-ar=${AR}],[--target-cc=${CC}],[CC=${CC_FOR_BUILD}],[CXX=${CXX}],
-  [CFLAGS=${CFLAGS} ${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE -Wno-format -Wno-format-security -Wno-unused-command-line-argument],
-  [LDFLAGS=${LDFLAGS} ${EXTRA_LIBS}],
-  [${TARGET_OS}],
+  [CFLAGS=${_UADE_CPPFLAGS} ${_UADE_CFLAGS}],
+  [LDFLAGS=${_UADE_LDFLAGS} ],
+  [${_UADE_TARGET_OS}],
 ],[])
 UADE_CPPFLAGS="-I\${top_srcdir}/uade/src/frontends/include -I\${top_builddir}/uade/src/frontends/include"
 AC_SUBST([UADE_CPPFLAGS])
