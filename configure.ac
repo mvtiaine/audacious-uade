@@ -304,7 +304,7 @@ case "$linker_version" in
     LLD*)
         ld_lld=yes
         ;;
-    *dyld*)
+    *dyld*|*PROGRAM:ld*PROJECT:ld*)
         ld_apple=yes
         # does not work
         static_stdlibs=no
