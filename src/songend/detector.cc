@@ -508,7 +508,7 @@ void SongEndDetector::update(const char *bytes, const int nbytes) {
             mini = min(mini, val1);
         }
     }
-    buf.insert(buf.end(), buftmp.begin(), buftmp.end());
+    buf.insert(buf.end(), buftmp.begin(), buftmp.begin() + n);
 }
 
 int SongEndDetector::detect_loop() {
