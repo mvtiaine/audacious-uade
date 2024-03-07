@@ -475,7 +475,7 @@ void SongEndDetector::update(const char *bytes, const int nbytes) {
         return tmp[idx(i-8)];
     };
 
-    int8_t buftmp[nbytes / 8 + 2];
+    vector<int8_t> buftmp(nbytes / 8 + 2);
     int n = 0;
 
     for (int i = 0; i < nbytes; i+=4) {
@@ -508,7 +508,7 @@ void SongEndDetector::update(const char *bytes, const int nbytes) {
             mini = min(mini, val1);
         }
     }
-    buf.insert(buf.end(), buftmp, buftmp+n);
+    buf.insert(buf.end(), buftmp.begin(), buftmp.end());
 }
 
 int SongEndDetector::detect_loop() {
