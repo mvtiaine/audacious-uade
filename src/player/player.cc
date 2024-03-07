@@ -197,7 +197,7 @@ bool seek(PlayerState &state, int millis) {
     // use UADEs own seek as it doesn't support "restart"
     if (state.info.player == Player::uade) return uade::seek(state, millis);
 
-    char dummybuf[state.buffer_size];
+    vector<char> dummybuf(state.buffer_size);
     if (millis < state.pos_millis) {
         bool res = restart(state);
         if (!res) {
@@ -213,7 +213,7 @@ bool seek(PlayerState &state, int millis) {
     pair<SongEnd::Status,uint64_t> res = pair(SongEnd::ERROR, 0);
     while (seeked < bytestoseek) {
         SWITCH_PLAYER(state.info.player, res,
-            render(state, dummybuf, sizeof dummybuf)
+            render(state, dummybuf.data(), dummybuf.size())
         )
         if (res.first != SongEnd::NONE) return false;
         seeked += res.second;
@@ -233,7 +233,7 @@ PlaybackResult playback_loop(
     const function<int(void)> check_seek,
     const function<void(char *, int)> write_audio) {
 
-    char buffer[state.buffer_size];
+    vector<char> buffer(state.buffer_size);
     SongEnd songend;
     songend.status = SongEnd::TIMEOUT;
     songend.length = PRECALC_TIMEOUT;
@@ -258,12 +258,12 @@ PlaybackResult playback_loop(
                 totalbytes = seek_millis * bytespersec / 1000;
             };
         }
-        const auto res = render(state, buffer, sizeof buffer);
+        const auto res = render(state, buffer.data(), buffer.size());
         if (res.second > 0 && res.first != SongEnd::ERROR) {
             // ignore "tail bytes" to avoid pop in end of audio if song restarts
             // messing up with silence/volume trimming etc.
             if (res.first == SongEnd::NONE || totalbytes == 0) {
-                write_audio(buffer, res.second);
+                write_audio(buffer.data(), res.second);
                 totalbytes += res.second;
             }
         }
