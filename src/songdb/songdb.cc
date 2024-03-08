@@ -449,7 +449,7 @@ void parse_strings(const string &songdb_path, const vector<pair<string, Source>>
         string prev_tuple;
         while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
             line[len - 1] = 0;
-            char *tuple = line + 13;
+            const char *tuple = line + 13;
             if (prev_tuple == tuple) {
                 continue;
             }

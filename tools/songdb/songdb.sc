@@ -113,7 +113,7 @@ val ampTsv = Future { Files.write(Paths.get("/tmp/songdb/amp.tsv"), {
       best = m.maxBy(_.extra_authors.size)
     }
     best
-  }).toSeq.sortBy(_.path).flatMap(m =>
+  }).toSeq.sortBy(e => e.path.substring(e.path.indexOf("/") + 1, e.path.lastIndexOf("/")) + e.extra_authors.sorted.mkString(",")).flatMap(m =>
     val path = m.path.substring(m.path.indexOf("/") + 1, m.path.lastIndexOf("/"))
     if (path != "UnknownComposers") {
       Some(Buffer(
