@@ -173,7 +173,7 @@ struct _SongInfo {
 } __attribute__((packed));
 
 vector<md5_t> md5_idx;
-vector<string> string_pool;
+vector<pair<hash_t,string>> string_pool;
 
 hash_t _hash(const string &str) {
     return crc32_fast(str.data(), str.length());
@@ -184,19 +184,19 @@ string_t dedup_string(const string &str) {
     const auto hash = _hash(str);
     uint32_t idx = ((double)hash / HASH_T_MAX) * string_pool.size();
     assert(idx < string_pool.size());
-    hash_t cmp = _hash(string_pool[idx]);
+    hash_t cmp = string_pool[idx].first;
     if (cmp == hash) {
         return idx;
     } else if (cmp > hash) {
         while (cmp > hash && idx > 0) {
             idx--;
-            cmp = _hash(string_pool[idx]);
+            cmp = string_pool[idx].first;
         }
         return (cmp == hash) ? idx : STRING_NOT_FOUND;
     } else {
         while (cmp < hash && idx < string_pool.size() - 1) {
             idx++;
-            cmp = _hash(string_pool[idx]);
+            cmp = string_pool[idx].first;
         }
         return (cmp == hash) ? idx : STRING_NOT_FOUND;
     }
@@ -214,7 +214,7 @@ void create_string_pool(const set<string> &strings) {
     }
     assert(string_pool.empty());
     for (const auto &hash : hashes) {
-        string_pool.push_back(hash.second);
+        string_pool.push_back(hash);
     }
     assert(string_pool.size() == strings.size() - 1);
     assert(string_pool.size() < UINT16_MAX);
@@ -295,7 +295,7 @@ bool initialized = false;
 const string make_string(const string_t s) {
     if (s == STRING_NOT_FOUND) return "";
     assert(string_pool.size() > s);
-    return string_pool[s];
+    return string_pool[s].second;
 }
 
 template <_Data_ T>
