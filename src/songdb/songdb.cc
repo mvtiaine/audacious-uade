@@ -2,6 +2,7 @@
 // Copyright (C) 2014-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <climits>
 #include <cstdio>
