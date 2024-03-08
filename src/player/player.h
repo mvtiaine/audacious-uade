@@ -12,7 +12,8 @@
 #include <type_traits>
 #include <utility>
 
-#include "common/common.h"
+#include "common/compat.h"
+#include "common/songend.h"
 
 namespace player {
 

@@ -5,9 +5,9 @@
 #include <cstdint>
 #include <mutex>
 
-#include "common/common.h"
 #include "common/logger.h"
 #include "player/player.h"
+
 extern "C"
 {
 #include "3rdparty/replay/hivelytracker/replay.h"

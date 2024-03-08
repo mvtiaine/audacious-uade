@@ -3,9 +3,9 @@
 
 #pragma once
 
-#ifdef __AMIGA__
+#if defined(__AMIGA__) && !defined(__amigaos4__)
 
-#if !defined(__MORPHOS__) && !defined(__amigaos4__)
+#if !defined(__MORPHOS__)
 namespace std {
     struct mutex {
         inline void lock() {}
@@ -14,8 +14,8 @@ namespace std {
 }
 #endif
 
-#if !defined(__amigaos4__)
-inline void swab (const void *bfrom, void *bto, ssize_t n) {
+#include <cstddef>
+inline void swab(const void *bfrom, void *bto, ssize_t n) {
   const char *from = (const char *) bfrom;
   char *to = (char *) bto;
   n &= ~((ssize_t) 1);
@@ -26,12 +26,18 @@ inline void swab (const void *bfrom, void *bto, ssize_t n) {
       to[n + 1] = b1;
     }
 }
+
+#if !defined(__AROS__) && !defined(__MORPHOS__)
+inline size_t strnlen(const char *s, size_t len) {
+    size_t i;
+
+    if( s == NULL )
+    	return 0;
+
+    for(i = 0; i < len && s[i]; i++)
+	    ;
+    return i;
+}
 #endif
 
 #endif // __AMIGA__
-
-#if defined(__MINGW32__) || defined(__AMIGA__) || defined(__AROS__)
-extern "C" {
-#include "common/getdelim.h"
-}
-#endif

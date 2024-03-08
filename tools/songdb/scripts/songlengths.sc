@@ -21,7 +21,7 @@ lazy val db = sources.tsvs.par.flatMap(_._2).map({case (md5,subsongs) => {
   val maxsubsong = subsongs.maxBy(_.subsong).subsong
   val songs = subsongs.map(s => Subsong(s.subsong, s.songlength, s.songend)).distinct.toSeq
   val e = subsongs.filterNot(_.format.isEmpty)
-  val format = e.headOption.map(_.format).getOrElse("")
+  val format = e.headOption.map(e => if (e.format != "???") e.format else "").getOrElse("")
   val channels = e.headOption.map(_.channels).getOrElse(0)
   if (songs.length > maxsubsong - minsubsong + 1) {
       System.err.println("WARN: inconsistent songlengths for " + md5 + ": " + songs)

@@ -8,8 +8,8 @@ songend_libsongend_la_SOURCES = \
     songend/detector.cc \
     songend/precalc.h \
     songend/precalc.cc \
-    common/common.h \
-    common/logger.h
+    common/logger.h \
+    common/songend.h
 
 songend_libsongend_la_LIBADD = \
     player/libplayer.la

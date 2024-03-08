@@ -7,19 +7,19 @@
 #include <set>
 #include <string>
 
-#include "common/common.h"
 #include "common/logger.h"
+#include "common/strings.h"
+#include "songdb/internal.h"
 #include "songdb/songdb.h"
 
 using namespace std;
 using namespace songdb;
+using namespace songdb::internal;
 
 namespace {
-
 // TODO move logic to preprocessing
-
 constexpr string_view UNKNOWN = "Unknown";
-const set<string> pseudonyms ({
+const set<string_view> pseudonyms ({
     "Creative_Thought",
     "DJ_Braincrack",
     "Digital_Masters",
@@ -40,30 +40,22 @@ const set<string> pseudonyms ({
 
 namespace songdb::unexotica {
 
-bool parse_tsv_row(const vector<string> &cols, UnExoticaData &item) {
-    assert(cols.size() >= 3);
+bool parse_tsv_row(const char *tuple, _UnExoticaData &item, const _UnExoticaData &prev_item, vector<string> &authors, vector<string> &albums, vector<string> &publishers) noexcept {
+    const auto cols = common::split_view_x<4>(tuple, '\t');
+    const auto author = cols[0];
+    const auto publisher = cols[1];
+    const auto album = cols[2];
 
-    string author, album; //, note;
-
-    const string path = cols[1];
-    const string publisher = cols[2];
-    int year = 0;
-    if (cols.size() > 3 && cols[3].size()) {
-        year = stoi(cols[3]);
+    if (cols[3].empty()) {
+        item.year = 0;
+    } else if (cols[3].at(0) == 0x7f) {
+        item.year = prev_item.year;
+    } else {
+        int year = common::from_chars<int>(cols[3]);
+        item.year = year != 0 ? year - 1900u : 0;
     }
 
-    vector<string> tokens = common::split(path, "/");
-    const int count = tokens.size();
-
-    if (count < 2) {
-        WARN("Skipping path: %s\n", path.c_str());
-        return false;
-    }
-
-    author = tokens[0];
-    album = tokens[1];
-
-    vector<string> author_tokens = common::split(author, "_");
+    auto author_tokens = common::split_view(author, '_');
     const auto first = author_tokens[0];
     const bool pseudonym = pseudonyms.count(author);
 
@@ -76,24 +68,58 @@ bool parse_tsv_row(const vector<string> &cols, UnExoticaData &item) {
         author_tokens.push_back(first);
     }
 
+    const auto add_author = [&authors, &item](const string_view &author) {
+        item.author = authors.size();
+        authors.push_back(string(author));
+    };
+
+    const auto add_album = [&albums, &item](const string_view &album) {
+        item.album = albums.size();
+        albums.push_back(string(album));
+    };
+
+    const auto add_publisher = [&publishers, &item](const string_view &publisher) {
+        item.publisher = publishers.size();
+        publishers.push_back(string(publisher));
+    };
+
     if (author == UNKNOWN) {
-        item.author = UNKNOWN_AUTHOR;
+        item.author = UNKNOWN_AUTHOR_T;
+    } else if (author.at(0) == 0x7f) {
+        item.author = prev_item.author;
     } else {
-        item.author = common::mkString(author_tokens, " ");
+        string author_;
+        if (author_tokens.size() == 1) {
+            author_ = string(author_tokens[0]);
+        } else {
+            common::mkString(author_tokens, " ", author_);
+        }
+        add_author(author_);
     }
 
-    item.album = album;
+    if (album.empty()) {
+        item.album = STRING_NOT_FOUND;
+    } else if (album.at(0) == 0x7f) {
+        item.album = prev_item.album;
+    } else {
+        string _album = string(album);
+        replace(_album.begin(), _album.end(), '_', ' ');
+        add_album(_album);
+    }
 
-    replace(item.album.begin(), item.album.end(), '_', ' ');
-
-    item.publisher = publisher;
-    item.year = year;
+    if (publisher.empty()) {
+        item.publisher = STRING_NOT_FOUND;
+    } else if (publisher.at(0) == 0x7f) {
+        item.publisher = prev_item.publisher;
+    } else {
+        add_publisher(publisher);
+    }
 
     return true;
 }
 
 string author_path(const string &author) {
-    auto tokens = common::split(author, " ");
+    auto tokens = common::split_view(author, ' ');
     const auto candidate = common::mkString(tokens, "_");
     if (tokens.size() < 2 || pseudonyms.contains(candidate) || tokens[0] == "The") {
         return candidate;

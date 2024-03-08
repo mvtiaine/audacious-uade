@@ -13,9 +13,9 @@
 #include <numeric>
 #include <string>
 
-#include "common/common.h"
 #include "common/logger.h"
 #include "player/player.h"
+#include "common/strings.h"
 
 #include <sys/stat.h>
 

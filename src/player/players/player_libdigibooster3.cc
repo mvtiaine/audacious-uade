@@ -8,7 +8,6 @@
 
 #include <cassert>
 
-#include "common/common.h"
 #include "common/logger.h"
 #include "player/player.h"
 
