@@ -69,7 +69,7 @@ val songlengthsTsv = Future { Files.write(Paths.get("/tmp/songdb/songlengths.tsv
   val dedupped = _dedup(entries, "songlengths.tsv")
   _validate(dedupped, "songlengths.tsv")
   dedupped
-}.mkString("\n").getBytes("UTF-8"))}
+}.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
 val modlandTsv = Future { Files.write(Paths.get("/tmp/songdb/modland.tsv"), {
   val entries = sources.modland.sortBy(e => e.path.substring(e.path.indexOf("/") + 1, e.path.length)).flatMap(e =>
@@ -81,7 +81,7 @@ val modlandTsv = Future { Files.write(Paths.get("/tmp/songdb/modland.tsv"), {
   val dedupped = _dedup(entries, "modland.tsv")
   _validate(dedupped, "modland.tsv")
   dedupped
-}.mkString("\n").getBytes("UTF-8"))}
+}.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
 val unexoticaTsv = Future { Files.write(Paths.get("/tmp/songdb/unexotica.tsv"), {
   val entries = unexotica.metas.sortBy(_._2).map(m =>
@@ -104,7 +104,7 @@ val unexoticaTsv = Future { Files.write(Paths.get("/tmp/songdb/unexotica.tsv"), 
   val dedupped = _dedup(entries, "unexotica.tsv", 3)
   _validate(dedupped, "unexotica.tsv")
   dedupped
-}.mkString("\n").getBytes("UTF-8"))}
+}.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
 val ampTsv = Future { Files.write(Paths.get("/tmp/songdb/amp.tsv"), {
   val entries = amp.metas.sortBy(_.path).groupBy(m => (m.md5, m.path)).map({case ((md5, path), m) =>
@@ -126,14 +126,13 @@ val ampTsv = Future { Files.write(Paths.get("/tmp/songdb/amp.tsv"), {
   val dedupped = _dedup(entries, "amp.tsv")
   _validate(dedupped, "amp.tsv")
   dedupped
-}.mkString("\n").getBytes("UTF-8"))}
+}.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
 val demozooTsv = Future { Files.write(Paths.get("/tmp/songdb/demozoo.tsv"), {
-  val entries = demozoo.metas.sortBy(_._2.modDate).flatMap({case (md5, m) =>
+  val entries = demozoo.metas.flatMap({case (md5, m) =>
     val dates = Seq(m.modDate, m.prodDate).filterNot(_.isEmpty)
     val row = Buffer(
       _md5(md5),
-      if (!dates.isEmpty) dates.min.substring(0,4) else "",
       m.authors.sorted.mkString(","),
       ((m.prodPublishers, m.party, m.modPublishers) match {
         case (prod,_,_) if !prod.isEmpty => prod
@@ -142,15 +141,16 @@ val demozooTsv = Future { Files.write(Paths.get("/tmp/songdb/demozoo.tsv"), {
         case _ => Seq.empty
       }).iterator.to(Seq).sorted.mkString(","),
       m.prod,
+      if (!dates.isEmpty) dates.min.substring(0,4) else "",
       //if (!m.prodPlatforms.isEmpty) m.prodPlatforms.mkString(",") else m.modPlatform
     )
     if (row.forall(r => r == _md5(md5) || r.trim.isEmpty)) None
     else Some(row.mkString("\t"))
-  }).distinct
+  }).distinct.sortBy(_.substring(12))
   val dedupped = _dedup(entries, "demozoo.tsv", 1)
   _validate(dedupped, "demozoo.tsv")
   dedupped
-}.mkString("\n").getBytes("UTF-8"))}
+}.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
 val future = Future.sequence(
   Seq(songlengthsTsv, modlandTsv, unexoticaTsv, ampTsv, demozooTsv)

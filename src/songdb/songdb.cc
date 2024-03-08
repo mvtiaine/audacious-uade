@@ -16,8 +16,8 @@
 #include <utility>
 #include <vector>
 
+#include "3rdparty/crc32/Crc32.h"
 #include "common/common.h"
-#include "common/crc64.h"
 #include "common/logger.h"
 #include "songdb/songdb.h"
 
@@ -42,6 +42,7 @@ namespace songdb::demozoo {
 
 namespace {
 
+#if 0
 struct uint24_t {
     // 16 million md5s should be enough for everyone
     uint8_t data[3];
@@ -72,7 +73,6 @@ struct uint24_t {
         return value() > other.value();
     }
 } __attribute__((packed));
-constexpr int32_t UINT24_T_MAX = (1u << 24) - 1;
 
 struct uint48_t {
     uint16_t data[3];
@@ -106,23 +106,34 @@ struct uint48_t {
         return value() > other.value();
     }
 } __attribute__((packed));
+
+#else
+
+typedef uint32_t uint24_t;
+typedef uint64_t uint48_t;
+
+#endif
+
+constexpr int32_t UINT24_T_MAX = (1u << 24) - 1;
 constexpr int64_t UINT48_T_MAX = (1ull << 48) - 1;
 
 typedef uint8_t subsong_t;
 typedef uint8_t year_t;
 typedef uint24_t songlength_t;
-typedef uint48_t hash_t;
-constexpr hash_t HASH_T_MAX = UINT48_T_MAX;
+typedef uint32_t hash_t;
+constexpr hash_t HASH_T_MAX = UINT32_MAX;
+typedef uint48_t md5_t;
+constexpr md5_t MD5_T_MAX = UINT48_T_MAX;
 // indexed types
 typedef uint16_t string_t;
 constexpr string_t STRING_NOT_FOUND = UINT16_MAX;
-typedef uint24_t md5_t;
-constexpr md5_t MD5_NOT_FOUND = UINT24_T_MAX;
+typedef uint24_t md5_idx_t;
+constexpr md5_idx_t MD5_NOT_FOUND = UINT24_T_MAX;
 
 typedef common::SongEnd::Status songend_t;
 
 struct _Data {
-    md5_t md5;
+    md5_idx_t md5;
 } __attribute__((packed));
 template <typename T>
 concept _Data_ = is_base_of<_Data, T>::value;
@@ -161,14 +172,15 @@ struct _SongInfo {
     songend_t songend;
 } __attribute__((packed));
 
-vector<hash_t> md5_idx;
+vector<md5_t> md5_idx;
 vector<string> string_pool;
 
 hash_t _hash(const string &str) {
-    return crc64(0, str.data(), str.length()) & 0x0000FFFFFFFFFFFF;
+    return crc32_fast(str.data(), str.length());
 }
 
 string_t dedup_string(const string &str) {
+    if (str.empty()) return STRING_NOT_FOUND;
     const auto hash = _hash(str);
     uint32_t idx = ((double)hash / HASH_T_MAX) * string_pool.size();
     assert(idx < string_pool.size());
@@ -193,6 +205,7 @@ string_t dedup_string(const string &str) {
 void create_string_pool(const set<string> &strings) {
     map<hash_t, string> hashes;
     for (const auto &str : strings) {
+        if (str.empty()) continue;
         string tmp = str;
         tmp.shrink_to_fit();
         const auto hash = _hash(tmp);
@@ -203,35 +216,35 @@ void create_string_pool(const set<string> &strings) {
     for (const auto &hash : hashes) {
         string_pool.push_back(hash.second);
     }
-    assert(string_pool.size() == strings.size());
+    assert(string_pool.size() == strings.size() - 1);
     assert(string_pool.size() < UINT16_MAX);
 }
 
-md5_t dedup_md5(const string &md5) {
+md5_idx_t dedup_md5(const string &md5) {
     if (md5_idx.size() == 0) return MD5_NOT_FOUND;
     assert(md5.size() == 12 || md5.size() == 32);
-    const hash_t hash = stoull(md5.substr(0, 12), 0, 16);
-    unsigned int idx = ((double)hash / HASH_T_MAX) * md5_idx.size();
+    const md5_t hash = stoull(md5.substr(0, 12), 0, 16);
+    unsigned int idx = ((double)hash / MD5_T_MAX) * md5_idx.size();
     assert(idx < md5_idx.size());
-    hash_t cmp = md5_idx[idx];
+    md5_t cmp = md5_idx[idx];
     if (cmp == hash) {
-         return md5_t { idx };
+         return md5_idx_t { idx };
     } else if (cmp > hash) {
         while (cmp > hash && idx > 0) {
             idx--;
             cmp = md5_idx[idx];
         }
-        return (cmp == hash) ? md5_t { idx } : MD5_NOT_FOUND;
+        return (cmp == hash) ? md5_idx_t { idx } : MD5_NOT_FOUND;
     } else {
         while (cmp < hash && idx < md5_idx.size() - 1) {
             idx++;
             cmp = md5_idx[idx];
         }
-        return (cmp == hash) ? md5_t { idx } : MD5_NOT_FOUND;
+        return (cmp == hash) ? md5_idx_t { idx } : MD5_NOT_FOUND;
     }
 }
 
-void create_md5_idx(const set<hash_t> &md5s) {
+void create_md5_idx(const set<md5_t> &md5s) {
     assert(md5_idx.empty());
     for (const auto &md5 : md5s) {
         md5_idx.push_back(md5);
@@ -269,9 +282,9 @@ const vector<pair<string, Source>> tsvfiles ({
     {"demozoo.tsv", Demozoo},
 });
 
-vector<vector<_SongInfo>> db_songlengths; // md5_t ->
-vector<_ModInfo> db_modinfos; // md5_t ->
-map<hash_t, tuple<string, uint8_t, vector<_SongInfo>>> extra_songlengths; // runtime only
+vector<vector<_SongInfo>> db_songlengths; // md5_idx_t ->
+vector<_ModInfo> db_modinfos; // md5_idx_t ->
+map<md5_t, tuple<string, uint8_t, vector<_SongInfo>>> extra_songlengths; // runtime only
 vector<_ModlandData> db_modland;
 vector<_AMPData> db_amp;
 vector<_UnExoticaData> db_unexotica;
@@ -280,17 +293,18 @@ vector<_DemozooData> db_demozoo;
 bool initialized = false;
 
 const string make_string(const string_t s) {
+    if (s == STRING_NOT_FOUND) return "";
     assert(string_pool.size() > s);
     return string_pool[s];
 }
 
 template <_Data_ T>
-optional<T> find(const vector<T> &db, const md5_t md5) {
+optional<T> find(const vector<T> &db, const md5_idx_t md5) {
     if (md5 >= md5_idx.size()) return optional<T>();
     unsigned int idx = ((double)md5 / md5_idx.size()) * db.size();
     assert(idx < db.size());
     T val = db[idx];
-    md5_t cmp = val.md5;
+    md5_idx_t cmp = val.md5;
     if (cmp == md5) {
         return val;
     } else if (cmp > md5) {
@@ -308,7 +322,7 @@ optional<T> find(const vector<T> &db, const md5_t md5) {
     }
 }
 
-optional<ModlandData> make_modland(const md5_t md5) {
+optional<ModlandData> make_modland(const md5_idx_t md5) {
     const auto data = find(db_modland, md5);
     if (data) {
         return ModlandData {
@@ -319,7 +333,7 @@ optional<ModlandData> make_modland(const md5_t md5) {
     return {};
 }
 
-optional<AMPData> make_amp(const md5_t md5) {
+optional<AMPData> make_amp(const md5_idx_t md5) {
     const auto data = find(db_amp, md5);
     if (data) {
         return AMPData {
@@ -329,7 +343,7 @@ optional<AMPData> make_amp(const md5_t md5) {
     return {};
 }
 
-optional<UnExoticaData> make_unexotica(const md5_t md5) {
+optional<UnExoticaData> make_unexotica(const md5_idx_t md5) {
     const auto data = find(db_unexotica, md5);
     if (data) {
         return UnExoticaData {
@@ -342,7 +356,7 @@ optional<UnExoticaData> make_unexotica(const md5_t md5) {
     return {};
 }
 
-optional<DemozooData> make_demozoo(const md5_t md5) {
+optional<DemozooData> make_demozoo(const md5_idx_t md5) {
     const auto data = find(db_demozoo, md5);
     if (data) {
         return DemozooData {
@@ -355,7 +369,7 @@ optional<DemozooData> make_demozoo(const md5_t md5) {
     return {};
 }
 
-SongInfo make_info(const md5_t md5, const string &format, const uint8_t channels, const _SongInfo &info) {
+SongInfo make_info(const md5_idx_t md5, const string &format, const uint8_t channels, const _SongInfo &info) {
     return {
         info.subsong,
         info.songlength,
@@ -376,34 +390,29 @@ void parse_songlengths(const string &tsv, set<string> &strings) {
         return;
     }
 
-    set<hash_t> md5s;
-    hash_t prevhash = 0;
+    set<md5_t> md5s;
+    md5_t prevhash = 0;
     char *line = NULL;
     size_t cap = 0;
     ssize_t len;
+    string prevformat;
     while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
-        if (line[len - 1] == '\n') line[len - 1] = 0;
+        line[len - 1] = 0;
         const auto cols = common::split(line, "\t");
         assert(cols.size() == 5);
         const auto &md5 = cols[0];
         assert(md5.size() == 12);
-        const hash_t hash = stoull(md5.substr(0, 12), 0, 16);
+        const md5_t hash = stoull(md5.substr(0, 12), 0, 16);
         assert(hash > prevhash);
         md5s.insert(hash);
         prevhash = hash;
+
         const auto &format = cols[1];
-        strings.insert(format);
-    }
+        if (format != prevformat) {
+            strings.insert(format);
+            prevformat = format;
+        }
 
-    create_md5_idx(md5s);
-    md5s.clear();
-
-    rewind(f);
-
-    while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
-        if (line[len - 1] == '\n') line[len - 1] = 0;
-        const auto cols = common::split(line, "\t");
-        const auto md5 = cols[0];
         const uint8_t minsubsong = stoi(cols[3]);
         const auto subsongs = common::split(cols[4], " ");
         uint8_t subsong = minsubsong;
@@ -416,6 +425,8 @@ void parse_songlengths(const string &tsv, set<string> &strings) {
         }
         db_songlengths.push_back(infos);
     }
+
+    create_md5_idx(md5s);
 
     free(line);
     fclose(f);
@@ -431,8 +442,14 @@ void parse_strings(const string &songdb_path, const vector<pair<string, Source>>
         char *line = NULL;
         size_t cap = 0;
         ssize_t len;
+        string prev_tuple;
         while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
-            if (line[len - 1] == '\n') line[len - 1] = 0;
+            line[len - 1] = 0;
+            char *tuple = line + 12;
+            if (prev_tuple == tuple) {
+                continue;
+            }
+            prev_tuple = tuple;
             const auto cols = common::split(line, "\t");
             switch (tsv.second) {
                 case Modland: {
@@ -485,14 +502,30 @@ void parse_tsv(const string &tsv, const Source source) {
     char *line = NULL;
     size_t cap = 0;
     ssize_t len;
+
+    string_t prev_author = STRING_NOT_FOUND;
+    string_t prev_album = STRING_NOT_FOUND;
+    string_t prev_publisher = STRING_NOT_FOUND;
+    year_t prev_year = 0;
+    string prev_tuple;
+
     while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
-        if (line[len - 1] == '\n') line[len - 1] = 0;
+        line[len - 1] = 0;
         const auto cols = common::split(line, "\t");
         const auto md5 = dedup_md5(cols[0]);
         assert(md5 != MD5_NOT_FOUND);
-
+        char *tuple = line + 12;
         switch (source) {
             case Modland: {
+                if (prev_tuple == tuple) {
+                    const _ModlandData _item = {
+                        { md5 },
+                        prev_author,
+                        prev_album,
+                    };
+                    db_modland.push_back(_item);
+                    continue;
+                }
                 ModlandData item {};
                 if (modland::parse_tsv_row(cols, item)) {
                     const _ModlandData _item = {
@@ -501,10 +534,21 @@ void parse_tsv(const string &tsv, const Source source) {
                         dedup_string(item.album),
                     };
                     db_modland.push_back(_item);
+                    prev_author = _item.author;
+                    prev_album = _item.album;
+                    prev_tuple = tuple;
                 }
                 break;
             }
             case AMP: {
+                if (prev_tuple == tuple) {
+                    const _AMPData _item = {
+                        { md5 },
+                        prev_author,
+                    };
+                    db_amp.push_back(_item);
+                    continue;
+                }
                 AMPData item {};
                 if (amp::parse_tsv_row(cols, item)) {
                     const _AMPData _item = {
@@ -512,13 +556,26 @@ void parse_tsv(const string &tsv, const Source source) {
                         dedup_string(item.author),
                     };
                     db_amp.push_back(_item);
+                    prev_author = _item.author;
+                    prev_tuple = tuple;
                 }
                 break;
             }
             case UnExotica: {
+                if (prev_tuple == tuple) {
+                    const _UnExoticaData _item = {
+                        { md5 },
+                        prev_author,
+                        prev_album,
+                        prev_publisher,
+                        prev_year,
+                    };
+                    db_unexotica.push_back(_item);
+                    continue;
+                }
                 UnExoticaData item {};
                 if (unexotica::parse_tsv_row(cols, item)) {
-                    uint8_t year = item.year != 0 ? item.year - 1900u : 0;
+                    year_t year = item.year != 0 ? item.year - 1900u : 0;
                     assert(year <= UINT8_MAX);
                     const _UnExoticaData _item = {
                         { md5 },
@@ -528,13 +585,29 @@ void parse_tsv(const string &tsv, const Source source) {
                         year,
                     };
                     db_unexotica.push_back(_item);
+                    prev_author = _item.author;
+                    prev_album = _item.album;
+                    prev_publisher = _item.publisher;
+                    prev_year = year;
+                    prev_tuple = tuple;
                 }
                 break;
             }
             case Demozoo: {
+                if (prev_tuple == tuple) {
+                    const _DemozooData _item = {
+                        { md5 },
+                        prev_author,
+                        prev_album,
+                        prev_publisher,
+                        prev_year,
+                    };
+                    db_demozoo.push_back(_item);
+                    continue;
+                }
                 DemozooData item {};
                 if (demozoo::parse_tsv_row(cols, item)) {
-                    uint8_t year = item.year != 0 ? item.year - 1900u : 0;
+                    year_t year = item.year != 0 ? item.year - 1900u : 0;
                     assert(year <= UINT8_MAX);
                     const _DemozooData _item = {
                         { md5 },
@@ -544,6 +617,11 @@ void parse_tsv(const string &tsv, const Source source) {
                         year,
                     };
                     db_demozoo.push_back(_item);
+                    prev_author = _item.author;
+                    prev_album = _item.album;
+                    prev_publisher = _item.publisher;
+                    prev_year = year;
+                    prev_tuple = tuple;
                 }
                 break;
             }
@@ -563,15 +641,25 @@ void parse_modinfos(const string &tsv) {
     char *line = NULL;
     size_t cap = 0;
     ssize_t len;
+    string prev_format = "";
+    uint8_t prev_channels = UINT8_MAX;
+    _ModInfo prev_info;
     while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
-        if (line[len - 1] == '\n') line[len - 1] = 0;
+        line[len - 1] = 0;
         const auto cols = common::split(line, "\t");
         assert(cols.size() == 5);
         const auto &format = cols[1];
-        const auto fmt = dedup_string(format);
         const uint8_t channels = stoi(cols[2]);
+        if (prev_format == format && prev_channels == channels) {
+            db_modinfos.push_back(prev_info);
+            continue;
+        }
+        const auto fmt = dedup_string(format);
         const _ModInfo info = {fmt, channels};
         db_modinfos.push_back(info);
+        prev_format = format;
+        prev_channels = channels;
+        prev_info = info;
     }
     free(line);
     fclose(f);
@@ -582,23 +670,23 @@ void parse_modinfos(const string &tsv) {
 namespace songdb {
 
 optional<SongInfo> lookup(const string &md5, int subsong) {
-    const auto md5_t = dedup_md5(md5);
-    if (md5_t != MD5_NOT_FOUND) { 
-        for (const auto &info : db_songlengths[md5_t]) {
+    const auto md5_idx = dedup_md5(md5);
+    if (md5_idx != MD5_NOT_FOUND) {
+        for (const auto &info : db_songlengths[md5_idx]) {
             if (info.subsong == subsong) {
-                const auto &modinfo = db_modinfos[md5_t];
-                return make_info(md5_t, make_string(modinfo.format), modinfo.channels, info);
+                const auto &modinfo = db_modinfos[md5_idx];
+                return make_info(md5_idx, make_string(modinfo.format), modinfo.channels, info);
             }
         }
     }
-    const hash_t hash = stoull(md5.substr(0, 12), 0, 16);
+    const md5_t hash = stoull(md5.substr(0, 12), 0, 16);
     if (extra_songlengths.contains(hash)) {
         const auto &tuple = extra_songlengths[hash];
         const auto &format = get<0>(tuple);
         const auto channels = get<1>(tuple);
         for (const auto &info : get<2>(tuple)) {
             if (info.subsong == subsong) {
-                return make_info(md5_t, format, channels, info);
+                return make_info(md5_idx, format, channels, info);
             }
         }
     }
@@ -606,12 +694,12 @@ optional<SongInfo> lookup(const string &md5, int subsong) {
 }
 
 vector<SongInfo> lookup_all(const string &md5) {
-    const auto md5_t = dedup_md5(md5);
-    if (md5_t != MD5_NOT_FOUND) {        
-        const auto &modinfo = db_modinfos[md5_t];
+    const auto md5_idx = dedup_md5(md5);
+    if (md5_idx != MD5_NOT_FOUND) {
+        const auto &modinfo = db_modinfos[md5_idx];
         vector<SongInfo> res;
-        for (const auto &i : db_songlengths[md5_t]) {
-            res.push_back(make_info(md5_t, make_string(modinfo.format), modinfo.channels, i));
+        for (const auto &i : db_songlengths[md5_idx]) {
+            res.push_back(make_info(md5_idx, make_string(modinfo.format), modinfo.channels, i));
         }
         return res;
     }
@@ -650,7 +738,7 @@ void update(const string &md5, const int subsong, const int songlength, common::
         INFO("Blacklisted songdb key md5:%s\n", md5.c_str());
         return;
     }
-    const hash_t hash = stoull(md5.substr(0, 12), 0, 16);
+    const md5_t hash = stoull(md5.substr(0, 12), 0, 16);
     assert(subsong >= 0);
     assert(subsong <= 255);
     assert(songlength >= 0);
@@ -675,9 +763,9 @@ void update(const string &md5, const int subsong, const int songlength, common::
 }
 
 optional<pair<int,int>> subsong_range(const string &md5) {
-    const auto md5_t = dedup_md5(md5);
-    if (md5_t != MD5_NOT_FOUND) {
-        const auto &infos = db_songlengths[md5_t];
+    const auto md5_idx = dedup_md5(md5);
+    if (md5_idx != MD5_NOT_FOUND) {
+        const auto &infos = db_songlengths[md5_idx];
         return pair(infos.front().subsong, infos.back().subsong);
     }
     return {};

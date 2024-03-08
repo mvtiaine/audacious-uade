@@ -1,4 +1,5 @@
 # NOT a standalone Makefile.am
+
 check_PROGRAMS += \
     test/md5
 

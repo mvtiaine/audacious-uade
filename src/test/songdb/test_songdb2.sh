@@ -11,7 +11,7 @@ TESTMD5=$($MD5 "$TESTMOD")
 
 TEST_NAME=songdb
 export SONGDB_DIR=${SONGDB_DIR}
-EXPECTED_OUTPUT="demozoo.tsv:1070b78e8d71	2017	Ricky Martin	Dekadence	Kesähäxä"
+EXPECTED_OUTPUT="demozoo.tsv:1070b78e8d71	Ricky Martin	Dekadence	Kesähäxä	2017"
 TEST="${SONGDB_BIN} \"${TESTMOD}\" | grep demozoo"
 
 . $(dirname "$0")/../common/check.sh

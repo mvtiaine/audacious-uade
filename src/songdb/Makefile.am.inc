@@ -14,4 +14,11 @@ songdb_libsongdb_la_SOURCES = \
     common/common.h \
     common/extensions.h \
     common/logger.h \
-    common/crc64.h
+    3rdparty/crc32/Crc32.h \
+    3rdparty/crc32/Crc32.cpp
+
+if BIG_ENDIAN
+songdb_libsongdb_la_CPPFLAGS = $(AM_CPPFLAGS) -D__BYTE_ORDER=4321
+else
+songdb_libsongdb_la_CPPFLAGS = $(AM_CPPFLAGS) -D__BYTE_ORDER=1234
+endif

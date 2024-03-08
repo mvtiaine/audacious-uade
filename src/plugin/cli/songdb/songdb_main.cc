@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (info.demozoo_data) {
-        fprintf(stdout, "demozoo.tsv:%s\t%u\t%s\t%s\t%s\n", md5short.c_str(), info.demozoo_data->year, info.demozoo_data->author.c_str(), info.demozoo_data->publisher.c_str(), info.demozoo_data->album.c_str());
+        fprintf(stdout, "demozoo.tsv:%s\t%s\t%s\t%s\t%u\n", md5short.c_str(), info.demozoo_data->author.c_str(), info.demozoo_data->publisher.c_str(), info.demozoo_data->album.c_str(), info.demozoo_data->year);
     }
 
     if (info.modland_data) {

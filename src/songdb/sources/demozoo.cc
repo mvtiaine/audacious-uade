@@ -18,12 +18,12 @@ namespace songdb::demozoo {
 bool parse_tsv_row(const std::vector<std::string> &cols, songdb::DemozooData &item) {
     assert(cols.size() >= 5);
 
-    const string date = cols[1];
-    vector<string> authors = common::split(cols[2], ",");
+    vector<string> authors = common::split(cols[1], ",");
     sort(authors.begin(), authors.end());
-    vector<string> publishers = common::split(cols[3], ",");
+    vector<string> publishers = common::split(cols[2], ",");
     sort(publishers.begin(), publishers.end());
-    const string album = cols[4];
+    const string album = cols[3];
+    const string date = cols[4];
 
     if (date.length() >= 4) {
         item.year = stoi(date.substr(0, 4));
