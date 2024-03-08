@@ -21,23 +21,12 @@ constexpr string_view UNKNOWN_COMPOSERS = "UnknownComposers";
 
 namespace songdb::amp {
 
-bool parse_tsv_row(const vector<string> &cols, AMPData &item) {
-    assert(cols.size() >= 2);
-
-    const string path = cols[1];
-    vector<string> authors = cols.size() > 2 && !cols[2].empty() ? common::split(cols[2], ",") : vector<string>();
-    sort(authors.begin(), authors.end());
+bool parse_tsv_row(const char *tuple, AMPData &item) {
+    const auto cols = common::split_view(tuple, '\t');
+    assert(cols.size() > 0);
+    const auto author = cols[0];
+    const auto authors = cols.size() > 1 && !cols[1].empty() ? common::split_view(cols[1], ',') : vector<string_view>();
     
-    vector<string> tokens = common::split(path, "/");
-    const int count = tokens.size();
-
-    if (count < 1) {
-        WARN("Skipping path: %s\n", path.c_str());
-        return false;
-    }
-
-    string author = tokens[0];
-
     if (author == UNKNOWN_COMPOSERS) {
         item.author = UNKNOWN_AUTHOR;
     } else {

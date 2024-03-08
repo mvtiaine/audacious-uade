@@ -15,18 +15,17 @@ using namespace songdb;
 
 namespace songdb::demozoo {
 
-bool parse_tsv_row(const std::vector<std::string> &cols, songdb::DemozooData &item) {
-    assert(cols.size() >= 5);
+bool parse_tsv_row(const char *tuple, songdb::DemozooData &item) {
+    const auto cols = common::split_view(tuple, '\t');
+    assert(cols.size() >= 4);
 
-    vector<string> authors = common::split(cols[1], ",");
-    sort(authors.begin(), authors.end());
-    vector<string> publishers = common::split(cols[2], ",");
-    sort(publishers.begin(), publishers.end());
-    const string album = cols[3];
-    const string date = cols[4];
+    const auto authors = common::split_view(cols[0], ',');
+    const auto publishers = common::split_view(cols[1], ',');
+    const auto album = cols[2];
+    const auto date = cols[3];
 
     if (date.length() >= 4) {
-        item.year = stoi(date.substr(0, 4));
+        item.year = common::from_chars<uint16_t>(date.substr(0,4));
     }
     if (authors.size()) {
         const auto author = common::mkString(authors, " & ");
@@ -38,7 +37,7 @@ bool parse_tsv_row(const std::vector<std::string> &cols, songdb::DemozooData &it
     } else {
         item.author = UNKNOWN_AUTHOR;
     }
-    if(publishers.size()) {
+    if (publishers.size()) {
         item.publisher = common::mkString(publishers, " & ");
     }
     item.album = album;

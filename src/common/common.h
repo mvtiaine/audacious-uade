@@ -4,9 +4,11 @@
 #pragma once
 
 #include <cassert>
+#include <charconv>
 #include <cstdint>
 #include <numeric>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "common/compat.h"
@@ -72,10 +74,57 @@ inline std::vector<std::string> split(const std::string &str, const std::string 
     return tokens;
 }
 
+inline auto split_view(const std::string_view &input, const char separator) {
+    std::vector<std::string_view> results;
+    size_t prevpos = 0;
+    size_t pos = 0;
+    while ((pos = input.find(separator, prevpos)) != std::string::npos) {
+        results.push_back(input.substr(prevpos, pos-prevpos));
+        prevpos = pos + 1;
+    }
+    results.push_back(input.substr(prevpos));
+    return results;
+}
+
+template <int N>
+inline auto split_view(const std::string_view &input, const char separator) {
+    std::array<std::string_view, N> results; 
+    auto current = input.begin();
+    const auto End = input.end();
+    for (auto& part : results) {
+        if (current == End) {
+            const bool is_last_part = &part == &(results.back());
+            assert(is_last_part);
+        }
+        auto delim = std::find(current, End, separator);
+        part = { &*current, size_t(delim-current) };
+        current = delim;
+        if (delim != End) ++current;
+    }
+    return results;
+}
+
 inline std::string mkString(const std::vector<std::string> &v, const std::string &delimiter) {
     return std::accumulate(v.begin(), v.end(), std::string(),[&delimiter](const std::string &ss, const std::string &s) {
       return ss.empty() ? s : ss + delimiter + s;
     });
+}
+
+inline std::string mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter) {
+    return std::accumulate(v.begin(), v.end(), std::string(),[delimiter](const std::string_view &ss, const std::string_view &s) {
+        return ss.empty() ? std::string(s) : std::string(ss) + std::string(delimiter) + std::string(s);
+    });
+}
+
+template <class T>
+inline T from_chars(const std::string_view &s) {
+    if (s.size() == 1) return s[0] - 48;
+    const char *end = s.begin() + s.size();
+    T number;
+    auto result = std::from_chars(s.begin(), end, number);
+    assert(result.ec == std::errc{});
+    assert(result.ptr == end);
+    return number;
 }
 
 } // namespace common

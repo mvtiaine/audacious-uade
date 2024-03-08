@@ -19,7 +19,7 @@ namespace {
 // TODO move logic to preprocessing
 
 constexpr string_view UNKNOWN = "Unknown";
-const set<string> pseudonyms ({
+const set<string_view> pseudonyms ({
     "Creative_Thought",
     "DJ_Braincrack",
     "Digital_Masters",
@@ -40,30 +40,30 @@ const set<string> pseudonyms ({
 
 namespace songdb::unexotica {
 
-bool parse_tsv_row(const vector<string> &cols, UnExoticaData &item) {
-    assert(cols.size() >= 3);
+bool parse_tsv_row(const char *tuple, UnExoticaData &item) {
+    string_view author, album; //, note;
 
-    string author, album; //, note;
-
-    const string path = cols[1];
-    const string publisher = cols[2];
+    const auto cols = common::split_view(tuple, '\t');
+    assert(cols.size() >= 2);
+    const auto path = cols[0];
+    const auto publisher = cols[1];
     int year = 0;
-    if (cols.size() > 3 && cols[3].size()) {
-        year = stoi(cols[3]);
+    if (cols.size() > 2 && cols[2].size()) {
+        year = common::from_chars<int>(cols[2]);
     }
 
-    vector<string> tokens = common::split(path, "/");
+    const auto tokens = common::split_view<2>(path, '/');
     const int count = tokens.size();
 
     if (count < 2) {
-        WARN("Skipping path: %s\n", path.c_str());
+        WARN("Skipping tuple: %s\n", tuple);
         return false;
     }
 
     author = tokens[0];
     album = tokens[1];
 
-    vector<string> author_tokens = common::split(author, "_");
+    auto author_tokens = common::split_view(author, '_');
     const auto first = author_tokens[0];
     const bool pseudonym = pseudonyms.count(author);
 
@@ -93,7 +93,7 @@ bool parse_tsv_row(const vector<string> &cols, UnExoticaData &item) {
 }
 
 string author_path(const string &author) {
-    auto tokens = common::split(author, " ");
+    auto tokens = common::split_view(author, ' ');
     const auto candidate = common::mkString(tokens, "_");
     if (tokens.size() < 2 || pseudonyms.contains(candidate) || tokens[0] == "The") {
         return candidate;

@@ -29,30 +29,22 @@ constexpr string_view UNUSED = "Unused";
 
 namespace songdb::modland {
 
-bool parse_tsv_row(const vector<string> &cols, ModlandData &item) {
-    assert(cols.size() >= 2);
-
-    string author, album;
+bool parse_tsv_row(const char *tuple, ModlandData &item) {
+    string_view author, album;
     
-    const string path = cols[1];
-    vector<string> tokens = common::split(path, "/");
-    const int count = tokens.size();
-
-    if (count < 1) {
-        WARN("Skipping path %s, token count %d\n", path.c_str(), count);
-        return false;
-    }
+    const auto tokens = common::split_view(tuple, '/');
+    assert(tokens.size() >= 1);
 
     // TODO move logic to preprocessing
-    switch (count) {
+    switch (tokens.size()) {
         case 1:
             author = tokens[0];
             break;
         case 2: {
             author = tokens[0];
-            string token = tokens[1];
+            auto token = tokens[1];
             if (token.starts_with(COOP)) {
-                vector<string> authors = {author, token.substr(COOP.length())};
+                vector<string_view> authors = {author, token.substr(COOP.length())};
                 sort(authors.begin(), authors.end());
                 author = common::mkString(authors, " & ");
             } else if (!token.starts_with(NOTBY)) {
@@ -61,9 +53,9 @@ bool parse_tsv_row(const vector<string> &cols, ModlandData &item) {
             break;
         }
         case 3: {
-            string token = tokens[1];
+            auto token = tokens[1];
             if (token.starts_with(COOP)) {
-                vector<string> authors = {author, token.substr(COOP.length())};
+                vector<string_view> authors = {author, token.substr(COOP.length())};
                 sort(authors.begin(), authors.end());
                 author = common::mkString(authors, " & ");
                 album = tokens[2];
@@ -74,7 +66,7 @@ bool parse_tsv_row(const vector<string> &cols, ModlandData &item) {
                 break;
             }
             author = tokens[0];
-            album = tokens[1] + " (" + tokens[2] + ")";
+            album = string(tokens[1]) + " (" + string(tokens[2]) + ")";
             break;
         }
         case 4:
@@ -82,11 +74,11 @@ bool parse_tsv_row(const vector<string> &cols, ModlandData &item) {
             if (author == UNKNOWN) {
                 break;
             } else {
-                WARN("Skipping path %s, token count %d\n", path.c_str(), count);
+                WARN("Skipping tuple %s\n", tuple);
                 return false;
             }
         default:
-            WARN("Skipping path %s, token count %d\n", path.c_str(), count);
+            WARN("Skipping tuple %s\n", tuple);
             return false;
     }
 
