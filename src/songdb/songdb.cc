@@ -242,7 +242,7 @@ void create_string_pool(const set<string> &strings) {
 
 md5_idx_t dedup_md5(const string_view &md5) {
     if (md5_idx.size() == 0) return MD5_NOT_FOUND;
-    assert(md5.size() == 12);
+    assert(md5.size() >= 12);
     const md5_t hash = hex2md5(md5.data());
     unsigned int idx = ((double)hash / MD5_T_MAX) * md5_idx.size();
     assert(idx < md5_idx.size());
@@ -539,8 +539,8 @@ void parse_tsv(const string &tsv, const Source source) {
                     db_modland.push_back(_item);
                     prev_author = _item.author;
                     prev_album = _item.album;
-                    prev_tuple = tuple;
                 }
+                prev_tuple = tuple;
                 break;
             }
             case AMP: {
@@ -560,8 +560,8 @@ void parse_tsv(const string &tsv, const Source source) {
                     };
                     db_amp.push_back(_item);
                     prev_author = _item.author;
-                    prev_tuple = tuple;
                 }
+                prev_tuple = tuple;
                 break;
             }
             case UnExotica: {
@@ -592,8 +592,8 @@ void parse_tsv(const string &tsv, const Source source) {
                     prev_album = _item.album;
                     prev_publisher = _item.publisher;
                     prev_year = year;
-                    prev_tuple = tuple;
                 }
+                prev_tuple = tuple;
                 break;
             }
             case Demozoo: {
@@ -624,8 +624,8 @@ void parse_tsv(const string &tsv, const Source source) {
                     prev_album = _item.album;
                     prev_publisher = _item.publisher;
                     prev_year = year;
-                    prev_tuple = tuple;
                 }
+                prev_tuple = tuple;
                 break;
             }
             default: assert(false); break;
