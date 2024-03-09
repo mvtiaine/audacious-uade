@@ -10,11 +10,11 @@
 #include <map>
 #include <memory>
 #include <numeric>
-#include <set>
 #include <string>
 #include <string_view>
 #include <tuple>
 #include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -222,7 +222,7 @@ string_t dedup_string(const string_view &str) {
     }
 }
 
-void create_string_pool(const set<string> &strings) {
+void create_string_pool(const unordered_set<string> &strings) {
     map<hash_t, string> hashes;
     for (const auto &str : strings) {
         if (str.empty()) continue;
@@ -241,7 +241,7 @@ void create_string_pool(const set<string> &strings) {
 }
 
 md5_idx_t dedup_md5(const string_view &md5) {
-    if (md5_idx.size() == 0) return MD5_NOT_FOUND;
+    if (md5_idx.empty()) return MD5_NOT_FOUND;
     assert(md5.size() >= 12);
     const md5_t hash = hex2md5(md5.data());
     unsigned int idx = ((double)hash / MD5_T_MAX) * md5_idx.size();
@@ -261,13 +261,6 @@ md5_idx_t dedup_md5(const string_view &md5) {
             cmp = md5_idx[idx];
         }
         return (cmp == hash) ? md5_idx_t { idx } : MD5_NOT_FOUND;
-    }
-}
-
-void create_md5_idx(const set<md5_t> &md5s) {
-    assert(md5_idx.empty());
-    for (const auto &md5 : md5s) {
-        md5_idx.push_back(md5);
     }
 }
 
@@ -403,21 +396,21 @@ SongInfo make_info(const md5_idx_t md5, const string &format, const uint8_t chan
     };
 }
 
-void parse_songlengths(const string &tsv, set<string> &strings) {
+void parse_songlengths(const string &tsv, unordered_set<string> &strings) {
     FILE *f = fopen(tsv.c_str(), "r"); 
     if (!f) {
         ERR("Could not open songdb file %s\n", tsv.c_str());
         return;
     }
+    assert(md5_idx.empty());
 
-    set<md5_t> md5s;
     md5_t prevhash = 0;
     string prevformat;
     char line[BUF_SIZE];
     while (fgets(line, sizeof line, f)) {
         const md5_t hash = hex2md5(line);
         assert(hash > prevhash);
-        md5s.insert(hash);
+        md5_idx.push_back(hash);
         prevhash = hash;
         const auto cols = common::split_view_x<4>(line + 13, '\t');
         const auto &format = cols[0];
@@ -440,12 +433,10 @@ void parse_songlengths(const string &tsv, set<string> &strings) {
         db_songlengths.push_back(infos);
     }
 
-    create_md5_idx(md5s);
-
     fclose(f);
 }
 
-void parse_strings(const string &songdb_path, const vector<pair<string, Source>> &tsvfiles, set<string> &strings) {
+void parse_strings(const string &songdb_path, const vector<pair<string, Source>> &tsvfiles, unordered_set<string> &strings) {
     for (const auto &tsv : tsvfiles) {
         FILE *f = fopen((songdb_path + "/" + tsv.first).c_str(), "r"); 
         if (!f) {
@@ -709,7 +700,7 @@ void init(const string &songdb_path) {
     if (initialized) {
         return;
     }
-    set<string> strings;
+    unordered_set<string> strings;
     parse_songlengths(songdb_path + "/songlengths.tsv", strings);
     parse_strings(songdb_path, tsvfiles, strings);
     create_string_pool(strings);
