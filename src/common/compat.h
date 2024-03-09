@@ -29,9 +29,3 @@ inline void swab (const void *bfrom, void *bto, ssize_t n) {
 #endif
 
 #endif // __AMIGA__
-
-#if defined(__MINGW32__) || defined(__AMIGA__) || defined(__AROS__)
-extern "C" {
-#include "common/getdelim.h"
-}
-#endif

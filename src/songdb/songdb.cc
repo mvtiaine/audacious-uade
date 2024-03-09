@@ -396,20 +396,17 @@ void parse_songlengths(const string &tsv, set<string> &strings) {
 
     set<md5_t> md5s;
     md5_t prevhash = 0;
-    char *line = NULL;
-    size_t cap = 0;
-    ssize_t len;
     string prevformat;
-    while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
+    char line[BUF_SIZE];
+    while (fgets(line, sizeof line, f)) {
         line[12] = 0; // md5
-        line[len - 1] = 0;
-        const char *md5 = line;
-        const auto cols = common::split_view<4>(line + 13, '\t');
-        const md5_t hash = strtoull(md5, nullptr, 16);
+        const md5_t hash = strtoull(line, nullptr, 16);
         assert(hash > prevhash);
         md5s.insert(hash);
         prevhash = hash;
-
+        const auto len = strnlen(line+13, sizeof line);
+        line[13 + len - 1] = 0; // remove newline
+        const auto cols = common::split_view<4>(line + 13, '\t');
         const auto &format = cols[0];
         if (format != prevformat) {
             string f = {format.begin(), format.end()};
@@ -432,7 +429,6 @@ void parse_songlengths(const string &tsv, set<string> &strings) {
 
     create_md5_idx(md5s);
 
-    free(line);
     fclose(f);
 }
 
@@ -443,17 +439,16 @@ void parse_strings(const string &songdb_path, const vector<pair<string, Source>>
             ERR("Could not open songdb file %s\n", tsv.first.c_str());
             return;
         }
-        char *line = NULL;
-        size_t cap = 0;
-        ssize_t len;
+        char line[BUF_SIZE];
         string prev_tuple;
-        while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
-            line[len - 1] = 0;
-            const char *tuple = line + 13;
+        while (fgets(line, sizeof line, f)) {
+            char *tuple = line + 13; // skip md5
             if (prev_tuple == tuple) {
                 continue;
             }
             prev_tuple = tuple;
+            const auto len = strnlen(tuple, sizeof line);
+            tuple[len - 1] = 0; // remove newline
             switch (tsv.second) {
                 case Modland: {
                     ModlandData item {};
@@ -491,7 +486,6 @@ void parse_strings(const string &songdb_path, const vector<pair<string, Source>>
                 default: assert(false); break;
             }
         }
-        free(line);
         fclose(f);
     }
 }
@@ -502,23 +496,19 @@ void parse_tsv(const string &tsv, const Source source) {
         ERR("Could not open songdb file %s\n", tsv.c_str());
         return;
     }
-    char *line = NULL;
-    size_t cap = 0;
-    ssize_t len;
-
+    char line[BUF_SIZE];
     string_t prev_author = STRING_NOT_FOUND;
     string_t prev_album = STRING_NOT_FOUND;
     string_t prev_publisher = STRING_NOT_FOUND;
     year_t prev_year = 0;
     string prev_tuple;
-
-    while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
+    while (fgets(line, sizeof line, f)) {
         line[12] = 0; // md5
         line[len - 1] = 0;
         const char *md5s = line;
         const auto md5 = dedup_md5(md5s);
         assert(md5 != MD5_NOT_FOUND);
-        const char *tuple = line + 13;
+        char *tuple = line + 13;
         switch (source) {
             case Modland: {
                 if (prev_tuple == tuple) {
@@ -530,6 +520,8 @@ void parse_tsv(const string &tsv, const Source source) {
                     db_modland.push_back(_item);
                     continue;
                 }
+                const auto len = strnlen(tuple, sizeof line);
+                tuple[len - 1] = 0; // remove newline
                 ModlandData item {};
                 if (modland::parse_tsv_row(tuple, item)) {
                     const _ModlandData _item = {
@@ -553,6 +545,8 @@ void parse_tsv(const string &tsv, const Source source) {
                     db_amp.push_back(_item);
                     continue;
                 }
+                const auto len = strnlen(tuple, sizeof line);
+                tuple[len - 1] = 0; // remove newline
                 AMPData item {};
                 if (amp::parse_tsv_row(tuple, item)) {
                     const _AMPData _item = {
@@ -577,6 +571,8 @@ void parse_tsv(const string &tsv, const Source source) {
                     db_unexotica.push_back(_item);
                     continue;
                 }
+                const auto len = strnlen(tuple, sizeof line);
+                tuple[len - 1] = 0; // remove newline
                 UnExoticaData item {};
                 if (unexotica::parse_tsv_row(tuple, item)) {
                     year_t year = item.year != 0 ? item.year - 1900u : 0;
@@ -609,6 +605,8 @@ void parse_tsv(const string &tsv, const Source source) {
                     db_demozoo.push_back(_item);
                     continue;
                 }
+                const auto len = strnlen(tuple, sizeof line);
+                tuple[len - 1] = 0; // remove newline
                 DemozooData item {};
                 if (demozoo::parse_tsv_row(tuple, item)) {
                     year_t year = item.year != 0 ? item.year - 1900u : 0;
@@ -632,7 +630,6 @@ void parse_tsv(const string &tsv, const Source source) {
             default: assert(false); break;
         }
     };
-    free(line);
     fclose(f);
 }
 
@@ -642,16 +639,14 @@ void parse_modinfos(const string &tsv) {
         ERR("Could not open songdb file %s\n", tsv.c_str());
         return;
     }
-    char *line = NULL;
-    size_t cap = 0;
-    ssize_t len;
+    char line[BUF_SIZE];
     string prev_format = "";
     uint8_t prev_channels = UINT8_MAX;
     _ModInfo prev_info;
-    while ((len = getdelim(&line, &cap, '\n', f)) > 0) {
-        line[12] = 0; // md5
-        line[len - 1] = 0;
-        const char *tuple = line + 13;
+    while (fgets(line, sizeof line, f)) {
+        char *tuple = line + 13; // skip md5
+        const auto len = strnlen(tuple, sizeof line);
+        tuple[len - 1] = 0; // remove newline
         const auto cols = common::split_view<2>(tuple, '\t');
         const auto format = cols[0];
         const uint8_t channels = common::from_chars<uint8_t>(cols[1]);
@@ -666,7 +661,6 @@ void parse_modinfos(const string &tsv) {
         prev_channels = channels;
         prev_info = info;
     }
-    free(line);
     fclose(f);
 }
 
