@@ -375,7 +375,10 @@ public:
         "Copyright (c) 2006-2018, Pete Gordon\n"
         "\n"
         "libdigibooster3 1.2 (BSD-2-Clause)\n"
-        "Copyright (c) 2014, Grzegorz Kraszewski\n",
+        "Copyright (c) 2014, Grzegorz Kraszewski\n"
+        "\n"
+        "Fast CRC32 v9 (Zlib)\n"
+        "Copyright (c) 2011-2019 Stephan Brumme\n",
         &plugin_prefs
     };
 
