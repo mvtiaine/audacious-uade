@@ -415,7 +415,6 @@ void parse_songlengths(const string &tsv, set<string> &strings) {
     string prevformat;
     char line[BUF_SIZE];
     while (fgets(line, sizeof line, f)) {
-        line[12] = 0; // md5
         const md5_t hash = hex2md5(line);
         assert(hash > prevhash);
         md5s.insert(hash);
@@ -515,7 +514,6 @@ void parse_tsv(const string &tsv, const Source source) {
     year_t prev_year = 0;
     string prev_tuple;
     while (fgets(line, sizeof line, f)) {
-        line[12] = 0; // md5
         const char *md5s = line;
         const auto md5 = dedup_md5(md5s);
         assert(md5 != MD5_NOT_FOUND);
