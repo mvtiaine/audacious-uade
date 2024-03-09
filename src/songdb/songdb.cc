@@ -46,6 +46,8 @@ namespace songdb::demozoo {
 
 namespace {
 
+constexpr size_t BUF_SIZE = 2048;
+
 #if 0
 struct uint24_t {
     // 16 million md5s should be enough for everyone
