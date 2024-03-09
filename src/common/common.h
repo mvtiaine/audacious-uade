@@ -106,16 +106,57 @@ inline auto split_view(const std::string_view &input, const char separator) {
     return results;
 }
 
+    size_t size = 0;
+    for (size_t i = 0; i < v.size(); ++i) {
+        if (v[i].size()) {
+            size += v[i].size();
+            if (i < v.size() - 1) {
+                size += delimiter.size();
+            }
+        }
+    }
+    res.reserve(size + 1);
+    for (size_t i = 0; i < v.size(); ++i) {
+        if (v[i].size()) {
+            res += v[i];
+            if (i < v.size() - 1) {
+                res += delimiter;
+            }
+        }
+    }
+}
+
 inline std::string mkString(const std::vector<std::string> &v, const std::string &delimiter) {
-    return std::accumulate(v.begin(), v.end(), std::string(),[&delimiter](const std::string &ss, const std::string &s) {
-      return ss.empty() ? s : ss + delimiter + s;
-    });
+    std::string res;
+    mkString(v, delimiter, res);
+    return res;
+}
+
+inline void mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter, std::string &res) {
+    size_t size = 0;
+    for (size_t i = 0; i < v.size(); ++i) {
+        if (v[i].size()) {
+            size += v[i].size();
+            if (i < v.size() - 1) {
+                size += delimiter.size();
+            }
+        }
+    }
+    res.reserve(size + 1);
+    for (size_t i = 0; i < v.size(); ++i) {
+        if (v[i].size()) {
+            res += v[i];
+            if (i < v.size() - 1) {
+                res += delimiter;
+            }
+        }
+    }
 }
 
 inline std::string mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter) {
-    return std::accumulate(v.begin(), v.end(), std::string(),[delimiter](const std::string_view &ss, const std::string_view &s) {
-        return ss.empty() ? std::string(s) : std::string(ss) + std::string(delimiter) + std::string(s);
-    });
+    std::string res;
+    mkString(v, delimiter, res);
+    return res;
 }
 
 template <class T>

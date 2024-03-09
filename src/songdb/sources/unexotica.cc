@@ -79,7 +79,11 @@ bool parse_tsv_row(const char *tuple, UnExoticaData &item) {
     if (author == UNKNOWN) {
         item.author = UNKNOWN_AUTHOR;
     } else {
-        item.author = common::mkString(author_tokens, " ");
+        if (author_tokens.size() == 1) {
+            item.author = author_tokens[0];
+        } else {
+            common::mkString(author_tokens, " ", item.author);
+        }
     }
 
     item.album = album;

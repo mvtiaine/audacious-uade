@@ -30,8 +30,10 @@ bool parse_tsv_row(const char *tuple, AMPData &item) {
     if (author == UNKNOWN_COMPOSERS) {
         item.author = UNKNOWN_AUTHOR;
     } else {
-        if (authors.size()) {
-            item.author = common::mkString(authors, " & ");
+        if (authors.size() == 1) {
+            item.author = authors[0];
+        } else if (authors.size() > 1) {
+            common::mkString(authors, AUTHOR_JOIN, item.author);
         } else {
             item.author = author;
         }

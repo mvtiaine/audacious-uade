@@ -27,18 +27,22 @@ bool parse_tsv_row(const char *tuple, songdb::DemozooData &item) {
     if (date.length() >= 4) {
         item.year = common::from_chars<uint16_t>(date.substr(0,4));
     }
-    if (authors.size()) {
-        const auto author = common::mkString(authors, " & ");
+    if (authors.size() == 1) {
+        const auto author = authors[0];
         if (author == "?") {
             item.author = UNKNOWN_AUTHOR;
         } else {
             item.author = author;
         }
+    } else if (authors.size() > 1) {
+        common::mkString(authors, AUTHOR_JOIN, item.author);
     } else {
         item.author = UNKNOWN_AUTHOR;
     }
-    if (publishers.size()) {
-        item.publisher = common::mkString(publishers, " & ");
+    if (publishers.size() == 1) {
+        item.publisher = publishers[0];
+    } else if (publishers.size() > 1) {
+        common::mkString(publishers, AUTHOR_JOIN, item.publisher);
     }
     item.album = album;
 

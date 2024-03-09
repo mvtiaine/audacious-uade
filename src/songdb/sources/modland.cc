@@ -30,48 +30,46 @@ constexpr string_view UNUSED = "Unused";
 namespace songdb::modland {
 
 bool parse_tsv_row(const char *tuple, ModlandData &item) {
-    string_view author, album;
-    
     const auto tokens = common::split_view(tuple, '/');
     assert(tokens.size() >= 1);
 
     // TODO move logic to preprocessing
     switch (tokens.size()) {
         case 1:
-            author = tokens[0];
+            item.author = tokens[0];
             break;
         case 2: {
-            author = tokens[0];
-            auto token = tokens[1];
+            item.author = tokens[0];
+            const auto token = tokens[1];
             if (token.starts_with(COOP)) {
-                vector<string_view> authors = {author, token.substr(COOP.length())};
+                vector<string_view> authors = {item.author, token.substr(COOP.length())};
                 sort(authors.begin(), authors.end());
-                author = common::mkString(authors, " & ");
+                common::mkString(authors, AUTHOR_JOIN, item.author);
             } else if (!token.starts_with(NOTBY)) {
-                album = token;
+                item.album = token;
             }
             break;
         }
         case 3: {
-            auto token = tokens[1];
+            const auto token = tokens[1];
             if (token.starts_with(COOP)) {
-                vector<string_view> authors = {author, token.substr(COOP.length())};
+                vector<string_view> authors = {item.author, token.substr(COOP.length())};
                 sort(authors.begin(), authors.end());
-                author = common::mkString(authors, " & ");
-                album = tokens[2];
+                common::mkString(authors, AUTHOR_JOIN, item.author);
+                item.album = tokens[2];
                 break;
             } else if (tokens[2] == UNUSED) {
-                author = tokens[0];
-                album = tokens[1];
+                item.author = tokens[0];
+                item.album = tokens[1];
                 break;
             }
-            author = tokens[0];
-            album = string(tokens[1]) + " (" + string(tokens[2]) + ")";
+            item.author = tokens[0];
+            item.album = string(tokens[1]) + " (" + string(tokens[2]) + ")";
             break;
         }
         case 4:
-            author = tokens[0];
-            if (author == UNKNOWN) {
+            item.author = tokens[0];
+            if (item.author == UNKNOWN) {
                 break;
             } else {
                 WARN("Skipping tuple %s\n", tuple);
@@ -82,13 +80,8 @@ bool parse_tsv_row(const char *tuple, ModlandData &item) {
             return false;
     }
 
-    if (author == UNKNOWN) {
+    if (item.author == UNKNOWN) {
         item.author = UNKNOWN_AUTHOR;
-    } else {
-        item.author = author;
-    }
-    if (album.size()) {
-        item.album = album;
     }
 
     return true;

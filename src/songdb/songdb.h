@@ -13,6 +13,7 @@
 namespace songdb {
 
 const std::string UNKNOWN_AUTHOR = "<Unknown>";
+constexpr std::string_view AUTHOR_JOIN = " & ";
 
 struct ModlandData {
     std::string author;
