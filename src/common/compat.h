@@ -28,8 +28,8 @@ inline void swab (const void *bfrom, void *bto, ssize_t n) {
 }
 #endif
 
-#endif // __AMIGA__
-
 #if !defined(__CLIB4__) && !defined(__AROS__)
 size_t strnlen(const char *s, size_t len);
 #endif // !defined(__CLIB4__) && !defined(__AROS__)
+
+#endif // __AMIGA__
