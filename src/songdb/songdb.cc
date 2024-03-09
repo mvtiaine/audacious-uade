@@ -23,7 +23,7 @@
 #include "common/logger.h"
 #include "songdb/songdb.h"
 
-#include <time.h>
+#include <string.h>
 
 using namespace std;
 using namespace songdb;
