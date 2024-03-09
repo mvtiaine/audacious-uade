@@ -22,8 +22,7 @@ constexpr string_view UNKNOWN_COMPOSERS = "UnknownComposers";
 namespace songdb::amp {
 
 bool parse_tsv_row(const char *tuple, AMPData &item) {
-    const auto cols = common::split_view(tuple, '\t');
-    assert(cols.size() > 0);
+    const auto cols = common::split_view_x<2>(tuple, '\t');
     const auto author = cols[0];
     const auto authors = cols.size() > 1 && !cols[1].empty() ? common::split_view(cols[1], ',') : vector<string_view>();
     

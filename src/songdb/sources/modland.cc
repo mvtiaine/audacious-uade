@@ -30,7 +30,7 @@ constexpr string_view UNUSED = "Unused";
 namespace songdb::modland {
 
 bool parse_tsv_row(const char *tuple, ModlandData &item) {
-    const auto tokens = common::split_view(tuple, '/');
+    const auto tokens = common::split_view_x(tuple, '/');
     assert(tokens.size() >= 1);
 
     // TODO move logic to preprocessing

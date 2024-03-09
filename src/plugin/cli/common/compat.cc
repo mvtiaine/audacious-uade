@@ -80,3 +80,19 @@ ssize_t writev(int fd, const struct iovec *vector, int count)
 }
 }
 #endif // __AROS
+
+
+#if !defined(__CLIB4__) && !defined(__AROS__)
+#include <stddef.h>
+size_t strnlen(const char *s, size_t len)
+{
+    size_t i;
+
+    if( s == NULL )
+    	return 0;
+
+    for(i = 0; i < len && s[i]; i++)
+	;
+    return i;
+}
+#endif // !defined(__CLIB4__) && !defined(__AROS__)

@@ -88,20 +88,47 @@ inline auto split_view(const std::string_view &input, const char separator) {
     return results;
 }
 
+inline auto split_view_x(const std::string_view &input, const char separator) {
+    std::vector<std::string_view> results;
+    size_t prevpos = 0;
+    size_t pos = 0;
+    while ((pos = input.find(separator, prevpos)) != std::string::npos) {
+        results.push_back(input.substr(prevpos, pos-prevpos));
+        prevpos = pos + 1;
+    }
+    results.push_back(input.substr(prevpos, input.size() - 1));
+    return results;
+}
+
 template <int N>
 inline auto split_view(const std::string_view &input, const char separator) {
     std::array<std::string_view, N> results; 
     auto current = input.begin();
     const auto End = input.end();
     for (auto& part : results) {
-        if (current == End) {
-            const bool is_last_part = &part == &(results.back());
-            assert(is_last_part);
-        }
         auto delim = std::find(current, End, separator);
         part = { &*current, size_t(delim-current) };
         current = delim;
         if (delim != End) ++current;
+        else break;
+    }
+    return results;
+}
+
+template <int N>
+inline auto split_view_x(const std::string_view &input, const char separator) {
+    std::array<std::string_view, N> results; 
+    auto current = input.begin();
+    const auto End = input.end();
+    for (auto& part : results) {
+        auto delim = std::find(current, End, separator);
+        if (delim == End) {
+            part = { &*current, size_t(delim-current-1) };
+            break;
+        } else {
+            part = { &*current, size_t(delim-current) };
+            current = delim + 1;
+        }
     }
     return results;
 }

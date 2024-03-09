@@ -16,8 +16,7 @@ using namespace songdb;
 namespace songdb::demozoo {
 
 bool parse_tsv_row(const char *tuple, songdb::DemozooData &item) {
-    const auto cols = common::split_view(tuple, '\t');
-    assert(cols.size() >= 4);
+    const auto cols = common::split_view_x<4>(tuple, '\t');
 
     const auto authors = common::split_view(cols[0], ',');
     const auto publishers = common::split_view(cols[1], ',');

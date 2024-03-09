@@ -41,10 +41,8 @@ const set<string_view> pseudonyms ({
 namespace songdb::unexotica {
 
 bool parse_tsv_row(const char *tuple, UnExoticaData &item) {
-    string_view author, album; //, note;
-
-    const auto cols = common::split_view(tuple, '\t');
-    assert(cols.size() >= 2);
+    string_view author, album;
+    const auto cols = common::split_view_x<3>(tuple, '\t');
     const auto path = cols[0];
     const auto publisher = cols[1];
     int year = 0;
