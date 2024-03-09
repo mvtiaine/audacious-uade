@@ -106,6 +106,7 @@ inline auto split_view(const std::string_view &input, const char separator) {
     return results;
 }
 
+inline void mkString(const std::vector<std::string> &v, const std::string &delimiter, std::string &res) {
     size_t size = 0;
     for (size_t i = 0; i < v.size(); ++i) {
         if (v[i].size()) {
