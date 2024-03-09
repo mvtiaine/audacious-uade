@@ -504,7 +504,6 @@ void parse_tsv(const string &tsv, const Source source) {
     string prev_tuple;
     while (fgets(line, sizeof line, f)) {
         line[12] = 0; // md5
-        line[len - 1] = 0;
         const char *md5s = line;
         const auto md5 = dedup_md5(md5s);
         assert(md5 != MD5_NOT_FOUND);
