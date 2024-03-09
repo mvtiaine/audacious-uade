@@ -75,7 +75,8 @@ int main(int argc, char *argv[]) {
     _setmode(_fileno(stdout), 0x8000);
 #endif
 
-    fprintf(stdout, "songlengths.tsv:%s\t%s\t%d\t%d\t%s\n", md5short.c_str(), info.format.c_str(), info.channels, info.subsong, common::mkString(songends, " ").c_str());
+    fprintf(stdout, "songlengths.tsv:%s\t%d\t%s\n", md5short.c_str(), info.subsong, common::mkString(songends, " ").c_str());
+    fprintf(stdout, "modinfos.tsv:%s\t%s\t%d\n", md5short.c_str(), info.format.c_str(), info.channels);
 
     if (info.amp_data) {
         // TODO handle extra authors

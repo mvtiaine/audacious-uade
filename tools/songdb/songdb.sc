@@ -56,8 +56,6 @@ val songlengthsTsv = Future { Files.write(Paths.get("/tmp/songdb/songlengths.tsv
   val entries = songlengths.db.sortBy(_.md5).map(e =>
     Buffer(
       _md5(e.md5),
-      e.format,
-      e.channels,
       e.minsubsong,
       e.subsongs.sortBy(_.subsong).map(s =>
         assert(s.songlength >= 0)
@@ -68,6 +66,19 @@ val songlengthsTsv = Future { Files.write(Paths.get("/tmp/songdb/songlengths.tsv
   ).distinct
   val dedupped = _dedup(entries, "songlengths.tsv")
   _validate(dedupped, "songlengths.tsv")
+  dedupped
+}.mkString("\n").concat("\n").getBytes("UTF-8"))}
+
+val modinfosTsv = Future { Files.write(Paths.get("/tmp/songdb/modinfos.tsv"), {
+  val entries = songlengths.db.sortBy(e => e.format + "###" + e.channels).map(e =>
+    Buffer(
+      _md5(e.md5),
+      e.format,
+      e.channels,
+    ).mkString("\t")
+  ).distinct
+  val dedupped = _dedup(entries, "modinfos.tsv")
+  _validate(dedupped, "modinfos.tsv")
   dedupped
 }.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
@@ -153,7 +164,7 @@ val demozooTsv = Future { Files.write(Paths.get("/tmp/songdb/demozoo.tsv"), {
 }.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
 val future = Future.sequence(
-  Seq(songlengthsTsv, modlandTsv, unexoticaTsv, ampTsv, demozooTsv)
+  Seq(songlengthsTsv, modinfosTsv, modlandTsv, unexoticaTsv, ampTsv, demozooTsv)
 )
 
 future onComplete {
