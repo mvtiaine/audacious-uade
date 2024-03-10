@@ -360,16 +360,13 @@ public:
     static constexpr PluginInfo info = {
         "UADE Plugin",
         "audacious-uade",
-        "Audacious UADE plugin " PACKAGE_VERSION "\n"
-        "Written by Matti Tiainen <mvtiaine@cc.hut.fi>\n"
+        "Audacious UADE plugin " PACKAGE_VERSION " (GPL-2.0-or-later)\n"
+        "Copyright (c) 2014-2024, Matti Tiainen\n"
         PACKAGE_URL"\n"
         "\n"
         "UADE: https://zakalwe.fi/uade/\n"
         "\n"
         "Using bundled libuade " UADE_VERSION "\n"
-        "\n"
-        "Simplistic Binary Streams 1.0.3 (MIT)\n"
-        "Copyright (C) 2014-2019, Wong Shao Voon\n"
         "\n"
         "HivelyTracker 1.9 (BSD-3-Clause)\n"
         "Copyright (c) 2006-2018, Pete Gordon\n"
@@ -377,8 +374,8 @@ public:
         "libdigibooster3 1.2 (BSD-2-Clause)\n"
         "Copyright (c) 2014, Grzegorz Kraszewski\n"
         "\n"
-        "Fast CRC32 v9 (Zlib)\n"
-        "Copyright (c) 2011-2019 Stephan Brumme\n",
+        "Simplistic Binary Streams 1.0.3 (MIT)\n"
+        "Copyright (c) 2014-2019, Wong Shao Voon\n",
         &plugin_prefs
     };
 

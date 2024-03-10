@@ -13,9 +13,7 @@ songdb_libsongdb_la_SOURCES = \
     songdb/sources/unexotica.cc \
     common/common.h \
     common/extensions.h \
-    common/logger.h \
-    3rdparty/crc32/Crc32.h \
-    3rdparty/crc32/Crc32.cpp
+    common/logger.h
 
 if BIG_ENDIAN
 songdb_libsongdb_la_CPPFLAGS = $(AM_CPPFLAGS) -D__BYTE_ORDER=4321
