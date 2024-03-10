@@ -189,6 +189,8 @@ md5_t hex2md5(const char *hex) {
 }
 
 vector<md5_t> md5_idx;
+vector<string> string_pool; // can contain duplicates
+
 void create_string_pool(vector<string> &strings) {
     assert(string_pool.empty());
     for (auto s : strings) {
