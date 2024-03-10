@@ -189,6 +189,7 @@ md5_t hex2md5(const char *hex) {
 }
 
 vector<md5_t> md5_idx;
+void create_string_pool(vector<string> &strings) {
     assert(string_pool.empty());
     for (auto s : strings) {
         s.shrink_to_fit();
