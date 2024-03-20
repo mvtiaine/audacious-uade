@@ -12,12 +12,6 @@
 
 #if 0
 // XXX too slow
-namespace common {
-template<>
-inline uint24_t from_chars<uint24_t>(const std::string_view &s) {
-    return common::from_chars<uint32_t>(s);
-}
-}
 namespace songdb::internal {
 struct uint24_t {
     // 16 million md5s should be enough for everyone
@@ -92,6 +86,23 @@ struct uint48_t {
         return value() > other.value();
     }
 } __attribute__((packed));
+
+} // namespace songdb::internal
+template<>
+struct std::hash<songdb::internal::uint48_t>
+{
+    constexpr std::size_t operator()(const songdb::internal::uint48_t& s) const noexcept
+    {
+        return s.value();
+    }
+};
+namespace common {
+template<>
+inline songdb::internal::uint24_t from_chars<songdb::internal::uint24_t>(const std::string_view &s) {
+    return common::from_chars<uint32_t>(s);
+}
+}
+namespace songdb::internal {
 
 #else
 

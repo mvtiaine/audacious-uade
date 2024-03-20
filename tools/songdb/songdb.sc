@@ -19,21 +19,59 @@ implicit val ec: scala.concurrent.ExecutionContext = scala.concurrent.ExecutionC
 
 val _md5check = scala.collection.mutable.Map[String,String]()
 def _md5(md5: String) = {
-  val short = md5.substring(0,12)
-  if (_md5check.contains(short) && _md5check(short) != md5) {
-    System.err.println(s"ERROR: MD5 check failed, short ${short} existing ${_md5check(short)} new ${md5}")
+  val base64 = _base64e(md5)
+  if (_md5check.contains(base64) && _md5check(base64) != md5) {
+    System.err.println(s"ERROR: MD5 check failed, short ${base64} existing ${_md5check(base64)} new ${md5}")
     throw new IllegalStateException
   }
-  _md5check(short) = md5
-  short
+  _md5check(base64) = md5
+  val md5v = java.lang.Long.parseLong(md5.substring(0,12), 16)
+  if (_base64d(base64) != md5v) {
+    System.err.println(s"ERROR: MD5 vs base64 check failed for MD5:${md5.substring(0,12)}/${md5v} base64: ${base64}/${_base64d(base64)}")
+    throw new IllegalStateException
+  }
+  base64
 }
 
+def _base64e(md5: String) =  {
+  // convert to 6-bit/base-64 encoding (NOT "proper base64"!)
+  // 4*12-bit values
+  val v1 = Integer.parseInt(md5.substring(0,3), 16)
+  val v2 = Integer.parseInt(md5.substring(3,6), 16)
+  val v3 = Integer.parseInt(md5.substring(6,9), 16)
+  val v4 = Integer.parseInt(md5.substring(9,12), 16)
+  // values start from 45 ('-')
+  val chars = Array.fill(8)(45)
+  // 8*6-bit values / base-64 / big-endian
+  chars(0) += (v1 >> 6) & 0x3F
+  chars(1) += v1 & 0x3F
+  chars(2) += (v2 >> 6) & 0x3F
+  chars(3) += v2 & 0x3F
+  chars(4) += (v3 >> 6) & 0x3F
+  chars(5) += v3 & 0x3F
+  chars(6) += (v4 >> 6) & 0x3F
+  chars(7) += v4 & 0x3F
+  chars.map(_.toChar).mkString
+}
+
+def _base64d(base64: String) = {
+  var v = 0L
+  v |= ((base64(0) - 45L) << 42)
+  v |= ((base64(1) - 45L) << 36)
+  v |= ((base64(2) - 45L) << 30)
+  v |= ((base64(3) - 45L) << 24)
+  v |= ((base64(4) - 45L) << 18)
+  v |= ((base64(5) - 45L) << 12)
+  v |= ((base64(6) - 45L) << 6) 
+  v |= base64(7) - 45L
+  v
+}
 def _dedup(entries: Iterable[String], file: String, sortIndex: Int = -1, minimize: Boolean = true) = {
   // keeps original order
   val keys = entries.map(_.split("\t")(0)).toSeq.distinct
   val dedupped = entries.groupBy(_.split("\t")(0)).map(e =>
     if (e._2.size > 1) {
-      System.err.println(s"WARN: removing duplicate entries in ${file}, md5: ${e._1} entries: ${e._2}")
+      System.err.println(s"WARN: removing duplicate entries in ${file}, md5: ${_md5check(e._1)} entries: ${e._2}")
     }
     (e._1, e._2.toSeq.sortBy(e =>
       lazy val entries = e.split("\t")
@@ -81,7 +119,6 @@ val songlengthsTsv = Future { Files.write(Paths.get("/tmp/songdb/songlengths.tsv
   ).distinct
   val dedupped = _dedup(entries, "songlengths.tsv", minimize = false)
   _validate(dedupped, "songlengths.tsv")
-  dedupped
 }.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
 val modinfosTsv = Future { Files.write(Paths.get("/tmp/songdb/modinfos.tsv"), {
@@ -173,7 +210,7 @@ val demozooTsv = Future { Files.write(Paths.get("/tmp/songdb/demozoo.tsv"), {
     )
     if (row.forall(r => r == _md5(md5) || r.trim.isEmpty)) None
     else Some(row.mkString("\t"))
-  }).distinct.sortBy(_.substring(12))
+  }).distinct.sortBy(_.substring(8))
   val dedupped = _dedup(entries, "demozoo.tsv", 1)
   _validate(dedupped, "demozoo.tsv")
   dedupped
