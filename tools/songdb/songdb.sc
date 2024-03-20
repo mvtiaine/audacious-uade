@@ -119,6 +119,7 @@ val songlengthsTsv = Future { Files.write(Paths.get("/tmp/songdb/songlengths.tsv
   ).distinct
   val dedupped = _dedup(entries, "songlengths.tsv", minimize = false)
   _validate(dedupped, "songlengths.tsv")
+  dedupped
 }.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
 val modinfosTsv = Future { Files.write(Paths.get("/tmp/songdb/modinfos.tsv"), {
