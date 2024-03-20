@@ -7,7 +7,6 @@ songdb_libsongdb_la_SOURCES = \
     songdb/songdb.h \
     songdb/songdb.cc \
     songdb/blacklist.cc \
-    songdb/sources/amp.cc \
     songdb/sources/demozoo.cc \
     songdb/sources/modland.cc \
     songdb/sources/unexotica.cc \

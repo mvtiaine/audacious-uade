@@ -28,7 +28,7 @@ def _md5(md5: String) = {
   short
 }
 
-def _dedup(entries: Iterable[String], file: String, sortIndex: Int = -1) = {
+def _dedup(entries: Iterable[String], file: String, sortIndex: Int = -1, minimize: Boolean = true) = {
   // keeps original order
   val keys = entries.map(_.split("\t")(0)).toSeq.distinct
   val dedupped = entries.groupBy(_.split("\t")(0)).map(e =>
@@ -41,7 +41,22 @@ def _dedup(entries: Iterable[String], file: String, sortIndex: Int = -1) = {
       else e
     ).head)
   )
-  keys.map(k => dedupped(k))
+  if (minimize) {
+    val res = Buffer.empty[String]
+    var prev = ""
+    for (k <- keys) {
+      val dk = dedupped(k)
+      val s = dk.split("\t")
+      val tail = s.tail.mkString("\t")
+      if (tail == prev) {
+        res += s.head
+      } else {
+        res += dk
+      }
+      prev = tail
+    }
+    res.toSeq
+  } else keys.map(dedupped)
 }
 
 def _validate(entries: Iterable[String], file: String) = {
@@ -64,18 +79,20 @@ val songlengthsTsv = Future { Files.write(Paths.get("/tmp/songdb/songlengths.tsv
       ).mkString(" ")
     ).mkString("\t")
   ).distinct
-  val dedupped = _dedup(entries, "songlengths.tsv")
+  val dedupped = _dedup(entries, "songlengths.tsv", minimize = false)
   _validate(dedupped, "songlengths.tsv")
   dedupped
 }.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
 val modinfosTsv = Future { Files.write(Paths.get("/tmp/songdb/modinfos.tsv"), {
-  val entries = songlengths.db.sortBy(e => e.format + "###" + e.channels).map(e =>
-    Buffer(
-      _md5(e.md5),
-      e.format,
-      e.channels,
-    ).mkString("\t")
+  val entries = songlengths.db.sortBy(e => e.format + "###" + e.channels).flatMap(e =>
+    if (!e.format.isEmpty() && e.format != "???") {
+      Some(Buffer(
+        _md5(e.md5),
+        e.format,
+        e.channels,
+      ).mkString("\t"))
+    } else None
   ).distinct
   val dedupped = _dedup(entries, "modinfos.tsv")
   _validate(dedupped, "modinfos.tsv")
@@ -86,9 +103,9 @@ val modlandTsv = Future { Files.write(Paths.get("/tmp/songdb/modland.tsv"), {
   val entries = sources.modland.sortBy(e => e.path.substring(e.path.indexOf("/") + 1, e.path.length)).flatMap(e =>
     val path = e.path.substring(e.path.indexOf("/") + 1, e.path.lastIndexOf("/"))
     if (path != "- unknown" && path != "_unknown") {
-      Some(Buffer(_md5(e.md5), path).mkString("\t"))
+      Some(Buffer(_md5(e.md5), path))
     } else None
-  ).distinct
+  ).sortBy(_(1)).map(_.mkString("\t")).distinct
   val dedupped = _dedup(entries, "modland.tsv")
   _validate(dedupped, "modland.tsv")
   dedupped
@@ -124,16 +141,15 @@ val ampTsv = Future { Files.write(Paths.get("/tmp/songdb/amp.tsv"), {
       best = m.maxBy(_.extra_authors.size)
     }
     best
-  }).toSeq.sortBy(e => e.path.substring(e.path.indexOf("/") + 1, e.path.lastIndexOf("/")) + e.extra_authors.sorted.mkString(",")).flatMap(m =>
+  }).toSeq.flatMap(m =>
     val path = m.path.substring(m.path.indexOf("/") + 1, m.path.lastIndexOf("/"))
     if (path != "UnknownComposers") {
       Some(Buffer(
         _md5(m.md5),
-        path,
-        m.extra_authors.sorted.mkString(",")
-      ).mkString("\t"))
+        if (m.extra_authors.isEmpty) path else m.extra_authors.sorted.filterNot(_.isEmpty).mkString(" & ")
+      ))
     } else None
-  ).distinct
+  ).sortBy(_(1)).map(_.mkString("\t")).distinct
   val dedupped = _dedup(entries, "amp.tsv")
   _validate(dedupped, "amp.tsv")
   dedupped

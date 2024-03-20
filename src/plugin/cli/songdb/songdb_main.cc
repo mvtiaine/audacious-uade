@@ -76,11 +76,10 @@ int main(int argc, char *argv[]) {
 #endif
 
     fprintf(stdout, "songlengths.tsv:%s\t%d\t%s\n", md5short.c_str(), info.subsong, common::mkString(songends, " ").c_str());
-    fprintf(stdout, "modinfos.tsv:%s\t%s\t%d\n", md5short.c_str(), info.format.c_str(), info.channels);
+    fprintf(stdout, "modinfos.tsv:%s\t%s\t%d\n", md5short.c_str(), info.mod_info->format.c_str(), info.mod_info->channels);
 
     if (info.amp_data) {
-        // TODO handle extra authors
-        fprintf(stdout, "amp.tsv:%s\t%s\t\n", md5short.c_str(), info.amp_data->author.c_str());
+        fprintf(stdout, "amp.tsv:%s\t%s\n", md5short.c_str(), info.amp_data->author.c_str());
     }
 
     if (info.demozoo_data) {

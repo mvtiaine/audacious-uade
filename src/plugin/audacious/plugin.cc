@@ -268,20 +268,22 @@ common::SongEnd precalc_song_end(
     return songend::precalc::precalc_song_end(modinfo.value(), buf.begin(), buf.len(), subsong, md5);
 };
 
-optional<Info> parse_info(VFSFile &file, const string &path, const string &md5, const int subsong) {
+optional<Info> parse_info(VFSFile &file, const string &path, const string &md5) {
     const auto &infos = songdb::lookup_all(md5);
     if (infos.size() > 0) {
-        const auto player = check_player(file, path);
         const auto &info = infos.front();
-        const auto minsubsong = info.subsong;
-        const auto maxsubsong = infos.back().subsong;
-        return Info {
-            player,
-            info.format,
-            info.channels,
-            minsubsong,
-            maxsubsong,
-        };
+        if (info.mod_info) {
+            const auto player = check_player(file, path);
+            const auto minsubsong = info.subsong;
+            const auto maxsubsong = infos.back().subsong;
+            return Info {
+                player,
+                info.mod_info->format,
+                info.mod_info->channels,
+                minsubsong,
+                maxsubsong,
+            };
+        }
     }
     const Index<char> buf = read_all(file);
     const auto modinfo = player::parse(path.c_str(), buf.begin(), buf.len());
@@ -476,7 +478,7 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
     const auto playback_file = aud_drct_get_filename();
     const auto for_playback = playback_file && string(playback_file) == string(uri);
 
-    const auto info = parse_info(file, path, md5, subsong);
+    const auto info = parse_info(file, path, md5);
     if (!info) {
         WARN("uade_plugin_read_tag could not parse module %s\n", uri);
         return false;

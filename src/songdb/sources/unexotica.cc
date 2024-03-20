@@ -9,15 +9,15 @@
 
 #include "common/common.h"
 #include "common/logger.h"
+#include "songdb/internal.h"
 #include "songdb/songdb.h"
 
 using namespace std;
 using namespace songdb;
+using namespace songdb::internal;
 
 namespace {
-
 // TODO move logic to preprocessing
-
 constexpr string_view UNKNOWN = "Unknown";
 const set<string_view> pseudonyms ({
     "Creative_Thought",
@@ -40,15 +40,10 @@ const set<string_view> pseudonyms ({
 
 namespace songdb::unexotica {
 
-bool parse_tsv_row(const char *tuple, UnExoticaData &item) {
-    string_view author, album;
+bool parse_tsv_row(const char *tuple, _UnExoticaData &item, vector<string> &strings, const _UnExoticaData &prev_item,
+                   string_view &prev_author, string_view &prev_publisher, string_view &prev_album) {
     const auto cols = common::split_view_x<3>(tuple, '\t');
     const auto path = cols[0];
-    const auto publisher = cols[1];
-    int year = 0;
-    if (cols.size() > 2 && cols[2].size()) {
-        year = common::from_chars<int>(cols[2]);
-    }
 
     const auto tokens = common::split_view<2>(path, '/');
     const int count = tokens.size();
@@ -58,8 +53,14 @@ bool parse_tsv_row(const char *tuple, UnExoticaData &item) {
         return false;
     }
 
-    author = tokens[0];
-    album = tokens[1];
+    const auto publisher = cols[1];
+    if (cols.size() > 2 && cols[2].size()) {
+        int year = common::from_chars<int>(cols[2]);
+        item.year = year != 0 ? year - 1900u : 0;
+    }
+
+    string_view author = tokens[0];
+    string_view album = tokens[1];
 
     auto author_tokens = common::split_view(author, '_');
     const auto first = author_tokens[0];
@@ -74,22 +75,44 @@ bool parse_tsv_row(const char *tuple, UnExoticaData &item) {
         author_tokens.push_back(first);
     }
 
+    string_t sc = strings.size();
     if (author == UNKNOWN) {
-        item.author = UNKNOWN_AUTHOR;
+        item.author = UNKNOWN_AUTHOR_T;
+    } else if (author == prev_author) {
+        item.author = prev_item.author;
     } else {
+        string author_;
         if (author_tokens.size() == 1) {
-            item.author = author_tokens[0];
+            author_ = string(author_tokens[0]);
         } else {
-            common::mkString(author_tokens, " ", item.author);
+            common::mkString(author_tokens, " ", author_);
         }
+        item.author = sc++;
+        strings.push_back(author_);
+        prev_author = strings.back();
     }
 
-    item.album = album;
+    if (album.empty()) {
+        item.album = STRING_NOT_FOUND;
+    } else if (album == prev_album) {
+        item.album = prev_item.album;
+    } else {
+        string _album = string(album);
+        replace(_album.begin(), _album.end(), '_', ' ');
+        item.album = sc++;
+        strings.push_back(_album);
+        prev_album = strings.back();
+    }
 
-    replace(item.album.begin(), item.album.end(), '_', ' ');
-
-    item.publisher = publisher;
-    item.year = year;
+    if (publisher.empty()) {
+        item.publisher = STRING_NOT_FOUND;
+    } else if (publisher == prev_publisher) {
+        item.publisher = prev_item.publisher;
+    } else {
+        item.publisher = sc++;
+        strings.push_back(string(publisher));
+        prev_publisher = strings.back();
+    }
 
     return true;
 }

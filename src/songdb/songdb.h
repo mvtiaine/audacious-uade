@@ -38,12 +38,16 @@ struct DemozooData {
     uint16_t year;
 };
 
+struct ModInfo {
+    std::string format;
+    const uint8_t channels;
+};
+
 struct SongInfo {
     const uint8_t subsong;
     const uint32_t songlength;
     const std::string songend;
-    const std::string format;
-    const uint8_t channels;
+    const std::optional<ModInfo> mod_info;
     const std::optional<ModlandData> modland_data;
     const std::optional<AMPData> amp_data;
     const std::optional<UnExoticaData> unexotica_data;
