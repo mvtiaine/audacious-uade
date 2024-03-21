@@ -60,17 +60,46 @@ md5_t hex2md5(const char *hex) {
 }
 
 md5_t b642md5(const char *b64) {
-    uint32_t part1 = 0;
-    part1 |= (b64[0] - 45) << 12;
+    uint32_t part1 = (b64[0] - 45) << 12;
     part1 |= (b64[1] - 45) << 6;
     part1 |= (b64[2] - 45);
-    uint32_t part2 = 0;
-    part2 |= (b64[3] - 45) << 24;
+    uint32_t part2 = (b64[3] - 45) << 24;
     part2 |= (b64[4] - 45) << 18;
     part2 |= (b64[5] - 45) << 12;
     part2 |= (b64[6] - 45) << 6;
     part2 |= b64[7] - 45;
     return (static_cast<uint64_t>(part1) << 30) | part2; 
+}
+
+md5_t b64diff2md5(const md5_t prev, const char *b64, int *len) {
+    if (b64[3] == '\t') {
+        *len = 4;
+        return prev + ((b64[0] - 45) << 12 |
+               (b64[1] - 45) << 6 |
+               (b64[2] - 45));
+    } else if (b64[4] == '\t') {
+        *len = 5;
+        return prev + ((b64[0] - 45) << 18 |
+               (b64[1] - 45) << 12 |
+               (b64[2] - 45) << 6 |
+               (b64[3] - 45));
+    } else if (b64[5] == '\t') {
+        *len = 6;
+        return prev + ((b64[0] - 45) << 24 |
+               (b64[1] - 45) << 18 |
+               (b64[2] - 45) << 12 |
+               (b64[3] - 45) << 6 |
+               (b64[4] - 45));
+    } else {
+        *len = 7;
+        uint32_t part1 = (b64[0] - 45) << 12;
+        part1 |= (b64[1] - 45) << 6;
+        part1 |= (b64[2] - 45);
+        uint32_t part2 = (b64[3] - 45) << 12;
+        part2 |= (b64[4] - 45) << 6;
+        part2 |= (b64[5] - 45);
+        return prev + ((static_cast<uint64_t>(part1) << 18) | part2); 
+    }
 }
 
 vector<md5_t> md5_idx;
@@ -261,11 +290,12 @@ void parse_songlengths(const string &tsv) {
     md5_t prevhash = 0;
     char line[BUF_SIZE];
     while (fgets(line, sizeof line, f)) {
-        const md5_t hash = b642md5(line);
+        int len = 9;
+        const md5_t hash = (prevhash == 0) ? b642md5(line) : b64diff2md5(prevhash, line, &len);
         assert(hash > prevhash);
         md5_idx.push_back(hash);
         prevhash = hash;
-        const auto cols = common::split_view_x<2>(line + 9, '\t');
+        const auto cols = common::split_view_x<2>(line + len, '\t');
         const uint8_t minsubsong = common::from_chars<uint8_t>(cols[0]);
         const auto subsongs = common::split_view(cols[1], ' ');
         uint8_t subsong = minsubsong;

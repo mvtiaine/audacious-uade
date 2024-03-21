@@ -33,25 +33,23 @@ def _md5(md5: String) = {
   base64
 }
 
-def _base64e(md5: String) =  {
-  // convert to 6-bit/base-64 encoding (NOT "proper base64"!)
-  // 4*12-bit values
-  val v1 = Integer.parseInt(md5.substring(0,3), 16)
-  val v2 = Integer.parseInt(md5.substring(3,6), 16)
-  val v3 = Integer.parseInt(md5.substring(6,9), 16)
-  val v4 = Integer.parseInt(md5.substring(9,12), 16)
-  // values start from 45 ('-')
-  val chars = Array.fill(8)(45)
+def _base64e(v: Long, minimize: Boolean = false): String =  {
+  val chars = Array.fill(8)(45L)
   // 8*6-bit values / base-64 / big-endian
-  chars(0) += (v1 >> 6) & 0x3F
-  chars(1) += v1 & 0x3F
-  chars(2) += (v2 >> 6) & 0x3F
-  chars(3) += v2 & 0x3F
-  chars(4) += (v3 >> 6) & 0x3F
-  chars(5) += v3 & 0x3F
-  chars(6) += (v4 >> 6) & 0x3F
-  chars(7) += v4 & 0x3F
-  chars.map(_.toChar).mkString
+  chars(0) += (v >> 42) & 0x3F
+  chars(1) += (v >> 36) & 0x3F
+  chars(2) += (v >> 30) & 0x3F
+  chars(3) += (v >> 24) & 0x3F
+  chars(4) += (v >> 18) & 0x3F
+  chars(5) += (v >> 12) & 0x3F
+  chars(6) += (v >> 6) & 0x3F
+  chars(7) += v & 0x3F
+  if (minimize) chars.dropWhile(_ == 45).map(_.toChar).mkString
+  else chars.map(_.toChar).mkString
+}
+
+def _base64e(md5: String): String =  {
+  _base64e(java.lang.Long.parseLong(md5.substring(0,12), 16))
 }
 
 def _base64d(base64: String) = {
@@ -119,7 +117,19 @@ val songlengthsTsv = Future { Files.write(Paths.get("/tmp/songdb/songlengths.tsv
   ).distinct
   val dedupped = _dedup(entries, "songlengths.tsv", minimize = false)
   _validate(dedupped, "songlengths.tsv")
-  dedupped
+  var prev = 0L
+  dedupped.map(col => {
+    val row = col.split("\t")
+    val md5 = _base64d(row.head)
+    val next = (if (prev != 0) {
+      val diff = _base64e(md5 - prev, true)
+      if (diff.length() > 6) throw new IllegalStateException("Diff too big for " + col)
+      if (diff.length() < 3) throw new IllegalStateException("Diff too small for " + col)
+      Array(diff) ++ row.tail
+    } else Array(row.head) ++ row.tail).mkString("\t")
+    prev = md5
+    next
+  })
 }.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
 val modinfosTsv = Future { Files.write(Paths.get("/tmp/songdb/modinfos.tsv"), {
