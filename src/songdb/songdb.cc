@@ -71,6 +71,16 @@ md5_t b642md5(const char *b64) {
     return (static_cast<uint64_t>(part1) << 30) | part2; 
 }
 
+md5_t b642md536(const char *b64) {
+    uint32_t part1 = (b64[0] - 45) << 12;
+    part1 |= (b64[1] - 45) << 6;
+    part1 |= (b64[2] - 45);
+    uint32_t part2 = (b64[3] - 45) << 24;
+    part2 |= (b64[4] - 45) << 18;
+    part2 |= (b64[5] - 45) << 12;
+    return (static_cast<uint64_t>(part1) << 30) | part2; 
+}
+
 md5_t b64diff2md5(const md5_t prev, const char *b64, int &len) {
     if (b64[3] == '\t') {
         len = 4;
@@ -97,22 +107,47 @@ md5_t b64diff2md5(const md5_t prev, const char *b64, int &len) {
         part1 |= (b64[2] - 45);
         uint32_t part2 = (b64[3] - 45) << 12;
         part2 |= (b64[4] - 45) << 6;
-        part2 |= (b64[5] - 45);
+        part2 |= b64[5] - 45;
         return prev + ((static_cast<uint64_t>(part1) << 18) | part2); 
     }
 }
 
 vector<md5_t> md5_idx;
+vector<uint32_t> md5_32_idx; // may have duplicates
 vector<string> string_pool; // can contain duplicates
 
-
 md5_idx_t _md5idx(const md5_t hash) {
-    unsigned int idx = ((double)hash / MD5_T_MAX) * md5_idx.size();
+    uint32_t hash32 = (hash >> 16) & 0xFFFFFFFF;
+    uint32_t idx = ((double)hash32 / UINT32_MAX) * md5_idx.size();
     assert(idx < md5_idx.size());
-    md5_t cmp = md5_idx[idx];
-    if (cmp == hash) {
-         return md5_idx_t { idx };
-    } else if (cmp > hash) {
+    md5_t cmp = MD5_NOT_FOUND;
+    uint32_t cmp32 = md5_32_idx[idx];
+
+    if (cmp32 == hash32) {
+        cmp = md5_idx[idx];
+        if (cmp == hash) {
+            return md5_idx_t { idx };
+        }
+    } else if (cmp32 > hash32) {
+        while (cmp32 > hash32 && idx > 0) {
+            idx--;
+            cmp32 = md5_32_idx[idx];
+        }
+        cmp = md5_idx[idx];
+        if (cmp == hash) {
+            return md5_idx_t { idx };
+        }
+    } else {
+        while (cmp32 < hash32 && idx < md5_idx.size() - 1) {
+            idx++;
+            cmp32 = md5_32_idx[idx];
+        }
+        cmp = md5_idx[idx];
+        if (cmp == hash) {
+            return md5_idx_t { idx };
+        }
+    }
+    if (cmp > hash) {
         while (cmp > hash && idx > 0) {
             idx--;
             cmp = md5_idx[idx];
@@ -127,9 +162,62 @@ md5_idx_t _md5idx(const md5_t hash) {
     }
 }
 
+md5_idx_t _md5idx36(const md5_t hash) {
+    uint32_t hash32 = (hash >> 16) & 0xFFFFFFFF;
+    uint32_t idx = ((double)hash32 / UINT32_MAX) * md5_idx.size();
+    assert(idx < md5_idx.size());
+    md5_t cmp = MD5_NOT_FOUND;
+    uint32_t cmp32 = md5_32_idx[idx];
+
+    if (cmp32 == hash32) {
+        cmp = md5_idx[idx] & 0xFFFFFFFFF000;
+        if (cmp == hash) {
+            return md5_idx_t { idx };
+        }
+    } else if (cmp32 > hash32) {
+        while (cmp32 > hash32 && idx > 0) {
+            idx--;
+            cmp32 = md5_32_idx[idx];
+        }
+        cmp = md5_idx[idx] & 0xFFFFFFFFF000;
+        if (cmp == hash) {
+            return md5_idx_t { idx };
+        }
+    } else {
+        while (cmp32 < hash32 && idx < md5_idx.size() - 1) {
+            idx++;
+            cmp32 = md5_32_idx[idx];
+        }
+        cmp = md5_idx[idx] & 0xFFFFFFFFF000;
+        if (cmp == hash) {
+            return md5_idx_t { idx };
+        }
+    }
+    if (cmp > hash) {
+        while (cmp > hash && idx > 0) {
+            idx--;
+            cmp = md5_idx[idx] & 0xFFFFFFFFF000;
+        }
+        return (cmp == hash) ? md5_idx_t { idx } : MD5_NOT_FOUND;
+    } else {
+        while (cmp < hash && idx < md5_idx.size() - 1) {
+            idx++;
+            cmp = md5_idx[idx] & 0xFFFFFFFFF000;
+        }
+        return (cmp == hash) ? md5_idx_t { idx } : MD5_NOT_FOUND;
+    }
+}
+
+/*
 md5_idx_t _md5b64(const string_view &md5) {
     assert(md5.size() >= 8);
     return _md5idx(b642md5(md5.data()));
+}
+*/
+
+md5_idx_t _md5b6436(const string_view &md5) {
+    assert(md5.size() >= 6);
+    return _md5idx36(b642md536(md5.data()));
 }
 
 md5_idx_t _md5hex(const string_view &md5) {
@@ -294,6 +382,7 @@ void parse_songlengths(const string &tsv) {
         const md5_t hash = (prevhash == 0) ? b642md5(line) : b64diff2md5(prevhash, line, len);
         assert(hash > prevhash);
         md5_idx.push_back(hash);
+        md5_32_idx.push_back((hash >> 16) & 0xFFFFFFFF);
         prevhash = hash;
         const auto cols = common::split_view_x<2>(line + len, '\t');
         const uint8_t minsubsong = common::from_chars<uint8_t>(cols[0]);
@@ -327,10 +416,10 @@ void parse_tsv(const string &tsv, const Source source, vector<string> &strings) 
     _UnExoticaData prev_unexotica;
     _DemozooData prev_demozoo;
     while (fgets(line, sizeof line, f)) {
-        const auto md5 = _md5b64(line);
+        const auto md5 = _md5b6436(line);
         assert(md5 != MD5_NOT_FOUND);
         assert(strings.size() < STRING_NOT_FOUND);
-        char *tuple = line + 8; // skip md5
+        char *tuple = line + 6; // skip md5
         switch (source) {
             case Modland: {
                 if (*tuple == '\n') {
@@ -420,10 +509,10 @@ void parse_modinfos(const string &tsv, vector<string> &strings) {
     string_t prev_format_t = STRING_NOT_FOUND;
     uint8_t prev_channels = 0;
     while (fgets(line, sizeof line, f)) {
-        const auto md5 = _md5b64(line);
+        const auto md5 = _md5b6436(line);
         assert(md5 != MD5_NOT_FOUND);
         assert(strings.size() < STRING_NOT_FOUND);
-        char *tuple = line + 8; // skip md5
+        char *tuple = line + 6; // skip md5
         if (*tuple == '\n') {
             db_modinfos.push_back({{ md5 }, prev_format_t, prev_channels});
             continue;

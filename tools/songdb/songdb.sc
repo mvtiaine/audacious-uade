@@ -33,6 +33,21 @@ def _md5(md5: String) = {
   base64
 }
 
+def _md536(md5: String) = {
+  val base64 = _base64e36(md5)
+  if (_md5check.contains(base64) && _md5check(base64) != md5) {
+    System.err.println(s"ERROR: MD5(36) check failed, short ${base64} existing ${_md5check(base64)} new ${md5}")
+    throw new IllegalStateException
+  }
+  _md5check(base64) = md5
+  val md5v = java.lang.Long.parseLong(md5.substring(0,9), 16) << 12
+  if (_base64d36(base64) != md5v) {
+    System.err.println(s"ERROR: MD5(36) vs base64 check failed for MD5:${md5.substring(0,9)}/${md5v} base64: ${base64}/${_base64d36(base64)}")
+    throw new IllegalStateException
+  }
+  base64
+}
+
 def _base64e(v: Long, minimize: Boolean = false): String =  {
   val chars = Array.fill(8)(45L)
   // 8*6-bit values / base-64 / big-endian
@@ -48,20 +63,47 @@ def _base64e(v: Long, minimize: Boolean = false): String =  {
   else chars.map(_.toChar).mkString
 }
 
+def _base64e36(v: Long): String =  {
+  val chars = Array.fill(6)(45L)
+  // 6*6-bit values / base-64 / big-endian
+  chars(0) += (v >> 30) & 0x3F
+  chars(1) += (v >> 24) & 0x3F
+  chars(2) += (v >> 18) & 0x3F
+  chars(3) += (v >> 12) & 0x3F
+  chars(4) += (v >> 6) & 0x3F
+  chars(5) += v & 0x3F
+  chars.map(_.toChar).mkString
+}
+
 def _base64e(md5: String): String =  {
   _base64e(java.lang.Long.parseLong(md5.substring(0,12), 16))
 }
 
+def _base64e36(md5: String): String =  {
+  _base64e36(java.lang.Long.parseLong(md5.substring(0,9), 16))
+}
+
 def _base64d(base64: String) = {
   var v = 0L
-  v |= ((base64(0) - 45L) << 42)
-  v |= ((base64(1) - 45L) << 36)
-  v |= ((base64(2) - 45L) << 30)
-  v |= ((base64(3) - 45L) << 24)
-  v |= ((base64(4) - 45L) << 18)
-  v |= ((base64(5) - 45L) << 12)
-  v |= ((base64(6) - 45L) << 6) 
+  v |= (base64(0) - 45L) << 42
+  v |= (base64(1) - 45L) << 36
+  v |= (base64(2) - 45L) << 30
+  v |= (base64(3) - 45L) << 24
+  v |= (base64(4) - 45L) << 18
+  v |= (base64(5) - 45L) << 12
+  v |= (base64(6) - 45L) << 6 
   v |= base64(7) - 45L
+  v
+}
+
+def _base64d36(base64: String) = {
+  var v = 0L
+  v |= (base64(0) - 45L) << 42
+  v |= (base64(1) - 45L) << 36
+  v |= (base64(2) - 45L) << 30
+  v |= (base64(3) - 45L) << 24
+  v |= (base64(4) - 45L) << 18
+  v |= (base64(5) - 45L) << 12
   v
 }
 def _dedup(entries: Iterable[String], file: String, sortIndex: Int = -1, minimize: Boolean = true) = {
@@ -136,7 +178,7 @@ val modinfosTsv = Future { Files.write(Paths.get("/tmp/songdb/modinfos.tsv"), {
   val entries = songlengths.db.sortBy(e => e.format + "###" + e.channels).flatMap(e =>
     if (!e.format.isEmpty() && e.format != "???") {
       Some(Buffer(
-        _md5(e.md5),
+        _md536(e.md5),
         e.format,
         e.channels,
       ).mkString("\t"))
@@ -151,7 +193,7 @@ val modlandTsv = Future { Files.write(Paths.get("/tmp/songdb/modland.tsv"), {
   val entries = sources.modland.sortBy(e => e.path.substring(e.path.indexOf("/") + 1, e.path.length)).flatMap(e =>
     val path = e.path.substring(e.path.indexOf("/") + 1, e.path.lastIndexOf("/"))
     if (path != "- unknown" && path != "_unknown") {
-      Some(Buffer(_md5(e.md5), path))
+      Some(Buffer(_md536(e.md5), path))
     } else None
   ).sortBy(_(1)).map(_.mkString("\t")).distinct
   val dedupped = _dedup(entries, "modland.tsv")
@@ -171,7 +213,7 @@ val unexoticaTsv = Future { Files.write(Paths.get("/tmp/songdb/unexotica.tsv"), 
     }
     val year = meta.year.fold(_.toString, _.toString)
     Buffer(
-      _md5(md5),
+      _md536(md5),
       path.substring(path.indexOf("/") + 1, path.lastIndexOf("/")),
       publisher,
       if (year != "Unknown") year else "",
@@ -193,7 +235,7 @@ val ampTsv = Future { Files.write(Paths.get("/tmp/songdb/amp.tsv"), {
     val path = m.path.substring(m.path.indexOf("/") + 1, m.path.lastIndexOf("/"))
     if (path != "UnknownComposers") {
       Some(Buffer(
-        _md5(m.md5),
+        _md536(m.md5),
         if (m.extra_authors.isEmpty) path else m.extra_authors.sorted.filterNot(_.isEmpty).mkString(" & ")
       ))
     } else None
@@ -207,7 +249,7 @@ val demozooTsv = Future { Files.write(Paths.get("/tmp/songdb/demozoo.tsv"), {
   val entries = demozoo.metas.flatMap({case (md5, m) =>
     val dates = Seq(m.modDate, m.prodDate).filterNot(_.isEmpty)
     val row = Buffer(
-      _md5(md5),
+      _md536(md5),
       m.authors.sorted.mkString(","),
       ((m.prodPublishers, m.party, m.modPublishers) match {
         case (prod,_,_) if !prod.isEmpty => prod
@@ -219,7 +261,7 @@ val demozooTsv = Future { Files.write(Paths.get("/tmp/songdb/demozoo.tsv"), {
       if (!dates.isEmpty) dates.min.substring(0,4) else "",
       //if (!m.prodPlatforms.isEmpty) m.prodPlatforms.mkString(",") else m.modPlatform
     )
-    if (row.forall(r => r == _md5(md5) || r.trim.isEmpty)) None
+    if (row.forall(r => r == _md536(md5) || r.trim.isEmpty)) None
     else Some(row.mkString("\t"))
   }).distinct.sortBy(_.substring(8))
   val dedupped = _dedup(entries, "demozoo.tsv", 1)
