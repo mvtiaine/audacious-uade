@@ -71,27 +71,27 @@ md5_t b642md5(const char *b64) {
     return (static_cast<uint64_t>(part1) << 30) | part2; 
 }
 
-md5_t b64diff2md5(const md5_t prev, const char *b64, int *len) {
+md5_t b64diff2md5(const md5_t prev, const char *b64, int &len) {
     if (b64[3] == '\t') {
-        *len = 4;
+        len = 4;
         return prev + ((b64[0] - 45) << 12 |
                (b64[1] - 45) << 6 |
                (b64[2] - 45));
     } else if (b64[4] == '\t') {
-        *len = 5;
+        len = 5;
         return prev + ((b64[0] - 45) << 18 |
                (b64[1] - 45) << 12 |
                (b64[2] - 45) << 6 |
                (b64[3] - 45));
     } else if (b64[5] == '\t') {
-        *len = 6;
+        len = 6;
         return prev + ((b64[0] - 45) << 24 |
                (b64[1] - 45) << 18 |
                (b64[2] - 45) << 12 |
                (b64[3] - 45) << 6 |
                (b64[4] - 45));
     } else {
-        *len = 7;
+        len = 7;
         uint32_t part1 = (b64[0] - 45) << 12;
         part1 |= (b64[1] - 45) << 6;
         part1 |= (b64[2] - 45);
@@ -291,7 +291,7 @@ void parse_songlengths(const string &tsv) {
     char line[BUF_SIZE];
     while (fgets(line, sizeof line, f)) {
         int len = 9;
-        const md5_t hash = (prevhash == 0) ? b642md5(line) : b64diff2md5(prevhash, line, &len);
+        const md5_t hash = (prevhash == 0) ? b642md5(line) : b64diff2md5(prevhash, line, len);
         assert(hash > prevhash);
         md5_idx.push_back(hash);
         prevhash = hash;
