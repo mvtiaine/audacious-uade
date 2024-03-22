@@ -165,10 +165,48 @@ struct _DemozooData : _Data {
     year_t year;
 } __attribute__((packed));
 
+struct _SubSongInfo {
+    unsigned int _songlength : 18 __attribute__((packed)); // (20ms accuracy)
+    int _songend : 6 __attribute__((packed));
+
+    constexpr _SubSongInfo() {
+    }
+    constexpr _SubSongInfo(const songlength_t songlength, const songend_t songend) {
+        assert(songlength <= (1 << 18)); // 20ms accuracy
+        _songlength = songlength;
+        _songend = songend;
+    }
+    constexpr songlength_t songlength() const {
+        return _songlength;
+    }
+    constexpr songlength_t songlength_ms() const {
+        return _songlength * 20;
+    }
+    constexpr songend_t songend() const  {
+       return static_cast<common::SongEnd::Status>(_songend);
+    }
+} __attribute__((packed));
+
 struct _SongInfo {
-    subsong_t subsong;
-    songlength_t songlength;
-    songend_t songend;
+    unsigned int _has_subsongs : 1 __attribute__((packed));
+    unsigned int _min_subsong : 7 __attribute__((packed));
+    _SubSongInfo _info;
+
+    constexpr _SongInfo(const bool has_subsongs, const uint8_t min_subsong, const _SubSongInfo info) {
+        assert(min_subsong <= 127);
+        _has_subsongs = has_subsongs;
+        _min_subsong = min_subsong;
+        _info = info;
+    }
+    constexpr bool has_subsongs() const {
+        return _has_subsongs;
+    }
+    constexpr uint8_t min_subsong() const {
+        return _min_subsong;
+    }
+    constexpr _SubSongInfo info() const {
+        return _info;
+    }
 } __attribute__((packed));
 
 } // namespace songdb::internal

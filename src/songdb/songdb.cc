@@ -81,6 +81,25 @@ md5_t b642md536(const char *b64) {
     return (static_cast<uint64_t>(part1) << 30) | part2; 
 }
 
+uint24_t b64d24(const string_view &b64) {
+    if (b64.size() == 3) {
+        return (b64[0] - 45) << 12 |
+               (b64[1] - 45) << 6 |
+               (b64[2] - 45);
+    } else if (b64.size() == 2) {
+        return (b64[0] - 45) << 6 |
+               (b64[1] - 45);
+    } else if (b64.size() == 1) {
+        return b64[0] - 45;
+    } else {
+        assert(b64.size() == 4);
+        return (b64[0] - 45) << 18 |
+               (b64[1] - 45) << 12 |
+               (b64[2] - 45) << 6 |
+               (b64[3] - 45);
+    }
+}
+
 md5_t b64diff2md5(const md5_t prev, const char *b64, int &len) {
     if (b64[3] == '\t') {
         len = 4;
@@ -233,10 +252,10 @@ songend_t parse_songend(const string_view &songend) {
     if (songend == "l") return common::SongEnd::DETECT_LOOP;
     if (songend == "v") return common::SongEnd::DETECT_VOLUME;
     if (songend == "r") return common::SongEnd::DETECT_REPEAT;
-    if (songend == "p+s") return common::SongEnd::PLAYER_PLUS_SILENCE;
-    if (songend == "p+v") return common::SongEnd::PLAYER_PLUS_VOLUME;
-    if (songend == "l+s") return common::SongEnd::LOOP_PLUS_SILENCE;
-    if (songend == "l+v") return common::SongEnd::LOOP_PLUS_VOLUME;
+    if (songend == "b") return common::SongEnd::PLAYER_PLUS_SILENCE;
+    if (songend == "P") return common::SongEnd::PLAYER_PLUS_VOLUME;
+    if (songend == "i") return common::SongEnd::LOOP_PLUS_SILENCE;
+    if (songend == "L") return common::SongEnd::LOOP_PLUS_VOLUME;
     if (songend == "n") return common::SongEnd::NOSOUND;
     assert(false);
     return common::SongEnd::NONE;
@@ -257,8 +276,9 @@ const vector<pair<string, Source>> tsvfiles ({
     {"demozoo.tsv", Demozoo},
 });
 
-vector<vector<_SongInfo>> db_songlengths; // md5_idx_t ->
-unordered_map<md5_t, pair<ModInfo, vector<_SongInfo>>> extra_songlengths; // runtime only
+vector<_SongInfo> db_songinfos; // md5_idx_t -> first subsong info
+unordered_map<md5_idx_t, vector<_SubSongInfo>> db_subsongs; // infos for extra subsongs
+unordered_map<md5_t, vector<SongInfo>> extra_songinfos; // runtime only
 vector<_ModInfo> db_modinfos;
 vector<_ModlandData> db_modland;
 vector<_AMPData> db_amp;
@@ -354,11 +374,11 @@ optional<DemozooData> make_demozoo(const md5_idx_t md5) {
     return {};
 }
 
-SongInfo make_info(const md5_idx_t md5, const _SongInfo &info) {
+SongInfo make_info(const md5_idx_t md5, const uint8_t subsong, const _SubSongInfo &info) {
     return {
-        info.subsong,
-        info.songlength,
-        common::SongEnd::status_string(info.songend),
+        subsong,
+        info.songlength_ms(),
+        common::SongEnd::status_string(info.songend()),
         make_modinfo(md5),
         make_modland(md5),
         make_amp(md5),
@@ -385,17 +405,30 @@ void parse_songlengths(const string &tsv) {
         md5_32_idx.push_back((hash >> 16) & 0xFFFFFFFF);
         prevhash = hash;
         const auto cols = common::split_view_x<2>(line + len, '\t');
-        const uint8_t minsubsong = common::from_chars<uint8_t>(cols[0]);
+        const uint8_t minsubsong = cols[0].empty() ? 1 : common::from_chars<uint8_t>(cols[0]);
         const auto subsongs = common::split_view(cols[1], ' ');
-        uint8_t subsong = minsubsong;
-        vector<_SongInfo> infos;
+        vector<_SubSongInfo> subsong_infos;
+        _SubSongInfo prev_info(0,common::SongEnd::Status::ERROR);
         for (const auto &col : subsongs) {
-            const auto e = common::split_view<2>(col, ',');
-            const uint24_t songlength = common::from_chars<uint24_t>(e[0]);
-            const auto songend = parse_songend(e[1]);
-            infos.push_back({ subsong++, songlength, songend});
+            if (col.empty()) {
+                subsong_infos.push_back(prev_info);
+            } else {
+                const auto e = common::split_view<2>(col, ',');
+                const songlength_t songlength = e[0].empty() ? 0 : b64d24(e[0]);
+                const songend_t songend = e[1].empty() ? common::SongEnd::PLAYER : parse_songend(e[1]);
+                const auto info = _SubSongInfo(songlength, songend);
+                subsong_infos.push_back(info);
+                prev_info = info;
+            }
         }
-        db_songlengths.push_back(infos);
+        assert(!subsong_infos.empty());
+        const _SongInfo info(subsongs.size() > 1, minsubsong, subsong_infos.front());
+        db_songinfos.push_back(info);
+        if (subsong_infos.size() > 1) {
+            subsong_infos.erase(subsong_infos.begin());
+            subsong_infos.shrink_to_fit();
+            db_subsongs.insert({md5_idx.size() - 1, subsong_infos});
+        }
     }
 
     fclose(f);
@@ -539,25 +572,26 @@ namespace songdb {
 optional<SongInfo> lookup(const string &md5, int subsong) {
     const auto md5_idx = _md5hex(md5);
     if (md5_idx != MD5_NOT_FOUND) {
-        for (const auto &info : db_songlengths[md5_idx]) {
-            if (info.subsong == subsong) {
-                return make_info(md5_idx, info);
+        const auto &info = db_songinfos[md5_idx];
+        if (subsong < info.min_subsong()) return {};
+        if (info.min_subsong() == subsong) return make_info(md5_idx, subsong, info.info());
+        if (info.has_subsongs()) {
+            assert(db_subsongs.contains(md5_idx));
+            const auto &subsongs = db_subsongs[md5_idx];
+            if (info.min_subsong() + subsongs.size() > static_cast<unsigned>(subsong)) return {};
+            int sub = info.min_subsong() + 1;
+            for (const auto &info: subsongs) {
+                if (sub++ == subsong) return make_info(md5_idx, subsong, info);
             }
-        }
+            assert(false);
+        } else return {};
     }
     const md5_t hash = hex2md5(md5.c_str());
-    if (extra_songlengths.contains(hash)) {
-        const auto &pair = extra_songlengths.at(hash);
-        const auto &modinfo = pair.first;
-        const auto &infos = pair.second;
+    if (extra_songinfos.contains(hash)) {
+        const auto &infos = extra_songinfos[hash];
         for (const auto &info : infos) {
             if (info.subsong == subsong) {
-                return SongInfo {
-                    info.subsong,
-                    info.songlength,
-                    common::SongEnd::status_string(info.songend),
-                    modinfo
-                };
+                return info;
             }
         }
     }
@@ -573,28 +607,38 @@ vector<SongInfo> lookup_all(const string &md5) {
         const auto amp = make_amp(md5_idx);
         const auto unexotica = make_unexotica(md5_idx);
         const auto demozoo = make_demozoo(md5_idx);
-        for (const auto &info : db_songlengths[md5_idx]) {
-            res.push_back({
-                info.subsong,
-                info.songlength,
-                common::SongEnd::status_string(info.songend),
-                modinfo, modland, amp, unexotica, demozoo
-            });
+        const auto info = db_songinfos[md5_idx];
+        res.push_back({
+            info.min_subsong(),
+            info.info().songlength_ms(),
+            common::SongEnd::status_string(info.info().songend()),
+            modinfo, modland, amp, unexotica, demozoo
+        });
+        if (info.has_subsongs()) {
+            assert(db_subsongs.contains(md5_idx));
+            const auto &subsongs = db_subsongs[md5_idx];
+            uint8_t sub = info.min_subsong() + 1;
+            for (const auto &info : subsongs) {
+                res.push_back({
+                    sub++,
+                    info.songlength_ms(),
+                    common::SongEnd::status_string(info.songend()),
+                    modinfo, modland, amp, unexotica, demozoo
+                });
+            }
         }
         return res;
     }
     const md5_t hash = hex2md5(md5.c_str());
-    if (extra_songlengths.contains(hash)) {
+    if (extra_songinfos.contains(hash)) {
         vector<SongInfo> res;
-        const auto &pair = extra_songlengths.at(hash);
-        const auto &modinfo = pair.first;
-        const auto &infos = pair.second;
+        const auto &infos = extra_songinfos[hash];
         for (const auto &info : infos) {
             res.push_back({
                 info.subsong,
                 info.songlength,
-                common::SongEnd::status_string(info.songend),
-                modinfo
+                info.songend,
+                info.mod_info
             });
         }
         return res;
@@ -606,12 +650,16 @@ void init(const string &songdb_path) {
     if (initialized) {
         return;
     }
+    const auto sorter = [](const _Data &a, const _Data &b) { return a.md5 < b.md5; };
     assert(string_pool.empty());
     string_pool.push_back(UNKNOWN_AUTHOR);
 
     parse_songlengths(songdb_path + "/songlengths.tsv");
+    db_songinfos.shrink_to_fit();
 
     parse_modinfos(songdb_path + "/modinfos.tsv", string_pool);
+    sort(db_modinfos.begin(), db_modinfos.end(), sorter);
+    db_modinfos.shrink_to_fit();
 
     for (const auto &tsv : tsvfiles) {
         parse_tsv(songdb_path + "/" + tsv.first, tsv.second, string_pool);
@@ -619,18 +667,11 @@ void init(const string &songdb_path) {
 
     assert(string_pool.size() < STRING_NOT_FOUND);
 
-    const auto sorter = [](const _Data &a, const _Data &b) { return a.md5 < b.md5; };
-    sort(db_modinfos.begin(), db_modinfos.end(), sorter);
     sort(db_modland.begin(), db_modland.end(), sorter);
     sort(db_amp.begin(), db_amp.end(), sorter);
     sort(db_unexotica.begin(), db_unexotica.end(), sorter);
     sort(db_demozoo.begin(), db_demozoo.end(), sorter);
 
-    for (auto &si : db_songlengths) {
-        si.shrink_to_fit();
-    }
-    db_songlengths.shrink_to_fit();
-    db_modinfos.shrink_to_fit();
     db_modland.shrink_to_fit();
     db_amp.shrink_to_fit();
     db_unexotica.shrink_to_fit();
@@ -654,9 +695,10 @@ void update(const string &md5, const int subsong, const int songlength, common::
     assert(songlength <= UINT24_T_MAX);
 
     const md5_t hash = hex2md5(md5.c_str());
-    _SongInfo info = { static_cast<subsong_t>(subsong), static_cast<songlength_t>(songlength), songend };
-    if (extra_songlengths.contains(hash)) {
-        auto &infos = extra_songlengths.at(hash).second;
+    ModInfo modinfo = {format, static_cast<uint8_t>(channels)};
+    SongInfo info = { static_cast<uint8_t>(subsong), static_cast<uint32_t>(songlength), common::SongEnd::status_string(songend), modinfo };
+    if (extra_songinfos.contains(hash)) {
+        auto &infos = extra_songinfos[hash];
         for (const auto &info : infos) {
             if (info.subsong == subsong) {
                 WARN("Skipped songdb update for %s:%d, already exists\n", md5.c_str(), subsong);
@@ -664,20 +706,24 @@ void update(const string &md5, const int subsong, const int songlength, common::
             }
         }
         infos.push_back(info);
-        sort(infos.begin(), infos.end(), [](const _SongInfo &a, const _SongInfo &b) { return a.subsong < b.subsong; });
+        sort(infos.begin(), infos.end(), [](const SongInfo &a, const SongInfo &b) { return a.subsong < b.subsong; });
     } else {
-        vector<_SongInfo> infos;
+        vector<SongInfo> infos;
         infos.push_back(info);
-        ModInfo modinfo = {format, static_cast<uint8_t>(channels)};
-        extra_songlengths.insert({hash, {modinfo, infos}});
+        extra_songinfos.insert({hash, infos});
     }
 }
 
 optional<pair<int,int>> subsong_range(const string &md5) {
     const auto md5_idx = _md5hex(md5);
     if (md5_idx != MD5_NOT_FOUND) {
-        const auto &infos = db_songlengths[md5_idx];
-        return pair(infos.front().subsong, infos.back().subsong);
+        const auto &info = db_songinfos[md5_idx];
+        if (info.has_subsongs()) {
+            assert(db_subsongs.contains(md5_idx));
+            return pair(info.min_subsong(), info.min_subsong() + db_subsongs[md5_idx].size());
+        } else {
+            return pair(info.min_subsong(), info.min_subsong());
+        }
     }
     return {};
 }

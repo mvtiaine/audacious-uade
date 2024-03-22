@@ -40,18 +40,18 @@ struct DemozooData {
 
 struct ModInfo {
     std::string format;
-    const uint8_t channels;
+    uint8_t channels;
 };
 
 struct SongInfo {
-    const uint8_t subsong;
-    const uint32_t songlength;
-    const std::string songend;
-    const std::optional<ModInfo> mod_info;
-    const std::optional<ModlandData> modland_data;
-    const std::optional<AMPData> amp_data;
-    const std::optional<UnExoticaData> unexotica_data;
-    const std::optional<DemozooData> demozoo_data;
+    uint8_t subsong;
+    uint32_t songlength;
+    std::string songend;
+    std::optional<ModInfo> mod_info;
+    std::optional<ModlandData> modland_data;
+    std::optional<AMPData> amp_data;
+    std::optional<UnExoticaData> unexotica_data;
+    std::optional<DemozooData> demozoo_data;
 };
 
 void init(const std::string &songdb_path);

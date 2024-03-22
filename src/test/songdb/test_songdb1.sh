@@ -11,7 +11,7 @@ TESTMD5=$($MD5 $TESTMOD)
 
 TEST_NAME=songdb
 export SONGDB_DIR=${SONGDB_DIR}
-EXPECTED_OUTPUT="songlengths.tsv:025e47e9f0d3	1	0,n 4501,p 4501,p 61568,p
+EXPECTED_OUTPUT="songlengths.tsv:025e47e9f0d3	1	0,n 4500,p 4500,p 61560,p
 modinfos.tsv:025e47e9f0d3	Protracker	0
 amp.tsv:025e47e9f0d3	Matt Furniss
 demozoo.tsv:025e47e9f0d3	Matt Furniss			1991

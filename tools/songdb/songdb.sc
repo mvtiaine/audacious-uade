@@ -18,7 +18,7 @@ import scala.util.Failure
 implicit val ec: scala.concurrent.ExecutionContext = scala.concurrent.ExecutionContext.global
 
 val _md5check = scala.collection.mutable.Map[String,String]()
-def _md5(md5: String) = {
+def _md5(md5: String) = synchronized {
   val base64 = _base64e(md5)
   if (_md5check.contains(base64) && _md5check(base64) != md5) {
     System.err.println(s"ERROR: MD5 check failed, short ${base64} existing ${_md5check(base64)} new ${md5}")
@@ -33,7 +33,7 @@ def _md5(md5: String) = {
   base64
 }
 
-def _md536(md5: String) = {
+def _md536(md5: String) = synchronized {
   val base64 = _base64e36(md5)
   if (_md5check.contains(base64) && _md5check(base64) != md5) {
     System.err.println(s"ERROR: MD5(36) check failed, short ${base64} existing ${_md5check(base64)} new ${md5}")
@@ -75,6 +75,16 @@ def _base64e36(v: Long): String =  {
   chars.map(_.toChar).mkString
 }
 
+def _base64e24(v: Int, minimize: Boolean = true): String =  {
+  val chars = Array.fill(4)(45L)
+  chars(0) += (v >> 18) & 0x3F
+  chars(1) += (v >> 12) & 0x3F
+  chars(2) += (v >> 6) & 0x3F
+  chars(3) += v & 0x3F
+  if (minimize) chars.dropWhile(_ == 45).map(_.toChar).mkString
+  else chars.map(_.toChar).mkString
+}
+
 def _base64e(md5: String): String =  {
   _base64e(java.lang.Long.parseLong(md5.substring(0,12), 16))
 }
@@ -106,6 +116,7 @@ def _base64d36(base64: String) = {
   v |= (base64(5) - 45L) << 12
   v
 }
+
 def _dedup(entries: Iterable[String], file: String, sortIndex: Int = -1, minimize: Boolean = true) = {
   // keeps original order
   val keys = entries.map(_.split("\t")(0)).toSeq.distinct
@@ -146,17 +157,36 @@ def _validate(entries: Iterable[String], file: String) = {
 }
 
 val songlengthsTsv = Future { Files.write(Paths.get("/tmp/songdb/songlengths.tsv"), {
-  val entries = songlengths.db.sortBy(_.md5).map(e =>
+  def songend(s: String) = {
+    s match {
+      case "player+silence" => "b"
+      case "player+volume" => "P"
+      case "loop+silence" => "i"
+      case "loop+volume" => "L"
+      case _ => s.take(1)
+    }
+  }
+  val entries = songlengths.db.sortBy(_.md5).map(e => {
+    var prev = ""
     Buffer(
       _md5(e.md5),
-      e.minsubsong,
-      e.subsongs.sortBy(_.subsong).map(s =>
+      if (e.minsubsong != 1) e.minsubsong else "",
+      e.subsongs.sortBy(_.subsong).map(s => {
+        val _songend = if (s.songend != "player") songend(s.songend) else ""
         assert(s.songlength >= 0)
         assert(s.songlength <= 3_600_000)
-        s"${s.songlength},${s.songend.split("\\+").map(_.take(1)).mkString("+")}"
-      ).mkString(" ")
+        assert(s.songlength > 0 || s.songend != "player")
+        val sl = if (s.songlength > 0 && s.songlength < 20) 20 else s.songlength
+        val _songlength = ""+_base64e24((sl + 10) / 20) // 20ms accuracy in songlengths
+        val next = if (_songend.isEmpty) _songlength else _songlength + "," + _songend
+        if (prev == next) ""
+        else {
+          prev = next
+          next
+        }
+      }).mkString(" ")
     ).mkString("\t")
-  ).distinct
+  }).distinct
   val dedupped = _dedup(entries, "songlengths.tsv", minimize = false)
   _validate(dedupped, "songlengths.tsv")
   var prev = 0L
