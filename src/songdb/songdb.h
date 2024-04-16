@@ -8,11 +8,22 @@
 #include <string>
 #include <utility>
 
-#include "common/common.h"
+#include "common/songend.h"
 
 namespace songdb {
 
 const std::string UNKNOWN_AUTHOR = "<Unknown>";
+constexpr std::string_view AUTHOR_JOIN = " & ";
+
+enum Source {
+    //MD5 = 0, // internal
+    Songlengths = 1,
+    ModInfos,
+    Modland,
+    AMP,
+    UnExotica,
+    Demozoo,
+};
 
 struct ModlandData {
     std::string author;
@@ -37,22 +48,34 @@ struct DemozooData {
     uint16_t year;
 };
 
-struct SongInfo {
-    const uint8_t subsong;
-    const uint32_t songlength;
-    const std::string songend;
-    const std::string format;
-    const uint8_t channels;
-    const std::optional<ModlandData> modland_data;
-    const std::optional<AMPData> amp_data;
-    const std::optional<UnExoticaData> unexotica_data;
-    const std::optional<DemozooData> demozoo_data;
+struct ModInfo {
+    std::string format;
+    uint8_t channels;
 };
 
-void init(const std::string &songdb_path);
-std::optional<SongInfo> lookup(const std::string &md5, int subsong);
-std::vector<SongInfo> lookup_all(const std::string &md5);
-void update(const std::string &md5, const int subsong, const int songlength, common::SongEnd::Status songend, const std::string &format, const int channels);
+struct SubSongInfo {
+    uint8_t subsong;
+    common::SongEnd songend;
+};
+
+struct Info {
+    std::vector<SubSongInfo> subsongs;
+    std::optional<ModInfo> modinfo;
+    std::optional<ModlandData> modland;
+    std::optional<AMPData> amp;
+    std::optional<UnExoticaData> unexotica;
+    std::optional<DemozooData> demozoo;
+};
+
+// if extra_sources is empty, all sources are initialized
+void init(const std::string &songdb_path, const std::initializer_list<Source> &sources = {});
+
+std::optional<SubSongInfo> lookup(const std::string &md5, int subsong);
+std::optional<Info> lookup(const std::string &md5);
+
+void update(const std::string &md5, const SubSongInfo &);
+void update(const std::string &md5, const ModInfo &modinfo);
+
 std::optional<std::pair<int,int>> subsong_range(const std::string &md5);
 
 namespace blacklist {

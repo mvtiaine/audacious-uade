@@ -18,10 +18,11 @@ extern "C" {
 }
 
 #include "config.h"
-#include "common/common.h"
 #include "common/extensions.h"
 #include "common/logger.h"
 #include "common/md5.h"
+#include "common/songend.h"
+#include "common/strings.h"
 #include "prefs.h"
 #include "player/player.h"
 #include "songend/precalc.h"
@@ -33,10 +34,14 @@ namespace {
 
 struct Info {
     player::Player player;
-    std::string format;
+    string format;
     int channels;
     int minsubsong;
     int maxsubsong;
+    optional<songdb::ModlandData> modland;
+    optional<songdb::AMPData> amp;
+    optional<songdb::UnExoticaData> unexotica;
+    optional<songdb::DemozooData> demozoo;
 };
 
 void fseek0(VFSFile &file) {
@@ -106,8 +111,8 @@ void update_tuple_subsong_range(Tuple &tuple, int minsubsong, int maxsubsong) {
     tuple.set_subtunes(subtunes.len(), subtunes.begin());
 }
 
-void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInfo &songinfo, const Info &info, const string &md5) {
-    TRACE("Found songlength data for %s:%d %s, length:%d, status:%s\n", md5.c_str(), songinfo.subsong, path.c_str(), songinfo.songlength, songinfo.songend.c_str());
+void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SubSongInfo &songinfo, const Info &info, const string &md5) {
+    TRACE("Found songlength data for %s:%d %s, length:%d, status:%s\n", md5.c_str(), songinfo.subsong, path.c_str(), songinfo.songend.length, songinfo.songend.status_string().c_str());
     const auto set_str = [&tuple](Tuple::Field field, const string &value) {
         if (!tuple.is_set(field) && !value.empty()) {
             tuple.set_str(field, value.c_str());
@@ -134,17 +139,17 @@ void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInf
         }
     };
 
-    set_int(Tuple::Length, songinfo.songlength);
-    set_str(Tuple::Comment, "songend="+songinfo.songend);
+    set_int(Tuple::Length, songinfo.songend.length);
+    set_str(Tuple::Comment, "songend="+songinfo.songend.status_string());
 
-    if (!songinfo.demozoo_data && !songinfo.modland_data && !songinfo.amp_data && !songinfo.unexotica_data) {
+    if (!info.demozoo && !info.modland && !info.amp && !info.unexotica) {
         TRACE("No Demozoo/Modland/UnExotica/AMP data for %s %s\n", md5.c_str(), path.c_str());
         set_author(songdb::UNKNOWN_AUTHOR);
         return;
     }
 
-    if (songinfo.unexotica_data) {
-        const auto &data = songinfo.unexotica_data.value();
+    if (info.unexotica) {
+        const auto &data = info.unexotica.value();
         TRACE("Found UnExotica data for %s:%d %s, author:%s, album:%s, publisher:%s, year:%d\n", md5.c_str(), songinfo.subsong, path.c_str(), data.author.c_str(), data.album.c_str(), data.publisher.c_str(), data.year);
         //set_author(data.author); // prefer other sources
         set_str(Tuple::Album, data.album);
@@ -156,8 +161,8 @@ void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInf
 #endif
         set_int(Tuple::Year, data.year);
     }
-    if (songinfo.demozoo_data) {
-        const auto &data = songinfo.demozoo_data.value();
+    if (info.demozoo) {
+        const auto &data = info.demozoo.value();
         TRACE("Found Demozoo data for %s:%d %s, author:%s, album:%s, publisher:%s, year:%d\n", md5.c_str(), songinfo.subsong, path.c_str(), data.author.c_str(), data.album.c_str(), data.publisher.c_str(), data.year);
         //set_author(data.author); // prefer other sources
         set_str(Tuple::Album, data.album);
@@ -185,35 +190,35 @@ void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SongInf
     };
 
     bool modland_path = false;
-    if (songinfo.modland_data) {
-        const auto &data = songinfo.modland_data.value();
+    if (info.modland) {
+        const auto &data = info.modland.value();
         TRACE("Found Modland data for %s:%d %s, author:%s, album:%s\n", md5.c_str(), songinfo.subsong, path.c_str(), data.author.c_str(), data.album.c_str());
         set_str(Tuple::Album, data.album);
         modland_path = has_author(data.author, 4);
     }
     bool amp_path = false;
-    if (songinfo.amp_data) {
-        const auto &data = songinfo.amp_data.value();
+    if (info.amp) {
+        const auto &data = info.amp.value();
         TRACE("Found AMP data for %s:%d %s, author:%s\n", md5.c_str(), songinfo.subsong, path.c_str(), data.author.c_str());
         amp_path = has_author(data.author, 2);
     }
     bool unexotica_path = false;
-    if (songinfo.unexotica_data) {
-        const auto &data = songinfo.unexotica_data.value();
+    if (info.unexotica) {
+        const auto &data = info.unexotica.value();
         const auto author_path = songdb::unexotica::author_path(data.author);
         unexotica_path = has_author(author_path, 4);
     }
     if (modland_path) {
-        set_author(songinfo.modland_data->author);
+        set_author(info.modland->author);
     } else if (amp_path) {
-        set_author(songinfo.amp_data->author);
+        set_author(info.amp->author);
     } else if (unexotica_path) {
-        set_author(songinfo.unexotica_data->author);
+        set_author(info.unexotica->author);
     } else {
-        if (songinfo.modland_data) set_author(songinfo.modland_data->author);
-        if (songinfo.amp_data) set_author(songinfo.amp_data->author);
-        if (songinfo.demozoo_data) set_author(songinfo.demozoo_data->author);
-        if (songinfo.unexotica_data) set_author(songinfo.unexotica_data->author);
+        if (info.modland) set_author(info.modland->author);
+        if (info.amp) set_author(info.amp->author);
+        if (info.demozoo) set_author(info.demozoo->author);
+        if (info.unexotica) set_author(info.unexotica->author);
     }
 }
 
@@ -268,19 +273,19 @@ common::SongEnd precalc_song_end(
     return songend::precalc::precalc_song_end(modinfo.value(), buf.begin(), buf.len(), subsong, md5);
 };
 
-optional<Info> parse_info(VFSFile &file, const string &path, const string &md5, const int subsong) {
-    const auto &infos = songdb::lookup_all(md5);
-    if (infos.size() > 0) {
+optional<Info> parse_info(VFSFile &file, const string &path, const string &md5) {
+    const auto info = songdb::lookup(md5);
+    if (info && info->modinfo && !info->subsongs.empty()) {
         const auto player = check_player(file, path);
-        const auto &info = infos.front();
-        const auto minsubsong = info.subsong;
-        const auto maxsubsong = infos.back().subsong;
+        const auto minsubsong = info->subsongs.front().subsong;
+        const auto maxsubsong = info->subsongs.back().subsong;
         return Info {
             player,
-            info.format,
-            info.channels,
+            info->modinfo->format,
+            info->modinfo->channels,
             minsubsong,
             maxsubsong,
+            info->modland, info->amp, info->unexotica, info->demozoo
         };
     }
     const Index<char> buf = read_all(file);
@@ -360,22 +365,22 @@ public:
     static constexpr PluginInfo info = {
         "UADE Plugin",
         "audacious-uade",
-        "Audacious UADE plugin " PACKAGE_VERSION "\n"
-        "Written by Matti Tiainen <mvtiaine@cc.hut.fi>\n"
+        "Audacious UADE plugin " PACKAGE_VERSION " (GPL-2.0-or-later)\n"
+        "Copyright (c) 2014-2024, Matti Tiainen\n"
         PACKAGE_URL"\n"
         "\n"
         "UADE: https://zakalwe.fi/uade/\n"
         "\n"
         "Using bundled libuade " UADE_VERSION "\n"
         "\n"
-        "Simplistic Binary Streams 1.0.3 (MIT)\n"
-        "Copyright (C) 2014-2019, Wong Shao Voon\n"
-        "\n"
         "HivelyTracker 1.9 (BSD-3-Clause)\n"
         "Copyright (c) 2006-2018, Pete Gordon\n"
         "\n"
         "libdigibooster3 1.2 (BSD-2-Clause)\n"
-        "Copyright (c) 2014, Grzegorz Kraszewski\n",
+        "Copyright (c) 2014, Grzegorz Kraszewski\n"
+        "\n"
+        "Simplistic Binary Streams 1.0.3 (MIT)\n"
+        "Copyright (c) 2014-2019, Wong Shao Voon\n",
         &plugin_prefs
     };
 
@@ -476,7 +481,7 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
     const auto playback_file = aud_drct_get_filename();
     const auto for_playback = playback_file && string(playback_file) == string(uri);
 
-    const auto info = parse_info(file, path, md5, subsong);
+    const auto info = parse_info(file, path, md5);
     if (!info) {
         WARN("uade_plugin_read_tag could not parse module %s\n", uri);
         return false;
@@ -492,7 +497,8 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
             const auto &songend = precalc_song_end(file, path, md5, subsong);
             update_tuple_song_end(tuple, songend, info->format);
             // update songdb (runtime only) so next read_tag call doesn't precalc again
-            songdb::update(md5, subsong, songend.length, songend.status, info->format, info->channels);
+            songdb::update(md5, songdb::SubSongInfo{static_cast<uint8_t>(subsong), {songend.status, songend.length}});
+            songdb::update(md5, songdb::ModInfo{info->format, static_cast<uint8_t>(info->channels)});
         }
     }
     return true;

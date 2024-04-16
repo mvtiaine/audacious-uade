@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "common/md5.h"
+#include "common/strings.h"
 #include "songdb/songdb.h"
 
 #include <unistd.h>
@@ -43,31 +44,23 @@ int main(int argc, char *argv[]) {
     }
     songdb::init(songdbdir);
 
-    const auto subsongs = songdb::subsong_range(md5hex);
-
-    if (!subsongs) {
-        fprintf(stderr, "File %s does not exist in songdb\n", fname);
-        return EXIT_FAILURE;
-    }
-
-    const auto infos = songdb::lookup_all(md5hex);
-    if (infos.empty()) {
+    const auto info = songdb::lookup(md5hex);
+    if (!info) {
         fprintf(stderr, "File %s does not exist in songdb\n", fname);
         return EXIT_FAILURE;
     }
 
     const auto md5short = md5hex.substr(0,12);
 
-    const auto &info = infos.front();
     vector<string> songends;
-    for (const auto &info : infos) {
-        const auto songend = common::split(info.songend,"+");
+    for (const auto &songinfo : info->subsongs) {
+        const auto songend = common::split(songinfo.songend.status_string(),"+");
         string se = songend.front().substr(0,1);
         if (songend.size() > 1) {
             se = se + "+" + songend.back().substr(0,1);
         }
         char buf[1024];
-        snprintf(buf, sizeof buf, "%u,%s", info.songlength, se.c_str());
+        snprintf(buf, sizeof buf, "%u,%s", songinfo.songend.length, se.c_str());
         songends.push_back(buf);
     }
 
@@ -75,25 +68,25 @@ int main(int argc, char *argv[]) {
     _setmode(_fileno(stdout), 0x8000);
 #endif
 
-    fprintf(stdout, "songlengths.tsv:%s\t%s\t%d\t%d\t%s\n", md5short.c_str(), info.format.c_str(), info.channels, info.subsong, common::mkString(songends, " ").c_str());
+    fprintf(stdout, "songlengths.tsv:%s\t%d\t%s\n", md5short.c_str(), info->subsongs.front().subsong, common::mkString(songends, " ").c_str());
+    fprintf(stdout, "modinfos.tsv:%s\t%s\t%d\n", md5short.c_str(), info->modinfo->format.c_str(), info->modinfo->channels);
 
-    if (info.amp_data) {
-        // TODO handle extra authors
-        fprintf(stdout, "amp.tsv:%s\t%s\t\n", md5short.c_str(), info.amp_data->author.c_str());
+    if (info->amp) {
+        fprintf(stdout, "amp.tsv:%s\t%s\n", md5short.c_str(), info->amp->author.c_str());
     }
 
-    if (info.demozoo_data) {
-        fprintf(stdout, "demozoo.tsv:%s\t%u\t%s\t%s\t%s\n", md5short.c_str(), info.demozoo_data->year, info.demozoo_data->author.c_str(), info.demozoo_data->publisher.c_str(), info.demozoo_data->album.c_str());
+    if (info->demozoo) {
+        fprintf(stdout, "demozoo.tsv:%s\t%s\t%s\t%s\t%u\n", md5short.c_str(), info->demozoo->author.c_str(), info->demozoo->publisher.c_str(), info->demozoo->album.c_str(), info->demozoo->year);
     }
 
-    if (info.modland_data) {
-        fprintf(stdout, "modland.tsv:%s\t%s\n", md5short.c_str(), info.modland_data->author.c_str());
+    if (info->modland) {
+        fprintf(stdout, "modland.tsv:%s\t%s\n", md5short.c_str(), info->modland->author.c_str());
     }
 
-    if (info.unexotica_data) {
-        const auto author_path = songdb::unexotica::author_path(info.unexotica_data->author);
-        const auto album_path = common::mkString(common::split(info.unexotica_data->album, " "), "_");
-        fprintf(stdout, "unexotica.tsv:%s\t%s/%s\t%s\t%u\n", md5short.c_str(), author_path.c_str(), album_path.c_str(), info.unexotica_data->publisher.c_str(), info.unexotica_data->year);
+    if (info->unexotica) {
+        const auto author_path = songdb::unexotica::author_path(info->unexotica->author);
+        const auto album_path = common::mkString(common::split(info->unexotica->album, " "), "_");
+        fprintf(stdout, "unexotica.tsv:%s\t%s/%s\t%s\t%u\n", md5short.c_str(), author_path.c_str(), album_path.c_str(), info->unexotica->publisher.c_str(), info->unexotica->year);
     }
 
     return EXIT_SUCCESS;

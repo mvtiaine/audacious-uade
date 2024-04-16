@@ -5,9 +5,9 @@
 #include <set>
 #include <string>
 
-#include "common/common.h"
 #include "common/extensions.h"
 #include "common/logger.h"
+#include "common/strings.h"
 #include "songdb/songdb.h"
 
 using namespace std;

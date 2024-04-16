@@ -60,4 +60,14 @@ lazy val metas = sources.unexotica.par.flatMap(e =>
   if (Files.exists(Paths.get(file1))) parse(file1)
   else if (Files.exists(Paths.get(file2))) parse(file2)
   else None
-).seq
+).groupBy(_._1).map({case (md5, metas) =>
+  // pick oldest for duplicates
+  if (metas.size > 1) {
+    System.err.println(s"WARN: removing duplicate UnExotica entries for md5: ${md5} entries: ${metas}")
+  }
+  val year = metas.map(m => if (m._4.year.fold(_.toString, _.toString) == "Unknown") 9999 else m._4.year.left.get).min
+  metas.filter(m => {
+    val cmp = if (m._4.year.fold(_.toString, _.toString) == "Unknown") 9999 else m._4.year.left.get
+    year == cmp
+  }).seq.sortBy(_._2).head // secondarily sort by path for consistency
+}).seq.toSeq

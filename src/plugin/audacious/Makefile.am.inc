@@ -2,9 +2,10 @@
 
 plugin_audacious_LTLIBRARIES = plugin/audacious/uade.la
 plugin_audacious_uade_la_SOURCES = \
-    common/common.h \
     common/extensions.h \
     common/logger.h \
+    common/songend.h \
+    common/strings.h \
     plugin/audacious/prefs.h \
     plugin/audacious/uade_prefs.h \
     plugin/audacious/logger.cc \
