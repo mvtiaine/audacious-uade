@@ -4,6 +4,8 @@
 - Add Fedora/OpenSUSE/CentOS/etc. RPM build scripts
 - Fix build on OpenIndiana
 - Initial AmigaOS3/MorphOS/AROS support (lib/cli-only)
+- Use static libgcc & libstdc++ for CLI commands
+- Optimize songdb storage and init
 
 0.11.3 - 2024-01-20
 - Fix build on Haiku, NetBSD, OpenBSD, DragonFlyBSD and Cygwin
