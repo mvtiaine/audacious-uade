@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include <cstring>
 #include <mutex>
 #include <set>
 #include <string>
@@ -402,7 +403,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 
     if (subsong > 1) {
         const auto subsongs = get_subsongs(context);
-        assert(subsong <= subsongs.size());
+        assert(static_cast<size_t>(subsong) <= subsongs.size());
         context->setPos(subsongs[subsong - 1], 0);
     }
 
@@ -416,8 +417,8 @@ bool stop(PlayerState &state) {
         const auto context = static_cast<xm_context*>(state.context);
         assert(context);
         context->shutdown();
-        delete context;
         if (context->probe) probe_guard.unlock();
+        delete context;
     }
     return true;
 }
