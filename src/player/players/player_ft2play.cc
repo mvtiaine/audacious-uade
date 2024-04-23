@@ -148,7 +148,7 @@ const set<string> xm_prog_whitelist = {
     "FastTracker v2.00   ",
     "Fasttracker II clone",
     // trackers using XM format
-    //"MilkyTracker        ", // some special handling in xmp/openmpt
+    "MilkyTracker        ", // NOTE: some special handling in openmpt
     "MilkyTracker 1.00.00",
     "MilkyTracker 1.01.00",
     "MilkyTracker 1.02.00",
@@ -163,11 +163,11 @@ const set<string> xm_prog_whitelist = {
     "DigiBooster Pro 2.21",
     // converters
     "DBM2XM converter    ",
-    //"MED2XM by J.Pynnonen", // some special handling in xmp/openmpt
+    "MED2XM by J.Pynnonen", // NOTE: some special handling in xmp
     "MOD2XM 1.0",
     "Xrns2XMod 2.8.0.0",
     "Converted by MID2XM",
-    //"*Converted  XM-File*", // some special handling in xmp/openmpt
+    "*Converted  XM-File*", // DigiTrakker?
 };
 
 mutex probe_guard;
