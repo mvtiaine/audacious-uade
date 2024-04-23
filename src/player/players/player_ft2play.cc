@@ -21,7 +21,11 @@ namespace {
 
 struct xm_context {
     const bool probe;
+    int16_t startPos = 0;
+    set<pair<int16_t,int16_t>> seen; // for subsong loop detection
+
     xm_context(const bool probe) : probe(probe) {}
+
     bool moduleLoaded() const {
         if (probe) return probe::moduleLoaded;
         else return play::moduleLoaded;
@@ -34,17 +38,9 @@ struct xm_context {
         if (probe) return probe::song.songPos;
         else return play::song.songPos;
     }
-    int16_t pattNr() const {
-        if (probe) return probe::song.pattNr;
-        else return play::song.pattNr;
-    }
     int16_t pattPos() const {
         if (probe) return probe::song.pattPos;
         else return play::song.pattPos;
-    }
-    int16_t pattLen() const {
-        if (probe) return probe::song.pattLen;
-        else return play::song.pattLen;
     }
     void setModuleLoaded(bool moduleLoaded) const {
         if (probe) probe::moduleLoaded = moduleLoaded;
@@ -90,11 +86,13 @@ struct xm_context {
         if (probe) return probe::dump_GetFrame(p);
         else return play::dump_GetFrame(p);
     }
-    bool dump_EndOfTune(int32_t endSongPos) const {
+    bool dump_EndOfTune(int16_t endSongPos) const {
         if (probe) return probe::dump_EndOfTune(endSongPos);
         else return play::dump_EndOfTune(endSongPos);
     }
-    void setPos(int32_t pos, int32_t row) const {
+    void setPos(int16_t pos, int16_t row) {
+        startPos = pos;
+        seen.clear();
         if (probe) probe::setPos(pos, row);
         else play::setPos(pos, row); 
     }
@@ -103,6 +101,40 @@ struct xm_context {
         mix_Free();
         freeMusic();
         setModuleLoaded(false);
+    }
+    uint16_t antChn() const {
+        if (probe) return probe::song.antChn;
+        else return play::song.antChn;
+    }
+    uint16_t repS() const {
+        if (probe) return probe::song.repS;
+        else return play::song.repS;
+    }
+    uint16_t pattLen() const {
+        if (probe) return probe::song.pattLen;
+        else return play::song.pattLen;
+    }
+    uint8_t pattNr(int16_t songPos) const {
+        if (probe) return probe::song.songTab[songPos];
+        else return play::song.songTab[songPos];
+    }
+    int16_t posJump(int pattNr, int16_t pattPos) const {
+        if (probe) {
+            auto *p = &probe::patt[pattNr][pattPos * probe::song.antChn];
+        	for (uint8_t i = 0; i < probe::song.antChn; i++, p++)
+                if (p->effTyp == 0xB)
+                    return p->eff;
+        } else {
+            auto *p = &play::patt[pattNr][pattPos * play::song.antChn];
+        	for (uint8_t i = 0; i < play::song.antChn; i++, p++)
+                if (p->effTyp == 0xB)
+                    return p->eff;
+        }
+        return -1;
+    }
+    bool jumpLoop() const {
+        if (probe) return probe::song.pBreakFlag;
+        else return play::song.pBreakFlag;
     }
 };
 
@@ -197,16 +229,61 @@ bool get_fst_header( const char *buf, size_t size, FSTHeader &h) {
     return true;
 }
 
+vector<int16_t> get_subsongs(const xm_context *context) {
+    assert(context->moduleLoaded());
+    vector<int16_t> subsongs = {0};
+
+    set<uint8_t> seen;
+    set<uint8_t> notseen;
+    for (int i = 0; i < context->songLen(); ++i) {
+        notseen.insert(i);
+    }
+
+    int16_t pattPos = 0;
+    int16_t songPos = 0;
+    bool jump = false;
+
+    while (true) {
+        if (jump && seen.contains(songPos)) {
+            if (notseen.empty())
+                break;
+            songPos = *notseen.begin();
+            pattPos = 0;
+            subsongs.push_back(songPos);
+        }
+        jump = false;
+        seen.insert(songPos);
+        notseen.erase(songPos);
+
+        int pattNr = context->pattNr(songPos);
+        int16_t posJump = context->posJump(pattNr, pattPos);
+        if (posJump >= 0) {
+            songPos = posJump;
+            pattPos = 0;
+            jump = true;
+        } else {
+            pattPos++;
+       	    if (pattPos >= context->pattLen()) {
+    	    	songPos++;
+                pattPos = 0;
+                jump = true;
+	        	if (songPos >= context->songLen()) {
+			        songPos = context->repS() < context->songLen() ? context->repS() : 0;
+                }
+            }
+        }
+    }
+    return subsongs;
+}
+
 ModuleInfo get_xm_info(const char *path, const XMHeader &hdr) {
-    const int maxsubsong = 0; // TODO subsongs
     string progName = hdr.progName;
     progName.erase(progName.find_last_of(' ') + 1);
     progName.erase(progName.find_last_not_of(' ') + 1);
-    return {Player::ft2play, progName, path, 0, maxsubsong, 0, hdr.antChn};
+    return {Player::ft2play, progName, path, 1, 1, 1, hdr.antChn};
 }
 
 ModuleInfo get_fst_info(const char *path, const FSTHeader &hdr) {
-    const int maxsubsong = 0; // TODO subsongs
     int channels = 2;
     const string sig = string() + hdr.Sig[0] + hdr.Sig[1] + hdr.Sig[2] + hdr.Sig[3];
 
@@ -215,7 +292,7 @@ ModuleInfo get_fst_info(const char *path, const FSTHeader &hdr) {
         channels += 2;
     }
     assert(channels <= 32);
-    return {Player::ft2play, "Fasttracker", path, 0, maxsubsong, 0, channels};
+    return {Player::ft2play, "Fasttracker", path, 1, 1, 1, channels};
 }
 
 } // namespace {}
@@ -252,16 +329,36 @@ bool is_our_file(const char *path, const char *buf, size_t size) {
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
     XMHeader xm;
     FSTHeader fst;
-    if (is_fasttracker2(buf, size) && get_xm_header(buf, size, xm)) {
-        return get_xm_info(path, xm);
-    } else if (is_fasttracker1(buf, size) && get_fst_header(buf, size, fst)) {
-        return get_fst_info(path, fst);
+
+    const bool isXm = is_fasttracker2(buf, size) && get_xm_header(buf, size, xm);
+    const bool isFst = !isXm && is_fasttracker1(buf, size) && get_fst_header(buf, size, fst);
+
+    if (!isXm && !isFst)
+        return {};
+
+    probe_guard.lock();
+    xm_context *context = new xm_context(true);
+    assert(!context->moduleLoaded());
+
+    if (!context->loadMusicFromData((const uint8_t*)buf, size)) {
+        ERR("player_ft2play::parse parsing failed for %s\n", path);
+        context->shutdown();
+        delete context;
+        probe_guard.unlock();
+        return {};
     }
-    return {};
+
+    const auto subsongs = get_subsongs(context);
+    context->shutdown();
+    delete context;
+    probe_guard.unlock();
+
+    auto info = isXm ? get_xm_info(path, xm) : get_fst_info(path, fst);
+    info.maxsubsong = subsongs.size();
+    return info;
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) {
-    assert(subsong == 0);
     ModuleInfo info;
     if (is_fasttracker2(buf, size)) {
         XMHeader header;
@@ -303,6 +400,12 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 
     context->setModuleLoaded(true);
 
+    if (subsong > 1) {
+        const auto subsongs = get_subsongs(context);
+        assert(subsong <= subsongs.size());
+        context->setPos(subsongs[subsong - 1], 0);
+    }
+
     PlayerState state = {info, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
     return state;
 }
@@ -325,8 +428,22 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     const auto context = static_cast<xm_context*>(state.context);
     assert(context);
     assert(context->moduleLoaded());
+    const auto prevPos = pair(context->songPos(), context->pattPos());
+    bool prevJumpLoop = context->jumpLoop();
     ssize_t totalbytes = context->dump_GetFrame((int16_t*)buf);
+    const auto pos = pair(context->songPos(), context->pattPos());
+    bool jumpLoop = context->jumpLoop();
     bool songend = context->dump_EndOfTune(context->songLen()-1);
+    if (prevJumpLoop && !jumpLoop) {
+        assert(prevPos.first == pos.first);
+        assert(prevPos.second >= pos.second);
+        for (auto i = pos.second; i <= prevPos.second; ++i) {
+            context->seen.erase(pair(pos.first, i));
+        }
+    }
+    if (!songend && pos != prevPos) {
+        songend |= !context->seen.insert(pos).second;
+    }
     return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
 }
 
@@ -337,7 +454,7 @@ bool restart(PlayerState &state) {
     context->setSongTimer(1);
     context->mix_ClearChannels();
     context->stopVoices();
-    context->setPos(0, 0);
+    context->setPos(context->startPos, 0);
     return true;
 }
 
