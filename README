@@ -11,6 +11,7 @@ Main features:
 - MED4 sng+samples format support via MED4->MMD0 conversion
 - DigiBooster 3 and DigiBooster Pro 2 (http://www.digibooster.de/) support using the official portable replay
 - HivelyTracker (http://www.hivelytracker.co.uk/) support using the official portable replay
+- Fasttracker 1 & 2 support using the ft2play replay (https://github.com/8bitbubsy/ft2play)
 
 Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
 In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.

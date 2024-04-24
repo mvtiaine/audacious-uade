@@ -6,6 +6,7 @@
 - Initial AmigaOS3/MorphOS/AROS support (lib/cli-only)
 - Use static libgcc & libstdc++ for CLI commands
 - Optimize songdb storage and init
+- Implement Fastracker 1 & Fasttracker 2 support (https://github.com/8bitbubsy/ft2play)
 
 0.11.3 - 2024-01-20
 - Fix build on Haiku, NetBSD, OpenBSD, DragonFlyBSD and Cygwin
