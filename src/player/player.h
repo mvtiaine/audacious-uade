@@ -17,7 +17,7 @@
 
 namespace player {
 
-constexpr int MAGIC_SIZE = 16;
+constexpr int MAGIC_SIZE = 4;
 
 constexpr int PRECALC_FREQ = 8062;
 constexpr int PRECALC_TIMEOUT = 3600;
