@@ -20,6 +20,9 @@ using namespace replay::ft2play;
 
 namespace {
 
+// not in MODSig
+constexpr const char *chn4 = "4CHN";
+
 struct xm_context {
     const bool probe;
     int16_t startPos = 0;
@@ -204,10 +207,9 @@ bool is_fasttracker1(const char *buf, size_t size) {
     if (size < sizeof(FSTHeader)) return false;
     const auto &hdr = (const FSTHeader *)buf;
     const string sig = string() + hdr->Sig[0] + hdr->Sig[1] + hdr->Sig[2] + hdr->Sig[3];
-    for (const auto &cmp : MODSig) {
-        if (sig == cmp)
-            return true;
-    }
+    if (sig == chn4) return true;
+    for (const auto &cmp : MODSig)
+        if (sig == cmp) return true;
     return false;
 }
 
@@ -287,10 +289,13 @@ ModuleInfo get_xm_info(const char *path, const XMHeader &hdr) {
 ModuleInfo get_fst_info(const char *path, const FSTHeader &hdr) {
     int channels = 2;
     const string sig = string() + hdr.Sig[0] + hdr.Sig[1] + hdr.Sig[2] + hdr.Sig[3];
-
-    for (const auto &cmp : MODSig) {
-        if (sig == cmp) break;
-        channels += 2;
+    if (sig == chn4) {
+        channels = 4;
+    } else {
+        for (const auto &cmp : MODSig) {
+            if (sig == cmp) break;
+            channels += 2;
+        }
     }
     assert(channels <= 32);
     return {Player::ft2play, "Fasttracker", path, 1, 1, 1, channels};

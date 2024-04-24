@@ -707,7 +707,7 @@ static bool loadMusicMOD(MEMFILE *f)
 			j = i + i;
 	}
 
-	if (memcmp(h_MOD31->Sig, "M!K!", 4) == 0 || memcmp(h_MOD31->Sig, "FLT4", 4) == 0)
+	if (memcmp(h_MOD31->Sig, "M!K!", 4) == 0 || memcmp(h_MOD31->Sig, "FLT4", 4) == 0 || memcmp(h_MOD31->Sig, "4CHN", 4) == 0)
 		j = 4;
 
 	if (memcmp(h_MOD31->Sig, "OCTA", 4) == 0)
