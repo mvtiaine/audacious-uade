@@ -73,7 +73,7 @@ void init(const std::string &songdb_path, const std::initializer_list<Source> &s
 std::optional<SubSongInfo> lookup(const std::string &md5, int subsong);
 std::optional<Info> lookup(const std::string &md5);
 
-void update(const std::string &md5, const SubSongInfo &);
+void update(const std::string &md5, const SubSongInfo &info, const int minsubsong, const int maxsubsong);
 void update(const std::string &md5, const ModInfo &modinfo);
 
 std::optional<std::pair<int,int>> subsong_range(const std::string &md5);

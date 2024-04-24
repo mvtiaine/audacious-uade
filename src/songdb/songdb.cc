@@ -192,13 +192,15 @@ const vector<string> tsvfiles ({
 
 _SongInfo db_songinfos[MD5_IDX_SIZE]; // md5_idx_t -> first subsong info
 unordered_map<md5_idx_t, vector<_SubSongInfo>> db_subsongs; // infos for extra subsongs
-unordered_map<md5_t, vector<SubSongInfo>> extra_subsongs; // runtime only
-unordered_map<md5_t, ModInfo> extra_modinfos; // runtime only
 _ModInfo db_modinfos[MD5_IDX_SIZE];
 array<_ModlandData,MODLAND_SIZE> db_modland;
 array<_AMPData,AMP_SIZE> db_amp;
 array<_UnExoticaData,UNEXOTICA_SIZE> db_unexotica;
 array<_DemozooData,DEMOZOO_SIZE> db_demozoo;
+
+unordered_map<md5_t, vector<SubSongInfo>> extra_subsongs; // runtime only
+unordered_map<md5_t, ModInfo> extra_modinfos; // runtime only
+mutex extra_mutex; // for extra_subsongs/modinfos thread safe access/update
 
 constexpr Source SOURCE_MD5 = static_cast<Source>(0); // internal
 bool initialized[Demozoo+1] = {};
@@ -562,11 +564,12 @@ optional<SubSongInfo> lookup(const string &md5, int subsong) {
         } else return {};
     }
     const md5_t hash = hex2md5(md5.c_str());
+    const lock_guard lock(extra_mutex);
     if (extra_subsongs.contains(hash)) {
         const auto &infos = extra_subsongs[hash];
         for (const auto &info : infos) {
             if (info.subsong == subsong) {
-                return info;
+                return info.songend.status != common::SongEnd::NONE ? info : optional<SubSongInfo>();
             }
         }
     }
@@ -598,6 +601,7 @@ optional<Info> lookup(const string &md5) {
         return res;
     }
     const md5_t hash = hex2md5(md5.c_str());
+    const lock_guard lock(extra_mutex);
     if (!extra_subsongs.contains(hash) && !extra_modinfos.contains(hash)) {
         return {};
     }
@@ -720,7 +724,7 @@ void init(const string &songdb_path, const initializer_list<Source> &sources/*= 
     TRACE("DONE %lu\n", clock() * 1000 / CLOCKS_PER_SEC);
 }
 
-void update(const string &md5, const SubSongInfo &info) {
+void update(const string &md5, const SubSongInfo &info, const int minsubsong, const int maxsubsong) {
     if (md5.empty() || info.subsong < 0 || info.subsong > 255) {
         WARN("Invalid songdb update entry md5:%s subsong:%d\n", md5.c_str(), info.subsong);
         return;
@@ -729,25 +733,43 @@ void update(const string &md5, const SubSongInfo &info) {
         INFO("Blacklisted songdb key md5:%s\n", md5.c_str());
         return;
     }
+    assert(minsubsong >= 0);
+    assert(minsubsong <= 255);
+    assert(maxsubsong >= 0);
+    assert(maxsubsong <= 255);
+    assert(minsubsong <= maxsubsong);
     assert(info.subsong >= 0);
     assert(info.subsong <= 255);
     assert(info.songend.length >= 0);
     assert(info.songend.length <= UINT24_T_MAX);
 
     const md5_t hash = hex2md5(md5.c_str());
+    const lock_guard lock(extra_mutex);
     if (extra_subsongs.contains(hash)) {
         auto &infos = extra_subsongs[hash];
-        for (const auto &oldinfo : infos) {
+        for (auto &oldinfo : infos) {
             if (oldinfo.subsong == info.subsong) {
-                WARN("Skipped songdb update for %s:%d, already exists\n", md5.c_str(), info.subsong);
+                if (oldinfo.songend.status != common::SongEnd::NONE) {
+                    DEBUG("Skipped songlength update for %s:%d, already exists\n", md5.c_str(), info.subsong);
+                    return;
+                }
+                oldinfo = info;
                 return;
             }
         }
-        infos.push_back(info);
-        sort(infos.begin(), infos.end(), [](const SubSongInfo &a, const SubSongInfo &b) { return a.subsong < b.subsong; });
+        assert(false);
     } else {
-        vector<SubSongInfo> infos;
-        infos.push_back(info);
+        vector<SubSongInfo> infos(maxsubsong - minsubsong + 1);
+        int ss = minsubsong;
+        for (auto &i : infos) {
+            if (ss == info.subsong) {
+                i = info;
+            } else {
+                i.subsong = ss;
+                i.songend = {common::SongEnd::NONE, 0};
+            }
+            ss++;
+        }
         extra_subsongs.insert({hash, infos});
     }
 }
@@ -762,8 +784,9 @@ void update(const string &md5, const ModInfo &info) {
         return;
     }
     const md5_t hash = hex2md5(md5.c_str());
+    const lock_guard lock(extra_mutex);
     if (extra_modinfos.contains(hash)) {
-        WARN("Skipped songdb update for %s, already exists\n", md5.c_str());
+        DEBUG("Skipped modinfo update for %s, already exists\n", md5.c_str());
         return;
     }
     extra_modinfos.insert({hash, info});
