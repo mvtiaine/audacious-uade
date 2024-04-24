@@ -28,8 +28,26 @@ struct xm_context {
     int16_t startPos = 0;
     set<pair<int16_t,int16_t>> seen; // for subsong loop detection
 
-    xm_context(const bool probe) : probe(probe) {}
-
+    xm_context(const bool probe) : probe(probe) {
+        reset();
+    }
+    void reset() {
+        if (probe) {
+            probe::song.pBreakFlag = probe::song.posJumpFlag = false;
+            probe::song.pBreakPos = probe::song.pattDelTime = probe::song.pattDelTime2 = 0;
+            probe::song.songPos = probe::song.pattNr = probe::song.pattPos = probe::song.pattLen = 0;
+            probe::song.timer = 1;
+            probe::song.globVol = 64;
+        } else {
+            play::song.pBreakFlag = play::song.posJumpFlag = false;
+            play::song.pBreakPos = play::song.pattDelTime = play::song.pattDelTime2 = 0;
+            play::song.songPos = play::song.pattNr = play::song.pattPos = play::song.pattLen = 0;
+            play::song.timer = 1;
+            play::song.globVol = 64;
+        }
+        startPos = 0;
+        seen.clear();
+    }
     bool moduleLoaded() const {
         if (probe) return probe::moduleLoaded;
         else return play::moduleLoaded;
@@ -95,16 +113,22 @@ struct xm_context {
         else return play::dump_EndOfTune(endSongPos);
     }
     void setPos(int16_t pos, int16_t row) {
+        reset();
         startPos = pos;
-        seen.clear();
         if (probe) probe::setPos(pos, row);
         else play::setPos(pos, row); 
     }
-    void shutdown() const {
+    void shutdown() {
         dump_Close();
         mix_Free();
         freeMusic();
+        if (probe) {
+            memset(probe::stm, 0, sizeof (probe::stm));
+        } else {
+            memset(play::stm, 0, sizeof (play::stm));
+        }
         setModuleLoaded(false);
+        reset();
     }
     uint16_t antChn() const {
         if (probe) return probe::song.antChn;
@@ -114,31 +138,39 @@ struct xm_context {
         if (probe) return probe::song.repS;
         else return play::song.repS;
     }
-    uint16_t pattLen() const {
-        if (probe) return probe::song.pattLen;
-        else return play::song.pattLen;
+    uint16_t pattLen(int pattNr) const {
+        if (probe) return probe::pattLens[pattNr];
+        else return play::pattLens[pattNr];
     }
     uint8_t pattNr(int16_t songPos) const {
         if (probe) return probe::song.songTab[songPos];
         else return play::song.songTab[songPos];
     }
-    int16_t posJump(int pattNr, int16_t pattPos) const {
+    pair<int16_t,int16_t> posJump(int pattNr, int16_t pattPos) const {
+        int16_t effB = -1;
+        int16_t effD = -1;
         if (probe) {
+            assert(pattPos < probe::pattLens[pattNr]);
             auto *p = &probe::patt[pattNr][pattPos * probe::song.antChn];
-        	for (uint8_t i = 0; i < probe::song.antChn; i++, p++)
+        	for (uint8_t i = 0; p && i < probe::song.antChn; i++, p++) {
                 if (p->effTyp == 0xB)
-                    return p->eff;
+                    effB = p->eff;
+                else if (p->effTyp == 0xD)
+                    effD = ((p->eff >> 4) * 10) + (p->eff & 0x0F);
+            }
         } else {
             auto *p = &play::patt[pattNr][pattPos * play::song.antChn];
-        	for (uint8_t i = 0; i < play::song.antChn; i++, p++)
+        	for (uint8_t i = 0; p && i < play::song.antChn; i++, p++)
                 if (p->effTyp == 0xB)
-                    return p->eff;
+                    effB = p->eff;
+                else if (p->effTyp == 0xD)
+                    effD = ((p->eff >> 4) * 10) + (p->eff & 0x0F);
         }
-        return -1;
+        return pair(effB,effD);
     }
     bool jumpLoop() const {
-        if (probe) return probe::song.pBreakFlag;
-        else return play::song.pBreakFlag;
+        if (probe) return probe::song.pBreakFlag || probe::song.posJumpFlag;
+        else return play::song.pBreakFlag || play::song.posJumpFlag;
     }
 };
 
@@ -236,11 +268,13 @@ vector<int16_t> get_subsongs(const xm_context *context) {
     assert(context->moduleLoaded());
     vector<int16_t> subsongs = {0};
 
-    set<uint8_t> seen;
-    set<uint8_t> notseen;
+    set<int16_t> seen;
+    set<int16_t> notseen;
     for (int i = 0; i < context->songLen(); ++i) {
         notseen.insert(i);
     }
+
+    pair<int16_t,int16_t> prevJump = pair(0,0);
 
     int16_t pattPos = 0;
     int16_t songPos = 0;
@@ -248,8 +282,6 @@ vector<int16_t> get_subsongs(const xm_context *context) {
 
     while (true) {
         if (jump && seen.contains(songPos)) {
-            if (notseen.empty())
-                break;
             songPos = *notseen.begin();
             pattPos = 0;
             subsongs.push_back(songPos);
@@ -257,21 +289,37 @@ vector<int16_t> get_subsongs(const xm_context *context) {
         jump = false;
         seen.insert(songPos);
         notseen.erase(songPos);
+        if (notseen.empty())
+            break;
 
         int pattNr = context->pattNr(songPos);
-        int16_t posJump = context->posJump(pattNr, pattPos);
-        if (posJump >= 0) {
-            songPos = posJump;
-            pattPos = 0;
-            jump = true;
+        pair<int16_t,int16_t> posJump = context->posJump(pattNr, pattPos);
+        if (posJump.first >= 0 || posJump.second >= 0) {
+            int16_t oldPos = songPos;
+            int16_t oldPatt = pattPos;
+            songPos = posJump.first == -1 ? songPos + 1 : posJump.first;
+           	if (songPos >= context->songLen()) {
+                break;
+            } else if (posJump == prevJump && posJump.first >= 0) {
+                seen.insert(songPos);
+                jump = true;
+            }
+            pattPos = posJump.second == -1 ? 0 : posJump.second;
+       	    if (pattPos >= context->pattLen(context->pattNr(songPos)))
+                pattPos = 0;
+            if (oldPos == songPos && oldPatt == pattPos)
+                break;
+            else if (oldPos != songPos || (oldPatt != pattPos && pattPos == 0))
+                jump = true;
+            prevJump = posJump;
         } else {
             pattPos++;
-       	    if (pattPos >= context->pattLen()) {
+       	    if (pattPos >= context->pattLen(pattNr)) {
     	    	songPos++;
                 pattPos = 0;
                 jump = true;
-	        	if (songPos >= context->songLen()) {
-			        songPos = context->repS() < context->songLen() ? context->repS() : 0;
+                if (songPos >= context->songLen()) {
+                    break;
                 }
             }
         }
@@ -435,19 +483,17 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     assert(context);
     assert(context->moduleLoaded());
     const auto prevPos = pair(context->songPos(), context->pattPos());
-    bool prevJumpLoop = context->jumpLoop();
+    bool prevJump = context->jumpLoop();
     ssize_t totalbytes = context->dump_GetFrame((int16_t*)buf);
     const auto pos = pair(context->songPos(), context->pattPos());
-    bool jumpLoop = context->jumpLoop();
+    bool jump = context->jumpLoop();
     bool songend = context->dump_EndOfTune(context->songLen()-1);
-    if (prevJumpLoop && !jumpLoop) {
-        assert(prevPos.first == pos.first);
-        assert(prevPos.second >= pos.second);
+    if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second) {
         for (auto i = pos.second; i <= prevPos.second; ++i) {
             context->seen.erase(pair(pos.first, i));
         }
     }
-    if (!songend && pos != prevPos) {
+    if (!songend && pos != prevPos && !jump) {
         songend |= !context->seen.insert(pos).second;
     }
     return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
