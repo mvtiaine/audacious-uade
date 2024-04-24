@@ -34,6 +34,7 @@ void print(const common::SongEnd &songend, const player::ModuleInfo &info, int s
             case player::Player::hivelytracker: return "hivelytracker";
             case player::Player::libdigibooster3: return "libdigibooster3";
             case player::Player::uade: return "uade";
+            case player::Player::ft2play: return "ft2play";
             default: assert(false); return "";
         }}();
         if (includepath) {
