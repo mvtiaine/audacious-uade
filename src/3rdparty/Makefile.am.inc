@@ -44,6 +44,8 @@ endif
     3rdparty/replay/ft2play/ft2play.cc \
     3rdparty/replay/ft2play/ft2play_probe.cc
 
+3rdparty_replay_libreplay_ft2play_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unknown-warning-option -Wno-volatile
+
 
 3rdparty_libreplay_la_SOURCES =
 3rdparty_libreplay_la_LIBADD = \
