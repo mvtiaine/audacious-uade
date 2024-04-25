@@ -28,7 +28,7 @@ inline void swab(const void *bfrom, void *bto, ssize_t n) noexcept {
 }
 
 #if !defined(__AROS__) && !defined(__MORPHOS__)
-inline size_t strnlen(const char *s, size_t len) noexcept {
+constexpr size_t strnlen(const char *s, size_t len) noexcept {
     size_t i;
 
     if( s == NULL )
