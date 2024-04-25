@@ -9,6 +9,9 @@
 
 #include "ft2play.h"
 
+// for endianess check
+#include "config.h"
+
 namespace replay::ft2play {
 using namespace replay::ft2play;
 #include "tables.c"

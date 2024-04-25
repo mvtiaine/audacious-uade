@@ -22,11 +22,28 @@
 
 #define INSTR_HEADER_SIZE 263
 
+// added big endian host support -mvtiaine
 #define SWAP16(value) \
-( \
-	(((uint16_t)((value) & 0x00FF)) << 8) | \
-	(((uint16_t)((value) & 0xFF00)) >> 8)   \
-)
+((uint16_t)( \
+	((uint16_t)(value) << 8) | \
+	((uint16_t)(value) >> 8) \
+))
+#define SWAP32(value) \
+((uint32_t)( \
+	((uint32_t)(value) << 24) | \
+	(((uint32_t)(value) & 0x0000FF00U) << 8) | \
+	(((uint32_t)(value) & 0x00FF0000U) >> 8) | \
+	((uint32_t)(value) >> 24) \
+))
+#ifdef WORDS_BIGENDIAN
+#define SWAP16BE(value) value
+#define SWAP16LE(value) SWAP16(value)
+#define SWAP32LE(value) SWAP32(value)
+#else
+#define SWAP16BE(value) SWAP16(value)
+#define SWAP16LE(value) value
+#define SWAP32LE(value) value
+#endif
 
 #ifdef _MSC_VER
 #pragma pack(push)
@@ -525,12 +542,14 @@ static bool loadInstrHeader(MEMFILE *f, uint16_t i)
 
 	memset(&ih, 0, INSTR_HEADER_SIZE);
 	mread(&ih.instrSize, 4, 1, f);
+	ih.instrSize = SWAP32LE(ih.instrSize);
 	if (ih.instrSize > INSTR_HEADER_SIZE) ih.instrSize = INSTR_HEADER_SIZE;
 
 	if (ih.instrSize < 4) // 8bb: added protection
 		return false;
 
 	mread(ih.name, ih.instrSize-4, 1, f);
+	ih.antSamp = SWAP16LE(ih.antSamp);
 
 	if (ih.antSamp > 16)
 		return false;
@@ -549,6 +568,14 @@ static bool loadInstrHeader(MEMFILE *f, uint16_t i)
 		memcpy(ins->ta, ih.ta, 96);
 		memcpy(ins->envVP, ih.envVP, 12*2*sizeof(int16_t));
 		memcpy(ins->envPP, ih.envPP, 12*2*sizeof(int16_t));
+#ifdef WORDS_BIGENDIAN
+		for (int i = 0; i < 12; ++i) {
+			ins->envVP[i][0] = SWAP16LE(ins->envVP[i][0]);
+			ins->envVP[i][1] = SWAP16LE(ins->envVP[i][1]);
+			ins->envPP[i][0] = SWAP16LE(ins->envPP[i][0]);
+			ins->envPP[i][1] = SWAP16LE(ins->envPP[i][1]);
+		}
+#endif
 		ins->envVPAnt = ih.envVPAnt;
 		ins->envPPAnt = ih.envPPAnt;
 		ins->envVSust = ih.envVSust;
@@ -563,7 +590,7 @@ static bool loadInstrHeader(MEMFILE *f, uint16_t i)
 		ins->vibSweep = ih.vibSweep;
 		ins->vibDepth = ih.vibDepth;
 		ins->vibRate = ih.vibRate;
-		ins->fadeOut = ih.fadeOut;
+		ins->fadeOut = SWAP16LE(ih.fadeOut);
 		ins->mute = (ih.mute == 1) ? true : false; // 8bb: correct logic!
 		ins->antSamp = ih.antSamp;
 
@@ -577,9 +604,9 @@ static bool loadInstrHeader(MEMFILE *f, uint16_t i)
 			memcpy(s->name, src->name, 22);
 			s->name[22] = '\0';
 
-			s->len = src->len;
-			s->repS = src->repS;
-			s->repL = src->repL;
+			s->len = SWAP32LE(src->len);
+			s->repS = SWAP32LE(src->repS);
+			s->repL = SWAP32LE(src->repL);
 			s->vol = src->vol;
 			s->fine = src->fine;
 			s->typ = src->typ;
@@ -625,6 +652,7 @@ static bool loadPatterns(MEMFILE *f, uint16_t antPtn)
 	for (uint16_t i = 0; i < antPtn; i++)
 	{
 		mread(&ph.patternHeaderSize, 4, 1, f);
+		ph.patternHeaderSize = SWAP32LE(ph.patternHeaderSize);
 		mread(&ph.typ, 1, 1, f);
 
 		ph.pattLen = 0;
@@ -632,6 +660,7 @@ static bool loadPatterns(MEMFILE *f, uint16_t antPtn)
 		{
 			mread(&tmpLen, 1, 1, f);
 			mread(&ph.dataLen, 2, 1, f);
+			ph.dataLen = SWAP16LE(ph.dataLen);
 			ph.pattLen = (uint16_t)tmpLen + 1; // 8bb: +1 in v1.02
 
 			if (ph.patternHeaderSize > 8)
@@ -640,7 +669,9 @@ static bool loadPatterns(MEMFILE *f, uint16_t antPtn)
 		else
 		{
 			mread(&ph.pattLen, 2, 1, f);
+			ph.pattLen = SWAP16LE(ph.pattLen);
 			mread(&ph.dataLen, 2, 1, f);
+			ph.dataLen = SWAP16LE(ph.dataLen);
 
 			if (ph.patternHeaderSize > 9)
 				mseek(f, ph.patternHeaderSize - 9, SEEK_CUR);
@@ -856,7 +887,7 @@ static bool loadMusicMOD(MEMFILE *f)
 	{
 		modSampleTyp *modSmp = &h_MOD31->sample[a-1];
 
-		uint32_t len = 2 * SWAP16(modSmp->len);
+		uint32_t len = 2 * SWAP16BE(modSmp->len);
 		if (len == 0)
 			continue;
 
@@ -868,8 +899,8 @@ static bool loadMusicMOD(MEMFILE *f)
 		memcpy(xmSmp->name, modSmp->name, 22);
 		xmSmp->name[22] = '\0';
 
-		uint32_t repS = 2 * SWAP16(modSmp->repS);
-		uint32_t repL = 2 * SWAP16(modSmp->repL);
+		uint32_t repS = 2 * SWAP16BE(modSmp->repS);
+		uint32_t repL = 2 * SWAP16BE(modSmp->repL);
 
 		if (repL <= 2)
 		{
@@ -952,6 +983,16 @@ bool loadMusicFromData(const uint8_t *data, uint32_t dataLength) // .XM/.MOD/.FT
 		mrewind(f);
 		return loadMusicMOD(f);
 	}
+	h.ver = SWAP16LE(h.ver);
+	h.headerSize = SWAP32LE(h.headerSize);
+	h.len = SWAP16LE(h.len);
+	h.repS = SWAP16LE(h.repS);
+	h.antChn = SWAP16LE(h.antChn);
+	h.antPtn = SWAP16LE(h.antPtn);
+	h.antInstrs = SWAP16LE(h.antInstrs);
+	h.flags = SWAP16LE(h.flags);
+	h.defTempo = SWAP16LE(h.defTempo);
+	h.defSpeed = SWAP16LE(h.defSpeed);
 
 	if (h.ver < 0x0102 || h.ver > 0x104 || h.antChn < 2 || h.antChn > 32 || (h.antChn & 1) != 0 ||
 		h.antPtn > 256 || h.antInstrs > 128)
