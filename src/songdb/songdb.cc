@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <initializer_list>
 #include <memory>
+#include <mutex>
 #include <numeric>
 #include <string>
 #include <string_view>
