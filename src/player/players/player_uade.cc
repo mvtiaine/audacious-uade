@@ -14,8 +14,8 @@
 #include <string>
 
 #include "common/logger.h"
-#include "player/player.h"
 #include "common/strings.h"
+#include "player/player.h"
 
 #include <sys/stat.h>
 
@@ -449,14 +449,25 @@ string parse_codec(const struct uade_song_info *info) {
     }
 }
 
-// .sid extension conflict with SIDMon vs C64 SID files
-bool is_sid(const char *path, const char *buf, size_t size) {
+constexpr bool has_ext(const char *path, const string &ext) {
     string p = path;
     transform(p.begin(), p.end(), p.begin(), ::tolower);
-    if (!p.ends_with(".sid") && !p.starts_with("sid.")) return false;
-    assert(size >= 4);
-    return (buf[0] == 'P' || buf[0] == 'R') && buf[1] == 'S' && buf[2] == 'I' && buf[3] == 'D';
+    string prefix = ext + ".";
+    string postfix = "." + ext;
+    return p.ends_with(postfix) || p.starts_with(prefix);
+}
+
+// .sid extension conflict with SIDMon vs C64 SID files
+constexpr bool is_sid(const char *path, const char *buf, size_t size) {
+    if (!has_ext(path, "sid")) return false;
+    return size >= 4 && (buf[0] == 'P' || buf[0] == 'R') && buf[1] == 'S' && buf[2] == 'I' && buf[3] == 'D';
 };
+
+// detect xm early to avoid running uadecore and reduce log spam
+constexpr bool is_xm(const char *path, const char *buf, size_t size) {
+    if (!has_ext(path, "xm")) return false;
+    return size >= 16 && memcmp(buf, "Extended Module:", 16) == 0;
+}
 
 } // namespace {}
 
@@ -486,7 +497,8 @@ void shutdown() {
 bool is_our_file(const char *path, const char *buf, size_t size) {
     const probe_scope probe(path);
     TRACE("uade::is_our_file using probe id %d - %s\n", probe.context->id, path);
-    return uade_is_our_file_from_buffer(path, buf, size, probe.context->state) != 0 && !is_sid(path,buf,size);
+    return uade_is_our_file_from_buffer(path, buf, size, probe.context->state) != 0 &&
+        !is_sid(path,buf,size) && !is_xm(path,buf,size);
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
