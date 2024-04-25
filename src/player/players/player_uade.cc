@@ -8,6 +8,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include <cstring>
 #include <map>
 #include <mutex>
 #include <numeric>
