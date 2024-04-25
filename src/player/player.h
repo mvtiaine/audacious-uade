@@ -26,7 +26,7 @@ constexpr int SILENCE_TIMEOUT = 30;
 constexpr int MAX_SILENCE = 3000;
 
 // TODO make externally configurable
-// uade should be last as it has heaviest detection
+// uade has heaviest detection, but must be before ft2play for MOD detection
 #define PLAYERS \
     hivelytracker, \
     libdigibooster3, \
