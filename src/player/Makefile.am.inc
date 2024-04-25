@@ -11,8 +11,10 @@ player_libplayer_la_SOURCES = \
     player/players/player_libdigibooster3.cc \
     player/players/player_uade.cc \
     common/compat.h \
+    common/endian.h \
     common/foreach.h \
     common/logger.h \
+    common/portable_endian.h \
     common/songend.h \
     common/strings.h
 

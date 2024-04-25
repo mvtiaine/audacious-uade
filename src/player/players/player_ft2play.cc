@@ -8,6 +8,7 @@
 #include <set>
 #include <string>
 
+#include "common/endian.h"
 #include "common/logger.h"
 #include "player/player.h"
 
@@ -211,17 +212,17 @@ mutex probe_guard;
 // copied from pmplay.c
 struct XMHeader {
 	char sig[17], name[21], progName[20];
-	uint16_t ver;
-	int32_t headerSize;
-	uint16_t len, repS, antChn, antPtn, antInstrs, flags, defTempo, defSpeed;
+	le_uint16_t ver;
+	le_int32_t headerSize;
+	le_uint16_t len, repS, antChn, antPtn, antInstrs, flags, defTempo, defSpeed;
 	uint8_t songTab[256];
 } __attribute__ ((packed));
 
 struct modSampleTyp {
 	char name[22];
-	uint16_t len;
+	be_uint16_t len;
 	uint8_t fine, vol;
-	uint16_t repS, repL;
+	be_uint16_t repS, repL;
 } __attribute__ ((packed));
 
 struct FSTHeader {
@@ -251,7 +252,7 @@ bool get_xm_header(const char *buf, size_t size, XMHeader &h) {
     if (h.ver < 0x0102 || h.ver > 0x104 ||
         h.antChn < 2 || h.antChn > 32 || (h.antChn & 1) != 0 ||
         h.len > 256 || h.antPtn > 256 || h.antInstrs > 128) {
-        DEBUG("player_ft2play::parse failed - ver %d progName %s len %d antChn %d antPtn %d antInstrs %d\n", h.ver, h.progName, h.len, h.antChn, h.antPtn, h.antInstrs);
+        DEBUG("player_ft2play::parse failed - ver %d progName %s len %d antChn %d antPtn %d antInstrs %d\n", (int16_t)h.ver, h.progName, (int16_t)h.len, (int16_t)h.antChn, (int16_t)h.antPtn, (int16_t)h.antInstrs);
         return false;
     }
     const auto progName = string(h.progName).substr(0,20);
