@@ -243,6 +243,8 @@ CFLAGS_FOR_BUILD="${CSTD} ${CFLAGS}"
 if test "$build_haiku" = "yes"
 then
   EXTRA_LIBS="-lbsd -lnetwork"
+  # fix constexpr support (needed at least with beta4)
+  CXXSTD="-std=c++2b"
 elif test "$build_cygwin" = "yes"
 then
   EXTRA_LIBS="-lcygwin"
