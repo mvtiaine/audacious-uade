@@ -15,7 +15,7 @@
 
 namespace common {
 
-inline std::vector<std::string> split(const std::string &str, const std::string &delimiter) {
+inline std::vector<std::string> split(const std::string &str, const std::string &delimiter) noexcept {
     std::vector<std::string> tokens;
     size_t pos = 0;
     std::string s = str;

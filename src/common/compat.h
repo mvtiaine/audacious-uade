@@ -15,7 +15,7 @@ namespace std {
 #endif
 
 #include <cstddef>
-inline void swab(const void *bfrom, void *bto, ssize_t n) {
+inline void swab(const void *bfrom, void *bto, ssize_t n) noexcept {
   const char *from = (const char *) bfrom;
   char *to = (char *) bto;
   n &= ~((ssize_t) 1);
@@ -28,7 +28,7 @@ inline void swab(const void *bfrom, void *bto, ssize_t n) {
 }
 
 #if !defined(__AROS__) && !defined(__MORPHOS__)
-inline size_t strnlen(const char *s, size_t len) {
+inline size_t strnlen(const char *s, size_t len) noexcept {
     size_t i;
 
     if( s == NULL )

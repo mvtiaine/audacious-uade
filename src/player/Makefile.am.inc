@@ -14,7 +14,6 @@ player_libplayer_la_SOURCES = \
     common/endian.h \
     common/foreach.h \
     common/logger.h \
-    common/portable_endian.h \
     common/songend.h \
     common/strings.h
 
