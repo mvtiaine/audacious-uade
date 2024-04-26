@@ -232,11 +232,11 @@ struct FSTHeader {
 	char Sig[4];
 } __attribute__ ((packed));
 
-constexpr bool is_fasttracker2(const char *buf, size_t size) {
+bool is_fasttracker2(const char *buf, size_t size) {
     return size >= 16 && memcmp(buf, "Extended Module:", 16) == 0;
 }
 
-constexpr bool is_fasttracker1(const char *buf, size_t size) {
+bool is_fasttracker1(const char *buf, size_t size) {
     if (size < sizeof(FSTHeader)) return false;
     const auto &hdr = (const FSTHeader *)buf;
     const string sig = string() + hdr->Sig[0] + hdr->Sig[1] + hdr->Sig[2] + hdr->Sig[3];
