@@ -206,22 +206,22 @@ mutex extra_mutex; // for extra_subsongs/modinfos thread safe access/update
 constexpr Source SOURCE_MD5 = static_cast<Source>(0); // internal
 bool initialized[Demozoo+1] = {};
 
-constexpr string make_format(const string_t s) noexcept {
+inline string make_format(const string_t s) noexcept {
     if (s == STRING_NOT_FOUND) return "";
     return format_pool[s];
 }
 
-constexpr string make_author(const string_t s) noexcept {
+inline string make_author(const string_t s) noexcept {
     if (s == STRING_NOT_FOUND) return "";
     return author_pool[s];
 }
 
-constexpr string make_publisher(const string_t s) noexcept {
+inline string make_publisher(const string_t s) noexcept {
     if (s == STRING_NOT_FOUND) return "";
     return publisher_pool[s];
 }
 
-constexpr string make_album(const string_t s) noexcept {
+inline string make_album(const string_t s) noexcept {
     if (s == STRING_NOT_FOUND) return "";
     return album_pool[s];
 }
