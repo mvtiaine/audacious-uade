@@ -32,7 +32,7 @@ inline std::vector<std::string> split(const std::string &str, const std::string 
     return tokens;
 }
 
-constexpr auto split_view(const std::string_view &input, const char separator) noexcept {
+inline auto split_view(const std::string_view &input, const char separator) noexcept {
     std::vector<std::string_view> results;
     size_t prevpos = 0;
     size_t pos = 0;
@@ -44,7 +44,7 @@ constexpr auto split_view(const std::string_view &input, const char separator) n
     return results;
 }
 
-constexpr auto split_view_x(const std::string_view &input, const char separator) noexcept {
+inline auto split_view_x(const std::string_view &input, const char separator) noexcept {
     std::vector<std::string_view> results;
     size_t prevpos = 0;
     size_t pos = 0;
