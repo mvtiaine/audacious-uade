@@ -450,7 +450,7 @@ string parse_codec(const struct uade_song_info *info) {
     }
 }
 
-constexpr bool has_ext(const char *path, const string &ext) noexcept {
+bool has_ext(const char *path, const string &ext) noexcept {
     string p = common::split(path, "/").back();
     transform(p.begin(), p.end(), p.begin(), ::tolower);
     string prefix = ext + ".";
@@ -459,19 +459,19 @@ constexpr bool has_ext(const char *path, const string &ext) noexcept {
 }
 
 // .sid extension conflict with SIDMon vs C64 SID files
-constexpr bool is_sid(const char *path, const char *buf, size_t size) noexcept {
+bool is_sid(const char *path, const char *buf, size_t size) noexcept {
     if (!has_ext(path, "sid")) return false;
     return size >= 4 && (buf[0] == 'P' || buf[0] == 'R') && buf[1] == 'S' && buf[2] == 'I' && buf[3] == 'D';
 };
 
 // detect xm early to avoid running uadecore and reduce log spam
-constexpr bool is_xm(const char *path, const char *buf, size_t size) noexcept {
+bool is_xm(const char *path, const char *buf, size_t size) noexcept {
     if (!has_ext(path, "xm")) return false;
     return size >= 16 && memcmp(buf, "Extended Module:", 16) == 0;
 }
 
 // detect fst early to avoid running uadecore and reduce log spam
-constexpr bool is_fst(const char *path,  const char *buf, size_t size) noexcept {
+bool is_fst(const char *path,  const char *buf, size_t size) noexcept {
     if (!has_ext(path, "fst")) return false;
     // copied from uade amifilemagic.c (MOD_PC)
     return (size > 0x43b && (
@@ -483,12 +483,12 @@ constexpr bool is_fst(const char *path,  const char *buf, size_t size) noexcept 
     );
 }
 
-constexpr bool is_s3m(const char *path,  const char *buf, size_t size) noexcept {
+bool is_s3m(const char *path,  const char *buf, size_t size) noexcept {
     if (!has_ext(path, "s3m")) return false;
     return size > 0x2C && memcmp(&buf[0x2C], "SCRM", 4) == 0;
 }
 
-constexpr bool is_it(const char *path,  const char *buf, size_t size) noexcept {
+bool is_it(const char *path,  const char *buf, size_t size) noexcept {
     if (!has_ext(path, "it")) return false;
     return size >= 4 && buf[0] == 'I' && buf[1] == 'M' && buf[2] == 'P' && buf[3] == 'M';
 }
