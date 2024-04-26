@@ -28,7 +28,7 @@ struct SongEnd {
     };
     Status status;
     uint32_t length = 0;
-    constexpr static std::string status_string(const Status status) noexcept {
+    static std::string status_string(const Status status) noexcept {
         switch (status) {
             case ERROR: return "error";
             case NONE: return "none";
@@ -46,7 +46,7 @@ struct SongEnd {
             default: assert(false); return "error";
         }
     }
-    constexpr std::string status_string() const noexcept {
+    std::string status_string() const noexcept {
         return status_string(status);
     }
 };
