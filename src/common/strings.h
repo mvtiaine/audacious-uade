@@ -15,7 +15,7 @@
 
 namespace common {
 
-constexpr std::vector<std::string> split(const std::string &str, const std::string &delimiter) noexcept {
+inline std::vector<std::string> split(const std::string &str, const std::string &delimiter) noexcept {
     std::vector<std::string> tokens;
     size_t pos = 0;
     std::string s = str;
@@ -89,8 +89,7 @@ constexpr auto split_view_x(const std::string_view &input, const char separator)
     return results;
 }
 
-constexpr std::string mkString(const std::vector<std::string> &v, const std::string &delimiter) noexcept {
-    std::string res;
+inline void mkString(const std::vector<std::string> &v, const std::string &delimiter, std::string &res) noexcept {
     size_t size = 0;
     for (size_t i = 0; i < v.size(); ++i) {
         if (v[i].size()) {
@@ -109,11 +108,15 @@ constexpr std::string mkString(const std::vector<std::string> &v, const std::str
             }
         }
     }
+}
+
+inline std::string mkString(const std::vector<std::string> &v, const std::string &delimiter) noexcept {
+    std::string res;
+    mkString(v, delimiter, res);
     return res;
 }
 
-constexpr std::string mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter) noexcept {
-    std::string res;
+inline void mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter, std::string &res) noexcept {
     size_t size = 0;
     for (size_t i = 0; i < v.size(); ++i) {
         if (v[i].size()) {
@@ -132,6 +135,11 @@ constexpr std::string mkString(const std::vector<std::string_view> &v, const std
             }
         }
     }
+}
+
+inline std::string mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter) noexcept {
+    std::string res;
+    mkString(v, delimiter, res);
     return res;
 }
 

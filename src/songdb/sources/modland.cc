@@ -64,7 +64,9 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
             if (token1.starts_with(COOP)) {
                 vector<string_view> authors = {author, token1.substr(COOP.length())};
                 sort(authors.begin(), authors.end());
-                add_author(common::mkString(authors, AUTHOR_JOIN));
+                string author;
+                common::mkString(authors, AUTHOR_JOIN, author);
+                add_author(author);
             } else {
                 if (author == UNKNOWN) {
                     item.author = UNKNOWN_AUTHOR_T;
@@ -91,7 +93,9 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
             if (token1.starts_with(COOP)) {
                 vector<string_view> authors = {author, token1.substr(COOP.length())};
                 sort(authors.begin(), authors.end());
-                add_author(common::mkString(authors, AUTHOR_JOIN));
+                string author;
+                common::mkString(authors, AUTHOR_JOIN, author);
+                add_author(author);
                 if (tokens[2].at(0) == 0x7f) {
                     item.album = prev_item.album;
                 } else {

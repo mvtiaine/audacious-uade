@@ -88,11 +88,13 @@ bool parse_tsv_row(const char *tuple, _UnExoticaData &item, const _UnExoticaData
     } else if (author.at(0) == 0x7f) {
         item.author = prev_item.author;
     } else {
+        string author_;
         if (author_tokens.size() == 1) {
-            add_author(author_tokens[0]);
+            author_ = string(author_tokens[0]);
         } else {
-            add_author(common::mkString(author_tokens, " "));
+            common::mkString(author_tokens, " ", author_);
         }
+        add_author(author_);
     }
 
     if (album.empty()) {

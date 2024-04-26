@@ -60,7 +60,9 @@ bool parse_tsv_row(const char *tuple, _DemozooData &item, const _DemozooData &pr
             add_author(author);
         }
     } else {
-        add_author(common::mkString(authors_, AUTHOR_JOIN));
+        string author;
+        common::mkString(authors_, AUTHOR_JOIN, author);
+        add_author(author);
     }
 
     if (cols[1].empty()) {
@@ -70,7 +72,9 @@ bool parse_tsv_row(const char *tuple, _DemozooData &item, const _DemozooData &pr
     } else if (publishers_.size() == 1) {
         add_publisher(publishers_[0]);
     } else {
-        add_publisher(common::mkString(publishers_, AUTHOR_JOIN));
+        string publisher;
+        common::mkString(publishers_, AUTHOR_JOIN, publisher);
+        add_publisher(publisher);
     }
 
     if (album.empty()) {
