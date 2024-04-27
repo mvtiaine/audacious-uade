@@ -4,7 +4,6 @@
 #ifdef __AMIGA__
 
 #if defined(__CLIB2__)
-
 extern "C" {
 // XXX workaround undefined references
 #include <assert.h>
@@ -18,7 +17,17 @@ long double strtold(const char *restrict nptr, char **restrict endptr) {
     return 0;
 }
 }
+#endif
 
+#if defined(__libnix__) && !defined(__MORPHOS__)
+// XXX undefined reference to 'round' for some reason with bebbos gcc
+// also __builtin_round() crashes, so use quick and dirty implementation
+double round(double d) {
+    if (d < 0.0)
+        return (int64_t)(d - 0.5);
+    else
+        return (int64_t)(d + 0.5);
+}
 #endif
 
 #endif // __AMIGA__

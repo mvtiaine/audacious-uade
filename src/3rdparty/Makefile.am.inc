@@ -12,7 +12,6 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/hivelytracker/replay.c
 
 # try keep byte-by-byte consistent audio output across platforms, by disabling some floating point optimizations
-# also -flto with -O2 affects output, explicitly use -Os to workaround this
 3rdparty_replay_libreplay_hivelytracker_la_CFLAGS = $(AM_CFLAGS) -ffp-contract=off -fno-fast-math
 if !BUILD_AMIGAOS4
 # XXX -Os breaks amigaos4 build

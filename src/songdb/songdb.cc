@@ -17,10 +17,11 @@
 #include <utility>
 #include <vector>
 
+#include "common/compat.h"
 #include "common/logger.h"
+#include "common/strings.h"
 #include "songdb/internal.h"
 #include "songdb/songdb.h"
-#include "common/strings.h"
 
 #include <string.h>
 #include <time.h>

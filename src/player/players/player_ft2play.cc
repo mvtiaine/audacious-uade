@@ -101,10 +101,6 @@ struct xm_context {
         if (probe) return probe::dump_Init(frq, amp, songPos);
         else return play::dump_Init(frq, amp, songPos);
     }
-    void dump_Close(void) const {
-        if (probe) probe::dump_Close();
-        else play::dump_Close();
-    }
     int32_t dump_GetFrame(int16_t *p) const {
         if (probe) return probe::dump_GetFrame(p);
         else return play::dump_GetFrame(p);
@@ -120,7 +116,8 @@ struct xm_context {
         else play::setPos(pos, row); 
     }
     void shutdown() {
-        dump_Close();
+        stopVoices();
+        mix_ClearChannels();
         mix_Free();
         freeMusic();
         if (probe) {
@@ -362,11 +359,13 @@ void init() {
 }
 
 void shutdown() {
-    probe::dump_Close();
+    probe::stopVoices();
+    probe::mix_ClearChannels();
     probe::mix_Free();
     probe::freeMusic();
     probe::moduleLoaded = false;
-    play::dump_Close();
+    play::stopVoices();
+    play::mix_ClearChannels();
     play::mix_Free();
     play::freeMusic();
     play::moduleLoaded = false;
