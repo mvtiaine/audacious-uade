@@ -250,7 +250,7 @@ constexpr optional<T> find(const array<T,N> &db, const md5_idx_t md5) noexcept {
     }
 }
 
-constexpr optional<ModInfo> make_modinfo(const md5_idx_t md5) noexcept {
+inline optional<ModInfo> make_modinfo(const md5_idx_t md5) noexcept {
     const auto &data = db_modinfos[md5];
     if (data.format != STRING_NOT_FOUND || data.channels > 0) {
         return ModInfo {
@@ -261,7 +261,7 @@ constexpr optional<ModInfo> make_modinfo(const md5_idx_t md5) noexcept {
     return {};
 }
 
-constexpr optional<ModlandData> make_modland(const md5_idx_t md5) noexcept {
+inline optional<ModlandData> make_modland(const md5_idx_t md5) noexcept {
     const auto data = find<_ModlandData,MODLAND_SIZE>(db_modland, md5);
     if (data) {
         return ModlandData {
@@ -272,7 +272,7 @@ constexpr optional<ModlandData> make_modland(const md5_idx_t md5) noexcept {
     return {};
 }
 
-constexpr optional<AMPData> make_amp(const md5_idx_t md5) noexcept {
+inline optional<AMPData> make_amp(const md5_idx_t md5) noexcept {
     const auto data = find<_AMPData,AMP_SIZE>(db_amp, md5);
     if (data) {
         return AMPData {
@@ -282,7 +282,7 @@ constexpr optional<AMPData> make_amp(const md5_idx_t md5) noexcept {
     return {};
 }
 
-constexpr optional<UnExoticaData> make_unexotica(const md5_idx_t md5) noexcept {
+inline optional<UnExoticaData> make_unexotica(const md5_idx_t md5) noexcept {
     const auto data = find<_UnExoticaData,UNEXOTICA_SIZE>(db_unexotica, md5);
     if (data) {
         return UnExoticaData {
@@ -295,7 +295,7 @@ constexpr optional<UnExoticaData> make_unexotica(const md5_idx_t md5) noexcept {
     return {};
 }
 
-constexpr optional<DemozooData> make_demozoo(const md5_idx_t md5) noexcept {
+inline optional<DemozooData> make_demozoo(const md5_idx_t md5) noexcept {
     const auto data = find<_DemozooData,DEMOZOO_SIZE>(db_demozoo, md5);
     if (data) {
         return DemozooData {
