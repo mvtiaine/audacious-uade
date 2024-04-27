@@ -1,4 +1,4 @@
-0.12-dev
+0.12.0 - 2024-04-27
 - Dropped UADE libbsd dependency
 - Windows MinGW/MSYS2 support
 - Add Fedora/OpenSUSE/CentOS/etc. RPM build scripts
