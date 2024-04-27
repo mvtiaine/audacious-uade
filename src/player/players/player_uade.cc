@@ -472,7 +472,7 @@ bool is_xm(const char *path, const char *buf, size_t size) noexcept {
 
 // detect fst early to avoid running uadecore and reduce log spam
 bool is_fst(const char *path,  const char *buf, size_t size) noexcept {
-    if (!has_ext(path, "fst")) return false;
+    if (!has_ext(path, "fst") && !has_ext(path, "mod")) return false;
     // copied from uade amifilemagic.c (MOD_PC)
     return (size > 0x43b && (
          ((buf[0x438] >= '0' && buf[0x438] <= '9') && (buf[0x439] >= '0' && buf[0x439] <= '9') && buf[0x43a] == 'C' && buf[0x43b] == 'H')
