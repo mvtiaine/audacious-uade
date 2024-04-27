@@ -41,3 +41,28 @@ constexpr size_t strnlen(const char *s, size_t len) noexcept {
 #endif
 
 #endif // __AMIGA__
+
+#ifdef __AROS__
+#include <cstring>
+namespace std {
+// std::bit_cast not available, use example implementation from
+// https://en.cppreference.com/w/cpp/numeric/bit_cast
+template<class To, class From>
+std::enable_if_t<
+    sizeof(To) == sizeof(From) &&
+    std::is_trivially_copyable_v<From> &&
+    std::is_trivially_copyable_v<To>,
+    To>
+// constexpr support needs compiler magic
+bit_cast(const From& src) noexcept
+{
+    static_assert(std::is_trivially_constructible_v<To>,
+        "This implementation additionally requires "
+        "destination type to be trivially constructible");
+ 
+    To dst;
+    std::memcpy(&dst, &src, sizeof(To));
+    return dst;
+}
+} // namespace std
+#endif

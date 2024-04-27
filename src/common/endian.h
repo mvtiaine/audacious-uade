@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <type_traits>
 
+#include "compat.h"
+
 namespace common {
 
 // byteswap copied from https://en.cppreference.com/w/cpp/numeric/byteswap (c++23)
