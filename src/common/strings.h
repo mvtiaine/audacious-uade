@@ -15,7 +15,7 @@
 
 namespace common {
 
-inline std::vector<std::string> split(const std::string &str, const std::string &delimiter) {
+inline std::vector<std::string> split(const std::string &str, const std::string &delimiter) noexcept {
     std::vector<std::string> tokens;
     size_t pos = 0;
     std::string s = str;
@@ -57,7 +57,7 @@ inline auto split_view_x(const std::string_view &input, const char separator) no
 }
 
 template <int N>
-inline auto split_view(const std::string_view &input, const char separator) noexcept {
+constexpr auto split_view(const std::string_view &input, const char separator) noexcept {
     std::array<std::string_view, N> results; 
     auto current = input.begin();
     const auto End = input.end();
@@ -72,7 +72,7 @@ inline auto split_view(const std::string_view &input, const char separator) noex
 }
 
 template <int N>
-inline auto split_view_x(const std::string_view &input, const char separator) noexcept {
+constexpr auto split_view_x(const std::string_view &input, const char separator) noexcept {
     std::array<std::string_view, N> results; 
     auto current = input.begin();
     const auto End = input.end();
@@ -144,7 +144,7 @@ inline std::string mkString(const std::vector<std::string_view> &v, const std::s
 }
 
 template <class T>
-inline T from_chars(const std::string_view &s) noexcept {
+constexpr T from_chars(const std::string_view &s) noexcept {
     if (s.size() == 1) return s[0] - 48;
     const char *end = s.begin() + s.size();
     T number;

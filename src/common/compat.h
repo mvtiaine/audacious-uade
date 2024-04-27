@@ -15,7 +15,7 @@ namespace std {
 #endif
 
 #include <cstddef>
-inline void swab(const void *bfrom, void *bto, ssize_t n) {
+inline void swab(const void *bfrom, void *bto, ssize_t n) noexcept {
   const char *from = (const char *) bfrom;
   char *to = (char *) bto;
   n &= ~((ssize_t) 1);
@@ -28,7 +28,7 @@ inline void swab(const void *bfrom, void *bto, ssize_t n) {
 }
 
 #if !defined(__AROS__) && !defined(__MORPHOS__)
-inline size_t strnlen(const char *s, size_t len) {
+constexpr size_t strnlen(const char *s, size_t len) noexcept {
     size_t i;
 
     if( s == NULL )
@@ -41,3 +41,28 @@ inline size_t strnlen(const char *s, size_t len) {
 #endif
 
 #endif // __AMIGA__
+
+#ifdef __AROS__
+#include <cstring>
+namespace std {
+// std::bit_cast not available, use example implementation from
+// https://en.cppreference.com/w/cpp/numeric/bit_cast
+template<class To, class From>
+std::enable_if_t<
+    sizeof(To) == sizeof(From) &&
+    std::is_trivially_copyable_v<From> &&
+    std::is_trivially_copyable_v<To>,
+    To>
+// constexpr support needs compiler magic
+bit_cast(const From& src) noexcept
+{
+    static_assert(std::is_trivially_constructible_v<To>,
+        "This implementation additionally requires "
+        "destination type to be trivially constructible");
+ 
+    To dst;
+    std::memcpy(&dst, &src, sizeof(To));
+    return dst;
+}
+} // namespace std
+#endif

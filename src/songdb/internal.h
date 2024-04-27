@@ -101,7 +101,7 @@ struct std::hash<songdb::internal::uint48_t>
 
 namespace common {
 template<>
-inline songdb::internal::uint24_t from_chars<songdb::internal::uint24_t>(const std::string_view &s) noexcept {
+constexpr songdb::internal::uint24_t from_chars<songdb::internal::uint24_t>(const std::string_view &s) noexcept {
     return common::from_chars<uint32_t>(s);
 }
 }

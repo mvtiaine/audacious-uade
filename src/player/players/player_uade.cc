@@ -8,14 +8,15 @@
 
 #include <cassert>
 #include <cstdint>
+#include <cstring>
 #include <map>
 #include <mutex>
 #include <numeric>
 #include <string>
 
 #include "common/logger.h"
-#include "player/player.h"
 #include "common/strings.h"
+#include "player/player.h"
 
 #include <sys/stat.h>
 
@@ -449,14 +450,48 @@ string parse_codec(const struct uade_song_info *info) {
     }
 }
 
-// .sid extension conflict with SIDMon vs C64 SID files
-bool is_sid(const char *path, const char *buf, size_t size) {
-    string p = path;
+bool has_ext(const char *path, const string &ext) noexcept {
+    string p = common::split(path, "/").back();
     transform(p.begin(), p.end(), p.begin(), ::tolower);
-    if (!p.ends_with(".sid") && !p.starts_with("sid.")) return false;
-    assert(size >= 4);
-    return (buf[0] == 'P' || buf[0] == 'R') && buf[1] == 'S' && buf[2] == 'I' && buf[3] == 'D';
+    string prefix = ext + ".";
+    string postfix = "." + ext;
+    return p.ends_with(postfix) || p.starts_with(prefix);
+}
+
+// .sid extension conflict with SIDMon vs C64 SID files
+bool is_sid(const char *path, const char *buf, size_t size) noexcept {
+    if (!has_ext(path, "sid")) return false;
+    return size >= 4 && (buf[0] == 'P' || buf[0] == 'R') && buf[1] == 'S' && buf[2] == 'I' && buf[3] == 'D';
 };
+
+// detect xm early to avoid running uadecore and reduce log spam
+bool is_xm(const char *path, const char *buf, size_t size) noexcept {
+    if (!has_ext(path, "xm")) return false;
+    return size >= 16 && memcmp(buf, "Extended Module:", 16) == 0;
+}
+
+// detect fst early to avoid running uadecore and reduce log spam
+bool is_fst(const char *path,  const char *buf, size_t size) noexcept {
+    if (!has_ext(path, "fst") && !has_ext(path, "mod")) return false;
+    // copied from uade amifilemagic.c (MOD_PC)
+    return (size > 0x43b && (
+         ((buf[0x438] >= '0' && buf[0x438] <= '9') && (buf[0x439] >= '0' && buf[0x439] <= '9') && buf[0x43a] == 'C' && buf[0x43b] == 'H')
+      || ((buf[0x438] >= '0' && buf[0x438] <= '9') && buf[0x439] == 'C' && buf[0x43a] == 'H' && buf[0x43b] == 'N')
+      || ( buf[0x438] == 'T' && buf[0x439] == 'D' && buf[0x43a] == 'Z')
+      || ( buf[0x438] == 'O' && buf[0x439] == 'C' && buf[0x43a] == 'T' && buf[0x43b] == 'A')
+      || ( buf[0x438] == 'C' && buf[0x439] == 'D' && buf[0x43a] == '8' && buf[0x43b] == '1'))
+    );
+}
+
+bool is_s3m(const char *path,  const char *buf, size_t size) noexcept {
+    if (!has_ext(path, "s3m")) return false;
+    return size > 0x2C && memcmp(&buf[0x2C], "SCRM", 4) == 0;
+}
+
+bool is_it(const char *path,  const char *buf, size_t size) noexcept {
+    if (!has_ext(path, "it")) return false;
+    return size >= 4 && buf[0] == 'I' && buf[1] == 'M' && buf[2] == 'P' && buf[3] == 'M';
+}
 
 } // namespace {}
 
@@ -486,7 +521,8 @@ void shutdown() {
 bool is_our_file(const char *path, const char *buf, size_t size) {
     const probe_scope probe(path);
     TRACE("uade::is_our_file using probe id %d - %s\n", probe.context->id, path);
-    return uade_is_our_file_from_buffer(path, buf, size, probe.context->state) != 0 && !is_sid(path,buf,size);
+    return !is_xm(path,buf,size) && !is_fst(path,buf,size) && !is_s3m(path,buf,size) && !is_it(path,buf,size) &&
+        !is_sid(path,buf,size) && uade_is_our_file_from_buffer(path, buf, size, probe.context->state) != 0;
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {

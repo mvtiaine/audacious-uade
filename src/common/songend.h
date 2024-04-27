@@ -46,7 +46,7 @@ struct SongEnd {
             default: assert(false); return "error";
         }
     }
-    std::string status_string() const {
+    std::string status_string() const noexcept {
         return status_string(status);
     }
 };

@@ -17,7 +17,7 @@
 
 namespace player {
 
-constexpr int MAGIC_SIZE = 16;
+constexpr int MAGIC_SIZE = 4;
 
 constexpr int PRECALC_FREQ = 8062;
 constexpr int PRECALC_TIMEOUT = 3600;
@@ -26,11 +26,12 @@ constexpr int SILENCE_TIMEOUT = 30;
 constexpr int MAX_SILENCE = 3000;
 
 // TODO make externally configurable
-// uade should be last as it has heaviest detection
+// uade has heaviest detection, but must be before ft2play for MOD detection
 #define PLAYERS \
     hivelytracker, \
     libdigibooster3, \
-    uade
+    uade, \
+    ft2play
 
 enum class Player {
     NONE,

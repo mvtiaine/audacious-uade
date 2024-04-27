@@ -8208,6 +8208,7 @@
 8f817e8a8e0a7c464e29895684403cb1	1	119058	player	uade	Jochen Hippel	0	117920	jochen_hippel/SOG.Life'sABitch-TheBittnerMix
 8f849a4365f7c4decc473d171d95ccc7	0	117519	loop	uade	MusiclineEditor	0	27738	music_line_editor/krister_fundin/trams.ml
 8f871e29706af6d645feda841c56a48d	1	103806	player	uade	Protracker	0	104576	mod/wotw/Turrican2/Turrican2_End.mod
+8f9b9cb9c3d649fae707648df56d8090	1	61328	player	ft2play	FastTracker v2.00	6	51563	mod/2pac/katram3.xm
 8fa117b4f76fa0efad86b2754ccc14dd	1	39284	player	uade	AudioSculpture	0	6204	audio_sculpture/adsc.enola grey
 8fa387becc61623d83b609dc67b096b6	0	76900	player	uade	FutureComposer 1.4	0	8752	fc/fc14.walkman-complex
 8fbd0dedd240e76dc2a739a6df2bdf13	0	111523	player	uade	AHX v2	0	2103	ahx/Pink/AHX.Spam
@@ -9609,6 +9610,7 @@ ab533d41812d419479c1152b09b2f1c0	0	0	nosound	uade	Sonic Arranger	0	7996	sonic_ar
 ab533d41812d419479c1152b09b2f1c0	1	0	nosound
 ab5399333018d081de4624b14dd95ca7	1	112769	player	uade	Protracker	0	55942	mod/other/deck-collection/gatecrashing.mod
 ab5399333018d081de4624b14dd95ca7	1	112769	player	uade	Protracker	0	55942	mod/other/subject-gatecrashing.mod
+ab561dd5200e865460a4e8a062c78378	1	53660	player	ft2play	FastTracker v2.00	4	14200	mod/2pac/ghip#02x.xm
 ab5add5174ad070fb0a8ce06d6dc4462	0	110277	player	uade	Quartet ST	0	5884	quartet_st/DanDare3/QTS.DanDare3 title
 ab5f9be39d83782de2a4fc3bebcba9f9	1	31789	player	uade	Protracker compatible	0	9244	mod/other/SAE02.MOD
 ab6221f9f0de171e417efc01a106d047	1	103806	player	uade	Protracker compatible	0	15960	mod/other/nugget-highspeed.mod
@@ -10697,6 +10699,7 @@ bee47a2a0007635f6446e589a275fdbb	1	1969	player
 bee47a2a0007635f6446e589a275fdbb	2	18627	player
 befe1efea3e6a741df2d9ba96813731a	1	98682	player	uade	Protracker	0	29652	mod/other/deck-collection/tix05.turritune.mod
 befe1efea3e6a741df2d9ba96813731a	2	11654	player
+bf001617681790ec5380d4c90e252669	1	68997	player	ft2play	FastTracker v2.00	4	12344	mod/2pac/ghip#01.xm
 bf03d3c5000abe464394332dacf36843	0	111599	silence	uade	MusiclineEditor	0	28992	music_line_editor/Mr.Chaos/ML.TRW-Beat_it_up!
 bf03d3c5000abe464394332dacf36843	1	49590	silence
 bf0cad80c2b52768a852d14d4ef2d257	0	316629	player+silence	uade	Speedy A1 System	0	71888	speedy_systems/A1 Systems/SAS.Friendship Music remix

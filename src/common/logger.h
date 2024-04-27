@@ -7,16 +7,16 @@
 
 namespace logger {
 
-void debug(const char *file, int line, const char *func, const char *fmt, ...)
+void debug(const char *file, int line, const char *func, const char *fmt, ...) noexcept
     __attribute__((__format__(__printf__, 4, 5)));
 
-void info(const char *file, int line, const char *func, const char *fmt, ...)
+void info(const char *file, int line, const char *func, const char *fmt, ...) noexcept
     __attribute__((__format__(__printf__, 4, 5)));
 
-void warn(const char *file, int line, const char *func, const char *fmt, ...)
+void warn(const char *file, int line, const char *func, const char *fmt, ...) noexcept
     __attribute__((__format__(__printf__, 4, 5)));
 
-void error(const char *file, int line, const char *func, const char *fmt, ...)
+void error(const char *file, int line, const char *func, const char *fmt, ...) noexcept
     __attribute__((__format__(__printf__, 4, 5)));
 
 } // namespace::logger

@@ -7,14 +7,15 @@
 #include <string>
 #include <vector>
 
-#include "converter/big_endian.h"
+#include "common/endian.h"
+#include "converter/io.h"
 
 namespace converter::med {
 
-typedef converter::be_int32_t      LONG;           /* signed 32-bit quantity */
-typedef converter::be_uint32_t     ULONG;          /* unsigned 32-bit quantity */
-typedef converter::be_int16_t      WORD;           /* signed 16-bit quantity */
-typedef converter::be_uint16_t     UWORD;          /* unsigned 16-bit quantity */
+typedef common::be_int32_t      LONG;           /* signed 32-bit quantity */
+typedef common::be_uint32_t     ULONG;          /* unsigned 32-bit quantity */
+typedef common::be_int16_t      WORD;           /* signed 16-bit quantity */
+typedef common::be_uint16_t     UWORD;          /* unsigned 16-bit quantity */
 typedef int8_t          BYTE;           /* signed 8-bit quantity */
 typedef uint8_t         UBYTE;          /* unsigned 8-bit quantity */
 typedef char *          STRPTR;         /* string pointer (NUL-terminated) */

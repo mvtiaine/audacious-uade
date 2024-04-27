@@ -1370,6 +1370,7 @@
 158488e93a102efd16dc29992b69b700	0	127699	player	uade	Sonic Arranger	0	32770	Game/Steinwachs_Matthias/Ambermoon/Direct_from_Composer/sa.Amber11
 1594a753888cc8735f64730b01f6c25f	1	331917	player	uade	P50A - P60A - P61A	0	246496	Demo/Liljedahl_Jogeir/Love/p5x.vd_love_main
 159581910f064311d7fc72b8ccf29ab9	1	34140	player	uade	Jesper Olsen	0	34550	Game/Olsen_Jesper/Lollypop/jo.ingame_09
+159d9b7e7919c65fa26fb7914357ef49	1	122677	player	ft2play	FastTracker v2.00	8	193581	Game/Leitch_Barry/Lotus_2/Bonus/XM.Lotus_2_Completion_Remix_2
 15a117bcd90da7b03b7b10e0251f15f4	0	31648	player	uade	Ultimate-Soundtracker or compatible	0	20146	Game/Trevoan_Cyril/Super_Ski_2/mod.SPECIAL
 15a80d1caa3ca9b41fb3ace844cc2849	1	134531	player	uade	Promizer 1.x	0	143262	Demo/Tripp_Volker/Terminal_Fuckup/prom.snt_terminal_fuckup
 15aeba1d1d1b5f079da3243f170e917e	0	38400	player	uade	Mugician	0	74888	Game/van_Vliet_Reinier/Winter_Camp/mug.title
@@ -10706,6 +10707,7 @@ a4d08e4a7d6ca4adf701449c5163f269	1	184445	player	uade	P50A - P60A - P61A	0	29066
 a4d1300ae531cfd0fff3c34789e6f88d	0	195075	player	uade	Jason C. Brooke	0	57186	Game/Brooke_Jason/Out_Run/jcb.out_run
 a4d1300ae531cfd0fff3c34789e6f88d	1	118516	player
 a4d1300ae531cfd0fff3c34789e6f88d	2	29297	player
+a4d6fb2322a03e5b310275c718cbea4e	1	193616	player	ft2play	FastTracker v2.00	16	663764	Game/Holt_Hein/Disposable_Hero/Bonus/xm.l2mix
 a4ef18ebf4d58328aa09582a93fddc1d	0	6389	player	uade	Sierra AGI	0	291	Game/Murry_Barry/Man_Hunter_1/agi.ingame_72
 a4f3224c7e396929715ad9644d69e065	1	96130	player	uade	Noisetracker 2.x	0	35000	Game/Furniss_Matt/Skull_and_Crossbones/mod.skull6
 a5003107618af98138a3e58bdafb6b88	1	135576	player	uade	OctaMED MMD1	0	42270	Game/Evans_Dean/One_Step_Beyond/med.ingame_6
@@ -12730,6 +12732,7 @@ c59fed5d67f4da26f01d276f3a7f1d2e	4	92172	player
 c59fed5d67f4da26f01d276f3a7f1d2e	5	89620	player
 c59fed5d67f4da26f01d276f3a7f1d2e	6	76820	player
 c59fed5d67f4da26f01d276f3a7f1d2e	7	89459	player
+c5a97247c4265285dfa73f2c3eb1162f	1	104144	player	ft2play	FastTracker v2.00	12	440276	Game/Holt_Hein/Disposable_Hero/Bonus/xm.levelrobot
 c5af670881019611b38779f2754d75b8	0	153620	player	uade	TFMX Pro	0	4656	Game/Stember_Rudolf/Logical/mdat.Logical-Levelmusic.04
 c5af670881019611b38779f2754d75b8	1	3878	player
 c5af670881019611b38779f2754d75b8	2	3878	player
@@ -14842,6 +14845,7 @@ e8357242fca7ca08144a9ee012510130	0	119022	player+silence	uade	Sonix Music Driver
 e83905b31b9e17aa93f60e2be510f0a3	1	40429	player	uade	Noisetracker 2.x	0	41630	Game/Furniss_Matt/Toobin/mod.beachparty
 e83d082d4f6910cf2b3b155243080fa0	1	89720	player	uade	Noisetracker 2.x	0	20782	Game/Media_Sorcery/Simon_The_Sorcerer/mod.MOD.SWAMP
 e83d4f3730f68852a2d9e01984a2b7ea	1	96235	player+silence	uade	P40A - P40B - P41A	0	27014	Game/Brimble_Allister/Colonization/p4x.Col13.mod
+e84868b9a921d758541746b283509d1a	1	161019	player	ft2play	FastTracker v2.00	8	174827	Game/Leitch_Barry/Lotus_2/Bonus/XM.Lotus_2_Completion_Remix_1
 e84f3c3fcf857c0750009db1a0af9fa2	1	23168	player	uade	Noisetracker 1.x	0	44278	Game/Collier_Kevin/Rotox/mod.startup
 e84fcd1ecb311e1b83da12f77d5d981f	1	15472	player	uade	Protracker	0	64226	Game/Knight_Mark/Wing_Commander/mod.w.c.gooddamageasses
 e85038be2307f1509532d0bec686cbe4	1	22565	player+silence	uade	Protracker	0	244824	Game/Phelan_Patrick/Nigel_Mansell_WC/mod.mansdemointro

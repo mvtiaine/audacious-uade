@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <initializer_list>
 #include <memory>
+#include <mutex>
 #include <numeric>
 #include <string>
 #include <string_view>
@@ -16,10 +17,11 @@
 #include <utility>
 #include <vector>
 
+#include "common/compat.h"
 #include "common/logger.h"
+#include "common/strings.h"
 #include "songdb/internal.h"
 #include "songdb/songdb.h"
-#include "common/strings.h"
 
 #include <string.h>
 #include <time.h>
@@ -44,7 +46,7 @@ namespace {
 
 constexpr size_t BUF_SIZE = 2048;
 
-md5_t hex2md5(const char *hex) noexcept {
+constexpr md5_t hex2md5(const char *hex) noexcept {
     uint64_t ret = 0; 
     for (int i = 0; i < 12; ++i) {
         const char c = *hex++;
@@ -58,7 +60,7 @@ md5_t hex2md5(const char *hex) noexcept {
    return ret; 
 }
 
-inline uint24_t b64d24(const string_view &b64) noexcept {
+constexpr uint24_t b64d24(const string_view &b64) noexcept {
     if (b64.size() == 3) {
         return (b64[0] - 45) << 12 |
                (b64[1] - 45) << 6 |
@@ -77,7 +79,7 @@ inline uint24_t b64d24(const string_view &b64) noexcept {
     }
 }
 
-inline uint24_t b64d24(const char *b64, int &len) noexcept {
+constexpr uint24_t b64d24(const char *b64, int &len) noexcept {
     if (b64[1] == '\n' || b64[1] == '\t') {
         len = 1;
         return b64[0] - 45;
@@ -99,7 +101,7 @@ inline uint24_t b64d24(const char *b64, int &len) noexcept {
     }
 }
 
-inline md5_t b64diff2md5(const md5_t prev, const char *b64, int &len) noexcept {
+constexpr md5_t b64diff2md5(const md5_t prev, const char *b64, int &len) noexcept {
     if (b64[3] == '\n') {
         len = 4;
         return prev + ((b64[0] - 45) << 12 |
@@ -137,7 +139,7 @@ vector<string> author_pool = {UNKNOWN_AUTHOR};
 vector<string> publisher_pool;
 vector<string> album_pool;
 
-md5_idx_t _md5idx(const md5_t hash) noexcept  {
+constexpr md5_idx_t _md5idx(const md5_t hash) noexcept  {
     uint32_t idx = ((double)hash / MD5_T_MAX) * MD5_IDX_SIZE;
     assert(idx < MD5_IDX_SIZE);
     md5_t cmp = md5_idx[idx];
@@ -158,12 +160,12 @@ md5_idx_t _md5idx(const md5_t hash) noexcept  {
     }
 }
 
-md5_idx_t _md5hex(const string_view &md5) noexcept {
+constexpr md5_idx_t _md5hex(const string_view &md5) noexcept {
     assert(md5.size() >= 12);
     return _md5idx(hex2md5(md5.data()));
 }
 
-songend_t parse_songend(const string_view &songend) noexcept {
+constexpr songend_t parse_songend(const string_view &songend) noexcept {
     if (songend == "e") return common::SongEnd::ERROR;
     if (songend == "p") return common::SongEnd::PLAYER;
     if (songend == "t") return common::SongEnd::TIMEOUT;
@@ -192,39 +194,41 @@ const vector<string> tsvfiles ({
 
 _SongInfo db_songinfos[MD5_IDX_SIZE]; // md5_idx_t -> first subsong info
 unordered_map<md5_idx_t, vector<_SubSongInfo>> db_subsongs; // infos for extra subsongs
-unordered_map<md5_t, vector<SubSongInfo>> extra_subsongs; // runtime only
-unordered_map<md5_t, ModInfo> extra_modinfos; // runtime only
 _ModInfo db_modinfos[MD5_IDX_SIZE];
 array<_ModlandData,MODLAND_SIZE> db_modland;
 array<_AMPData,AMP_SIZE> db_amp;
 array<_UnExoticaData,UNEXOTICA_SIZE> db_unexotica;
 array<_DemozooData,DEMOZOO_SIZE> db_demozoo;
 
+unordered_map<md5_t, vector<SubSongInfo>> extra_subsongs; // runtime only
+unordered_map<md5_t, ModInfo> extra_modinfos; // runtime only
+mutex extra_mutex; // for extra_subsongs/modinfos thread safe access/update
+
 constexpr Source SOURCE_MD5 = static_cast<Source>(0); // internal
 bool initialized[Demozoo+1] = {};
 
-const string make_format(const string_t s) noexcept {
+inline string make_format(const string_t s) noexcept {
     if (s == STRING_NOT_FOUND) return "";
     return format_pool[s];
 }
 
-const string make_author(const string_t s) noexcept {
+inline string make_author(const string_t s) noexcept {
     if (s == STRING_NOT_FOUND) return "";
     return author_pool[s];
 }
 
-const string make_publisher(const string_t s) noexcept {
+inline string make_publisher(const string_t s) noexcept {
     if (s == STRING_NOT_FOUND) return "";
     return publisher_pool[s];
 }
 
-const string make_album(const string_t s) noexcept {
+inline string make_album(const string_t s) noexcept {
     if (s == STRING_NOT_FOUND) return "";
     return album_pool[s];
 }
 
 template <_Data_ T, size_t N>
-optional<T> find(const array<T,N> &db, const md5_idx_t md5) noexcept {
+constexpr optional<T> find(const array<T,N> &db, const md5_idx_t md5) noexcept {
     if (md5 >= MD5_IDX_SIZE) return optional<T>();
     unsigned int idx = ((double)md5 / MD5_IDX_SIZE) * N;
     assert(idx < N);
@@ -246,8 +250,7 @@ optional<T> find(const array<T,N> &db, const md5_idx_t md5) noexcept {
     }
 }
 
-optional<ModInfo> make_modinfo(const md5_idx_t md5) noexcept {
-    if (!initialized[ModInfos]) return {};
+inline optional<ModInfo> make_modinfo(const md5_idx_t md5) noexcept {
     const auto &data = db_modinfos[md5];
     if (data.format != STRING_NOT_FOUND || data.channels > 0) {
         return ModInfo {
@@ -258,8 +261,7 @@ optional<ModInfo> make_modinfo(const md5_idx_t md5) noexcept {
     return {};
 }
 
-optional<ModlandData> make_modland(const md5_idx_t md5) noexcept {
-    if (!initialized[Modland]) return {};
+inline optional<ModlandData> make_modland(const md5_idx_t md5) noexcept {
     const auto data = find<_ModlandData,MODLAND_SIZE>(db_modland, md5);
     if (data) {
         return ModlandData {
@@ -270,8 +272,7 @@ optional<ModlandData> make_modland(const md5_idx_t md5) noexcept {
     return {};
 }
 
-optional<AMPData> make_amp(const md5_idx_t md5) noexcept {
-    if (!initialized[AMP]) return {};
+inline optional<AMPData> make_amp(const md5_idx_t md5) noexcept {
     const auto data = find<_AMPData,AMP_SIZE>(db_amp, md5);
     if (data) {
         return AMPData {
@@ -281,8 +282,7 @@ optional<AMPData> make_amp(const md5_idx_t md5) noexcept {
     return {};
 }
 
-optional<UnExoticaData> make_unexotica(const md5_idx_t md5) noexcept {
-    if (!initialized[UnExotica]) return {};
+inline optional<UnExoticaData> make_unexotica(const md5_idx_t md5) noexcept {
     const auto data = find<_UnExoticaData,UNEXOTICA_SIZE>(db_unexotica, md5);
     if (data) {
         return UnExoticaData {
@@ -295,8 +295,7 @@ optional<UnExoticaData> make_unexotica(const md5_idx_t md5) noexcept {
     return {};
 }
 
-optional<DemozooData> make_demozoo(const md5_idx_t md5) noexcept {
-    if (!initialized[Demozoo]) return {};
+inline optional<DemozooData> make_demozoo(const md5_idx_t md5) noexcept {
     const auto data = find<_DemozooData,DEMOZOO_SIZE>(db_demozoo, md5);
     if (data) {
         return DemozooData {
@@ -309,7 +308,7 @@ optional<DemozooData> make_demozoo(const md5_idx_t md5) noexcept {
     return {};
 }
 
-SubSongInfo make_subsonginfo(const uint8_t subsong, const _SubSongInfo &info) noexcept {
+constexpr SubSongInfo make_subsonginfo(const uint8_t subsong, const _SubSongInfo &info) noexcept {
     return {
         subsong,
         {info.songend(), info.songlength_ms()}
@@ -562,11 +561,12 @@ optional<SubSongInfo> lookup(const string &md5, int subsong) {
         } else return {};
     }
     const md5_t hash = hex2md5(md5.c_str());
+    const lock_guard lock(extra_mutex);
     if (extra_subsongs.contains(hash)) {
         const auto &infos = extra_subsongs[hash];
         for (const auto &info : infos) {
             if (info.subsong == subsong) {
-                return info;
+                return info.songend.status != common::SongEnd::NONE ? info : optional<SubSongInfo>();
             }
         }
     }
@@ -577,11 +577,11 @@ optional<Info> lookup(const string &md5) {
     const auto md5_idx = _md5hex(md5);
     if (md5_idx != MD5_NOT_FOUND) {
         Info res;
-        res.modinfo = make_modinfo(md5_idx);
-        res.modland = make_modland(md5_idx);
-        res.amp = make_amp(md5_idx);
-        res.unexotica = make_unexotica(md5_idx);
-        res.demozoo = make_demozoo(md5_idx);
+        res.modinfo = initialized[ModInfos] ? make_modinfo(md5_idx) : optional<ModInfo>();
+        res.modland = initialized[Modland] ? make_modland(md5_idx) : optional<ModlandData>();
+        res.amp = initialized[AMP] ? make_amp(md5_idx) : optional<AMPData>();
+        res.unexotica = initialized[UnExotica] ? make_unexotica(md5_idx) : optional<UnExoticaData>();
+        res.demozoo = initialized[Demozoo] ? make_demozoo(md5_idx) : optional<DemozooData>();
         if (!initialized[Songlengths]) {
             return res;
         }
@@ -598,6 +598,7 @@ optional<Info> lookup(const string &md5) {
         return res;
     }
     const md5_t hash = hex2md5(md5.c_str());
+    const lock_guard lock(extra_mutex);
     if (!extra_subsongs.contains(hash) && !extra_modinfos.contains(hash)) {
         return {};
     }
@@ -720,7 +721,7 @@ void init(const string &songdb_path, const initializer_list<Source> &sources/*= 
     TRACE("DONE %lu\n", clock() * 1000 / CLOCKS_PER_SEC);
 }
 
-void update(const string &md5, const SubSongInfo &info) {
+void update(const string &md5, const SubSongInfo &info, const int minsubsong, const int maxsubsong) {
     if (md5.empty() || info.subsong < 0 || info.subsong > 255) {
         WARN("Invalid songdb update entry md5:%s subsong:%d\n", md5.c_str(), info.subsong);
         return;
@@ -729,25 +730,43 @@ void update(const string &md5, const SubSongInfo &info) {
         INFO("Blacklisted songdb key md5:%s\n", md5.c_str());
         return;
     }
+    assert(minsubsong >= 0);
+    assert(minsubsong <= 255);
+    assert(maxsubsong >= 0);
+    assert(maxsubsong <= 255);
+    assert(minsubsong <= maxsubsong);
     assert(info.subsong >= 0);
     assert(info.subsong <= 255);
     assert(info.songend.length >= 0);
     assert(info.songend.length <= UINT24_T_MAX);
 
     const md5_t hash = hex2md5(md5.c_str());
+    const lock_guard lock(extra_mutex);
     if (extra_subsongs.contains(hash)) {
         auto &infos = extra_subsongs[hash];
-        for (const auto &oldinfo : infos) {
+        for (auto &oldinfo : infos) {
             if (oldinfo.subsong == info.subsong) {
-                WARN("Skipped songdb update for %s:%d, already exists\n", md5.c_str(), info.subsong);
+                if (oldinfo.songend.status != common::SongEnd::NONE) {
+                    DEBUG("Skipped songlength update for %s:%d, already exists\n", md5.c_str(), info.subsong);
+                    return;
+                }
+                oldinfo = info;
                 return;
             }
         }
-        infos.push_back(info);
-        sort(infos.begin(), infos.end(), [](const SubSongInfo &a, const SubSongInfo &b) { return a.subsong < b.subsong; });
+        assert(false);
     } else {
-        vector<SubSongInfo> infos;
-        infos.push_back(info);
+        vector<SubSongInfo> infos(maxsubsong - minsubsong + 1);
+        int ss = minsubsong;
+        for (auto &i : infos) {
+            if (ss == info.subsong) {
+                i = info;
+            } else {
+                i.subsong = ss;
+                i.songend = {common::SongEnd::NONE, 0};
+            }
+            ss++;
+        }
         extra_subsongs.insert({hash, infos});
     }
 }
@@ -762,8 +781,9 @@ void update(const string &md5, const ModInfo &info) {
         return;
     }
     const md5_t hash = hex2md5(md5.c_str());
+    const lock_guard lock(extra_mutex);
     if (extra_modinfos.contains(hash)) {
-        WARN("Skipped songdb update for %s, already exists\n", md5.c_str());
+        DEBUG("Skipped modinfo update for %s, already exists\n", md5.c_str());
         return;
     }
     extra_modinfos.insert({hash, info});

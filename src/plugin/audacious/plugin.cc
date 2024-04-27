@@ -253,7 +253,7 @@ bool update_tuple(Tuple &tuple, const string &path, int subsong, const Info &inf
             update_tuple_songdb(tuple, path, songinfo.value(), info, modulemd5);
             return true;
         } else {
-            TRACE("No songlength data for %s %s\n", modulemd5.c_str(), path.c_str());
+            TRACE("No songlength data for %s:%d %s\n", modulemd5.c_str(), subsong, path.c_str());
         }
     }
     return false;
@@ -379,6 +379,9 @@ public:
         "libdigibooster3 1.2 (BSD-2-Clause)\n"
         "Copyright (c) 2014, Grzegorz Kraszewski\n"
         "\n"
+        "ft2play (BSD-3-Clause)\n"
+        "Copyright (c) 2020-2024, Olav Sørensen\n"
+        "\n"
         "Simplistic Binary Streams 1.0.3 (MIT)\n"
         "Copyright (c) 2014-2019, Wong Shao Voon\n",
         &plugin_prefs
@@ -497,7 +500,7 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
             const auto &songend = precalc_song_end(file, path, md5, subsong);
             update_tuple_song_end(tuple, songend, info->format);
             // update songdb (runtime only) so next read_tag call doesn't precalc again
-            songdb::update(md5, songdb::SubSongInfo{static_cast<uint8_t>(subsong), {songend.status, songend.length}});
+            songdb::update(md5, songdb::SubSongInfo{static_cast<uint8_t>(subsong), {songend.status, songend.length}}, info->minsubsong, info->maxsubsong);
             songdb::update(md5, songdb::ModInfo{info->format, static_cast<uint8_t>(info->channels)});
         }
     }

@@ -6,10 +6,10 @@ noinst_LTLIBRARIES += \
 converter_libconverter_la_SOURCES = \
     converter/converter.h \
     converter/converter.cc \
+    converter/io.h \
     converter/med/common_med.h \
     converter/med/common_med.cc \
     converter/med/converter_med4.cc \
-    converter/big_endian.h \
-    common/portable_endian.h \
+    common/endian.h \
     3rdparty/SimpleBinStream.h \
     3rdparty/proplayer.h

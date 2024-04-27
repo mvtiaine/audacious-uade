@@ -8,66 +8,31 @@
 #include <cstdint>
 #include <vector>
 
-#include "common/portable_endian.h"
+#include "common/endian.h"
+
+using namespace common;
 
 namespace converter {
 
 extern std::jmp_buf error_handler;
 
-struct be_int32_t {
-    constexpr be_int32_t() : be_val(0) {}
-    be_int32_t(const int32_t &val) : be_val(htobe32(val)) {}
-    operator int32_t() const {
-        return be32toh(be_val);
-    }
-    int32_t be_val;
-} __attribute__((packed));
-
-struct be_uint32_t {
-    constexpr be_uint32_t() : be_val(0) {}
-    be_uint32_t(const uint32_t &val) : be_val(htobe32(val)) {}
-    operator uint32_t() const {
-        return be32toh(be_val);
-    }
-    uint32_t be_val;
-} __attribute__((packed));
-
-
-struct be_int16_t {
-    constexpr be_int16_t() : be_val(0) {}
-    be_int16_t(const int16_t &val) : be_val(htobe16(val)) {}
-    operator int16_t() const {
-        return be16toh(be_val);
-    }
-    int16_t be_val;
-} __attribute__((packed));
-
-struct be_uint16_t {
-    be_uint16_t() : be_val(0) {}
-    be_uint16_t(const uint16_t &val) : be_val(htobe16(val)) {}
-    operator uint16_t() const {
-        return be16toh(be_val);
-    }
-    uint16_t be_val;
-} __attribute__((packed));
-
-inline void verify(const bool cond) {
+inline void verify(const bool cond) noexcept {
     if (!cond) {
         std::longjmp(converter::error_handler, true);
     }
 }
 
-inline int8_t reads8be(const std::vector<char> &buf, size_t &offs) {
+inline int8_t reads8be(const std::vector<char> &buf, size_t &offs) noexcept {
     verify(buf.size() > offs);
     return buf[offs++];
 }
 
-inline uint8_t readu8be(const std::vector<char> &buf, size_t &offs) {
+inline uint8_t readu8be(const std::vector<char> &buf, size_t &offs) noexcept {
     verify(buf.size() > offs);
     return buf[offs++];
 }
 
-inline be_int16_t reads16be(const std::vector<char> &buf, size_t &offs) {
+inline be_int16_t reads16be(const std::vector<char> &buf, size_t &offs) noexcept {
     verify(buf.size() >= offs + 2);
     int8_t a;
     uint8_t b;
@@ -77,7 +42,7 @@ inline be_int16_t reads16be(const std::vector<char> &buf, size_t &offs) {
     return be_int16_t((a << 8) | b);
 }
 
-inline be_uint16_t readu16be(const std::vector<char> &buf, size_t &offs) {
+inline be_uint16_t readu16be(const std::vector<char> &buf, size_t &offs) noexcept {
     verify(buf.size() >= offs + 2);
     uint8_t a, b;
     a = buf[offs];
@@ -86,7 +51,7 @@ inline be_uint16_t readu16be(const std::vector<char> &buf, size_t &offs) {
     return be_uint16_t((a << 8) | b);
 }
 
-inline be_int32_t reads32be(const std::vector<char> &buf, size_t &offs) {
+inline be_int32_t reads32be(const std::vector<char> &buf, size_t &offs) noexcept {
     verify(buf.size() >= offs + 4);
     int8_t a;
     uint8_t b, c, d;
@@ -98,7 +63,7 @@ inline be_int32_t reads32be(const std::vector<char> &buf, size_t &offs) {
     return be_int32_t((a << 24) | (b << 16) | (c << 8) | d);
 }
 
-inline be_uint32_t readu32be(const std::vector<char> &buf, size_t &offs) {
+inline be_uint32_t readu32be(const std::vector<char> &buf, size_t &offs) noexcept {
     verify(buf.size() >= offs + 4);
     uint8_t a, b, c, d;
     a = buf[offs];
@@ -109,7 +74,7 @@ inline be_uint32_t readu32be(const std::vector<char> &buf, size_t &offs) {
     return be_uint32_t((a << 24) | (b << 16) | (c << 8) | d);
 }
 
-inline std::vector<char> readbytes(const std::vector<char> &buf, size_t &offs, const size_t n) {
+inline std::vector<char> readbytes(const std::vector<char> &buf, size_t &offs, const size_t n) noexcept {
     assert(n > 0);
     verify(buf.size() >= offs + n);
     std::vector<char> chars(n);
@@ -118,7 +83,7 @@ inline std::vector<char> readbytes(const std::vector<char> &buf, size_t &offs, c
     return chars;
 }
 
-inline std::vector<uint8_t> readu8bytes(const std::vector<char> &buf, size_t &offs, const size_t n) {
+inline std::vector<uint8_t> readu8bytes(const std::vector<char> &buf, size_t &offs, const size_t n) noexcept {
     assert(n > 0);
     verify(buf.size() >= offs + n);
     std::vector<uint8_t> chars(n);
@@ -127,14 +92,14 @@ inline std::vector<uint8_t> readu8bytes(const std::vector<char> &buf, size_t &of
     return chars;
 }
 
-inline void copybytes(const std::vector<char> &buf, char *dst, size_t &offs, const size_t n) {
+inline void copybytes(const std::vector<char> &buf, char *dst, size_t &offs, const size_t n) noexcept {
     if (n == 0) return;
     verify(buf.size() >= offs + n);
     copy(buf.begin() + offs, buf.begin() + offs + n, dst);
     offs += n;
 }
 
-inline void copyu8bytes(const std::vector<char> &buf, uint8_t *dst, size_t &offs, const size_t n) {
+inline void copyu8bytes(const std::vector<char> &buf, uint8_t *dst, size_t &offs, const size_t n) noexcept {
     if (n == 0) return;
     assert(n > 0);
     verify(buf.size() >= offs + n);
@@ -142,4 +107,4 @@ inline void copyu8bytes(const std::vector<char> &buf, uint8_t *dst, size_t &offs
     offs += n;
 }
 
-} // namespace common
+} // namespace converter
