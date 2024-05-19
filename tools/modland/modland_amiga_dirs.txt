@@ -54,6 +54,7 @@
 ^.{33}Hippel/
 ^.{33}Hippel 7V/
 ^.{33}Hippel COSO/
+^.{33}His Master's Noise/
 ^.{33}HivelyTracker/
 ^.{33}Howie Davies/
 ^.{33}IFF-SMUS/

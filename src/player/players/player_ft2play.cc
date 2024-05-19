@@ -21,15 +21,19 @@ using namespace replay::ft2play;
 
 namespace {
 
+constexpr size_t mixBufSize(const int frequency) {
+    return 4 * 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
+}
+
 // not in MODSig
 constexpr const char *chn4 = "4CHN";
 
-struct xm_context {
+struct ft2play_context {
     const bool probe;
     int16_t startPos = 0;
     set<pair<int16_t,int16_t>> seen; // for subsong loop detection
 
-    xm_context(const bool probe) : probe(probe) {
+    ft2play_context(const bool probe) : probe(probe) {
         reset();
     }
     void reset() {
@@ -172,10 +176,6 @@ struct xm_context {
     }
 };
 
-constexpr size_t mixBufSize(const int frequency) {
-    return 4 * 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
-}
-
 // these are assumed to use/export fully FT2-compatible XM format
 const set<string> xm_prog_whitelist = {
     // FT2 authentic
@@ -262,7 +262,7 @@ bool get_fst_header( const char *buf, size_t size, FSTHeader &h) {
     return true;
 }
 
-vector<int16_t> get_subsongs(const xm_context *context) {
+vector<int16_t> get_subsongs(const ft2play_context *context) {
     assert(context->moduleLoaded());
     vector<int16_t> subsongs = {0};
 
@@ -391,7 +391,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
         return {};
 
     probe_guard.lock();
-    xm_context *context = new xm_context(true);
+    ft2play_context *context = new ft2play_context(true);
     assert(!context->moduleLoaded());
 
     if (!context->loadMusicFromData((const uint8_t*)buf, size)) {
@@ -433,7 +433,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     } else assert(false);
 
     if (config.probe) probe_guard.lock();
-    xm_context *context = new xm_context(config.probe);
+    ft2play_context *context = new ft2play_context(config.probe);
     assert(!context->moduleLoaded());
 
     if (!context->loadMusicFromData((const uint8_t*)buf, size)) {
@@ -467,7 +467,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 bool stop(PlayerState &state) {
     assert(state.info.player == Player::ft2play);
     if (state.context) {
-        const auto context = static_cast<xm_context*>(state.context);
+        const auto context = static_cast<ft2play_context*>(state.context);
         assert(context);
         context->shutdown();
         if (context->probe) probe_guard.unlock();
@@ -479,7 +479,7 @@ bool stop(PlayerState &state) {
 pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) {
     assert(state.info.player == Player::ft2play);
     assert(size >= mixBufSize(state.frequency));
-    const auto context = static_cast<xm_context*>(state.context);
+    const auto context = static_cast<ft2play_context*>(state.context);
     assert(context);
     assert(context->moduleLoaded());
     const auto prevPos = pair(context->songPos(), context->pattPos());
@@ -501,7 +501,7 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
 
 bool restart(PlayerState &state) {
     assert(state.info.player == Player::ft2play);
-    const auto context = static_cast<xm_context*>(state.context);
+    const auto context = static_cast<ft2play_context*>(state.context);
     assert(context);
     context->setSongTimer(1);
     context->mix_ClearChannels();

@@ -7,7 +7,6 @@ set -e
 #
 
 TESTMOD=${top_srcdir}/testdata/mod.orchannel
-TESTMD5=$($MD5 $TESTMOD)
 
 TEST_NAME=songdb
 export SONGDB_DIR=${SONGDB_DIR}

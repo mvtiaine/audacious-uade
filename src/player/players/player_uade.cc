@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.0-or-later
-// Copyright (C) 2023-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
+// Copyright (C) 2014-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #ifdef __AROS__
 // XXX error: call of overloaded 'to_string(const float&)' is ambiguous
@@ -519,10 +519,12 @@ void shutdown() {
 }
 
 bool is_our_file(const char *path, const char *buf, size_t size) {
-    const probe_scope probe(path);
-    TRACE("uade::is_our_file using probe id %d - %s\n", probe.context->id, path);
-    return !is_xm(path,buf,size) && !is_fst(path,buf,size) && !is_s3m(path,buf,size) && !is_it(path,buf,size) &&
-        !is_sid(path,buf,size) && uade_is_our_file_from_buffer(path, buf, size, probe.context->state) != 0;
+    if (!is_xm(path,buf,size) && !is_fst(path,buf,size) && !is_s3m(path,buf,size) && !is_it(path,buf,size) && !is_sid(path,buf,size)) {
+        const probe_scope probe(path);
+        TRACE("uade::is_our_file using probe id %d - %s\n", probe.context->id, path);
+        return uade_is_our_file_from_buffer(path, buf, size, probe.context->state) != 0;
+    }
+    return false;
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {

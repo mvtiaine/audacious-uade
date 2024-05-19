@@ -26,8 +26,6 @@ const set<string> extensions = []() {
 
 // modland extensions blacklist
 const set<string> extension_blacklist ({
-    // non-Amiga tracker, avoid using UADE
-    ".ft", // Fast Tracker
     // No support
     ".ct", // Cybertracker
     ".dsm", // Dynamic Studio Professional
@@ -37,7 +35,7 @@ const set<string> extension_blacklist ({
     ".stp", // SoundTracker Pro II
     ".spm", // Stonetracker
     ".symmod", // Symphonie
-    // Not amiga?
+    // Not amiga
     ".ym", // YM
     // Sample etc. files
     ".instr",".x",".set",".ins",".nt",".as",".ip",".l",".n",".ssd",".sps",".smp",".smpl",
@@ -80,16 +78,6 @@ const set<string> prefix_blacklist ({
     "readme.",
     "README.",
 });
-
-/*
-// OctaMED sets <no songtitle> or similar as the modulename if there's no title given
-const set<string> octamed_title_blacklist ({
-    "<no songtitle>",
-    "<sans titre>",
-    "<ohne Namen>",
-    "<unnamed>",
-});
-*/
 
 // uade_play() or uade_stop() stuck, may leave zombie uadecore process around
 const set<string> md5_blacklist ({
