@@ -121,7 +121,7 @@ lazy val metas = Using(scala.io.Source.fromFile("sources/demozoo.tsv"))(_.getLin
     } else None
   // embedded sources
   } else if (url.contains("://amp.dascene.net/downmod.php?index=")) {
-    val id = url.split("=").last.toInt
+    val id = url.replaceAll("&application=AMP","").split("=").last.toInt
     if (amp.amp_mods_by_id.contains(id)) {
       val md5 = amp.amp_mods_by_id(id).head.md5
       Some(md5, meta)
