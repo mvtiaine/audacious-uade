@@ -20,6 +20,7 @@ AC_CONFIG_MACRO_DIR([m4])
 # AC_CANONICAL_HOST is needed to access the 'host_os' variable
 AC_CANONICAL_HOST
 
+# gotta catch 'em all
 build_linux=no
 build_windows=no
 build_macos=no
@@ -27,6 +28,8 @@ build_bsd=no
 build_haiku=no
 build_amiga=no
 build_solaris=no
+build_irix=no
+build_qnx=no
 
 build_freebsd=no
 build_openbsd=no
@@ -38,6 +41,9 @@ build_morphos=no
 build_amigaos4=no
 build_warpos=no
 build_aros=no
+
+build_wasix=no
+build_emscripten=no
 
 plugin_audacious=yes
 
@@ -122,8 +128,42 @@ case "${host_os}" in
   solaris*)
     build_solaris=yes
     ;;
+  irix*)
+    # audacious not tested
+    plugin_audacious=no
+    build_irix=yes
+    # compiles, but does not work properly (*printf() seems borked) (compilertron (sgug-rse gcc9))
+    AC_MSG_WARN(["IRIX target not yet supported"])
+    ;;
+  *qnx*)
+    # audacious not tested
+    plugin_audacious=no
+    build_qnx=yes
+    ;;
+  wasi*)
+    plugin_audacious=no
+    build_wasix=yes
+    # avoid unsupported linker options
+    static_stdlibs=no
+    # compiles, but binaries either don't work or some even fail to run
+    AC_MSG_WARN(["Wasix target not yet supported"])
+    ;;
   *)
     AC_MSG_WARN(["$host_os not supported"])
+    ;;
+esac
+
+# emscripten not detectable via host* variables ?
+case "${CC}" in
+  *emcc)
+    plugin_audacious=no
+    build_emscripten=yes
+    # avoid unsupported linker options
+    static_stdlibs=no
+    # needs custom UADE support
+    AC_MSG_WARN(["Emscripten target not yet supported"])
+    ;;
+  *)
     ;;
 esac
 
@@ -144,6 +184,10 @@ AM_CONDITIONAL([BUILD_AMIGAOS4], [test "$build_amigaos4" = "yes"])
 AM_CONDITIONAL([BUILD_WARPOS], [test "$build_warpos" = "yes"])
 AM_CONDITIONAL([BUILD_AROS], [test "$build_aros" = "yes"])
 AM_CONDITIONAL([BUILD_SOLARIS], [test "$build_solaris" = "yes"])
+AM_CONDITIONAL([BUILD_IRIX], [test "$build_irix" = "yes"])
+AM_CONDITIONAL([BUILD_QNX], [test "$build_qnx" = "yes"])
+AM_CONDITIONAL([BUILD_WASIX], [test "$build_wasix" = "yes"])
+AM_CONDITIONAL([BUILD_EMSCRIPTEN], [test "$build_emscripten" = "yes"])
 
 AM_CONDITIONAL([PLUGIN_AUDACIOUS], [test "$plugin_audacious" = "yes"])
 
@@ -225,8 +269,8 @@ EXTRA_LIBS=""
 CPPFLAGS="-D_DEFAULT_SOURCE -D_GNU_SOURCE ${CPPFLAGS}"
 CFLAGS="-fvisibility=hidden ${CFLAGS} -fno-exceptions"
 # XXX shutup spammy AROS warning: "__PIC__" redefined.
-# also AROS and MorphOS doesn't support --gc-sections
-if test "$build_aros" != "yes" && test "$build_morphos" != "yes" && test "$build_warpos" != "yes"
+# also AROS, MorphOS and IRIX/compilertron don't support --gc-sections
+if test "$build_aros" != "yes" && test "$build_morphos" != "yes" && test "$build_warpos" != "yes" && test "$build_irix" != "yes"
 then
   CFLAGS="-fPIC -fdata-sections -ffunction-sections ${CFLAGS}"
 fi
@@ -256,6 +300,21 @@ then
 elif test "$build_solaris" = "yes"
 then
   EXTRA_LIBS="-lsocket -lnsl"
+elif test "$build_irix" = "yes"
+then
+  # irix(6.5.0)+gcc9(compilertron) quirks
+  CPPFLAGS="-D_XOPEN_SOURCE=600 -D_POSIX_SOURCE -D_SGI_SOURCE -D__EXTENSIONS__ -DPATH_MAX=1024 ${CPPFLAGS}"
+  CPPFLAGS="-I/opt/irix/root/usr/sgug/include/c++/9 -I/opt/irix/root/usr/sgug/include/c++/9/mips-sgi-irix6.5 ${CPPFLAGS}"
+  LDFLAGS="-L/opt/irix/root/usr/sgug/lib/gcc/mips-sgi-irix6.5/9 ${LDFLAGS}"
+  EXTRA_LIBS="-lgen"
+  CXXSTD="-std=c++2a"
+elif test "$build_qnx" = "yes"
+then
+  # qnx(6.5.0)+gcc10(pkgsrc) quirks
+  CPPFLAGS="-D_XOPEN_SOURCE=600 -D_QNX_SOURCE -D_HAS_C9X -D__UINTPTR_TYPE__=uintptr_t -include stdint.h -include math.h ${CPPFLAGS}"
+  # dwarf version >= 4 not supported by linker (qnx 6.5.0)
+  CFLAGS="-gdwarf-3 ${CFLAGS}"
+  LIBS="-lsocket ${LIBS}"
 elif test "$build_amigaos" = "yes"
 then
   # -noixemul uses libnix
@@ -286,12 +345,26 @@ then
   LIBS="-lpthread ${LIBS}"
   # <cstdint> does not work without this
   CPPFLAGS="-D__STDC_LIMIT_MACROS ${CPPFLAGS}"
+elif test "$build_wasix" = "yes"
+then
+  CPPFLAGS="-D_WASI_EMULATED_PROCESS_CLOCKS ${CPPFLAGS}"
+  LIBS="-lwasi-emulated-process-clocks ${LIBS}"
+elif test "$build_emscripten" = "yes"
+then
+  #CFLAGS="-s NODERAWFS=1 -lwebsocket.js -sPROXY_POSIX_SOCKETS -pthread -sPROXY_TO_PTHREAD ${CFLAGS}"
+  CFLAGS="-s NODERAWFS=1 ${CFLAGS}"
 fi
 
 # TODO proper freopen() test
-if test "$build_haiku" = "yes" || test "$build_openbsd" = "yes" || test "$build_netbsd" = "yes" || test "$build_mingw" = "yes" || test "$build_amiga" = "yes" || test "$build_solaris" = "yes"
+if test "$build_haiku" = "yes" || test "$build_openbsd" = "yes" || test "$build_netbsd" = "yes" || test "$build_mingw" = "yes" || test "$build_amiga" = "yes" || test "$build_solaris" = "yes" || test "$build_irix" = "yes" || test "$build_qnx" = "yes" || test "$build_wasix" = "yes"
 then
   CPPFLAGS="-DNO_FREOPEN ${CPPFLAGS}"
+fi
+
+# gcc9 has incomplete c++20/constexpr support
+if test "$build_irix" = "yes"
+then
+  CPPFLAGS="-DLIMITED_CONSTEXPR ${CPPFLAGS}"
 fi
 
 CXXFLAGS="-fvisibility-inlines-hidden -Wall ${CFLAGS} ${CXXSTD} ${CXXFLAGS} -fno-rtti -fno-exceptions"
@@ -304,6 +377,8 @@ ld_apple=no
 ld_lld=no
 ld_gnu=no
 ld_solaris=no
+ld_wasix=no
+ld_emscripten=no
 
 linker_version=$( ($LD -v >/dev/null 2>&1 && $LD -v 2>&1) || ($LD -V 2>&1) )
 case "$linker_version" in
@@ -321,15 +396,26 @@ case "$linker_version" in
     *Solaris*)
         ld_solaris=yes
         ;;
+    emcc*)
+        ld_emscripten=yes
+        ;;
     *)
         AC_MSG_WARN(["Linker $LD ($linker_version) is not supported"])
         ;;
 esac
 
+# wasix linker not detectable from version
+if test "$build_wasix" = "yes"
+then
+  ld_wasix=yes
+fi
+
 AM_CONDITIONAL([LD_APPLE], [test "$ld_apple" = "yes"])
 AM_CONDITIONAL([LD_LLD], [test "$ld_lld" = "yes"])
 AM_CONDITIONAL([LD_GNU], [test "$ld_gnu" = "yes"])
 AM_CONDITIONAL([LD_SOLARIS], [test "$ld_solaris" = "yes"])
+AM_CONDITIONAL([LD_WASIX], [test "$ld_wasix" = "yes"])
+AM_CONDITIONAL([LD_EMSCRIPTEN], [test "$ld_emscripten" = "yes"])
 
 # static libgcc/libstdc++ used for executables (except on macOS)
 AM_CONDITIONAL([STATIC_STDLIBS], [test "$static_stdlibs" = "yes"])
@@ -340,6 +426,10 @@ then
 elif test "$ld_solaris" = "yes"
 then
   LDFLAGS="-Wl,-B,reduce -Wl,-z,redlocsym -Wl,--no-undefined ${LDFLAGS}"
+elif test "$ld_wasix" = "yes" || test "$ld_emscripten" = "yes"
+then
+  # wasm-ld doesn't support other options
+  LDFLAGS="-Wl,--gc-sections -Wl,-O1 ${LDFLAGS}"
 else
   # assume GNU compatible linker
   LDFLAGS="-Wl,--as-needed -Wl,-O1 ${LDFLAGS}"
@@ -359,9 +449,9 @@ else
   then
     # no support for --exclude-libs=ALL, --gc-sections broken
     LDFLAGS="-Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"
-  elif test "$build_aros" = "yes"
+  elif test "$build_aros" = "yes" || test "$build_irix" = "yes"
   then
-    # no support for --gc-sections
+    # no support for --gc-sections on AROS, broken(?) on IRIX/compilertron
     LDFLAGS="-Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined  -Wl,--sort-common ${LDFLAGS}"
   else
     LDFLAGS="-Wl,--gc-sections -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"

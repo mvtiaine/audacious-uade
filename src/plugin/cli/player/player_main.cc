@@ -2,6 +2,7 @@
 // Copyright (C) 2023-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include <bit>
+#include <string>
 #include <vector>
 
 #include "player/player.h"

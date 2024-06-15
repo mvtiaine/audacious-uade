@@ -1,5 +1,7 @@
 0.12-dev
 - Sync songdb sources to around 2024-05-12 snapshots
+- QNX(6.5) support (lib/cli-only tested)
+- GCC 9 support (previously GCC 10 was required)
 
 0.12.0 - 2024-04-27
 - Dropped UADE libbsd dependency

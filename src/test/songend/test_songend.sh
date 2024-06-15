@@ -6,7 +6,6 @@ set -e
 
 #
 
-PLAYER="${top_builddir}/src/plugin/cli/player/player 8062"
 TESTMOD="${top_srcdir}/testdata/spellbound dizzy.bp"
 
 export SONGEND_MODE=1

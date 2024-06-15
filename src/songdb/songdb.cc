@@ -46,7 +46,7 @@ namespace {
 
 constexpr size_t BUF_SIZE = 2048;
 
-constexpr md5_t hex2md5(const char *hex) noexcept {
+_CONSTEXPR md5_t hex2md5(const char *hex) noexcept {
     uint64_t ret = 0; 
     for (int i = 0; i < 12; ++i) {
         const char c = *hex++;
@@ -60,7 +60,7 @@ constexpr md5_t hex2md5(const char *hex) noexcept {
    return ret; 
 }
 
-constexpr uint24_t b64d24(const string_view &b64) noexcept {
+_CONSTEXPR uint24_t b64d24(const string_view &b64) noexcept {
     if (b64.size() == 3) {
         return (b64[0] - 45) << 12 |
                (b64[1] - 45) << 6 |
@@ -79,7 +79,7 @@ constexpr uint24_t b64d24(const string_view &b64) noexcept {
     }
 }
 
-constexpr uint24_t b64d24(const char *b64, int &len) noexcept {
+_CONSTEXPR uint24_t b64d24(const char *b64, int &len) noexcept {
     if (b64[1] == '\n' || b64[1] == '\t') {
         len = 1;
         return b64[0] - 45;
@@ -101,7 +101,7 @@ constexpr uint24_t b64d24(const char *b64, int &len) noexcept {
     }
 }
 
-constexpr md5_t b64diff2md5(const md5_t prev, const char *b64, int &len) noexcept {
+_CONSTEXPR md5_t b64diff2md5(const md5_t prev, const char *b64, int &len) noexcept {
     if (b64[3] == '\n') {
         len = 4;
         return prev + ((b64[0] - 45) << 12 |
@@ -139,7 +139,7 @@ vector<string> author_pool = {UNKNOWN_AUTHOR};
 vector<string> publisher_pool;
 vector<string> album_pool;
 
-constexpr md5_idx_t _md5idx(const md5_t hash) noexcept  {
+_CONSTEXPR md5_idx_t _md5idx(const md5_t hash) noexcept  {
     uint32_t idx = ((double)hash / MD5_T_MAX) * MD5_IDX_SIZE;
     assert(idx < MD5_IDX_SIZE);
     md5_t cmp = md5_idx[idx];
@@ -160,7 +160,7 @@ constexpr md5_idx_t _md5idx(const md5_t hash) noexcept  {
     }
 }
 
-constexpr md5_idx_t _md5hex(const string_view &md5) noexcept {
+_CONSTEXPR md5_idx_t _md5hex(const string_view &md5) noexcept {
     assert(md5.size() >= 12);
     return _md5idx(hex2md5(md5.data()));
 }
@@ -227,7 +227,7 @@ inline string make_album(const string_t s) noexcept {
     return album_pool[s];
 }
 
-template <_Data_ T, size_t N>
+template<typename T, size_t N, typename = std::enable_if<std::is_base_of<_Data, T>::value>>
 constexpr optional<T> find(const array<T,N> &db, const md5_idx_t md5) noexcept {
     if (md5 >= MD5_IDX_SIZE) return optional<T>();
     unsigned int idx = ((double)md5 / MD5_IDX_SIZE) * N;
@@ -308,7 +308,7 @@ inline optional<DemozooData> make_demozoo(const md5_idx_t md5) noexcept {
     return {};
 }
 
-constexpr SubSongInfo make_subsonginfo(const uint8_t subsong, const _SubSongInfo &info) noexcept {
+_CONSTEXPR SubSongInfo make_subsonginfo(const uint8_t subsong, const _SubSongInfo &info) noexcept {
     return {
         subsong,
         {info.songend(), info.songlength_ms()}
@@ -378,7 +378,7 @@ void parse_songlengths(const string &tsv) noexcept {
     assert(md5_idx == MD5_IDX_SIZE);
 }
 
-template <_Data_ T, size_t N, Source S>
+template<typename T, size_t N, Source S, typename = std::enable_if<std::is_base_of<_Data, T>::value>>
 void parse_tsv(const string &tsv) noexcept {
     FILE *f = fopen(tsv.c_str(), "r"); 
     if (!f) {

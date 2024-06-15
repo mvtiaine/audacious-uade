@@ -8,7 +8,7 @@ set -e
 
 TESTMOD="${top_srcdir}/testdata/MOD.forbidden pineapples"
 
-TEST_NAME=songdb
+TEST_NAME=songdb2
 export SONGDB_DIR=${SONGDB_DIR}
 EXPECTED_OUTPUT="demozoo.tsv:1070b78e8d71	Ricky Martin	Dekadence	Kesähäxä	2017"
 TEST="${SONGDB_BIN} \"${TESTMOD}\" | grep demozoo"

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LGPL-2.0-or-later
 // Copyright (C) 2014-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
-#ifdef __AROS__
+#if defined(__AROS__) || defined(__QNX__)
 // XXX error: call of overloaded 'to_string(const float&)' is ambiguous
 #define _GLIBCXX_USE_C99_STDIO 1
 #endif

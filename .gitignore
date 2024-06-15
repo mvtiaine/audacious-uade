@@ -50,3 +50,5 @@ build-tmp
 .metals
 .scala-build
 .bsp
+*.wasm
+*.worker.js

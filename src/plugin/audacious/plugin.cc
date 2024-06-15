@@ -365,13 +365,12 @@ public:
     static constexpr PluginInfo info = {
         "UADE Plugin",
         "audacious-uade",
-        "Audacious UADE plugin " PACKAGE_VERSION " (GPL-2.0-or-later)\n"
+        "audacious-uade " PACKAGE_VERSION " (GPL-2.0-or-later)\n"
         "Copyright (c) 2014-2024, Matti Tiainen\n"
         PACKAGE_URL"\n"
         "\n"
-        "UADE: https://zakalwe.fi/uade/\n"
-        "\n"
-        "Using bundled libuade " UADE_VERSION "\n"
+        "Using bundled UADE " UADE_VERSION "\n"
+        "https://zakalwe.fi/uade/\n"
         "\n"
         "HivelyTracker 1.9 (BSD-3-Clause)\n"
         "Copyright (c) 2006-2018, Pete Gordon\n"

@@ -3,6 +3,13 @@
 
 #pragma once
 
+#ifndef LIMITED_CONSTEXPR
+#define _CONSTEXPR constexpr
+#else 
+#define _CONSTEXPR inline
+#endif
+
+
 #if defined(__AMIGA__) && !defined(__amigaos4__)
 
 #if !defined(__MORPHOS__)
@@ -42,7 +49,7 @@ constexpr size_t strnlen(const char *s, size_t len) noexcept {
 
 #endif // __AMIGA__
 
-#ifdef __AROS__
+#if defined(__AROS__) || defined(__QNX__)
 #include <cstring>
 namespace std {
 // std::bit_cast not available, use example implementation from
@@ -65,4 +72,17 @@ bit_cast(const From& src) noexcept
     return dst;
 }
 } // namespace std
+#endif
+
+#ifdef __QNX__
+#include <cassert>
+#include <cstdlib>
+#include <string>
+namespace std {
+inline int stoi(const std::string& str, size_t* idx = nullptr, int base = 10) {
+    assert(idx == nullptr);
+    assert(base == 10);
+    return atoi(str.c_str());
+}
+}
 #endif

@@ -3,25 +3,20 @@
 
 #pragma once
 
-#include <algorithm>
-#include <array>
 #include <bit>
-#include <cstddef>
 #include <cstdint>
-#include <type_traits>
 
 #include "compat.h"
 
 namespace common {
 
-// byteswap copied from https://en.cppreference.com/w/cpp/numeric/byteswap (c++23)
-template<std::integral T>
-constexpr T _byteswap(T value) noexcept
-{
-    static_assert(std::has_unique_object_representations_v<T>, "T may not have padding bits");
-    auto value_representation = std::bit_cast<std::array<std::byte, sizeof(T)>>(value);
-    std::ranges::reverse(value_representation);
-    return std::bit_cast<T>(value_representation);
+constexpr uint32_t _byteswap(const uint32_t val) noexcept {
+    const uint32_t tmp = ((val << 8) & 0xFF00FF00 ) | ((val >> 8) & 0xFF00FF ); 
+    return (tmp << 16) | (tmp >> 16);
+}
+
+constexpr uint16_t _byteswap(const uint16_t val) noexcept {
+    return (val << 8) | (val >> 8);
 }
 
 constexpr uint32_t _htobe32(const uint32_t &val) noexcept {

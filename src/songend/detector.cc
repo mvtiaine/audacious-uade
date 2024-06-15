@@ -678,7 +678,7 @@ int SongEndDetector::detect_repeat() {
     int64_t maxwindowsum = INT64_MIN;
     for (int64_t i = buf.size() - 1; i >= (int64_t)buf.size() / 2; --i) {
         const int val0 = buf[i];
-        const int val = val0 >= 0 ? sqrt(val0) : -sqrt(-val0);
+        const int val = val0 >= 0 ? sqrt((float)val0) : -sqrt((float)-val0);
         if (val > maxi) {
             lastmax = i;
             maxi = val;
@@ -716,7 +716,7 @@ int SongEndDetector::detect_repeat() {
         int64_t i = 0;
         for (i = buf.size()/2 - 1; i >= 0; --i) {
             const int val0 = buf[i];
-            const int val = val0 >= 0 ? sqrt(val0) : -sqrt(-val0);
+            const int val = val0 >= 0 ? sqrt((float)val0) : -sqrt((float)-val0);
             if (val > maxi) {
                 break;
             } else if (val == maxi) {

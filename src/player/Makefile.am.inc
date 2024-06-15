@@ -19,7 +19,11 @@ player_libplayer_la_SOURCES = \
 
 player_libplayer_la_LIBADD = \
     converter/libconverter.la \
-    3rdparty/libreplay.la \
-    $(UADE_LIBS)
+    3rdparty/libreplay.la
+
+# XXX wasm-ld fails with "section too large" if libuade.a is included here
+if !BUILD_WASIX
+player_libplayer_la_LIBADD += $(UADE_LIBS)
+endif
 
 player_libplayer_la_CPPFLAGS = $(AM_CPPFLAGS) $(UADE_CPPFLAGS)

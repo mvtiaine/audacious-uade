@@ -21,11 +21,11 @@ PLAYER="${top_builddir}/src/plugin/cli/player/player 8062"
 SONGDB_BIN=${top_builddir}/src/plugin/cli/songdb/songdb
 SONGDB_DIR=${top_srcdir}/conf/songdb
 
-if [ "${VALGRIND}" != "" ]; then
-    MD5="${VALGRIND} ${MD5}"
-    CONVERTER="${VALGRIND} ${CONVERTER}"
-    PRECALC="${VALGRIND} ${PRECALC}"
-    SONGEND="${VALGRIND} ${SONGEND}"
-    PLAYER="${VALGRIND} ${PLAYER}"
-    SONGDB_BIN="${VALGRIND} ${SONGDB_BIN}"
+if [ "${WRAPPER}" != "" ]; then
+    MD5="${WRAPPER} ${MD5}"
+    CONVERTER="${WRAPPER} ${CONVERTER}"
+    PRECALC="${WRAPPER} ${PRECALC}"
+    SONGEND="${WRAPPER} ${SONGEND}"
+    PLAYER="${WRAPPER} ${PLAYER}"
+    SONGDB_BIN="${WRAPPER} ${SONGDB_BIN}"
 fi
