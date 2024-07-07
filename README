@@ -4,10 +4,11 @@ Main features:
 - Database for song lengths and author/album/publisher/year meta data (see below)
 - Player independent songend detection (similar to "deep songend scan" option in DeliPlayer for Windows)
 - Preferences UI for configuring UADE playback options etc.
-- Custom fork of UADE including support for additional formats not (yet) supported in official UADE releases:
+- Custom fork of UADE including support for additional formats and platforms not (yet) supported in official UADE releases:
 -- Face The Music
 -- OctaMED Soundstudio / MMD3
 -- Protracker4 / Protracker IFF
+-- Support for AmigaOS (and related), Windows (MSYS2/MinGW), ...
 - MED4 sng+samples format support via MED4->MMD0 conversion
 - DigiBooster 3 and DigiBooster Pro 2 (http://www.digibooster.de/) support using the official portable replay
 - HivelyTracker (http://www.hivelytracker.co.uk/) support using the official portable replay

@@ -146,9 +146,15 @@ inline std::string mkString(const std::vector<std::string_view> &v, const std::s
 template <class T>
 constexpr T from_chars(const std::string_view &s) noexcept {
     if (s.size() == 1) return s[0] - 48;
-    const char *end = s.begin() + s.size();
     T number;
+#ifdef __Fuchsia__
+    // XXX Fuchsia toolchain bug? error: no viable conversion from '__wrap_iter<const char *>' to 'const char *'
+    const char *end = __unwrap_iter(s.begin() + s.size());
+    auto result = std::from_chars(__unwrap_iter(s.begin()), end, number);
+#else
+    const char *end = s.begin() + s.size();
     auto result = std::from_chars(s.begin(), end, number);
+#endif
     assert(result.ec == std::errc{});
     assert(result.ptr == end);
     return number;

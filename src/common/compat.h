@@ -3,24 +3,15 @@
 
 #pragma once
 
+// TODO proper conf check
 #ifndef LIMITED_CONSTEXPR
 #define _CONSTEXPR constexpr
 #else 
 #define _CONSTEXPR inline
 #endif
 
-
-#if defined(__AMIGA__) && !defined(__amigaos4__)
-
-#if !defined(__MORPHOS__)
-namespace std {
-    struct mutex {
-        inline void lock() {}
-        inline void unlock() {}
-    };
-}
-#endif
-
+#if defined(__AMIGA__) || defined(__COSMOCC__)
+#if !defined(__amigaos4__)
 #include <cstddef>
 inline void swab(const void *bfrom, void *bto, ssize_t n) noexcept {
   const char *from = (const char *) bfrom;
@@ -33,8 +24,19 @@ inline void swab(const void *bfrom, void *bto, ssize_t n) noexcept {
       to[n + 1] = b1;
     }
 }
+#endif
+#endif
 
-#if !defined(__AROS__) && !defined(__MORPHOS__)
+#if defined(__AMIGA__) && !defined(__amigaos4__) && !defined(__MORPHOS__)
+
+namespace std {
+    struct mutex {
+        inline void lock() {}
+        inline void unlock() {}
+    };
+}
+
+#if !defined(__AROS__)
 constexpr size_t strnlen(const char *s, size_t len) noexcept {
     size_t i;
 

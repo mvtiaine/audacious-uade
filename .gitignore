@@ -52,3 +52,5 @@ build-tmp
 .bsp
 *.wasm
 *.worker.js
+*.aarch64.elf
+*.com.dbg

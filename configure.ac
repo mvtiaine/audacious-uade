@@ -30,6 +30,7 @@ build_amiga=no
 build_solaris=no
 build_irix=no
 build_qnx=no
+build_fuchsia=no
 
 build_freebsd=no
 build_openbsd=no
@@ -42,6 +43,10 @@ build_amigaos4=no
 build_warpos=no
 build_aros=no
 
+build_android=no
+build_ios=no
+
+build_cosmocc=no
 build_wasix=no
 build_emscripten=no
 
@@ -50,112 +55,10 @@ plugin_audacious=yes
 static_stdlibs=yes
 
 # Detect the target system
-case "${host_os}" in
-  linux*)
-    build_linux=yes
-    ;;
-  mingw*|msys*)
-    build_mingw=yes
-    build_windows=yes
-    ;;
-  darwin*)
-    build_macos=yes
-    ;;
-  openbsd*)
-    build_openbsd=yes
-    build_bsd=yes
-    static_stdlibs=no
-    ;;
-  netbsd*)
-    build_netbsd=yes
-    build_bsd=yes
-    ;;
-  freebsd*)
-    build_freebsd=yes
-    build_bsd=yes
-    static_stdlibs=no
-    ;;
-  *bsd*|dragonfly*)
-    build_bsd=yes
-    ;;
-  haiku*)
-    build_haiku=yes
-    static_stdlibs=no
-    ;;
-  cygwin*)
-    build_cygwin=yes
-    build_windows=yes
-    ;;
-  amigaos*)
-    plugin_audacious=no
-    build_amiga=yes
-    case "${host_cpu}" in
-      powerpc*)
-        if test "$(echo|$CC -dM -E -|grep -q __amigaos4__ && echo yes)" = "yes"
-        then
-          # TODO compiles but executables crash at __start
-          build_amigaos4=yes
-          AC_MSG_WARN(["AmigaOS4 target not yet supported"])
-        elif test "$(echo|$CC --specs=warpup -dM -E -|grep -q WARPUP && echo yes)" = "yes"
-        then
-          build_warpos=yes
-          # TODO too old GCC (9.3.0) in gcc-mos2wos for proper c++20 support
-          # also undefined reference to `__gthr_morphos_active_p' etc.
-          AC_MSG_WARN(["WarpOS target not yet supported"])
-        else
-          # TODO PowerUP support also possible with mos2wos?
-          AC_MSG_WARN(["Unsupported PPC AmigaOS target"])
-        fi
-        ;;
-      m68k)
-        build_amigaos=yes
-        ;;
-      *)
-       AC_MSG_WARN(["${host_cpu} target not supported with AmigaOS"])
-       ;;
-    esac
-    ;;
-  morphos*)
-    plugin_audacious=no
-    build_morphos=yes
-    build_amiga=yes
-    ;;
-  aros*)
-    plugin_audacious=no
-    build_aros=yes
-    build_amiga=yes
-    ;;
-  solaris*)
-    build_solaris=yes
-    ;;
-  irix*)
-    # audacious not tested
-    plugin_audacious=no
-    build_irix=yes
-    # compiles, but does not work properly (*printf() seems borked) (compilertron (sgug-rse gcc9))
-    AC_MSG_WARN(["IRIX target not yet supported"])
-    ;;
-  *qnx*)
-    # audacious not tested
-    plugin_audacious=no
-    build_qnx=yes
-    ;;
-  wasi*)
-    plugin_audacious=no
-    build_wasix=yes
-    # avoid unsupported linker options
-    static_stdlibs=no
-    # compiles, but binaries either don't work or some even fail to run
-    AC_MSG_WARN(["Wasix target not yet supported"])
-    ;;
-  *)
-    AC_MSG_WARN(["$host_os not supported"])
-    ;;
-esac
-
-# emscripten not detectable via host* variables ?
+# emscripten and cosmocc not detectable via host* variables ?
 case "${CC}" in
   *emcc)
+    # see scripts/emscripten.sh
     plugin_audacious=no
     build_emscripten=yes
     # avoid unsupported linker options
@@ -163,7 +66,142 @@ case "${CC}" in
     # needs custom UADE support
     AC_MSG_WARN(["Emscripten target not yet supported"])
     ;;
+  *cosmo*cc)
+    # see scripts/cosmocc.sh
+    plugin_audacious=no
+    build_cosmocc=yes
+    ;;
   *)
+    case "${host_os}" in
+      *android)
+        #see scripts/android.sh
+        plugin_audacious=no
+        build_android=yes
+        AC_MSG_WARN(["Android binaries have not been runtime tested"])
+        ;;
+      linux*)
+        build_linux=yes
+        ;;
+      mingw*|msys*)
+        build_mingw=yes
+        build_windows=yes
+        ;;
+      darwin*)
+        case "${CFLAGS}" in
+          # see scripts/ios.sh
+          *iPhoneOS*|*iPhoneSimulator*|*XROS*|*XRSimulator*)
+            plugin_audacious=no
+            build_ios=yes
+            AC_MSG_WARN(["iOS binaries have not been runtime tested"])
+            ;;
+          *WatchOS*|*WatchSimulator*|*AppleTVOS*|*AppleTVSimulator*)
+            plugin_audacious=no
+            build_ios=yes
+            # no fork/exec available, needs custom UADE support
+            AC_MSG_WARN(["WatchOS and AppleTVOS target not yet supported"])
+            ;;
+          *)
+            build_macos=yes;
+            ;;
+        esac
+        ;;
+      openbsd*)
+        build_openbsd=yes
+        build_bsd=yes
+        static_stdlibs=no
+        ;;
+      netbsd*)
+        build_netbsd=yes
+        build_bsd=yes
+        ;;
+      freebsd*)
+        build_freebsd=yes
+        build_bsd=yes
+        static_stdlibs=no
+        ;;
+      *bsd*|dragonfly*)
+        build_bsd=yes
+        ;;
+      haiku*)
+        build_haiku=yes
+        static_stdlibs=no
+        ;;
+      cygwin*)
+        build_cygwin=yes
+        build_windows=yes
+        ;;
+      amigaos*)
+        plugin_audacious=no
+        build_amiga=yes
+        case "${host_cpu}" in
+          powerpc*)
+            if test "$(echo|$CC -dM -E -|grep -q __amigaos4__ && echo yes)" = "yes"
+            then
+              # TODO compiles but executables crash at __start
+              build_amigaos4=yes
+              AC_MSG_WARN(["AmigaOS4 target not yet supported"])
+            elif test "$(echo|$CC --specs=warpup -dM -E -|grep -q WARPUP && echo yes)" = "yes"
+            then
+              build_warpos=yes
+              # TODO too old GCC (9.3.0) in gcc-mos2wos for proper c++20 support
+              # also undefined reference to `__gthr_morphos_active_p' etc.
+              AC_MSG_WARN(["WarpOS target not yet supported"])
+            else
+              # TODO PowerUP support also possible with mos2wos?
+              AC_MSG_WARN(["Unsupported PPC AmigaOS target"])
+            fi
+            ;;
+          m68k)
+            build_amigaos=yes
+            ;;
+          *)
+           AC_MSG_WARN(["${host_cpu} target not supported with AmigaOS"])
+           ;;
+        esac
+        ;;
+      morphos*)
+        plugin_audacious=no
+        build_morphos=yes
+        build_amiga=yes
+        ;;
+      aros*)
+        plugin_audacious=no
+        build_aros=yes
+        build_amiga=yes
+        ;;
+      solaris*)
+        build_solaris=yes
+        ;;
+      irix*)
+        # audacious not tested
+        plugin_audacious=no
+        build_irix=yes
+        # compiles, but does not work properly (*printf() seems borked) (compilertron (sgug-rse gcc9))
+        AC_MSG_WARN(["IRIX target not yet supported"])
+        ;;
+      *qnx*)
+        # audacious not tested
+        plugin_audacious=no
+        build_qnx=yes
+        ;;
+      *fuchsia*)
+        plugin_audacious=no
+        build_fuchsia=yes
+        AC_MSG_WARN(["Fuchsia binaries have not been runtime tested"])
+        ;;
+      wasi*)
+        # see scripts/wasix.sh
+        plugin_audacious=no
+        build_wasix=yes
+        # avoid unsupported linker options
+        static_stdlibs=no
+        # compiles, but binaries either don't work or some even fail to run
+        AC_MSG_WARN(["Wasix target not yet supported"])
+        ;;
+      *)
+        AC_MSG_WARN(["$host_os not supported"])
+        ;;
+    esac
     ;;
 esac
 
@@ -186,6 +224,10 @@ AM_CONDITIONAL([BUILD_AROS], [test "$build_aros" = "yes"])
 AM_CONDITIONAL([BUILD_SOLARIS], [test "$build_solaris" = "yes"])
 AM_CONDITIONAL([BUILD_IRIX], [test "$build_irix" = "yes"])
 AM_CONDITIONAL([BUILD_QNX], [test "$build_qnx" = "yes"])
+AM_CONDITIONAL([BUILD_FUCHSIA], [test "$build_fuchsia" = "yes"])
+AM_CONDITIONAL([BUILD_ANDROID], [test "$build_android" = "yes"])
+AM_CONDITIONAL([BUILD_IOS], [test "$build_ios" = "yes"])
+AM_CONDITIONAL([BUILD_COSMOCC], [test "$build_cosmocc" = "yes"])
 AM_CONDITIONAL([BUILD_WASIX], [test "$build_wasix" = "yes"])
 AM_CONDITIONAL([BUILD_EMSCRIPTEN], [test "$build_emscripten" = "yes"])
 
@@ -377,15 +419,24 @@ ld_apple=no
 ld_lld=no
 ld_gnu=no
 ld_solaris=no
+ld_cosmocc=no
 ld_wasix=no
 ld_emscripten=no
 
-linker_version=$( ($LD -v >/dev/null 2>&1 && $LD -v 2>&1) || ($LD -V 2>&1) )
-case "$linker_version" in
+# cosmocc and wasix linker not detectable from version
+if test "$build_cosmocc" = "yes"
+then
+  ld_cosmocc=yes
+elif test "$build_wasix" = "yes"
+then
+  ld_wasix=yes
+else
+  linker_version=$( ($LD -v >/dev/null 2>&1 && $LD -v 2>&1) || ($LD -V 2>&1) )
+  case "$linker_version" in
     GNU*|mold*)
         ld_gnu=yes
         ;;
-    LLD*)
+    *LLD*)
         ld_lld=yes
         ;;
     *dyld*|*PROGRAM:ld*PROJECT:ld*)
@@ -402,34 +453,34 @@ case "$linker_version" in
     *)
         AC_MSG_WARN(["Linker $LD ($linker_version) is not supported"])
         ;;
-esac
-
-# wasix linker not detectable from version
-if test "$build_wasix" = "yes"
-then
-  ld_wasix=yes
+  esac
 fi
 
 AM_CONDITIONAL([LD_APPLE], [test "$ld_apple" = "yes"])
 AM_CONDITIONAL([LD_LLD], [test "$ld_lld" = "yes"])
 AM_CONDITIONAL([LD_GNU], [test "$ld_gnu" = "yes"])
 AM_CONDITIONAL([LD_SOLARIS], [test "$ld_solaris" = "yes"])
+AM_CONDITIONAL([LD_COSMOCC], [test "$ld_cosmocc" = "yes"])
 AM_CONDITIONAL([LD_WASIX], [test "$ld_wasix" = "yes"])
 AM_CONDITIONAL([LD_EMSCRIPTEN], [test "$ld_emscripten" = "yes"])
 
 # static libgcc/libstdc++ used for executables (except on macOS)
 AM_CONDITIONAL([STATIC_STDLIBS], [test "$static_stdlibs" = "yes"])
 
-if test "$ld_apple" = "yes"
+if test "$ld_cosmocc" = "yes"
+then
+  # GNU (BFD) linker
+  LDFLAGS="-Wl,--gc-sections -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"
+elif test "$ld_wasix" = "yes" || test "$ld_emscripten" = "yes"
+then
+  # wasm-ld doesn't support other options
+  LDFLAGS="-Wl,--gc-sections -Wl,-O1 ${LDFLAGS}"
+elif test "$ld_apple" = "yes"
 then
   LDFLAGS="-Wl,-dead_strip -Wl,-dead_strip_dylibs -Wl,-undefined,error -Wl,-no_weak_exports ${LDFLAGS}"
 elif test "$ld_solaris" = "yes"
 then
   LDFLAGS="-Wl,-B,reduce -Wl,-z,redlocsym -Wl,--no-undefined ${LDFLAGS}"
-elif test "$ld_wasix" = "yes" || test "$ld_emscripten" = "yes"
-then
-  # wasm-ld doesn't support other options
-  LDFLAGS="-Wl,--gc-sections -Wl,-O1 ${LDFLAGS}"
 else
   # assume GNU compatible linker
   LDFLAGS="-Wl,--as-needed -Wl,-O1 ${LDFLAGS}"
@@ -483,6 +534,10 @@ then
 elif test "$build_aros" = "yes"
 then
   _UADE_TARGET_OS="--target-os=AROS"
+elif test "$build_fuchsia" = "yes"
+then
+  # avoid misdetection when cross compiling
+  _UADE_TARGET_OS="--target-os=Fuchsia"
 fi
 
 uade_prefix=${prefix}
