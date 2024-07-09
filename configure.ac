@@ -31,6 +31,7 @@ build_solaris=no
 build_irix=no
 build_qnx=no
 build_fuchsia=no
+build_hurd=no
 
 build_freebsd=no
 build_openbsd=no
@@ -198,6 +199,9 @@ case "${CC}" in
         # compiles, but binaries either don't work or some even fail to run
         AC_MSG_WARN(["Wasix target not yet supported"])
         ;;
+      gnu*)
+        build_hurd=yes
+        ;;
       *)
         AC_MSG_WARN(["$host_os not supported"])
         ;;
@@ -225,6 +229,7 @@ AM_CONDITIONAL([BUILD_SOLARIS], [test "$build_solaris" = "yes"])
 AM_CONDITIONAL([BUILD_IRIX], [test "$build_irix" = "yes"])
 AM_CONDITIONAL([BUILD_QNX], [test "$build_qnx" = "yes"])
 AM_CONDITIONAL([BUILD_FUCHSIA], [test "$build_fuchsia" = "yes"])
+AM_CONDITIONAL([BUILD_HURD], [test "$build_hurd" = "yes"])
 AM_CONDITIONAL([BUILD_ANDROID], [test "$build_android" = "yes"])
 AM_CONDITIONAL([BUILD_IOS], [test "$build_ios" = "yes"])
 AM_CONDITIONAL([BUILD_COSMOCC], [test "$build_cosmocc" = "yes"])
@@ -357,6 +362,10 @@ then
   # dwarf version >= 4 not supported by linker (qnx 6.5.0)
   CFLAGS="-gdwarf-3 ${CFLAGS}"
   LIBS="-lsocket ${LIBS}"
+elif test "$build_hurd" = "yes"
+then
+  # PATH_MAX not defined
+  CPPFLAGS="-DPATH_MAX=1024 ${CPPFLAGS}"
 elif test "$build_amigaos" = "yes"
 then
   # -noixemul uses libnix
