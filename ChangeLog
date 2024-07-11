@@ -4,6 +4,7 @@
 - GNU Hurd support
 - QNX(6.5), AIX support (lib/cli-only tested)
 - WIP support for IRIX, Android, iOS, Fuchsia, Wasix, Emscripten, cosmocc
+- Fixed possible crash with Fasttracker 1/2 subsong detection
 
 0.12.0 - 2024-04-27
 - Dropped UADE libbsd dependency
