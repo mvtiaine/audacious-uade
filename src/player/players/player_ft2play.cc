@@ -331,8 +331,10 @@ vector<int16_t> get_subsongs(const ft2play_context *context) {
 
 ModuleInfo get_xm_info(const char *path, const XMHeader &hdr) {
     string progName = hdr.progName;
-    progName.erase(progName.find_last_of(' ') + 1);
-    progName.erase(progName.find_last_not_of(' ') + 1);
+    if (progName.ends_with(" ")) {
+        progName.erase(progName.find_last_of(' ') + 1);
+        progName.erase(progName.find_last_not_of(' ') + 1);
+    }
     return {Player::ft2play, progName, path, 1, 1, 1, hdr.antChn};
 }
 
