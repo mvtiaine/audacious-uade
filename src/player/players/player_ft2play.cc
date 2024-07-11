@@ -151,18 +151,19 @@ struct ft2play_context {
     pair<int16_t,int16_t> posJump(int pattNr, int16_t pattPos) const {
         int16_t effB = -1;
         int16_t effD = -1;
-        if (probe) {
+        if (probe && probe::patt[pattNr]) {
             assert(pattPos < probe::pattLens[pattNr]);
             auto *p = &probe::patt[pattNr][pattPos * probe::song.antChn];
-        	for (uint8_t i = 0; p && i < probe::song.antChn; i++, p++) {
+            for (uint8_t i = 0; p && i < probe::song.antChn; i++, p++) {
                 if (p->effTyp == 0xB)
                     effB = p->eff;
                 else if (p->effTyp == 0xD)
                     effD = ((p->eff >> 4) * 10) + (p->eff & 0x0F);
             }
-        } else {
+        } else if (!probe && play::patt[pattNr]) {
+            assert(pattPos < play::pattLens[pattNr]);
             auto *p = &play::patt[pattNr][pattPos * play::song.antChn];
-        	for (uint8_t i = 0; p && i < play::song.antChn; i++, p++)
+            for (uint8_t i = 0; p && i < play::song.antChn; i++, p++)
                 if (p->effTyp == 0xB)
                     effB = p->eff;
                 else if (p->effTyp == 0xD)
