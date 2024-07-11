@@ -203,6 +203,9 @@ const set<string> xm_prog_whitelist = {
     "Xrns2XMod 2.8.0.0",
     "Converted by MID2XM",
     "*Converted  XM-File*", // DigiTrakker?
+    "..converted..", // ??? (Supernao/coop-Jugi/supermax.xm)
+    // packers
+    "XMLiTE",
 };
 
 mutex probe_guard;
