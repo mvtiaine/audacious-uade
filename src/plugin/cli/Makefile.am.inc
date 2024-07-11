@@ -58,6 +58,11 @@ plugin_cli_songend_songend_SOURCES = \
 plugin_cli_songend_songend_LDADD = \
 	songend/libsongend.la
 
+if BUILD_AIX
+# ERROR: Undefined symbol: .uade_config_set_option etc.
+plugin_cli_songend_songend_LDADD += $(UADE_LIBS)
+endif
+
 plugin_cli_converter_converter_SOURCES += plugin/cli/common/compat.cc
 plugin_cli_player_player_SOURCES += plugin/cli/common/compat.cc
 plugin_cli_precalc_precalc_SOURCES += plugin/cli/common/compat.cc
@@ -65,7 +70,7 @@ plugin_cli_songdb_songdb_SOURCES += plugin/cli/common/compat.cc
 plugin_cli_songend_songend_SOURCES += plugin/cli/common/compat.cc
 
 if STATIC_STDLIBS
-static_ldflags = $(AM_LDFLAGS) -static-libgcc -static-libstdc++ -Wl,--allow-multiple-definition
+static_ldflags = $(AM_LDFLAGS) $(STATIC_LDFLAGS)
 
 plugin_cli_converter_converter_SOURCES += plugin/cli/common/tinynew.cc
 plugin_cli_player_player_SOURCES += plugin/cli/common/tinynew.cc

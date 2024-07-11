@@ -29,6 +29,7 @@ build_haiku=no
 build_amiga=no
 build_solaris=no
 build_irix=no
+build_aix=no
 build_qnx=no
 build_fuchsia=no
 build_hurd=no
@@ -180,6 +181,11 @@ case "${CC}" in
         # compiles, but does not work properly (*printf() seems borked) (compilertron (sgug-rse gcc9))
         AC_MSG_WARN(["IRIX target not yet supported"])
         ;;
+      aix*)
+        # audacious not tested
+        plugin_audacious=no
+        build_aix=yes
+        ;;
       *qnx*)
         # audacious not tested
         plugin_audacious=no
@@ -227,6 +233,7 @@ AM_CONDITIONAL([BUILD_WARPOS], [test "$build_warpos" = "yes"])
 AM_CONDITIONAL([BUILD_AROS], [test "$build_aros" = "yes"])
 AM_CONDITIONAL([BUILD_SOLARIS], [test "$build_solaris" = "yes"])
 AM_CONDITIONAL([BUILD_IRIX], [test "$build_irix" = "yes"])
+AM_CONDITIONAL([BUILD_AIX], [test "$build_aix" = "yes"])
 AM_CONDITIONAL([BUILD_QNX], [test "$build_qnx" = "yes"])
 AM_CONDITIONAL([BUILD_FUCHSIA], [test "$build_fuchsia" = "yes"])
 AM_CONDITIONAL([BUILD_HURD], [test "$build_hurd" = "yes"])
@@ -316,8 +323,8 @@ EXTRA_LIBS=""
 CPPFLAGS="-D_DEFAULT_SOURCE -D_GNU_SOURCE ${CPPFLAGS}"
 CFLAGS="-fvisibility=hidden ${CFLAGS} -fno-exceptions"
 # XXX shutup spammy AROS warning: "__PIC__" redefined.
-# also AROS, MorphOS and IRIX/compilertron don't support --gc-sections
-if test "$build_aros" != "yes" && test "$build_morphos" != "yes" && test "$build_warpos" != "yes" && test "$build_irix" != "yes"
+# also AROS, MorphOS, IRIX/compilertron and AIX linker don't support --gc-sections
+if test "$build_aros" != "yes" && test "$build_morphos" != "yes" && test "$build_warpos" != "yes" && test "$build_irix" != "yes" && test "$build_aix" != "yes"
 then
   CFLAGS="-fPIC -fdata-sections -ffunction-sections ${CFLAGS}"
 fi
@@ -355,6 +362,11 @@ then
   LDFLAGS="-L/opt/irix/root/usr/sgug/lib/gcc/mips-sgi-irix6.5/9 ${LDFLAGS}"
   EXTRA_LIBS="-lgen"
   CXXSTD="-std=c++2a"
+elif test "$build_aix" = "yes"
+then
+  # -pthread needed for std::mutex support
+  CFLAGS="-pthread ${CFLAGS}"
+  LDFLAGS="-pthread ${LDFLAGS}"
 elif test "$build_qnx" = "yes"
 then
   # qnx(6.5.0)+gcc10(pkgsrc) quirks
@@ -407,7 +419,8 @@ then
 fi
 
 # TODO proper freopen() test
-if test "$build_haiku" = "yes" || test "$build_openbsd" = "yes" || test "$build_netbsd" = "yes" || test "$build_mingw" = "yes" || test "$build_amiga" = "yes" || test "$build_solaris" = "yes" || test "$build_irix" = "yes" || test "$build_qnx" = "yes" || test "$build_wasix" = "yes"
+# TODO invert (-DNO_FREOPEN -> -DNEED_FREOPEN)?
+if test "$build_haiku" = "yes" || test "$build_openbsd" = "yes" || test "$build_netbsd" = "yes" || test "$build_mingw" = "yes" || test "$build_amiga" = "yes" || test "$build_solaris" = "yes" || test "$build_irix" = "yes" || test "$build_aix" = "yes" || test "$build_qnx" = "yes" || test "$build_wasix" = "yes"
 then
   CPPFLAGS="-DNO_FREOPEN ${CPPFLAGS}"
 fi
@@ -428,6 +441,7 @@ ld_apple=no
 ld_lld=no
 ld_gnu=no
 ld_solaris=no
+ld_aix=no
 ld_cosmocc=no
 ld_wasix=no
 ld_emscripten=no
@@ -460,7 +474,13 @@ else
         ld_emscripten=yes
         ;;
     *)
-        AC_MSG_WARN(["Linker $LD ($linker_version) is not supported"])
+        if test "$build_aix" = "yes"
+        then
+          # ld: LD 7.2.4(2/13/18)
+          ld_aix=yes
+        else
+          AC_MSG_WARN(["Linker $LD ($linker_version) is not supported"])
+        fi
         ;;
   esac
 fi
@@ -469,6 +489,7 @@ AM_CONDITIONAL([LD_APPLE], [test "$ld_apple" = "yes"])
 AM_CONDITIONAL([LD_LLD], [test "$ld_lld" = "yes"])
 AM_CONDITIONAL([LD_GNU], [test "$ld_gnu" = "yes"])
 AM_CONDITIONAL([LD_SOLARIS], [test "$ld_solaris" = "yes"])
+AM_CONDITIONAL([LD_AIX], [test "$ld_aix" = "yes"])
 AM_CONDITIONAL([LD_COSMOCC], [test "$ld_cosmocc" = "yes"])
 AM_CONDITIONAL([LD_WASIX], [test "$ld_wasix" = "yes"])
 AM_CONDITIONAL([LD_EMSCRIPTEN], [test "$ld_emscripten" = "yes"])
@@ -490,6 +511,9 @@ then
 elif test "$ld_solaris" = "yes"
 then
   LDFLAGS="-Wl,-B,reduce -Wl,-z,redlocsym -Wl,--no-undefined ${LDFLAGS}"
+elif test "$ld_aix" = "yes"
+then
+  LDFLAGS="${LDFLAGS}"
 else
   # assume GNU compatible linker
   LDFLAGS="-Wl,--as-needed -Wl,-O1 ${LDFLAGS}"
@@ -517,6 +541,13 @@ else
     LDFLAGS="-Wl,--gc-sections -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"
   fi
 fi
+
+STATIC_LDFLAGS="-static-libgcc -static-libstdc++"
+if test "$ld_aix" != "yes"
+then
+  STATIC_LDFLAGS="${STATIC_LDFLAGS} -Wl,--allow-multiple-definition"
+fi
+AC_SUBST([STATIC_LDFLAGS])
 
 if test "$build_macos" = "yes"
 then

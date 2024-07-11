@@ -12,7 +12,7 @@ test_md5_LDADD = \
 test_md5_SOURCES += plugin/cli/common/compat.cc
 
 if STATIC_STDLIBS
-test_md5_LDFLAGS = $(AM_LDFLAGS) -static-libgcc -static-libstdc++ -Wl,--allow-multiple-definition
+test_md5_LDFLAGS = $(AM_LDFLAGS) $(STATIC_LDFLAGS)
 test_md5_SOURCES += plugin/cli/common/tinynew.cc
 endif
 

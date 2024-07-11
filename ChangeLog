@@ -2,7 +2,7 @@
 - Sync songdb sources to around 2024-05-12 snapshots
 - GCC 9 support (previously GCC 10 was required)
 - GNU Hurd support
-- QNX(6.5) support (lib/cli-only tested)
+- QNX(6.5), AIX support (lib/cli-only tested)
 - WIP support for IRIX, Android, iOS, Fuchsia, Wasix, Emscripten, cosmocc
 
 0.12.0 - 2024-04-27

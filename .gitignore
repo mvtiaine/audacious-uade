@@ -22,6 +22,7 @@ missing
 .vscode
 INSTALL
 *.o
+*.o.tmp
 *.lo
 *.la
 .deps/
