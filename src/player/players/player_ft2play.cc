@@ -181,35 +181,13 @@ struct ft2play_context {
     }
 };
 
-// these are assumed to use/export fully FT2-compatible XM format
-const set<string> xm_prog_whitelist = {
-    // FT2 authentic
-    "FastTracker v2.00   ",
-    "Fasttracker II clone",
-    // trackers using XM format
-    "MilkyTracker        ", // NOTE: some special handling in openmpt
-    "MilkyTracker 1.00.00",
-    "MilkyTracker 1.01.00",
-    "MilkyTracker 1.02.00",
-    "MilkyTracker 1.03.00",
-    "MilkyTracker 1.04.00",
-    "rst's SoundTracker  ",
-    // trackers with XM export
-    "DigiBooster Pro 2.17",
-    "DigiBooster Pro 2.18",
-    "DigiBooster Pro 2.19",
-    "DigiBooster Pro 2.20",
-    "DigiBooster Pro 2.21",
-    // converters
-    "DBM2XM converter    ",
-    "MED2XM by J.Pynnonen", // NOTE: some special handling in xmp
-    "MOD2XM 1.0",
-    "Xrns2XMod 2.8.0.0",
-    "Converted by MID2XM",
-    "*Converted  XM-File*", // DigiTrakker?
-    "..converted..", // ??? (Supernao/coop-Jugi/supermax.xm)
-    // packers
-    "XMLiTE",
+// these have special playback quirks in libopenmpt, so better use that instead
+const set<string> xm_prog_blacklist = {
+    "FastTracker v 2.00", // modplug
+    "MadTracker 2.0",
+    "OpenMPT ",
+    "Sk@le Tracker",
+    "Skale Tracker",
 };
 
 mutex probe_guard;
@@ -261,7 +239,10 @@ bool get_xm_header(const char *buf, size_t size, XMHeader &h) {
         return false;
     }
     const auto progName = string(h.progName).substr(0,20);
-    return xm_prog_whitelist.contains(progName);
+    for (const auto &name : xm_prog_blacklist) {
+        if (progName.starts_with(name)) return false;
+    }
+    return true;
 }
 
 bool get_fst_header( const char *buf, size_t size, FSTHeader &h) {
