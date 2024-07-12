@@ -230,13 +230,12 @@ bool update_tuple(Tuple &tuple, const string &path, int subsong, const Info &inf
     const char *title = modulename_ok ? info->modulename : name;
     */
     tuple.set_str(Tuple::Title, common::split(path, "/").back().c_str());
-    if (info.format.size()) {
-        tuple.set_str(Tuple::Codec, info.format.c_str());
     const auto player = player::name(info.player);
     string codec = info.format;
     transform(codec.begin(), codec.end(), codec.begin(), ::tolower);
     if (codec != player) {
         codec = info.format + " [" + player::name(info.player) + "]";
+    } else {
         codec = info.format; // undo tolower
     }
     tuple.set_str(Tuple::Codec, codec.c_str());
