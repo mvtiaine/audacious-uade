@@ -330,7 +330,7 @@ vector<int16_t> get_subsongs(const ft2play_context *context) {
 }
 
 ModuleInfo get_xm_info(const char *path, const XMHeader &hdr) {
-    string progName = hdr.progName;
+    string progName = string(hdr.progName).substr(0,20);
     if (progName.ends_with(" ")) {
         progName.erase(progName.find_last_of(' ') + 1);
         progName.erase(progName.find_last_not_of(' ') + 1);
