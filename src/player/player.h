@@ -38,6 +38,19 @@ enum class Player {
     PLAYERS
 };
 
+constexpr std::string name(Player player) noexcept {
+    switch(player) {
+        case Player::hivelytracker: return "hivelytracker";
+        case Player::libdigibooster3: return "libdigibooster3";
+        case Player::uade: return "uade";
+        case Player::ft2play: return "ft2play";
+        case Player::st3play: return "st3play";
+        default: assert(false); return "";
+    }
+    assert(false);
+    return "";
+}
+
 struct ModuleInfo {
     Player player;
     std::string format;

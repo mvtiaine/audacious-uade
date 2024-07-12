@@ -30,17 +30,11 @@ namespace {
 void print(const common::SongEnd &songend, const player::ModuleInfo &info, int subsong, vector<char> &buf, bool includepath, const string &md5hex) {
     const auto reason = songend.status_string();
     if (subsong == info.minsubsong) {
-        const auto pl = [&info]() { switch(info.player) {
-            case player::Player::hivelytracker: return "hivelytracker";
-            case player::Player::libdigibooster3: return "libdigibooster3";
-            case player::Player::uade: return "uade";
-            case player::Player::ft2play: return "ft2play";
-            default: assert(false); return "";
-        }}();
+        const auto pl = player::name(info.player);
         if (includepath) {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl,info.format.c_str(),info.channels,buf.size(),info.path.c_str());
+            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl.c_str(),info.format.c_str(),info.channels,buf.size(),info.path.c_str());
         } else {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl,info.format.c_str(),info.channels,buf.size());
+            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl.c_str(),info.format.c_str(),info.channels,buf.size());
         }
     } else {
         fprintf(stdout, "%s\t%d\t%d\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str());

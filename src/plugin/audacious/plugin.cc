@@ -2,6 +2,7 @@
 // Copyright (C) 2014-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include <cassert>
+#include <cctype>
 #include <cstring>
 #include <optional>
 #include <string>
@@ -231,7 +232,14 @@ bool update_tuple(Tuple &tuple, const string &path, int subsong, const Info &inf
     tuple.set_str(Tuple::Title, common::split(path, "/").back().c_str());
     if (info.format.size()) {
         tuple.set_str(Tuple::Codec, info.format.c_str());
+    const auto player = player::name(info.player);
+    string codec = info.format;
+    transform(codec.begin(), codec.end(), codec.begin(), ::tolower);
+    if (codec != player) {
+        codec = info.format + " [" + player::name(info.player) + "]";
+        codec = info.format; // undo tolower
     }
+    tuple.set_str(Tuple::Codec, codec.c_str());
     tuple.set_str(Tuple::Quality, "sequenced");
 #if AUDACIOUS_HAS_CHANNELS
     if (info.channels > 0) {
