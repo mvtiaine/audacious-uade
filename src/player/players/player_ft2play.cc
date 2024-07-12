@@ -77,6 +77,10 @@ struct ft2play_context {
         if (probe) probe::song.timer = timer;
         else play::song.timer = timer;
     }
+    void setVolumeRamping(bool volumeRamping) const {
+        if (probe) probe::volumeRampingFlag = volumeRamping;
+        else play::volumeRampingFlag = volumeRamping;
+    }
     bool loadMusicFromData(const uint8_t *data, uint32_t dataLength) const {
         if (probe) return probe::loadMusicFromData(data, dataLength);
         else return play::loadMusicFromData(data, dataLength);
@@ -359,9 +363,7 @@ namespace player::ft2play {
 
 void init() {
     probe::interpolationFlag = true;
-    probe::volumeRampingFlag = true;
     play::interpolationFlag = true;
-    play::volumeRampingFlag = true;
 }
 
 void shutdown() {
@@ -420,6 +422,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) {
     ModuleInfo info;
+    bool volumeRamping = false;
     if (is_fasttracker2(buf, size)) {
         XMHeader header;
         if (!get_xm_header(buf, size, header)) {
@@ -427,6 +430,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
             return {};
         }
         info = get_xm_info(path, header);
+        volumeRamping = header.ver >= 0x104;
 
     } else if (is_fasttracker1(buf, size)) {
         FSTHeader header;
@@ -450,6 +454,8 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         return {};
     }
 
+    context->setVolumeRamping(volumeRamping);
+    
     if (!context->mix_Init(mixBufSize(config.frequency)) || !context->dump_Init(config.frequency, 8, 0)) {
         ERR("player_ft2play::play init failed for %s\n", path);
         context->shutdown();

@@ -9,7 +9,7 @@ set -e
 export PLAYER_ENDIAN=little
 
 TESTMOD="${top_srcdir}/testdata/aulral.mod"
-TESTMD5_LITTLE=fc529416f9ef35a9c60f18afb5f7dc32
+TESTMD5_LITTLE=ef9bfa7754dbff6859caee9fa9154e72
 
 TEST_NAME="ft2play (FST)"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
