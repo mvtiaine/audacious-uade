@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: LGPL-2.0-or-later
 // Copyright (C) 2023-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
+#include <algorithm>
 #include <cassert>
+#include <cctype>
 #include <cstdint>
 #include <cstring>
+#include <functional>
 #include <mutex>
 #include <set>
 #include <string>
@@ -320,6 +323,7 @@ ModuleInfo get_xm_info(const char *path, const XMHeader &hdr) {
         progName.erase(progName.find_last_of(' ') + 1);
         progName.erase(progName.find_last_not_of(' ') + 1);
     }
+    replace_if(progName.begin(), progName.end(), ::not_fn(::isprint), '?');
     return {Player::ft2play, progName, path, 1, 1, 1, hdr.antChn};
 }
 
