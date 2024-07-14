@@ -95,6 +95,7 @@ const set<string> md5_blacklist ({
     "944efba8363e4a2e9a6c96eae008f5ea", // wantedteam/examples/TFMX_Anstoss/MDAT.anstoss4 
     "0a14bdf6e11a16dd447ec2fa160fe3ae", // wantedteam/examples/TFMX_MrNutz/MDAT.title
     "c9373a252335a86c020c7a2524bf4908", // amp/H/Hardsequenzer/OKT.PartyInvitation
+    "d35ab7d004eda2ff8c3c45ca1041be82", // amp/C/Curt Cool2/PRT.wigged
 });
 
 const set<string> songdb_blacklist ({
