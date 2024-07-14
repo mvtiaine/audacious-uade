@@ -203,7 +203,7 @@ val md5idxTsv = Future { Files.write(Paths.get("/tmp/songdb/md5idx.tsv"), {
     val next = {
       val diff = _base64e(md5v - prev, true)
       assert(diff.length() <= 6)
-      assert(diff.length() >= 3)
+      assert(diff.length() >= 2)
       diff
     }
     prev = md5v
@@ -258,7 +258,7 @@ val songlengthsTsv = Future { Files.write(Paths.get("/tmp/songdb/songlengths.tsv
 
 val modinfosTsv = Future { Files.write(Paths.get("/tmp/songdb/modinfos.tsv"), {
   var prev = 0
-  val entries = songlengths.db.sortBy(e => e.format + "###" + e.channels + "###" + e.md5).map(e =>
+  val entries = songlengths.db.sortBy(e => e.format + "   " + e.channels + "###" + e.md5).map(e =>
     if (!e.format.isEmpty()) {
       if (e.channels > 0) {
         Buffer(

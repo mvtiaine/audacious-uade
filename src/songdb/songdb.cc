@@ -101,27 +101,26 @@ _CONSTEXPR uint24_t b64d24(const char *b64, int &len) noexcept {
     }
 }
 
-_CONSTEXPR md5_t b64diff2md5(const md5_t prev, const char *b64, int &len) noexcept {
-    if (b64[3] == '\n') {
-        len = 4;
+_CONSTEXPR md5_t b64diff2md5(const md5_t prev, const char *b64) noexcept {
+    if (b64[2] == '\n') {
+        return prev + ((b64[0] - 45) << 6 |
+               (b64[1] - 45));
+    } else if (b64[3] == '\n') {
         return prev + ((b64[0] - 45) << 12 |
                (b64[1] - 45) << 6 |
                (b64[2] - 45));
     } else if (b64[4] == '\n') {
-        len = 5;
         return prev + ((b64[0] - 45) << 18 |
                (b64[1] - 45) << 12 |
                (b64[2] - 45) << 6 |
                (b64[3] - 45));
     } else if (b64[5] == '\n') {
-        len = 6;
         return prev + ((b64[0] - 45) << 24 |
                (b64[1] - 45) << 18 |
                (b64[2] - 45) << 12 |
                (b64[3] - 45) << 6 |
                (b64[4] - 45));
     } else {
-        len = 7;
         uint32_t part1 = (b64[0] - 45) << 12;
         part1 |= (b64[1] - 45) << 6;
         part1 |= (b64[2] - 45);
@@ -326,8 +325,7 @@ void parse_md5idx(const string &tsv) noexcept {
     md5_t prevhash = 0;
     char line[BUF_SIZE];
     while (fgets(line, sizeof line, f)) {
-        int len = 9;
-        const md5_t hash = (i == 0) ? static_cast<md5_t>(0) : b64diff2md5(prevhash, line, len);
+        const md5_t hash = (i == 0) ? static_cast<md5_t>(0) : b64diff2md5(prevhash, line);
         assert(i == 0 || hash > prevhash);
         md5_idx[i] = hash;
         prevhash = hash;
