@@ -38,7 +38,7 @@ enum class Player {
     PLAYERS
 };
 
-_CONSTEXPR std::string name(Player player) noexcept {
+inline std::string name(Player player) noexcept {
     switch(player) {
         case Player::hivelytracker: return "hivelytracker";
         case Player::libdigibooster3: return "libdigibooster3";
