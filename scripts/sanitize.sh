@@ -6,7 +6,7 @@ set -e
 make clean && CFLAGS="-Werror" ./configure && make -j && make -j check
 
 # assert disabled
-make clean && CPPFLAGS="-DNDEBUG" CFLAGS="-Werror" ./configure && make -j && make -j check
+make clean && CPPFLAGS="-DNDEBUG" CFLAGS="-Werror -Wno-error=unused-but-set-variable" ./configure && make -j && make -j check
 
 # scan-build
 #export CXXFLAGS=-std=gnu++20
