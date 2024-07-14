@@ -324,6 +324,7 @@ ModuleInfo get_xm_info(const char *path, const XMHeader &hdr) {
         progName.erase(progName.find_last_not_of(' ') + 1);
     }
     replace_if(progName.begin(), progName.end(), ::not_fn(::isprint), '?');
+    if (progName.empty()) progName = "<Unknown>";
     return {Player::ft2play, progName, path, 1, 1, 1, hdr.antChn};
 }
 
