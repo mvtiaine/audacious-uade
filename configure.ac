@@ -192,6 +192,7 @@ case "${CC}" in
         build_qnx=yes
         ;;
       *fuchsia*)
+        # see scripts/fuchsia.sh
         plugin_audacious=no
         build_fuchsia=yes
         AC_MSG_WARN(["Fuchsia binaries have not been runtime tested"])
