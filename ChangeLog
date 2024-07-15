@@ -1,4 +1,4 @@
-0.12-dev
+0.12.1 - 2024-07-15
 - Sync songdb sources to around 2024-05-12 snapshots
 - GCC 9 support (previously GCC 10 was required)
 - GNU Hurd support
