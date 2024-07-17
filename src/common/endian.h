@@ -3,10 +3,28 @@
 
 #pragma once
 
-#include <bit>
 #include <cstdint>
 
 #include "compat.h"
+
+#if __cplusplus <= 201703L
+namespace std {
+enum class endian
+{
+#if defined(_MSC_VER) && !defined(__clang__)
+    little = 0,
+    big    = 1,
+    native = little
+#else
+    little = __ORDER_LITTLE_ENDIAN__,
+    big    = __ORDER_BIG_ENDIAN__,
+    native = __BYTE_ORDER__
+#endif
+};
+}
+#else
+#include <bit>
+#endif
 
 namespace common {
 

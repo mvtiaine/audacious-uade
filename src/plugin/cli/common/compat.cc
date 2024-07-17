@@ -92,4 +92,13 @@ ssize_t writev(int fd, const struct iovec *vector, int count)
         return bytes_written;
 }
 }
-#endif // __AROS
+#endif // __AROS__
+
+#ifdef WARPUP
+#include <bits/gthr.h>
+// XXX latest mos2wos (1.4) seems broken, but only one with gcc9
+// undefined reference to `__gthr_morphos_mutex_lock' etc.
+int __gthr_morphos_mutex_lock (__gthread_mutex_t *__mutex) {}
+int __gthr_morphos_mutex_unlock (__gthread_mutex_t *__mutex) {}
+int __gthr_morphos_active_p (void) { return 0; }
+#endif // WARPUP

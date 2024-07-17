@@ -61,7 +61,7 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
         case 2: {
             const auto author = tokens[0];
             const auto token1 = tokens[1];
-            if (token1.starts_with(COOP)) {
+            if (common::starts_with(token1, COOP)) {
                 vector<string_view> authors = {author, token1.substr(COOP.length())};
                 sort(authors.begin(), authors.end());
                 string author;
@@ -75,7 +75,7 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
                 } else {
                     add_author(author);
                 }
-                if (!token1.starts_with(NOTBY)) {
+                if (!common::starts_with(token1, NOTBY)) {
                     if (token1.at(0) == 0x7f) {
                         item.album = prev_item.album;
                     } else {
@@ -90,7 +90,7 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
         case 3: {
             const auto author = tokens[0];
             const auto token1 = tokens[1];
-            if (token1.starts_with(COOP)) {
+            if (common::starts_with(token1, COOP)) {
                 vector<string_view> authors = {author, token1.substr(COOP.length())};
                 sort(authors.begin(), authors.end());
                 string author;

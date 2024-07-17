@@ -440,8 +440,8 @@ string parse_codec(const struct uade_song_info *info) {
     string formatname = info->formatname;
     if (!formatname.empty()) {
         // remove "type: " prefix included in some formats
-        if (formatname.starts_with(TYPE_PREFIX)) formatname = formatname.substr(TYPE_PREFIX.length());
-        if (formatname.length() == 4 && formatname.starts_with("MMD")) formatname = "OctaMED " + formatname;
+        if (common::starts_with(formatname, TYPE_PREFIX)) formatname = formatname.substr(TYPE_PREFIX.length());
+        if (formatname.length() == 4 && common::starts_with(formatname, "MMD")) formatname = "OctaMED " + formatname;
         return formatname;
     } else if (!playername.empty()) {
         return playername;
@@ -455,7 +455,7 @@ bool has_ext(const char *path, const string &ext) noexcept {
     transform(p.begin(), p.end(), p.begin(), ::tolower);
     string prefix = ext + ".";
     string postfix = "." + ext;
-    return p.ends_with(postfix) || p.starts_with(prefix);
+    return common::ends_with(p, postfix) || common::starts_with(p, prefix);
 }
 
 // .sid extension conflict with SIDMon vs C64 SID files

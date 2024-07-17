@@ -521,7 +521,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     // skip play if known invalid file
     int known_timeout = tuple.get_int(Tuple::Length);
     const auto comment = tuple.get_str(Tuple::Comment);
-    if (known_timeout <= 0 && comment && string(comment).starts_with("songend=")) {
+    if (known_timeout <= 0 && comment && common::starts_with(string(comment), "songend=")) {
         WARN("uade_plugin_play skipped known invalid file %s\n", uri);
         return true;
     }

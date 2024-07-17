@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2023-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
-#include <bit>
 #include <string>
 #include <vector>
 
+#include "common/endian.h"
 #include "player/player.h"
 
 #include <sys/stat.h>

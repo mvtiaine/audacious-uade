@@ -164,7 +164,7 @@ _CONSTEXPR md5_idx_t _md5hex(const string_view &md5) noexcept {
     return _md5idx(hex2md5(md5.data()));
 }
 
-constexpr songend_t parse_songend(const string_view &songend) noexcept {
+_CONSTEXPR songend_t parse_songend(const string_view &songend) noexcept {
     if (songend == "e") return common::SongEnd::ERROR;
     if (songend == "p") return common::SongEnd::PLAYER;
     if (songend == "t") return common::SongEnd::TIMEOUT;
@@ -548,7 +548,7 @@ optional<SubSongInfo> lookup(const string &md5, int subsong) {
         if (subsong < info.min_subsong()) return {};
         if (info.min_subsong() == subsong) return make_subsonginfo(subsong, info.info());
         if (info.has_subsongs()) {
-            assert(db_subsongs.contains(md5_idx));
+            assert(db_subsongs.count(md5_idx));
             const auto &subsongs = db_subsongs[md5_idx];
             if (info.min_subsong() + subsongs.size() < static_cast<unsigned>(subsong)) return {};
             int sub = info.min_subsong() + 1;
@@ -560,7 +560,7 @@ optional<SubSongInfo> lookup(const string &md5, int subsong) {
     }
     const md5_t hash = hex2md5(md5.c_str());
     const lock_guard lock(extra_mutex);
-    if (extra_subsongs.contains(hash)) {
+    if (extra_subsongs.count(hash)) {
         const auto &infos = extra_subsongs[hash];
         for (const auto &info : infos) {
             if (info.subsong == subsong) {
@@ -586,7 +586,7 @@ optional<Info> lookup(const string &md5) {
         const auto &info = db_songinfos[md5_idx];
         res.subsongs.push_back(make_subsonginfo(info.min_subsong(), info.info()));
         if (info.has_subsongs()) {
-            assert(db_subsongs.contains(md5_idx));
+            assert(db_subsongs.count(md5_idx));
             const auto &subsongs = db_subsongs[md5_idx];
             uint8_t sub = info.min_subsong() + 1;
             for (const auto &subsong : subsongs) {
@@ -597,17 +597,17 @@ optional<Info> lookup(const string &md5) {
     }
     const md5_t hash = hex2md5(md5.c_str());
     const lock_guard lock(extra_mutex);
-    if (!extra_subsongs.contains(hash) && !extra_modinfos.contains(hash)) {
+    if (!extra_subsongs.count(hash) && !extra_modinfos.count(hash)) {
         return {};
     }
     Info res;
-    if (extra_subsongs.contains(hash)) {
+    if (extra_subsongs.count(hash)) {
         const auto &infos = extra_subsongs[hash];
         for (const auto &info : infos) {
             res.subsongs.push_back(info);
         }
     }
-    if (extra_modinfos.contains(hash)) {
+    if (extra_modinfos.count(hash)) {
         res.modinfo = extra_modinfos[hash];
     }
     return res;
@@ -622,7 +622,7 @@ void init(const string &songdb_path, const initializer_list<Source> &sources/*= 
             any_of(sources.begin(), sources.end(), [source](const Source s) { return s == source; }));
     };
 
-    const auto path = songdb_path.ends_with("/") ? songdb_path : songdb_path + "/";
+    const auto path = common::ends_with(songdb_path, "/") ? songdb_path : songdb_path + "/";
 
     if (shouldInit(SOURCE_MD5)) {
         parse_md5idx(path + tsvfiles[SOURCE_MD5]);
@@ -740,7 +740,7 @@ void update(const string &md5, const SubSongInfo &info, const int minsubsong, co
 
     const md5_t hash = hex2md5(md5.c_str());
     const lock_guard lock(extra_mutex);
-    if (extra_subsongs.contains(hash)) {
+    if (extra_subsongs.count(hash)) {
         auto &infos = extra_subsongs[hash];
         for (auto &oldinfo : infos) {
             if (oldinfo.subsong == info.subsong) {
@@ -780,7 +780,7 @@ void update(const string &md5, const ModInfo &info) {
     }
     const md5_t hash = hex2md5(md5.c_str());
     const lock_guard lock(extra_mutex);
-    if (extra_modinfos.contains(hash)) {
+    if (extra_modinfos.count(hash)) {
         DEBUG("Skipped modinfo update for %s, already exists\n", md5.c_str());
         return;
     }
@@ -792,7 +792,7 @@ optional<pair<int,int>> subsong_range(const string &md5) {
     if (md5_idx != MD5_NOT_FOUND) {
         const auto &info = db_songinfos[md5_idx];
         if (info.has_subsongs()) {
-            assert(db_subsongs.contains(md5_idx));
+            assert(db_subsongs.count(md5_idx));
             return pair(info.min_subsong(), info.min_subsong() + db_subsongs[md5_idx].size());
         } else {
             return pair(info.min_subsong(), info.min_subsong());

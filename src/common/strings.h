@@ -160,4 +160,22 @@ constexpr T from_chars(const std::string_view &s) noexcept {
     return number;
 }
 
+constexpr bool starts_with(const std::string_view &s, const std::string_view &prefix) noexcept {
+#if __cplusplus <= 201703L
+    if (prefix.length() > s.length()) return false;
+    return s.rfind(prefix, 0) == 0;
+#else 
+    return s.starts_with(prefix);
+#endif
+}
+
+constexpr bool ends_with(const std::string_view &s, const std::string_view &suffix) noexcept {
+#if __cplusplus <= 201703L
+    if (suffix.length() > s.length()) return false;
+    return s.rfind(suffix, s.length() - suffix.length()) == 0;
+#else
+    return s.ends_with(suffix);
+#endif
+}
+
 } // namespace common

@@ -16,10 +16,11 @@ WRAPPER="${WRAPPER:=ape}"
 #autoreconf -i
 
 #CC=cosmocc CXX=cosmoc++ AR=cosmoar
-CC=${ARCH}-unknown-cosmo-cc CXX=${ARCH}-unknown-cosmo-c++ AR=${ARCH}-unknown-cosmo-ar \
+PATH=/opt/cross/cosmocc/bin:$PATH \
+  CC=${ARCH}-unknown-cosmo-cc CXX=${ARCH}-unknown-cosmo-c++ AR=${ARCH}-unknown-cosmo-ar \
   LD=${ARCH}-linux-cosmo-ld RANLIB=${ARCH}-linux-cosmo-ranlib \
   ./configure --host=${ARCH}-unknown-none
 
 make clean
 
-WRAPPER="${WRAPPER}" make -j check
+PATH=/opt/cross/cosmocc/bin:$PATH WRAPPER="${WRAPPER}" make -j check

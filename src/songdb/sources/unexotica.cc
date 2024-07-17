@@ -121,7 +121,7 @@ bool parse_tsv_row(const char *tuple, _UnExoticaData &item, const _UnExoticaData
 string author_path(const string &author) {
     auto tokens = common::split_view(author, ' ');
     const auto candidate = common::mkString(tokens, "_");
-    if (tokens.size() < 2 || pseudonyms.contains(candidate) || tokens[0] == "The") {
+    if (tokens.size() < 2 || pseudonyms.count(candidate) || tokens[0] == "The") {
         return candidate;
     }
     if (tokens[1] == "Da" || tokens[1] == "de" || tokens[1] == "van" || tokens[1] == "Pieket") {

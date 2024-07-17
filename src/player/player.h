@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <bit>
 #include <cassert>
 #include <cstddef>
 #include <functional>
@@ -12,6 +11,7 @@
 #include <type_traits>
 #include <utility>
 
+#include "common/endian.h"
 #include "common/compat.h"
 #include "common/songend.h"
 
