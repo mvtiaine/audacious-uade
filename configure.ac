@@ -163,14 +163,12 @@ case "${CC}" in
         build_amiga=yes
         case "${host_cpu}" in
           powerpc*)
-            if test "$(echo|$CC -dM -E -|grep -q __amigaos4__ && echo yes)" = "yes"
-            then
+            if test "$(echo|$CC -dM -E -|grep -q __amigaos4__ && echo yes)" = "yes" ; then
               # see scripts/crossbuild/amigaos4.sh
               # TODO compiles but executables crash at __start
               build_amigaos4=yes
               AC_MSG_WARN(["AmigaOS4 target not yet supported"])
-            elif test "$(echo|$CC --specs=warpup -dM -E - 2>/dev/null|grep -q WARPUP && echo yes)" = "yes"
-            then
+            elif test "$(echo|$CC --specs=warpup -dM -E - 2>/dev/null|grep -q WARPUP && echo yes)" = "yes" ; then
               # see scripts/crossbuild/warpos.sh
               build_warpos=yes
               AC_MSG_WARN(["WarpOS binaries have not been runtime tested"])
@@ -192,8 +190,7 @@ case "${CC}" in
         # see scripts/crossbuild/morphos.sh
         plugin_audacious=no
         build_amiga=yes
-        if test "$(echo|$CC --specs=warpup -dM -E - 2>/dev/null|grep -q WARPUP && echo yes)" = "yes"
-        then
+        if test "$(echo|$CC --specs=warpup -dM -E - 2>/dev/null|grep -q WARPUP && echo yes)" = "yes" ; then
           # see scripts/crossbuild/warpos.sh
           build_warpos=yes
           AC_MSG_WARN(["WarpOS binaries have not been runtime tested"])
@@ -344,8 +341,7 @@ AC_COMPILE_IFELSE(
   [],
   [AC_MSG_ERROR([Building with -ffast-math and/or -Ofast not supported!])])
 
-if test "$plugin_audacious" = "yes"
-then
+if test "$plugin_audacious" = "yes" ; then
 PKG_CHECK_MODULES([AUDACIOUS],[audacious >= 3.8],
   [ac_audacious_plugindir=`$PKG_CONFIG --variable=plugin_dir audacious`],
   [ac_audacious_plugindir=;])
@@ -404,12 +400,10 @@ CPPFLAGS="-D_DEFAULT_SOURCE -D_GNU_SOURCE ${CPPFLAGS}"
 CFLAGS="-fvisibility=hidden ${CFLAGS} -fno-exceptions"
 # XXX shutup spammy AROS warning: "__PIC__" redefined.
 # also AROS, MorphOS, IRIX/compilertron and AIX linker don't support --gc-sections
-if test "$build_aros" != "yes" && test "$build_morphos" != "yes" && test "$build_warpos" != "yes" && test "$build_irix" != "yes" && test "$build_aix" != "yes" && test "$build_freemint" != "yes"
-then
+if test "$build_aros" != "yes" && test "$build_morphos" != "yes" && test "$build_warpos" != "yes" && test "$build_irix" != "yes" && test "$build_aix" != "yes" && test "$build_freemint" != "yes" ; then
   CFLAGS="-fPIC -fdata-sections -ffunction-sections ${CFLAGS}"
 fi
-if test "$build_solaris" = "yes" || test "$build_aros" = "yes"
-then
+if test "$build_solaris" = "yes" || test "$build_aros" = "yes" ; then
   # on OpenIndiana -std=<any> breaks PATH_MAX for some reason
   # on AROS it breaks asm macros
   CSTD=""
@@ -418,47 +412,39 @@ fi
 # see AX_PROG_CC_FOR_BUILD
 CFLAGS_FOR_BUILD="${CSTD} ${CFLAGS}"
 
-if test "$build_meego" = "yes" && test "$CXXSTD" = "-std=c++2a"
-then
+if test "$build_meego" = "yes" || test "$build_dragonflybsd" = "yes" ; then
+if test "$CXXSTD" = "-std=c++2a" ; then
   # gcc8, very limited c++20 support
   CXXSTD="-std=c++17"
-elif test "$build_haiku" = "yes"
-then
+fi
+elif test "$build_haiku" = "yes" ; then
   EXTRA_LIBS="-lbsd -lnetwork"
-elif test "$build_cygwin" = "yes"
-then
+elif test "$build_cygwin" = "yes" ; then
   EXTRA_LIBS="-lcygwin"
-elif test "$build_mingw" = "yes"
-then
+elif test "$build_mingw" = "yes" ; then
   CPPFLAGS="-I/usr/include ${CPPFLAGS}"
   CFLAGS="-I/usr/include ${CFLAGS}"
   LIBS="-lws2_32 ${LIBS}"
-elif test "$build_solaris" = "yes"
-then
+elif test "$build_solaris" = "yes" ; then
   EXTRA_LIBS="-lsocket -lnsl"
-elif test "$build_irix" = "yes"
-then
+elif test "$build_irix" = "yes" ; then
   # irix(6.5.0)+gcc9(compilertron) quirks
   CPPFLAGS="-D_XOPEN_SOURCE=600 -D_POSIX_SOURCE -D_SGI_SOURCE -D__EXTENSIONS__ -DPATH_MAX=1024 ${CPPFLAGS}"
   EXTRA_LIBS="-lgen"
-elif test "$build_aix" = "yes"
-then
+elif test "$build_aix" = "yes" ; then
   # -pthread needed for std::mutex support
   CFLAGS="-pthread ${CFLAGS}"
   LDFLAGS="-pthread ${LDFLAGS}"
-elif test "$build_qnx" = "yes"
-then
+elif test "$build_qnx" = "yes" ; then
   # qnx(6.5.0)+gcc10(pkgsrc) quirks
   CPPFLAGS="-D_XOPEN_SOURCE=600 -D_QNX_SOURCE -D_HAS_C9X -D__UINTPTR_TYPE__=uintptr_t -include stdint.h -include math.h ${CPPFLAGS}"
   # dwarf version >= 4 not supported by linker (qnx 6.5.0)
   CFLAGS="-gdwarf-3 ${CFLAGS}"
   LIBS="-lsocket ${LIBS}"
-elif test "$build_hurd" = "yes"
-then
+elif test "$build_hurd" = "yes" ; then
   # PATH_MAX not defined
   CPPFLAGS="-DPATH_MAX=1024 ${CPPFLAGS}"
-elif test "$build_amigaos" = "yes"
-then
+elif test "$build_amigaos" = "yes" ; then
   # -noixemul uses libnix
   CFLAGS="-noixemul -m68020-60 ${CFLAGS} -fno-PIC"
   # TODO with -O2, -foptimize-sibling-calls causes some exes to crash before main() (songdb/player/precalc)
@@ -467,46 +453,38 @@ then
   CPPFLAGS="-DPATH_MAX=1024 ${CPPFLAGS}"
   # XXX fix some c vs c++ header issues with clib2
   CPPFLAGS="-include stdint.h -include math.h ${CPPFLAGS}"
-elif test "$build_morphos" = "yes"
-then
+elif test "$build_morphos" = "yes" ; then
   CFLAGS="-noixemul ${CFLAGS} -fno-PIC"
   # <cstdint> does not work without this
   CPPFLAGS="-D__STDC_LIMIT_MACROS ${CPPFLAGS}"
-elif test "$build_amigaos4" = "yes"
-then
+elif test "$build_amigaos4" = "yes" ; then
   # static libstdc++ needs also postdeps_CXX hack below
   CFLAGS="-athread=native ${CFLAGS}"
   LIBS="-lauto ${LIBS}"
-elif test "$build_warpos" = "yes"
-then
+elif test "$build_warpos" = "yes" ; then
   CPPFLAGS="--specs=warpup -D__STDC_LIMIT_MACROS ${CPPFLAGS}"
   CFLAGS="--specs=warpup -noixemul -mclib=newlib -pthread ${CFLAGS} -fno-PIC"
   LDFLAGS="--specs=warpup ${LDFLAGS}"
-elif test "$build_aros" = "yes"
-then
+elif test "$build_aros" = "yes" ; then
   LIBS="-lpthread ${LIBS}"
   # <cstdint> does not work without this
   CPPFLAGS="-D__STDC_LIMIT_MACROS ${CPPFLAGS}"
-elif test "$build_freemint" = "yes"
-then
+elif test "$build_freemint" = "yes" ; then
   # XXX crossmint include path handling seems to be broken and uade compiler.h conflicts with system compiler.h
   CPPFLAGS="-include ${SYSROOT}/usr/include/compiler.h ${CPPFLAGS}"
   # shutup warning about fvisibility not supported
   CFLAGS="-Wno-attributes ${CFLAGS}"
-elif test "$build_wasix" = "yes"
-then
+elif test "$build_wasix" = "yes" ; then
   CPPFLAGS="-D_WASI_EMULATED_PROCESS_CLOCKS ${CPPFLAGS}"
   LIBS="-lwasi-emulated-process-clocks ${LIBS}"
-elif test "$build_emscripten" = "yes"
-then
+elif test "$build_emscripten" = "yes" ; then
   #CFLAGS="-s NODERAWFS=1 -lwebsocket.js -sPROXY_POSIX_SOCKETS -pthread -sPROXY_TO_PTHREAD ${CFLAGS}"
   CFLAGS="-s NODERAWFS=1 ${CFLAGS}"
 fi
 
 # TODO proper freopen() test
 # TODO invert (-DNO_FREOPEN -> -DNEED_FREOPEN)?
-if test "$build_haiku" = "yes" || test "$build_openbsd" = "yes" || test "$build_netbsd" = "yes" || test "$build_mingw" = "yes" || test "$build_amiga" = "yes" || test "$build_solaris" = "yes" || test "$build_irix" = "yes" || test "$build_aix" = "yes" || test "$build_qnx" = "yes" || test "$build_wasix" = "yes"
-then
+if test "$build_haiku" = "yes" || test "$build_openbsd" = "yes" || test "$build_netbsd" = "yes" || test "$build_mingw" = "yes" || test "$build_amiga" = "yes" || test "$build_solaris" = "yes" || test "$build_irix" = "yes" || test "$build_aix" = "yes" || test "$build_qnx" = "yes" || test "$build_wasix" = "yes" ; then
   CPPFLAGS="-DNO_FREOPEN ${CPPFLAGS}"
 fi
 
@@ -526,11 +504,9 @@ ld_wasix=no
 ld_emscripten=no
 
 # cosmocc and wasix linker not detectable from version
-if test "$build_cosmocc" = "yes"
-then
+if test "$build_cosmocc" = "yes" ; then
   ld_cosmocc=yes
-elif test "$build_wasix" = "yes"
-then
+elif test "$build_wasix" = "yes" ; then
   ld_wasix=yes
 else
   linker_version=$( ($LD -v >/dev/null 2>&1 && $LD -v 2>&1) || ($LD -V 2>&1) )
@@ -553,8 +529,7 @@ else
         ld_emscripten=yes
         ;;
     *)
-        if test "$build_aix" = "yes"
-        then
+        if test "$build_aix" = "yes" ; then
           # ld: LD 7.2.4(2/13/18)
           ld_aix=yes
         else
@@ -576,44 +551,34 @@ AM_CONDITIONAL([LD_EMSCRIPTEN], [test "$ld_emscripten" = "yes"])
 # static libgcc/libstdc++ used for executables (except on macOS)
 AM_CONDITIONAL([STATIC_STDLIBS], [test "$static_stdlibs" = "yes"])
 
-if test "$ld_cosmocc" = "yes"
-then
+if test "$ld_cosmocc" = "yes" ; then
   # GNU (BFD) linker
   LDFLAGS="-Wl,--gc-sections -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"
-elif test "$ld_wasix" = "yes" || test "$ld_emscripten" = "yes"
-then
+elif test "$ld_wasix" = "yes" || test "$ld_emscripten" = "yes" ; then
   # wasm-ld doesn't support other options
   LDFLAGS="-Wl,--gc-sections -Wl,-O1 ${LDFLAGS}"
-elif test "$ld_apple" = "yes"
-then
+elif test "$ld_apple" = "yes" ; then
   LDFLAGS="-Wl,-dead_strip -Wl,-dead_strip_dylibs -Wl,-undefined,error -Wl,-no_weak_exports ${LDFLAGS}"
-elif test "$ld_solaris" = "yes"
-then
+elif test "$ld_solaris" = "yes" ; then
   LDFLAGS="-Wl,-B,reduce -Wl,-z,redlocsym -Wl,--no-undefined ${LDFLAGS}"
-elif test "$ld_aix" = "yes"
-then
+elif test "$ld_aix" = "yes" ; then
   LDFLAGS="${LDFLAGS}"
 else
   # assume GNU compatible linker
   LDFLAGS="-Wl,--as-needed -Wl,-O1 ${LDFLAGS}"
-  if test "$build_openbsd" = "yes"
-  then
+  if test "$build_openbsd" = "yes" ;   then
     # -Wl,--no-undefined is broken(?) on OpenBSD
     LDFLAGS="-Wl,--gc-sections -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--sort-common ${LDFLAGS}"
-  elif test "$build_mingw" = "yes" && test "$ld_lld" = "yes"
-  then
+  elif test "$build_mingw" = "yes" && test "$ld_lld" = "yes" ; then
     # mingw lld linker does not support --exclude-libs=ALL,--discard-all,--sort-common (?)
     LDFLAGS="-Wl,--gc-sections -Wl,--no-undefined ${LDFLAGS}"
-  elif test "$build_amigaos" = "yes" || test "$build_freemint" = "yes"
-  then
+  elif test "$build_amigaos" = "yes" || test "$build_freemint" = "yes" ; then
     # no support for --exclude-libs=ALL in bebbos toolchain or crossmint
     LDFLAGS="-Wl,--gc-sections -Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"
-  elif test "$build_morphos" = "yes" || test "$build_warpos" = "yes"
-  then
+  elif test "$build_morphos" = "yes" || test "$build_warpos" = "yes" ; then
     # no support for --exclude-libs=ALL, --gc-sections broken
     LDFLAGS="-Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"
-  elif test "$build_aros" = "yes" || test "$build_irix" = "yes"
-  then
+  elif test "$build_aros" = "yes" || test "$build_irix" = "yes" ; then
     # no support for --gc-sections on AROS, broken(?) on IRIX/compilertron
     LDFLAGS="-Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined  -Wl,--sort-common ${LDFLAGS}"
   else
@@ -622,49 +587,40 @@ else
 fi
 
 STATIC_LDFLAGS="-static-libgcc -static-libstdc++"
-if test "$ld_aix" != "yes"
-then
+if test "$ld_aix" != "yes" ; then
   STATIC_LDFLAGS="${STATIC_LDFLAGS} -Wl,--allow-multiple-definition"
 fi
 AC_SUBST([STATIC_LDFLAGS])
 
-if test "$build_darwin" = "yes"
-then
+if test "$build_darwin" = "yes" ; then
   SHREXT="-shrext .dylib"
   AC_SUBST([SHREXT])
-elif test "$build_netbsd" = "yes"
-then
+elif test "$build_netbsd" = "yes" ; then
   # default libtool is broken(?) on NetBSD for C++ shared modules
   postdeps_CXX=`echo " $postdeps_CXX " | sed 's, -lgcc,,g'`
   postdeps_CXX=`echo " $postdeps_CXX " | sed 's, -lc_s,,g'`
   postdeps_CXX=`echo " $postdeps_CXX " | sed 's, -lm_s,,g'`
-elif test "$build_amigaos" = "yes" || test "$build_warpos" = "yes"
-then
+elif test "$build_amigaos" = "yes" || test "$build_warpos" = "yes" ; then
   _UADE_TARGET_OS="--target-os=AmigaOS"
-elif test "$build_morphos" = "yes"
-then
+elif test "$build_morphos" = "yes" ; then
   _UADE_TARGET_OS="--target-os=MorphOS"
-elif test "$build_amigaos4" = "yes"
-then
+elif test "$build_amigaos4" = "yes" ; then
   _UADE_TARGET_OS="--target-os=AmigaOS4"
   # hack to support statically linked libgcc and libstdc++
   postdeps_CXX=`echo " $postdeps_CXX " | sed 's,-lgcc,,g'`
   postdeps_CXX=`echo " $postdeps_CXX " | sed 's,-lstdc++,,g'`
-elif test "$build_aros" = "yes"
-then
+elif test "$build_aros" = "yes" ; then
   _UADE_TARGET_OS="--target-os=AROS"
 fi
 
 uade_prefix=${prefix}
-if test "$uade_prefix" = "NONE"
-then
+if test "$uade_prefix" = "NONE" ; then
   uade_prefix=/usr/local
 fi
 _UADE_CPPFLAGS="${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE"
 _UADE_CFLAGS="${CFLAGS} -Wno-format -Wno-format-security -Wno-unused-command-line-argument"
 _UADE_LDFLAGS="${LDFLAGS} ${EXTRA_LIBS}"
-if test "$static_stdlibs" = "yes"
-then
+if test "$static_stdlibs" = "yes" ; then
   _UADE_LDFLAGS="-static-libgcc ${_UADE_LDFLAGS}"
 fi
 AX_SUBDIRS_CONFIGURE([uade], [
