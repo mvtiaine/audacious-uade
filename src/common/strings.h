@@ -6,7 +6,11 @@
 #include <algorithm>
 #include <array>
 #include <cassert>
+#if __has_include(<charconv>)
 #include <charconv>
+#else
+#define NO_CHARCONV
+#endif
 #include <cstdint>
 #include <numeric>
 #include <string>
@@ -146,8 +150,12 @@ inline std::string mkString(const std::vector<std::string_view> &v, const std::s
 template <class T>
 constexpr T from_chars(const std::string_view &s) noexcept {
     if (s.size() == 1) return s[0] - 48;
+#if defined(NO_CHARCONV)
+    const std::string ss = {s.begin(), s.end()};
+    return std::stoi(ss);
+#else
     T number = 0;
-#ifdef __Fuchsia__
+#if defined(__Fuchsia__)
     // XXX Fuchsia toolchain bug? error: no viable conversion from '__wrap_iter<const char *>' to 'const char *'
     const char *end = __unwrap_iter(s.begin() + s.size());
     auto result = std::from_chars(__unwrap_iter(s.begin()), end, number);
@@ -158,6 +166,7 @@ constexpr T from_chars(const std::string_view &s) noexcept {
     assert(result.ec == std::errc{});
     assert(result.ptr == end);
     return number;
+#endif
 }
 
 constexpr bool starts_with(const std::string_view &s, const std::string_view &prefix) noexcept {
