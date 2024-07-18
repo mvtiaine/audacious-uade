@@ -7,7 +7,8 @@
 
 #include "compat.h"
 
-#if __cplusplus <= 201703L
+// TODO || !__has_include ?
+#if __cplusplus <= 201703L || !__has_include(<bit>)
 namespace std {
 enum class endian
 {
