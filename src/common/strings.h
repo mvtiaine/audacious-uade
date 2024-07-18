@@ -8,14 +8,14 @@
 #include <cassert>
 #if __has_include(<charconv>)
 #include <charconv>
-#else
-#define NO_CHARCONV
 #endif
 #include <cstdint>
 #include <numeric>
 #include <string>
 #include <string_view>
 #include <vector>
+
+#include "compat.h"
 
 namespace common {
 
@@ -148,9 +148,9 @@ inline std::string mkString(const std::vector<std::string_view> &v, const std::s
 }
 
 template <class T>
-constexpr T from_chars(const std::string_view &s) noexcept {
+_CONSTEXPR T from_chars(const std::string_view &s) noexcept {
     if (s.size() == 1) return s[0] - 48;
-#if defined(NO_CHARCONV)
+#if !__has_include(<charconv>)
     const std::string ss = {s.begin(), s.end()};
     return std::stoi(ss);
 #else
@@ -170,7 +170,7 @@ constexpr T from_chars(const std::string_view &s) noexcept {
 }
 
 constexpr bool starts_with(const std::string_view &s, const std::string_view &prefix) noexcept {
-#if __cplusplus <= 201703L
+#if __cplusplus < 202002L
     if (prefix.length() > s.length()) return false;
     return s.rfind(prefix, 0) == 0;
 #else 
@@ -179,7 +179,7 @@ constexpr bool starts_with(const std::string_view &s, const std::string_view &pr
 }
 
 constexpr bool ends_with(const std::string_view &s, const std::string_view &suffix) noexcept {
-#if __cplusplus <= 201703L
+#if __cplusplus < 202002L
     if (suffix.length() > s.length()) return false;
     return s.rfind(suffix, s.length() - suffix.length()) == 0;
 #else

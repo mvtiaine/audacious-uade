@@ -10,7 +10,7 @@ using namespace std;
 namespace {
 
 // audlog:* doesn't support va_list...
-inline void log(audlog::Level level, const char *file, int line, const char *func, const char *fmt, va_list args) {
+inline void log(audlog::Level level, const char *file, int line, const char *func, const char *fmt, va_list args) noexcept {
     char buffer[512];
     vsnprintf(buffer, sizeof buffer, fmt, args);
     audlog::log(level, file, line, func, "%s", buffer);
@@ -20,28 +20,28 @@ inline void log(audlog::Level level, const char *file, int line, const char *fun
 
 namespace logger {
 
-void debug(const char *file, int line, const char *func, const char *fmt, ...) {
+void debug(const char *file, int line, const char *func, const char *fmt, ...) noexcept {
     va_list args;
     va_start(args, fmt);
     log(audlog::Debug, file, line, func, fmt, args); 
     va_end(args);
 }
 
-void info(const char *file, int line, const char *func, const char *fmt, ...) {
+void info(const char *file, int line, const char *func, const char *fmt, ...) noexcept {
     va_list args;
     va_start(args, fmt);
     log(audlog::Info, file, line, func, fmt, args); 
     va_end(args);
 }
 
-void warn(const char *file, int line, const char *func, const char *fmt, ...) {
+void warn(const char *file, int line, const char *func, const char *fmt, ...) noexcept {
     va_list args;
     va_start(args, fmt);
     log(audlog::Warning, file, line, func, fmt, args); 
     va_end(args);
 }
 
-void error(const char *file, int line, const char *func, const char *fmt, ...) {
+void error(const char *file, int line, const char *func, const char *fmt, ...) noexcept {
     va_list args;
     va_start(args, fmt);
     log(audlog::Error, file, line, func, fmt, args); 

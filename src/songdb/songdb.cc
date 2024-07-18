@@ -227,7 +227,7 @@ inline string make_album(const string_t s) noexcept {
 }
 
 template<typename T, size_t N, typename = std::enable_if<std::is_base_of<_Data, T>::value>>
-constexpr optional<T> find(const array<T,N> &db, const md5_idx_t md5) noexcept {
+_CONSTEXPR optional<T> _find(const array<T,N> &db, const md5_idx_t md5) noexcept {
     if (md5 >= MD5_IDX_SIZE) return optional<T>();
     unsigned int idx = ((double)md5 / MD5_IDX_SIZE) * N;
     assert(idx < N);
@@ -261,7 +261,7 @@ inline optional<ModInfo> make_modinfo(const md5_idx_t md5) noexcept {
 }
 
 inline optional<ModlandData> make_modland(const md5_idx_t md5) noexcept {
-    const auto data = find<_ModlandData,MODLAND_SIZE>(db_modland, md5);
+    const auto data = _find<_ModlandData,MODLAND_SIZE>(db_modland, md5);
     if (data) {
         return ModlandData {
             make_author(data->author),
@@ -272,7 +272,7 @@ inline optional<ModlandData> make_modland(const md5_idx_t md5) noexcept {
 }
 
 inline optional<AMPData> make_amp(const md5_idx_t md5) noexcept {
-    const auto data = find<_AMPData,AMP_SIZE>(db_amp, md5);
+    const auto data = _find<_AMPData,AMP_SIZE>(db_amp, md5);
     if (data) {
         return AMPData {
            make_author(data->author),
@@ -282,7 +282,7 @@ inline optional<AMPData> make_amp(const md5_idx_t md5) noexcept {
 }
 
 inline optional<UnExoticaData> make_unexotica(const md5_idx_t md5) noexcept {
-    const auto data = find<_UnExoticaData,UNEXOTICA_SIZE>(db_unexotica, md5);
+    const auto data = _find<_UnExoticaData,UNEXOTICA_SIZE>(db_unexotica, md5);
     if (data) {
         return UnExoticaData {
             make_author(data->author),
@@ -295,7 +295,7 @@ inline optional<UnExoticaData> make_unexotica(const md5_idx_t md5) noexcept {
 }
 
 inline optional<DemozooData> make_demozoo(const md5_idx_t md5) noexcept {
-    const auto data = find<_DemozooData,DEMOZOO_SIZE>(db_demozoo, md5);
+    const auto data = _find<_DemozooData,DEMOZOO_SIZE>(db_demozoo, md5);
     if (data) {
         return DemozooData {
             make_author(data->author),

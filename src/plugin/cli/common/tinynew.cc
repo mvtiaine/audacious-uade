@@ -83,15 +83,15 @@ void operator delete(void* ptr, std::size_t) noexcept {
 
 extern "C" {
 
-void __cxa_pure_virtual() {
+void __cxa_pure_virtual() noexcept {
     abort();
 }
 
-void __cxa_throw() {
+void __cxa_throw() noexcept {
     abort();
 }
 
-void __cxa_rethrow() {
+void __cxa_rethrow() noexcept {
     abort();
 }
 
@@ -99,27 +99,27 @@ void* __cxa_begin_catch() {
     abort();
 }
 
-void __cxa_end_catch() {
+void __cxa_end_catch() noexcept {
     abort();
 }
 
-void* __cxa_allocate_exception() {
+void* __cxa_allocate_exception(size_t) noexcept {
     abort();
 }
 
-void* __cxa_get_exception_ptr() {
+void* __cxa_get_exception_ptr() noexcept {
     abort();
 }
 
-void __cxa_call_unexpected () {
+void __cxa_call_unexpected () noexcept {
     abort();
 }
 
-void __gxx_personality_v0() {
+void __gxx_personality_v0() noexcept {
     abort();
 }
 
-void _Unwind_Resume() {
+void _Unwind_Resume() noexcept {
     abort();
 }
 
@@ -127,77 +127,77 @@ void _Unwind_Resume() {
 
 namespace std {
 
-void __throw_bad_alloc() {
+void __throw_bad_alloc() noexcept {
     abort();
 }
 
 #ifndef _LIBCPP_VERSION // llvm libc++
-void __throw_bad_array_new_length() {
+void __throw_bad_array_new_length() noexcept {
     abort();
 }
 #endif
 
-void __throw_bad_cast() {
+void __throw_bad_cast() noexcept {
     abort();
 }
 
-void __throw_bad_exception() {
+void __throw_bad_exception() noexcept {
     abort();
 }
 
-void __throw_bad_function_call() {
+void __throw_bad_function_call() noexcept {
     abort();
 }
 
-void __throw_bad_optional_access() {
+void __throw_bad_optional_access() noexcept {
     abort();
 }
 
-void __throw_bad_typeid() {
+void __throw_bad_typeid() noexcept {
     abort();
 }
 
-void __throw_domain_error(const char*) {
+void __throw_domain_error(const char*) noexcept {
     abort();
 }
 
-void __throw_invalid_argument(const char*) {
+void __throw_invalid_argument(const char*) noexcept {
     abort();
 }
 
-void __throw_length_error(const char*) {
+void __throw_length_error(const char*) noexcept {
     abort();
 }
 
-void __throw_logic_error(const char*) {
+void __throw_logic_error(const char*) noexcept {
     abort();
 }
 
-void __throw_out_of_range(const char*) {
+void __throw_out_of_range(const char*) noexcept {
     abort();
 }
 
-void __throw_out_of_range_fmt(const char *, ...) {
+void __throw_out_of_range_fmt(const char *, ...) noexcept {
     abort();
 }
 
-void __throw_overflow_error(const char *) {
+void __throw_overflow_error(const char *) noexcept {
     abort();
 }
 
-void __throw_range_error(const char*) {
+void __throw_range_error(const char*) noexcept {
     abort();
 }
 
-void __throw_runtime_error(const char*) {
+void __throw_runtime_error(const char*) noexcept {
     abort();
 }
 
-void __throw_system_error(int) {
+void __throw_system_error(int) noexcept {
     abort();
 }
 
-void __throw_underflow_error(const char *) {
+void __throw_underflow_error(const char *) noexcept {
     abort();
 }
 

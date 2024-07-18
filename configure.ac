@@ -412,12 +412,7 @@ fi
 # see AX_PROG_CC_FOR_BUILD
 CFLAGS_FOR_BUILD="${CSTD} ${CFLAGS}"
 
-if test "$build_meego" = "yes" || test "$build_dragonflybsd" = "yes" ; then
-if test "$CXXSTD" = "-std=c++2a" ; then
-  # gcc8, very limited c++20 support
-  CXXSTD="-std=c++17"
-fi
-elif test "$build_haiku" = "yes" ; then
+if test "$build_haiku" = "yes" ; then
   EXTRA_LIBS="-lbsd -lnetwork"
 elif test "$build_cygwin" = "yes" ; then
   EXTRA_LIBS="-lcygwin"
