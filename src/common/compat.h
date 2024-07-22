@@ -3,6 +3,17 @@
 
 #pragma once
 
+// XXX need trailing comma depending if __VA_OPT__ is supported or not (gcc < 8.1, clang < 6.0)
+#define PP_THIRD_ARG(a,b,c,...) c
+#define VA_OPT_SUPPORTED_I(...) PP_THIRD_ARG(__VA_OPT__(,),true,false,)
+#define VA_OPT_SUPPORTED VA_OPT_SUPPORTED_I(?)
+#if VA_OPT_SUPPORTED
+#define TRAILING_COMMA
+#else
+#define TRAILING_COMMA ,
+#endif
+#define VA_LIST(...) __VA_ARGS__ TRAILING_COMMA
+
 #if __cplusplus < 202002L
 #define _CONSTEXPR inline
 #else 

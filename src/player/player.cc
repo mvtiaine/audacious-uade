@@ -90,7 +90,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
     if (converter::needs_conversion(buf, size)) {
         conversion = converter::convert(buf, size);
         if (!conversion->success) {
-            WARN("Could not convert %s: %s", path, conversion->reason_failed.c_str());
+            WARN("Could not convert %s: %s\n", path, conversion->reason_failed.c_str());
             return {};
         }
         buf = conversion->data.data();
@@ -118,7 +118,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     if (converter::needs_conversion(buf, size)) {
         conversion = converter::convert(buf, size);
         if (!conversion->success) {
-            WARN("Could not convert %s: %s", path, conversion->reason_failed.c_str());
+            WARN("Could not convert %s: %s\n", path, conversion->reason_failed.c_str());
             return {};
         }
         buf = conversion->data.data();

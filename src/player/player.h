@@ -27,11 +27,12 @@ constexpr int MAX_SILENCE = 3000;
 
 // TODO make externally configurable
 // uade has heaviest detection, but must be before ft2play for MOD detection
-#define PLAYERS \
+#define PLAYERS VA_LIST( \
     hivelytracker, \
     libdigibooster3, \
     uade, \
-    ft2play
+    ft2play \
+ )
 
 enum class Player {
     NONE,
