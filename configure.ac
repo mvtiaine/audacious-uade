@@ -397,7 +397,7 @@ fi # PLUGIN_AUDACIOUS
 
 EXTRA_LIBS=""
 CPPFLAGS="-D_DEFAULT_SOURCE -D_GNU_SOURCE ${CPPFLAGS}"
-CFLAGS="-fvisibility=hidden ${CFLAGS} -fno-exceptions"
+CFLAGS="-fvisibility=hidden ${CFLAGS} -fno-exceptions -fno-asynchronous-unwind-tables"
 # XXX shutup spammy AROS warning: "__PIC__" redefined.
 # also AROS, MorphOS, IRIX/compilertron and AIX linker don't support --gc-sections
 if test "$build_aros" != "yes" && test "$build_morphos" != "yes" && test "$build_warpos" != "yes" && test "$build_irix" != "yes" && test "$build_aix" != "yes" && test "$build_freemint" != "yes" ; then
