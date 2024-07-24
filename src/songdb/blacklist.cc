@@ -131,7 +131,7 @@ bool is_blacklisted_extension(const string &path, const string &ext) {
     }    
     // AMP hack to speedup playlist population
     for (const auto &prefix : prefix_blacklist) {
-        if (filename.starts_with(prefix)) {
+        if (common::starts_with(filename, prefix)) {
             TRACE("Blacklisted prefix %s for %s\n", prefix.c_str(), path.c_str());
             return true;
         }

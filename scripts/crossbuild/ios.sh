@@ -2,12 +2,14 @@
 
 set -e
 
+# iOS binaries not tested
+
 Build() {
     export CFLAGS="${ARCH_FLAGS} -isysroot $(xcrun --sdk ${SDK} --show-sdk-path)"
     ./configure --host="${CHOST}"
     make clean
     # TODO wrapper for tests
-    make -j #check
+    make -j check
 }
 CHOST="${CHOST:=arm-apple-darwin}"
 #CHOST="x86_64-apple-darwin"

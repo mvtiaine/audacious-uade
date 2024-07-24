@@ -13,6 +13,7 @@
 
 #include "common/endian.h"
 #include "common/logger.h"
+#include "common/strings.h"
 #include "player/player.h"
 
 #include "3rdparty/replay/ft2play/ft2play.h"
@@ -243,7 +244,7 @@ bool get_xm_header(const char *buf, size_t size, XMHeader &h) {
     }
     const auto progName = string(h.progName).substr(0,20);
     for (const auto &name : xm_prog_blacklist) {
-        if (progName.starts_with(name)) return false;
+        if (common::starts_with(progName, name)) return false;
     }
     return true;
 }
@@ -271,7 +272,7 @@ vector<int16_t> get_subsongs(const ft2play_context *context) {
     bool jump = false;
 
     while (true) {
-        if (jump && seen.contains(songPos)) {
+        if (jump && seen.count(songPos)) {
             songPos = *notseen.begin();
             pattPos = 0;
             subsongs.push_back(songPos);
@@ -319,7 +320,7 @@ vector<int16_t> get_subsongs(const ft2play_context *context) {
 
 ModuleInfo get_xm_info(const char *path, const XMHeader &hdr) {
     string progName = string(hdr.progName).substr(0,20);
-    if (progName.ends_with(" ")) {
+    if (common::ends_with(progName, " ")) {
         progName.erase(progName.find_last_of(' ') + 1);
         progName.erase(progName.find_last_not_of(' ') + 1);
     }

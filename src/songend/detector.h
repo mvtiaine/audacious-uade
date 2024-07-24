@@ -3,11 +3,12 @@
 
 #pragma once
 
-#include <bit>
 #include <climits>
 #include <cstdint>
 #include <type_traits>
 #include <vector>
+
+#include "common/endian.h"
 
 namespace songend::detector {
 

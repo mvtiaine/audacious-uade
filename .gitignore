@@ -36,7 +36,8 @@ config.h
 config.h.in
 config.h.in~
 .dirstamp
-m4
+m4/libtool.m4
+m4/lt*.m4
 bak
 audacious-uade-*
 *.tar.bz2

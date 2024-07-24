@@ -55,7 +55,7 @@ scripts/make_rpm.sh
 (sudo) dnf/yum/zypper install build-rpm/rpmbuild/RPMS/*/*.rpm
 
 * To build and install from sources (git or latest release):
-- required (git or release): pkg-config, GNU make, gcc/clang with c++20 support
+- required (git or release): pkg-config, GNU make, GCC/Clang with C++17 support (GCC-7+, Clang-5.0+)
 - required (git): autoconf, automake, libtool
 (autoreconf -i)
 mkdir -p build

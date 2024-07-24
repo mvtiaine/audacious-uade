@@ -14,6 +14,8 @@
 
 // additional overrides added (__cxa*, __throw*, c++14 operator delete, ...), malloc(0) check, etc. -mvtiaine
 
+#include <cstddef>
+#include <cstdint>
 #include <cstdlib>
 #include <new>
 
@@ -79,69 +81,200 @@ void operator delete(void* ptr, std::size_t) noexcept {
     operator delete(ptr);
 }
 
+// for c++17
+
+void* operator new(std::size_t size, std::align_val_t al) {
+    /* malloc (0) is unpredictable; avoid it.  */
+    if (__builtin_expect (size == 0, false))
+        size = 1;
+
+    // size must be multiple of alignment
+    size_t rounded = (size + static_cast<size_t>(al) - 1) & ~(static_cast<size_t>(al) - 1);
+    void *ptr = std::aligned_alloc(static_cast<size_t>(al), rounded);
+    if (!ptr)
+        abort();
+
+    return ptr;
+}
+
+void* operator new(std::size_t size, std::align_val_t al, const std::nothrow_t&) noexcept {
+    return operator new(size, al);
+}
+
+void* operator new[](std::size_t size, std::align_val_t al) {
+    return operator new(size, al);
+}
+
+void* operator new[](std::size_t size, std::align_val_t al, const std::nothrow_t&) noexcept {
+    return operator new(size, al);
+}
+
+void operator delete(void* ptr, std::align_val_t al) noexcept {
+    operator delete(ptr);
+}
+
+void operator delete(void* ptr, std::align_val_t al, const std::nothrow_t&) noexcept {
+    operator delete(ptr);
+}
+
+void operator delete[](void* ptr, std::align_val_t al) noexcept {
+    operator delete(ptr);
+}
+
+void operator delete[](void* ptr, std::align_val_t al, const std::nothrow_t&) noexcept {
+    operator delete(ptr);
+}
+
+void operator delete(void* ptr, std::size_t size, std::align_val_t al) noexcept {
+    operator delete(ptr);
+}
+
+void operator delete[](void* ptr, std::size_t size, std::align_val_t al) noexcept {
+    operator delete(ptr);
+}
+
 // some additional overrides
 
 extern "C" {
 
-void __cxa_pure_virtual() {
+void __cxa_pure_virtual() noexcept {
     abort();
 }
 
-void __cxa_throw() {
+void __cxa_throw() noexcept {
     abort();
 }
 
-void __cxa_rethrow() {
+void __cxa_rethrow() noexcept {
     abort();
 }
 
-void* __cxa_begin_catch() {
+void* __cxa_current_primary_exception() noexcept {
     abort();
 }
 
-void __cxa_end_catch() {
+void __cxa_rethrow_primary_exception(void*) noexcept {
     abort();
 }
 
-void* __cxa_allocate_exception() {
+void __cxa_increment_exception_refcount(void*) noexcept {
     abort();
 }
 
-void* __cxa_get_exception_ptr() {
+void __cxa_decrement_exception_refcount(void*) noexcept {
     abort();
 }
 
-void __cxa_call_unexpected () {
+void* __cxa_begin_catch() noexcept {
     abort();
 }
 
-void __gxx_personality_v0() {
+void __cxa_end_catch() noexcept {
     abort();
 }
 
-void _Unwind_Resume() {
+void* __cxa_allocate_exception(size_t) noexcept {
+    abort();
+}
+
+void __cxa_free_exception(void *) noexcept {
+    abort();
+}
+
+void* __cxa_allocate_dependent_exception() noexcept {
+    abort();
+}
+
+void* __cxa_get_exception_ptr() noexcept {
+    abort();
+}
+
+void __cxa_call_unexpected () noexcept {
+    abort();
+}
+
+bool __cxa_uncaught_exception() noexcept {
+    abort();
+}
+
+int __cxa_uncaught_exceptions() noexcept {
+    abort();
+}
+
+char* __cxa_demangle(const char*, char*, size_t*, int*) noexcept {
+    abort();
+}
+
+void* __dynamic_cast(const void*, const void*, const void*, ptrdiff_t) noexcept {
+    abort();
+}
+
+void __gxx_personality_v0() noexcept {
+    abort();
+}
+
+typedef uintptr_t _Unwind_Ptr;
+typedef uintptr_t _Unwind_Word;
+typedef enum {} _Unwind_Reason_Code;
+struct _Unwind_Context { int pad; };
+struct _Unwind_Exception { int pad; };
+
+void _Unwind_DeleteException(struct _Unwind_Exception*) noexcept {
+    abort();
+}
+
+_Unwind_Ptr _Unwind_GetIP(struct _Unwind_Context * context) noexcept {
+    abort();
+}
+
+_Unwind_Ptr _Unwind_GetLanguageSpecificData(struct _Unwind_Context *) noexcept {
+    abort();
+}
+
+_Unwind_Ptr _Unwind_GetRegionStart(struct _Unwind_Context*) noexcept {
+    abort();
+}
+
+_Unwind_Reason_Code _Unwind_RaiseException(struct _Unwind_Exception*) noexcept {
+    abort();
+}
+
+void _Unwind_Resume(struct _Unwind_Exception*) noexcept {
+    abort();
+}
+
+void _Unwind_SetGR(struct _Unwind_Context *, int, _Unwind_Word) noexcept {
+    abort();
+}
+
+void _Unwind_SetIP(struct _Unwind_Context*, _Unwind_Word) noexcept {
     abort();
 }
 
 } // extern "C"
 
 namespace std {
+#if defined(_LIBCPP_VERSION)
+#if defined(__ANDROID__)
+inline namespace __ndk1 {
+#else
+inline namespace __1 {
+#endif
+#endif
 
 void __throw_bad_alloc() {
     abort();
 }
 
-#ifndef _LIBCPP_VERSION // llvm libc++
-void __throw_bad_array_new_length() {
+void __throw_bad_array_new_length() noexcept {
     abort();
 }
-#endif
 
 void __throw_bad_cast() {
     abort();
 }
 
-void __throw_bad_exception() {
+void __throw_bad_exception() noexcept {
     abort();
 }
 
@@ -149,11 +282,11 @@ void __throw_bad_function_call() {
     abort();
 }
 
-void __throw_bad_optional_access() {
+void __throw_bad_optional_access() noexcept {
     abort();
 }
 
-void __throw_bad_typeid() {
+void __throw_bad_typeid() noexcept {
     abort();
 }
 
@@ -177,7 +310,7 @@ void __throw_out_of_range(const char*) {
     abort();
 }
 
-void __throw_out_of_range_fmt(const char *, ...) {
+void __throw_out_of_range_fmt(const char *, ...) noexcept {
     abort();
 }
 
@@ -193,7 +326,11 @@ void __throw_runtime_error(const char*) {
     abort();
 }
 
-void __throw_system_error(int) {
+void __throw_system_error(int) noexcept {
+    abort();
+}
+
+void __throw_system_error(int, const char*) noexcept {
     abort();
 }
 
@@ -201,6 +338,9 @@ void __throw_underflow_error(const char *) {
     abort();
 }
 
+#if defined(_LIBCPP_VERSION)
+} // namespace __1
+#endif
 } // namespace std
 
 namespace __gnu_cxx {

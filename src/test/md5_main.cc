@@ -4,6 +4,8 @@
 #include "common/md5.h"
 
 #include <cassert>
+#include <cstdlib>
+
 #include <unistd.h>
 
 using namespace std;

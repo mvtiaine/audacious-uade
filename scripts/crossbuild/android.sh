@@ -2,6 +2,8 @@
 
 set -e
 
+# Android binaries not tested
+
 export NDK=/opt/cross/android/NDK
 
 # Only choose one of these, depending on your build machine...
@@ -29,4 +31,4 @@ export STRIP=$TOOLCHAIN/bin/llvm-strip
 ./configure --host $TARGET
 make clean
 # TODO wrapper for tests
-make -j #check
+make -j check

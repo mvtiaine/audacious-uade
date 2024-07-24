@@ -3,10 +3,33 @@
 
 #pragma once
 
-#include <bit>
 #include <cstdint>
 
 #include "compat.h"
+
+// XXX GCC 8, Clang 7, 8 and 9 have std::endian in <type_traits> while GCC 9+ and Clang 10+ have it in <bit>.
+#if __has_include(<bit>)
+#include <bit>
+#elif __cplusplus > 201703L && \
+  ((defined(_GLIBCXX_RELEASE) && _GLIBCXX_RELEASE >= 8) || \
+   (defined(_LIBCPP_STD_VER) && _LIBCPP_STD_VER > 17))
+#include <type_traits>
+#else
+namespace std {
+enum class endian
+{
+#if defined(_MSC_VER) && !defined(__clang__)
+    little = 0,
+    big    = 1,
+    native = little
+#else
+    little = __ORDER_LITTLE_ENDIAN__,
+    big    = __ORDER_BIG_ENDIAN__,
+    native = __BYTE_ORDER__
+#endif
+};
+}
+#endif
 
 namespace common {
 
