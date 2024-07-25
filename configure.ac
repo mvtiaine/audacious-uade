@@ -311,7 +311,16 @@ AM_CONDITIONAL([BUILD_EMSCRIPTEN], [test "$build_emscripten" = "yes"])
 
 AM_CONDITIONAL([PLUGIN_AUDACIOUS], [test "$plugin_audacious" = "yes"])
 
-CSTD="-std=c11"
+AC_LANG_PUSH([C])
+for version in 23 2x 17 11 1x 99 9x; do
+  CSTD="-std=c${version}"
+  AX_CHECK_COMPILE_FLAG([${CSTD}],[break],[CSTD=none])
+done
+AC_LANG_POP
+AS_IF([test "$CSTD" == none], [
+  AC_MSG_ERROR([Could not enable at least C9x (C99) - upgrade your compiler])
+])
+
 AC_LANG_PUSH([C++])
 for version in 23 2b 20 2a 17 1z; do
   CXXSTD="-std=c++${version}"
