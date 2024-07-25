@@ -622,10 +622,9 @@ if test "$uade_prefix" = "NONE" ; then
   uade_prefix=/usr/local
 fi
 _UADE_CPPFLAGS="${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE"
-_UADE_CFLAGS="${CFLAGS} -Wno-format -Wno-format-security -Wno-unused-command-line-argument"
+_UADE_CFLAGS="${CFLAGS} -Wno-format -Wno-format-security"
 _UADE_LDFLAGS="${LDFLAGS} ${EXTRA_LIBS}"
 if test "$static_stdlibs" = "yes" ; then
-  CPPFLAGS="-D_LIBCPP_NO_EXCEPTIONS -D_LIBCPP_HAS_NO_EXCEPTIONS ${CPPFLAGS}"
   _UADE_LDFLAGS="-static-libgcc ${_UADE_LDFLAGS}"
 fi
 AX_SUBDIRS_CONFIGURE([uade], [
