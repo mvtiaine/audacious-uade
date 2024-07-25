@@ -83,6 +83,10 @@ void operator delete(void* ptr, std::size_t) noexcept {
 
 // for c++17
 
+// align_val_t/aligned_alloc missing in gcc6
+// TODO proper conf check
+#if !(defined(__GNUC__) && __GNUC__ <= 6 && !defined(__clang__) && !defined(__INTEL_COMPILER)) && !defined(__AROS__)
+
 void* operator new(std::size_t size, std::align_val_t al) {
     /* malloc (0) is unpredictable; avoid it.  */
     if (__builtin_expect (size == 0, false))
@@ -90,7 +94,7 @@ void* operator new(std::size_t size, std::align_val_t al) {
 
     // size must be multiple of alignment
     size_t rounded = (size + static_cast<size_t>(al) - 1) & ~(static_cast<size_t>(al) - 1);
-    void *ptr = std::aligned_alloc(static_cast<size_t>(al), rounded);
+    void *ptr = aligned_alloc(static_cast<size_t>(al), rounded);
     if (!ptr)
         abort();
 
@@ -132,6 +136,8 @@ void operator delete(void* ptr, std::size_t size, std::align_val_t al) noexcept 
 void operator delete[](void* ptr, std::size_t size, std::align_val_t al) noexcept {
     operator delete(ptr);
 }
+
+#endif
 
 // some additional overrides
 

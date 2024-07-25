@@ -20,7 +20,7 @@ using namespace converter::med;
 
 namespace {
 
-void readSong(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, size_t &offs) {
+void readSong(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, size_t &offs) noexcept {
     ULONG samplemask[2], *smskptr = samplemask;
     UBYTE smskmsk, *smptr0 = (UBYTE *)samplemask;
     MMD0sample *ss;
@@ -83,7 +83,7 @@ void readSong(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, size_t &o
     }
 }
 
-void readBlock(const vector<char> &med4, MMD0Block &block, size_t &offs) {
+void readBlock(const vector<char> &med4, MMD0Block &block, size_t &offs) noexcept {
     UBYTE hdrsz,hdr[80],trks,lines,mskmsks[8],msks,msk2,msk3 = 0;
     vector<UBYTE> conv;
     UWORD hdrsn = 0,convsz;
@@ -117,7 +117,7 @@ void readBlock(const vector<char> &med4, MMD0Block &block, size_t &offs) {
     return;
 }
 
-void readSynthInstr(const vector<char> &med4, SynthInstr &instr, size_t &offs) {
+_CONSTEXPR_F2 void readSynthInstr(const vector<char> &med4, SynthInstr &instr, size_t &offs) noexcept {
     int instroffs = offs;
     (void)instroffs;
     readu32be(med4, offs); // synth instr header(?)
@@ -160,7 +160,7 @@ void readSynthInstr(const vector<char> &med4, SynthInstr &instr, size_t &offs) {
     instr.length = 22 + instr.voltbl.size() + instr.wftbl.size() + instr.wf.size()* 4;
 }
 
-void readSamples(const vector<char> &med4, MMD0song &song, vector<Instr> &smplarr, size_t &offs) {
+_CONSTEXPR_F2 void readSamples(const vector<char> &med4, MMD0song &song, vector<Instr> &smplarr, size_t &offs) noexcept {
     ULONG imsk[2] = { 0,0 },*imptr = imsk;
     UBYTE snum = 0;
     imsk[0] = readu32be(med4, offs);
@@ -192,7 +192,7 @@ void readSamples(const vector<char> &med4, MMD0song &song, vector<Instr> &smplar
     song.numsamples = instrcnt;
 }
 
-vector<InstrExt> readIFF(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, size_t &offs) {
+_CONSTEXPR_F2 vector<InstrExt> readIFF(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, size_t &offs) noexcept {
     constexpr uint32_t ANNO = 0x414e4e4f;
     constexpr uint32_t CHNS = 0x43484e53;
     constexpr uint32_t HLDC = 0x484c4443;
@@ -263,7 +263,7 @@ vector<InstrExt> readIFF(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp
 
 namespace converter::med {
 
-bool isMED4(const char *buf, const size_t size) {
+bool isMED4(const char *buf, const size_t size) noexcept {
     constexpr char magic[] = {'M','E','D',4};
     if (size < sizeof(magic)) {
         return false;
@@ -271,7 +271,7 @@ bool isMED4(const char *buf, const size_t size) {
     return memcmp(magic, buf, sizeof(magic)) == 0;
 }
 
-ConverterResult convertMED4(const char *buf, const size_t size) {
+ConverterResult convertMED4(const char *buf, const size_t size) noexcept {
     // TODO add metadata about conversion (annotxt?)
     assert(isMED4(buf, size));
 

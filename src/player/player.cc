@@ -7,6 +7,7 @@
 #include <type_traits>
 #include <vector>
 
+#include "common/compat.h"
 #include "common/foreach.h"
 #include "common/logger.h"
 #include "converter/converter.h"
@@ -24,14 +25,14 @@ namespace player {
 // never stop the madness
 #define DEFINE_PLAYER(ns) \
 namespace ns { \
-void init(); \
-void shutdown(); \
-bool is_our_file(const char *path, const char *buf, size_t size); \
-optional<ModuleInfo> parse(const char *path, const char *buf, size_t size); \
-optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config); \
-pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size); \
-bool stop(PlayerState &state); \
-bool restart(PlayerState &state); \
+void init() noexcept; \
+void shutdown() noexcept; \
+bool is_our_file(const char *path, const char *buf, size_t size) noexcept; \
+optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept; \
+optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept; \
+pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept; \
+bool stop(PlayerState &state) noexcept; \
+bool restart(PlayerState &state) noexcept; \
 } // namespace ns
 FOREACH(DEFINE_PLAYER, PLAYERS)
 }
@@ -60,17 +61,17 @@ bool initialized = false;
 
 namespace player {
 
-void init() {
+void init() noexcept {
     FOREACHA(APPLY, init(), PLAYERS)
     initialized = true;
 }
 
-void shutdown() {
+void shutdown() noexcept {
     assert(initialized);
     FOREACHA(APPLY, shutdown(), PLAYERS)
 }
 
-Player check(const char *path, const char *buf, size_t size) {
+Player check(const char *path, const char *buf, size_t size) noexcept {
     assert(initialized);
     if (size < MAGIC_SIZE || size < converter::MAGIC_SIZE) return Player::NONE;
     assert(path);
@@ -81,7 +82,7 @@ Player check(const char *path, const char *buf, size_t size) {
     return Player::NONE;
 }
 
-optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
+optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
     assert(initialized);
     if (size < MAGIC_SIZE || size < converter::MAGIC_SIZE) return {};
     assert(path);
@@ -108,7 +109,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
     return res;
 }
 
-optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) {
+optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     assert(initialized);
     if (size < MAGIC_SIZE || size < converter::MAGIC_SIZE) return {};
     assert(path);
@@ -136,7 +137,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     return res;
 }
 
-bool stop(PlayerState &state) {
+bool stop(PlayerState &state) noexcept {
     assert(initialized);
     assert(state.info.player != Player::NONE);
     bool res = false;
@@ -147,12 +148,12 @@ bool stop(PlayerState &state) {
     return res;
 }
 
-pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) {
+pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(initialized);
     assert(state.info.player != Player::NONE);
     assert(buf);
     assert(size >= state.buffer_size);
-    pair<SongEnd::Status,size_t> res = pair(SongEnd::ERROR, 0);
+    auto res = pair<SongEnd::Status,size_t>(SongEnd::ERROR, 0);
     vector<char> tmpbuf;
     char *mixbuf;
     if (!state.swap_endian) {
@@ -176,7 +177,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     return res;
 }
 
-bool restart(PlayerState &state) {
+bool restart(PlayerState &state) noexcept {
     assert(state.info.player != Player::NONE);
     bool res = false;
     SWITCH_PLAYER(state.info.player, res,
@@ -188,7 +189,7 @@ bool restart(PlayerState &state) {
     return res;
 }
 
-bool seek(PlayerState &state, int millis) {
+bool seek(PlayerState &state, int millis) noexcept {
     assert(initialized);
     assert(state.info.player != Player::NONE);
 
@@ -210,7 +211,7 @@ bool seek(PlayerState &state, int millis) {
     const int64_t millistoseek = millis - state.pos_millis;
     const int64_t bytestoseek = bytespersec * millistoseek / 1000;
     int64_t seeked = 0;
-    pair<SongEnd::Status,uint64_t> res = pair(SongEnd::ERROR, 0);
+    auto res = pair<SongEnd::Status,uint64_t>(SongEnd::ERROR, 0);
     while (seeked < bytestoseek) {
         SWITCH_PLAYER(state.info.player, res,
             render(state, dummybuf.data(), dummybuf.size())
@@ -231,7 +232,7 @@ PlaybackResult playback_loop(
     const PlayerConfig &config,
     const function<bool(void)> check_stop,
     const function<int(void)> check_seek,
-    const function<void(char *, int)> write_audio) {
+    const function<void(char *, int)> write_audio) noexcept {
 
     vector<char> buffer(state.buffer_size);
     SongEnd songend;

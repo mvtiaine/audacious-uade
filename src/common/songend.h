@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <string>
 
+#include "constexpr.h"
+
 namespace common {
 
 struct SongEnd {
@@ -46,7 +48,7 @@ struct SongEnd {
             default: assert(false); return "error";
         }
     }
-    std::string status_string() const noexcept {
+    _CONSTEXPR_F2 std::string status_string() const noexcept {
         return status_string(status);
     }
 };

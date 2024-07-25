@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "constexpr.h"
+
 // XXX need trailing comma depending if __VA_OPT__ is supported or not (gcc < 8.1, clang < 6.0)
 #define PP_THIRD_ARG(a,b,c,...) c
 #define VA_OPT_SUPPORTED_I(...) PP_THIRD_ARG(__VA_OPT__(,),true,false,)
@@ -13,12 +15,6 @@
 #define TRAILING_COMMA ,
 #endif
 #define VA_LIST(...) __VA_ARGS__ TRAILING_COMMA
-
-#if __cplusplus < 202002L
-#define _CONSTEXPR inline
-#else 
-#define _CONSTEXPR constexpr
-#endif
 
 #if (defined(__AMIGA__) || defined(__COSMOCC__)) && !defined(__amigaos4__) && !defined(WARPUP)
 #include <cstddef>
@@ -39,14 +35,14 @@ inline void swab(const void *bfrom, void *bto, ssize_t n) noexcept {
 
 namespace std {
     struct mutex {
-        inline void lock() {}
-        inline void unlock() {}
+        _CONSTEXPR_F void lock() {}
+        _CONSTEXPR_F void unlock() {}
     };
 }
 
 #if !defined(__AROS__)
 constexpr size_t strnlen(const char *s, size_t len) noexcept {
-    size_t i;
+    size_t i = 0;
 
     if( s == NULL )
     	return 0;
@@ -59,37 +55,12 @@ constexpr size_t strnlen(const char *s, size_t len) noexcept {
 
 #endif // __AMIGA__
 
-#if defined(__AROS__) || defined(__QNX__)
-#include <cstring>
-namespace std {
-// std::bit_cast not available, use example implementation from
-// https://en.cppreference.com/w/cpp/numeric/bit_cast
-template<class To, class From>
-std::enable_if_t<
-    sizeof(To) == sizeof(From) &&
-    std::is_trivially_copyable_v<From> &&
-    std::is_trivially_copyable_v<To>,
-    To>
-// constexpr support needs compiler magic
-bit_cast(const From& src) noexcept
-{
-    static_assert(std::is_trivially_constructible_v<To>,
-        "This implementation additionally requires "
-        "destination type to be trivially constructible");
- 
-    To dst;
-    std::memcpy(&dst, &src, sizeof(To));
-    return dst;
-}
-} // namespace std
-#endif
-
 #ifdef __QNX__
 #include <cassert>
 #include <cstdlib>
 #include <string>
 namespace std {
-inline int stoi(const std::string& str, size_t* idx = nullptr, int base = 10) {
+_CONSTEXPR_F int stoi(const std::string& str, size_t* idx = nullptr, int base = 10) {
     assert(idx == nullptr);
     assert(base == 10);
     return atoi(str.c_str());
@@ -101,8 +72,8 @@ inline int stoi(const std::string& str, size_t* idx = nullptr, int base = 10) {
 
 namespace std {
     struct mutex {
-        inline void lock() {}
-        inline void unlock() {}
+        _CONSTEXPR_F void lock() {}
+        _CONSTEXPR_F void unlock() {}
     };
 }
 

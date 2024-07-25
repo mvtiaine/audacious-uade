@@ -109,7 +109,7 @@ const set<string> songdb_blacklist ({
 
 namespace songdb::blacklist {
 
-bool is_blacklisted_extension(const string &path, const string &ext) {
+bool is_blacklisted_extension(const string &path, const string &ext) noexcept {
     string filename = common::split(path, "/").back();
     string lcfilename = filename;
     string lcext = ext;
@@ -140,7 +140,7 @@ bool is_blacklisted_extension(const string &path, const string &ext) {
     return false;
 }
 
-bool is_blacklisted_md5(const string &md5hex) {
+bool is_blacklisted_md5(const string &md5hex) noexcept {
     const bool blacklisted = md5_blacklist.count(md5hex);
     if (blacklisted) {
         DEBUG("Blacklisted md5 %s\n", md5hex.c_str());
@@ -148,7 +148,7 @@ bool is_blacklisted_md5(const string &md5hex) {
     return blacklisted;
 }
 
-bool is_blacklisted_songdb_key(const string &md5hex) {
+bool is_blacklisted_songdb_key(const string &md5hex) noexcept {
     const bool blacklisted = songdb_blacklist.count(md5hex);
     if (blacklisted) {
         DEBUG("Blacklisted songdb md5 %s\n", md5hex.c_str());

@@ -22,10 +22,10 @@ using namespace songdb::internal;
 
 namespace {
 // TODO move logic to preprocessing
-constexpr string_view COOP = "coop-";
-constexpr string_view UNKNOWN = "- unknown";
-constexpr string_view NOTBY = "not by ";
-constexpr string_view UNNAMED = "unnamed";
+_CONSTEXPR_V string_view COOP = "coop-";
+_CONSTEXPR_V string_view UNKNOWN = "- unknown";
+_CONSTEXPR_V string_view NOTBY = "not by ";
+_CONSTEXPR_V string_view UNNAMED = "unnamed";
 } // namespace
 
 namespace songdb::modland {

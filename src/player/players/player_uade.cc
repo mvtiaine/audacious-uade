@@ -14,6 +14,7 @@
 #include <numeric>
 #include <string>
 
+#include "common/compat.h"
 #include "common/logger.h"
 #include "common/strings.h"
 #include "player/player.h"
@@ -33,7 +34,7 @@ using namespace common;
 
 namespace {
 
-constexpr size_t mixBufSize(const int frequency) {
+constexpr size_t mixBufSize(const int frequency) noexcept {
     return 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
 }
 
@@ -111,7 +112,7 @@ const map<pair<string,string>, string> bundled_extfiles ({
     {{"cf8e54284a53a44f83bd28a17ecbe84e","WantedTeam.bin"}, UADEDIR "/ext/PaulTonge/Dogfight/WantedTeam.bin"},
 });
 
-struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_state *state) {
+struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_state *state) noexcept {
     struct uade_file *amiga_file = uade_load_amiga_file(name, playerdir, state);
     if (!amiga_file) {
         // try with lower case
@@ -129,7 +130,7 @@ struct uade_file *uade_load(const char *name, const char*playerdir, struct uade_
     return amiga_file;
 }
 
-struct uade_file *sample_loader_wrapper(const char *name, const char *playerdir, uade_state *state) {
+struct uade_file *sample_loader_wrapper(const char *name, const char *playerdir, uade_state *state) noexcept {
     // hack for modland incoming/vault/Sonix (instruments named wrongly)
     const auto load = [&](const string &path) -> struct uade_file* {
         auto *amiga_file = uade_load(path.c_str(), playerdir, state);
@@ -190,13 +191,13 @@ struct uade_file *sample_loader_wrapper(const char *name, const char *playerdir,
 
 extern "C" {
 
-struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, void */*context*/, uade_state *state) {
+struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, void */*context*/, uade_state *state) noexcept {
     const struct uade_song_info *info = uade_get_song_info(state);
     const string player = info->playerfname;
     TRACE("amiga_loader_wrapper name: %s player: %s\n", name, player.c_str());
 
     const string fname = split(name, "/").back();
-    const auto key = pair(string(info->modulemd5),fname);
+    const auto key = pair<string,string>(string(info->modulemd5),fname);
     if (bundled_extfiles.count(key)) {
         const auto bundled = bundled_extfiles.at(key);
         TRACE("amiga_loader_wrapper loading bundled extfile for %s bundled: %s\n", name, bundled.c_str());
@@ -227,7 +228,7 @@ struct uade_file *amiga_loader_wrapper(const char *name, const char *playerdir, 
 
 namespace {
 
-const char *uade_filter(Filter filter) {
+constexpr const char *uade_filter(Filter filter) noexcept {
     switch(filter) {
         case Filter::NONE: return "none";
         case Filter::A500: return "a500";
@@ -235,7 +236,7 @@ const char *uade_filter(Filter filter) {
         default: assert(false); return "none";
     }
 }
-const char *uade_resampler(Resampler resampler) {
+constexpr const char *uade_resampler(Resampler resampler) noexcept {
     switch(resampler) {
         case Resampler::NONE: return "none";
         case Resampler::DEFAULT: return "default";
@@ -244,7 +245,7 @@ const char *uade_resampler(Resampler resampler) {
     }
 }
 
-void uade_common_options(struct uade_config *uc) {
+void uade_common_options(struct uade_config *uc) noexcept {
 #if DEBUG_TRACE
     uade_config_set_option(uc, UC_VERBOSE, nullptr);
 #endif
@@ -265,7 +266,7 @@ void uade_common_options(struct uade_config *uc) {
     uade_config_set_option(uc, UC_DISABLE_TIMEOUTS, nullptr);
 }
 
-uade_state *create_uade_probe_state(uade_config *uc) {
+uade_state *create_uade_probe_state(uade_config *uc) noexcept {
     assert(uc);
     uade_common_options(uc);
     uade_config_set_option(uc, UC_SUBSONG_TIMEOUT_VALUE, to_string(PRECALC_TIMEOUT).c_str());
@@ -287,10 +288,10 @@ uade_state *create_uade_probe_state(uade_config *uc) {
     return state;
 }
  
-uade_context *get_probe_context() {
+uade_context *get_probe_context() noexcept {
     uade_context *context = nullptr;
     {
-        const lock_guard lock(probe_mutex);
+        const lock_guard<mutex> lock(probe_mutex);
         for (int i = 0; i < MAX_PROBES; ++i) {
             if (probes[i].available) {
                 probes[i].available = false;
@@ -311,21 +312,21 @@ uade_context *get_probe_context() {
     return context;
 }
 
-void release_probe_context(uade_context *context, const string &path) {
+void release_probe_context(uade_context *context, const string &path) noexcept {
     (void)path;
     TRACE("release_probe_context id %d - %s\n", context->id, path.c_str());
-    const lock_guard lock(probe_mutex);
+    const lock_guard<mutex> lock(probe_mutex);
     context->available = true;
 }
 
-void cleanup_probe_context(uade_context *context, const string &path) {
+void cleanup_probe_context(uade_context *context, const string &path) noexcept {
     (void)path;
     TRACE("cleanup_probe_context id %d - %s\n", context->id, path.c_str());
     uade_cleanup_state(context->state);
     context->state = create_uade_probe_state(context->config);
 }
 
-void stop_probe_context(uade_context *context, const string &path) {
+void stop_probe_context(uade_context *context, const string &path) noexcept {
     TRACE("stop_probe_context id %d - %s\n", context->id, path.c_str());
     if (uade_stop(context->state)) {
         WARN("uade_stop failed for id %d - %s\n", context->id, path.c_str());
@@ -336,12 +337,12 @@ void stop_probe_context(uade_context *context, const string &path) {
 struct probe_scope {
     uade_context *context;
     const string path;
-    probe_scope(const string path) :
+    probe_scope(const string path) noexcept :
         context(get_probe_context()), path(path) {
             assert(context);
             assert(context->state);
         }
-    ~probe_scope() {
+    ~probe_scope() noexcept {
         assert(context);
         assert(context->state);
         stop_probe_context(context, path);
@@ -349,11 +350,11 @@ struct probe_scope {
     }
 };
 
-struct uade_state *create_uade_state(const UADEConfig &config, struct uade_config *uc) {
+struct uade_state *create_uade_state(const UADEConfig &config, struct uade_config *uc) noexcept {
     DEBUG("uade_config: frequency %d, filter %d, force_led_enabled %d, force_led %d, resampler %d, panning %f, "
           "headphones %d, headphones2 %d, gain %f, subsong_timeout %d, silence_timeout %d\n",
-          config.frequency, static_cast<int>(config.filter), config.force_led.has_value(),
-          config.force_led.has_value() ? config.force_led.value() : -1, static_cast<int>(config.resampler), config.panning,
+          config.frequency, static_cast<int>(config.filter), config.force_led ? true : false,
+          config.force_led ? config.force_led.value() : -1, static_cast<int>(config.resampler), config.panning,
           config.headphones, config.headphones2, config.gain, config.subsong_timeout, config.silence_timeout);
     assert(uc);
     uade_common_options(uc);
@@ -394,7 +395,7 @@ struct uade_state *create_uade_state(const UADEConfig &config, struct uade_confi
     return state;
 }
 
-const struct uade_song_info *get_song_info(const uade_state *state) {
+const struct uade_song_info *get_song_info(const uade_state *state) noexcept {
     const struct uade_song_info *info = uade_get_song_info(state);
 #if DEBUG_TRACE
     const struct uade_subsong_info &subsong = info->subsongs;
@@ -421,7 +422,7 @@ const struct uade_song_info *get_song_info(const uade_state *state) {
     return info;
 }
 
-void cleanup_context(uade_context *context, const string &path) {
+void cleanup_context(uade_context *context, const string &path) noexcept {
     assert(context);
     assert(context->state);
     if (context->probe) {
@@ -434,8 +435,8 @@ void cleanup_context(uade_context *context, const string &path) {
     }
 }
 
-string parse_codec(const struct uade_song_info *info) {
-    constexpr string_view TYPE_PREFIX = "type: ";
+_CONSTEXPR_F2 string parse_codec(const struct uade_song_info *info) noexcept {
+    _CONSTEXPR_V string_view TYPE_PREFIX = "type: ";
     const string playername = info->playername;
     string formatname = info->formatname;
     if (!formatname.empty()) {
@@ -450,7 +451,7 @@ string parse_codec(const struct uade_song_info *info) {
     }
 }
 
-bool has_ext(const char *path, const string &ext) noexcept {
+_CONSTEXPR_F2 bool has_ext(const char *path, const string &ext) noexcept {
     string p = common::split(path, "/").back();
     transform(p.begin(), p.end(), p.begin(), ::tolower);
     string prefix = ext + ".";
@@ -459,19 +460,19 @@ bool has_ext(const char *path, const string &ext) noexcept {
 }
 
 // .sid extension conflict with SIDMon vs C64 SID files
-bool is_sid(const char *path, const char *buf, size_t size) noexcept {
+_CONSTEXPR_F2 bool is_sid(const char *path, const char *buf, size_t size) noexcept {
     if (!has_ext(path, "sid")) return false;
     return size >= 4 && (buf[0] == 'P' || buf[0] == 'R') && buf[1] == 'S' && buf[2] == 'I' && buf[3] == 'D';
 };
 
 // detect xm early to avoid running uadecore and reduce log spam
-bool is_xm(const char *path, const char *buf, size_t size) noexcept {
+_CONSTEXPR_F2 bool is_xm(const char *path, const char *buf, size_t size) noexcept {
     if (!has_ext(path, "xm")) return false;
     return size >= 16 && memcmp(buf, "Extended Module:", 16) == 0;
 }
 
 // detect fst early to avoid running uadecore and reduce log spam
-bool is_fst(const char *path,  const char *buf, size_t size) noexcept {
+_CONSTEXPR_F2 bool is_fst(const char *path,  const char *buf, size_t size) noexcept {
     if (!has_ext(path, "fst") && !has_ext(path, "mod")) return false;
     // copied from uade amifilemagic.c (MOD_PC)
     return (size > 0x43b && (
@@ -483,12 +484,12 @@ bool is_fst(const char *path,  const char *buf, size_t size) noexcept {
     );
 }
 
-bool is_s3m(const char *path,  const char *buf, size_t size) noexcept {
+_CONSTEXPR_F2 bool is_s3m(const char *path,  const char *buf, size_t size) noexcept {
     if (!has_ext(path, "s3m")) return false;
     return size > 0x2C && memcmp(&buf[0x2C], "SCRM", 4) == 0;
 }
 
-bool is_it(const char *path,  const char *buf, size_t size) noexcept {
+_CONSTEXPR_F2 bool is_it(const char *path,  const char *buf, size_t size) noexcept {
     if (!has_ext(path, "it")) return false;
     return size >= 4 && buf[0] == 'I' && buf[1] == 'M' && buf[2] == 'P' && buf[3] == 'M';
 }
@@ -497,14 +498,14 @@ bool is_it(const char *path,  const char *buf, size_t size) noexcept {
 
 namespace player::uade {
 
-void init() {
+void init() noexcept {
     for (int i = 0; i < MAX_PROBES; ++i) {
         probes[i] = {};
         probes[i].probe = true;
     }
 }
 
-void shutdown() {
+void shutdown() noexcept {
     for (int i = 0; i < MAX_PROBES; ++i) {
         if (probes[i].initialized) {
             probes[i].initialized = false;
@@ -518,7 +519,8 @@ void shutdown() {
     }
 }
 
-bool is_our_file(const char *path, const char *buf, size_t size) {
+bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
+    // + .rk/rk.
     if (!is_xm(path,buf,size) && !is_fst(path,buf,size) && !is_s3m(path,buf,size) && !is_it(path,buf,size) && !is_sid(path,buf,size)) {
         const probe_scope probe(path);
         TRACE("uade::is_our_file using probe id %d - %s\n", probe.context->id, path);
@@ -527,7 +529,7 @@ bool is_our_file(const char *path, const char *buf, size_t size) {
     return false;
 }
 
-optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
+optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
     const probe_scope probe(path);
     TRACE("uade::parse using probe id %d - %s\n", probe.context->id, path);
     switch (uade_play_from_buffer(path, buf, size, -1, probe.context->state)) {
@@ -552,7 +554,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
     }
 }
 
-optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) {
+optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     uade_context *context;
     if (config.probe) {
         context = get_probe_context();
@@ -594,7 +596,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     }
 }
 
-pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) {
+pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(state.info.player == Player::uade);
     assert(size >= mixBufSize(state.frequency));
     const auto context = static_cast<uade_context*>(state.context);
@@ -610,9 +612,9 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
                 break;
             case UADE_NOTIFICATION_SONG_END: {
                 TRACE("%s: %s\n", n.song_end.happy ? "song end" : "bad song end", n.song_end.reason);
-                constexpr string_view reason_timeout1 = "song timeout";
-                constexpr string_view reason_timeout2 = "subsong timeout";
-                constexpr string_view reason_silence = "silence";
+                _CONSTEXPR_V string_view reason_timeout1 = "song timeout";
+                _CONSTEXPR_V string_view reason_timeout2 = "subsong timeout";
+                _CONSTEXPR_V string_view reason_silence = "silence";
                 if (n.song_end.happy) {
                     string reason = n.song_end.reason;
                     if (reason == reason_timeout1 || reason == reason_timeout2)
@@ -636,10 +638,10 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
         status = SongEnd::ERROR;
         nbytes = 0;
     }
-    return pair(status,nbytes);
+    return pair<SongEnd::Status,size_t>(status,nbytes);
 }
 
-bool stop(PlayerState &state) {
+bool stop(PlayerState &state) noexcept {
     assert(state.info.player == Player::uade);
     if (state.context) {
         auto context = static_cast<uade_context*>(state.context);
@@ -651,12 +653,12 @@ bool stop(PlayerState &state) {
     return true;
 }
 
-bool restart(PlayerState &/*state*/) {
+bool restart(PlayerState &/*state*/) noexcept {
     assert(false);
     return false;
 }
 
-bool seek(PlayerState &state, int millis) {
+bool seek(PlayerState &state, int millis) noexcept {
     assert(state.info.player == Player::uade);
     const auto context = static_cast<uade_context*>(state.context);
     assert(context);

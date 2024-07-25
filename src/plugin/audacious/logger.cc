@@ -5,12 +5,14 @@
 #include <cstdio>
 #include <libaudcore/runtime.h>
 
+#include "common/constexpr.h"
+
 using namespace std;
 
 namespace {
 
 // audlog:* doesn't support va_list...
-inline void log(audlog::Level level, const char *file, int line, const char *func, const char *fmt, va_list args) noexcept {
+_CONSTEXPR_F2 void log(audlog::Level level, const char *file, int line, const char *func, const char *fmt, va_list args) noexcept {
     char buffer[512];
     vsnprintf(buffer, sizeof buffer, fmt, args);
     audlog::log(level, file, line, func, "%s", buffer);

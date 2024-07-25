@@ -3,7 +3,8 @@
 
 #pragma once
 
-#include <optional>
+#include "common/std/optional.h"
+
 #include <string>
 #include <vector>
 
@@ -82,9 +83,9 @@ struct MMD0exp0 : MMD0exp {
     std::vector<std::vector<char>> iinfo; // sample names
 };
 
-UBYTE GetNibble(UBYTE *mem, UWORD *nbnum);
-UWORD GetNibbles(UBYTE *mem, UWORD *nbnum, UBYTE nbs);
-void UnpackData(ULONG *lmptr, ULONG *cmptr, UBYTE *from, UBYTE *to, UWORD lines, UBYTE trkn);
+UBYTE GetNibble(UBYTE *mem, UWORD *nbnum) noexcept;
+UWORD GetNibbles(UBYTE *mem, UWORD *nbnum, UBYTE nbs) noexcept;
+void UnpackData(ULONG *lmptr, ULONG *cmptr, UBYTE *from, UBYTE *to, UWORD lines, UBYTE trkn) noexcept;
 
 std::vector<char> serializeMMD0(
     const MMD0 &mmd0,
@@ -93,6 +94,6 @@ std::vector<char> serializeMMD0(
     const std::vector<Instr> &smplarr,
     const MMD0exp0 &exp,
     const std::vector<InstrExt> &exp_smp
-);
+) noexcept;
 
 } // namespace converter::med

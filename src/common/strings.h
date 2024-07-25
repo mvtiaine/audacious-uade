@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "std/string_view.h"
+
 #include <algorithm>
 #include <array>
 #include <cassert>
@@ -12,14 +14,13 @@
 #include <cstdint>
 #include <numeric>
 #include <string>
-#include <string_view>
 #include <vector>
 
-#include "compat.h"
+#include "constexpr.h"
 
 namespace common {
 
-inline std::vector<std::string> split(const std::string &str, const std::string &delimiter) noexcept {
+_CONSTEXPR_F2 std::vector<std::string> split(const std::string &str, const std::string &delimiter) noexcept {
     std::vector<std::string> tokens;
     size_t pos = 0;
     std::string s = str;
@@ -36,7 +37,7 @@ inline std::vector<std::string> split(const std::string &str, const std::string 
     return tokens;
 }
 
-inline auto split_view(const std::string_view &input, const char separator) noexcept {
+_CONSTEXPR_F2 auto split_view(const std::string_view &input, const char separator) noexcept {
     std::vector<std::string_view> results;
     size_t prevpos = 0;
     size_t pos = 0;
@@ -48,7 +49,7 @@ inline auto split_view(const std::string_view &input, const char separator) noex
     return results;
 }
 
-inline auto split_view_x(const std::string_view &input, const char separator) noexcept {
+_CONSTEXPR_F2 auto split_view_x(const std::string_view &input, const char separator) noexcept {
     std::vector<std::string_view> results;
     size_t prevpos = 0;
     size_t pos = 0;
@@ -93,7 +94,7 @@ constexpr auto split_view_x(const std::string_view &input, const char separator)
     return results;
 }
 
-inline void mkString(const std::vector<std::string> &v, const std::string &delimiter, std::string &res) noexcept {
+_CONSTEXPR_F2 void mkString(const std::vector<std::string> &v, const std::string &delimiter, std::string &res) noexcept {
     size_t size = 0;
     for (size_t i = 0; i < v.size(); ++i) {
         if (v[i].size()) {
@@ -114,13 +115,13 @@ inline void mkString(const std::vector<std::string> &v, const std::string &delim
     }
 }
 
-inline std::string mkString(const std::vector<std::string> &v, const std::string &delimiter) noexcept {
+_CONSTEXPR_F2 std::string mkString(const std::vector<std::string> &v, const std::string &delimiter) noexcept {
     std::string res;
     mkString(v, delimiter, res);
     return res;
 }
 
-inline void mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter, std::string &res) noexcept {
+_CONSTEXPR_F2 void mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter, std::string &res) noexcept {
     size_t size = 0;
     for (size_t i = 0; i < v.size(); ++i) {
         if (v[i].size()) {
@@ -133,22 +134,22 @@ inline void mkString(const std::vector<std::string_view> &v, const std::string_v
     res.reserve(size + 1);
     for (size_t i = 0; i < v.size(); ++i) {
         if (v[i].size()) {
-            res += v[i];
+            res += std::string(v[i]);
             if (i < v.size() - 1) {
-                res += delimiter;
+                res += std::string(delimiter);
             }
         }
     }
 }
 
-inline std::string mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter) noexcept {
+_CONSTEXPR_F2 std::string mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter) noexcept {
     std::string res;
     mkString(v, delimiter, res);
     return res;
 }
 
 template <class T>
-_CONSTEXPR T from_chars(const std::string_view &s) noexcept {
+_CONSTEXPR_F T from_chars(const std::string_view &s) noexcept {
     if (s.size() == 1) return s[0] - 48;
 #if !__has_include(<charconv>)
     const std::string ss = {s.begin(), s.end()};
@@ -169,8 +170,8 @@ _CONSTEXPR T from_chars(const std::string_view &s) noexcept {
 #endif
 }
 
-constexpr bool starts_with(const std::string_view &s, const std::string_view &prefix) noexcept {
-#if __cplusplus < 202002L
+_CONSTEXPR_F bool starts_with(const std::string_view &s, const std::string_view &prefix) noexcept {
+#if !defined(__cpp_lib_starts_ends_with)
     if (prefix.length() > s.length()) return false;
     return s.rfind(prefix, 0) == 0;
 #else 
@@ -178,8 +179,8 @@ constexpr bool starts_with(const std::string_view &s, const std::string_view &pr
 #endif
 }
 
-constexpr bool ends_with(const std::string_view &s, const std::string_view &suffix) noexcept {
-#if __cplusplus < 202002L
+_CONSTEXPR_F bool ends_with(const std::string_view &s, const std::string_view &suffix) noexcept {
+#if !defined(__cpp_lib_starts_ends_with)
     if (suffix.length() > s.length()) return false;
     return s.rfind(suffix, s.length() - suffix.length()) == 0;
 #else
