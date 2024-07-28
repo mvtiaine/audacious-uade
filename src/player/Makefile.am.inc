@@ -9,13 +9,7 @@ player_libplayer_la_SOURCES = \
     player/players/player_ft2play.cc \
     player/players/player_hivelytracker.cc \
     player/players/player_libdigibooster3.cc \
-    player/players/player_uade.cc \
-    common/compat.h \
-    common/endian.h \
-    common/foreach.h \
-    common/logger.h \
-    common/songend.h \
-    common/strings.h
+    player/players/player_uade.cc
 
 player_libplayer_la_LIBADD = \
     converter/libconverter.la \
