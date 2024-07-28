@@ -15,19 +15,19 @@ namespace songend::detector {
 class SongEndDetector {
 
 public:
-    SongEndDetector(int rate, bool stereo, std::endian endian) :
+    SongEndDetector(int rate, bool stereo, std::endian endian) noexcept :
         rate(rate), stereo(stereo), endian(endian) {}
 
-    void update(const char *bytes, int nbytes);
+    void update(const char *bytes, int nbytes) noexcept;
 
-    int detect_loop();
+    int detect_loop() noexcept;
     
-    int detect_silence(int seconds);
-    int detect_volume(int seconds);
-    int detect_repeat();
+    int detect_silence(int seconds) noexcept;
+    int detect_volume(int seconds) noexcept;
+    int detect_repeat() noexcept;
     
-    int trim_silence(int offs_millis);
-    int trim_volume(int offs_millis);
+    int trim_silence(int offs_millis) noexcept;
+    int trim_volume(int offs_millis) noexcept;
 
     const int rate;
     const bool stereo;

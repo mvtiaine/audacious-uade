@@ -15,7 +15,7 @@ using namespace std;
 
 namespace {
 
-void apply_detector(SongEndDetector &detector, SongEnd &songend) {
+constexpr_f2 void apply_detector(SongEndDetector &detector, SongEnd &songend) noexcept {
     uint32_t silence = detector.detect_silence(SILENCE_TIMEOUT);
     if (silence > 0) {
         if (songend.length == silence) {
@@ -60,7 +60,7 @@ void apply_detector(SongEndDetector &detector, SongEnd &songend) {
     }
 }
 
-void apply_trimmer(SongEndDetector &detector, SongEnd &songend) {
+constexpr void apply_trimmer(SongEndDetector &detector, SongEnd &songend) noexcept {
     if (songend.status == SongEnd::PLAYER) {
         uint32_t silence = detector.trim_silence(songend.length);
         if (silence == songend.length) {
@@ -93,11 +93,7 @@ void apply_trimmer(SongEndDetector &detector, SongEnd &songend) {
 
 namespace songend::precalc {
 
-bool allow_songend_error(const string &format) {
-    return format == "VSS";
-}
-
-SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, int subsong, const string &md5hex) {
+SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, int subsong, const string &md5hex) noexcept {
     const auto check_stop = []() { return false; };
     const auto check_seek = []() { return -1; };
     const int frequency = PRECALC_FREQ;
@@ -107,7 +103,7 @@ SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, i
     };
 
     const player::PlayerConfig player_config = { frequency, 0, endian::native, true };
-    player::uade::UADEConfig uade_config = {{ frequency, 0, endian::native, true }};
+    player::uade::UADEConfig uade_config = { frequency, 0, endian::native, true };
     uade_config.silence_timeout = SILENCE_TIMEOUT;
     const auto &config = info.player == player::Player::uade ? uade_config : player_config;
 

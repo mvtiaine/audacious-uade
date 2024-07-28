@@ -1,5 +1,5 @@
 0.12-dev
-- Restore C++17 support (GCC 7+, Clang 5.0+), downgrade to -std=c11 for C code
+- Restore C++17 support (GCC 6+, Clang 5.0+)
 - Fixes for -stdlib=libc++ (supported with Clang 7+)
 - Add example cross build scripts for various targets
 - WIP support for Meego/Sailfish, webOS, RISC OS, FreeMiNT, WarpOS

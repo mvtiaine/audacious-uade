@@ -5,8 +5,6 @@
 
 #include <cstdint>
 
-#include "compat.h"
-
 // XXX GCC 8, Clang 7, 8 and 9 have std::endian in <type_traits> while GCC 9+ and Clang 10+ have it in <bit>.
 #if __has_include(<bit>)
 #include <bit>

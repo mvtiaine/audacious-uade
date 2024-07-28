@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
     }
 
     PlayerConfig player_config = { frequency };
-    uade::UADEConfig uade_config = {{ frequency }};
+    uade::UADEConfig uade_config = { frequency };
     if (getenv("SONGEND_MODE")) {
         uade_config.subsong_timeout = player::PRECALC_TIMEOUT;
         uade_config.silence_timeout = player::PRECALC_TIMEOUT;

@@ -10,11 +10,7 @@ songdb_libsongdb_la_SOURCES = \
     songdb/blacklist.cc \
     songdb/sources/demozoo.cc \
     songdb/sources/modland.cc \
-    songdb/sources/unexotica.cc \
-    common/extensions.h \
-    common/logger.h \
-    common/songend.h \
-    common/strings.h
+    songdb/sources/unexotica.cc
 
 md5_idx_size=`cat $(top_srcdir)/conf/songdb/md5idx.tsv | wc -l | xargs`
 modland_size=`cat $(top_srcdir)/conf/songdb/modland.tsv | wc -l | xargs`

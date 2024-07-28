@@ -26,11 +26,12 @@
 #include <sys/types.h>
 /* for endianess */
 #include "config.h"
+#include "constexpr.h"
 
 #include "md5.h"
 
 #ifdef WORDS_BIGENDIAN
-void byteSwap(uint32_t *swbuf, unsigned words)
+constexpr void byteSwap(uint32_t *swbuf, unsigned words)
 {
     uint8_t *p = (uint8_t *)swbuf;
 

@@ -2,7 +2,9 @@
 // Copyright (C) 2023-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include <vector>
+
 #include "common_med.h"
+#include "common/constexpr.h"
 #include "converter/converter.h"
 #include "3rdparty/SimpleBinStream.h"
 
@@ -13,7 +15,7 @@ namespace {
 
 const ULONG nil = 0;
 
-vector<char> align(simple::mem_ostream<true_type> &out) {
+constexpr_f2 vector<char> align(simple::mem_ostream<true_type> &out) noexcept {
     vector<char> data = out.get_internal_vec();
     if (data.size() % 2 != 0) {
         data.push_back(0);
@@ -21,7 +23,7 @@ vector<char> align(simple::mem_ostream<true_type> &out) {
     return data;
 }
 
-void serializeBlocks(simple::mem_ostream<true_type> &out, const vector<MMD0Block> &blockarr, ULONG offs_blockarr) {
+constexpr_f2 void serializeBlocks(simple::mem_ostream<true_type> &out, const vector<MMD0Block> &blockarr, ULONG offs_blockarr) noexcept {
     assert(offs_blockarr % 2 == 0);
     vector<vector<char>> blocks(blockarr.size());
     int i = 0;
@@ -45,7 +47,7 @@ void serializeBlocks(simple::mem_ostream<true_type> &out, const vector<MMD0Block
     }
 }
 
-void serializeSamples(simple::mem_ostream<true_type> &out, const MMD0song& song, const vector<Instr> &smplarr, ULONG offs_smplarr) {
+constexpr_f2 void serializeSamples(simple::mem_ostream<true_type> &out, const MMD0song& song, const vector<Instr> &smplarr, ULONG offs_smplarr) noexcept {
     assert(offs_smplarr % 2 == 0);
     vector<vector<char>> samples(smplarr.size());
     int i = 0;
@@ -122,7 +124,7 @@ void serializeSamples(simple::mem_ostream<true_type> &out, const MMD0song& song,
     }
 }
 
-void serializeExp(simple::mem_ostream<true_type> &out, const MMD0song &song, const MMD0exp0 &exp, const vector<InstrExt>& exp_smp, ULONG offs_expdata) {
+constexpr_f2 void serializeExp(simple::mem_ostream<true_type> &out, const MMD0song &song, const MMD0exp0 &exp, const vector<InstrExt>& exp_smp, ULONG offs_expdata) noexcept {
     if (!exp.s_ext_entries && !exp.annolen && !exp.i_ext_entries && !(song.flags & FLAG_8CHANNEL)) return;
 
     const ULONG offs_exp_smp = offs_expdata + 84;
@@ -181,7 +183,7 @@ void serializeExp(simple::mem_ostream<true_type> &out, const MMD0song &song, con
 
 namespace converter::med {
 
-UBYTE GetNibble(UBYTE *mem, UWORD *nbnum) {
+UBYTE GetNibble(UBYTE *mem, UWORD *nbnum) noexcept {
     UBYTE *mloc = mem + (*nbnum / 2),res;
     if (*nbnum & 0x1) res = *mloc & 0x0f;
     else res = *mloc >> 4;
@@ -189,7 +191,7 @@ UBYTE GetNibble(UBYTE *mem, UWORD *nbnum) {
     return res;
 }
 
-UWORD GetNibbles(UBYTE *mem, UWORD *nbnum, UBYTE nbs) {
+UWORD GetNibbles(UBYTE *mem, UWORD *nbnum, UBYTE nbs) noexcept {
     UWORD res = 0;
     while (nbs--) {
         res = res << 4; 
@@ -198,7 +200,7 @@ UWORD GetNibbles(UBYTE *mem, UWORD *nbnum, UBYTE nbs) {
     return res;
 }
 
-void UnpackData(ULONG *lmptr, ULONG *cmptr, UBYTE *from, UBYTE *to, UWORD lines, UBYTE trkn) {
+void UnpackData(ULONG *lmptr, ULONG *cmptr, UBYTE *from, UBYTE *to, UWORD lines, UBYTE trkn) noexcept {
     UBYTE *fromst = from, *tmpto, bcnt;
     UWORD fromn = 0, lmsk;
     for(UWORD lcnt = 0; lcnt < lines; lcnt = lcnt + 1) {
@@ -239,7 +241,7 @@ vector<char> serializeMMD0(
     const vector<Instr> &smplarr,
     const MMD0exp0 &exp,
     const vector<InstrExt> &exp_smp
-) {
+) noexcept {
     // MMD0 structs are internally big endian
 
     const ULONG offs_song = 52;

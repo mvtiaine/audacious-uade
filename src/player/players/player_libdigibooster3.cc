@@ -25,7 +25,7 @@ using namespace player;
 
 namespace {
 
-constexpr size_t mixBufSize(const int frequency) {
+constexpr size_t mixBufSize(const int frequency) noexcept {
     return 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
 }
 
@@ -51,7 +51,7 @@ const char* ErrorReasons[] = {
     "wrong chunk order in the module"
 };
 
-struct DB3Module *my_DB3_Load(const char *buf, ssize_t size, int *errptr) {
+struct DB3Module *my_DB3_Load(const char *buf, ssize_t size, int *errptr) noexcept {
     struct AbstractHandle ah;
     DB3Handle ah_Handle = {buf, size, 0};
 
@@ -77,7 +77,7 @@ struct DB3Module *my_DB3_Load(const char *buf, ssize_t size, int *errptr) {
     return DB3_LoadFromHandle(&ah, errptr);
 }
 
-ModuleInfo get_info(const string &path, struct DB3Module *mod) {
+constexpr_f2 ModuleInfo get_info(const string &path, struct DB3Module *mod) noexcept  {
     string format = (mod->CreatorVer == CREATOR_DIGIBOOSTER_2) ? "DigiBooster Pro 2" : "DigiBooster 3";
     format += "." + to_string(mod->CreatorRev);
     
@@ -91,15 +91,15 @@ ModuleInfo get_info(const string &path, struct DB3Module *mod) {
 
 namespace player::libdigibooster3 {
 
-void init() {}
-void shutdown() {}
+void init() noexcept {}
+void shutdown() noexcept {}
 
-bool is_our_file(const char */*path*/, const char *buf, size_t size) {
+bool is_our_file(const char */*path*/, const char *buf, size_t size) noexcept {
     assert(size >= 4);
     return buf[0] == 'D' && buf[1] == 'B' && buf[2] == 'M' && buf[3] == '0';
 }
 
-optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
+optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
     int error = 0;
     struct DB3Module *mod = my_DB3_Load(buf, size, &error);
     if (!mod || error) {
@@ -116,7 +116,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
     return info;
 }
 
-optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) {
+optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     int error = 0;
     struct DB3Module *mod = my_DB3_Load(buf, size, &error);
     if (!mod || error) {
@@ -160,7 +160,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     return state;
 }
 
-bool stop(PlayerState &state) {
+bool stop(PlayerState &state) noexcept {
     assert(state.info.player == Player::libdigibooster3);
     if (state.context) {
         const auto context = static_cast<DB3Context*>(state.context);
@@ -172,7 +172,7 @@ bool stop(PlayerState &state) {
     return true;
 }
 
-pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) {
+pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(state.info.player == Player::libdigibooster3);
     assert(size >= mixBufSize(state.frequency));
     const auto context = static_cast<DB3Context*>(state.context);
@@ -180,10 +180,10 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     size_t totalbytes = DB3_Mix(context->engine, mixBufSize(state.frequency) / 4, (int16_t*)buf) * 4;
     bool songend = context->songend || totalbytes < mixBufSize(state.frequency);
 
-    return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
+    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
 }
 
-bool restart(PlayerState &state) {
+bool restart(PlayerState &state) noexcept {
     assert(state.info.player == Player::libdigibooster3);
     const auto context = static_cast<DB3Context*>(state.context);
     assert(context);

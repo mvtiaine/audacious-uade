@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <mutex>
 
+#include "common/constexpr.h"
 #include "common/logger.h"
 #include "player/player.h"
 
@@ -19,11 +20,11 @@ using namespace player;
 
 namespace {
 
-constexpr size_t mixBufSize(const int frequency) {
+constexpr size_t mixBufSize(const int frequency) noexcept {
     return 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
 }
 
-ModuleInfo get_info(const string &path, struct hvl_tune *ht) {
+constexpr_f2 ModuleInfo get_info(const string &path, struct hvl_tune *ht) noexcept  {
     const int maxsubsong = ht->ht_SubsongNr;
     const int channels = ht->ht_Channels;
     // TODO version ?
@@ -34,7 +35,7 @@ ModuleInfo get_info(const string &path, struct hvl_tune *ht) {
 
 bool initialized = false;
 mutex init_guard;
-void lazy_init() {
+void lazy_init() noexcept {
     if (!initialized) {
         init_guard.lock();
         if (!initialized) {
@@ -49,16 +50,16 @@ void lazy_init() {
 
 namespace player::hivelytracker {
 
-void init() {}
+void init() noexcept {}
 
-void shutdown() {}
+void shutdown() noexcept {}
 
-bool is_our_file(const char */*path*/, const char *buf, size_t size) {
+bool is_our_file(const char */*path*/, const char *buf, size_t size) noexcept {
     assert(size >= 4);
     return buf[0] == 'H' && buf[1] == 'V' && buf[2] == 'L' && buf[3] < 2;
 }
 
-optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
+optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
     struct hvl_tune *ht = hvl_reset((uint8_t*)buf, size, 0, 0);
     if (!ht) {
         WARN("player_hivelytracker::parse parsing failed for %s\n", path);
@@ -70,7 +71,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
     return info;
 }
 
-optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) {
+optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     lazy_init();
     struct hvl_tune *ht = hvl_reset((uint8_t*)buf, size, 0, config.frequency);
     if (!ht) {
@@ -94,7 +95,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     return state;
 }
 
-bool stop(PlayerState &state) {
+bool stop(PlayerState &state) noexcept {
     assert(state.info.player == Player::hivelytracker);
     if (state.context) {
         auto ht = static_cast<struct hvl_tune*>(state.context);
@@ -104,7 +105,7 @@ bool stop(PlayerState &state) {
     return true;
 }
 
-pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) {
+pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(state.info.player == Player::hivelytracker);
     assert(size >= mixBufSize(state.frequency));
     auto ht = static_cast<struct hvl_tune*>(state.context);
@@ -119,10 +120,10 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
         songend = ht->ht_SongEndReached;
         mixbuf += framelen;
     }
-    return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
+    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
 }
 
-bool restart(PlayerState &state) {
+bool restart(PlayerState &state) noexcept {
     assert(state.info.player == Player::hivelytracker);
     auto ht = static_cast<struct hvl_tune*>(state.context);
     assert(ht);

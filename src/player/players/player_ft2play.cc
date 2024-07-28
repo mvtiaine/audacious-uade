@@ -1,16 +1,19 @@
 // SPDX-License-Identifier: LGPL-2.0-or-later
 // Copyright (C) 2023-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
+#include "common/std/functional.h"
+#include "common/std/optional.h"
+
 #include <algorithm>
 #include <cassert>
 #include <cctype>
 #include <cstdint>
 #include <cstring>
-#include <functional>
 #include <mutex>
 #include <set>
 #include <string>
 
+#include "common/constexpr.h"
 #include "common/endian.h"
 #include "common/logger.h"
 #include "common/strings.h"
@@ -25,7 +28,7 @@ using namespace replay::ft2play;
 
 namespace {
 
-constexpr size_t mixBufSize(const int frequency) {
+constexpr size_t mixBufSize(const int frequency) noexcept {
     return 4 * 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
 }
 
@@ -37,10 +40,10 @@ struct ft2play_context {
     int16_t startPos = 0;
     set<pair<int16_t,int16_t>> seen; // for subsong loop detection
 
-    ft2play_context(const bool probe) : probe(probe) {
+    ft2play_context(const bool probe) noexcept : probe(probe) {
         reset();
     }
-    void reset() {
+    void reset() noexcept  {
         if (probe) {
             probe::song.pBreakFlag = probe::song.posJumpFlag = false;
             probe::song.pBreakPos = probe::song.pattDelTime = probe::song.pattDelTime2 = 0;
@@ -57,77 +60,77 @@ struct ft2play_context {
         startPos = 0;
         seen.clear();
     }
-    bool moduleLoaded() const {
+    bool moduleLoaded() const noexcept {
         if (probe) return probe::moduleLoaded;
         else return play::moduleLoaded;
     }
-    uint16_t songLen() const {
+    uint16_t songLen() const noexcept {
         if (probe) return probe::song.len;
         else return play::song.len;
     }
-    int16_t songPos() const {
+    int16_t songPos() const noexcept {
         if (probe) return probe::song.songPos;
         else return play::song.songPos;
     }
-    int16_t pattPos() const {
+    int16_t pattPos() const noexcept {
         if (probe) return probe::song.pattPos;
         else return play::song.pattPos;
     }
-    void setModuleLoaded(bool moduleLoaded) const {
+    void setModuleLoaded(bool moduleLoaded) const noexcept {
         if (probe) probe::moduleLoaded = moduleLoaded;
         else play::moduleLoaded = moduleLoaded;
     }
-    void setSongTimer(uint16_t timer) const {
+    void setSongTimer(uint16_t timer) const noexcept {
         if (probe) probe::song.timer = timer;
         else play::song.timer = timer;
     }
-    void setVolumeRamping(bool volumeRamping) const {
+    void setVolumeRamping(bool volumeRamping) const noexcept {
         if (probe) probe::volumeRampingFlag = volumeRamping;
         else play::volumeRampingFlag = volumeRamping;
     }
-    bool loadMusicFromData(const uint8_t *data, uint32_t dataLength) const {
+    bool loadMusicFromData(const uint8_t *data, uint32_t dataLength) const noexcept {
         if (probe) return probe::loadMusicFromData(data, dataLength);
         else return play::loadMusicFromData(data, dataLength);
     }
-    void freeMusic() const {
+    void freeMusic() const noexcept {
         if (probe) probe::freeMusic();
         else play::freeMusic();
     }
-    bool mix_Init(int32_t audioBufferSize) const {
+    bool mix_Init(int32_t audioBufferSize) const noexcept {
         if (probe) return probe::mix_Init(audioBufferSize);
         else return play::mix_Init(audioBufferSize);
     }
-    void mix_Free(void) const {
+    void mix_Free(void) const noexcept {
         if (probe) probe::mix_Free();
         else play::mix_Free();
     }
-    void mix_ClearChannels() const {
+    void mix_ClearChannels() const noexcept {
         if (probe) probe::mix_ClearChannels();
         else play::mix_ClearChannels();
     }
-    void stopVoices() const {
+    void stopVoices() const noexcept {
         if (probe) probe::stopVoices();
         else play::stopVoices();
     }
-    bool dump_Init(int32_t frq, int32_t amp, int16_t songPos) const {
+    bool dump_Init(int32_t frq, int32_t amp, int16_t songPos) const noexcept {
         if (probe) return probe::dump_Init(frq, amp, songPos);
         else return play::dump_Init(frq, amp, songPos);
     }
-    int32_t dump_GetFrame(int16_t *p) const {
+    int32_t dump_GetFrame(int16_t *p) const noexcept {
         if (probe) return probe::dump_GetFrame(p);
         else return play::dump_GetFrame(p);
     }
-    bool dump_EndOfTune(int16_t endSongPos) const {
+    bool dump_EndOfTune(int16_t endSongPos) const noexcept {
         if (probe) return probe::dump_EndOfTune(endSongPos);
         else return play::dump_EndOfTune(endSongPos);
     }
-    void setPos(int16_t pos, int16_t row) {
+    void setPos(int16_t pos, int16_t row) noexcept  {
         reset();
         startPos = pos;
         if (probe) probe::setPos(pos, row);
         else play::setPos(pos, row); 
     }
-    void shutdown() {
+    void shutdown() noexcept {
         stopVoices();
         mix_ClearChannels();
         mix_Free();
@@ -140,23 +143,23 @@ struct ft2play_context {
         setModuleLoaded(false);
         reset();
     }
-    uint16_t antChn() const {
+    uint16_t antChn() const noexcept  {
         if (probe) return probe::song.antChn;
         else return play::song.antChn;
     }
-    uint16_t repS() const {
+    uint16_t repS() const noexcept {
         if (probe) return probe::song.repS;
         else return play::song.repS;
     }
-    uint16_t pattLen(int pattNr) const {
+    uint16_t pattLen(int pattNr) const noexcept {
         if (probe) return probe::pattLens[pattNr];
         else return play::pattLens[pattNr];
     }
-    uint8_t pattNr(int16_t songPos) const {
+    uint8_t pattNr(int16_t songPos) const noexcept {
         if (probe) return probe::song.songTab[songPos];
         else return play::song.songTab[songPos];
     }
-    pair<int16_t,int16_t> posJump(int pattNr, int16_t pattPos) const {
+    pair<int16_t,int16_t> posJump(int pattNr, int16_t pattPos) const noexcept {
         int16_t effB = -1;
         int16_t effD = -1;
         if (probe && probe::patt[pattNr]) {
@@ -177,9 +180,9 @@ struct ft2play_context {
                 else if (p->effTyp == 0xD)
                     effD = ((p->eff >> 4) * 10) + (p->eff & 0x0F);
         }
-        return pair(effB,effD);
+        return pair<int16_t,int16_t>(effB,effD);
     }
-    bool jumpLoop() const {
+    bool jumpLoop() const noexcept {
         if (probe) return probe::song.pBreakFlag || probe::song.posJumpFlag;
         else return play::song.pBreakFlag || play::song.posJumpFlag;
     }
@@ -219,11 +222,11 @@ struct FSTHeader {
 	char Sig[4];
 } __attribute__ ((packed));
 
-bool is_fasttracker2(const char *buf, size_t size) {
+constexpr bool is_fasttracker2(const char *buf, size_t size) noexcept {
     return size >= 16 && memcmp(buf, "Extended Module:", 16) == 0;
 }
 
-bool is_fasttracker1(const char *buf, size_t size) {
+constexpr_f2 bool is_fasttracker1(const char *buf, size_t size) noexcept {
     if (size < sizeof(FSTHeader)) return false;
     const auto &hdr = (const FSTHeader *)buf;
     const string sig = string() + hdr->Sig[0] + hdr->Sig[1] + hdr->Sig[2] + hdr->Sig[3];
@@ -233,7 +236,7 @@ bool is_fasttracker1(const char *buf, size_t size) {
     return false;
 }
 
-bool get_xm_header(const char *buf, size_t size, XMHeader &h) {
+bool get_xm_header(const char *buf, size_t size, XMHeader &h) noexcept {
     assert(size > sizeof(XMHeader));
     memcpy(&h, buf, sizeof(XMHeader));
     if (h.ver < 0x0102 || h.ver > 0x104 ||
@@ -249,13 +252,13 @@ bool get_xm_header(const char *buf, size_t size, XMHeader &h) {
     return true;
 }
 
-bool get_fst_header( const char *buf, size_t size, FSTHeader &h) {
+bool get_fst_header( const char *buf, size_t size, FSTHeader &h) noexcept {
     assert(size > sizeof(FSTHeader));
     memcpy(&h, buf, sizeof(FSTHeader));
     return true;
 }
 
-vector<int16_t> get_subsongs(const ft2play_context *context) {
+vector<int16_t> get_subsongs(const ft2play_context *context) noexcept {
     assert(context->moduleLoaded());
     vector<int16_t> subsongs = {0};
 
@@ -265,7 +268,7 @@ vector<int16_t> get_subsongs(const ft2play_context *context) {
         notseen.insert(i);
     }
 
-    pair<int16_t,int16_t> prevJump = pair(0,0);
+    auto prevJump = pair<int16_t,int16_t>(0,0);
 
     int16_t pattPos = 0;
     int16_t songPos = 0;
@@ -318,18 +321,18 @@ vector<int16_t> get_subsongs(const ft2play_context *context) {
     return subsongs;
 }
 
-ModuleInfo get_xm_info(const char *path, const XMHeader &hdr) {
+constexpr_f2 ModuleInfo get_xm_info(const char *path, const XMHeader &hdr) noexcept  {
     string progName = string(hdr.progName).substr(0,20);
     if (common::ends_with(progName, " ")) {
         progName.erase(progName.find_last_of(' ') + 1);
         progName.erase(progName.find_last_not_of(' ') + 1);
     }
-    replace_if(progName.begin(), progName.end(), ::not_fn(::isprint), '?');
+    replace_if(progName.begin(), progName.end(), ::not_fn<int (*)(int _c)>(::isprint), '?');
     if (progName.empty()) progName = "<Unknown>";
     return {Player::ft2play, progName, path, 1, 1, 1, hdr.antChn};
 }
 
-ModuleInfo get_fst_info(const char *path, const FSTHeader &hdr) {
+constexpr_f2 ModuleInfo get_fst_info(const char *path, const FSTHeader &hdr) noexcept {
     int channels = 2;
     const string sig = string() + hdr.Sig[0] + hdr.Sig[1] + hdr.Sig[2] + hdr.Sig[3];
     if (sig == chn4) {
@@ -348,12 +351,12 @@ ModuleInfo get_fst_info(const char *path, const FSTHeader &hdr) {
 
 namespace player::ft2play {
 
-void init() {
+void init() noexcept {
     probe::interpolationFlag = true;
     play::interpolationFlag = true;
 }
 
-void shutdown() {
+void shutdown() noexcept {
     probe::stopVoices();
     probe::mix_ClearChannels();
     probe::mix_Free();
@@ -366,7 +369,7 @@ void shutdown() {
     play::moduleLoaded = false;
 }
 
-bool is_our_file(const char *path, const char *buf, size_t size) {
+bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
     if (is_fasttracker2(buf, size)) {
         if (size < sizeof(XMHeader)) return false;
         XMHeader h;
@@ -375,7 +378,7 @@ bool is_our_file(const char *path, const char *buf, size_t size) {
     return is_fasttracker1(buf, size);
 }
 
-optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
+optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
     XMHeader xm;
     FSTHeader fst;
 
@@ -407,7 +410,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) {
     return info;
 }
 
-optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) {
+optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     ModuleInfo info;
     bool volumeRamping = false;
     if (is_fasttracker2(buf, size)) {
@@ -463,7 +466,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     return state;
 }
 
-bool stop(PlayerState &state) {
+bool stop(PlayerState &state) noexcept {
     assert(state.info.player == Player::ft2play);
     if (state.context) {
         const auto context = static_cast<ft2play_context*>(state.context);
@@ -475,30 +478,30 @@ bool stop(PlayerState &state) {
     return true;
 }
 
-pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) {
+pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(state.info.player == Player::ft2play);
     assert(size >= mixBufSize(state.frequency));
     const auto context = static_cast<ft2play_context*>(state.context);
     assert(context);
     assert(context->moduleLoaded());
-    const auto prevPos = pair(context->songPos(), context->pattPos());
+    const auto prevPos = pair<int16_t,int16_t>(context->songPos(), context->pattPos());
     bool prevJump = context->jumpLoop();
     ssize_t totalbytes = context->dump_GetFrame((int16_t*)buf);
-    const auto pos = pair(context->songPos(), context->pattPos());
+    const auto pos = pair<int16_t,int16_t>(context->songPos(), context->pattPos());
     bool jump = context->jumpLoop();
     bool songend = context->dump_EndOfTune(context->songLen()-1);
     if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second) {
         for (auto i = pos.second; i <= prevPos.second; ++i) {
-            context->seen.erase(pair(pos.first, i));
+            context->seen.erase(pair<int16_t,int16_t>(pos.first, i));
         }
     }
     if (!songend && pos != prevPos && !jump) {
         songend |= !context->seen.insert(pos).second;
     }
-    return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
+    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
 }
 
-bool restart(PlayerState &state) {
+bool restart(PlayerState &state) noexcept {
     assert(state.info.player == Player::ft2play);
     const auto context = static_cast<ft2play_context*>(state.context);
     assert(context);

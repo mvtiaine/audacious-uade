@@ -9,8 +9,8 @@ using namespace std;
 
 namespace converter::med {
 
-bool isMED4(const char *buf, const size_t size);
-ConverterResult convertMED4(const char *buf, size_t size);
+bool isMED4(const char *buf, const size_t size) noexcept;
+ConverterResult convertMED4(const char *buf, size_t size) noexcept;
 
 } // namespace converter::med
 
@@ -18,11 +18,11 @@ namespace converter {
 
 jmp_buf error_handler;
 
-bool needs_conversion(const char *buf, const size_t size) {
+bool needs_conversion(const char *buf, const size_t size) noexcept {
     return med::isMED4(buf, size); 
 }
 
-ConverterResult convert(const char *buf, const size_t size) {
+ConverterResult convert(const char *buf, const size_t size) noexcept {
     ConverterResult res {};
 
     if (!med::isMED4(buf, size)) {

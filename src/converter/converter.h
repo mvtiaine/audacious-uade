@@ -27,7 +27,7 @@ struct ConverterResult {
 };
 
 constexpr int MAGIC_SIZE = 4;
-bool needs_conversion(const char *buf, size_t size);
-ConverterResult convert(const char *buf, size_t size);
+bool needs_conversion(const char *buf, size_t size) noexcept;
+ConverterResult convert(const char *buf, size_t size) noexcept;
 
 } // namespace converter

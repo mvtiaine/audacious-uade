@@ -311,7 +311,16 @@ AM_CONDITIONAL([BUILD_EMSCRIPTEN], [test "$build_emscripten" = "yes"])
 
 AM_CONDITIONAL([PLUGIN_AUDACIOUS], [test "$plugin_audacious" = "yes"])
 
-CSTD="-std=c11"
+AC_LANG_PUSH([C])
+for version in 23 2x 17 11 1x 99 9x; do
+  CSTD="-std=c${version}"
+  AX_CHECK_COMPILE_FLAG([${CSTD}],[break],[CSTD=none])
+done
+AC_LANG_POP
+AS_IF([test "$CSTD" == none], [
+  AC_MSG_ERROR([Could not enable at least C9x (C99) - upgrade your compiler])
+])
+
 AC_LANG_PUSH([C++])
 for version in 23 2b 20 2a 17 1z; do
   CXXSTD="-std=c++${version}"
@@ -613,10 +622,9 @@ if test "$uade_prefix" = "NONE" ; then
   uade_prefix=/usr/local
 fi
 _UADE_CPPFLAGS="${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE"
-_UADE_CFLAGS="${CFLAGS} -Wno-format -Wno-format-security -Wno-unused-command-line-argument"
+_UADE_CFLAGS="${CFLAGS} -Wno-format -Wno-format-security"
 _UADE_LDFLAGS="${LDFLAGS} ${EXTRA_LIBS}"
 if test "$static_stdlibs" = "yes" ; then
-  CPPFLAGS="-D_LIBCPP_NO_EXCEPTIONS -D_LIBCPP_HAS_NO_EXCEPTIONS ${CPPFLAGS}"
   _UADE_LDFLAGS="-static-libgcc ${_UADE_LDFLAGS}"
 fi
 AX_SUBDIRS_CONFIGURE([uade], [

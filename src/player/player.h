@@ -3,16 +3,18 @@
 
 #pragma once
 
+#include "common/std/optional.h"
+
 #include <cassert>
 #include <cstddef>
 #include <functional>
-#include <optional>
 #include <string>
 #include <type_traits>
 #include <utility>
 
-#include "common/endian.h"
 #include "common/compat.h"
+#include "common/constexpr.h"
+#include "common/endian.h"
 #include "common/songend.h"
 
 namespace player {
@@ -39,7 +41,7 @@ enum class Player {
     PLAYERS
 };
 
-inline std::string name(Player player) noexcept {
+constexpr_f2 std::string name(Player player) noexcept {
     switch(player) {
         case Player::hivelytracker: return "hivelytracker";
         case Player::libdigibooster3: return "libdigibooster3";
@@ -67,6 +69,13 @@ struct PlayerConfig {
     int known_timeout = 0;
     std::endian endian = std::endian::native;
     bool probe = false;
+
+    constexpr_f1 PlayerConfig() noexcept {}
+    constexpr_f1 PlayerConfig(const int frequency) noexcept : frequency(frequency) {}
+    constexpr_f1 PlayerConfig(const int frequency, const int known_timeout) noexcept
+    : frequency(frequency), known_timeout(known_timeout) {}
+    constexpr_f1 PlayerConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
+    : frequency(frequency), known_timeout(known_timeout), endian(endian), probe(probe) {}
 };
 
 struct PlayerState {
@@ -80,16 +89,15 @@ struct PlayerState {
     int pos_millis = 0;
 };
 
+void init() noexcept;
+void shutdown() noexcept;
 
-void init();
-void shutdown();
-
-Player check(const char *path, const char *buf, size_t size);
-std::optional<ModuleInfo> parse(const char *path, const char *buf, size_t size);
-std::optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config);
-std::pair<common::SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size);
-bool stop(PlayerState &state);
-bool seek(PlayerState &state, int millis);
+Player check(const char *path, const char *buf, size_t size) noexcept;
+std::optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept;
+std::optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept;
+std::pair<common::SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) noexcept;
+bool stop(PlayerState &state) noexcept;
+bool seek(PlayerState &state, int millis) noexcept;
 
 } // namespace player
 
@@ -115,7 +123,7 @@ PlaybackResult playback_loop(
     const PlayerConfig &config,
     const std::function<bool(void)> check_stop,
     const std::function<int(void)> check_seek,
-    const std::function<void(char *, int)> write_audio);
+    const std::function<void(char *, int)> write_audio) noexcept;
 
 } // namespace player::support
 
@@ -148,8 +156,14 @@ struct UADEConfig : PlayerConfig {
     // TODO support timeouts with other players
     int subsong_timeout = 600;
     int silence_timeout = 10;
+
+    constexpr_f1 UADEConfig() noexcept {}
+    constexpr_f1 UADEConfig(const int frequency) noexcept
+    : PlayerConfig(frequency) {}
+    constexpr_f1 UADEConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
+    : PlayerConfig(frequency, known_timeout, endian, probe) {}
 };
 
-bool seek(PlayerState &state, int millis);
+bool seek(PlayerState &state, int millis) noexcept;
 
 } // namespace player::uade
