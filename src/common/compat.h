@@ -35,8 +35,8 @@ inline void swab(const void *bfrom, void *bto, ssize_t n) noexcept {
 
 namespace std {
     struct mutex {
-        _CONSTEXPR_F void lock() {}
-        _CONSTEXPR_F void unlock() {}
+        constexpr_f void lock() {}
+        constexpr_f void unlock() {}
     };
 }
 
@@ -60,7 +60,7 @@ constexpr size_t strnlen(const char *s, size_t len) noexcept {
 #include <cstdlib>
 #include <string>
 namespace std {
-_CONSTEXPR_F int stoi(const std::string& str, size_t* idx = nullptr, int base = 10) {
+constexpr_f int stoi(const std::string& str, size_t* idx = nullptr, int base = 10) {
     assert(idx == nullptr);
     assert(base == 10);
     return atoi(str.c_str());
@@ -72,8 +72,8 @@ _CONSTEXPR_F int stoi(const std::string& str, size_t* idx = nullptr, int base = 
 
 namespace std {
     struct mutex {
-        _CONSTEXPR_F void lock() {}
-        _CONSTEXPR_F void unlock() {}
+        constexpr_f void lock() {}
+        constexpr_f void unlock() {}
     };
 }
 

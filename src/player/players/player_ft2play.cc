@@ -226,7 +226,7 @@ constexpr bool is_fasttracker2(const char *buf, size_t size) noexcept {
     return size >= 16 && memcmp(buf, "Extended Module:", 16) == 0;
 }
 
-_CONSTEXPR_F2 bool is_fasttracker1(const char *buf, size_t size) noexcept {
+constexpr_f2 bool is_fasttracker1(const char *buf, size_t size) noexcept {
     if (size < sizeof(FSTHeader)) return false;
     const auto &hdr = (const FSTHeader *)buf;
     const string sig = string() + hdr->Sig[0] + hdr->Sig[1] + hdr->Sig[2] + hdr->Sig[3];
@@ -321,7 +321,7 @@ vector<int16_t> get_subsongs(const ft2play_context *context) noexcept {
     return subsongs;
 }
 
-_CONSTEXPR_F2 ModuleInfo get_xm_info(const char *path, const XMHeader &hdr) noexcept  {
+constexpr_f2 ModuleInfo get_xm_info(const char *path, const XMHeader &hdr) noexcept  {
     string progName = string(hdr.progName).substr(0,20);
     if (common::ends_with(progName, " ")) {
         progName.erase(progName.find_last_of(' ') + 1);
@@ -332,7 +332,7 @@ _CONSTEXPR_F2 ModuleInfo get_xm_info(const char *path, const XMHeader &hdr) noex
     return {Player::ft2play, progName, path, 1, 1, 1, hdr.antChn};
 }
 
-_CONSTEXPR_F2 ModuleInfo get_fst_info(const char *path, const FSTHeader &hdr) noexcept {
+constexpr_f2 ModuleInfo get_fst_info(const char *path, const FSTHeader &hdr) noexcept {
     int channels = 2;
     const string sig = string() + hdr.Sig[0] + hdr.Sig[1] + hdr.Sig[2] + hdr.Sig[3];
     if (sig == chn4) {

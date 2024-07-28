@@ -47,7 +47,7 @@ constexpr int64_t THRESHOLD_SILENCE = 1;
 constexpr int64_t THRESHOLD_VOLUME = 4;
 constexpr uint64_t REPEAT_THRESHOLD = 6000u;
 
-_CONSTEXPR_F2 void flatten_diffsums(vector<int64_t> &diffsums) noexcept {
+constexpr_f2 void flatten_diffsums(vector<int64_t> &diffsums) noexcept {
     const auto shift = [&](const vector<pair<uint64_t,int64_t>> &shifts, vector<int64_t> &diffsums) {
         int64_t baseidx = shifts.back().first;
         auto baseval = shifts.back().second;
@@ -97,7 +97,7 @@ _CONSTEXPR_F2 void flatten_diffsums(vector<int64_t> &diffsums) noexcept {
     shift(upshifts, diffsums);
 };
 
-_CONSTEXPR_F2 vector<int64_t> calc_diffsums(const vector<int8_t> &buf, const uint64_t begin, const unsigned int SAMPLES_PER_SEC, const int64_t basesum, const bool flatten) noexcept {
+constexpr_f2 vector<int64_t> calc_diffsums(const vector<int8_t> &buf, const uint64_t begin, const unsigned int SAMPLES_PER_SEC, const int64_t basesum, const bool flatten) noexcept {
     vector<int64_t> diffsums(buf.size() - begin);
 
     int64_t smallestdiff = INT64_MAX;
@@ -143,7 +143,7 @@ _CONSTEXPR_F2 vector<int64_t> calc_diffsums(const vector<int8_t> &buf, const uin
     return diffsums;
 }
 
-_CONSTEXPR_F2 pair<uint64_t, int> get_looplen(const vector<int8_t> &buf, const uint64_t begin, const unsigned int SAMPLES_PER_SEC, const bool flatten, const bool strict) noexcept {
+constexpr_f2 pair<uint64_t, int> get_looplen(const vector<int8_t> &buf, const uint64_t begin, const unsigned int SAMPLES_PER_SEC, const bool flatten, const bool strict) noexcept {
     assert(buf.size() < INT32_MAX);
 
     constexpr unsigned int ACR_PER_SEC = 50;
@@ -315,7 +315,7 @@ _CONSTEXPR_F2 pair<uint64_t, int> get_looplen(const vector<int8_t> &buf, const u
 #endif
 }
 
-_CONSTEXPR_F2 uint64_t get_loopstart(const vector<int8_t> &buf, const uint64_t SAMPLES_PER_SEC, const uint64_t looplen, const uint64_t offs) noexcept {
+constexpr_f2 uint64_t get_loopstart(const vector<int8_t> &buf, const uint64_t SAMPLES_PER_SEC, const uint64_t looplen, const uint64_t offs) noexcept {
     assert(buf.size() < INT32_MAX);
 
     const auto _loopstart = [&](const uint64_t offs, const uint64_t window, const bool strict) -> uint64_t {
@@ -438,7 +438,7 @@ _CONSTEXPR_F2 uint64_t get_loopstart(const vector<int8_t> &buf, const uint64_t S
     return loopstart;
 }
 
-_CONSTEXPR_F2 uint64_t volume_detect(const vector<int8_t> &buf, uint64_t maxcnt, int threshold) noexcept {
+constexpr_f2 uint64_t volume_detect(const vector<int8_t> &buf, uint64_t maxcnt, int threshold) noexcept {
     bool seenhigher = false;
     uint64_t volumecnt = 0;
     for (uint64_t i = 0; i < buf.size(); ++i) {
@@ -468,11 +468,11 @@ namespace songend::detector {
 
 // does some smoothing for input audio and converts to 8-bit/single channel
 void SongEndDetector::update(const char *bytes, const int nbytes) noexcept {
-    const auto idx = [&](const int i) _CONSTEXPR_L {
+    const auto idx = [&](const int i) constexpr_l {
         const int newi = (itmp + i) % 8;
         return newi < 0 ? 8 + newi : newi;
     };
-    const auto b = [&](const int i) _CONSTEXPR_L -> int {
+    const auto b = [&](const int i) constexpr_l -> int {
         return tmp[idx(i-8)];
     };
 

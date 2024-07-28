@@ -8,106 +8,106 @@
 #if defined(__clang__)
 
 #if __clang_major__ >= 18
-#define _CONSTEXPR_F constexpr
-#define _CONSTEXPR_F1 constexpr
-#define _CONSTEXPR_F2 constexpr
-#define _CONSTEXPR_V constexpr
-#define _CONSTEXPR_V1 constexpr
-#define _CONSTEXPR_V2 constexpr
-#define _CONSTEXPR_L constexpr
+#define constexpr_f constexpr
+#define constexpr_f1 constexpr
+#define constexpr_f2 constexpr
+#define constexpr_v constexpr
+#define constexpr_v1 constexpr
+#define constexpr_v2 constexpr
+#define constexpr_l constexpr
 #elif __clang_major__ >= 10
-#define _CONSTEXPR_F constexpr
-#define _CONSTEXPR_F1 constexpr
-#define _CONSTEXPR_F2 inline
-#define _CONSTEXPR_V constexpr
-#define _CONSTEXPR_V1 constexpr
-#define _CONSTEXPR_V2 const
-#define _CONSTEXPR_L constexpr
+#define constexpr_f constexpr
+#define constexpr_f1 constexpr
+#define constexpr_f2 inline
+#define constexpr_v constexpr
+#define constexpr_v1 constexpr
+#define constexpr_v2 const
+#define constexpr_l constexpr
 #elif __clang_major__ >= 7
-#define _CONSTEXPR_F constexpr
-#define _CONSTEXPR_F1 inline
-#define _CONSTEXPR_F2 inline
-#define _CONSTEXPR_V constexpr
-#define _CONSTEXPR_V1 const
-#define _CONSTEXPR_V2 const
-#define _CONSTEXPR_L constexpr
+#define constexpr_f constexpr
+#define constexpr_f1 inline
+#define constexpr_f2 inline
+#define constexpr_v constexpr
+#define constexpr_v1 const
+#define constexpr_v2 const
+#define constexpr_l constexpr
 #else
-#define _CONSTEXPR_F inline
-#define _CONSTEXPR_F1 inline
-#define _CONSTEXPR_F2 inline
-#define _CONSTEXPR_V const
-#define _CONSTEXPR_V1 const
-#define _CONSTEXPR_V2 const
-#define _CONSTEXPR_L 
+#define constexpr_f inline
+#define constexpr_f1 inline
+#define constexpr_f2 inline
+#define constexpr_v const
+#define constexpr_v1 const
+#define constexpr_v2 const
+#define constexpr_l 
 #endif
 
 #elif defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER)
 
 #if __GNUC__ >= 13
-#define _CONSTEXPR_F constexpr
-#define _CONSTEXPR_F1 constexpr
-#define _CONSTEXPR_F2 constexpr
-#define _CONSTEXPR_V constexpr
-#define _CONSTEXPR_V1 constexpr
-#define _CONSTEXPR_V2 constexpr
-#define _CONSTEXPR_L constexpr
+#define constexpr_f constexpr
+#define constexpr_f1 constexpr
+#define constexpr_f2 constexpr
+#define constexpr_v constexpr
+#define constexpr_v1 constexpr
+#define constexpr_v2 constexpr
+#define constexpr_l constexpr
 #elif __GNUC__ >= 10
-#define _CONSTEXPR_F constexpr
-#define _CONSTEXPR_F1 constexpr
-#define _CONSTEXPR_F2 inline
-#define _CONSTEXPR_V constexpr
-#define _CONSTEXPR_V1 constexpr
-#define _CONSTEXPR_V2 const
-#define _CONSTEXPR_L constexpr
+#define constexpr_f constexpr
+#define constexpr_f1 constexpr
+#define constexpr_f2 inline
+#define constexpr_v constexpr
+#define constexpr_v1 constexpr
+#define constexpr_v2 const
+#define constexpr_l constexpr
 #elif __GNUC__ >= 7
-#define _CONSTEXPR_F constexpr
-#define _CONSTEXPR_F1 inline
-#define _CONSTEXPR_F2 inline
-#define _CONSTEXPR_V constexpr
-#define _CONSTEXPR_V1 const
-#define _CONSTEXPR_V2 const
-#define _CONSTEXPR_L constexpr
+#define constexpr_f constexpr
+#define constexpr_f1 inline
+#define constexpr_f2 inline
+#define constexpr_v constexpr
+#define constexpr_v1 const
+#define constexpr_v2 const
+#define constexpr_l constexpr
 #else
-#define _CONSTEXPR_F inline
-#define _CONSTEXPR_F1 inline
-#define _CONSTEXPR_F2 inline
-#define _CONSTEXPR_V const
-#define _CONSTEXPR_V1 const
-#define _CONSTEXPR_V2 const
-#define _CONSTEXPR_L 
+#define constexpr_f inline
+#define constexpr_f1 inline
+#define constexpr_f2 inline
+#define constexpr_v const
+#define constexpr_v1 const
+#define constexpr_v2 const
+#define constexpr_l 
 #endif
 
 // just guessing
 #elif __cplusplus >= 202302L
-#define _CONSTEXPR_F constexpr
-#define _CONSTEXPR_F1 constexpr
-#define _CONSTEXPR_F2 constexpr
-#define _CONSTEXPR_V constexpr
-#define _CONSTEXPR_V1 constexpr
-#define _CONSTEXPR_V2 constexpr
-#define _CONSTEXPR_L constexpr
+#define constexpr_f constexpr
+#define constexpr_f1 constexpr
+#define constexpr_f2 constexpr
+#define constexpr_v constexpr
+#define constexpr_v1 constexpr
+#define constexpr_v2 constexpr
+#define constexpr_l constexpr
 #elif __cplusplus >= 202002L
-#define _CONSTEXPR_F constexpr
-#define _CONSTEXPR_F1 constexpr
-#define _CONSTEXPR_F2 inline
-#define _CONSTEXPR_V constexpr
-#define _CONSTEXPR_V1 constexpr
-#define _CONSTEXPR_V2 const
-#define _CONSTEXPR_L constexpr
+#define constexpr_f constexpr
+#define constexpr_f1 constexpr
+#define constexpr_f2 inline
+#define constexpr_v constexpr
+#define constexpr_v1 constexpr
+#define constexpr_v2 const
+#define constexpr_l constexpr
 #elif __cplusplus >= 201703L
-#define _CONSTEXPR_F constexpr
-#define _CONSTEXPR_F inline
-#define _CONSTEXPR_F2 inline
-#define _CONSTEXPR_V constexpr
-#define _CONSTEXPR_V1 const
-#define _CONSTEXPR_V2 const
-#define _CONSTEXPR_L constexpr
+#define constexpr_f constexpr
+#define constexpr_f inline
+#define constexpr_f2 inline
+#define constexpr_v constexpr
+#define constexpr_v1 const
+#define constexpr_v2 const
+#define constexpr_l constexpr
 #else
-#define _CONSTEXPR_F inline
-#define _CONSTEXPR_F1 inline
-#define _CONSTEXPR_F2 inline
-#define _CONSTEXPR_V const
-#define _CONSTEXPR_V1 const
-#define _CONSTEXPR_V2 const
-#define _CONSTEXPR_L 
+#define constexpr_f inline
+#define constexpr_f1 inline
+#define constexpr_f2 inline
+#define constexpr_v const
+#define constexpr_v1 const
+#define constexpr_v2 const
+#define constexpr_l 
 #endif

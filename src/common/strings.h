@@ -20,7 +20,7 @@
 
 namespace common {
 
-_CONSTEXPR_F2 std::vector<std::string> split(const std::string &str, const std::string &delimiter) noexcept {
+constexpr_f2 std::vector<std::string> split(const std::string &str, const std::string &delimiter) noexcept {
     std::vector<std::string> tokens;
     size_t pos = 0;
     std::string s = str;
@@ -37,7 +37,7 @@ _CONSTEXPR_F2 std::vector<std::string> split(const std::string &str, const std::
     return tokens;
 }
 
-_CONSTEXPR_F2 auto split_view(const std::string_view &input, const char separator) noexcept {
+constexpr_f2 auto split_view(const std::string_view &input, const char separator) noexcept {
     std::vector<std::string_view> results;
     size_t prevpos = 0;
     size_t pos = 0;
@@ -49,7 +49,7 @@ _CONSTEXPR_F2 auto split_view(const std::string_view &input, const char separato
     return results;
 }
 
-_CONSTEXPR_F2 auto split_view_x(const std::string_view &input, const char separator) noexcept {
+constexpr_f2 auto split_view_x(const std::string_view &input, const char separator) noexcept {
     std::vector<std::string_view> results;
     size_t prevpos = 0;
     size_t pos = 0;
@@ -94,7 +94,7 @@ constexpr auto split_view_x(const std::string_view &input, const char separator)
     return results;
 }
 
-_CONSTEXPR_F2 void mkString(const std::vector<std::string> &v, const std::string &delimiter, std::string &res) noexcept {
+constexpr_f2 void mkString(const std::vector<std::string> &v, const std::string &delimiter, std::string &res) noexcept {
     size_t size = 0;
     for (size_t i = 0; i < v.size(); ++i) {
         if (v[i].size()) {
@@ -115,13 +115,13 @@ _CONSTEXPR_F2 void mkString(const std::vector<std::string> &v, const std::string
     }
 }
 
-_CONSTEXPR_F2 std::string mkString(const std::vector<std::string> &v, const std::string &delimiter) noexcept {
+constexpr_f2 std::string mkString(const std::vector<std::string> &v, const std::string &delimiter) noexcept {
     std::string res;
     mkString(v, delimiter, res);
     return res;
 }
 
-_CONSTEXPR_F2 void mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter, std::string &res) noexcept {
+constexpr_f2 void mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter, std::string &res) noexcept {
     size_t size = 0;
     for (size_t i = 0; i < v.size(); ++i) {
         if (v[i].size()) {
@@ -142,14 +142,14 @@ _CONSTEXPR_F2 void mkString(const std::vector<std::string_view> &v, const std::s
     }
 }
 
-_CONSTEXPR_F2 std::string mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter) noexcept {
+constexpr_f2 std::string mkString(const std::vector<std::string_view> &v, const std::string_view &delimiter) noexcept {
     std::string res;
     mkString(v, delimiter, res);
     return res;
 }
 
 template <class T>
-_CONSTEXPR_F T from_chars(const std::string_view &s) noexcept {
+constexpr_f T from_chars(const std::string_view &s) noexcept {
     if (s.size() == 1) return s[0] - 48;
 #if !__has_include(<charconv>)
     const std::string ss = {s.begin(), s.end()};
@@ -170,7 +170,7 @@ _CONSTEXPR_F T from_chars(const std::string_view &s) noexcept {
 #endif
 }
 
-_CONSTEXPR_F bool starts_with(const std::string_view &s, const std::string_view &prefix) noexcept {
+constexpr_f bool starts_with(const std::string_view &s, const std::string_view &prefix) noexcept {
 #if !defined(__cpp_lib_starts_ends_with)
     if (prefix.length() > s.length()) return false;
     return s.rfind(prefix, 0) == 0;
@@ -179,7 +179,7 @@ _CONSTEXPR_F bool starts_with(const std::string_view &s, const std::string_view 
 #endif
 }
 
-_CONSTEXPR_F bool ends_with(const std::string_view &s, const std::string_view &suffix) noexcept {
+constexpr_f bool ends_with(const std::string_view &s, const std::string_view &suffix) noexcept {
 #if !defined(__cpp_lib_starts_ends_with)
     if (suffix.length() > s.length()) return false;
     return s.rfind(suffix, s.length() - suffix.length()) == 0;

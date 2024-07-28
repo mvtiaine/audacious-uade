@@ -15,8 +15,8 @@
 
 namespace songdb {
 
-_CONSTEXPR_V2 std::string UNKNOWN_AUTHOR = "<Unknown>";
-_CONSTEXPR_V std::string_view AUTHOR_JOIN = " & ";
+constexpr_v2 std::string UNKNOWN_AUTHOR = "<Unknown>";
+constexpr_v std::string_view AUTHOR_JOIN = " & ";
 
 enum Source {
     //MD5 = 0, // internal

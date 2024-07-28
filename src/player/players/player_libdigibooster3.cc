@@ -77,7 +77,7 @@ struct DB3Module *my_DB3_Load(const char *buf, ssize_t size, int *errptr) noexce
     return DB3_LoadFromHandle(&ah, errptr);
 }
 
-_CONSTEXPR_F2 ModuleInfo get_info(const string &path, struct DB3Module *mod) noexcept  {
+constexpr_f2 ModuleInfo get_info(const string &path, struct DB3Module *mod) noexcept  {
     string format = (mod->CreatorVer == CREATOR_DIGIBOOSTER_2) ? "DigiBooster Pro 2" : "DigiBooster 3";
     format += "." + to_string(mod->CreatorRev);
     

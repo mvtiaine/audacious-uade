@@ -18,7 +18,7 @@ using namespace songdb::internal;
 
 namespace {
 // TODO move logic to preprocessing
-_CONSTEXPR_V string_view UNKNOWN = "Unknown";
+constexpr_v string_view UNKNOWN = "Unknown";
 const set<string_view> pseudonyms ({
     "Creative_Thought",
     "DJ_Braincrack",

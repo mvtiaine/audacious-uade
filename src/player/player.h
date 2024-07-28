@@ -41,7 +41,7 @@ enum class Player {
     PLAYERS
 };
 
-_CONSTEXPR_F2 std::string name(Player player) noexcept {
+constexpr_f2 std::string name(Player player) noexcept {
     switch(player) {
         case Player::hivelytracker: return "hivelytracker";
         case Player::libdigibooster3: return "libdigibooster3";
@@ -69,12 +69,12 @@ struct PlayerConfig {
     int known_timeout = 0;
     std::endian endian = std::endian::native;
     bool probe = false;
-    
-    _CONSTEXPR_F1 PlayerConfig() noexcept {}
-    _CONSTEXPR_F1 PlayerConfig(const int frequency) noexcept : frequency(frequency) {}
-    _CONSTEXPR_F1 PlayerConfig(const int frequency, const int known_timeout) noexcept
+
+    constexpr_f1 PlayerConfig() noexcept {}
+    constexpr_f1 PlayerConfig(const int frequency) noexcept : frequency(frequency) {}
+    constexpr_f1 PlayerConfig(const int frequency, const int known_timeout) noexcept
     : frequency(frequency), known_timeout(known_timeout) {}
-    _CONSTEXPR_F1 PlayerConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
+    constexpr_f1 PlayerConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
     : frequency(frequency), known_timeout(known_timeout), endian(endian), probe(probe) {}
 };
 
@@ -157,10 +157,10 @@ struct UADEConfig : PlayerConfig {
     int subsong_timeout = 600;
     int silence_timeout = 10;
 
-    _CONSTEXPR_F1 UADEConfig() noexcept {}
-    _CONSTEXPR_F1 UADEConfig(const int frequency) noexcept
+    constexpr_f1 UADEConfig() noexcept {}
+    constexpr_f1 UADEConfig(const int frequency) noexcept
     : PlayerConfig(frequency) {}
-    _CONSTEXPR_F1 UADEConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
+    constexpr_f1 UADEConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
     : PlayerConfig(frequency, known_timeout, endian, probe) {}
 };
 

@@ -24,7 +24,7 @@ constexpr size_t mixBufSize(const int frequency) noexcept {
     return 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
 }
 
-_CONSTEXPR_F2 ModuleInfo get_info(const string &path, struct hvl_tune *ht) noexcept  {
+constexpr_f2 ModuleInfo get_info(const string &path, struct hvl_tune *ht) noexcept  {
     const int maxsubsong = ht->ht_SubsongNr;
     const int channels = ht->ht_Channels;
     // TODO version ?

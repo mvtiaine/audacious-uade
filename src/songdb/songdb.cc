@@ -47,7 +47,7 @@ namespace {
 
 constexpr size_t BUF_SIZE = 2048;
 
-_CONSTEXPR_F1 md5_t hex2md5(const char *hex) noexcept {
+constexpr_f1 md5_t hex2md5(const char *hex) noexcept {
     uint64_t ret = 0; 
     for (int i = 0; i < 12; ++i) {
         const char c = *hex++;
@@ -61,7 +61,7 @@ _CONSTEXPR_F1 md5_t hex2md5(const char *hex) noexcept {
    return ret; 
 }
 
-_CONSTEXPR_F1 uint24_t b64d24(const string_view &b64) noexcept {
+constexpr_f1 uint24_t b64d24(const string_view &b64) noexcept {
     if (b64.size() == 3) {
         return (b64[0] - 45) << 12 |
                (b64[1] - 45) << 6 |
@@ -80,7 +80,7 @@ _CONSTEXPR_F1 uint24_t b64d24(const string_view &b64) noexcept {
     }
 }
 
-_CONSTEXPR_F1 uint24_t b64d24(const char *b64, int &len) noexcept {
+constexpr_f1 uint24_t b64d24(const char *b64, int &len) noexcept {
     if (b64[1] == '\n' || b64[1] == '\t') {
         len = 1;
         return b64[0] - 45;
@@ -102,7 +102,7 @@ _CONSTEXPR_F1 uint24_t b64d24(const char *b64, int &len) noexcept {
     }
 }
 
-_CONSTEXPR_F1 md5_t b64diff2md5(const md5_t prev, const char *b64) noexcept {
+constexpr_f1 md5_t b64diff2md5(const md5_t prev, const char *b64) noexcept {
     if (b64[2] == '\n') {
         return prev + ((b64[0] - 45) << 6 |
                (b64[1] - 45));
@@ -139,7 +139,7 @@ vector<string> author_pool = {UNKNOWN_AUTHOR};
 vector<string> publisher_pool;
 vector<string> album_pool;
 
-_CONSTEXPR_F1 md5_idx_t _md5idx(const md5_t hash) noexcept  {
+constexpr_f1 md5_idx_t _md5idx(const md5_t hash) noexcept  {
     uint32_t idx = ((double)hash / MD5_T_MAX) * MD5_IDX_SIZE;
     assert(idx < MD5_IDX_SIZE);
     md5_t cmp = md5_idx[idx];
@@ -160,12 +160,12 @@ _CONSTEXPR_F1 md5_idx_t _md5idx(const md5_t hash) noexcept  {
     }
 }
 
-_CONSTEXPR_F1 md5_idx_t _md5hex(const string_view &md5) noexcept {
+constexpr_f1 md5_idx_t _md5hex(const string_view &md5) noexcept {
     assert(md5.size() >= 12);
     return _md5idx(hex2md5(md5.data()));
 }
 
-_CONSTEXPR_F songend_t parse_songend(const string_view &songend) noexcept {
+constexpr_f songend_t parse_songend(const string_view &songend) noexcept {
     if (songend == "e") return common::SongEnd::ERROR;
     if (songend == "p") return common::SongEnd::PLAYER;
     if (songend == "t") return common::SongEnd::TIMEOUT;
@@ -206,28 +206,28 @@ mutex extra_mutex; // for extra_subsongs/modinfos thread safe access/update
 constexpr Source SOURCE_MD5 = static_cast<Source>(0); // internal
 bool initialized[Demozoo+1] = {};
 
-_CONSTEXPR_F2 string make_format(const string_t s) noexcept {
+constexpr_f2 string make_format(const string_t s) noexcept {
     if (s == STRING_NOT_FOUND) return "";
     return format_pool[s];
 }
 
-_CONSTEXPR_F2 string make_author(const string_t s) noexcept {
+constexpr_f2 string make_author(const string_t s) noexcept {
     if (s == STRING_NOT_FOUND) return "";
     return author_pool[s];
 }
 
-_CONSTEXPR_F2 string make_publisher(const string_t s) noexcept {
+constexpr_f2 string make_publisher(const string_t s) noexcept {
     if (s == STRING_NOT_FOUND) return "";
     return publisher_pool[s];
 }
 
-_CONSTEXPR_F2 string make_album(const string_t s) noexcept {
+constexpr_f2 string make_album(const string_t s) noexcept {
     if (s == STRING_NOT_FOUND) return "";
     return album_pool[s];
 }
 
 template<typename T, size_t N, typename = std::enable_if<std::is_base_of<_Data, T>::value>>
-_CONSTEXPR_F1 optional<T> _find(const array<T,N> &db, const md5_idx_t md5) noexcept {
+constexpr_f1 optional<T> _find(const array<T,N> &db, const md5_idx_t md5) noexcept {
     if (md5 >= MD5_IDX_SIZE) return optional<T>();
     unsigned int idx = ((double)md5 / MD5_IDX_SIZE) * N;
     assert(idx < N);
@@ -249,7 +249,7 @@ _CONSTEXPR_F1 optional<T> _find(const array<T,N> &db, const md5_idx_t md5) noexc
     }
 }
 
-_CONSTEXPR_F2 optional<ModInfo> make_modinfo(const md5_idx_t md5) noexcept {
+constexpr_f2 optional<ModInfo> make_modinfo(const md5_idx_t md5) noexcept {
     const auto &data = db_modinfos[md5];
     if (data.format != STRING_NOT_FOUND || data.channels > 0) {
         return ModInfo {
@@ -260,7 +260,7 @@ _CONSTEXPR_F2 optional<ModInfo> make_modinfo(const md5_idx_t md5) noexcept {
     return {};
 }
 
-_CONSTEXPR_F2 optional<ModlandData> make_modland(const md5_idx_t md5) noexcept {
+constexpr_f2 optional<ModlandData> make_modland(const md5_idx_t md5) noexcept {
     const auto data = _find<_ModlandData,MODLAND_SIZE>(db_modland, md5);
     if (data) {
         return ModlandData {
@@ -271,7 +271,7 @@ _CONSTEXPR_F2 optional<ModlandData> make_modland(const md5_idx_t md5) noexcept {
     return {};
 }
 
-_CONSTEXPR_F2 optional<AMPData> make_amp(const md5_idx_t md5) noexcept {
+constexpr_f2 optional<AMPData> make_amp(const md5_idx_t md5) noexcept {
     const auto data = _find<_AMPData,AMP_SIZE>(db_amp, md5);
     if (data) {
         return AMPData {
@@ -281,7 +281,7 @@ _CONSTEXPR_F2 optional<AMPData> make_amp(const md5_idx_t md5) noexcept {
     return {};
 }
 
-_CONSTEXPR_F2 optional<UnExoticaData> make_unexotica(const md5_idx_t md5) noexcept {
+constexpr_f2 optional<UnExoticaData> make_unexotica(const md5_idx_t md5) noexcept {
     const auto data = _find<_UnExoticaData,UNEXOTICA_SIZE>(db_unexotica, md5);
     if (data) {
         return UnExoticaData {
@@ -294,7 +294,7 @@ _CONSTEXPR_F2 optional<UnExoticaData> make_unexotica(const md5_idx_t md5) noexce
     return {};
 }
 
-_CONSTEXPR_F2 optional<DemozooData> make_demozoo(const md5_idx_t md5) noexcept {
+constexpr_f2 optional<DemozooData> make_demozoo(const md5_idx_t md5) noexcept {
     const auto data = _find<_DemozooData,DEMOZOO_SIZE>(db_demozoo, md5);
     if (data) {
         return DemozooData {
@@ -307,7 +307,7 @@ _CONSTEXPR_F2 optional<DemozooData> make_demozoo(const md5_idx_t md5) noexcept {
     return {};
 }
 
-_CONSTEXPR_F1 SubSongInfo make_subsonginfo(const uint8_t subsong, const _SubSongInfo &info) noexcept {
+constexpr_f1 SubSongInfo make_subsonginfo(const uint8_t subsong, const _SubSongInfo &info) noexcept {
     return {
         subsong,
         {info.songend(), info.songlength_ms()}

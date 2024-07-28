@@ -10,7 +10,7 @@
 
 namespace songend::precalc {
 
-_CONSTEXPR_F2 bool allow_songend_error(const std::string &format) noexcept {
+constexpr_f2 bool allow_songend_error(const std::string &format) noexcept {
     return format == "VSS";
 }
 

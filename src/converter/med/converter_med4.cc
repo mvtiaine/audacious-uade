@@ -117,7 +117,7 @@ void readBlock(const vector<char> &med4, MMD0Block &block, size_t &offs) noexcep
     return;
 }
 
-_CONSTEXPR_F2 void readSynthInstr(const vector<char> &med4, SynthInstr &instr, size_t &offs) noexcept {
+constexpr_f2 void readSynthInstr(const vector<char> &med4, SynthInstr &instr, size_t &offs) noexcept {
     int instroffs = offs;
     (void)instroffs;
     readu32be(med4, offs); // synth instr header(?)
@@ -160,7 +160,7 @@ _CONSTEXPR_F2 void readSynthInstr(const vector<char> &med4, SynthInstr &instr, s
     instr.length = 22 + instr.voltbl.size() + instr.wftbl.size() + instr.wf.size()* 4;
 }
 
-_CONSTEXPR_F2 void readSamples(const vector<char> &med4, MMD0song &song, vector<Instr> &smplarr, size_t &offs) noexcept {
+constexpr_f2 void readSamples(const vector<char> &med4, MMD0song &song, vector<Instr> &smplarr, size_t &offs) noexcept {
     ULONG imsk[2] = { 0,0 },*imptr = imsk;
     UBYTE snum = 0;
     imsk[0] = readu32be(med4, offs);
@@ -192,7 +192,7 @@ _CONSTEXPR_F2 void readSamples(const vector<char> &med4, MMD0song &song, vector<
     song.numsamples = instrcnt;
 }
 
-_CONSTEXPR_F2 vector<InstrExt> readIFF(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, size_t &offs) noexcept {
+constexpr_f2 vector<InstrExt> readIFF(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, size_t &offs) noexcept {
     constexpr uint32_t ANNO = 0x414e4e4f;
     constexpr uint32_t CHNS = 0x43484e53;
     constexpr uint32_t HLDC = 0x484c4443;

@@ -15,7 +15,7 @@ using namespace std;
 
 namespace {
 
-_CONSTEXPR_F2 void apply_detector(SongEndDetector &detector, SongEnd &songend) noexcept {
+constexpr_f2 void apply_detector(SongEndDetector &detector, SongEnd &songend) noexcept {
     uint32_t silence = detector.detect_silence(SILENCE_TIMEOUT);
     if (silence > 0) {
         if (songend.length == silence) {

@@ -15,7 +15,7 @@ namespace {
 
 const ULONG nil = 0;
 
-_CONSTEXPR_F2 vector<char> align(simple::mem_ostream<true_type> &out) noexcept {
+constexpr_f2 vector<char> align(simple::mem_ostream<true_type> &out) noexcept {
     vector<char> data = out.get_internal_vec();
     if (data.size() % 2 != 0) {
         data.push_back(0);
@@ -23,7 +23,7 @@ _CONSTEXPR_F2 vector<char> align(simple::mem_ostream<true_type> &out) noexcept {
     return data;
 }
 
-_CONSTEXPR_F2 void serializeBlocks(simple::mem_ostream<true_type> &out, const vector<MMD0Block> &blockarr, ULONG offs_blockarr) noexcept {
+constexpr_f2 void serializeBlocks(simple::mem_ostream<true_type> &out, const vector<MMD0Block> &blockarr, ULONG offs_blockarr) noexcept {
     assert(offs_blockarr % 2 == 0);
     vector<vector<char>> blocks(blockarr.size());
     int i = 0;
@@ -47,7 +47,7 @@ _CONSTEXPR_F2 void serializeBlocks(simple::mem_ostream<true_type> &out, const ve
     }
 }
 
-_CONSTEXPR_F2 void serializeSamples(simple::mem_ostream<true_type> &out, const MMD0song& song, const vector<Instr> &smplarr, ULONG offs_smplarr) noexcept {
+constexpr_f2 void serializeSamples(simple::mem_ostream<true_type> &out, const MMD0song& song, const vector<Instr> &smplarr, ULONG offs_smplarr) noexcept {
     assert(offs_smplarr % 2 == 0);
     vector<vector<char>> samples(smplarr.size());
     int i = 0;
@@ -124,7 +124,7 @@ _CONSTEXPR_F2 void serializeSamples(simple::mem_ostream<true_type> &out, const M
     }
 }
 
-_CONSTEXPR_F2 void serializeExp(simple::mem_ostream<true_type> &out, const MMD0song &song, const MMD0exp0 &exp, const vector<InstrExt>& exp_smp, ULONG offs_expdata) noexcept {
+constexpr_f2 void serializeExp(simple::mem_ostream<true_type> &out, const MMD0song &song, const MMD0exp0 &exp, const vector<InstrExt>& exp_smp, ULONG offs_expdata) noexcept {
     if (!exp.s_ext_entries && !exp.annolen && !exp.i_ext_entries && !(song.flags & FLAG_8CHANNEL)) return;
 
     const ULONG offs_exp_smp = offs_expdata + 84;
