@@ -8,6 +8,8 @@ config.log
 config.status
 config.sub
 configure
+confdefs.h
+conftest.*
 depcomp
 install-sh
 libtool
@@ -22,7 +24,7 @@ missing
 .vscode
 INSTALL
 *.o
-*.o.tmp
+*.tmp
 *.lo
 *.la
 .deps/

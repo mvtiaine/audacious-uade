@@ -31,7 +31,7 @@ inline void swab(const void *bfrom, void *bto, ssize_t n) noexcept {
 }
 #endif
 
-#if defined(__AMIGA__) && !defined(__amigaos4__) && !defined(__MORPHOS__)
+#if (defined(__AMIGA__) || defined(__MINT__)) && !defined(__amigaos4__) && !defined(__MORPHOS__)
 
 namespace std {
     struct mutex {
@@ -39,19 +39,6 @@ namespace std {
         constexpr_f void unlock() {}
     };
 }
-
-#if !defined(__AROS__)
-constexpr size_t strnlen(const char *s, size_t len) noexcept {
-    size_t i = 0;
-
-    if( s == NULL )
-    	return 0;
-
-    for(i = 0; i < len && s[i]; i++)
-	    ;
-    return i;
-}
-#endif
 
 #endif // __AMIGA__
 
@@ -66,15 +53,4 @@ constexpr_f int stoi(const std::string& str, size_t* idx = nullptr, int base = 1
     return atoi(str.c_str());
 }
 }
-#endif
-
-#if defined(__MINT__)
-
-namespace std {
-    struct mutex {
-        constexpr_f void lock() {}
-        constexpr_f void unlock() {}
-    };
-}
-
 #endif

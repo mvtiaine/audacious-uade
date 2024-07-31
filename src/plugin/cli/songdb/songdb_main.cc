@@ -38,10 +38,14 @@ int main(int argc, char *argv[]) {
     md5.finalize();
     string md5hex = md5.hexdigest();
 
+#ifdef SONGDB_DIR
+    const char *songdbdir = SONGDB_DIR;
+#else
     const char *songdbdir = getenv("SONGDB_DIR");
     if (!songdbdir) {
         songdbdir = UADEDIR "/songdb";
     }
+#endif
     songdb::init(songdbdir);
 
     const auto info = songdb::lookup(md5hex);

@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
-#ifdef __AMIGA__
 
 #if defined(__CLIB2__)
 extern "C" {
@@ -22,6 +21,7 @@ long double strtold(const char *restrict nptr, char **restrict endptr) {
 #if defined(__libnix__) && !defined(__MORPHOS__)
 // XXX undefined reference to 'round' for some reason with bebbos gcc (13.2)
 // also __builtin_round() crashes, so use quick and dirty implementation
+#include <stdint.h>
 double round(double d) {
     if (d < 0.0)
         return (int64_t)(d - 0.5);
@@ -33,8 +33,6 @@ float sqrtf(float f) {
     return __builtin_sqrtf(f);
 }
 #endif
-
-#endif // __AMIGA__
 
 #ifdef __AROS__
 // https://github.com/sahlberg/libsmb2/blob/master/lib/compat.c

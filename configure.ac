@@ -98,6 +98,8 @@ case "${CC}" in
             #see scripts/crossbuild/webos.sh
             plugin_audacious=no
             build_webos=yes
+            #cannot link statically for some reason?
+            static_stdlibs=no
             AC_MSG_WARN(["webOS binaries have not been runtime tested"])
             ;;
           meego)
@@ -449,9 +451,11 @@ elif test "$build_hurd" = "yes" ; then
   # PATH_MAX not defined
   CPPFLAGS="-DPATH_MAX=1024 ${CPPFLAGS}"
 elif test "$build_amigaos" = "yes" ; then
+  # TODO UADE crashes with bebbo gcc6 (works on gcc13.2)
+  # TODO -mhard-float fails to compile with bebbo gcc13.2, crashes songdb on gcc6
   # -noixemul uses libnix
   CFLAGS="-noixemul -m68020-60 ${CFLAGS} -fno-PIC"
-  # TODO with -O2, -foptimize-sibling-calls causes some exes to crash before main() (songdb/player/precalc)
+  # XXX with -O2, -foptimize-sibling-calls causes some exes to crash before main() (songdb/player/precalc)
   CFLAGS="-fno-optimize-sibling-calls ${CFLAGS}"
   # XXX some weirdness with <limits.h>/PATH_MAX not getting defined with libnix
   CPPFLAGS="-DPATH_MAX=1024 ${CPPFLAGS}"

@@ -249,6 +249,9 @@ void uade_common_options(struct uade_config *uc) noexcept {
 #if DEBUG_TRACE
     uade_config_set_option(uc, UC_VERBOSE, nullptr);
 #endif
+#ifdef UADE_BASE_DIR
+    uade_config_set_option(uc, UC_BASE_DIR, UADE_BASE_DIR);
+#else
     // use our uade.conf, song.conf and contentdb
     if (getenv("UADE_BASE_DIR")) {
         // for unit tests
@@ -256,10 +259,15 @@ void uade_common_options(struct uade_config *uc) noexcept {
     } else {
         uade_config_set_option(uc, UC_BASE_DIR, UADEDATADIR);
     }
+#endif
+#ifdef UADE_CORE_FILE
+    uade_config_set_option(uc, UC_UADECORE_FILE, UADE_CORE_FILE);
+#else
     if (getenv("UADE_CORE_FILE")) {
         // for unit tests
         uade_config_set_option(uc, UC_UADECORE_FILE, getenv("UADE_CORE_FILE"));
     }
+#endif
     uade_config_set_option(uc, UC_NO_CONTENT_DB, nullptr);
     uade_config_set_option(uc, UC_ONE_SUBSONG, nullptr);
     uade_config_set_option(uc, UC_TIMEOUT_VALUE, "-1");
