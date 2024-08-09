@@ -4,6 +4,7 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/libreplay_hivelytracker.la \
     3rdparty/replay/libreplay_libdigibooster3.la \
     3rdparty/replay/libreplay_ft2play.la \
+    3rdparty/replay/libreplay_st3play.la \
     3rdparty/libreplay.la
 
 
@@ -46,11 +47,18 @@ endif
 3rdparty_replay_libreplay_ft2play_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-unknown-warning-option -Wno-volatile
 
 
+3rdparty_replay_libreplay_st3play_la_SOURCES = \
+    3rdparty/replay/st3play/st3play.h \
+    3rdparty/replay/st3play/st3play_play.cc \
+    3rdparty/replay/st3play/st3play_probe.cc
+
+
 3rdparty_libreplay_la_SOURCES =
 3rdparty_libreplay_la_LIBADD = \
     3rdparty/replay/libreplay_hivelytracker.la \
     3rdparty/replay/libreplay_libdigibooster3.la \
-    3rdparty/replay/libreplay_ft2play.la
+    3rdparty/replay/libreplay_ft2play.la \
+    3rdparty/replay/libreplay_st3play.la
 
 
 EXTRA_DIST += \
@@ -68,4 +76,6 @@ EXTRA_DIST += \
     3rdparty/replay/ft2play/snd_masm.h \
     3rdparty/replay/ft2play/snd_masm.c \
     3rdparty/replay/ft2play/tables.h \
-    3rdparty/replay/ft2play/tables.c
+    3rdparty/replay/ft2play/tables.c \
+    3rdparty/replay/st3play/LICENSE \
+    3rdparty/replay/st3play/st3play.c
