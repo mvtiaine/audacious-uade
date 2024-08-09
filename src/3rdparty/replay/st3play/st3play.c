@@ -207,7 +207,7 @@ typedef void (*effect_routine)(chn_t *ch);
 static char songname[28 + 1];
 static volatile bool musicPaused, interpolationFlag;
 static bool oldstvib, fastvolslide, amigalimits;
-static int8_t **smpPtrs, volslidetype, patterndelay, patloopcount, lastachannelused;
+static int8_t volslidetype, patterndelay, patloopcount, lastachannelused;
 static uint8_t order[256], chnsettings[32], *patdata[100], *np_patseg;
 static uint8_t musicmax, soundcardtype, breakpat, startrow, musiccount;
 static int16_t jmptoord, np_row, np_pat, np_patoff, patloopstart, jumptorow, globalvol, aspdmin, aspdmax;
@@ -216,7 +216,7 @@ static int32_t mastermul, mastervol = 256, mixingVol, samplesLeft, soundBufferSi
 static int32_t prngStateL, prngStateR, randSeed = INITIAL_DITHER_SEED;
 static uint32_t samplesPerTick, audioRate, sampleCounter;
 static chn_t chn[32];
-static voice_t voice[32], tmpGUSVoices[32];
+static voice_t voice[32];
 static ins_t ins[100];
 #ifdef AUDACIOUS_UADE
 int16_t np_ord;
