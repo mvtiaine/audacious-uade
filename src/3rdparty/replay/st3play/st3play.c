@@ -803,7 +803,7 @@ static int16_t neworder(void) // rewritten to be more safe
 	return np_row;
 }
 
-static int8_t getnote1(void)
+static uint8_t getnote1(void)
 {
 	uint8_t dat, channel;
 	int16_t i;
@@ -969,7 +969,7 @@ static void doamiga(uint8_t channel)
 
 			voiceCut(channel);
 
-			ch->asldspd = 65535; // 8bitbubsy: label jump bug causes this
+			ch->asldspd = -1; // 8bitbubsy: label jump bug causes this; mvtiaine: changed 65535 -> -1 to fix compiler warning
 		}
 		else
 		{
