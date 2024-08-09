@@ -388,6 +388,9 @@ public:
         "ft2play (BSD-3-Clause)\n"
         "Copyright (c) 2020-2024, Olav Sørensen\n"
         "\n"
+        "st3play v1.01 (BSD-3-Clause)\n"
+        "Copyright (c) 2016-2020, Olav Sørensen\n"
+        "\n"
         "Simplistic Binary Streams 1.0.3 (MIT)\n"
         "Copyright (c) 2014-2019, Wong Shao Voon\n",
         &plugin_prefs

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 /*
 ** st3play v1.01 - 7th of August 2020 - https://16-bits.org
 ** =======================================================
@@ -141,11 +142,13 @@ uint32_t st3play_GetMixerTicks(void); // returns the amount of milliseconds of m
 
 #define MIX_BUF_SAMPLES 4096
 
+#ifndef AUDACIOUS_UADE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
+#endif
 
 #define C2FREQ 8363
 
@@ -193,7 +196,8 @@ typedef struct
 	uint32_t m_pos, m_end, m_origend, m_loopbeg, m_looplen, m_posfrac, m_speed, m_speedrev;
 	uint32_t lastMixFuncOffset;
 	ins_t *insPtr;
-	volatile void (*m_mixfunc)(void *, int32_t); // function pointer to mix routine
+	// removed volatile to fix [-Wincompatible-function-pointer-types] -mvtiaine
+	void (*m_mixfunc)(void *, int32_t); // function pointer to mix routine
 } voice_t;
 
 typedef void (*effect_routine)(chn_t *ch);
@@ -206,7 +210,7 @@ static bool oldstvib, fastvolslide, amigalimits;
 static int8_t **smpPtrs, volslidetype, patterndelay, patloopcount, lastachannelused;
 static uint8_t order[256], chnsettings[32], *patdata[100], *np_patseg;
 static uint8_t musicmax, soundcardtype, breakpat, startrow, musiccount;
-static int16_t jmptoord, np_ord, np_row, np_pat, np_patoff, patloopstart, jumptorow, globalvol, aspdmin, aspdmax;
+static int16_t jmptoord, np_row, np_pat, np_patoff, patloopstart, jumptorow, globalvol, aspdmin, aspdmax;
 static uint16_t useglobalvol, patmusicrand, ordNum, insNum, patNum;
 static int32_t mastermul, mastervol = 256, mixingVol, samplesLeft, soundBufferSize, *mixBufferL, *mixBufferR;
 static int32_t prngStateL, prngStateR, randSeed = INITIAL_DITHER_SEED;
@@ -214,7 +218,17 @@ static uint32_t samplesPerTick, audioRate, sampleCounter;
 static chn_t chn[32];
 static voice_t voice[32], tmpGUSVoices[32];
 static ins_t ins[100];
+#ifdef AUDACIOUS_UADE
+int16_t np_ord;
+bool np_restarted;
+namespace {
+extern mixRoutine mixRoutineTable[8];
+}
+#else
+static int16_t np_ord;
+static bool np_restarted;
 static mixRoutine mixRoutineTable[8];
+#endif
 static double dPer2HzDiv;
 
 static const int8_t retrigvoladd[32] =
@@ -322,8 +336,13 @@ static void s_settempo(chn_t *ch);
 static void s_finevibrato(chn_t *ch);
 static void s_setgvol(chn_t *ch);
 
+#ifdef AUDACIOUS_UADE
+static bool openMixer(uint32_t audioFreq) { return true; }
+static void closeMixer(void) {}
+#else
 static bool openMixer(uint32_t audioFreq);
 static void closeMixer(void);
+#endif
 
 static const effect_routine ssoncejmp[16] =
 {
@@ -762,6 +781,7 @@ static int16_t neworder(void) // rewritten to be more safe
 		{
 			// restart song
 			np_ord = 0;
+			np_restarted = true; // mvtiaine: added
 
 			if (order[0] == PATT_END)
 				return 0;
@@ -2570,7 +2590,9 @@ static void mix16bLoopIntrp(voice_t *v, uint32_t numSamples)
 
 	SET_BACK_MIXER_POS
 }
-
+#ifdef AUDACIOUS_UADE
+namespace {
+#endif
 mixRoutine mixRoutineTable[8] =
 {
 	(mixRoutine)mix8bNoLoop,
@@ -2582,6 +2604,9 @@ mixRoutine mixRoutineTable[8] =
 	(mixRoutine)mix16bNoLoopIntrp,
 	(mixRoutine)mix16bLoopIntrp
 };
+#ifdef AUDACIOUS_UADE
+}
+#endif
 
 // -----------------------------------------------------------------------
 
@@ -2638,7 +2663,11 @@ static void mixAudio(int16_t *stream, int32_t sampleBlockLength)
 	}
 }
 
+#ifdef AUDACIOUS_UADE
+bool st3play_FillAudioBuffer(int16_t *buffer, int32_t samples)
+#else 
 static bool st3play_FillAudioBuffer(int16_t *buffer, int32_t samples)
+#endif
 {
 	int32_t a, b;
 
@@ -3029,6 +3058,7 @@ static bool loadS3M(const uint8_t *dat, uint32_t modLen)
 	jmptoord = -1;
 
 	np_ord = 0;
+	np_restarted = false; // mvtiaine: added
 	neworder();
 
 	lastachannelused = 1;
@@ -3043,7 +3073,7 @@ bool st3play_PlaySong(const uint8_t *moduleData, uint32_t dataLength, bool useIn
 	if (audioFreq == 0)
 		audioFreq = 44100;
 
-	audioFreq = CLAMP(audioFreq, 11025, 96000);
+	audioFreq = CLAMP(audioFreq, 8000, 96000); // min freq 11025 -> 8000 -mvtiaine
 
 	dPer2HzDiv = (14317056.0 / audioFreq) * 65536.0;
 
@@ -3161,6 +3191,7 @@ const int16_t fastSincTable[256 * 4] =
 	   -1,   135, 16374,  -124,    -1,   100, 16378,   -93,     0,    65, 16381,   -63,     0,    32, 16383,   -31,
 };
 
+#ifndef AUDACIOUS_UADE
 // the following must be changed if you want to use another audio API than WinMM
 
 #ifndef WIN32_LEAN_AND_MEAN
@@ -3322,6 +3353,7 @@ omError:
 	return FALSE;
 }
 
+#endif // AUDACIOUS_UADE
 
 // ---------------------------------------------------------------------------
 
