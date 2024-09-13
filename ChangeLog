@@ -1,4 +1,5 @@
 0.12-dev
+- Sync songdb sources to around 2024-09-07 snapshots
 - Restore C++17 support (GCC 6+, Clang 5.0+)
 - Fixes for -stdlib=libc++ (supported with Clang 7+)
 - Add example cross build scripts for various targets
