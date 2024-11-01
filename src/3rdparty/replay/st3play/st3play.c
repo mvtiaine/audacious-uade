@@ -207,26 +207,36 @@ typedef void (*effect_routine)(chn_t *ch);
 static char songname[28 + 1];
 static volatile bool musicPaused, interpolationFlag;
 static bool oldstvib, fastvolslide, amigalimits;
-static int8_t volslidetype, patterndelay, patloopcount, lastachannelused;
-static uint8_t order[256], chnsettings[32], *patdata[100], *np_patseg;
+static int8_t volslidetype, lastachannelused;
+static uint8_t *np_patseg;
 static uint8_t musicmax, soundcardtype, breakpat, startrow, musiccount;
-static int16_t jmptoord, np_row, np_pat, np_patoff, patloopstart, jumptorow, globalvol, aspdmin, aspdmax;
-static uint16_t useglobalvol, patmusicrand, ordNum, insNum, patNum;
-static int32_t mastermul, mastervol = 256, mixingVol, samplesLeft, soundBufferSize, *mixBufferL, *mixBufferR;
+static int16_t jmptoord, np_patoff, patloopstart, jumptorow, globalvol, aspdmin, aspdmax;
+static uint16_t useglobalvol, patmusicrand;
+static int32_t mastermul, mastervol = 256, mixingVol, samplesLeft, soundBufferSize;
 static int32_t prngStateL, prngStateR, randSeed = INITIAL_DITHER_SEED;
 static uint32_t samplesPerTick, audioRate, sampleCounter;
 static chn_t chn[32];
 static voice_t voice[32];
 static ins_t ins[100];
 #ifdef AUDACIOUS_UADE
-int16_t np_ord;
-bool np_restarted;
+bool np_restarted, moduleLoaded;
+int8_t patterndelay, patloopcount;
+uint8_t order[256], chnsettings[32], *patdata[100];
+int16_t np_ord, np_row, np_pat;
+uint16_t ordNum, insNum, patNum;
+uint16_t patDataLens[100]; // mvtiaine: added
+int32_t *mixBufferL, *mixBufferR;
 namespace {
 extern mixRoutine mixRoutineTable[8];
 }
 #else
-static int16_t np_ord;
-static bool np_restarted;
+static bool np_restarted, moduleLoaded;
+static int8_t patterndelay, patloopcount;
+static uint8_t order[256], chnsettings[32], *patdata[100];
+static int16_t np_ord, np_row, np_pat,
+static uint16_t ordNum, insNum, patNum;
+static uint16_t patDataLens[100]; // mvtiaine: added
+static int32_t *mixBufferL, *mixBufferR;
 static mixRoutine mixRoutineTable[8];
 #endif
 static double dPer2HzDiv;
@@ -2730,6 +2740,7 @@ void st3play_Close(void)
 			patdata[i] = NULL;
 		}
 	}
+	moduleLoaded = false;
 }
 
 void st3play_PauseSong(bool flag)
@@ -2779,7 +2790,8 @@ uint32_t st3play_GetMixerTicks(void)
 	return sampleCounter / (audioRate / 1000);
 }
 
-static bool loadS3M(const uint8_t *dat, uint32_t modLen)
+// TODO big endian support
+bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 {
 	bool signedSamples;
 	uint8_t pan, *ptr8, chan;
@@ -2802,6 +2814,8 @@ static bool loadS3M(const uint8_t *dat, uint32_t modLen)
 	memcpy(order, &dat[0x60], ordNum);
 	memcpy(chnsettings, &dat[0x40], 32);
 
+	memset(patDataLens, 0, sizeof (patDataLens)); // mvtiaine: added
+
 	// load instrument headers
 	memset(ins, 0, sizeof (ins));
 	for (i = 0; i < insNum; i++)
@@ -2821,6 +2835,11 @@ static bool loadS3M(const uint8_t *dat, uint32_t modLen)
 		inst->vol = CLAMP((int8_t)ptr8[0x1C], 0, 63); // 8bitbubsy: ST3 clamps smp. vol to 63 in replayer, do it here instead
 		inst->flags = ptr8[0x1F];
 
+		// mvtiaine: reject mods with OPL, ADPCM or stereo samples
+		if (inst->length && (inst->type > 1 || ptr8[0x1E] != 0 || inst->flags & 2)) {
+			st3play_Close();
+			return false;
+		}
 		c2spd = *(uint32_t *)&ptr8[0x20];
 		if (c2spd > 65535)
 			c2spd = 65535;
@@ -2853,6 +2872,8 @@ static bool loadS3M(const uint8_t *dat, uint32_t modLen)
 			continue; // empty
 
 		patDataLen = *(uint16_t *)&dat[offs];
+		patDataLens[i] = patDataLen; // mvtiaine: added
+
 		if (patDataLen > 0)
 		{
 			patdata[i] = (uint8_t *)malloc(patDataLen);
@@ -3059,6 +3080,7 @@ static bool loadS3M(const uint8_t *dat, uint32_t modLen)
 
 	np_ord = 0;
 	np_restarted = false; // mvtiaine: added
+	moduleLoaded = true; // mvtiaine: added
 	neworder();
 
 	lastachannelused = 1;
@@ -3353,6 +3375,29 @@ omError:
 	return FALSE;
 }
 
+#else
+void reset() {
+	np_patseg = NULL;
+	musiccount = 0;
+	patterndelay = 0;
+	patloopcount = 0;
+	startrow = 0;
+	breakpat = 0;
+	volslidetype = 0;
+	np_patoff = -1;
+	jmptoord = -1;
+
+	np_ord = 0;
+	np_restarted = false;
+
+	np_pat = 0;
+	np_row = 0;
+	patmusicrand = 0;
+	patloopstart = -1;
+	jumptorow = -1;
+
+	lastachannelused = 1;
+}
 #endif // AUDACIOUS_UADE
 
 // ---------------------------------------------------------------------------
