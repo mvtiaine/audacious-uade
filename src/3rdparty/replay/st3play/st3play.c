@@ -206,7 +206,7 @@ typedef void (*effect_routine)(chn_t *ch);
 #define INITIAL_DITHER_SEED 0x12345000
 
 static char songname[28 + 1];
-static volatile bool musicPaused, interpolationFlag;
+static bool musicPaused, interpolationFlag; // mvtiaine: removed volatile to fix warning [-Wvolatile]
 static bool oldstvib, fastvolslide, amigalimits;
 static int8_t volslidetype, lastachannelused;
 static uint8_t *np_patseg;
