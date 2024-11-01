@@ -153,6 +153,7 @@ uint32_t st3play_GetMixerTicks(void); // returns the amount of milliseconds of m
 #define C2FREQ 8363
 
 #define CLAMP(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+#define MAX(a,b) (((a)>(b))?(a):(b)) // mvtiaine: added
 
 // fast 32-bit -> 16-bit clamp
 #define CLAMP16(i) if ((int16_t)(i) != i) i = 0x7FFF ^ (i >> 31)
@@ -813,7 +814,8 @@ static int16_t neworder(void) // rewritten to be more safe
 	return np_row;
 }
 
-static uint8_t getnote1(void)
+// mvtiaine: added maxoffs to fix address sanitizer issues
+static uint8_t getnote1(uint16_t maxoffs)
 {
 	uint8_t dat, channel;
 	int16_t i;
@@ -831,6 +833,10 @@ static uint8_t getnote1(void)
 	i = np_patoff;
 	while (true)
 	{
+		// mvtiaine: added
+		if (i >= maxoffs)
+			return 255;
+
 		dat = np_patseg[i++];
 		if (dat == 0)
 		{
@@ -853,7 +859,7 @@ static uint8_t getnote1(void)
 	ch = &chn[channel];
 
 	// NOTE/INSTRUMENT
-	if (dat & 0x20)
+	if (dat & 0x20 && i + 1 < maxoffs)
 	{
 		ch->note = np_patseg[i++];
 		ch->ins = np_patseg[i++];
@@ -863,11 +869,11 @@ static uint8_t getnote1(void)
 	}
 
 	// VOLUME
-	if (dat & 0x40)
+	if (dat & 0x40 && i < maxoffs)
 		ch->vol = np_patseg[i++];
 
 	// COMMAND/INFO
-	if (dat & 0x80)
+	if (dat & 0x80 && i + 1 < maxoffs)
 	{
 		ch->cmd = np_patseg[i++];
 		ch->info = np_patseg[i++];
@@ -880,7 +886,7 @@ static uint8_t getnote1(void)
 static void triggerVoice(voice_t *v) // 8bitbubsy: custom routine
 {
 	ins_t *inst = v->insPtr; // last set instrument pointer
-	if (inst == NULL)
+	if (inst == NULL || !inst->length) // mvtiaine: added inst length check
 		return;
 
 	bool hasloop = inst->flags & 1;
@@ -1114,6 +1120,9 @@ static void donotes(void)
 						if (dat & 0x40) j += 1;
 						if (dat & 0x80) j += 2;
 					}
+					// mvtiaine: added sanity check
+					if (j >= patDataLens[np_pat])
+						return;
 				}
 			}
 
@@ -1123,7 +1132,7 @@ static void donotes(void)
 
 	while (true)
 	{
-		channel = getnote1();
+		channel = getnote1(patDataLens[np_pat]);
 		if (channel == 255)
 			break; // end of row/channels
 
@@ -2849,8 +2858,10 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 
 		// reduce sample length if it overflows the module size (f.ex. "miracle man.s3m")
 		offs = ((ptr8[0x0D] << 16) | (ptr8[0x0F] << 8) | ptr8[0x0E]) << 4;
-		if (offs+inst->length >= modLen)
-			inst->length = modLen - offs;
+		// mvtiaine: fixed underflow and 16-bit support
+		bool is16bit = (inst->flags >> 2) & 1;
+		if (inst->length && offs+inst->length*(is16bit+1) > modLen)
+			inst->length = MAX(0, ((int32_t)modLen - (int32_t)offs)/(is16bit+1));
 
 		if (inst->lend == inst->lbeg)
 			inst->flags &= 0xFE; // turn off loop
@@ -2861,7 +2872,8 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 		if (inst->lend > inst->length)
 			inst->lend = inst->length;
 
-		if (inst->lend-inst->lbeg <= 0)
+		// mvtiaine: fixed underflow in check
+		if (MAX(0, (int32_t)inst->lend-(int32_t)inst->lbeg) <= 0)
 			inst->flags &= 0xFE; // turn off loop
 	}
 
@@ -2872,6 +2884,12 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 		offs = *(uint16_t *)&dat[0x60 + ordNum + (insNum * 2) + (i * 2)] << 4;
 		if (offs == 0)
 			continue; // empty
+		
+		// mvtiaine: added sanity check
+		if (offs >= modLen) {
+			st3play_Close();
+			return false;
+		}
 
 		patDataLen = *(uint16_t *)&dat[offs];
 		patDataLens[i] = patDataLen; // mvtiaine: added
@@ -2963,7 +2981,7 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 		np_patoff = 0;
 		for (j = 0; j < 64;)
 		{
-			chan = getnote1();
+			chan = getnote1(patDataLens[i]);
 			if (chan != 255)
 			{
 				chn_t *ch = &chn[chan];
