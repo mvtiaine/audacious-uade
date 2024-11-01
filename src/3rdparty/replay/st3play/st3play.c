@@ -153,10 +153,31 @@ uint32_t st3play_GetMixerTicks(void); // returns the amount of milliseconds of m
 #define C2FREQ 8363
 
 #define CLAMP(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
-#define MAX(a,b) (((a)>(b))?(a):(b)) // mvtiaine: added
 
 // fast 32-bit -> 16-bit clamp
 #define CLAMP16(i) if ((int16_t)(i) != i) i = 0x7FFF ^ (i >> 31)
+
+#define MAX(a,b) (((a)>(b))?(a):(b)) // mvtiaine: added
+// mvtiaine: added big endian support
+#define SWAP16(value) \
+((uint16_t)( \
+	((uint16_t)(value) << 8) | \
+	((uint16_t)(value) >> 8) \
+))
+#define SWAP32(value) \
+((uint32_t)( \
+	((uint32_t)(value) << 24) | \
+	(((uint32_t)(value) & 0x0000FF00U) << 8) | \
+	(((uint32_t)(value) & 0x00FF0000U) >> 8) | \
+	((uint32_t)(value) >> 24) \
+))
+#ifdef WORDS_BIGENDIAN
+#define READ16LE(value) SWAP16(value)
+#define READ32LE(value) SWAP32(value)
+#else
+#define READ16LE(value) value
+#define READ32LE(value) value
+#endif
 
 enum
 {
@@ -2814,11 +2835,11 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 	memcpy(songname, dat, 28);
 	songname[28] = '\0';
 
-	signedSamples = (*(uint16_t *)&dat[0x2A] == 1);
+	signedSamples = (READ16LE(*(uint16_t *)&dat[0x2A]) == 1);
 
-	ordNum = *(uint16_t *)&dat[0x20]; if (ordNum > 256) ordNum = 256;
-	insNum = *(uint16_t *)&dat[0x22]; if (insNum > 100) insNum = 100;
-	patNum = *(uint16_t *)&dat[0x24]; if (patNum > 100) patNum = 100;
+	ordNum = READ16LE(*(uint16_t *)&dat[0x20]); if (ordNum > 256) ordNum = 256;
+	insNum = READ16LE(*(uint16_t *)&dat[0x22]); if (insNum > 100) insNum = 100;
+	patNum = READ16LE(*(uint16_t *)&dat[0x24]); if (patNum > 100) patNum = 100;
 
 	memcpy(order, &dat[0x60], ordNum);
 	memcpy(chnsettings, &dat[0x40], 32);
@@ -2831,16 +2852,16 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 	{
 		ins_t *inst = &ins[i];
 
-		offs = *(uint16_t *)&dat[0x60 + ordNum + (i * 2)] << 4;
+		offs = READ16LE(*(uint16_t *)&dat[0x60 + ordNum + (i * 2)]) << 4;
 		if (offs == 0)
 			continue; // empty
 
 		ptr8 = (uint8_t *)&dat[offs];
 
 		inst->type = ptr8[0x00];
-		inst->length = *(uint32_t *)&ptr8[0x10];
-		inst->lbeg = *(uint32_t *)&ptr8[0x14];
-		inst->lend = *(uint32_t *)&ptr8[0x18];
+		inst->length = READ32LE(*(uint32_t *)&ptr8[0x10]);
+		inst->lbeg = READ32LE(*(uint32_t *)&ptr8[0x14]);
+		inst->lend = READ32LE(*(uint32_t *)&ptr8[0x18]);
 		inst->vol = CLAMP((int8_t)ptr8[0x1C], 0, 63); // 8bitbubsy: ST3 clamps smp. vol to 63 in replayer, do it here instead
 		inst->flags = ptr8[0x1F];
 
@@ -2849,9 +2870,9 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 			st3play_Close();
 			return false;
 		}
-		gusAddresses |= *(uint16_t *)&ptr8[0x28]; // mvtiaine: added based on OpenMPT
+		gusAddresses |= READ16LE(*(uint16_t *)&ptr8[0x28]); // mvtiaine: added based on OpenMPT
 
-		c2spd = *(uint32_t *)&ptr8[0x20];
+		c2spd = READ32LE(*(uint32_t *)&ptr8[0x20]);
 		if (c2spd > 65535)
 			c2spd = 65535;
 		inst->c2spd = (uint16_t)c2spd;
@@ -2881,7 +2902,7 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 	memset(patdata, 0, sizeof (patdata));
 	for (i = 0; i < patNum; i++)
 	{
-		offs = *(uint16_t *)&dat[0x60 + ordNum + (insNum * 2) + (i * 2)] << 4;
+		offs = READ16LE(*(uint16_t *)&dat[0x60 + ordNum + (insNum * 2) + (i * 2)]) << 4;
 		if (offs == 0)
 			continue; // empty
 		
@@ -2891,7 +2912,7 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 			return false;
 		}
 
-		patDataLen = *(uint16_t *)&dat[offs];
+		patDataLen = READ16LE(*(uint16_t *)&dat[offs]);
 		patDataLens[i] = patDataLen; // mvtiaine: added
 
 		if (patDataLen > 0)
@@ -2915,7 +2936,7 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 		bool is16bit = (inst->flags >> 2) & 1;
 		uint32_t bytesPerSample = 1+is16bit;
 
-		offs = *(uint16_t *)&dat[0x60 + ordNum + (i * 2)] << 4;
+		offs = READ16LE(*(uint16_t *)&dat[0x60 + ordNum + (i * 2)]) << 4;
 		if (offs == 0)
 			continue; // empty
 
@@ -3037,7 +3058,7 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 	amigalimits = (dat[0x26] & 0x10) ? true : false;
 	oldstvib = dat[0x26] & 0x01;
 	mastermul = dat[0x33];
-	fastvolslide = (*(uint16_t *)&dat[0x28] == 0x1300) || (dat[0x26] & 0x40);
+	fastvolslide = READ16LE((*(uint16_t *)&dat[0x28]) == 0x1300) || (dat[0x26] & 0x40);
 
 	if (signedSamples)
 	{
