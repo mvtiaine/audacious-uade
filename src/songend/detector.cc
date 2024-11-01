@@ -143,7 +143,7 @@ constexpr_f2 vector<int64_t> calc_diffsums(const vector<int8_t> &buf, const uint
     return diffsums;
 }
 
-constexpr_f2 pair<uint64_t, int> get_looplen(const vector<int8_t> &buf, const uint64_t begin, const unsigned int SAMPLES_PER_SEC, const bool flatten, const bool strict) noexcept {
+pair<uint64_t, int> get_looplen(const vector<int8_t> &buf, const uint64_t begin, const unsigned int SAMPLES_PER_SEC, const bool flatten, const bool strict) noexcept {
     assert(buf.size() < INT32_MAX);
 
     constexpr unsigned int ACR_PER_SEC = 50;
