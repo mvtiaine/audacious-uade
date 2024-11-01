@@ -462,7 +462,7 @@ constexpr uint64_t volume_trim(const vector<int8_t> &buf, int threshold, uint64_
     return i >= 0 ? offs - (i+1) : 0;
 }
 
-constexpr int64_t get_threshold(int64_t threshold, int64_t maxi, int64_t mini) noexcept {
+constexpr_f2 int64_t get_threshold(int64_t threshold, int64_t maxi, int64_t mini) noexcept {
     return min(threshold, max((int64_t)0, min(abs(maxi), abs(mini)) - threshold));
 }
 
