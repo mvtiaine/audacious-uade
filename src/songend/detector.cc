@@ -459,7 +459,11 @@ constexpr_f2 uint64_t volume_detect(const vector<int8_t> &buf, uint64_t maxcnt, 
 constexpr uint64_t volume_trim(const vector<int8_t> &buf, int threshold, uint64_t offs) noexcept {
     int64_t i = offs - 1;
     while(i >= 0 && abs(buf[i]) <= threshold) i--;
-    return i >= 0 ? offs - (i+1) : offs;
+    return i >= 0 ? offs - (i+1) : 0;
+}
+
+constexpr int64_t get_threshold(int64_t threshold, int64_t maxi, int64_t mini) noexcept {
+    return min(threshold, max(0LL, min(abs(maxi), abs(mini)) - threshold));
 }
 
 } // namespace {}
@@ -647,7 +651,7 @@ int SongEndDetector::detect_loop() noexcept {
 int SongEndDetector::detect_silence(int seconds) noexcept {
     TRACE2("MAXI %d MINI %d\n", maxi, mini);
     const int64_t SAMPLES_PER_SEC = rate / 2;
-    int songlen = volume_detect(buf, SAMPLES_PER_SEC * seconds, THRESHOLD_SILENCE) * 1000 / SAMPLES_PER_SEC;
+    int songlen = volume_detect(buf, SAMPLES_PER_SEC * seconds, get_threshold(THRESHOLD_SILENCE, maxi, mini)) * 1000 / SAMPLES_PER_SEC;
     if (songlen) {
         TRACE1("SILENCE SONGLEN %d\n", songlen);
     }
@@ -657,7 +661,10 @@ int SongEndDetector::detect_silence(int seconds) noexcept {
 int SongEndDetector::detect_volume(int seconds) noexcept {
     TRACE2("MAXI %d MINI %d\n", maxi, mini);
     const int64_t SAMPLES_PER_SEC = rate / 2;
-    int songlen = volume_detect(buf, SAMPLES_PER_SEC * seconds, THRESHOLD_VOLUME) * 1000 / SAMPLES_PER_SEC;
+    auto threshold = get_threshold(THRESHOLD_VOLUME, maxi, mini);
+    if (!threshold)
+        return 0;
+    int songlen = volume_detect(buf, SAMPLES_PER_SEC * seconds, threshold) * 1000 / SAMPLES_PER_SEC;
     if (songlen) {
         TRACE1("VOLUME SONGLEN %d\n", songlen);
     }
@@ -762,7 +769,7 @@ int SongEndDetector::trim_silence(int offs_millis) noexcept {
     const auto offs = (uint64_t)offs_millis * SAMPLES_PER_SEC / 1000;
     assert(offs <= buf.size() + MARGIN);
     const auto offs_fixed = offs >= buf.size() ? buf.size() : offs;
-    int trimmed = volume_trim(buf, THRESHOLD_SILENCE, offs_fixed) * 1000 / SAMPLES_PER_SEC;
+    int trimmed = volume_trim(buf, get_threshold(THRESHOLD_SILENCE, maxi, mini), offs_fixed) * 1000 / SAMPLES_PER_SEC;
     if (trimmed)
         TRACE1("TRIMSILENCE %d offs_millis %d offs %zu offs_fixed %zu bufsize %zu \n", trimmed, offs_millis, offs, offs_fixed, buf.size());
     return abs(offs_millis - trimmed) <= MARGIN ? offs_millis : trimmed;
@@ -775,7 +782,10 @@ int SongEndDetector::trim_volume(int offs_millis) noexcept {
     const auto offs = (uint64_t)offs_millis * SAMPLES_PER_SEC / 1000;
     assert(offs <= buf.size() + MARGIN);
     const auto offs_fixed = offs >= buf.size() ? buf.size() : offs;
-    int trimmed = volume_trim(buf, THRESHOLD_VOLUME, offs_fixed) * 1000 / SAMPLES_PER_SEC;
+    auto threshold = get_threshold(THRESHOLD_VOLUME, maxi, mini);
+    if (!threshold)
+        return offs_millis;
+    int trimmed = volume_trim(buf, threshold, offs_fixed) * 1000 / SAMPLES_PER_SEC;
     if (trimmed)
         TRACE1("TRIMVOLUME %d offs_millis %d offs %zu offs_fixed %zu bufsize %zu \n", trimmed, offs_millis, offs, offs_fixed, buf.size());
     return abs(offs_millis - trimmed) <= MARGIN ? offs_millis : trimmed;
