@@ -1,10 +1,11 @@
 This is Audacious (https://audacious-media-player.org/) input plugin for UADE (https://zakalwe.fi/uade/) and other retro music replays.
 
 Main features:
-- Database for song lengths and author/album/publisher/year meta data (see below)
+- Precalculated database for song lengths and author/album/publisher/year meta data (see below)
 - Player independent songend detection (similar to "deep songend scan" option in DeliPlayer for Windows)
 - Preferences UI for configuring UADE playback options etc.
 - Custom fork of UADE including support for additional formats and platforms not (yet) supported in official UADE releases:
+- Custom fork of UADE (https://gitlab.com/mvtiaine/uade) including support for additional formats and platforms not (yet) supported in official UADE releases:
 -- Face The Music
 -- OctaMED Soundstudio / MMD3
 -- Protracker4 / Protracker IFF
@@ -13,6 +14,7 @@ Main features:
 - DigiBooster 3 and DigiBooster Pro 2 (http://www.digibooster.de/) support using the official portable replay
 - HivelyTracker (http://www.hivelytracker.co.uk/) support using the official portable replay
 - Fasttracker 1 & 2 support using the ft2play replay (https://github.com/8bitbubsy/ft2play)
+- Scream Tracker 3 support using the st3play replay by 8bitbubsy (https://pastebin.com/AwRXZAw7)
 
 Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
 In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
@@ -57,6 +59,8 @@ scripts/make_rpm.sh
 * To build and install from sources (git or latest release):
 - required (git or release): pkg-config, GNU make, GCC/Clang with C++17 support (GCC-6+, Clang-5.0+)
 - required (git): autoconf, automake, libtool
+- (git): make sure uade submodule has been initialized (git submodule update --init --recursive)
+(libtoolize)
 (autoreconf -i)
 mkdir -p build
 cd build
@@ -70,6 +74,7 @@ gmake -j check
 - Tested on 64-bit, 32-bit, big & little endian hosts. Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin), OpenIndiana, GNU Hurd. Libraries/CLI binaries also tested on AmigaOS3, MorphOS, AROS, QNX(6.5), AIX, cosmocc.
 - My custom Audacious playlist entry template:
 ${?codec:[${codec}${?channels: (${channels}ch)}]}  -  ${?artist:${artist}  -  }${title}${?album: - (${album})} ${?copyright:-  (${copyright})}${?publisher:- (${publisher}) }${?year:- (${year}) }${?subsong-id:${?subsong-num:- [${subsong-id}/${subsong-num}]}}
+- Make sure "Probe content of files with no recognized file name extension" setting is *enabled* and "Guess missing metadata from filepath" setting is *disabled* in Audacious prefs
 
 * License (source code)
 The project as a whole is licensed under GPL-2.0-or-later.
