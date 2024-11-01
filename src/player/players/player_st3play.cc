@@ -280,7 +280,7 @@ optional<ModuleInfo> get_s3m_info(const char *path, const char *buf, size_t size
     uint8_t chnsettings[32];
 	memcpy(chnsettings, &buf[0x40], sizeof chnsettings);
     int channels = 0;
-    for (auto ch = 0; ch < sizeof(chnsettings); ++ch) {
+    for (size_t ch = 0; ch < sizeof(chnsettings); ++ch) {
         if (chnsettings[ch] > 0xF && chnsettings[ch] <= 0x7F) {
             // reject mods with OPL channels as they are not supported
             return {};
@@ -297,7 +297,7 @@ optional<ModuleInfo> get_s3m_info(const char *path, const char *buf, size_t size
         uint16_t offs = *(le_uint16_t *)&buf[0x60 + ordNum + (i * 2)] << 4;
         if (offs == 0)
             continue; // empty
-        assert(offs + 0x28 < size);
+        assert((size_t)offs + 0x28 < size);
         uint8_t *ptr8 = (uint8_t *)&buf[offs];
         uint8_t type = ptr8[0x00];
         uint32_t length = *(le_uint32_t *)&ptr8[0x10];
