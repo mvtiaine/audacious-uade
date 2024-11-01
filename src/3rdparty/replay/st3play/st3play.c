@@ -2796,7 +2796,7 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 	bool signedSamples;
 	uint8_t pan, *ptr8, chan;
 	int16_t *smpReadPtr16, *smpWritePtr16;
-	uint16_t patDataLen;
+	uint16_t patDataLen, gusAddresses = 0;
 	uint32_t c2spd, i, j, offs;
 
 	if (modLen < 0x70 || dat[0x1D] != 16 || memcmp(&dat[0x2C], "SCRM", 4) != 0)
@@ -2840,6 +2840,8 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 			st3play_Close();
 			return false;
 		}
+		gusAddresses |= *(uint16_t *)&ptr8[0x28]; // mvtiaine: added based on OpenMPT
+
 		c2spd = *(uint32_t *)&ptr8[0x20];
 		if (c2spd > 65535)
 			c2spd = 65535;
@@ -2948,6 +2950,8 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 		st3play_Close();
 		return false;
 	}
+
+	soundcardtype = gusAddresses > 1 ? SOUNDCARD_GUS : SOUNDCARD_SBPRO; // mvtiaine: added based on OpenMPT
 
 	// scan the song for panning/surround commands, and enable GUS mode if found
 	for (i = 0; i < patNum; i++)
