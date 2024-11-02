@@ -6,6 +6,7 @@
 - WIP support for Meego/Sailfish, webOS, RISC OS, FreeMiNT, WarpOS
 - DOS/DJGPP detection (does not build)
 - Implement Scream Tracker 3 support using st3play by 8bitbubsy (https://pastebin.com/AwRXZAw7)
+- Songend detector fixes
 - Misc fixes and updates
 
 0.12.1 - 2024-07-15
