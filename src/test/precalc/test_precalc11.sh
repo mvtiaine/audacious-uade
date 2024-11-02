@@ -6,10 +6,10 @@ set -e
 
 #
 
-TESTMOD="${top_srcdir}/testdata/dimension five.bp"
+TESTMOD="${top_srcdir}/testdata/DBM.Tower Of The Six Winds"
 TEST_NAME="Precalc songend - loop+silence"
 TEST="${PRECALC} \"${TESTMOD}\""
-EXPECTED_OUTPUT="7d48b1f103d5a31444dbbb2d7c71bbfb	0	179725	loop+silence	uade	SoundMon 2.0	0	18198"
+EXPECTED_OUTPUT="28bb7e78268d7925943070c2b3ace712	0	26140	loop+silence	libdigibooster3	DigiBooster Pro 2.21	14	181911"
 . $(dirname "$0")/../common/check.sh
 
 exit 0
