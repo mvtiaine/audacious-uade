@@ -484,16 +484,16 @@ void SongEndDetector::update(const char *bytes, const int nbytes) noexcept {
     int n = 0;
 
     for (int i = 0; i < nbytes; i+=4) {
-        const int b0 = (endian == endian::little) ? (int8_t)bytes[i] : (int8_t)bytes[i+1];
-        const int b1 = (endian == endian::little) ? (int8_t)bytes[i+1] : (int8_t)bytes[i];
-        int val = b1 * 256 + b0;
+        const unsigned int b0 = (endian == endian::little) ? (uint8_t)bytes[i] : (uint8_t)bytes[i+1];
+        const unsigned int b1 = (endian == endian::little) ? (uint8_t)bytes[i+1] : (uint8_t)bytes[i];
+        int16_t val = (int16_t)(b1 * 256 + b0);
 
         if (stereo) {
-            const int b2 = (endian == endian::little) ? (int8_t)bytes[i+2] : (int8_t)bytes[i+3];
-            const int b3 = (endian == endian::little) ? (int8_t)bytes[i+3] : (int8_t)bytes[i+2];
-            val = (val + (b3 * 256 + b2)) / 2;
+            const unsigned int b2 = (endian == endian::little) ? (uint8_t)bytes[i+2] : (uint8_t)bytes[i+3];
+            const unsigned int b3 = (endian == endian::little) ? (uint8_t)bytes[i+3] : (uint8_t)bytes[i+2];
+            val = (val + (int16_t)(b3 * 256 + b2)) / 2;
         }
-
+        if (val) audio = true;
         tmp[itmp] = val;
         itmp = idx(+1);
         ctmp++;
@@ -522,6 +522,7 @@ int SongEndDetector::detect_loop() noexcept {
 
     TRACE2("MAXI %d MINI %d\n", maxi, mini);
     const int maximini = maxi - mini;
+    assert(maximini);
     for (uint64_t i = 0; i < buf.size(); ++i) {
         const int val = buf[i];
         const auto val0 = -16 + (val - mini) * 32 / maximini;
@@ -651,7 +652,7 @@ int SongEndDetector::detect_loop() noexcept {
 int SongEndDetector::detect_silence(int seconds) noexcept {
     TRACE2("MAXI %d MINI %d\n", maxi, mini);
     const int64_t SAMPLES_PER_SEC = rate / 2;
-    if (maxi == 0 && mini == 0) {
+    if (!audio) {
         return buf.size() * 1000 / SAMPLES_PER_SEC + 1;
     }
     auto threshold = get_threshold(THRESHOLD_SILENCE, maxi, mini);
@@ -770,7 +771,7 @@ int SongEndDetector::detect_repeat() noexcept {
 
 int SongEndDetector::trim_silence(int offs_millis) noexcept {
     TRACE2("MAXI %d MINI %d\n", maxi, mini);
-    if (maxi == 0 && mini == 0) {
+    if (!audio) {
         return offs_millis;
     }
     auto threshold = get_threshold(THRESHOLD_SILENCE, maxi, mini);

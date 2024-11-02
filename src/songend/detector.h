@@ -39,6 +39,7 @@ private:
     int ctmp = 0;
     int maxi = INT8_MIN;
     int mini = INT8_MAX;
+    bool audio = false;
 };
 
 }; // namespace songend
