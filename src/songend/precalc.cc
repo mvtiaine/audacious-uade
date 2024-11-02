@@ -26,18 +26,18 @@ constexpr_f2 void apply_detector(SongEndDetector &detector, SongEnd &songend) no
             songend.status = SongEnd::DETECT_SILENCE;
         }
     } else {
-        int volume = detector.detect_volume(SILENCE_TIMEOUT);
+        uint32_t volume = detector.detect_volume(SILENCE_TIMEOUT);
         if (volume > 0 && songend.length > volume + MAX_SILENCE) {
             songend.length = volume + MAX_SILENCE;
             songend.status = SongEnd::DETECT_VOLUME;
         } else {
-            int repeat = detector.detect_repeat();
+            uint32_t repeat = detector.detect_repeat();
             if (repeat > 0) {
                 assert(repeat < songend.length);
                 songend.length = repeat;
                 songend.status = SongEnd::DETECT_REPEAT;
             } else {
-                int loop = detector.detect_loop();
+                uint32_t loop = detector.detect_loop();
                 if (loop > 0) {
                     assert(loop < songend.length);
                     songend.length = loop;
