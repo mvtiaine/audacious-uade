@@ -39,25 +39,24 @@ constexpr_f2 void apply_detector(SongEndDetector &detector, SongEnd &songend) no
             } else {
                 uint32_t loop = detector.detect_loop();
                 if (loop > 0) {
-                    assert(loop < songend.length);
+                    assert(loop <= songend.length / 2);
                     songend.length = loop;
                     songend.status = SongEnd::DETECT_LOOP;
                     int silence = detector.trim_silence(songend.length);
                     if (silence > MAX_SILENCE) {
                         assert(songend.length > MAX_SILENCE);
+                        assert(songend.length > silence);
                         songend.length = songend.length - silence + MAX_SILENCE;
                         songend.status = SongEnd::LOOP_PLUS_SILENCE;
                     } else {
                         uint32_t volume = detector.trim_volume(songend.length);
                         if (volume > MAX_SILENCE) {
-                            assert(volume < songend.length);
+                            assert(songend.length > MAX_SILENCE);
+                            assert(songend.length > volume);
                             songend.length = songend.length - volume + MAX_SILENCE;
                             songend.status = SongEnd::LOOP_PLUS_VOLUME;
                         }
                     }
-                } else {
-                    songend.length = PRECALC_TIMEOUT * 1000;
-                    songend.status = SongEnd::TIMEOUT;
                 }
             }
         }
@@ -92,8 +91,6 @@ constexpr void apply_trimmer(SongEndDetector &detector, SongEnd &songend) noexce
         } else if (songend.length > MAX_SILENCE && silence > MAX_SILENCE) {
             songend.length = songend.length - silence + MAX_SILENCE;
         }
-    } else if (songend.status == SongEnd::TIMEOUT) {
-        songend.length = PRECALC_TIMEOUT * 1000;
     }
 }
 

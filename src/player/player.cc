@@ -237,7 +237,7 @@ PlaybackResult playback_loop(
     vector<char> buffer(state.buffer_size);
     SongEnd songend;
     songend.status = SongEnd::TIMEOUT;
-    songend.length = PRECALC_TIMEOUT;
+    songend.length = PRECALC_TIMEOUT * 1000;
     bool stopped = false;
     bool seeked = false;
     const int64_t bytespersec = 4 * state.frequency;
