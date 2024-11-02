@@ -42,7 +42,7 @@ constexpr_f2 void apply_detector(SongEndDetector &detector, SongEnd &songend) no
                     assert(loop <= songend.length / 2);
                     songend.length = loop;
                     songend.status = SongEnd::DETECT_LOOP;
-                    int silence = detector.trim_silence(songend.length);
+                    uint32_t silence = detector.trim_silence(songend.length);
                     if (silence > MAX_SILENCE) {
                         assert(songend.length > MAX_SILENCE);
                         assert(songend.length > silence);
