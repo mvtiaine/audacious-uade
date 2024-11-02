@@ -2820,7 +2820,6 @@ uint32_t st3play_GetMixerTicks(void)
 	return sampleCounter / (audioRate / 1000);
 }
 
-// TODO big endian support
 bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 {
 	bool signedSamples;
