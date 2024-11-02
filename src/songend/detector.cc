@@ -656,8 +656,6 @@ int SongEndDetector::detect_silence(int seconds) noexcept {
         return buf.size() * 1000 / SAMPLES_PER_SEC + 1;
     }
     auto threshold = get_threshold(THRESHOLD_SILENCE, maxi, mini);
-    if (!threshold)
-        return 0;
     int songlen = volume_detect(buf, SAMPLES_PER_SEC * seconds, threshold) * 1000 / SAMPLES_PER_SEC;
     if (songlen) {
         TRACE1("SILENCE SONGLEN %d\n", songlen);
@@ -775,8 +773,6 @@ int SongEndDetector::trim_silence(int offs_millis) noexcept {
         return offs_millis;
     }
     auto threshold = get_threshold(THRESHOLD_SILENCE, maxi, mini);
-    if (!threshold)
-        return 0;
     const auto SAMPLES_PER_SEC = rate / 2;
     const auto MARGIN = SAMPLES_PER_SEC / 1000 - 1;
     const auto offs = (uint64_t)offs_millis * SAMPLES_PER_SEC / 1000;
