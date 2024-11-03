@@ -16,7 +16,16 @@
 #endif
 #define VA_LIST(...) __VA_ARGS__ TRAILING_COMMA
 
-#if (defined(__AMIGA__) || defined(__COSMOCC__)) && !defined(__amigaos4__) && !defined(WARPUP)
+#if defined(__QNX__)
+#include <sys/neutrino.h>
+#endif
+
+#if defined(__AROS__) || (defined(__QNX__) && _NTO_VERSION <= 650)
+// XXX error: call of overloaded 'to_string(const float&)' is ambiguous
+#define _GLIBCXX_USE_C99_STDIO 1
+#endif
+
+#if (defined(__AMIGA__) || defined(__COSMOCC__) || defined(__serenity__)) && !defined(__amigaos4__) && !defined(WARPUP)
 #include <cstddef>
 inline void swab(const void *bfrom, void *bto, ssize_t n) noexcept {
   const char *from = (const char *) bfrom;
@@ -42,12 +51,12 @@ namespace std {
 
 #endif // __AMIGA__
 
-#ifdef __QNX__
+#if (defined(__QNX__) && _NTO_VERSION <= 650) || defined(__BLACKBERRY__)
 #include <cassert>
 #include <cstdlib>
 #include <string>
 namespace std {
-constexpr_f int stoi(const std::string& str, size_t* idx = nullptr, int base = 10) {
+constexpr_f1 int stoi(const std::string& str, size_t* idx = nullptr, int base = 10) {
     assert(idx == nullptr);
     assert(base == 10);
     return atoi(str.c_str());

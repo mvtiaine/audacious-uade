@@ -42,6 +42,7 @@ cd freebsd-overlay/multimedia/audacious-uade
 make install clean
 
 * To install with HaikuPorter (latest release):
+(pkgman install audacious audacious_plugins)
 git clone https://github.com/mvtiaine/haikuports.git
 cp -rp haikuports/* /boot/home/haikuports/
 haikuporter audacious_uade
@@ -71,7 +72,9 @@ gmake -j check
 * Other notes:
 - Make sure "Probe content of files with no recognized file name extension" setting is *enabled* and "Guess missing metadata from filepath" setting is *disabled* in Audacious prefs
 - Case sensitive filesystems may cause issues for formats with external samples
-- Tested on 64-bit, 32-bit, big & little endian hosts. Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin), OpenIndiana, GNU Hurd. Libraries/CLI binaries also tested on AmigaOS3, MorphOS, AROS, QNX(6.5), AIX, cosmocc.
+- Tested on 64-bit, 32-bit, big & little endian hosts. Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin), OpenIndiana, GNU Hurd. Libraries/CLI binaries also tested on AmigaOS3, MorphOS, AROS, QNX 6.5.0, AIX, cosmocc, Tizen, Meego/Sailfish, OS/2 (ArcaOS)
+- Build support (binaries not tested) for Android, iOS, Fuchsia, OpenHarmony, webOS, RISC OS, FreeMiNT, WarpOS, Redox OS, SerenityOS, Genode, BlackBerry 10, QNX 7, QNX 8, PS4 (OpenOrbis)
+- WIP support (runtime failures) for IRIX, AmigaOS4, Wasix, Emscripten, UnixWare.
 - My custom Audacious classic playlist entry/window title template:
 ${?codec:[${codec}${?channels: (${channels}ch)}]}  -  ${?artist:${artist}  -  }${title}${?album: - (${album})} ${?copyright:-  (${copyright})}${?publisher:- (${publisher}) }${?year:- (${year}) }${?subsong-id:${?subsong-num:- [${subsong-id}/${subsong-num}]}}
 

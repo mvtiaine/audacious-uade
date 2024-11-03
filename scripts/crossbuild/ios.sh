@@ -4,6 +4,7 @@ set -e
 
 # iOS binaries not tested
 
+# TODO parametrina SDK ?
 Build() {
     export CFLAGS="${ARCH_FLAGS} -isysroot $(xcrun --sdk ${SDK} --show-sdk-path)"
     ./configure --host="${CHOST}"

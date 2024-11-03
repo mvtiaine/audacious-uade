@@ -4,7 +4,6 @@
 #include <cassert>
 #include <cctype>
 #include <cstring>
-#include <optional>
 #include <string>
 
 #include <libaudcore/audstrings.h>
@@ -24,6 +23,7 @@ extern "C" {
 #include "common/md5.h"
 #include "common/songend.h"
 #include "common/strings.h"
+#include "common/std/optional.h"
 #include "prefs.h"
 #include "player/player.h"
 #include "songend/precalc.h"

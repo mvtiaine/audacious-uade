@@ -48,7 +48,7 @@ bool parse_tsv_row(const char *tuple, _UnExoticaData &item, const _UnExoticaData
 
     if (cols[3].empty()) {
         item.year = 0;
-    } else if (cols[3].at(0) == 0x7f) {
+    } else if (cols[3][0] == 0x7f) {
         item.year = prev_item.year;
     } else {
         int year = common::from_chars<int>(cols[3]);
@@ -85,7 +85,7 @@ bool parse_tsv_row(const char *tuple, _UnExoticaData &item, const _UnExoticaData
 
     if (author == UNKNOWN) {
         item.author = UNKNOWN_AUTHOR_T;
-    } else if (author.at(0) == 0x7f) {
+    } else if (author[0] == 0x7f) {
         item.author = prev_item.author;
     } else {
         string author_;
@@ -99,7 +99,7 @@ bool parse_tsv_row(const char *tuple, _UnExoticaData &item, const _UnExoticaData
 
     if (album.empty()) {
         item.album = STRING_NOT_FOUND;
-    } else if (album.at(0) == 0x7f) {
+    } else if (album[0] == 0x7f) {
         item.album = prev_item.album;
     } else {
         string _album = string(album);
@@ -109,7 +109,7 @@ bool parse_tsv_row(const char *tuple, _UnExoticaData &item, const _UnExoticaData
 
     if (publisher.empty()) {
         item.publisher = STRING_NOT_FOUND;
-    } else if (publisher.at(0) == 0x7f) {
+    } else if (publisher[0] == 0x7f) {
         item.publisher = prev_item.publisher;
     } else {
         add_publisher(publisher);

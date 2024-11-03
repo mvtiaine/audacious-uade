@@ -50,7 +50,7 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
             const auto author = tokens[0];
             if (author == UNKNOWN) {
                 item.author = UNKNOWN_AUTHOR_T;
-            } else if (author.at(0) == 0x7f) {
+            } else if (author[0] == 0x7f) {
                 item.author = prev_item.author;
             } else {
                 add_author(author);
@@ -70,13 +70,13 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
             } else {
                 if (author == UNKNOWN) {
                     item.author = UNKNOWN_AUTHOR_T;
-                } else if (author.at(0) == 0x7f) {
+                } else if (author[0] == 0x7f) {
                     item.author = prev_item.author;
                 } else {
                     add_author(author);
                 }
                 if (!common::starts_with(token1, NOTBY)) {
-                    if (token1.at(0) == 0x7f) {
+                    if (token1[0] == 0x7f) {
                         item.album = prev_item.album;
                     } else {
                         add_album(token1);
@@ -96,7 +96,7 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
                 string author;
                 common::mkString(authors, AUTHOR_JOIN, author);
                 add_author(author);
-                if (tokens[2].at(0) == 0x7f) {
+                if (tokens[2][0] == 0x7f) {
                     item.album = prev_item.album;
                 } else {
                     add_album(tokens[2]);
@@ -107,13 +107,13 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
                     item.album = STRING_NOT_FOUND;
                     if (token1 == UNNAMED)
                         break;
-                } else if (author.at(0) == 0x7f) {
+                } else if (author[0] == 0x7f) {
                     item.author = prev_item.author;
                 } else {
                     add_author(author);
                 }
                 const string album = string(token1) + " (" + string(tokens[2]) + ")";
-                if (album.at(0) == 0x7f) {
+                if (album[0] == 0x7f) {
                     item.album = prev_item.album;
                 } else {
                     add_album(album);

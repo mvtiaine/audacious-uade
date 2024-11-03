@@ -2,6 +2,8 @@
 
 set -e
 
+# TODO testaa kääntää puhelimella suoraan (ja että samat build_meego/host_* variablet)
+
 #autoreconf -i
 
 #TARGET=aarch64-meego-linux-gnu # missing aarch64 target in docker image?
@@ -16,7 +18,7 @@ if [ $# -eq 0 ]
 then
   docker run --rm -t -v .:/audacious-uade -w /audacious-uade \
     --entrypoint /bin/bash r1tschy/sailfishos-platform-sdk \
-    scripts/crossbuild/sailfish.sh build
+    $0 build
 else
   # XXX ugly hack
   sudo ln -s $BIN/$TARGET-as /usr/local/bin/as
