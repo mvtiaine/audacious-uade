@@ -18,42 +18,45 @@ namespace {
 constexpr_f2 void apply_detector(SongEndDetector &detector, SongEnd &songend) noexcept {
     uint32_t silence = detector.detect_silence(SILENCE_TIMEOUT);
     if (silence > 0) {
-        if (songend.length == silence) {
+        if (songend.length <= silence) {
             songend.length = 0;
             songend.status = SongEnd::NOSOUND;
-        } else {
+        } else if (songend.length > silence + MAX_SILENCE) {
             songend.length = silence + MAX_SILENCE;
             songend.status = SongEnd::DETECT_SILENCE;
         }
     } else {
-        int volume = detector.detect_volume(SILENCE_TIMEOUT);
-        if (volume > 0) {
+        uint32_t volume = detector.detect_volume(SILENCE_TIMEOUT);
+        if (volume > 0 && songend.length > volume + MAX_SILENCE) {
             songend.length = volume + MAX_SILENCE;
             songend.status = SongEnd::DETECT_VOLUME;
         } else {
-            int repeat = detector.detect_repeat();
+            uint32_t repeat = detector.detect_repeat();
             if (repeat > 0) {
+                assert(repeat < songend.length);
                 songend.length = repeat;
                 songend.status = SongEnd::DETECT_REPEAT;
             } else {
-                int loop = detector.detect_loop();
+                uint32_t loop = detector.detect_loop();
                 if (loop > 0) {
+                    assert(loop <= songend.length / 2);
                     songend.length = loop;
                     songend.status = SongEnd::DETECT_LOOP;
-                    int silence = detector.trim_silence(songend.length);
+                    uint32_t silence = detector.trim_silence(songend.length);
                     if (silence > MAX_SILENCE) {
+                        assert(songend.length > MAX_SILENCE);
+                        assert(songend.length > silence);
                         songend.length = songend.length - silence + MAX_SILENCE;
                         songend.status = SongEnd::LOOP_PLUS_SILENCE;
                     } else {
                         uint32_t volume = detector.trim_volume(songend.length);
-                        if (volume > MAX_SILENCE && volume < songend.length) {
+                        if (volume > MAX_SILENCE) {
+                            assert(songend.length > MAX_SILENCE);
+                            assert(songend.length > volume);
                             songend.length = songend.length - volume + MAX_SILENCE;
                             songend.status = SongEnd::LOOP_PLUS_VOLUME;
                         }
                     }
-                } else {
-                    songend.length = PRECALC_TIMEOUT * 1000;
-                    songend.status = SongEnd::TIMEOUT;
                 }
             }
         }
@@ -63,29 +66,31 @@ constexpr_f2 void apply_detector(SongEndDetector &detector, SongEnd &songend) no
 constexpr void apply_trimmer(SongEndDetector &detector, SongEnd &songend) noexcept {
     if (songend.status == SongEnd::PLAYER) {
         uint32_t silence = detector.trim_silence(songend.length);
-        if (silence == songend.length) {
+        if (silence >= songend.length) {
             songend.status = SongEnd::NOSOUND;
             songend.length = 0;
-        } else if (silence > MAX_SILENCE) {
-            songend.length = songend.length - silence + MAX_SILENCE;
-            songend.status = SongEnd::PLAYER_PLUS_SILENCE;
-        } else {
-            uint32_t volume = detector.trim_volume(songend.length);
-            if (volume > MAX_SILENCE && volume < songend.length) {
-                songend.length = songend.length - volume + MAX_SILENCE;
-                songend.status = SongEnd::PLAYER_PLUS_VOLUME;
+        } else if (songend.length > MAX_SILENCE) {
+            if (silence > MAX_SILENCE) {
+                assert(silence < songend.length);
+                songend.length = songend.length - silence + MAX_SILENCE;
+                songend.status = SongEnd::PLAYER_PLUS_SILENCE;
+            } else {
+                uint32_t volume = detector.trim_volume(songend.length);
+                if (volume > MAX_SILENCE) {
+                    assert(volume < songend.length);
+                    songend.length = songend.length - volume + MAX_SILENCE;
+                    songend.status = SongEnd::PLAYER_PLUS_VOLUME;
+                }
             }
         }
     } else if (songend.status == SongEnd::DETECT_SILENCE) {
         uint32_t silence = detector.trim_silence(songend.length);
-        if (silence == songend.length) {
+        if (silence >= songend.length) {
             songend.status = SongEnd::NOSOUND;
             songend.length = 0;
-        } else if (silence > MAX_SILENCE) {
+        } else if (songend.length > MAX_SILENCE && silence > MAX_SILENCE) {
             songend.length = songend.length - silence + MAX_SILENCE;
         }
-    } else if (songend.status == SongEnd::TIMEOUT) {
-        songend.length = PRECALC_TIMEOUT * 1000;
     }
 }
 
