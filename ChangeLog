@@ -1,5 +1,6 @@
 0.12-dev
 - Fixed FreeBSD and Haiku builds
+- Sync UADE fork with 3.05 release
 - Support for Tizen, OS/2 (ArcaOS) (lib/cli-only tested)
 - Initial support for OpenHarmony, Redox OS, SerenityOS, Genode, BlackBerry 10, QNX 7, QNX 8, UnixWare 7, PS4 (OpenOrbis) (not runtime tested/working).
 
