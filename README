@@ -4,7 +4,6 @@ Main features:
 - Precalculated database for song lengths and author/album/publisher/year meta data (see below)
 - Player independent songend detection (similar to "deep songend scan" option in DeliPlayer for Windows)
 - Preferences UI for configuring UADE playback options etc.
-- Custom fork of UADE including support for additional formats and platforms not (yet) supported in official UADE releases:
 - Custom fork of UADE (https://gitlab.com/mvtiaine/uade) including support for additional formats and platforms not (yet) supported in official UADE releases:
 -- Face The Music
 -- OctaMED Soundstudio / MMD3
@@ -70,11 +69,11 @@ gmake -j check
 (sudo) gmake install
 
 * Other notes:
+- Make sure "Probe content of files with no recognized file name extension" setting is *enabled* and "Guess missing metadata from filepath" setting is *disabled* in Audacious prefs
 - Case sensitive filesystems may cause issues for formats with external samples
 - Tested on 64-bit, 32-bit, big & little endian hosts. Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin), OpenIndiana, GNU Hurd. Libraries/CLI binaries also tested on AmigaOS3, MorphOS, AROS, QNX(6.5), AIX, cosmocc.
-- My custom Audacious playlist entry template:
+- My custom Audacious classic playlist entry/window title template:
 ${?codec:[${codec}${?channels: (${channels}ch)}]}  -  ${?artist:${artist}  -  }${title}${?album: - (${album})} ${?copyright:-  (${copyright})}${?publisher:- (${publisher}) }${?year:- (${year}) }${?subsong-id:${?subsong-num:- [${subsong-id}/${subsong-num}]}}
-- Make sure "Probe content of files with no recognized file name extension" setting is *enabled* and "Guess missing metadata from filepath" setting is *disabled* in Audacious prefs
 
 * License (source code)
 The project as a whole is licensed under GPL-2.0-or-later.
