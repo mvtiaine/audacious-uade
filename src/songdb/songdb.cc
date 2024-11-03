@@ -521,7 +521,7 @@ void parse_modinfos(const string &tsv) noexcept {
         }
         const auto cols = common::split_view_x<2>(tuple + 1, '\t');
         string_t format_t;
-        if (cols[0].at(0) == 0x7f) {
+        if (cols[0][0] == 0x7f) {
             format_t = prev_format_t;
         } else {
             string fmt = string(cols[0]);

@@ -29,7 +29,7 @@ bool parse_tsv_row(const char *tuple, _DemozooData &item, const _DemozooData &pr
     } else if (date.length() >= 4) {
         int year = common::from_chars<int>(date.substr(0,4));
         item.year = year != 0 ? year - 1900u : 0;
-    } else if (date.at(0) == 0x7f) {
+    } else if (date[0] == 0x7f) {
         item.year = prev_item.year;
     }
 
@@ -50,7 +50,7 @@ bool parse_tsv_row(const char *tuple, _DemozooData &item, const _DemozooData &pr
 
     if (cols[0].empty()) {
         item.author = UNKNOWN_AUTHOR_T;
-    } else if (cols[0].at(0) == 0x7f) {
+    } else if (cols[0][0] == 0x7f) {
         item.author = prev_item.author;
     } else if (authors_.size() == 1) {
         const auto &author = authors_[0];
@@ -67,7 +67,7 @@ bool parse_tsv_row(const char *tuple, _DemozooData &item, const _DemozooData &pr
 
     if (cols[1].empty()) {
         item.publisher = STRING_NOT_FOUND;
-    } else if (cols[1].at(0) == 0x7f) {
+    } else if (cols[1][0] == 0x7f) {
         item.publisher = prev_item.publisher;
     } else if (publishers_.size() == 1) {
         add_publisher(publishers_[0]);
@@ -79,7 +79,7 @@ bool parse_tsv_row(const char *tuple, _DemozooData &item, const _DemozooData &pr
 
     if (album.empty()) {
         item.album = STRING_NOT_FOUND;
-    } else if (album.at(0) == 0x7f) {
+    } else if (album[0] == 0x7f) {
         item.album = prev_item.album;
     } else {
         add_album(album);
