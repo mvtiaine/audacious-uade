@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: CC-PDDC
 /* tinynew.cpp
-   
+
    Overrides operators new and delete
    globally to reduce code size.
-   
+
    Public domain, use however you wish.
    If you really need a license, consider it MIT:
    http://www.opensource.org/licenses/mit-license.php
-   
+
    - Eric Agan
      Elegant Invention
  */
@@ -83,9 +83,8 @@ void operator delete(void* ptr, std::size_t) noexcept {
 
 // for c++17
 
-// align_val_t/aligned_alloc missing in gcc6
-// TODO proper conf check
-#if !(defined(__GNUC__) && __GNUC__ <= 6 && !defined(__clang__) && !defined(__INTEL_COMPILER)) && !defined(__AROS__)
+//#if !(defined(__GNUC__) && __GNUC__ <= 8 && !defined(__clang__) && !defined(__INTEL_COMPILER)) && !defined(__AROS__) && !defined(__OS2__) && !defined(__QNX__) && !defined(__ORBIS__) && !defined(__sysv5__)
+#if defined(__cpp_aligned_new)
 
 void* operator new(std::size_t size, std::align_val_t al) {
     /* malloc (0) is unpredictable; avoid it.  */
@@ -94,7 +93,7 @@ void* operator new(std::size_t size, std::align_val_t al) {
 
     // size must be multiple of alignment
     size_t rounded = (size + static_cast<size_t>(al) - 1) & ~(static_cast<size_t>(al) - 1);
-    void *ptr = aligned_alloc(static_cast<size_t>(al), rounded);
+    void *ptr = std::aligned_alloc(static_cast<size_t>(al), rounded);
     if (!ptr)
         abort();
 
@@ -137,7 +136,7 @@ void operator delete[](void* ptr, std::size_t size, std::align_val_t al) noexcep
     operator delete(ptr);
 }
 
-#endif
+#endif // __cpp_aligned_new
 
 // some additional overrides
 

@@ -289,13 +289,13 @@ pair<uint64_t, int> get_looplen(const vector<int8_t> &buf, const uint64_t begin,
 
     int ok = pok || nok;
     ok += pok && nok && pacrcnt > 0 && nacrcnt > 0;
-    ok += pacrcnt > 0 && nacrcnt > 0 && abs(pacravg / ACR_PER_SEC - nacravg / ACR_PER_SEC) <= 1;
-    ok += pacrcnt > 0 && nacrcnt > 0 && abs(2 * pacravg / ACR_PER_SEC - nacravg / ACR_PER_SEC) <= 1;
-    ok += pacrcnt > 0 && nacrcnt > 0 && abs(pacravg / ACR_PER_SEC - 2 * nacravg / ACR_PER_SEC) <= 1;
-    ok += pacrcnt > 0 && nacrcnt > 0 && abs(3 * pacravg / ACR_PER_SEC - nacravg / ACR_PER_SEC) <= 1;
-    ok += pacrcnt > 0 && nacrcnt > 0 && abs(pacravg / ACR_PER_SEC - 3 * nacravg / ACR_PER_SEC) <= 1;
-    ok += pacrcnt > 0 && nacrcnt > 0 && abs(4 * pacravg / ACR_PER_SEC - nacravg / ACR_PER_SEC) <= 1;
-    ok += pacrcnt > 0 && nacrcnt > 0 && abs(pacravg / ACR_PER_SEC - 4 * nacravg / ACR_PER_SEC) <= 1;
+    ok += pacrcnt > 0 && nacrcnt > 0 && fabs(pacravg / ACR_PER_SEC - nacravg / ACR_PER_SEC) <= 1;
+    ok += pacrcnt > 0 && nacrcnt > 0 && fabs(2 * pacravg / ACR_PER_SEC - nacravg / ACR_PER_SEC) <= 1;
+    ok += pacrcnt > 0 && nacrcnt > 0 && fabs(pacravg / ACR_PER_SEC - 2 * nacravg / ACR_PER_SEC) <= 1;
+    ok += pacrcnt > 0 && nacrcnt > 0 && fabs(3 * pacravg / ACR_PER_SEC - nacravg / ACR_PER_SEC) <= 1;
+    ok += pacrcnt > 0 && nacrcnt > 0 && fabs(pacravg / ACR_PER_SEC - 3 * nacravg / ACR_PER_SEC) <= 1;
+    ok += pacrcnt > 0 && nacrcnt > 0 && fabs(4 * pacravg / ACR_PER_SEC - nacravg / ACR_PER_SEC) <= 1;
+    ok += pacrcnt > 0 && nacrcnt > 0 && fabs(pacravg / ACR_PER_SEC - 4 * nacravg / ACR_PER_SEC) <= 1;
 
     ok = looplen > 0 ? ok : 0;
 
@@ -563,7 +563,7 @@ int SongEndDetector::detect_loop() noexcept {
             if (check(looplen2 = get_looplen(buf0, begin, SAMPLES_PER_SEC, false, strict))) bufz = buf0;
             if (check(looplen3 = get_looplen(buf0, begin, SAMPLES_PER_SEC, true, strict))) bufz = buf0;
         }
-        if (looplen0.second > 0 && abs((int64_t)looplen.first * 2 - (int64_t)looplen0.first) < SAMPLES_PER_SEC) {
+        if (looplen0.second > 0 && llabs((int64_t)looplen.first * 2 - (int64_t)looplen0.first) < SAMPLES_PER_SEC) {
             looplen = looplen0;
             bufz = buf;
         }
@@ -717,7 +717,7 @@ int SongEndDetector::detect_repeat() noexcept {
 
     TRACE2("MAXI %d MINI %d MINWINDOWSUM %ld MAXWINDOWSUM %ld\n", maxi, mini, minwindowsum, maxwindowsum);
 
-    if (abs(maxwindowsum - minwindowsum) > abs(minwindowsum)/5) {
+    if (llabs(maxwindowsum - minwindowsum) > llabs(minwindowsum)/5) {
         return 0;
     }
 

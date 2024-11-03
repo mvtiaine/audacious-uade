@@ -3,8 +3,7 @@
 set -e
 
 # NOTE: building/linking fat binaries directly does not seem to work (libtool issue?)
-# TODO find out test failure reason:
-# FAIL: test/songend/test_songend.sh
+# TODO separate build dirs + apelink to produce fat binaries ?
 
 ARCH="${ARCH:=aarch64}"
 WRAPPER="${WRAPPER:=ape}"
