@@ -5,6 +5,7 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/libreplay_libdigibooster3.la \
     3rdparty/replay/libreplay_ft2play.la \
     3rdparty/replay/libreplay_st3play.la \
+    3rdparty/replay/libreplay_it2play.la \
     3rdparty/libreplay.la
 
 
@@ -53,12 +54,19 @@ endif
     3rdparty/replay/st3play/st3play_probe.cc
 
 
+3rdparty_replay_libreplay_it2play_la_SOURCES = \
+    3rdparty/replay/it2play/it2play.h \
+    3rdparty/replay/it2play/it2play_play.cc \
+    3rdparty/replay/it2play/it2play_probe.cc
+
+
 3rdparty_libreplay_la_SOURCES =
 3rdparty_libreplay_la_LIBADD = \
     3rdparty/replay/libreplay_hivelytracker.la \
     3rdparty/replay/libreplay_libdigibooster3.la \
     3rdparty/replay/libreplay_ft2play.la \
-    3rdparty/replay/libreplay_st3play.la
+    3rdparty/replay/libreplay_st3play.la \
+    3rdparty/replay/libreplay_it2play.la
 
 
 EXTRA_DIST += \
@@ -78,4 +86,23 @@ EXTRA_DIST += \
     3rdparty/replay/ft2play/tables.h \
     3rdparty/replay/ft2play/tables.c \
     3rdparty/replay/st3play/LICENSE \
-    3rdparty/replay/st3play/st3play.c
+    3rdparty/replay/st3play/st3play.c \
+    3rdparty/replay/it2play/LICENSE \
+    3rdparty/replay/it2play/README.md \
+    3rdparty/replay/it2play/cpu.h \
+    3rdparty/replay/it2play/it_d_rm.h \
+    3rdparty/replay/it2play/it_d_rm.c \
+    3rdparty/replay/it2play/it_m_eff.h \
+    3rdparty/replay/it2play/it_m_eff.c \
+    3rdparty/replay/it2play/it_music.h \
+    3rdparty/replay/it2play/it_music.c \
+    3rdparty/replay/it2play/it_structs.h \
+    3rdparty/replay/it2play/it_structs.c \
+    3rdparty/replay/it2play/it_tables.h \
+    3rdparty/replay/it2play/it_tables.c \
+    3rdparty/replay/it2play/loaders/it.h \
+    3rdparty/replay/it2play/loaders/it.c \
+    3rdparty/replay/it2play/loaders/s3m.h \
+    3rdparty/replay/it2play/loaders/s3m.c \
+    3rdparty/replay/it2play/loaders/mmcmp/mmcmp.h \
+    3rdparty/replay/it2play/loaders/mmcmp/mmcmp.c

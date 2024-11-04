@@ -31,7 +31,7 @@ inline void setPos(int16_t pos) { \
     np_row = 0; \
 } \
 inline void clearMixBuffer() { \
-    constexpr int MIX_BUF_SAMPLES = 4096; \
+    constexpr int MIX_BUF_SAMPLES = 8192; \
     if (mixBufferL) memset(mixBufferL, 0, MIX_BUF_SAMPLES * sizeof (int32_t)); \
     if (mixBufferR) memset(mixBufferR, 0, MIX_BUF_SAMPLES * sizeof (int32_t)); \
 } \
