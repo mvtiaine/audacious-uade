@@ -140,7 +140,7 @@ uint32_t st3play_GetMixerTicks(void); // returns the amount of milliseconds of m
 
 //#define USE_ST3_GUS_TEMPO
 
-#define MIX_BUF_SAMPLES 4096
+#define MIX_BUF_SAMPLES 8192 // mvtiaine: increased buf size to avoid overflow with freq 96000
 
 #ifndef AUDACIOUS_UADE
 #include <stdio.h>
