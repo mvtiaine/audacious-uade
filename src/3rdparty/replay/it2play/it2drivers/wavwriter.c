@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 /*
 ** ---- "WAV writer" (IT2.15 registered) driver ----
 */

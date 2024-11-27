@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 /* Bit-accurate IT2 tables. Copied from IT2 source code.
 ** All of the comments in this file are written by myself (8bitbubsy)
 */

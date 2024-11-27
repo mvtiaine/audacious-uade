@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 /*
 ** ---- SB16 MMX IT2 driver ----
 */

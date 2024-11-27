@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 // for finding memory leaks in debug mode with Visual Studio
 #if defined _DEBUG && defined _MSC_VER
 #include <crtdbg.h>

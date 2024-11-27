@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 // all of the comments in this file are written by me (8bitbubsy)
 
 // for finding memory leaks in debug mode with Visual Studio

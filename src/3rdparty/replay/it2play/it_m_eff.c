@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 // 8bb: IT2 replayer command routines
 
 #include <stdint.h>

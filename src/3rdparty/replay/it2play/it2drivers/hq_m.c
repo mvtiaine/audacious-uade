@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 #include <stdint.h>
 #include <stdbool.h>
 #include "../cpu.h"

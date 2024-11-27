@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 /*
 ** ---- Custom high quality floating-point driver, by 8bitbubsy ----
 **
