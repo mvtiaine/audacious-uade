@@ -365,7 +365,7 @@ bool LoadIT(MEMFILE *m)
 			if (Sample16Bit)
 			{
 				int16_t *Ptr16 = (int16_t *)s->Data;
-				for (uint32_t j = 0; j < s->Length; j++)
+				for (uint32_t j = 0; j < s->Length / 2; j++) // mvtiaine: fixed overflow
 					Ptr16[j] ^= 0x8000;
 			}
 			else
