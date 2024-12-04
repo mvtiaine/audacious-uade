@@ -1521,7 +1521,8 @@ static void UpdateNoteData(void)
 			hc->CmdVal = 0;
 		}
 
-		PreInitCommand(hc);
+		if (hc->Ins < MAX_INSTRUMENTS) // mvtiane: added sanity check
+			PreInitCommand(hc);
 	}
 
 	Song.PatternOffset = p;
