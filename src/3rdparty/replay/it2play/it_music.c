@@ -1093,6 +1093,12 @@ void GetLoopInformation(slaveChn_t *sc)
 				LoopBegin = s->SustainLoopBegin;
 				LoopEnd = s->SustainLoopEnd;
 				LoopMode >>= 1; // 8bb: loop mode = sustain loop mode
+			} else {
+				// mvtiaine: added sanity checks (Ceekayed/absence.it)
+				if (sc->SamplingPosition < LoopBegin)
+					sc->SamplingPosition = LoopBegin;
+				else if (sc->SamplingPosition >= LoopEnd)
+					sc->SamplingPosition = LoopEnd - 1;
 			}
 		}
 
