@@ -102,6 +102,7 @@ typedef struct pattern_t
 {
 	uint16_t Rows;
 	uint8_t *PackedData;
+	uint32_t DataLength; // mvtiaine: added for safety
 } pattern_t;
 
 typedef struct envNode_t

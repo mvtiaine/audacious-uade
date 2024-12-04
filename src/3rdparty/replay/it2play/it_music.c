@@ -1402,6 +1402,13 @@ void UpdateGOTONote(void) // Get offset - mvtiaine: removed static and added to 
 	Song.DecodeExpectedPattern = Song.CurrentPattern;
 
 	uint8_t *p = Music_GetPattern(Song.DecodeExpectedPattern, &Song.NumberOfRows);
+	// mvtiaine: added sanity checks
+	uint8_t *p_start = Song.Patt[Song.CurrentPattern].PackedData;
+	uint8_t *p_max = p_start + Song.Patt[Song.CurrentPattern].DataLength;
+	if (p_start == NULL) {
+		p_start = EmptyPattern;
+		p_max = p_start + sizeof(EmptyPattern);
+	}
 	if (Song.ProcessRow >= Song.NumberOfRows)
 		Song.ProcessRow = 0;
 
@@ -1412,8 +1419,11 @@ void UpdateGOTONote(void) // Get offset - mvtiaine: removed static and added to 
 	{
 		while (true)
 		{
+			if (p >= p_max)
+				break;
+
 			uint8_t chnNum = *p++;
-			if (chnNum == 0)
+			if (chnNum == 0 || ((chnNum & 0x7F) - 1) >= MAX_HOST_CHANNELS || p >= p_max)
 			{
 				rowsTodo--;
 				if (rowsTodo == 0)
@@ -1423,19 +1433,19 @@ void UpdateGOTONote(void) // Get offset - mvtiaine: removed static and added to 
 			}
 
 			hostChn_t *hc = &hChn[(chnNum & 0x7F) - 1];
-			if (chnNum & 0x80)
+			if (chnNum & 0x80 && p < p_max)
 				hc->NotePackMask = *p++;
 
-			if (hc->NotePackMask & 1)
+			if (hc->NotePackMask & 1 && p < p_max)
 				hc->RawNote = *p++;
 
-			if (hc->NotePackMask & 2)
+			if (hc->NotePackMask & 2 && p < p_max)
 				hc->Ins = *p++;
 
-			if (hc->NotePackMask & 4)
+			if (hc->NotePackMask & 4 && p < p_max)
 				hc->RawVolColumn = *p++;
 
-			if (hc->NotePackMask & 8)
+			if (hc->NotePackMask & 8 && p + 1 < p_max)
 			{
 				hc->OldCmd = *p++;
 				hc->OldCmdVal = *p++;
@@ -1460,26 +1470,37 @@ static void UpdateNoteData(void)
 		hc->Flags &= ~(HF_UPDATE_EFX_IF_CHAN_ON | HF_ALWAYS_UPDATE_EFX | HF_ROW_UPDATED | HF_UPDATE_VOLEFX_IF_CHAN_ON);
 
 	uint8_t *p = Song.PatternOffset;
+	// mvtiaine: added sanity checks
+	uint8_t *p_start = Song.Patt[Song.CurrentPattern].PackedData;
+	uint8_t *p_max = p_start + Song.Patt[Song.CurrentPattern].DataLength;
+	if (p_start == NULL) {
+		p_start = EmptyPattern;
+		p_max = p_start + sizeof(EmptyPattern);
+	}
+
 	while (true)
 	{
+		if (p >= p_max)
+			break;
+
 		uint8_t chnNum = *p++;
-		if (chnNum == 0) // No more! else... go through decoding
+		if (chnNum == 0 || ((chnNum & 0x7F) - 1) >= MAX_HOST_CHANNELS || p >= p_max) // No more! else... go through decoding
 			break;
 
 		hc = &hChn[(chnNum & 0x7F) - 1];
-		if (chnNum & 0x80)
+		if (chnNum & 0x80 && p < p_max)
 			hc->NotePackMask = *p++;
 
-		if (hc->NotePackMask & 1)
+		if (hc->NotePackMask & 1 && p < p_max)
 			hc->RawNote = *p++;
 
-		if (hc->NotePackMask & 2)
+		if (hc->NotePackMask & 2 && p < p_max)
 			hc->Ins = *p++;
 
-		if (hc->NotePackMask & 4)
+		if (hc->NotePackMask & 4 && p < p_max)
 			hc->RawVolColumn = *p++;
 
-		if (hc->NotePackMask & 8)
+		if (hc->NotePackMask & 8 && p + 1 < p_max)
 		{
 			hc->Cmd = hc->OldCmd = *p++;
 			hc->CmdVal = hc->OldCmdVal = *p++;
@@ -2213,6 +2234,7 @@ bool Music_AllocatePattern(uint32_t pattern, uint32_t length)
 	p->PackedData = (uint8_t *)malloc(length);
 	if (p->PackedData == NULL)
 		return false;
+	p->DataLength = length; // mvtiaine: added for safety
 
 	return true;
 }
@@ -2270,6 +2292,7 @@ void Music_ReleasePattern(uint32_t pattern)
 
 	p->Rows = 0;
 	p->PackedData = NULL;
+	p->DataLength = 0;
 	
 	unlockMixer();
 }
