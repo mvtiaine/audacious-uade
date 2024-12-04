@@ -145,6 +145,10 @@ bool LoadS3M(MEMFILE *m)
 		uint8_t SmpFlags;
 		ReadBytes(m, &SmpFlags, 1);
 
+		// mvtiaine: added sanity check (Benji (FR)/rage.s3m)
+		if (s->LoopEnd > s->Length || s->LoopBegin >= s->LoopEnd)
+			SmpFlags &= ~1; // mvtiaine: disable loop like with it.c sanity check
+
 		ReadBytes(m, &s->C5Speed, 4);
 
 		mseek(m, 12, SEEK_CUR);

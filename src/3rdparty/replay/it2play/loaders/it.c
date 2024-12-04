@@ -292,6 +292,9 @@ bool LoadIT(MEMFILE *m)
 		// just in case
 		s->DOSFilename[12] = '\0';
 		s->SampleName[25] = '\0';
+		// mvtiaine: added sanity check (Basehead/ninja philosophy.it, Beek/journey through inversion.it)
+		if (s->LoopEnd > s->Length || s->LoopBegin >= s->LoopEnd)
+			s->Flags &= ~SMPF_USE_LOOP; // mvtiaine: imitate libxmp and disable loop
 	}
 
 	/* ===================================
