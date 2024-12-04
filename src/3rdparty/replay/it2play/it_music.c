@@ -364,11 +364,13 @@ void MIDITranslate(hostChn_t *hc, slaveChn_t *sc, uint16_t Input)
 
 		if (Byte == 'z'-'a') // Zxx?
 		{
-			MIDISendFilter(hc, sc, hc->CmdVal);
+			if (hc != NULL) // mvtiaine: added sanity check (Wizard/brightest diamond.it)
+				MIDISendFilter(hc, sc, hc->CmdVal);
 		}
 		else if (Byte == 'o'-'a') // 8bb: sample offset?
 		{
-			MIDISendFilter(hc, sc, hc->EfxMem_O);
+			if (hc != NULL) // mvtiaine: added sanity check (Wizard/brightest diamond.it)
+				MIDISendFilter(hc, sc, hc->EfxMem_O);
 		}
 		else if (sc != NULL)
 		{
