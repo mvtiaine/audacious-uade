@@ -1862,6 +1862,9 @@ static void UpdateInstruments(void)
 			volume = (volume * sc->SmpVol) >> 7;
 			volume = (volume * (uint16_t)((uint32_t)sc->VolEnvState.Value >> 8)) >> 14;
 			volume = (volume * Song.GlobalVolume) >> 7;
+			// mvtiaine: avoid assert with Beek/sonic dreams.it
+			if (volume > 32768)
+				volume = 32768;
 			assert(volume <= 32768);
 
 			sc->FinalVol32768 = volume; // 8bb: 0..32768
