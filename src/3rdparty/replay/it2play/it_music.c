@@ -1630,6 +1630,10 @@ static void UpdateAutoVibrato(slaveChn_t *sc) // 8bb: renamed from UpdateVibrato
 	if (smp->AutoVibratoSpeed == 0)
 		return;
 
+	// mvtiaine: added sanity check to avoid assert (Aethra/the\ moebius\ remix.it)
+	if (smp->AutoVibratoWaveform > 3)
+		return;
+
 	int16_t VibratoData;
 	if (smp->AutoVibratoWaveform == 3)
 	{
