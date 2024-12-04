@@ -403,7 +403,7 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     assert(filled);
     const auto pos = pair<int16_t,int16_t>(context->np_ord(), context->np_row());
     bool jump = context->jumpLoop();
-    bool songend = context->np_restarted();
+    bool songend = context->np_restarted() || context->np_ord() >= context->ordNum();
     if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second) {
         for (auto i = pos.second; i <= prevPos.second; ++i) {
             context->seen.erase(pair<int16_t,int16_t>(pos.first, i));
