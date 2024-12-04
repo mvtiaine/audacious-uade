@@ -59,6 +59,7 @@ endif
     3rdparty/replay/it2play/it2play_play.cc \
     3rdparty/replay/it2play/it2play_probe.cc
 
+3rdparty_replay_libreplay_it2play_la_CXXFLAGS = $(AM_CFLAGS) -Wno-misleading-indentation
 
 3rdparty_libreplay_la_SOURCES =
 3rdparty_libreplay_la_LIBADD = \
