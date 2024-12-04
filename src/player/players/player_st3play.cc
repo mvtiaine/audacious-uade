@@ -142,7 +142,7 @@ struct st3play_context {
             chnsettings = play::chnsettings;
             patDataLen = play::patDataLens[pattNr];
         } else {
-            return pair<int16_t,int16_t>(-1,-1);
+            return pair(-1,-1);
         }
         assert(patseg);
         assert(chnsettings);
@@ -151,7 +151,7 @@ struct st3play_context {
        	uint8_t dat = 0;
         while (i > 0) {
             if (offs >= patDataLen) {
-                return pair<int16_t,int16_t>(-1,-1);
+                return pair(-1,-1);
             }
             dat = patseg[offs++];
             if (dat == 0) {
@@ -168,11 +168,11 @@ struct st3play_context {
             }
             while (true) {
                 if (offs >= patDataLen) {
-                    return pair<int16_t,int16_t>(-1,-1);
+                    return pair(-1,-1);
                 }
                 dat = patseg[offs++];
                 if (dat == 0)
-                    return pair<int16_t,int16_t>(effB,effC);
+                    return pair(effB,effC);
                 if ((chnsettings[dat & 0x1F] & 0x80) == 0)
                     break;
                 // channel off, skip
@@ -184,7 +184,7 @@ struct st3play_context {
             if (dat & 0x40) offs += 1;
             if (dat & 0x80) {
                 if (offs + 1 >= patDataLen) {
-                    return pair<int16_t,int16_t>(-1,-1);
+                    return pair(-1,-1);
                 }
                 uint8_t cmd = patseg[offs++];
                 uint8_t info = patseg[offs++];
@@ -194,7 +194,7 @@ struct st3play_context {
                     effC = info;
             }
         }
-        return pair<int16_t,int16_t>(effB,effC);
+        return pair(effB,effC);
     }
     bool jumpLoop() const noexcept {
         if (probe) return probe::patloopcount > 0 || probe::patterndelay > 0;
@@ -336,7 +336,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     assert(!context->moduleLoaded());
 
     if (!context->loadS3M((const uint8_t*)buf, size)) {
-        ERR("player_st3play::parse parsing failed for %s\n", path);
+        WARN("player_st3play::parse parsing failed for %s\n", path);
         context->shutdown();
         delete context;
         probe_guard.unlock();
@@ -359,6 +359,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     if (config.probe) probe_guard.lock();
     st3play_context *context = new st3play_context(config.probe);
+    assert(!context->moduleLoaded());
     if (!context->PlaySong((uint8_t*)buf, size, true, config.frequency)) {
         ERR("player_st3play::play could not play %s\n", path);
         delete context;
@@ -375,8 +376,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         assert(static_cast<size_t>(subsong) <= subsongs.size());
         context->setPos(subsongs[subsong - 1]);
     }
-    PlayerState state = {info.value(), subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
-    return state;
+    return PlayerState {info.value(), subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
 }
 
 bool stop(PlayerState &state) noexcept {
@@ -397,16 +397,16 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     const auto context = static_cast<st3play_context*>(state.context);
     assert(context);
     assert(context->moduleLoaded());
-    const auto prevPos = pair<int16_t,int16_t>(context->np_ord(), context->np_row());
+    const auto prevPos = pair(context->np_ord(), context->np_row());
     bool prevJump = context->jumpLoop();
     bool filled = context->FillAudioBuffer((int16_t*)buf, mixBufSize(state.frequency) / 4);
     assert(filled);
-    const auto pos = pair<int16_t,int16_t>(context->np_ord(), context->np_row());
+    const auto pos = pair(context->np_ord(), context->np_row());
     bool jump = context->jumpLoop();
     bool songend = context->np_restarted() || context->np_ord() >= context->ordNum();
     if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second) {
         for (auto i = pos.second; i <= prevPos.second; ++i) {
-            context->seen.erase(pair<int16_t,int16_t>(pos.first, i));
+            context->seen.erase(pair(pos.first, i));
         }
     }
     if (!songend && pos != prevPos && !jump) {
