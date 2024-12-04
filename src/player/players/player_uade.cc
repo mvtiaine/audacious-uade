@@ -524,7 +524,6 @@ void shutdown() noexcept {
 }
 
 bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
-    // + .rk/rk.
     if (!is_xm(path,buf,size) && !is_fst(path,buf,size) && !is_s3m(path,buf,size) && !is_it(path,buf,size) && !is_sid(path,buf,size)) {
         const probe_scope probe(path);
         TRACE("uade::is_our_file using probe id %d - %s\n", probe.context->id, path);
