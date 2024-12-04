@@ -1264,6 +1264,9 @@ void PitchSlideUpLinear(hostChn_t *hc, slaveChn_t *sc, int16_t SlideValue)
 {
 	assert(sc != NULL);
 	assert(hc != NULL);
+	// mvtiaine: avoid assert with Pro-XeX/anixiapolis 19.it 
+	if (SlideValue < -1024) SlideValue = -1024;
+	if (SlideValue > 1024) SlideValue = 1024;
 	assert(SlideValue >= -1024 && SlideValue <= 1024);
 
 #ifdef USEFPUCODE // 8bb: IT2.15 (registered)
