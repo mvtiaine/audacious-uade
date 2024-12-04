@@ -49,7 +49,8 @@ static void SB16MMX_MixSamples(void)
 
 			if (sc->Flags & SF_FREQ_CHANGE)
 			{
-				if ((uint32_t)sc->Frequency>>MIX_FRAC_BITS >= Driver.MixSpeed ||
+				// mvtiaine: stricter freq/mixspeed limit to fix -fsanitize=address crash with Anubis/the rev.it
+				if ((uint32_t)sc->Frequency>>MIX_FRAC_BITS >= Driver.MixSpeed/2 ||
 					(uint32_t)sc->Frequency >= INT32_MAX/2) // 8bb: non-IT2 limit, but required for safety
 				{
 					sc->Flags = SF_NOTE_STOP;
