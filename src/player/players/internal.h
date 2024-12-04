@@ -6,6 +6,7 @@
 #include "common/std/optional.h"
 
 #include <cassert>
+#include <cstring>
 
 #include "common/endian.h"
 #include "player/player.h"
