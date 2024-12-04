@@ -1741,6 +1741,9 @@ void CommandQ(hostChn_t *hc)
 	sc->Frac64 = 0; // 8bb: also clear frac for my high-quality driver/mixer
 	sc->SamplingPosition = 0;
 
+	// mvtiaine: fix -fsanitize=address crash with Alpha C/decay ii.it
+	if (sc->LoopMode == LOOP_PINGPONG)
+		sc->LoopDirection = DIR_FORWARDS;
 	sc->Flags |= (SF_RECALC_FINALVOL | SF_NEW_NOTE | SF_LOOP_CHANGED);
 
 	uint8_t vol = sc->VolSet;
