@@ -6,6 +6,7 @@
 - st3play: fixed mix buffer overflow with 96000Hz
 - Detect when "Probe content of files with no recognized file name extension" setting is disabled and show error message instead of crashing with assert failure
 -- see https://github.com/mvtiaine/audacious-uade/issues/30 for details. Subsongs and metadata cannot be supported without it for some files using prefixes (TFMX etc.)
+- Implement Impulse Tracker support (https://github.com/8bitbubsy/it2play)
 - Misc fixes and updates
 
 0.12.2 - 2024-11-03

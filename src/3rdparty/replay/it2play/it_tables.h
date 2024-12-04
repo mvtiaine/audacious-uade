@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: BSD-3-Clause
 #pragma once
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
+#endif
 
 extern const uint32_t PitchTable[120];
 extern const int8_t FineSineData[3 * 256]; // 8bb: sine/ramp/square

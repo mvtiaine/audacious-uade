@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // 8bb: IT2 replayer command routines
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
@@ -8,6 +9,7 @@
 #include "it_tables.h"
 #include "it_music.h"
 #include "it_m_eff.h"
+#endif
 
 static const uint8_t SlideTable[9] = { 1, 4, 8, 16, 32, 64, 96, 128, 255 };
 

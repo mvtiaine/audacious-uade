@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // all of the comments in this file are written by me (8bitbubsy)
 
+#ifndef AUDACIOUS_UADE
 // for finding memory leaks in debug mode with Visual Studio
 #if defined _DEBUG && defined _MSC_VER
 #include <crtdbg.h>
@@ -14,6 +15,7 @@
 #include "../it_music.h"
 #include "../it_structs.h"
 #include "../it_d_rm.h"
+#endif
 
 static void Decompress16BitData(int16_t *Dst, const uint8_t *Src, uint32_t BlockLen);
 static void Decompress8BitData(int8_t *Dst, const uint8_t *Src, uint32_t BlockLen);

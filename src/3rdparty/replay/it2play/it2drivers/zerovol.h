@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
+#ifndef AUDACIOUS_UADE
 #pragma once
 
 #include <stdint.h>
 #include "../it_structs.h"
+#endif
 
 void UpdateNoLoop(slaveChn_t *sc, uint32_t numSamples);
 void UpdateForwardsLoop(slaveChn_t *sc, uint32_t numSamples);

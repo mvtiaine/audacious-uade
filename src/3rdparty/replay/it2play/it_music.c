@@ -5,6 +5,7 @@
 ** NOTE: MIDI logic is incomplete, and it was never meant to be ported anyway
 */
 
+#ifndef AUDACIOUS_UADE
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,6 +21,7 @@
 #include "it2drivers/sb16.h"
 #include "it2drivers/wavwriter.h"
 #include "it2drivers/hq.h"
+#endif
 
 enum
 {
@@ -1395,7 +1397,7 @@ static void PreInitCommand(hostChn_t *hc)
 		((slaveChn_t *)hc->SlaveChnPtr)->Flags |= SF_CHN_MUTED;
 }
 
-static void UpdateGOTONote(void) // Get offset
+void UpdateGOTONote(void) // Get offset - mvtiaine: removed static and added to header
 {
 	Song.DecodeExpectedPattern = Song.CurrentPattern;
 

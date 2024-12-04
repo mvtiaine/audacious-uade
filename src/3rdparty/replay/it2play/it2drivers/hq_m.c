@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
 #include "../cpu.h"
@@ -6,6 +7,7 @@
 #include "../it_music.h"
 #include "hq.h"
 #include "hq_m.h"
+#endif
 
 static void Mix8Bit(slaveChn_t *sc, float *fMixBufPtr, int32_t numSamples);
 static void Mix16Bit(slaveChn_t *sc, float *fMixBufPtr, int32_t numSamples);

@@ -11,12 +11,14 @@
 #include "common/endian.h"
 #include "common/logger.h"
 #include "player/player.h"
+#include "player/players/internal.h"
 
 #include "3rdparty/replay/st3play/st3play.h"
 
 using namespace std;
 using namespace common;
 using namespace player;
+using namespace player::internal;
 using namespace replay::st3play;
 
 namespace {
@@ -272,58 +274,6 @@ vector<int16_t> get_subsongs(const st3play_context *context) noexcept {
         }
     }
     return subsongs;
-}
-
-optional<ModuleInfo> get_s3m_info(const char *path, const char *buf, size_t size) noexcept {
-    const auto ver = *(le_uint16_t *)&buf[0x28];
-    assert(ver >= 0x1300 && ver <= 0x1321);
-    uint8_t chnsettings[32];
-	memcpy(chnsettings, &buf[0x40], sizeof chnsettings);
-    int channels = 0;
-    for (size_t ch = 0; ch < sizeof(chnsettings); ++ch) {
-        if (chnsettings[ch] > 0xF && chnsettings[ch] <= 0x7F) {
-            // reject mods with OPL channels as they are not supported
-            return {};
-        } else if ((chnsettings[ch] & 0x7F) < 16) {
-            channels++;
-        }
-    }
-    int16_t ordNum = *(le_uint16_t *)&buf[0x20];
-    int16_t insnum = *(le_uint16_t *)&buf[0x22];
-    uint16_t gusAddresses = 0;
-    assert(ordNum <= MAX_ORDNUM);
-    assert(insnum <= MAX_INSNUM);
-    for (auto i = 0; i < insnum; ++i) {
-        uint16_t offs = *(le_uint16_t *)&buf[0x60 + ordNum + (i * 2)] << 4;
-        if (offs == 0)
-            continue; // empty
-        assert((size_t)offs + 0x28 < size);
-        uint8_t *ptr8 = (uint8_t *)&buf[offs];
-        uint8_t type = ptr8[0x00];
-        uint32_t length = *(le_uint32_t *)&ptr8[0x10];
-        uint8_t flags = ptr8[0x1F];
-        // reject mods with OPL, ADPCM or stereo samples
-        if (length && (type > 1 || ptr8[0x1E] != 0 || flags & 2))
-            return {};
-        gusAddresses |= *(uint16_t *)&ptr8[0x28];
-    }
-
-    // Reject non-authentic trackers (based on OpenMPT)
-    if(!gusAddresses && ver != 0x1300)
-        return {};
-
-    uint8_t soundcardtype = gusAddresses > 1 ? 0 : 1;
-
-    char format[26];
-    // // 3.21 writes the version number as 3.20
-    if (ver == 0x1320)
-        snprintf(format, sizeof format, "Scream Tracker 3.2x (%s)", soundcardtype == 0 ? "GUS" : "SB");
-    else
-        snprintf(format, sizeof format, "Scream Tracker 3.%02X (%s)", ((uint16_t)ver) & 0xFF, soundcardtype == 0 ? "GUS" : "SB");
-
-    return channels > 0 && channels <= 16
-        ? ModuleInfo{Player::st3play, format, path, 1, 1, 1, channels}
-        : optional<ModuleInfo>{};
 }
 
 } // namespace {}

@@ -3,7 +3,9 @@
 ** All of the comments in this file are written by myself (8bitbubsy)
 */
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
+#endif
 
 /* Formula:
 ** for (i = 0; i < 10*12; i++)

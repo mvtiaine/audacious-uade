@@ -3,6 +3,7 @@
 ** ---- SB16 IT2 driver ----
 */
 
+#ifndef AUDACIOUS_UADE
 #include <assert.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -13,6 +14,7 @@
 #include "../it_music.h" // Update()
 #include "sb16_m.h"
 #include "zerovol.h"
+#endif
 
 static uint16_t MixVolume;
 static int32_t BytesToMix, *MixBuffer, MixTransferRemaining, MixTransferOffset;

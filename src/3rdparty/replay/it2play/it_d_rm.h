@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: BSD-3-Clause
+#ifndef AUDACIOUS_UADE
 #pragma once
 
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include "it_structs.h"
+#endif
 
 enum
 {

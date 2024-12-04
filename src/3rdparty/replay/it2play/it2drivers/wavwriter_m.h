@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 #pragma once
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include "../it_structs.h"
+#endif
 
 #define RAMPSPEED 8
 #define RAMPCOMPENSATE 255

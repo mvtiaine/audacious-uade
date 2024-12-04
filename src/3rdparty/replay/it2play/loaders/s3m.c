@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // for finding memory leaks in debug mode with Visual Studio
+#ifndef AUDACIOUS_UADE
 #if defined _DEBUG && defined _MSC_VER
 #include <crtdbg.h>
 #endif
@@ -12,6 +13,7 @@
 #include "../it_music.h"
 #include "../it_structs.h"
 #include "../it_d_rm.h"
+#endif
 
 #define S3M_ROWS 64
 

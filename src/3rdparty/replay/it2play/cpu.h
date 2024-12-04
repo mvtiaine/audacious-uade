@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: BSD-3-Clause
 #pragma once
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
+#endif
 
 #ifdef _WIN32
 
@@ -14,7 +16,9 @@
 #endif
 
 #else
+#ifndef AUDACIOUS_UADE
 #include <limits.h>
+#endif
 
 #if __WORDSIZE == 64
 #define CPU_32BIT 0

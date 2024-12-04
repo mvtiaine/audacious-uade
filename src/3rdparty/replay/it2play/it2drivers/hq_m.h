@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: BSD-3-Clause
 #pragma once
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include "../cpu.h"
 #include "../it_structs.h"
+#endif
 
 #define RAMPSPEED 8 /* slightly faster than SB16 MMX driver */
 

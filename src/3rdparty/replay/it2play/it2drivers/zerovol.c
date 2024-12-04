@@ -8,11 +8,13 @@
 ** for SB16/"SB16 MMX"/"WAV writer".
 */
 
+#ifndef AUDACIOUS_UADE
 #include <assert.h>
 #include <stdint.h>
 #include "../cpu.h"
 #include "../it_structs.h"
 #include "../it_music.h"
+#endif
 
 void UpdateNoLoop(slaveChn_t *sc, uint32_t numSamples)
 {

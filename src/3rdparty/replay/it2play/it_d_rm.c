@@ -12,6 +12,7 @@
 #include <crtdbg.h>
 #endif
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -23,6 +24,7 @@
 #include "it_d_rm.h"
 #include "loaders/it.h"
 #include "loaders/s3m.h"
+#endif
 
 static bool FirstTimeLoading = true;
 
@@ -51,6 +53,7 @@ static int8_t GetModuleType(MEMFILE *m) // 8bb: added this
 bool Music_LoadFromData(uint8_t *Data, uint32_t DataLen)
 {
 	bool WasCompressed = false;
+#ifndef AUDACIOUS_UADE
 	if (DataLen >= 4+4) // find out if module is MMCMP compressed
 	{
 		uint32_t Sig1 = *(uint32_t *)&Data[0];
@@ -63,6 +66,7 @@ bool Music_LoadFromData(uint8_t *Data, uint32_t DataLen)
 				return false;
 		}
 	}
+#endif
 
 	MEMFILE *m = mopen(Data, DataLen);
 	if (m == NULL)

@@ -59,7 +59,6 @@ const set<string> prefix_blacklist ({
     "DTM.",
     "FAR.",
     "GT2.",
-    "IT.",
     "MDL.",
     "MPTM.",
     "MT2.",

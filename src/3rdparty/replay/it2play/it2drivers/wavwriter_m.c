@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
 #include <math.h>
@@ -6,6 +7,7 @@
 #include "../it_music.h"
 #include "wavwriter.h"
 #include "wavwriter_m.h"
+#endif
 
 static void Mix32Stereo8Bit(slaveChn_t *sc, int32_t *mixBufPtr, int32_t numSamples);
 static void Mix32Stereo16Bit(slaveChn_t *sc, int32_t *mixBufPtr, int32_t numSamples);

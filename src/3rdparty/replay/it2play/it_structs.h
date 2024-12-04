@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 #pragma once
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
+#endif
 
 #define CHN_DISOWNED 128
 #define DIR_FORWARDS 0
@@ -141,6 +143,7 @@ typedef struct smp_t
 	void *OrigData, *DataR, *OrigDataR;
 } sample_t;
 
+struct slaveChn_t;
 typedef struct hostChn_t
 {
 	uint16_t Flags;
@@ -150,7 +153,7 @@ typedef struct hostChn_t
 	uint8_t EfxMem_Q, EfxMem_T, EfxMem_S, EfxMem_W, EfxMem_G_Compat, EfxMem_SFx;
 	uint8_t HighSmpOffs;
 	uint8_t HostChnNum, VolSet;
-	void *SlaveChnPtr;
+	slaveChn_t *SlaveChnPtr; // mvtiaine: changed from void *
 	uint8_t PattLoopStartRow, PattLoopCount;
 	uint8_t PanbrelloWaveform, PanbrelloPos, PanbrelloDepth, PanbrelloSpeed, LastPanbrelloData;
 	int8_t LastVibratoData, LastTremoloData;
@@ -169,6 +172,7 @@ typedef struct envState_t
 	int16_t Tick, CurNode, NextTick;
 } envState_t;
 
+struct hostChn_t;
 typedef struct slaveChn_t
 {
 	bool SmpIs16Bit;
@@ -187,7 +191,7 @@ typedef struct slaveChn_t
 	sample_t *SmpPtr;
 	uint8_t Note, Ins;
 	uint8_t Smp;
-	void *HostChnPtr;
+	hostChn_t *HostChnPtr; // mvtiaine: changed from void *
 	uint8_t HostChnNum, NNA, MIDIChn, MIDIProg;
 	uint16_t MIDIBank;
 	int32_t LoopBegin, LoopEnd;
@@ -256,7 +260,9 @@ typedef struct song_t
 	uint16_t DecodeExpectedPattern, DecodeExpectedRow;
 } song_t;
 
+#ifndef AUDACIOUS_UADE
 extern hostChn_t hChn[MAX_HOST_CHANNELS];
 extern slaveChn_t sChn[MAX_SLAVE_CHANNELS];
 extern song_t Song;
 extern driver_t Driver;
+#endif

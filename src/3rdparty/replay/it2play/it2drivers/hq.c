@@ -15,6 +15,7 @@
 ** higher mixing frequencies than 48kHz.
 */
 
+#ifndef AUDACIOUS_UADE
 #include <assert.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -26,6 +27,7 @@
 #include "../it_music.h" // Update()
 #include "hq_m.h"
 #include "zerovol.h"
+#endif
 
 // fast 32-bit -> 16-bit clamp
 #define CLAMP16(i) if ((int16_t)i != i) i = INT16_MAX ^ ((int32_t)i >> 31)

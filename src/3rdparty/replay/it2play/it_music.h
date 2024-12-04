@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
+#ifndef AUDACIOUS_UADE
 #pragma once
 
 #include <stdint.h>
@@ -12,6 +13,7 @@
 #include "audiodrivers/winmm/winmm.h"
 #else
 // Read "audiodrivers/how_to_write_drivers.txt"
+#endif
 #endif
 
 enum
@@ -78,6 +80,7 @@ void PitchSlideUp(hostChn_t *hc, slaveChn_t *sc, int16_t SlideValue);
 void PitchSlideDown(hostChn_t *hc, slaveChn_t *sc, int16_t SlideValue);
 
 void Update(void);
+void UpdateGOTONote(void); // mvtiaine: added this to header
 void Music_FillAudioBuffer(int16_t *buffer, int32_t numSamples);
 
 bool Music_Init(int32_t mixingFrequency, int32_t mixingBufferSize, int32_t DriverType);

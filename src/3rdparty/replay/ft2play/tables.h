@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
-#ifndef AUDACIOUS_UADE
 #pragma once
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #endif
 
