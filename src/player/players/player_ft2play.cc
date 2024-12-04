@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.0-or-later
-// Copyright (C) 2023-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
+// Copyright (C) 2024 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include "common/std/functional.h"
 #include "common/std/optional.h"
@@ -124,11 +124,11 @@ struct ft2play_context {
         if (probe) return probe::dump_EndOfTune(endSongPos);
         else return play::dump_EndOfTune(endSongPos);
     }
-    void setPos(int16_t pos, int16_t row) noexcept  {
+    void setPos(int16_t pos) noexcept  {
         reset();
         startPos = pos;
-        if (probe) probe::setPos(pos, row);
-        else play::setPos(pos, row); 
+        if (probe) probe::setPos(pos, 0);
+        else play::setPos(pos, 0); 
     }
     void shutdown() noexcept {
         stopVoices();
@@ -159,13 +159,14 @@ struct ft2play_context {
         if (probe) return probe::song.songTab[songPos];
         else return play::song.songTab[songPos];
     }
+
     pair<int16_t,int16_t> posJump(int pattNr, int16_t pattPos) const noexcept {
-        int16_t effB = -1;
-        int16_t effD = -1;
+        int16_t effB = -1; // Position Jump
+        int16_t effD = -1; // Pattern Break
         if (probe && probe::patt[pattNr]) {
             assert(pattPos < probe::pattLens[pattNr]);
             auto *p = &probe::patt[pattNr][pattPos * probe::song.antChn];
-            for (uint8_t i = 0; p && i < probe::song.antChn; i++, p++) {
+            for (uint8_t i = 0; p && i < probe::song.antChn && (effB == -1 || effD == -1); i++, p++) {
                 if (p->effTyp == 0xB)
                     effB = p->eff;
                 else if (p->effTyp == 0xD)
@@ -174,13 +175,13 @@ struct ft2play_context {
         } else if (!probe && play::patt[pattNr]) {
             assert(pattPos < play::pattLens[pattNr]);
             auto *p = &play::patt[pattNr][pattPos * play::song.antChn];
-            for (uint8_t i = 0; p && i < play::song.antChn; i++, p++)
+            for (uint8_t i = 0; p && i < play::song.antChn && (effB == -1 || effD == -1); i++, p++)
                 if (p->effTyp == 0xB)
                     effB = p->eff;
                 else if (p->effTyp == 0xD)
                     effD = ((p->eff >> 4) * 10) + (p->eff & 0x0F);
         }
-        return pair<int16_t,int16_t>(effB,effD);
+        return pair(effB,effD);
     }
     bool jumpLoop() const noexcept {
         if (probe) return probe::song.pBreakFlag || probe::song.posJumpFlag;
@@ -204,8 +205,7 @@ struct XMHeader {
 	char sig[17], name[21], progName[20];
 	le_uint16_t ver;
 	le_int32_t headerSize;
-	le_uint16_t len, repS, antChn, antPtn, antInstrs, flags, defTempo, defSpeed;
-	uint8_t songTab[256];
+	le_uint16_t len, repS, antChn, antPtn, antInstrs;
 } __attribute__ ((packed));
 
 struct modSampleTyp {
@@ -223,10 +223,22 @@ struct FSTHeader {
 } __attribute__ ((packed));
 
 constexpr bool is_fasttracker2(const char *buf, size_t size) noexcept {
-    return size >= 16 && memcmp(buf, "Extended Module:", 16) == 0;
+    if (size < sizeof(XMHeader) || memcmp(buf, "Extended Module:", 16)) return false;
+    const auto &h = (const XMHeader *)buf;
+    if (h->ver < 0x0102 || h->ver > 0x104 ||
+        h->antChn < 2 || h->antChn > 32 || (h->antChn & 1) != 0 ||
+        h->len > 256 || h->antPtn > 256 || h->antInstrs > 128) {
+        DEBUG("player_ft2play::parse failed - ver %d progName %s len %d antChn %d antPtn %d antInstrs %d\n", (int16_t)h->ver, h->progName, (int16_t)h->len, (int16_t)h->antChn, (int16_t)h->antPtn, (int16_t)h->antInstrs);
+        return false;
+    }
+    const auto progName = string(h->progName).substr(0,20);
+    for (const auto &name : xm_prog_blacklist) {
+        if (common::starts_with(progName, name)) return false;
+    }
+    return true;
 }
 
-constexpr_f2 bool is_fasttracker1(const char *buf, size_t size) noexcept {
+constexpr bool is_fasttracker1(const char *buf, size_t size) noexcept {
     if (size < sizeof(FSTHeader)) return false;
     const auto &hdr = (const FSTHeader *)buf;
     const string sig = string() + hdr->Sig[0] + hdr->Sig[1] + hdr->Sig[2] + hdr->Sig[3];
@@ -234,28 +246,6 @@ constexpr_f2 bool is_fasttracker1(const char *buf, size_t size) noexcept {
     for (const auto &cmp : MODSig)
         if (sig == cmp) return true;
     return false;
-}
-
-bool get_xm_header(const char *buf, size_t size, XMHeader &h) noexcept {
-    assert(size > sizeof(XMHeader));
-    memcpy(&h, buf, sizeof(XMHeader));
-    if (h.ver < 0x0102 || h.ver > 0x104 ||
-        h.antChn < 2 || h.antChn > 32 || (h.antChn & 1) != 0 ||
-        h.len > 256 || h.antPtn > 256 || h.antInstrs > 128) {
-        DEBUG("player_ft2play::parse failed - ver %d progName %s len %d antChn %d antPtn %d antInstrs %d\n", (int16_t)h.ver, h.progName, (int16_t)h.len, (int16_t)h.antChn, (int16_t)h.antPtn, (int16_t)h.antInstrs);
-        return false;
-    }
-    const auto progName = string(h.progName).substr(0,20);
-    for (const auto &name : xm_prog_blacklist) {
-        if (common::starts_with(progName, name)) return false;
-    }
-    return true;
-}
-
-bool get_fst_header( const char *buf, size_t size, FSTHeader &h) noexcept {
-    assert(size > sizeof(FSTHeader));
-    memcpy(&h, buf, sizeof(FSTHeader));
-    return true;
 }
 
 vector<int16_t> get_subsongs(const ft2play_context *context) noexcept {
@@ -321,20 +311,27 @@ vector<int16_t> get_subsongs(const ft2play_context *context) noexcept {
     return subsongs;
 }
 
-constexpr_f2 ModuleInfo get_xm_info(const char *path, const XMHeader &hdr) noexcept  {
-    string progName = string(hdr.progName).substr(0,20);
+constexpr_f2 ModuleInfo get_xm_info(const char *path, const char *buf) noexcept {
+    const auto &hdr = (const XMHeader *)buf;
+    string progName = string(hdr->progName).substr(0,20);
     if (common::ends_with(progName, " ")) {
         progName.erase(progName.find_last_of(' ') + 1);
         progName.erase(progName.find_last_not_of(' ') + 1);
     }
     replace_if(progName.begin(), progName.end(), ::not_fn<int (*)(int _c)>(::isprint), '?');
     if (progName.empty()) progName = "<Unknown>";
-    return {Player::ft2play, progName, path, 1, 1, 1, hdr.antChn};
+    return {Player::ft2play, progName, path, 1, 1, 1, hdr->antChn};
 }
 
-constexpr_f2 ModuleInfo get_fst_info(const char *path, const FSTHeader &hdr) noexcept {
+constexpr int get_xm_version(const char *buf) noexcept {
+    const auto &hdr = (const XMHeader *)buf;
+    return hdr->ver;
+}
+
+constexpr_f2 ModuleInfo get_fst_info(const char *path, const char *buf) noexcept {
+    const auto &hdr = (const FSTHeader *)buf;
     int channels = 2;
-    const string sig = string() + hdr.Sig[0] + hdr.Sig[1] + hdr.Sig[2] + hdr.Sig[3];
+    const string sig = string() + hdr->Sig[0] + hdr->Sig[1] + hdr->Sig[2] + hdr->Sig[3];
     if (sig == chn4) {
         channels = 4;
     } else {
@@ -370,20 +367,15 @@ void shutdown() noexcept {
 }
 
 bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
-    if (is_fasttracker2(buf, size)) {
-        if (size < sizeof(XMHeader)) return false;
-        XMHeader h;
-        return get_xm_header(buf, size, h);
-    }
-    return is_fasttracker1(buf, size);
+    return is_fasttracker2(buf, size) || is_fasttracker1(buf, size);
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
     XMHeader xm;
     FSTHeader fst;
 
-    const bool isXm = is_fasttracker2(buf, size) && get_xm_header(buf, size, xm);
-    const bool isFst = !isXm && is_fasttracker1(buf, size) && get_fst_header(buf, size, fst);
+    const bool isXm = is_fasttracker2(buf, size);
+    const bool isFst = !isXm && is_fasttracker1(buf, size);
 
     if (!isXm && !isFst)
         return {};
@@ -393,20 +385,21 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     assert(!context->moduleLoaded());
 
     if (!context->loadMusicFromData((const uint8_t*)buf, size)) {
-        ERR("player_ft2play::parse parsing failed for %s\n", path);
+        WARN("player_ft2play::parse parsing failed for %s\n", path);
         context->shutdown();
         delete context;
         probe_guard.unlock();
         return {};
     }
 
+    auto info = isXm ? get_xm_info(path, buf) : get_fst_info(path, buf);
     const auto subsongs = get_subsongs(context);
+    info.maxsubsong = subsongs.size();
+
     context->shutdown();
     delete context;
     probe_guard.unlock();
 
-    auto info = isXm ? get_xm_info(path, xm) : get_fst_info(path, fst);
-    info.maxsubsong = subsongs.size();
     return info;
 }
 
@@ -414,21 +407,11 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     ModuleInfo info;
     bool volumeRamping = false;
     if (is_fasttracker2(buf, size)) {
-        XMHeader header;
-        if (!get_xm_header(buf, size, header)) {
-            ERR("player_ft2play::play parsing failed for %s\n", path);
-            return {};
-        }
-        info = get_xm_info(path, header);
-        volumeRamping = header.ver >= 0x104;
+        info = get_xm_info(path, buf);
+        volumeRamping = get_xm_version(buf) >= 0x104;
 
     } else if (is_fasttracker1(buf, size)) {
-        FSTHeader header;
-        if (!get_fst_header(buf, size, header)) {
-            ERR("player_ft2play::play parsing failed for %s\n", path);
-            return {};
-        }
-        info = get_fst_info(path, header);
+        info = get_fst_info(path, buf);
 
     } else assert(false);
 
@@ -456,14 +439,14 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 
     context->setModuleLoaded(true);
 
+    const auto subsongs = get_subsongs(context);
+    info.maxsubsong = subsongs.size();
     if (subsong > 1) {
-        const auto subsongs = get_subsongs(context);
         assert(static_cast<size_t>(subsong) <= subsongs.size());
-        context->setPos(subsongs[subsong - 1], 0);
+        context->setPos(subsongs[subsong - 1]);
     }
 
-    PlayerState state = {info, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
-    return state;
+    return PlayerState{info, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
 }
 
 bool stop(PlayerState &state) noexcept {
@@ -484,15 +467,15 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     const auto context = static_cast<ft2play_context*>(state.context);
     assert(context);
     assert(context->moduleLoaded());
-    const auto prevPos = pair<int16_t,int16_t>(context->songPos(), context->pattPos());
+    const auto prevPos = pair(context->songPos(), context->pattPos());
     bool prevJump = context->jumpLoop();
     ssize_t totalbytes = context->dump_GetFrame((int16_t*)buf);
-    const auto pos = pair<int16_t,int16_t>(context->songPos(), context->pattPos());
+    const auto pos = pair(context->songPos(), context->pattPos());
     bool jump = context->jumpLoop();
     bool songend = context->dump_EndOfTune(context->songLen()-1);
     if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second) {
         for (auto i = pos.second; i <= prevPos.second; ++i) {
-            context->seen.erase(pair<int16_t,int16_t>(pos.first, i));
+            context->seen.erase(pair(pos.first, i));
         }
     }
     if (!songend && pos != prevPos && !jump) {
@@ -508,7 +491,7 @@ bool restart(PlayerState &state) noexcept {
     context->setSongTimer(1);
     context->mix_ClearChannels();
     context->stopVoices();
-    context->setPos(context->startPos, 0);
+    context->setPos(context->startPos);
     return true;
 }
 
