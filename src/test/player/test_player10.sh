@@ -9,7 +9,7 @@ set -e
 export PLAYER_ENDIAN=little
 
 TESTMOD="${top_srcdir}/testdata/miracle man.s3m"
-TESTMD5_LITTLE=32f3c2d2831b5e5c01ee1c23f0044a18
+TESTMD5_LITTLE=17addf5a33be26ca333561da49b46ecd
 
 TEST_NAME="st3play (S3M) + subsongs"
 TEST="${PLAYER} \"${TESTMOD}\" 2 | ${MD5}"

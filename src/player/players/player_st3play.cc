@@ -31,7 +31,7 @@ constexpr int PATT_SEP = 254;
 constexpr int PATT_END = 255;
 
 constexpr size_t mixBufSize(const int frequency) noexcept {
-    return 4 * 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
+    return 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
 }
 
 mutex probe_guard;
