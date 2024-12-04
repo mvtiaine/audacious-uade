@@ -76,7 +76,8 @@ void UpdatePingPongLoop(slaveChn_t *sc, uint32_t numSamples)
 		sc->SamplingPosition -= IntSamples;
 		sc->Frac32 &= MIX_FRAC_MASK;
 
-		if (sc->SamplingPosition <= sc->LoopBegin)
+		// mvtiaine: added loopend check also (see HQ case below)
+		if (sc->SamplingPosition <= sc->LoopBegin || sc->SamplingPosition >= sc->LoopEnd)
 		{
 			uint32_t NewLoopPos = (uint32_t)(sc->LoopBegin - sc->SamplingPosition) % (LoopLength << 1);
 			if (NewLoopPos >= LoopLength)
@@ -221,7 +222,8 @@ void UpdatePingPongLoopHQ(slaveChn_t *sc, uint32_t numSamples)
 		sc->Frac64 &= UINT32_MAX;
 #endif
 
-		if (sc->SamplingPosition <= sc->LoopBegin)
+		// mvtiaine: added >= loopend check to fix sanitizer crash with: 2Lite/coop-Astreia/waterfront\ remix.it
+		if (sc->SamplingPosition <= sc->LoopBegin || sc->SamplingPosition >= sc->LoopEnd)
 		{
 			uint32_t NewLoopPos = (uint32_t)(sc->LoopBegin - sc->SamplingPosition) % (LoopLength << 1);
 			if (NewLoopPos >= LoopLength)
