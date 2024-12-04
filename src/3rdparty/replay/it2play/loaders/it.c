@@ -432,8 +432,10 @@ static void Decompress16BitData(int16_t *Dst, const uint8_t *Src, uint32_t Block
 	BitDepth = 17;
 	BitDepthInv = BitsRead = 0;
 
+	// mvtiaine: added sanity check (Arcturus/outback twilight.it)
+	const uint8_t *End = Src + BlockLength;
 	BlockLength >>= 1;
-	while (BlockLength != 0)
+	while (BlockLength != 0 && Src < End)
 	{
 		Bytes32 = (*(uint32_t *)Src) >> BitsRead;
 
@@ -523,7 +525,9 @@ static void Decompress8BitData(int8_t *Dst, const uint8_t *Src, uint32_t BlockLe
 	BitDepth = 9;
 	BitDepthInv = BitsRead = 0;
 
-	while (BlockLength != 0)
+	// mvtiaine: added sanity check (Arcturus/outback twilight.it)
+	const uint8_t *End = Src + BlockLength;
+	while (BlockLength != 0 && Src < End)
 	{
 		Bytes16 = (*(uint16_t *)Src) >> BitsRead;
 
