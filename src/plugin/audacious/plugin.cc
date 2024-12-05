@@ -93,12 +93,13 @@ int parse_uri(const char *uri, string &path, string &ext) {
     return strlen(sub) > 0 ? subsong : -1;
 }
 
-void update_tuple_song_end(Tuple &tuple, const common::SongEnd &songend, const string &format) {
+void update_tuple_song_end(Tuple &tuple, const common::SongEnd &songend, const optional<string> &format) {
     const auto status = songend.status;
     const auto comment = "songend=" + songend.status_string();
     tuple.set_str(Tuple::Comment, comment.c_str());
     if (songend.length > 0 && status != common::SongEnd::NOSOUND &&
-        (status != common::SongEnd::ERROR || songend::precalc::allow_songend_error(format))) {
+        (status != common::SongEnd::ERROR ||
+        (format.has_value() && songend::precalc::allow_songend_error(format.value())))) {
         tuple.set_int(Tuple::Length, songend.length);
     }
 }
@@ -589,7 +590,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     TRACE("Playback status for %s - %d\n", uri, res.songend.status);
 
     if (known_timeout <= 0 && !res.stopped && !res.seeked) {
-        update_tuple_song_end(tuple, res.songend, state->info.format);
+        update_tuple_song_end(tuple, res.songend, {});
         set_playback_tuple(tuple.ref());
     }
 

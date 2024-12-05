@@ -404,16 +404,12 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
-    ModuleInfo info;
+    assert(subsong >= 1);
     bool volumeRamping = false;
-    if (is_fasttracker2(buf, size)) {
-        info = get_xm_info(path, buf);
+    if (is_fasttracker2(buf, size))
         volumeRamping = get_xm_version(buf) >= 0x104;
-
-    } else if (is_fasttracker1(buf, size)) {
-        info = get_fst_info(path, buf);
-
-    } else assert(false);
+    else
+        assert(is_fasttracker1(buf, size));
 
     if (config.probe) probe_guard.lock();
     ft2play_context *context = new ft2play_context(config.probe);
@@ -439,18 +435,17 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 
     context->setModuleLoaded(true);
 
-    const auto subsongs = get_subsongs(context);
-    info.maxsubsong = subsongs.size();
     if (subsong > 1) {
+        const auto subsongs = get_subsongs(context);
         assert(static_cast<size_t>(subsong) <= subsongs.size());
         context->setPos(subsongs[subsong - 1]);
     }
 
-    return PlayerState{info, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
+    return PlayerState {Player::ft2play, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
 }
 
 bool stop(PlayerState &state) noexcept {
-    assert(state.info.player == Player::ft2play);
+    assert(state.player == Player::ft2play);
     if (state.context) {
         const auto context = static_cast<ft2play_context*>(state.context);
         assert(context);
@@ -462,7 +457,7 @@ bool stop(PlayerState &state) noexcept {
 }
 
 pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
-    assert(state.info.player == Player::ft2play);
+    assert(state.player == Player::ft2play);
     assert(size >= mixBufSize(state.frequency));
     const auto context = static_cast<ft2play_context*>(state.context);
     assert(context);
@@ -485,7 +480,7 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
 }
 
 bool restart(PlayerState &state) noexcept {
-    assert(state.info.player == Player::ft2play);
+    assert(state.player == Player::ft2play);
     const auto context = static_cast<ft2play_context*>(state.context);
     assert(context);
     context->setSongTimer(1);

@@ -357,6 +357,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(subsong >= 1);
     if (config.probe) probe_guard.lock();
     st3play_context *context = new st3play_context(config.probe);
     assert(!context->moduleLoaded());
@@ -367,20 +368,17 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         return {};
     }
 
-    auto info = get_s3m_info(path, buf, size);
-    if (!info) return {};
-
-    const auto subsongs = get_subsongs(context);
-    info->maxsubsong = subsongs.size();
     if (subsong > 1) {
+        const auto subsongs = get_subsongs(context);
         assert(static_cast<size_t>(subsong) <= subsongs.size());
         context->setPos(subsongs[subsong - 1]);
     }
-    return PlayerState {info.value(), subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
+
+    return PlayerState {Player::st3play, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
 }
 
 bool stop(PlayerState &state) noexcept {
-    assert(state.info.player == Player::st3play);
+    assert(state.player == Player::st3play);
     if (state.context) {
         const auto context = static_cast<st3play_context*>(state.context);
         assert(context);
@@ -392,7 +390,7 @@ bool stop(PlayerState &state) noexcept {
 }
 
 pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
-    assert(state.info.player == Player::st3play);
+    assert(state.player == Player::st3play);
     assert(size >= mixBufSize(state.frequency));
     const auto context = static_cast<st3play_context*>(state.context);
     assert(context);
@@ -416,7 +414,7 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
 }
 
 bool restart(PlayerState &state) noexcept {
-    assert(state.info.player == Player::st3play);
+    assert(state.player == Player::st3play);
     const auto context = static_cast<st3play_context*>(state.context);
     assert(context);
     context->clearMixBuffer();

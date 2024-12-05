@@ -400,6 +400,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(subsong >= 1);
     if (config.probe) probe_guard.lock();
     it2play_context *context = new it2play_context(config.probe);
     assert(!context->Song().Loaded);
@@ -412,25 +413,19 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         return {};
     }
 
-    auto info = isIT(buf, size) ? get_it_info(path, context)
-        : isS3M(buf, size) ? get_s3m_info(path, buf, size)
-        : optional<ModuleInfo>{};
-    if (!info) return {};
-
-    const auto [subsongs, maxChn] = get_subsongs_and_channels(context);
-    info->channels = maxChn;
-    info->maxsubsong = subsongs.size();
     int order = 0;
     if (subsong > 1) {
+        const auto [subsongs, maxChn] = get_subsongs_and_channels(context);
         assert(static_cast<size_t>(subsong) <= subsongs.size());
         order = subsongs[subsong - 1];
     }
     context->Music_PlaySong(order);
-    return PlayerState {info.value(), subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
+
+    return PlayerState {Player::it2play, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
-    assert(state.info.player == Player::it2play);
+    assert(state.player == Player::it2play);
     assert(size >= mixBufSize(state.frequency));
     const auto context = static_cast<it2play_context*>(state.context);
     assert(context);
@@ -453,7 +448,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
 }
 
 bool stop(PlayerState &state) noexcept {
-    assert(state.info.player == Player::it2play);
+    assert(state.player == Player::it2play);
     if (state.context) {
         const auto context = static_cast<it2play_context*>(state.context);
         assert(context);
@@ -465,7 +460,7 @@ bool stop(PlayerState &state) noexcept {
 }
 
 bool restart(PlayerState &state) noexcept {
-    assert(state.info.player == Player::it2play);
+    assert(state.player == Player::it2play);
     const auto context = static_cast<it2play_context*>(state.context);
     assert(context);
     context->Music_PlaySong(context->startPos);

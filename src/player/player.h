@@ -83,7 +83,7 @@ struct PlayerConfig {
 };
 
 struct PlayerState {
-    ModuleInfo info;
+    Player player;
     int subsong;
     int frequency;
     bool swap_endian;

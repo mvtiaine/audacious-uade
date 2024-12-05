@@ -131,26 +131,24 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     SWITCH_PLAYER(player, res,
         play(path, buf, size, subsong, config)
     )
-    if (res && conversion) {
-        res->info.format = conversion->format;
-    }
+
     return res;
 }
 
 bool stop(PlayerState &state) noexcept {
     assert(initialized);
-    assert(state.info.player != Player::NONE);
+    assert(state.player != Player::NONE);
     bool res = false;
-    SWITCH_PLAYER(state.info.player, res,
+    SWITCH_PLAYER(state.player, res,
         stop(state)
     )
-    state.info.player = Player::NONE;
+    state.player = Player::NONE;
     return res;
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(initialized);
-    assert(state.info.player != Player::NONE);
+    assert(state.player != Player::NONE);
     assert(buf);
     assert(size >= state.buffer_size);
     auto res = pair<SongEnd::Status,size_t>(SongEnd::ERROR, 0);
@@ -162,7 +160,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
         tmpbuf.resize(size);
         mixbuf = tmpbuf.data();
     }
-    SWITCH_PLAYER(state.info.player, res,
+    SWITCH_PLAYER(state.player, res,
         render(state, mixbuf, size)
     )
     assert(res.second % 2 == 0);
@@ -178,9 +176,9 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
 }
 
 bool restart(PlayerState &state) noexcept {
-    assert(state.info.player != Player::NONE);
+    assert(state.player != Player::NONE);
     bool res = false;
-    SWITCH_PLAYER(state.info.player, res,
+    SWITCH_PLAYER(state.player, res,
         restart(state)
     )
     if (res) {
@@ -191,12 +189,12 @@ bool restart(PlayerState &state) noexcept {
 
 bool seek(PlayerState &state, int millis) noexcept {
     assert(initialized);
-    assert(state.info.player != Player::NONE);
+    assert(state.player != Player::NONE);
 
-    TRACE("Seeking to %d current pos %d player %d\n", millis, state.pos_millis, static_cast<int>(state.info.player));
+    TRACE("Seeking to %d current pos %d player %d\n", millis, state.pos_millis, static_cast<int>(state.player));
 
     // use UADEs own seek as it doesn't support "restart"
-    if (state.info.player == Player::uade) return uade::seek(state, millis);
+    if (state.player == Player::uade) return uade::seek(state, millis);
 
     vector<char> dummybuf(state.buffer_size);
     if (millis < state.pos_millis) {
@@ -213,7 +211,7 @@ bool seek(PlayerState &state, int millis) noexcept {
     int64_t seeked = 0;
     auto res = pair<SongEnd::Status,uint64_t>(SongEnd::ERROR, 0);
     while (seeked < bytestoseek) {
-        SWITCH_PLAYER(state.info.player, res,
+        SWITCH_PLAYER(state.player, res,
             render(state, dummybuf.data(), dummybuf.size())
         )
         if (res.first != SongEnd::NONE) return false;
@@ -293,7 +291,7 @@ PlaybackResult playback_loop(
     }
 
     // TODO silence detection for other players during playback
-    if (state.info.player == Player::uade && songend.status == SongEnd::DETECT_SILENCE) {
+    if (state.player == Player::uade && songend.status == SongEnd::DETECT_SILENCE) {
         const auto &uade_config = static_cast<const uade::UADEConfig&>(config);
         assert(uade_config.player == Player::uade);
         songend.length -= uade_config.silence_timeout;

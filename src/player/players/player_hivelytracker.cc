@@ -72,6 +72,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(subsong >= 0);
     lazy_init();
     struct hvl_tune *ht = hvl_reset((uint8_t*)buf, size, 0, config.frequency);
     if (!ht) {
@@ -79,24 +80,18 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         return {};
     }
 
-    if (subsong == -1) {
-        subsong = ht->ht_SongNum;
-    }
-
-    assert(subsong >= 0 && subsong <= ht->ht_SubsongNr);
+    assert(subsong <= ht->ht_SubsongNr);
     if (!hvl_InitSubsong(ht, subsong)) {
         ERR("player_hivelytracker::play init subsong failed for %s\n", path);
         hvl_FreeTune(ht);
         return {};
     }
 
-    const auto &info = get_info(path, ht);
-    PlayerState state = {info, subsong, config.frequency, config.endian != endian::native, ht, true, mixBufSize(config.frequency), 0};
-    return state;
+    return PlayerState {Player::hivelytracker, subsong, config.frequency, config.endian != endian::native, ht, true, mixBufSize(config.frequency), 0};
 }
 
 bool stop(PlayerState &state) noexcept {
-    assert(state.info.player == Player::hivelytracker);
+    assert(state.player == Player::hivelytracker);
     if (state.context) {
         auto ht = static_cast<struct hvl_tune*>(state.context);
         assert(ht);
@@ -106,7 +101,7 @@ bool stop(PlayerState &state) noexcept {
 }
 
 pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
-    assert(state.info.player == Player::hivelytracker);
+    assert(state.player == Player::hivelytracker);
     assert(size >= mixBufSize(state.frequency));
     auto ht = static_cast<struct hvl_tune*>(state.context);
     assert(ht);
@@ -124,7 +119,7 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
 }
 
 bool restart(PlayerState &state) noexcept {
-    assert(state.info.player == Player::hivelytracker);
+    assert(state.player == Player::hivelytracker);
     auto ht = static_cast<struct hvl_tune*>(state.context);
     assert(ht);
     return hvl_InitSubsong(ht, state.subsong);

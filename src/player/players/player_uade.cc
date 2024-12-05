@@ -316,41 +316,38 @@ uade_context *get_probe_context() noexcept {
     return context;
 }
 
-void release_probe_context(uade_context *context, const string &path) noexcept {
-    (void)path;
-    TRACE("release_probe_context id %d - %s\n", context->id, path.c_str());
+void release_probe_context(uade_context *context) noexcept {
+    TRACE("release_probe_context id %d\n", context->id);
     const lock_guard<mutex> lock(probe_mutex);
     context->available = true;
 }
 
-void cleanup_probe_context(uade_context *context, const string &path) noexcept {
-    (void)path;
-    TRACE("cleanup_probe_context id %d - %s\n", context->id, path.c_str());
+void cleanup_probe_context(uade_context *context) noexcept {
+    TRACE("cleanup_probe_context id %d\n", context->id);
     uade_cleanup_state(context->state);
     context->state = create_uade_probe_state(context->config);
 }
 
-void stop_probe_context(uade_context *context, const string &path) noexcept {
-    TRACE("stop_probe_context id %d - %s\n", context->id, path.c_str());
+void stop_probe_context(uade_context *context) noexcept {
+    TRACE("stop_probe_context id %d\n", context->id);
     if (uade_stop(context->state)) {
-        WARN("uade_stop failed for id %d - %s\n", context->id, path.c_str());
-        cleanup_probe_context(context, path);
+        WARN("uade_stop failed for id %d\n", context->id);
+        cleanup_probe_context(context);
     }
 }
 
 struct probe_scope {
     uade_context *context;
-    const string path;
-    probe_scope(const string path) noexcept :
-        context(get_probe_context()), path(path) {
+    probe_scope() noexcept :
+        context(get_probe_context()) {
             assert(context);
             assert(context->state);
         }
     ~probe_scope() noexcept {
         assert(context);
         assert(context->state);
-        stop_probe_context(context, path);
-        release_probe_context(context, path);
+        stop_probe_context(context);
+        release_probe_context(context);
     }
 };
 
@@ -426,12 +423,12 @@ const struct uade_song_info *get_song_info(const uade_state *state) noexcept {
     return info;
 }
 
-void cleanup_context(uade_context *context, const string &path) noexcept {
+void cleanup_context(uade_context *context) noexcept {
     assert(context);
     assert(context->state);
     if (context->probe) {
-        stop_probe_context(context, path);
-        release_probe_context(context, path);
+        stop_probe_context(context);
+        release_probe_context(context);
     } else {
         uade_cleanup_state(context->state);
         free(context->config->resampler);
@@ -525,7 +522,7 @@ void shutdown() noexcept {
 
 bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
     if (!is_xm(path,buf,size) && !is_fst(path,buf,size) && !is_s3m(path,buf,size) && !is_it(path,buf,size) && !is_sid(path,buf,size)) {
-        const probe_scope probe(path);
+        const probe_scope probe;
         TRACE("uade::is_our_file using probe id %d - %s\n", probe.context->id, path);
         return uade_is_our_file_from_buffer(path, buf, size, probe.context->state) != 0;
     }
@@ -533,7 +530,7 @@ bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
-    const probe_scope probe(path);
+    const probe_scope probe;
     TRACE("uade::parse using probe id %d - %s\n", probe.context->id, path);
     switch (uade_play_from_buffer(path, buf, size, -1, probe.context->state)) {
         case 1: {
@@ -558,6 +555,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(subsong >= 0 && subsong <= 255);
     uade_context *context;
     if (config.probe) {
         context = get_probe_context();
@@ -574,23 +572,11 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     }
 
     switch (uade_play_from_buffer(path, buf, size, subsong, context->state)) {
-        case 1: {
-            const struct uade_song_info* info = get_song_info(context->state);
-            const string format = parse_codec(info);
-            // avoid uade_subsong_control: Assertion `subsong >= 0 && subsong < 256' failed.
-            if (info->subsongs.min < 0) WARN("uade::parse invalid min subsong %d for %s\n", info->subsongs.min, path);
-            if (info->subsongs.max > 255) WARN("uade::parse invalid max subsong %d for %s\n", info->subsongs.max, path);
-            const int minsubsong = max(0, info->subsongs.min);
-            const int maxsubsong = min(255, info->subsongs.max);
-            assert(minsubsong <= maxsubsong);
-            // TODO channels
-            const ModuleInfo modinfo = {Player::uade, format, path, minsubsong, maxsubsong, info->subsongs.def, 0};
-            PlayerState state = {modinfo, subsong, config.frequency, config.endian != endian::native, context, !config.probe, mixBufSize(config.frequency), 0};
-            return state;
-        }
+        case 1:
+            return PlayerState {Player::uade, subsong, config.frequency, config.endian != endian::native, context, !config.probe, mixBufSize(config.frequency), 0};
         default:
             ERR("Could not play %s\n", path);
-            cleanup_context(context, path);
+            cleanup_context(context);
             if (!config.probe) {
                 assert(!context->probe);
                 delete context;
@@ -600,7 +586,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
-    assert(state.info.player == Player::uade);
+    assert(state.player == Player::uade);
     assert(size >= mixBufSize(state.frequency));
     const auto context = static_cast<uade_context*>(state.context);
     assert(context);
@@ -645,10 +631,10 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
 }
 
 bool stop(PlayerState &state) noexcept {
-    assert(state.info.player == Player::uade);
+    assert(state.player == Player::uade);
     if (state.context) {
         auto context = static_cast<uade_context*>(state.context);
-        cleanup_context(context, state.info.path);
+        cleanup_context(context);
         if (!context->probe)
             delete context;
         state.context = nullptr;
@@ -662,7 +648,7 @@ bool restart(PlayerState &/*state*/) noexcept {
 }
 
 bool seek(PlayerState &state, int millis) noexcept {
-    assert(state.info.player == Player::uade);
+    assert(state.player == Player::uade);
     const auto context = static_cast<uade_context*>(state.context);
     assert(context);
     assert(context->state);
