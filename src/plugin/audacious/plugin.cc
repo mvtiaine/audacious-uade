@@ -573,7 +573,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     }
 
     // XXX FMT_S16_NE does not seem to work on big endian
-    open_audio(endian::native == endian::big ? FMT_S16_BE : FMT_S16_LE, frequency, 2);
+    open_audio(endian::native == endian::big ? FMT_S16_BE : FMT_S16_LE, state->frequency, 2);
 
     const auto res = player::support::playback_loop(state.value(), config, check_stop_, check_seek_, write_audio_);
 
