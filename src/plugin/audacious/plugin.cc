@@ -363,6 +363,29 @@ player::uade::UADEConfig get_uade_config(int frequency, int known_timeout) {
     return conf;
 }
 
+// hack for files which actually contain ? in their name, e.g. MOD.louzy-house?2 or MOD.how low can we go?1
+// which conflicts with audacious subsong uri scheme
+// XXX audacious also does not support subsongs for "prefix" formats by default
+// see https://redmine.audacious-media-player.org/boards/2/topics/1354
+int applySubsongHack(int subsong, const char *uri, const string &md5, const bool slowProbe, const char* tag) {
+    const auto &subsongs = songdb::subsong_range(md5);
+    if (!subsongs) {
+        if (!slowProbe)
+            ERR("SUBSONGS AND METADATA NOT AVAILABLE: Enable \"Probe content of files with no recognized file name extension\" in preferences to fix!\n");
+        else
+            ERR("%s could not determine subsong for %s\n", tag, uri);
+        return -1;
+    }
+    if (!slowProbe)
+        ERR("SUBSONGS AND METADATA NOT AVAILABLE: Enable \"Probe content of files with no recognized file name extension\" in preferences to fix!\n");
+    else if (subsongs->first == subsongs->second)
+        DEBUG("%s enforced subsong %d (was %d) for %s\n", tag, subsongs->first, subsong, uri);
+    else 
+        WARN("%s enforced subsong %d (was %d) for %s\n", tag, subsongs->first, subsong, uri);
+
+    return subsongs->first;
+}
+
 } // namespace {}
 
 class UADEPlugin : public InputPlugin
@@ -477,18 +500,12 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
         return true;
     }
 
-    // hack for files which actually contain ? in their name, e.g. MOD.louzy-house?2 or MOD.how low can we go?1
-    // which conflicts with audacious subsong uri scheme
     bool needfix = subsong >= 0 && string(uri).find_last_of("?") == string::npos;
     if (needfix) {
-        const auto &subsongs = songdb::subsong_range(md5);
-        if (subsongs && subsongs->first == subsongs->second) {
-            WARN("uade_plugin_read_tag enforced subsong %d (was %d) for %s\n", subsongs->first, subsong, uri);
-            subsong = subsongs->first;
-        } else {
-            WARN("uade_plugin_read_tag could not determine subsong for %s\n", uri);
-        }
-    }
+        subsong = applySubsongHack(subsong, uri, md5, aud_get_bool("slow_probe"), "uade_plugin_read_tag");
+        if (subsong < 0)
+            return false;
+    }    
 
     const auto playback_file = aud_drct_get_filename();
     const auto for_playback = playback_file && string(playback_file) == string(uri);
@@ -532,18 +549,12 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     string path, ext;
     int subsong = parse_uri(uri, path, ext);
 
-    // hack for files which actually contain ? in their name, e.g. MOD.louzy-house?2 or MOD.how low can we go?1
-    // which conflicts with audacious subsong uri scheme
-    bool needfix = subsong >= 0 && string(uri).find_last_of("?") == string::npos;
+    bool needfix = subsong < 0 || (subsong >= 0 && string(uri).find_last_of("?") == string::npos);
     if (needfix) {
         const string &md5 = md5hex(file);
-        const auto &subsongs = songdb::subsong_range(md5);
-        if (subsongs && subsongs->first == subsongs->second) {
-            WARN("uade_plugin_play enforced subsong %d (was %d) for %s\n", subsongs->first, subsong, uri);
-            subsong = subsongs->first;
-        } else {
-            WARN("uade_plugin_play could not determine subsong for %s\n", uri);
-        }
+        subsong = applySubsongHack(subsong, uri, md5, aud_get_bool("slow_probe"), "uade_plugin_play");
+        if (subsong < 0)
+            return false;
     }
     
     int frequency = aud_get_int(PLUGIN_NAME, "frequency");
