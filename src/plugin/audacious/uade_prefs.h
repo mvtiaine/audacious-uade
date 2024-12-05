@@ -23,9 +23,6 @@ const char * const uade_defaults[] = {
 };
 
 const PreferencesWidget uade_audio_widgets1[] = {
-    WidgetLabel("<b>Sample rate</b>"),
-    WidgetSpin("", WidgetInt(PLUGIN_NAME, "frequency"), {8000, 96000, 25, "Hz  "}),
-
     WidgetLabel("<b>Filter</b>"),
     // 0 reserved for "Auto"
     WidgetRadio("A500", WidgetInt(PLUGIN_NAME, "filter"), {1}, WIDGET_CHILD),

@@ -16,8 +16,23 @@ const char * const plugin_defaults[] = {
 };
 
 const PreferencesWidget plugin_widgets[] = {
+    WidgetLabel("<b>Sample rate</b>"),
+    WidgetSpin("", WidgetInt(PLUGIN_NAME, "frequency"), {8000, 96000, 25, "Hz  "}),
+    WidgetSeparator (),
     WidgetCheck("Precalc missing song lengths",
         WidgetBool(PLUGIN_NAME, PRECALC_SONGLENGTHS)),
+    WidgetSeparator (),
+    WidgetLabel("<b>IMPORTANT!</b>"),
+    WidgetLabel(
+        "<b>Probe content of files with no<br/>"
+        "recognized file name extension</b><br/>"
+        "setting must <i>enabled</i> and<br/>"
+        "<b>Guess missing metadata from filepath</b><br/>"
+        "setting <i>disabled</i> in Audacious prefs<br/>"
+        "in order for subsongs and meta data to <br/>"
+        "work. The playlist must also have been<br/>"
+        "created <i>after</i> the settings are applied."
+    ),
 };
 
 const PreferencesWidget middle_column[] = {
@@ -27,8 +42,6 @@ const PreferencesWidget middle_column[] = {
 };
 
 const PreferencesWidget right_column[] = {
-    WidgetLabel(""),
-    WidgetSeparator (),
     WidgetBox({{uade_audio_widgets2}}),
     WidgetSeparator (),
     WidgetBox({{uade_timeout_widgets}}),
