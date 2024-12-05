@@ -1,7 +1,7 @@
 This is Audacious (https://audacious-media-player.org/) input plugin for UADE (https://zakalwe.fi/uade/) and other retro music replays.
 
 * IMPORTANT!
-- Make sure "Probe content of files with no recognized file name extension" setting is *enabled* and "Guess missing metadata from filepath" setting is *disabled* in Audacious prefs in order for subsongs to work properly. The playlist must also have been created *after* the settings are applied.
+- Make sure "Probe content of files with no recognized file name extension" setting is *enabled* and "Guess missing metadata from filepath" setting is *disabled* in Audacious prefs in order for subsongs and meta data to work properly. The playlist must also have been created *after* the settings are applied.
 
 Main features:
 - Precalculated database for song lengths and author/album/publisher/year meta data (see below)
