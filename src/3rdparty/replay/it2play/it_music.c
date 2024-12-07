@@ -1947,10 +1947,14 @@ static void UpdateSamples(void) // 8bb: for songs without instruments
 			{
 				sc->FinalPan = sc->Pan;
 			}
-			else
+			else if (sc->Pan <= 64) // mvtiaine: added sanity check to avoid assert with Kheldysh/IT.hmmburger
 			{
 				sc->FinalPan = ((((int8_t)sc->Pan - 32) * (int8_t)(Song.Header.PanSep >> 1)) >> 6) + 32; // 8bb: 0..64
 				assert(sc->FinalPan <= 64);
+			}
+			else
+			{
+				sc->FinalPan = 32;
 			}
 		}
 
