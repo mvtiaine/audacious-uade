@@ -106,3 +106,4 @@ bool Music_RenderToWAV(const char *filenameOut); // 8bb: added this
 void Music_FreeSong(void); // 8bb: added this
 
 extern bool WAVRender_Flag; // 8bb: added this
+extern bool UseFPUCode; // mvtiaine: added this

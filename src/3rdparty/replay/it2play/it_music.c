@@ -48,6 +48,11 @@ void (*DriverSetTempo)(uint8_t) = NULL;
 void (*DriverSetMixVolume)(uint8_t) = NULL;
 void (*DriverFixSamples)(void) = NULL;
 bool WAVRender_Flag = false;
+#if USEFPUCODE
+bool UseFPUCode = true;
+#else
+bool UseFPUCode = false;
+#endif
 // ------------------------
 
 static bool FirstTimeInit = true;
@@ -1164,7 +1169,8 @@ void PitchSlideUp(hostChn_t *hc, slaveChn_t *sc, int16_t SlideValue)
 	{
 		// 8bb: Amiga frequencies
 
-#if USEFPUCODE // 8bb: IT2.15
+//#if USEFPUCODE // 8bb: IT2.15
+if (UseFPUCode) { // mvtiaine: changed to runtime check
 
 		const double InitFreq = sc->Frequency;
 
@@ -1186,7 +1192,8 @@ void PitchSlideUp(hostChn_t *hc, slaveChn_t *sc, int16_t SlideValue)
 
 		sc->Frequency = (int32_t)dNewFreq; // 8bb: Do not round here! Truncate.
 
-#else // 8bb: IT2.14 and older
+//#else // 8bb: IT2.14 and older
+} else {
 
 		sc->Flags |= SF_FREQ_CHANGE; // recalculate pitch!
 
@@ -1262,7 +1269,8 @@ void PitchSlideUp(hostChn_t *hc, slaveChn_t *sc, int16_t SlideValue)
 
 			sc->Frequency = (uint32_t)(Temp64 / Temp32);
 		}
-#endif
+//#endif
+}
 	}
 }
 
@@ -1275,7 +1283,8 @@ void PitchSlideUpLinear(hostChn_t *hc, slaveChn_t *sc, int16_t SlideValue)
 	if (SlideValue > 1024) SlideValue = 1024;
 	assert(SlideValue >= -1024 && SlideValue <= 1024);
 
-#ifdef USEFPUCODE // 8bb: IT2.15 (registered)
+//#ifdef USEFPUCODE // 8bb: IT2.15 (registered)
+if (UseFPUCode) { // mvtiaine: changed to runtime check
 
 	sc->Flags |= SF_FREQ_CHANGE; // recalculate pitch!
 
@@ -1292,7 +1301,8 @@ void PitchSlideUpLinear(hostChn_t *hc, slaveChn_t *sc, int16_t SlideValue)
 
 	sc->Frequency = (int32_t)nearbyint(dNewFreq); // 8bb: rounded ( nearbyint() is needed over round() )
 
-#else // 8bb: IT2.14 and older (what the vast majority of IT2 users had)
+//#else // 8bb: IT2.14 and older (what the vast majority of IT2 users had)
+} else {
 
 	sc->Flags |= SF_FREQ_CHANGE; // recalculate pitch!
 
@@ -1341,7 +1351,8 @@ void PitchSlideUpLinear(hostChn_t *hc, slaveChn_t *sc, int16_t SlideValue)
 			sc->Frequency = (uint32_t)Frequency;
 		}
 	}
-#endif
+//#endif
+}
 }
 
 void PitchSlideDown(hostChn_t *hc, slaveChn_t *sc, int16_t SlideValue)

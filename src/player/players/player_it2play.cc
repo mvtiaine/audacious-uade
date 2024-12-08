@@ -97,7 +97,9 @@ struct it2play_context {
         if (probe) return probe::Music_LoadFromData((uint8_t *)buf, size);
         else return play::Music_LoadFromData((uint8_t *)buf, size);
     }
-    bool Music_Init(int32_t mixingFrequency, int32_t mixingBufferSize, Driver driver) noexcept {
+    bool Music_Init(int32_t mixingFrequency, int32_t mixingBufferSize, Driver driver, bool useFPUCode) noexcept {
+        if (probe) probe::UseFPUCode = useFPUCode;
+        else play::UseFPUCode = useFPUCode;
         if (probe) return probe::Music_Init(mixingFrequency, mixingBufferSize, static_cast<int32_t>(driver));
         else return play::Music_Init(mixingFrequency, mixingBufferSize, static_cast<int32_t>(driver));
     }
@@ -269,20 +271,17 @@ constexpr bool isS3M(const char *buf, size_t size) noexcept {
     return false;
 }
 
-optional<ModuleInfo> get_it_info(const char *path, it2play_context *context) noexcept {
-    assert(context->Song().Loaded);
-    assert(!context->Song().Playing);
-    assert(!context->Song().StopSong);
-    const auto &h = context->Song().Header;
-    assert(h.Cwtv >= 0x0100 && h.Cwtv < 0x0300 && h.Cmwt >= 0x0100 && h.Cmwt < 0x0300);
+optional<ModuleInfo> get_it_info(const char *path, const char *buf, size_t size) noexcept {
+    const auto &h = (const ITHeader*)buf;
+    assert(h->Cwtv >= 0x0100 && h->Cwtv < 0x0300 && h->Cmwt >= 0x0100 && h->Cmwt < 0x0300);
     char format[25];
     // copied from OpenMPT
-    if (h.Cmwt > 0x0214) {
-        snprintf(format, sizeof format, "Inpulse Tracker 2.15");
-    } else if ((h.Cwtv & 0xFFF) >= 0x0215 && (h.Cwtv & 0xFFF) <= 0x0217) {
+    if (h->Cmwt > 0x0214) {
+        snprintf(format, sizeof format, "Impulse Tracker 2.15");
+    } else if ((h->Cwtv & 0xFFF) >= 0x0215 && (h->Cwtv & 0xFFF) <= 0x0217) {
         snprintf(format, sizeof format, "Impulse Tracker 2.14+");
     } else {
-        snprintf(format, sizeof format, "Impulse Tracker %d.%02X", (h.Cwtv & 0x0F00) >> 8, h.Cwtv & 0xFF);
+        snprintf(format, sizeof format, "Impulse Tracker %d.%02X", (h->Cwtv & 0x0F00) >> 8, h->Cwtv & 0xFF);
     }
 
     return ModuleInfo{Player::it2play, format, path, 1, 1, 1, 0};
@@ -402,7 +401,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 
     optional<ModuleInfo> info;
     if (it) {
-        info = get_it_info(path, context);
+        info = get_it_info(path, buf, size);
     } else if (s3m) {
         info = get_s3m_info(path, buf, size);
     }
@@ -427,7 +426,13 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     const auto &it2play_config = static_cast<const IT2PlayConfig&>(config);
     assert(it2play_config.player == Player::it2play);
     int freq = limitFreq(it2play_config.driver, it2play_config.frequency);
-    if (!context->Music_Init(config.frequency, mixBufSize(freq), it2play_config.driver) ||
+    bool useFPUCode = false;
+    if (isIT(buf, size)) {
+        const auto info = get_it_info(path, buf, size);
+        assert(info);
+        useFPUCode = info->format == "Impulse Tracker 2.15";
+    }
+    if (!context->Music_Init(config.frequency, mixBufSize(freq), it2play_config.driver, useFPUCode) ||
         !context->Music_LoadFromData(buf, size)) {
         ERR("player_it2play::play could not play %s\n", path);
         context->shutdown();
