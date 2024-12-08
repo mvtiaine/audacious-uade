@@ -41,9 +41,9 @@
 #endif
 
 // mvtiaine: added big endian support
-#define SWAP16(dst) \
+#define SWAP16(value) \
 ((uint16_t)( \
-	((uint16_t)(*ds) << 8) | \
+	((uint16_t)(value) << 8) | \
 	((uint16_t)(value) >> 8) \
 ))
 #define SWAP32(value) \
