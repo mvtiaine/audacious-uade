@@ -323,7 +323,7 @@ constexpr_f2 ModuleInfo get_xm_info(const char *path, const char *buf) noexcept 
     return {Player::ft2play, progName, path, 1, 1, 1, hdr->antChn};
 }
 
-constexpr int get_xm_version(const char *buf) noexcept {
+constexpr_f2 int get_xm_version(const char *buf) noexcept {
     const auto &hdr = (const XMHeader *)buf;
     return hdr->ver;
 }
