@@ -621,7 +621,7 @@ static bool LoadCompressed16BitSample(MEMFILE *m, sample_t *s, bool Stereo, bool
 			BytesToUnpack = i;
 
 		uint16_t PackedLen;
-		mread(&PackedLen, sizeof (uint16_t), 1, m);
+		ReadBytes(m, &PackedLen, 2); // mvtiaine: mread -> ReadBytes for big endian support
 		mread(DecompBuffer, 1, PackedLen, m);
 
 		Decompress16BitData((int16_t *)DstPtr, DecompBuffer, BytesToUnpack);
@@ -655,7 +655,7 @@ static bool LoadCompressed16BitSample(MEMFILE *m, sample_t *s, bool Stereo, bool
 				BytesToUnpack = i;
 
 			uint16_t PackedLen;
-			mread(&PackedLen, sizeof (uint16_t), 1, m);
+			ReadBytes(m, &PackedLen, 2); // mvtiaine: mread -> ReadBytes for big endian support
 			mread(DecompBuffer, 1, PackedLen, m);
 
 			Decompress16BitData((int16_t *)DstPtr, DecompBuffer, BytesToUnpack);
@@ -698,7 +698,7 @@ static bool LoadCompressed8BitSample(MEMFILE *m, sample_t *s, bool Stereo, bool 
 			BytesToUnpack = i;
 
 		uint16_t PackedLen;
-		mread(&PackedLen, sizeof (uint16_t), 1, m);
+		ReadBytes(m, &PackedLen, 2); // mvtiaine: mread -> ReadBytes for big endian support
 		mread(DecompBuffer, 1, PackedLen, m);
 
 		Decompress8BitData(DstPtr, DecompBuffer, BytesToUnpack);
@@ -729,7 +729,7 @@ static bool LoadCompressed8BitSample(MEMFILE *m, sample_t *s, bool Stereo, bool 
 				BytesToUnpack = i;
 
 			uint16_t PackedLen;
-			mread(&PackedLen, sizeof (uint16_t), 1, m);
+			ReadBytes(m, &PackedLen, 2); // mvtiaine: mread -> ReadBytes for big endian support
 			mread(DecompBuffer, 1, PackedLen, m);
 
 			Decompress8BitData(DstPtr, DecompBuffer, BytesToUnpack);

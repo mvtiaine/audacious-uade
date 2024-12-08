@@ -5,12 +5,12 @@
 #include <climits>
 #include <cmath>
 #include <cstdint>
-#include <cstdlib>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 
 // for endianess check
-//#include "config.h"
+#include "config.h"
 
 #define AUDACIOUS_UADE 1
 

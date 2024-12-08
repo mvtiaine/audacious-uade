@@ -16,6 +16,7 @@ TEST_NAME="it2play (IT) UseFPUCode=true (Impulse Tracker 2.15)"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
 EXPECTED_OUTPUT=$TESTMD5_LITTLE
 
+# it2play HQ mixer output depends on whether 32-bit or 64-bit CPU
 # XXX different output on x86 vs arm (with both gcc and clang)
 # TODO figure out root cause
 OUTPUT=$(eval ${TEST})
