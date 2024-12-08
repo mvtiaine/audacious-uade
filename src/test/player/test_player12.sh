@@ -18,6 +18,7 @@ EXPECTED_OUTPUT=$TESTMD5_LITTLE
 # it2play HQ mixer output depends on whether 32-bit or 64-bit CPU
 OUTPUT=$(eval ${TEST})
 if [ "$OUTPUT" = "4c7d777eabb08b801614758ccc03745e" ]; then
+    # 32-bit
     EXPECTED_OUTPUT=4c7d777eabb08b801614758ccc03745e
 fi
 

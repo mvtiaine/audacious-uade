@@ -19,6 +19,7 @@ EXPECTED_OUTPUT=$TESTMD5_LITTLE
 # TODO figure out root cause
 OUTPUT=$(eval ${TEST})
 if [ "$OUTPUT" = "db12f1eaf5a14ec73cc4e45a56086936" ]; then
+    # 32-bit
     EXPECTED_OUTPUT=db12f1eaf5a14ec73cc4e45a56086936
 fi
 
