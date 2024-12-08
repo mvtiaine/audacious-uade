@@ -23,7 +23,7 @@ const PreferencesWidget plugin_widgets[] = {
     WidgetSeparator (),
     WidgetCheck("Precalc missing song lengths",
         WidgetBool(PLUGIN_NAME, PRECALC_SONGLENGTHS)),
-    WidgetLabel("<b>it2play audio driver</b>"),
+    WidgetLabel("<b>it2play driver</b>"),
     WidgetRadio("HQ", WidgetInt(PLUGIN_NAME, "it2play_driver"), {0}, WIDGET_CHILD),
     WidgetRadio("SB16MMX", WidgetInt(PLUGIN_NAME, "it2play_driver"), {1}, WIDGET_CHILD),
     WidgetRadio("SB16", WidgetInt(PLUGIN_NAME, "it2play_driver"), {2}, WIDGET_CHILD),
