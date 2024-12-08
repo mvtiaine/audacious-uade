@@ -99,7 +99,13 @@ bool LoadS3M(MEMFILE *m)
 
 	if (!ReadBytes(m, SmpPtrs, Song.Header.SmpNum * 2)) return false;
 	if (!ReadBytes(m, PatPtrs, Song.Header.PatNum * 2)) return false;
-
+// mvtiaine: added big endian support
+#ifdef WORDS_BIGENDIAN
+	for (int32_t i = 0; i < Song.Header.SmpNum; i++)
+		SmpPtrs[i] = SWAP16(SmpPtrs[i]);
+	for (int32_t i = 0; i < Song.Header.PatNum; i++)
+		PatPtrs[i] = SWAP16(PatPtrs[i]);
+#endif
 	if (DefPan == 252) // 8bb: load custom channel pans, if present
 	{
 		for (int32_t i = 0; i < 32; i++)

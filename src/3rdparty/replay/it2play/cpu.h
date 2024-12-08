@@ -39,3 +39,17 @@
 #define uintCPUWord_t uint32_t
 #define intCPUWord_t int32_t
 #endif
+
+// mvtiaine: added big endian support
+#define SWAP16(dst) \
+((uint16_t)( \
+	((uint16_t)(*ds) << 8) | \
+	((uint16_t)(value) >> 8) \
+))
+#define SWAP32(value) \
+((uint32_t)( \
+	((uint32_t)(value) << 24) | \
+	(((uint32_t)(value) & 0x0000FF00U) << 8) | \
+	(((uint32_t)(value) & 0x00FF0000U) >> 8) | \
+	((uint32_t)(value) >> 24) \
+))
