@@ -254,11 +254,43 @@ void mseek(MEMFILE *buf, size_t offset, int32_t whence)
 
 bool ReadBytes(MEMFILE *m, void *dst, uint32_t num)
 {
-	if ((m == NULL) || meof(m))
+	if ((m == NULL) || meof(m) || m->_ptr == NULL)
 		return false;
+
+// mvtiaine: added big endian support
+#ifdef WORDS_BIGENDIAN
+	uint32_t pcnt = m->_cnt > num ? num : m->_cnt;
+	if (num == 1 && pcnt == 1) {
+		*(uint8_t *)dst = (uint8_t)*m->_ptr;
+		goto bytesread;
+	} else if (num == 2 && pcnt == 2) {
+		*(uint8_t *)dst = (uint8_t)*(m->_ptr + 1);
+		*((uint8_t *)dst + 1) = (uint8_t)*m->_ptr;
+		goto bytesread;
+	} else if (num == 4 && pcnt == 4) {
+		*(uint8_t *)dst = (uint8_t)*(m->_ptr + 3);
+		*((uint8_t *)dst + 1) = (uint8_t)*(m->_ptr + 2);
+		*((uint8_t *)dst + 2) = (uint8_t)*(m->_ptr + 1);
+		*((uint8_t *)dst + 3) = (uint8_t)*m->_ptr;
+		goto bytesread;
+	}
+#endif
 
 	if (mread(dst, 1, num, m) != num)
 		return false;
 
 	return true;
+
+#ifdef WORDS_BIGENDIAN
+bytesread:
+	m->_cnt -= pcnt;
+	m->_ptr += pcnt;
+	if (m->_cnt <= 0)
+	{
+		m->_ptr = m->_base + m->_bufsiz;
+		m->_cnt = 0;
+		m->_eof = true;
+	}
+	return pcnt == num;
+#endif
 }

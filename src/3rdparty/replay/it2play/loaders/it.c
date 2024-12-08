@@ -77,7 +77,7 @@ bool LoadIT(MEMFILE *m)
 	int16_t OrdersToLoad = Song.Header.OrdNum - 1; // IT2 does this (removes the count for the last 255 terminator)
 	if (OrdersToLoad > 0)
 	{
-		if (!ReadBytes(m, Song.Orders, OrdersToLoad))
+		if (!mread(Song.Orders, 1, OrdersToLoad, m))  // mvtiaine: ReadBytes -> mread for big endian support
 			return false;
 
 		// fill rest of order list with 255
@@ -158,6 +158,10 @@ bool LoadIT(MEMFILE *m)
 			if (!ReadBytes(m, &ins->MIDIProg, 1)) return false;
 			if (!ReadBytes(m, &ins->MIDIBank, 2)) return false;
 			if (!ReadBytes(m, &ins->SmpNoteTable, 2*120)) return false;
+#ifdef WORDS_BIGENDIAN // mvtiaine: added big endian support
+			for (uint32_t j = 0; j < 120; j++)
+				ins->SmpNoteTable[j] = SWAP16(ins->SmpNoteTable[j]);
+#endif
 
 			// just in case
 			ins->DOSFilename[12] = '\0';
@@ -206,6 +210,10 @@ bool LoadIT(MEMFILE *m)
 			if (!ReadBytes(m, ins->InstrumentName, 26)) return false;
 			mseek(m, 6, SEEK_CUR); // skip unwanted stuff
 			if (!ReadBytes(m, &ins->SmpNoteTable, 2*120)) return false;
+#ifdef WORDS_BIGENDIAN // mvtiaine: added big endian support
+			for (uint32_t j = 0; j < 120; j++)
+				ins->SmpNoteTable[j] = SWAP16(ins->SmpNoteTable[j]);
+#endif
 
 			ins->FadeOut *= 2;
 
@@ -366,7 +374,11 @@ bool LoadIT(MEMFILE *m)
 			{
 				int16_t *Ptr16 = (int16_t *)s->Data;
 				for (uint32_t j = 0; j < s->Length / 2; j++) // mvtiaine: fixed overflow
+#ifdef WORDS_BIGENDIAN // mvtiaine: added big endian support
+					Ptr16[j] ^= 0x0080;
+#else
 					Ptr16[j] ^= 0x8000;
+#endif
 			}
 			else
 			{
@@ -416,7 +428,7 @@ bool LoadIT(MEMFILE *m)
 		mseek(m, 4, SEEK_CUR);
 
 		if (!Music_AllocatePattern(i, PatLength)) return false;
-		if (!ReadBytes(m, p->PackedData, PatLength)) return false;
+		if (!mread(p->PackedData, 1, PatLength, m)) return false; // mvtiaine: ReadBytes -> mread for big endian support
 	}
 
 	return true;
@@ -437,7 +449,7 @@ static void Decompress16BitData(int16_t *Dst, const uint8_t *Src, uint32_t Block
 	BlockLength >>= 1;
 	while (BlockLength != 0 && Src < End)
 	{
-		Bytes32 = (*(uint32_t *)Src) >> BitsRead;
+		Bytes32 = READ32LE(*(uint32_t *)Src) >> BitsRead; // mvtiaine: added big endian support
 
 		BitsRead += BitDepth;
 		Src += BitsRead >> 3;
@@ -529,7 +541,7 @@ static void Decompress8BitData(int8_t *Dst, const uint8_t *Src, uint32_t BlockLe
 	const uint8_t *End = Src + BlockLength;
 	while (BlockLength != 0 && Src < End)
 	{
-		Bytes16 = (*(uint16_t *)Src) >> BitsRead;
+		Bytes16 = READ16LE(*(uint16_t *)Src) >> BitsRead; // mvtiaine: added big endian support
 
 		BitsRead += BitDepth;
 		Src += (BitsRead >> 3);
@@ -621,7 +633,7 @@ static bool LoadCompressed16BitSample(MEMFILE *m, sample_t *s, bool Stereo, bool
 			BytesToUnpack = i;
 
 		uint16_t PackedLen;
-		mread(&PackedLen, sizeof (uint16_t), 1, m);
+		ReadBytes(m, &PackedLen, 2); // mvtiaine: mread -> ReadBytes for big endian support
 		mread(DecompBuffer, 1, PackedLen, m);
 
 		Decompress16BitData((int16_t *)DstPtr, DecompBuffer, BytesToUnpack);
@@ -634,8 +646,8 @@ static bool LoadCompressed16BitSample(MEMFILE *m, sample_t *s, bool Stereo, bool
 			const uint32_t Length = BytesToUnpack >> 1;
 			for (uint32_t j = 0; j < Length; j++)
 			{
-				LastSmp16 += Ptr16[j];
-				Ptr16[j] = LastSmp16;
+				LastSmp16 += READ16LE(Ptr16[j]); // mvtiaine: added big endian support
+				Ptr16[j] = READ16LE(LastSmp16);
 			}
 		}
 
@@ -655,7 +667,7 @@ static bool LoadCompressed16BitSample(MEMFILE *m, sample_t *s, bool Stereo, bool
 				BytesToUnpack = i;
 
 			uint16_t PackedLen;
-			mread(&PackedLen, sizeof (uint16_t), 1, m);
+			ReadBytes(m, &PackedLen, 2); // mvtiaine: mread -> ReadBytes for big endian support
 			mread(DecompBuffer, 1, PackedLen, m);
 
 			Decompress16BitData((int16_t *)DstPtr, DecompBuffer, BytesToUnpack);
@@ -668,8 +680,8 @@ static bool LoadCompressed16BitSample(MEMFILE *m, sample_t *s, bool Stereo, bool
 				const uint32_t Length = BytesToUnpack >> 1;
 				for (uint32_t j = 0; j < Length; j++)
 				{
-					LastSmp16 += Ptr16[j];
-					Ptr16[j] = LastSmp16;
+					LastSmp16 += READ16LE(Ptr16[j]); // mvtiaine: added big endian support
+					Ptr16[j] = READ16LE(LastSmp16);
 				}
 			}
 
@@ -698,7 +710,7 @@ static bool LoadCompressed8BitSample(MEMFILE *m, sample_t *s, bool Stereo, bool 
 			BytesToUnpack = i;
 
 		uint16_t PackedLen;
-		mread(&PackedLen, sizeof (uint16_t), 1, m);
+		ReadBytes(m, &PackedLen, 2); // mvtiaine: mread -> ReadBytes for big endian support
 		mread(DecompBuffer, 1, PackedLen, m);
 
 		Decompress8BitData(DstPtr, DecompBuffer, BytesToUnpack);
@@ -729,7 +741,7 @@ static bool LoadCompressed8BitSample(MEMFILE *m, sample_t *s, bool Stereo, bool 
 				BytesToUnpack = i;
 
 			uint16_t PackedLen;
-			mread(&PackedLen, sizeof (uint16_t), 1, m);
+			ReadBytes(m, &PackedLen, 2); // mvtiaine: mread -> ReadBytes for big endian support
 			mread(DecompBuffer, 1, PackedLen, m);
 
 			Decompress8BitData(DstPtr, DecompBuffer, BytesToUnpack);
