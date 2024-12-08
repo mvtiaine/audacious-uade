@@ -364,6 +364,30 @@ player::uade::UADEConfig get_uade_config(int frequency, int known_timeout) {
     return conf;
 }
 
+player::it2play::Driver it2play_driver(const int driver) {
+    switch(driver) {
+        case 0: return player::it2play::Driver::HQ;
+        case 1: return player::it2play::Driver::SB16MMX;
+        case 2: return player::it2play::Driver::SB16;
+        case 3: return player::it2play::Driver::WAVWRITER;
+        default: return player::it2play::Driver::HQ;
+    }
+}
+
+player::it2play::IT2PlayConfig get_it2play_config(int frequency, int known_timeout) {
+    const int driver = aud_get_int(PLUGIN_NAME, "it2play_driver");
+
+    player::it2play::IT2PlayConfig conf;
+    conf.frequency = frequency;
+    conf.probe = false;
+    conf.known_timeout = known_timeout;
+    conf.player = player::Player::it2play;
+
+    conf.driver = it2play_driver(driver);
+
+    return conf;
+}
+
 // hack for files which actually contain ? in their name, e.g. MOD.louzy-house?2 or MOD.how low can we go?1
 // which conflicts with audacious subsong uri scheme
 // XXX audacious also does not support subsongs for "prefix" formats by default
@@ -559,8 +583,12 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
 
     const auto player = check_player(file, path);
     const auto uade_config = get_uade_config(frequency, known_timeout);
+    const auto it2play_config = get_it2play_config(frequency, known_timeout);
     const player::PlayerConfig player_config = {frequency, known_timeout};
-    const auto &config = player == player::Player::uade ? uade_config : player_config;
+    const auto &config =
+        player == player::Player::uade ? uade_config :
+        player == player::Player::it2play ? it2play_config :
+        player_config;
     
     const auto check_stop_ = []() { return check_stop(); };
     const auto check_seek_ = []() { return check_seek(); };

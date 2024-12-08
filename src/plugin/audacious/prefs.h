@@ -11,7 +11,9 @@
 constexpr const char *PRECALC_SONGLENGTHS = "precalc_songlengths";
 
 const char * const plugin_defaults[] = {
-    PRECALC_SONGLENGTHS, "TRUE",
+    "frequency",             "48000",
+    PRECALC_SONGLENGTHS,     "TRUE",
+    "it2play_driver",        "0", // HQ
     nullptr
 };
 
@@ -21,16 +23,19 @@ const PreferencesWidget plugin_widgets[] = {
     WidgetSeparator (),
     WidgetCheck("Precalc missing song lengths",
         WidgetBool(PLUGIN_NAME, PRECALC_SONGLENGTHS)),
-    WidgetSeparator (),
+    WidgetLabel("<b>it2play audio driver</b>"),
+    WidgetRadio("HQ", WidgetInt(PLUGIN_NAME, "it2play_driver"), {0}, WIDGET_CHILD),
+    WidgetRadio("SB16MMX", WidgetInt(PLUGIN_NAME, "it2play_driver"), {1}, WIDGET_CHILD),
+    WidgetRadio("SB16", WidgetInt(PLUGIN_NAME, "it2play_driver"), {2}, WIDGET_CHILD),
+    WidgetRadio("WAVWriter", WidgetInt(PLUGIN_NAME, "it2play_driver"), {3}, WIDGET_CHILD),
     WidgetLabel("<b>IMPORTANT!</b>"),
     WidgetLabel(
-        "<b>Probe content of files with no<br/>"
-        "recognized file name extension</b><br/>"
-        "setting must <i>enabled</i> and<br/>"
-        "<b>Guess missing metadata from filepath</b><br/>"
-        "setting <i>disabled</i> in Audacious prefs<br/>"
-        "in order for subsongs and meta data to <br/>"
-        "work. The playlist must also have been<br/>"
+        "<b>Probe content of files with no recognized<br/>"
+        "file name extension</b> setting must be <br/>"
+        "<i>enabled</i> and <b>Guess missing metadata<br/>"
+        "from filepath</b> setting <i>disabled</i> in Audacious<br/>"
+        "prefs, in order for subsongs and meta data<br/>"
+        "to work. The playlist must also have been<br/>"
         "created <i>after</i> the settings are applied."
     ),
 };

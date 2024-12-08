@@ -171,3 +171,26 @@ struct UADEConfig : PlayerConfig {
 bool seek(PlayerState &state, int millis) noexcept;
 
 } // namespace player::uade
+
+namespace player::it2play {
+
+enum class Driver {
+    HQ = 0,
+    SB16MMX = 1,
+    SB16 = 2,
+    WAVWRITER = 3
+};
+
+// TODO set default audacious config based on this
+struct IT2PlayConfig : PlayerConfig {
+    Player player = Player::it2play;
+    Driver driver = Driver::HQ;
+
+    constexpr_f1 IT2PlayConfig() noexcept {}
+    constexpr_f1 IT2PlayConfig(const int frequency) noexcept
+    : PlayerConfig(frequency) {}
+    constexpr_f1 IT2PlayConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
+    : PlayerConfig(frequency, known_timeout, endian, probe) {}
+};
+
+} // namespace player::it2play

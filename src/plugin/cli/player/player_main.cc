@@ -67,6 +67,7 @@ int main(int argc, char *argv[]) {
 
     PlayerConfig player_config = { frequency };
     uade::UADEConfig uade_config = { frequency };
+    it2play::IT2PlayConfig it2play_config = { frequency };
     if (getenv("SONGEND_MODE")) {
         uade_config.subsong_timeout = player::PRECALC_TIMEOUT;
         uade_config.silence_timeout = player::PRECALC_TIMEOUT;
@@ -74,7 +75,10 @@ int main(int argc, char *argv[]) {
         uade_config.resampler = uade::Resampler::NONE;
         uade_config.panning = 1;
     }
-    auto &config = player == Player::uade ? uade_config : player_config;
+    auto &config =
+        player == Player::uade ? uade_config :
+        player == Player::it2play ? it2play_config :
+        player_config;
 
     const char *endian_ = getenv("PLAYER_ENDIAN");
     if (endian_ && string(endian_) == "big") {

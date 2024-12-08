@@ -19,6 +19,7 @@ using namespace std;
 using namespace common;
 using namespace player;
 using namespace player::internal;
+using namespace player::it2play;
 using namespace replay::it2play;
 
 namespace {
@@ -30,6 +31,21 @@ constexpr size_t mixBufSize(const int frequency) noexcept {
     return 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
 }
 
+constexpr int limitFreq(Driver driver, int frequency) {
+    switch (driver) {
+        case Driver::SB16MMX:
+        case Driver::SB16:
+        case Driver::WAVWRITER:
+            return min(frequency, 64000);
+        case Driver::HQ:
+#if CPU_32BIT
+            return min(frequency, 48000);
+#else
+            return min(frequency, 768000);
+#endif
+        default: assert(false); return min(frequency, 48000);
+    }
+}
 struct it2play_context {
     const bool probe;
     int16_t startPos = 0;
@@ -81,9 +97,9 @@ struct it2play_context {
         if (probe) return probe::Music_LoadFromData((uint8_t *)buf, size);
         else return play::Music_LoadFromData((uint8_t *)buf, size);
     }
-    bool Music_Init(int32_t mixingFrequency, int32_t mixingBufferSize) noexcept {
-        if (probe) return probe::Music_Init(mixingFrequency, mixingBufferSize, probe::DRIVER_HQ);
-        else return play::Music_Init(mixingFrequency, mixingBufferSize, play::DRIVER_HQ);
+    bool Music_Init(int32_t mixingFrequency, int32_t mixingBufferSize, Driver driver) noexcept {
+        if (probe) return probe::Music_Init(mixingFrequency, mixingBufferSize, static_cast<int32_t>(driver));
+        else return play::Music_Init(mixingFrequency, mixingBufferSize, static_cast<int32_t>(driver));
     }
     void Music_PlaySong(uint16_t order) noexcept {
         setSongStopped(false);
@@ -127,6 +143,10 @@ struct it2play_context {
     void UpdateGOTONote() noexcept {
         if (probe) probe::UpdateGOTONote();
         else play::UpdateGOTONote();
+    }
+    int frequency() const noexcept {
+        if (probe) return static_cast<int>(probe::Driver.MixSpeed);
+        else return static_cast<int>(play::Driver.MixSpeed);
     }
     pair<pair<int16_t,int16_t>,uint8_t> posJump(int pattNr, int16_t pattPos) noexcept {
         int16_t effB = -1; // Position Jump
@@ -404,7 +424,10 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     if (config.probe) probe_guard.lock();
     it2play_context *context = new it2play_context(config.probe);
     assert(!context->Song().Loaded);
-    if (!context->Music_Init(config.frequency, mixBufSize(config.frequency)) ||
+    const auto &it2play_config = static_cast<const IT2PlayConfig&>(config);
+    assert(it2play_config.player == Player::it2play);
+    int freq = limitFreq(it2play_config.driver, it2play_config.frequency);
+    if (!context->Music_Init(config.frequency, mixBufSize(freq), it2play_config.driver) ||
         !context->Music_LoadFromData(buf, size)) {
         ERR("player_it2play::play could not play %s\n", path);
         context->shutdown();
@@ -421,7 +444,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     }
     context->Music_PlaySong(order);
 
-    return PlayerState {Player::it2play, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
+    return PlayerState {Player::it2play, subsong, context->frequency(), config.endian != endian::native, context, true, mixBufSize(freq), 0};
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {

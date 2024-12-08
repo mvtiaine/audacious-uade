@@ -8,7 +8,6 @@
 constexpr const char *PLUGIN_NAME = "uade";
 
 const char * const uade_defaults[] = {
-   "frequency",             "48000",
    "filter",                "2", // A1200
    "force_led_enabled",     "FALSE",
    "force_led",             "0", // OFF
