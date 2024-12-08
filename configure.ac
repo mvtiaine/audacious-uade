@@ -11,7 +11,8 @@ AC_PROG_CXX
 # for cross compile support
 AX_PROG_CC_FOR_BUILD
 
-AM_INIT_AUTOMAKE([tar-ustar dist-bzip2 no-dist-gzip])
+# GNU make required (-Wno-portability)
+AM_INIT_AUTOMAKE([tar-ustar dist-bzip2 no-dist-gzip -Wno-portability])
 AC_CONFIG_MACRO_DIR([m4])
 
 # AC_CANONICAL_HOST is needed to access the 'host_os' variable
@@ -543,15 +544,6 @@ AC_C_BIGENDIAN([
   AM_CONDITIONAL([LITTLE_ENDIAN],[true])
 ])
 
-AC_COMPILE_IFELSE(
-  [AC_LANG_PROGRAM([
-    #if defined __FAST_MATH__
-    #error Building with -ffast-math and/or -Ofast not supported!
-    #endif
-  ])],
-  [],
-  [AC_MSG_ERROR([Building with -ffast-math and/or -Ofast not supported!])])
-
 if test "$plugin_audacious" = "yes" ; then
 PKG_CHECK_MODULES([AUDACIOUS],[audacious >= 3.8],
   [ac_audacious_plugindir=`$PKG_CONFIG --variable=plugin_dir audacious`],
@@ -612,7 +604,7 @@ CPPFLAGS="-D_DEFAULT_SOURCE ${CPPFLAGS}"
 if test "$build_openharmony" != "yes" && test "$build_ps4" != "yes" && test "$build_dreamcast" != "yes" ; then
   CPPFLAGS="-D_GNU_SOURCE ${CPPFLAGS}"
 fi
-CFLAGS="-fvisibility=hidden ${CFLAGS} -fno-exceptions -fno-asynchronous-unwind-tables"
+CFLAGS="-fvisibility=hidden ${CFLAGS} -fno-exceptions"
 # XXX shutup spammy AROS warning: "__PIC__" redefined.
 # also AROS, MorphOS, IRIX/compilertron and AIX linker don't support --gc-sections
 if test "$build_aros" != "yes" && test "$build_morphos" != "yes" && test "$build_warpos" != "yes" && test "$build_irix" != "yes" && test "$build_aix" != "yes" && test "$build_freemint" != "yes" && test "$build_os2" != "yes" ; then

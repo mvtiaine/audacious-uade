@@ -9,7 +9,7 @@ set -e
 export PLAYER_ENDIAN=little
 
 TESTMOD="${top_srcdir}/testdata/syoa.s3m"
-TESTMD5_LITTLE=06793a77492052a6db0ed042ffd7fe5a
+TESTMD5_LITTLE=5cc7ca9fb97bb00eeaac2977b10b99f0
 
 TEST_NAME="it2play (S3M)"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
