@@ -2973,7 +2973,7 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 				smpWritePtr16 = (int16_t *)inst->memseg;
 
 				for (j = 0; j < inst->length; j++)
-					smpWritePtr16[j] = smpReadPtr16[j] + 32768;
+					smpWritePtr16[j] = READ16LE(smpReadPtr16[j]) + 32768;
 			}
 			else
 			{
