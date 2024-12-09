@@ -392,7 +392,7 @@ static void delta2Samp(int8_t *p, uint32_t len, bool sample16Bit)
 		int16_t olds16 = 0;
 		for (uint32_t i = 0; i < len; i++)
 		{
-			const int16_t news16 = p16[i] + olds16;
+			const int16_t news16 = READ16LE(p16[i]) + olds16;
 			p16[i] = news16;
 			olds16 = news16;
 		}
