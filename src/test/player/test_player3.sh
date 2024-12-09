@@ -8,7 +8,7 @@ set -e
 
 export PLAYER_ENDIAN=little
 
-TESTMOD=${top_srcdir}/testdata/mod.orchannel
+TESTMOD="${top_srcdir}/testdata/mod.orchannel"
 TESTMD5_LITTLE=2b6baffa564757edf9df9761e0d30b5f
 SUBSONG=4
 

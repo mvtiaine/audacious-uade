@@ -69,7 +69,13 @@ TESTS = \
     test/player/test_player10.sh \
     test/player/test_player11.sh \
     test/player/test_player12.sh \
-    test/player/test_player13.sh
+    test/player/test_player13.sh \
+    test/player/test_player14.sh \
+    test/player/test_player15.sh \
+    test/player/test_player16.sh \
+    test/player/test_player17.sh \
+    test/player/test_player18.sh \
+    test/player/test_player19.sh
 
 EXTRA_DIST += \
     test/common/header.sh \
