@@ -4,6 +4,8 @@
 - Support for Tizen, OS/2 (ArcaOS) (lib/cli-only tested)
 - Initial support for OpenHarmony, Redox OS, SerenityOS, Genode, BlackBerry 10, QNX 7, QNX 8, UnixWare 7, PS4 (OpenOrbis) (not runtime tested/working).
 - st3play: fixed mix buffer overflow with 96000Hz
+- st3play: fixed 16-bit samples with big endian
+- ft2play: fixed 16-bit samples with big endian
 - Detect when "Probe content of files with no recognized file name extension" setting is disabled and show error message instead of crashing with assert failure
 -- see https://github.com/mvtiaine/audacious-uade/issues/30 for details. Subsongs and metadata cannot be supported without it for some files using prefixes (TFMX etc.)
 - Implement Impulse Tracker support (https://github.com/8bitbubsy/it2play)
