@@ -20,12 +20,12 @@ EXPECTED_OUTPUT=$TESTMD5_LITTLE
 # XXX different output on x86 32-bit vs 68k 32-bit
 # TODO figure out root cause
 OUTPUT=$(eval ${TEST})
-if [ "$OUTPUT" = "4c7d777eabb08b801614758ccc03745e" ]; then
+if [ "$OUTPUT" = "48abba4cec9fcbdfba2ea73fea4dac77" ]; then
     # x86 32-bit
-    EXPECTED_OUTPUT=4c7d777eabb08b801614758ccc03745e
-elif [ "$OUTPUT" = "c6109c8aeb1777ccc0170a7f3defe3ef" ]; then
+    EXPECTED_OUTPUT=48abba4cec9fcbdfba2ea73fea4dac77
+elif [ "$OUTPUT" = "3b18e3eb40b27b2964b9b3928ac256ac" ]; then
     # 68k 32-bit
-    EXPECTED_OUTPUT=c6109c8aeb1777ccc0170a7f3defe3ef
+    EXPECTED_OUTPUT=3b18e3eb40b27b2964b9b3928ac256ac
 fi
 
 . $(dirname "$0")/../common/check.sh

@@ -23,12 +23,12 @@ OUTPUT=$(eval ${TEST})
 if [ "$OUTPUT" = "c7d459a0102f929dd2b9028a98bd4c7e" ]; then
     # x86 64-bit
     EXPECTED_OUTPUT=c7d459a0102f929dd2b9028a98bd4c7e
-elif [ "$OUTPUT" = "3683455362f699985bc5b0f5af104498" ]; then
+elif [ "$OUTPUT" = "aa59151ab4a4698af78718ec4da2e8a3" ]; then
     # x86 32-bit
-    EXPECTED_OUTPUT=3683455362f699985bc5b0f5af104498
-elif [ "$OUTPUT" = "094e35084dfb0ee5445efd3ee121bd75" ]; then
+    EXPECTED_OUTPUT=aa59151ab4a4698af78718ec4da2e8a3
+elif [ "$OUTPUT" = "75ad6f5a7979b555411e76569c9d55f3" ]; then
     # 68k 32-bit
-    EXPECTED_OUTPUT=094e35084dfb0ee5445efd3ee121bd75
+    EXPECTED_OUTPUT=75ad6f5a7979b555411e76569c9d55f3
 fi
 
 . $(dirname "$0")/../common/check.sh

@@ -374,11 +374,7 @@ bool LoadIT(MEMFILE *m)
 			{
 				int16_t *Ptr16 = (int16_t *)s->Data;
 				for (uint32_t j = 0; j < s->Length / 2; j++) // mvtiaine: fixed overflow
-#ifdef WORDS_BIGENDIAN // mvtiaine: added big endian support
-					Ptr16[j] ^= 0x0080;
-#else
-					Ptr16[j] ^= 0x8000;
-#endif
+					Ptr16[j] = READ16LE(Ptr16[j]) ^ 0x8000; // mvtiaine: added big endian support
 			}
 			else
 			{
@@ -646,8 +642,8 @@ static bool LoadCompressed16BitSample(MEMFILE *m, sample_t *s, bool Stereo, bool
 			const uint32_t Length = BytesToUnpack >> 1;
 			for (uint32_t j = 0; j < Length; j++)
 			{
-				LastSmp16 += READ16LE(Ptr16[j]); // mvtiaine: added big endian support
-				Ptr16[j] = READ16LE(LastSmp16);
+				LastSmp16 += Ptr16[j];
+				Ptr16[j] = LastSmp16;
 			}
 		}
 
@@ -680,8 +676,8 @@ static bool LoadCompressed16BitSample(MEMFILE *m, sample_t *s, bool Stereo, bool
 				const uint32_t Length = BytesToUnpack >> 1;
 				for (uint32_t j = 0; j < Length; j++)
 				{
-					LastSmp16 += READ16LE(Ptr16[j]); // mvtiaine: added big endian support
-					Ptr16[j] = READ16LE(LastSmp16);
+					LastSmp16 += Ptr16[j];
+					Ptr16[j] = LastSmp16;
 				}
 			}
 
