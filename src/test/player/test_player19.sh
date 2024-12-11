@@ -16,7 +16,7 @@ TEST_NAME="it2play (IT 16-bit + delta)"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
 EXPECTED_OUTPUT=$TESTMD5_LITTLE
 
-# it2play HQ mixer output depends on whether 32-bit or 64-bit CPU
+# it2play HQ driver output depends on whether 32-bit or 64-bit CPU
 # XXX different output on x86 64-bit vs arm/ppc 64-bit (with both gcc and clang) and x86 32-bit vs 68k 32-bit
 # TODO figure out root cause
 OUTPUT=$(eval ${TEST})
