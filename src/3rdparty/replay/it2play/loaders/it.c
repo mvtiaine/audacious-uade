@@ -313,7 +313,8 @@ bool LoadIT(MEMFILE *m)
 	s = Song.Smp;
 	for (uint32_t i = 0; i < Song.Header.SmpNum; i++, s++)
 	{
-		if (s->OffsetInFile == 0 || !(s->Flags & SMPF_ASSOCIATED_WITH_HEADER))
+		// mvtiaine: moved s->Length == 0 check here (Cyborg Jeff/b2pis'99 disk version.it)
+		if (s->OffsetInFile == 0 || !(s->Flags & SMPF_ASSOCIATED_WITH_HEADER) || s->Length == 0)
 			continue;
 
 		mseek(m, s->OffsetInFile, SEEK_SET);
@@ -328,9 +329,6 @@ bool LoadIT(MEMFILE *m)
 
 		if (DeltaEncoded && !Compressed)
 			continue;
-
-		if (s->Length == 0 || !(s->Flags & SMPF_ASSOCIATED_WITH_HEADER))
-			continue; // safely skip this sample
 
 		if (s->Cvt & 0b11111010)
 			continue; // not supported
