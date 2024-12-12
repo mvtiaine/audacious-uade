@@ -209,7 +209,7 @@ vector<int16_t> get_subsongs(const st3play_context *context) noexcept {
     set<int16_t> seen;
     set<int16_t> notseen;
     for (int i = 0; i < context->ordNum(); ++i) {
-        if (context->order(i) < PATT_SEP)
+        if (context->order(i) <= context->patNum())
             notseen.insert(i);
     }
 
@@ -224,6 +224,13 @@ vector<int16_t> get_subsongs(const st3play_context *context) noexcept {
             songPos = *notseen.begin();
             pattPos = 0;
             int pattNr = context->order(songPos);
+            if (context->patDataLen(pattNr) == 0 || pattNr > context->patNum()) {
+                seen.insert(songPos);
+                notseen.erase(songPos);
+                if (++songPos >= context->ordNum())
+                    break;
+                continue;
+            }
             if (notseen.size() > 1 || context->patDataLen(pattNr) > 0) {
                 subsongs.push_back(songPos);
             }
@@ -402,7 +409,7 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     const auto pos = pair(context->np_ord(), context->np_row());
     bool jump = context->jumpLoop();
     bool songend = context->np_restarted() || context->np_ord() >= context->ordNum();
-    if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second) {
+    if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second && context->ordNum() > 1) {
         for (auto i = pos.second; i <= prevPos.second; ++i) {
             context->seen.erase(pair(pos.first, i));
         }
