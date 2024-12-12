@@ -395,7 +395,7 @@ static void setSpeed(stmTyp *ch, uint8_t param)
 		song.speed = param;
 		P_SetSpeed(song.speed);
 	}
-	else
+	else if (param > 0) // mvtiaine: ignore zero speed (XM.Clafouti\ City\ vocals)
 	{
 		song.timer = song.tempo = param;
 	}

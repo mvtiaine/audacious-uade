@@ -1027,7 +1027,7 @@ bool loadMusicFromData(const uint8_t *data, uint32_t dataLength) // .XM/.MOD/.FT
 
 	// 8bb: bugfixes...
 	if (song.speed < 32) song.speed = 32; // mvtiaine: fix min bpm (AMP:Slartibartfast/XM.Wonderful Day)
-	if (song.tempo < 1) song.tempo = 1;
+	if (song.tempo < 1) song.tempo = 6; // mvtiaine: default to 6 (XM.Clafouti\ City\ vocals)
 	// ----------------
 
 	if (song.ver < 0x0104) // old FT2 XM format
