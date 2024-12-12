@@ -117,8 +117,9 @@ EXTRA_DIST += \
     3rdparty/replay/it2play/it2drivers/wavwriter_m.h \
     3rdparty/replay/it2play/it2drivers/wavwriter_m.c \
     3rdparty/replay/it2play/it2drivers/wavwriter.h \
-    3rdparty/replay/it2play/it2drivers/zerovol.c \
+    3rdparty/replay/it2play/it2drivers/wavwriter.c \
     3rdparty/replay/it2play/it2drivers/zerovol.h \
+    3rdparty/replay/it2play/it2drivers/zerovol.c \
     3rdparty/replay/it2play/loaders/it.h \
     3rdparty/replay/it2play/loaders/it.c \
     3rdparty/replay/it2play/loaders/s3m.h \
