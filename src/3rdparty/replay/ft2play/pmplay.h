@@ -57,6 +57,7 @@ typedef struct songTyp_t
 	uint16_t len, repS, speed, tempo, globVol, timer, ver;
 
 	uint16_t antInstrs; // 8bb: added this
+	uint16_t antPtn; // mvtiaine: added this
 } songTyp;
 
 typedef struct sampleTyp_t

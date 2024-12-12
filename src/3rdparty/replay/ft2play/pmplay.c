@@ -1020,6 +1020,7 @@ bool loadMusicFromData(const uint8_t *data, uint32_t dataLength) // .XM/.MOD/.FT
 	memcpy(song.songTab, h.songTab, 256);
 
 	song.antInstrs = h.antInstrs; // 8bb: added this
+	song.antPtn = h.antPtn; // mvtiaine: added this
 	if (h.defSpeed == 0) h.defSpeed = 125; // 8bb: (BPM) FT2 doesn't do this, but we do it for safety
 	song.speed = h.defSpeed;
 	song.tempo = h.defTempo;

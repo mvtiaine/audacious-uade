@@ -147,6 +147,10 @@ struct ft2play_context {
         if (probe) return probe::song.antChn;
         else return play::song.antChn;
     }
+    uint16_t antPtn() const noexcept  {
+        if (probe) return probe::song.antPtn;
+        else return play::song.antPtn;
+    }
     uint16_t repS() const noexcept {
         if (probe) return probe::song.repS;
         else return play::song.repS;
@@ -255,7 +259,8 @@ vector<int16_t> get_subsongs(const ft2play_context *context) noexcept {
     set<int16_t> seen;
     set<int16_t> notseen;
     for (int i = 0; i < context->songLen(); ++i) {
-        notseen.insert(i);
+        if (context->pattNr(i) <= context->antPtn())
+            notseen.insert(i);
     }
 
     auto prevJump = pair<int16_t,int16_t>(0,0);
@@ -268,7 +273,16 @@ vector<int16_t> get_subsongs(const ft2play_context *context) noexcept {
         if (jump && seen.count(songPos)) {
             songPos = *notseen.begin();
             pattPos = 0;
-            subsongs.push_back(songPos);
+            int pattNr = context->pattNr(songPos);
+            if (context->pattLen(pattNr) == 0 || pattNr > context->antPtn()) {
+                seen.insert(songPos);
+                notseen.erase(songPos);
+                if (++songPos >= context->songLen())
+                    break;
+                continue;
+            }
+            if (notseen.size() > 1 || context->pattLen(pattNr) > 0)
+                subsongs.push_back(songPos);
         }
         jump = false;
         seen.insert(songPos);
@@ -467,8 +481,8 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     ssize_t totalbytes = context->dump_GetFrame((int16_t*)buf);
     const auto pos = pair(context->songPos(), context->pattPos());
     bool jump = context->jumpLoop();
-    bool songend = context->dump_EndOfTune(context->songLen()-1);
-    if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second) {
+    bool songend = (context->dump_EndOfTune(context->songLen()-1) || context->songPos() >= context->songLen()) && !context->seen.empty();
+    if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second && context->songLen() > 1) {
         for (auto i = pos.second; i <= prevPos.second; ++i) {
             context->seen.erase(pair(pos.first, i));
         }
