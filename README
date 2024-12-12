@@ -90,9 +90,8 @@ See https://zakalwe.fi/uade/ for UADE license information.
 * Some future plans (in no particular order)
 - Automatic A500/A1200/None filter selection depending on format/year/platform (OCS/AGA/DOS) etc. meta data
 - Plugin support for GStreamer, Hollywood, ...
-- Support AmigaOS4, WarpOS/PowerUP, Wasix, ...
-- Add PC-tracker portable replays from 8bitbubsy (XM,IT,S3M,...)
-- SC68 replay support (for Atari formats)
+- Support more platforms
+- Add more replays
 - PTK-Prowiz converter support (portable C-version)
-- Improve UADE format support
+- Improve UADE format support and portability
 - Project might need a new name...
