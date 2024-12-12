@@ -270,7 +270,7 @@ vector<int16_t> get_subsongs(const ft2play_context *context) noexcept {
     bool jump = false;
 
     while (true) {
-        if (jump && seen.count(songPos)) {
+        if (jump && seen.count(songPos) && !notseen.empty()) {
             songPos = *notseen.begin();
             pattPos = 0;
             int pattNr = context->pattNr(songPos);

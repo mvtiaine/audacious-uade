@@ -306,7 +306,7 @@ pair<vector<int16_t>, uint8_t> get_subsongs_and_channels(it2play_context *contex
     uint8_t maxChn = 0;
 
     while (true) {
-        if (jump && seen.count(songPos)) {
+        if (jump && seen.count(songPos) && !notseen.empty()) {
             songPos = *notseen.begin();
             pattPos = 0;
             int pattNr = context->Song().Orders[songPos];
