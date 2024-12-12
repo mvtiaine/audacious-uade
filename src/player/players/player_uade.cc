@@ -627,7 +627,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
         status = SongEnd::ERROR;
         nbytes = 0;
     }
-    return pair<SongEnd::Status,size_t>(status,nbytes);
+    return pair(status,nbytes);
 }
 
 bool stop(PlayerState &state) noexcept {

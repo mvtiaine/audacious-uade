@@ -484,7 +484,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     // XXX quick and dirty hack for Bogdan/dream.it and others (Bxx jump to same order)
     if (!prevJump && !jump && pos == prevPos && song.ProcessOrder == (song.CurrentOrder - 1) && song.ProcessRow == 0xFFFE && prevProcessRow == 0xFFFE && context->seen.count(pos))
         songend = true;
-    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, mixBufSize(state.frequency));
+    return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, mixBufSize(state.frequency));
 }
 
 bool stop(PlayerState &state) noexcept {

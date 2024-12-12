@@ -115,7 +115,7 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
         songend = ht->ht_SongEndReached;
         mixbuf += framelen;
     }
-    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
+    return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
 }
 
 bool restart(PlayerState &state) noexcept {

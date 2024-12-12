@@ -250,7 +250,7 @@ vector<int16_t> get_subsongs(const st3play_context *context) noexcept {
             continue;
         }
 
-        pair<int16_t,int16_t> posJump = context->posJump(pattNr, pattPos);
+        const auto posJump = context->posJump(pattNr, pattPos);
         if (posJump.first >= 0 || posJump.second >= 0) {
             int16_t oldPos = songPos;
             int16_t oldPatt = pattPos;
@@ -417,7 +417,7 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     if (!songend && pos != prevPos && !jump) {
         songend |= !context->seen.insert(pos).second;
     }
-    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, mixBufSize(state.frequency));
+    return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, mixBufSize(state.frequency));
 }
 
 bool restart(PlayerState &state) noexcept {

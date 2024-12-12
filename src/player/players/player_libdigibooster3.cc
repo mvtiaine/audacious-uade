@@ -174,7 +174,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     size_t totalbytes = DB3_Mix(context->engine, mixBufSize(state.frequency) / 4, (int16_t*)buf) * 4;
     bool songend = context->songend || totalbytes < mixBufSize(state.frequency);
 
-    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
+    return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
 }
 
 bool restart(PlayerState &state) noexcept {
