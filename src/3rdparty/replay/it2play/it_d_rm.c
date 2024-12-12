@@ -142,6 +142,7 @@ bool Music_LoadFromFile(const char *Filename)
 
 	if (fread(Data, 1, FileSize, f) != FileSize)
 	{
+		free(Data); // mvtiaine: fixed scan-build memory leak warning
 		fclose(f);
 		return false;
 	}
