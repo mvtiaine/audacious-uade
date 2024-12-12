@@ -251,13 +251,13 @@ constexpr bool isIT(const char *buf, size_t size) noexcept {
             // ChibiTracker
             return false;
         }
-        const int32_t PtrListOffset = 192 + h->OrdNum;
-        const int32_t smpOffset0 = PtrListOffset + h->InsNum * 4;
-        const int32_t patOffset0 = smpOffset0 + h->SmpNum * 4;
+        const uint32_t PtrListOffset = 192 + h->OrdNum;
+        const uint32_t smpOffset0 = PtrListOffset + h->InsNum * 4;
+        const uint32_t patOffset0 = smpOffset0 + h->SmpNum * 4;
         if (patOffset0 + 4 >= size)
             return false;
-        const le_int32_t *smpPos = (const le_int32_t *)&buf[smpOffset0];
-        const le_int32_t *patPos = (const le_int32_t *)&buf[patOffset0];
+        const le_uint32_t *smpPos = (const le_uint32_t *)&buf[smpOffset0];
+        const le_uint32_t *patPos = (const le_uint32_t *)&buf[patOffset0];
         if (h->Cwtv == 0x0202 && h->Cmwt == 0x0200 && h->HighLightMajor == 0 && h->HighLightMinor == 0 && h->Reserved == 0 && patPos[0] != 0 && patPos[0] < smpPos[0]) {
             // ModPlug Tracker 1.0 pre-alpha / alpha
             return false;
