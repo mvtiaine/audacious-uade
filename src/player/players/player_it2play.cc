@@ -472,8 +472,8 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     context->Music_FillAudioBuffer((int16_t*)buf, mixBufSize(state.frequency) / 4);
     const auto pos = pair(song.CurrentOrder, song.CurrentRow);
     bool jump = context->jumpLoop();
-    bool songend = song.StopSong;
-    if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second) {
+    bool songend = song.StopSong || song.CurrentOrder >= song.Header.OrdNum;
+    if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second && song.Header.OrdNum > 1) {
         for (auto i = pos.second; i <= prevPos.second; ++i) {
             context->seen.erase(pair(pos.first, i));
         }
