@@ -194,7 +194,7 @@ void* __cxa_get_exception_ptr() noexcept {
     abort();
 }
 
-void __cxa_call_unexpected () noexcept {
+void __cxa_call_unexpected (void*) noexcept {
     abort();
 }
 
