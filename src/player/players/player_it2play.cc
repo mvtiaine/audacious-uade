@@ -7,6 +7,7 @@
 #include <mutex>
 #include <set>
 #include <utility>
+#include <vector>
 
 #include "common/endian.h"
 #include "common/logger.h"
