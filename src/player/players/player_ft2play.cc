@@ -85,6 +85,10 @@ struct ft2play_context {
         if (probe) probe::song.timer = timer;
         else play::song.timer = timer;
     }
+    uint16_t songTimer() const noexcept {
+        if (probe) return probe::song.timer;
+        else return play::song.timer;
+    }
     void setVolumeRamping(bool volumeRamping) const noexcept {
         if (probe) probe::volumeRampingFlag = volumeRamping;
         else play::volumeRampingFlag = volumeRamping;
@@ -478,10 +482,14 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     assert(context);
     assert(context->moduleLoaded());
     const auto prevPos = pair<int16_t, int16_t>(context->songPos(), context->pattPos());
+    const auto prevTimer = context->songTimer();
     bool prevJump = context->jumpLoop();
     ssize_t totalbytes = context->dump_GetFrame((int16_t*)buf);
     const auto pos = pair<int16_t, int16_t>(context->songPos(), context->pattPos());
+    const auto timer = context->songTimer();
     bool jump = context->jumpLoop();
+    // XXX hack for Eggbird/waterfall remix.xm etc.
+    prevJump |= (timer == 1 && prevTimer == timer && pos.first == prevPos.first && pos.second < prevPos.second); 
     bool songend = (context->dump_EndOfTune(context->songLen()-1) || context->songPos() >= context->songLen()) && !context->seen.empty();
     if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second && context->songLen() > 1) {
         for (auto i = pos.second; i <= prevPos.second; ++i) {
