@@ -29,7 +29,11 @@
 #include <cstddef>
 #include <sys/types.h>
 extern "C" {
+#if defined(__MORPHOS__)
+inline void swab(const void *bfrom, void *bto, size_t n) noexcept {
+#else
 inline void swab(const void *bfrom, void *bto, ssize_t n) noexcept {
+#endif
   const char *from = (const char *) bfrom;
   char *to = (char *) bto;
   n &= ~((ssize_t) 1);
