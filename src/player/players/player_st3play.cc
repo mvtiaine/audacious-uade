@@ -7,6 +7,7 @@
 #include <cstring>
 #include <mutex>
 #include <set>
+#include <utility>
 #include <vector>
 
 #include "common/endian.h"
@@ -143,7 +144,7 @@ struct st3play_context {
             chnsettings = play::chnsettings;
             patDataLen = play::patDataLens[pattNr];
         } else {
-            return pair(-1,-1);
+            return pair<int16_t,int16_t>(-1,-1);
         }
         assert(patseg);
         assert(chnsettings);
@@ -152,7 +153,7 @@ struct st3play_context {
        	uint8_t dat = 0;
         while (i > 0) {
             if (offs >= patDataLen) {
-                return pair(-1,-1);
+                return pair<int16_t,int16_t>(-1,-1);
             }
             dat = patseg[offs++];
             if (dat == 0) {
@@ -169,11 +170,11 @@ struct st3play_context {
             }
             while (true) {
                 if (offs >= patDataLen) {
-                    return pair(-1,-1);
+                    return pair<int16_t,int16_t>(-1,-1);
                 }
                 dat = patseg[offs++];
                 if (dat == 0)
-                    return pair(effB,effC);
+                    return pair<int16_t,int16_t>(effB,effC);
                 if ((chnsettings[dat & 0x1F] & 0x80) == 0)
                     break;
                 // channel off, skip
@@ -185,7 +186,7 @@ struct st3play_context {
             if (dat & 0x40) offs += 1;
             if (dat & 0x80) {
                 if (offs + 1 >= patDataLen) {
-                    return pair(-1,-1);
+                    return pair<int16_t,int16_t>(-1,-1);
                 }
                 uint8_t cmd = patseg[offs++];
                 uint8_t info = patseg[offs++];
@@ -195,7 +196,7 @@ struct st3play_context {
                     effC = info;
             }
         }
-        return pair(effB,effC);
+        return pair<int16_t,int16_t>(effB,effC);
     }
     bool jumpLoop() const noexcept {
         if (probe) return probe::patloopcount > 0 || probe::patterndelay > 0;
@@ -333,7 +334,7 @@ bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
     if (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc)
         return false;
 
-    return get_s3m_info(path, buf, size).has_value();
+    return get_s3m_info(path, buf, size) ? true : false;
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
@@ -403,22 +404,22 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     const auto context = static_cast<st3play_context*>(state.context);
     assert(context);
     assert(context->moduleLoaded());
-    const auto prevPos = pair(context->np_ord(), context->np_row());
+    const auto prevPos = pair<int16_t,int16_t>(context->np_ord(), context->np_row());
     bool prevJump = context->jumpLoop();
     bool filled = context->FillAudioBuffer((int16_t*)buf, mixBufSize(state.frequency) / 4);
     assert(filled);
-    const auto pos = pair(context->np_ord(), context->np_row());
+    const auto pos = pair<int16_t,int16_t>(context->np_ord(), context->np_row());
     bool jump = context->jumpLoop();
     bool songend = context->np_restarted() || context->np_ord() >= context->ordNum();
     if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second && context->ordNum() > 1) {
         for (auto i = pos.second; i <= prevPos.second; ++i) {
-            context->seen.erase(pair(pos.first, i));
+            context->seen.erase(pair<int16_t,int16_t>(pos.first, i));
         }
     }
     if (!songend && pos != prevPos && !jump) {
         songend |= !context->seen.insert(pos).second;
     }
-    return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, mixBufSize(state.frequency));
+    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, mixBufSize(state.frequency));
 }
 
 bool restart(PlayerState &state) noexcept {

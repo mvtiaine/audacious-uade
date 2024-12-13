@@ -156,7 +156,7 @@ struct it2play_context {
         int16_t effC = -1; // Pattern Break
         auto &song = probe ? probe::Song : play::Song;
         if (pattNr >= song.Header.PatNum || pattPos >= song.Patt[pattNr].Rows)
-            return pair(pair(-1,-1),0);
+            return pair<pair<int16_t,int16_t>,uint8_t>(pair<int16_t,int16_t>(-1,-1),0);
       	if (pattPos == 0 || pattNr != song.DecodeExpectedPattern || ++song.DecodeExpectedRow != pattPos) {
             song.CurrentPattern = pattNr;
             song.ProcessRow = pattPos;
@@ -165,7 +165,7 @@ struct it2play_context {
         uint8_t *p = song.PatternOffset;
         uint8_t *p_start = song.Patt[pattNr].PackedData;
         if (p_start == NULL)
-            return pair(pair(-1,-1),0);
+            return pair<pair<int16_t,int16_t>,uint8_t>(pair<int16_t,int16_t>(-1,-1),0);
      	uint8_t *p_max = p_start + song.Patt[song.CurrentPattern].DataLength;
         hostChn_t *hc;
         assert(p);
@@ -203,7 +203,7 @@ struct it2play_context {
             }
         }
         song.PatternOffset = p;
-        return pair(pair(effB,effC),maxChn);
+        return pair<pair<int16_t,int16_t>,uint8_t>(pair<int16_t,int16_t>(effB,effC),maxChn);
     }
     void shutdown() noexcept {
         Music_FreeSong();
@@ -348,8 +348,9 @@ pair<vector<int16_t>, uint8_t> get_subsongs_and_channels(it2play_context *contex
             continue;
         }
 
-        const auto [posJump, maxCh] = context->posJump(pattNr, pattPos);
-        maxChn = max(maxChn, maxCh);
+        const auto _posJump = context->posJump(pattNr, pattPos);
+        const auto posJump = _posJump.first;
+        maxChn = max(maxChn, _posJump.second);
         if (posJump.first >= 0 || posJump.second >= 0) {
             int16_t oldPos = songPos;
             int16_t oldPatt = pattPos;
@@ -380,7 +381,7 @@ pair<vector<int16_t>, uint8_t> get_subsongs_and_channels(it2play_context *contex
             }
         }
     }
-    return pair(subsongs, maxChn + 1);
+    return pair<vector<int16_t>, uint8_t>(subsongs, maxChn + 1);
 }
 
 } // namespace {}
@@ -425,9 +426,9 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
         info = get_s3m_info(path, buf, size);
     }
     if (info) {
-       const auto [subsongs, maxChn] = get_subsongs_and_channels(context);
-       info->channels = maxChn;
-       info->maxsubsong = subsongs.size();
+        const auto subsongs = get_subsongs_and_channels(context);
+        info->channels = subsongs.second;
+        info->maxsubsong = subsongs.first.size();
     }
 
     context->shutdown();
@@ -462,9 +463,9 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 
     int order = 0;
     if (subsong > 1) {
-        const auto [subsongs, maxChn] = get_subsongs_and_channels(context);
-        assert(static_cast<size_t>(subsong) <= subsongs.size());
-        order = subsongs[subsong - 1];
+        const auto subsongs = get_subsongs_and_channels(context);
+        assert(static_cast<size_t>(subsong) <= subsongs.first.size());
+        order = subsongs.first[subsong - 1];
     }
     context->Music_PlaySong(order);
 
@@ -478,16 +479,16 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     assert(context);
     const auto &song = context->Song();
     assert(song.Loaded);
-    const auto prevPos = pair(song.CurrentOrder, song.CurrentRow);
+    const auto prevPos = pair<uint16_t, uint16_t>(song.CurrentOrder, song.CurrentRow);
     bool prevJump = context->jumpLoop();
     const auto prevProcessRow = song.ProcessRow;
     context->Music_FillAudioBuffer((int16_t*)buf, mixBufSize(state.frequency) / 4);
-    const auto pos = pair(song.CurrentOrder, song.CurrentRow);
+    const auto pos = pair<uint16_t, uint16_t>(song.CurrentOrder, song.CurrentRow);
     bool jump = context->jumpLoop();
     bool songend = song.StopSong || song.CurrentOrder >= song.Header.OrdNum;
     if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second && song.Header.OrdNum > 1) {
         for (auto i = pos.second; i <= prevPos.second; ++i) {
-            context->seen.erase(pair(pos.first, i));
+            context->seen.erase(pair<int16_t,int16_t>(pos.first, i));
         }
     }
     if (!songend && pos != prevPos && !jump) {
@@ -496,7 +497,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     // XXX quick and dirty hack for Bogdan/dream.it and others (Bxx jump to same order)
     if (!prevJump && !jump && pos == prevPos && song.ProcessOrder == (song.CurrentOrder - 1) && song.ProcessRow == 0xFFFE && prevProcessRow == 0xFFFE && context->seen.count(pos))
         songend = true;
-    return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, mixBufSize(state.frequency));
+    return pair<SongEnd::Status,size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, mixBufSize(state.frequency));
 }
 
 bool stop(PlayerState &state) noexcept {

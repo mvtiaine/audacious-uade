@@ -12,6 +12,7 @@
 #include <mutex>
 #include <set>
 #include <string>
+#include <utility>
 
 #include "common/constexpr.h"
 #include "common/endian.h"
@@ -185,7 +186,7 @@ struct ft2play_context {
                 else if (p->effTyp == 0xD)
                     effD = ((p->eff >> 4) * 10) + (p->eff & 0x0F);
         }
-        return pair(effB,effD);
+        return pair<int16_t,int16_t>(effB,effD);
     }
     bool jumpLoop() const noexcept {
         if (probe) return probe::song.pBreakFlag || probe::song.posJumpFlag;
@@ -476,21 +477,21 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     const auto context = static_cast<ft2play_context*>(state.context);
     assert(context);
     assert(context->moduleLoaded());
-    const auto prevPos = pair(context->songPos(), context->pattPos());
+    const auto prevPos = pair<int16_t, int16_t>(context->songPos(), context->pattPos());
     bool prevJump = context->jumpLoop();
     ssize_t totalbytes = context->dump_GetFrame((int16_t*)buf);
-    const auto pos = pair(context->songPos(), context->pattPos());
+    const auto pos = pair<int16_t, int16_t>(context->songPos(), context->pattPos());
     bool jump = context->jumpLoop();
     bool songend = (context->dump_EndOfTune(context->songLen()-1) || context->songPos() >= context->songLen()) && !context->seen.empty();
     if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second && context->songLen() > 1) {
         for (auto i = pos.second; i <= prevPos.second; ++i) {
-            context->seen.erase(pair(pos.first, i));
+            context->seen.erase(pair<int16_t,int16_t>(pos.first, i));
         }
     }
     if (!songend && pos != prevPos && !jump) {
         songend |= !context->seen.insert(pos).second;
     }
-    return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
+    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
 }
 
 bool restart(PlayerState &state) noexcept {

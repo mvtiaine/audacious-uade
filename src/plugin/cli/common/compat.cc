@@ -32,6 +32,18 @@ double round(double d) {
 float sqrtf(float f) {
     return __builtin_sqrtf(f);
 }
+// XXX undefined reference to log2
+double log2(double x) {
+    return __builtin_log2(x);
+}
+// XXX undefined reference to nearbyint
+double nearbyint(double x) {
+    return __builtin_nearbyint(x);
+}
+// XXX undefined reference to nearbyint
+float nearbyintf(float x) {
+    return __builtin_nearbyintf(x);
+}
 #endif
 
 #ifdef __AROS__

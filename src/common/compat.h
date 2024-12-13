@@ -27,6 +27,8 @@
 
 #if (defined(__AMIGA__) || defined(__COSMOCC__) || defined(__serenity__)) && !defined(__amigaos4__) && !defined(WARPUP)
 #include <cstddef>
+#include <sys/types.h>
+extern "C" {
 inline void swab(const void *bfrom, void *bto, ssize_t n) noexcept {
   const char *from = (const char *) bfrom;
   char *to = (char *) bto;
@@ -37,6 +39,7 @@ inline void swab(const void *bfrom, void *bto, ssize_t n) noexcept {
       to[n] = b0;
       to[n + 1] = b1;
     }
+}
 }
 #endif
 

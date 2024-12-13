@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cstdint>
 #include <mutex>
+#include <utility>
 
 #include "common/constexpr.h"
 #include "common/logger.h"
@@ -115,7 +116,7 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
         songend = ht->ht_SongEndReached;
         mixbuf += framelen;
     }
-    return pair(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
+    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
 }
 
 bool restart(PlayerState &state) noexcept {
