@@ -17,8 +17,8 @@ TEST_NAME="it2play (driver WAVWriter)"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
 EXPECTED_OUTPUT=$TESTMD5_LITTLE
 
-# XXX different output on x86 32-bit vs 68k 32-bit
-# TODO figure out root cause
+# XXX it2play WAVWriter driver output can depend on CPU, compiler and libc
+# TODO figure out root cause (powf?)
 OUTPUT=$(eval ${TEST})
 if [ "$OUTPUT" = "6cc033c5d072d607886eeaca5e8643f8" ]; then
     # x86 32-bit

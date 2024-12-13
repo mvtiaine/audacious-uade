@@ -16,16 +16,16 @@ TEST_NAME="it2play (S3M 16-bit)"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
 EXPECTED_OUTPUT=$TESTMD5_LITTLE
 
-# it2play HQ driver output depends on whether 32-bit or 64-bit CPU
-# XXX different output on x86 32-bit vs 68k 32-bit
-# TODO figure out root cause
+# XXX it2play HQ driver output can depend on CPU, compiler and libc
+# TODO figure out root cause (powf?)
 OUTPUT=$(eval ${TEST})
+# more "known good" hashes
 if [ "$OUTPUT" = "48abba4cec9fcbdfba2ea73fea4dac77" ]; then
-    # x86 32-bit
     EXPECTED_OUTPUT=48abba4cec9fcbdfba2ea73fea4dac77
 elif [ "$OUTPUT" = "3b18e3eb40b27b2964b9b3928ac256ac" ]; then
-    # 68k 32-bit
     EXPECTED_OUTPUT=3b18e3eb40b27b2964b9b3928ac256ac
+elif [ "$OUTPUT" = "a1baf62efb918e0b07ff58bdd7d1c59a" ]; then
+    EXPECTED_OUTPUT=a1baf62efb918e0b07ff58bdd7d1c59a
 fi
 
 . $(dirname "$0")/../common/check.sh
