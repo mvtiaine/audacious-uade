@@ -715,7 +715,7 @@ if test "$build_haiku" = "yes" || test "$build_openbsd" = "yes" || test "$build_
   CPPFLAGS="-DNO_FREOPEN ${CPPFLAGS}"
 fi
 
-CXXFLAGS="-fvisibility-inlines-hidden -Wall ${CFLAGS} ${CXXSTD} ${CXXFLAGS} -fno-rtti"
+CXXFLAGS="-fvisibility-inlines-hidden -Wall ${CFLAGS} ${CXXSTD} ${CXXFLAGS} -fno-rtti -fno-exceptions"
 CFLAGS="${CSTD} ${CFLAGS}"
 
 # must be called after C(XX)FLAGS tweaks, as for example on MorphOS -noixemul must be set before LT_INIT
