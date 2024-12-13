@@ -226,7 +226,7 @@ struct FSTHeader {
 	char Sig[4];
 } __attribute__ ((packed));
 
-constexpr_f1 bool is_fasttracker2(const char *buf, size_t size) noexcept {
+constexpr_f2 bool is_fasttracker2(const char *buf, size_t size) noexcept {
     if (size < sizeof(XMHeader) || memcmp(buf, "Extended Module:", 16)) return false;
     const auto &h = (const XMHeader *)buf;
     if (h->ver < 0x0102 || h->ver > 0x104 ||
@@ -242,7 +242,7 @@ constexpr_f1 bool is_fasttracker2(const char *buf, size_t size) noexcept {
     return true;
 }
 
-constexpr_f1 bool is_fasttracker1(const char *buf, size_t size) noexcept {
+constexpr_f2 bool is_fasttracker1(const char *buf, size_t size) noexcept {
     if (size < sizeof(FSTHeader)) return false;
     const auto &hdr = (const FSTHeader *)buf;
     const string sig = string() + hdr->Sig[0] + hdr->Sig[1] + hdr->Sig[2] + hdr->Sig[3];
