@@ -351,7 +351,7 @@ bool dump_EndOfTune(int32_t endSongPos)
 	bool returnValue = (dump_Flag && song.pattPos == 0 && song.timer == 1) || (song.tempo == 0);
 
 	// 8bb: FT2 bugfix for EEx (pattern delay) on first row of a pattern
-	if (song.pattDelTime2 > 0)
+	if (song.pattDelTime2 > 0 || song.jumpLoopFlag) // mvtiaine: check jumpLoopFlag
 		returnValue = false;
 
 	if (song.songPos == endSongPos && song.pattPos == 0 && song.timer == 1)

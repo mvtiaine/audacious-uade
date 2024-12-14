@@ -52,7 +52,7 @@ typedef struct songTyp_t
 {
 	char name[20+1];
 	uint8_t antChn, pattDelTime, pattDelTime2, pBreakPos, songTab[256];
-	bool pBreakFlag, posJumpFlag;
+	bool pBreakFlag, posJumpFlag, jumpLoopFlag; // mvtiaine: added jumpLoopFlag
 	int16_t songPos, pattNr, pattPos, pattLen;
 	uint16_t len, repS, speed, tempo, globVol, timer, ver;
 

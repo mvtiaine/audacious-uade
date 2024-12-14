@@ -268,6 +268,7 @@ static void setVibratoCtrl(stmTyp *ch, uint8_t param)
 	ch->waveCtrl = (ch->waveCtrl & 0xF0) | param;
 }
 
+// mvtiaien: added jumpLoopFlag
 static void jumpLoop(stmTyp *ch, uint8_t param)
 {
 	if (param == 0)
@@ -280,11 +281,15 @@ static void jumpLoop(stmTyp *ch, uint8_t param)
 
 		song.pBreakPos = ch->pattPos;
 		song.pBreakFlag = true;
+		song.jumpLoopFlag = true;
 	}
 	else if (--ch->loopCnt > 0)
 	{
 		song.pBreakPos = ch->pattPos;
 		song.pBreakFlag = true;
+		song.jumpLoopFlag = true;
+	} else {
+		song.jumpLoopFlag = false;
 	}
 }
 
