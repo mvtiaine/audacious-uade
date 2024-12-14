@@ -787,6 +787,7 @@ static bool loadMusicMOD(MEMFILE *f)
 		if (song.songTab[a] > b)
 			b = song.songTab[a];
 	}
+	song.antPtn = b + 1; // mvtiaine: added this
 
 	uint8_t pattBuf[32 * 4 * 64]; // 8bb: max pattern size (32 channels, 64 rows)
 	for (uint16_t a = 0; a <= b; a++)
