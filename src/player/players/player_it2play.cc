@@ -491,7 +491,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
             context->seen.erase(pair<int16_t,int16_t>(pos.first, i));
         }
     }
-    if (!songend && pos != prevPos && !jump) {
+    if (!songend && pos != prevPos && !prevJump && !jump) {
         songend |= !context->seen.insert(pos).second;
     }
     // XXX quick and dirty hack for Bogdan/dream.it and others (Bxx jump to same order)
