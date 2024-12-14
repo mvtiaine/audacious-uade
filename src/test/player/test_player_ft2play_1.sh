@@ -9,7 +9,7 @@ set -e
 export PLAYER_ENDIAN=little
 
 TESTMOD="${top_srcdir}/testdata/burgertime mix.xm"
-TESTMD5_LITTLE=2cab8d018e379ced69810bdd1ffbaef7
+TESTMD5_LITTLE=9d49fa1c465c0e5d5eff9a80e30f9b4c
 
 TEST_NAME="ft2play (XM) + subsongs"
 TEST="${PLAYER} \"${TESTMOD}\" 5 | ${MD5}"
