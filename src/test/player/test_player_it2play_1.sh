@@ -19,6 +19,7 @@ EXPECTED_OUTPUT=$TESTMD5_LITTLE
 # XXX it2play HQ driver output can depend on CPU, compiler and libc
 # TODO figure out root cause (powf?)
 OUTPUT=$(eval ${TEST})
+TEST="echo ${OUTPUT}"
 # more "known good" hashes
 if [ "$OUTPUT" = "a0bb95abf45d2bcbf9e7f915ce9283a1" ]; then
     EXPECTED_OUTPUT=a0bb95abf45d2bcbf9e7f915ce9283a1

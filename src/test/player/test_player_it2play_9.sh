@@ -20,6 +20,7 @@ EXPECTED_OUTPUT=$TESTMD5_LITTLE
 # XXX it2play WAVWriter driver output can depend on CPU, compiler and libc
 # TODO figure out root cause (powf?)
 OUTPUT=$(eval ${TEST})
+TEST="echo ${OUTPUT}"
 if [ "$OUTPUT" = "6cc033c5d072d607886eeaca5e8643f8" ]; then
     # x86 32-bit
     EXPECTED_OUTPUT=6cc033c5d072d607886eeaca5e8643f8
