@@ -29,6 +29,10 @@ Audacious >= 3.8
 
 * To install via Homebrew (latest release):
 brew install mvtiaine/repo/audacious-uade
+macOS:
+ln -s "${HOMEBREW_PREFIX}/lib/audacious/Input/uade.dylib" "$(pkgconf --variable=plugin_dir audacious)/Input/uade.dylib"
+Linux:
+ln -s "${HOMEBREW_PREFIX}/lib/audacious/Input/uade.so" "$(pkgconf --variable=plugin_dir audacious)/Input/uade.so"
 
 * To install from Gentoo overlay (latest release):
 # Add https://github.com/mvtiaine/gentoo-overlay.git via layman or eselect repository
