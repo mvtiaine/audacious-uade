@@ -8,7 +8,6 @@
 constexpr const char *PLUGIN_NAME = "uade";
 
 const char * const uade_defaults[] = {
-   "frequency",             "48000",
    "filter",                "2", // A1200
    "force_led_enabled",     "FALSE",
    "force_led",             "0", // OFF
@@ -41,6 +40,8 @@ const PreferencesWidget uade_audio_widgets1[] = {
 };
 
 const PreferencesWidget uade_audio_widgets2[] = {
+    WidgetSeparator(),
+    WidgetSeparator(),
     WidgetSpin("Panning", WidgetFloat(PLUGIN_NAME, "panning"), {0, 2, 0.1}),
     WidgetLabel("<i>0 stereo 1 mono 2 inverse stereo</i>"),
     WidgetSeparator(),

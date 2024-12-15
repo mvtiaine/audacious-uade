@@ -74,7 +74,23 @@ int main(int argc, char *argv[]) {
         uade_config.resampler = uade::Resampler::NONE;
         uade_config.panning = 1;
     }
-    auto &config = player == Player::uade ? uade_config : player_config;
+    it2play::IT2PlayConfig it2play_config = { frequency };
+    if (getenv("IT2PLAY_DRIVER")) {
+        const auto mixer = string(getenv("IT2PLAY_DRIVER"));
+        if (mixer == "hq") {
+            it2play_config.driver = it2play::Driver::HQ;
+        } else if (mixer == "sb16mmx") {
+            it2play_config.driver = it2play::Driver::SB16MMX;
+        } else if (mixer == "sb16") {
+            it2play_config.driver = it2play::Driver::SB16;
+        } else if (mixer == "wavwriter") {
+            it2play_config.driver = it2play::Driver::WAVWRITER;
+        }
+    }
+    auto &config =
+        player == Player::uade ? uade_config :
+        player == Player::it2play ? it2play_config :
+        player_config;
 
     const char *endian_ = getenv("PLAYER_ENDIAN");
     if (endian_ && string(endian_) == "big") {

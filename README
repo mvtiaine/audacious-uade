@@ -17,6 +17,7 @@ Main features:
 - HivelyTracker (http://www.hivelytracker.co.uk/) support using the official portable replay
 - Fasttracker 1 & 2 support using the ft2play replay (https://github.com/8bitbubsy/ft2play)
 - Scream Tracker 3 support using the st3play replay by 8bitbubsy (https://pastebin.com/AwRXZAw7)
+- Impulse Tracker 2 support using the it2play replay (https://github.com/8bitbubsy/it2play)
 
 Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
 In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
@@ -89,9 +90,8 @@ See https://zakalwe.fi/uade/ for UADE license information.
 * Some future plans (in no particular order)
 - Automatic A500/A1200/None filter selection depending on format/year/platform (OCS/AGA/DOS) etc. meta data
 - Plugin support for GStreamer, Hollywood, ...
-- Support AmigaOS4, WarpOS/PowerUP, Wasix, ...
-- Add PC-tracker portable replays from 8bitbubsy (XM,IT,S3M,...)
-- SC68 replay support (for Atari formats)
+- Support more platforms
+- Add more replays
 - PTK-Prowiz converter support (portable C-version)
-- Improve UADE format support
+- Improve UADE format support and portability
 - Project might need a new name...

@@ -7,6 +7,7 @@
 #endif
 
 #include <cassert>
+#include <utility>
 
 #include "common/logger.h"
 #include "player/player.h"
@@ -117,6 +118,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(subsong >= 0);
     int error = 0;
     struct DB3Module *mod = my_DB3_Load(buf, size, &error);
     if (!mod || error) {
@@ -125,10 +127,6 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         }
         ERR("player_libdigibooster3::play parsing failed for %s reason %s\n", path, ErrorReasons[error]);
         return {};
-    }
-
-    if (subsong == -1) {
-        subsong = 0;
     }
 
     int frames = mixBufSize(config.frequency) / 4;
@@ -143,10 +141,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     context->engine = engine;
     context->module = mod;
 
-    const auto &info = get_info(path, mod);
-    PlayerState state = {info, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
-
-    assert(subsong >= 0 && subsong <= mod->NumSongs - 1);
+    assert(subsong <= mod->NumSongs - 1);
     DB3_SetPos(engine, subsong, 0, 0);
     DB3_SetVolume(engine, 4);
     DB3_SetCallback(engine, [](void *db3context, struct UpdateEvent *event) {
@@ -157,11 +152,11 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         }
     }, context);
 
-    return state;
+    return PlayerState {Player::libdigibooster3, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
 }
 
 bool stop(PlayerState &state) noexcept {
-    assert(state.info.player == Player::libdigibooster3);
+    assert(state.player == Player::libdigibooster3);
     if (state.context) {
         const auto context = static_cast<DB3Context*>(state.context);
         assert(context);
@@ -173,18 +168,18 @@ bool stop(PlayerState &state) noexcept {
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
-    assert(state.info.player == Player::libdigibooster3);
+    assert(state.player == Player::libdigibooster3);
     assert(size >= mixBufSize(state.frequency));
     const auto context = static_cast<DB3Context*>(state.context);
     assert(context);
     size_t totalbytes = DB3_Mix(context->engine, mixBufSize(state.frequency) / 4, (int16_t*)buf) * 4;
     bool songend = context->songend || totalbytes < mixBufSize(state.frequency);
 
-    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
+    return pair<SongEnd::Status,size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
 }
 
 bool restart(PlayerState &state) noexcept {
-    assert(state.info.player == Player::libdigibooster3);
+    assert(state.player == Player::libdigibooster3);
     const auto context = static_cast<DB3Context*>(state.context);
     assert(context);
     msynth_reset((struct ModSynth *)context->engine, true);

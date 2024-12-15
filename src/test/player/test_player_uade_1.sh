@@ -6,7 +6,7 @@ set -e
 
 #
 
-TESTMOD=${top_srcdir}/testdata/chipsong.med
+TESTMOD="${top_srcdir}/testdata/chipsong.med"
 TESTMD5_BIG=58e92a4b6be4ca25ccc7bebbc1de61b8
 TESTMD5_LITTLE=109e14e01fffcad9cf8084bd7b29526f
 

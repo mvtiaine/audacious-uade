@@ -8,7 +8,6 @@
 
 #include <libaudcore/audstrings.h>
 #include <libaudcore/drct.h>
-#include <libaudcore/i18n.h>
 #include <libaudcore/plugin.h>
 #include <libaudcore/runtime.h>
 #include <libaudcore/vfs.h>
@@ -93,12 +92,13 @@ int parse_uri(const char *uri, string &path, string &ext) {
     return strlen(sub) > 0 ? subsong : -1;
 }
 
-void update_tuple_song_end(Tuple &tuple, const common::SongEnd &songend, const string &format) {
+void update_tuple_song_end(Tuple &tuple, const common::SongEnd &songend, const optional<string> &format) {
     const auto status = songend.status;
     const auto comment = "songend=" + songend.status_string();
     tuple.set_str(Tuple::Comment, comment.c_str());
     if (songend.length > 0 && status != common::SongEnd::NOSOUND &&
-        (status != common::SongEnd::ERROR || songend::precalc::allow_songend_error(format))) {
+        (status != common::SongEnd::ERROR ||
+        (format.has_value() && songend::precalc::allow_songend_error(format.value())))) {
         tuple.set_int(Tuple::Length, songend.length);
     }
 }
@@ -363,6 +363,30 @@ player::uade::UADEConfig get_uade_config(int frequency, int known_timeout) {
     return conf;
 }
 
+player::it2play::Driver it2play_driver(const int driver) {
+    switch(driver) {
+        case 0: return player::it2play::Driver::HQ;
+        case 1: return player::it2play::Driver::SB16MMX;
+        case 2: return player::it2play::Driver::SB16;
+        case 3: return player::it2play::Driver::WAVWRITER;
+        default: return player::it2play::Driver::HQ;
+    }
+}
+
+player::it2play::IT2PlayConfig get_it2play_config(int frequency, int known_timeout) {
+    const int driver = aud_get_int(PLUGIN_NAME, "it2play_driver");
+
+    player::it2play::IT2PlayConfig conf;
+    conf.frequency = frequency;
+    conf.probe = false;
+    conf.known_timeout = known_timeout;
+    conf.player = player::Player::it2play;
+
+    conf.driver = it2play_driver(driver);
+
+    return conf;
+}
+
 // hack for files which actually contain ? in their name, e.g. MOD.louzy-house?2 or MOD.how low can we go?1
 // which conflicts with audacious subsong uri scheme
 // XXX audacious also does not support subsongs for "prefix" formats by default
@@ -408,11 +432,8 @@ public:
         "libdigibooster3 1.2 (BSD-2-Clause)\n"
         "Copyright (c) 2014, Grzegorz Kraszewski\n"
         "\n"
-        "ft2play (BSD-3-Clause)\n"
-        "Copyright (c) 2020-2024, Olav Sørensen\n"
-        "\n"
-        "st3play v1.01 (BSD-3-Clause)\n"
-        "Copyright (c) 2016-2020, Olav Sørensen\n"
+        "ft2play, it2play, st3play v1.0.1 (BSD-3-Clause)\n"
+        "Copyright (c) 2016-2024, Olav Sørensen\n"
         "\n"
         "Simplistic Binary Streams 1.0.3 (MIT)\n"
         "Copyright (c) 2014-2019, Wong Shao Voon\n",
@@ -561,8 +582,12 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
 
     const auto player = check_player(file, path);
     const auto uade_config = get_uade_config(frequency, known_timeout);
+    const auto it2play_config = get_it2play_config(frequency, known_timeout);
     const player::PlayerConfig player_config = {frequency, known_timeout};
-    const auto &config = player == player::Player::uade ? uade_config : player_config;
+    const auto &config =
+        player == player::Player::uade ? uade_config :
+        player == player::Player::it2play ? it2play_config :
+        player_config;
     
     const auto check_stop_ = []() { return check_stop(); };
     const auto check_seek_ = []() { return check_seek(); };
@@ -576,7 +601,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     }
 
     // XXX FMT_S16_NE does not seem to work on big endian
-    open_audio(endian::native == endian::big ? FMT_S16_BE : FMT_S16_LE, frequency, 2);
+    open_audio(endian::native == endian::big ? FMT_S16_BE : FMT_S16_LE, state->frequency, 2);
 
     const auto res = player::support::playback_loop(state.value(), config, check_stop_, check_seek_, write_audio_);
 
@@ -592,7 +617,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     TRACE("Playback status for %s - %d\n", uri, res.songend.status);
 
     if (known_timeout <= 0 && !res.stopped && !res.seeked) {
-        update_tuple_song_end(tuple, res.songend, state->info.format);
+        update_tuple_song_end(tuple, res.songend, {});
         set_playback_tuple(tuple.ref());
     }
 

@@ -5,6 +5,7 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/libreplay_libdigibooster3.la \
     3rdparty/replay/libreplay_ft2play.la \
     3rdparty/replay/libreplay_st3play.la \
+    3rdparty/replay/libreplay_it2play.la \
     3rdparty/libreplay.la
 
 
@@ -13,11 +14,7 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/hivelytracker/replay.c
 
 # try keep byte-by-byte consistent audio output across platforms, by disabling some floating point optimizations
-3rdparty_replay_libreplay_hivelytracker_la_CFLAGS = $(AM_CFLAGS) -ffp-contract=off -fno-fast-math
-if !BUILD_AMIGAOS4
-# XXX -Os breaks amigaos4 build
-3rdparty_replay_libreplay_hivelytracker_la_CFLAGS += -Os
-endif
+3rdparty/replay/hivelytracker/replay.% : CFLAGS += -ffp-contract=off -fno-fast-math
 
 
 3rdparty_replay_libreplay_libdigibooster3_la_SOURCES = \
@@ -53,12 +50,25 @@ endif
     3rdparty/replay/st3play/st3play_probe.cc
 
 
+3rdparty_replay_libreplay_it2play_la_SOURCES = \
+    3rdparty/replay/it2play/it2play.h \
+    3rdparty/replay/it2play/it2play_play.cc \
+    3rdparty/replay/it2play/it2play_probe.cc
+
+3rdparty_replay_libreplay_it2play_la_CXXFLAGS = $(AM_CXXFLAGS) -Wno-misleading-indentation
+
+# try keep byte-by-byte consistent audio output across platforms, by disabling some floating point optimizations
+3rdparty/replay/it2play/libreplay_it2play_la-it2play_play.% : CXXFLAGS += -ffp-contract=off -fno-fast-math
+3rdparty/replay/it2play/libreplay_it2play_la-it2play_probe.% : CXXFLAGS += -ffp-contract=off -fno-fast-math
+
+
 3rdparty_libreplay_la_SOURCES =
 3rdparty_libreplay_la_LIBADD = \
     3rdparty/replay/libreplay_hivelytracker.la \
     3rdparty/replay/libreplay_libdigibooster3.la \
     3rdparty/replay/libreplay_ft2play.la \
-    3rdparty/replay/libreplay_st3play.la
+    3rdparty/replay/libreplay_st3play.la \
+    3rdparty/replay/libreplay_it2play.la
 
 
 EXTRA_DIST += \
@@ -78,4 +88,39 @@ EXTRA_DIST += \
     3rdparty/replay/ft2play/tables.h \
     3rdparty/replay/ft2play/tables.c \
     3rdparty/replay/st3play/LICENSE \
-    3rdparty/replay/st3play/st3play.c
+    3rdparty/replay/st3play/st3play.c \
+    3rdparty/replay/it2play/LICENSE \
+    3rdparty/replay/it2play/README.md \
+    3rdparty/replay/it2play/cpu.h \
+    3rdparty/replay/it2play/it_d_rm.h \
+    3rdparty/replay/it2play/it_d_rm.c \
+    3rdparty/replay/it2play/it_m_eff.h \
+    3rdparty/replay/it2play/it_m_eff.c \
+    3rdparty/replay/it2play/it_music.h \
+    3rdparty/replay/it2play/it_music.c \
+    3rdparty/replay/it2play/it_structs.h \
+    3rdparty/replay/it2play/it_structs.c \
+    3rdparty/replay/it2play/it_tables.h \
+    3rdparty/replay/it2play/it_tables.c \
+    3rdparty/replay/it2play/it2drivers/hq_m.h \
+    3rdparty/replay/it2play/it2drivers/hq_m.c \
+    3rdparty/replay/it2play/it2drivers/hq.h \
+    3rdparty/replay/it2play/it2drivers/hq.c \
+    3rdparty/replay/it2play/it2drivers/sb16_m.h \
+    3rdparty/replay/it2play/it2drivers/sb16_m.c \
+    3rdparty/replay/it2play/it2drivers/sb16.h \
+    3rdparty/replay/it2play/it2drivers/sb16.c \
+    3rdparty/replay/it2play/it2drivers/sb16mmx_m.h \
+    3rdparty/replay/it2play/it2drivers/sb16mmx_m.c \
+    3rdparty/replay/it2play/it2drivers/sb16mmx.h \
+    3rdparty/replay/it2play/it2drivers/sb16mmx.c \
+    3rdparty/replay/it2play/it2drivers/wavwriter_m.h \
+    3rdparty/replay/it2play/it2drivers/wavwriter_m.c \
+    3rdparty/replay/it2play/it2drivers/wavwriter.h \
+    3rdparty/replay/it2play/it2drivers/wavwriter.c \
+    3rdparty/replay/it2play/it2drivers/zerovol.h \
+    3rdparty/replay/it2play/it2drivers/zerovol.c \
+    3rdparty/replay/it2play/loaders/it.h \
+    3rdparty/replay/it2play/loaders/it.c \
+    3rdparty/replay/it2play/loaders/s3m.h \
+    3rdparty/replay/it2play/loaders/s3m.c

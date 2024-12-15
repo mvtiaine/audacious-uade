@@ -8,7 +8,7 @@ set -e
 
 export PLAYER_ENDIAN=little
 
-TESTMOD=${top_srcdir}/testdata/monkmusings.hvl
+TESTMOD="${top_srcdir}/testdata/monkmusings.hvl"
 TESTMD5_LITTLE=f52dea21bd60cf27f0e529666fad05aa
 
 TEST_NAME="HivelyTracker"
@@ -18,7 +18,9 @@ EXPECTED_OUTPUT=$TESTMD5_LITTLE
 # XXX on x86/68k/... (32-bit) hosts HivelyTracker replay produces slightly different output vs 64-bit hosts
 # TODO figure out root cause
 OUTPUT=$(eval ${TEST})
+TEST="echo ${OUTPUT}"
 if [ "$OUTPUT" = "db12f1eaf5a14ec73cc4e45a56086936" ]; then
+    # 32-bit
     EXPECTED_OUTPUT=db12f1eaf5a14ec73cc4e45a56086936
 fi
 

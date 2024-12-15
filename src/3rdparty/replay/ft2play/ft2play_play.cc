@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 #include "ft2play.h"
 
 namespace replay::ft2play {

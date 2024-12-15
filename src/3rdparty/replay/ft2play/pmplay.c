@@ -392,7 +392,7 @@ static void delta2Samp(int8_t *p, uint32_t len, bool sample16Bit)
 		int16_t olds16 = 0;
 		for (uint32_t i = 0; i < len; i++)
 		{
-			const int16_t news16 = p16[i] + olds16;
+			const int16_t news16 = READ16LE(p16[i]) + olds16;
 			p16[i] = news16;
 			olds16 = news16;
 		}
@@ -787,6 +787,7 @@ static bool loadMusicMOD(MEMFILE *f)
 		if (song.songTab[a] > b)
 			b = song.songTab[a];
 	}
+	song.antPtn = b + 1; // mvtiaine: added this
 
 	uint8_t pattBuf[32 * 4 * 64]; // 8bb: max pattern size (32 channels, 64 rows)
 	for (uint16_t a = 0; a <= b; a++)
@@ -1020,6 +1021,7 @@ bool loadMusicFromData(const uint8_t *data, uint32_t dataLength) // .XM/.MOD/.FT
 	memcpy(song.songTab, h.songTab, 256);
 
 	song.antInstrs = h.antInstrs; // 8bb: added this
+	song.antPtn = h.antPtn; // mvtiaine: added this
 	if (h.defSpeed == 0) h.defSpeed = 125; // 8bb: (BPM) FT2 doesn't do this, but we do it for safety
 	song.speed = h.defSpeed;
 	song.tempo = h.defTempo;
@@ -1027,7 +1029,7 @@ bool loadMusicFromData(const uint8_t *data, uint32_t dataLength) // .XM/.MOD/.FT
 
 	// 8bb: bugfixes...
 	if (song.speed < 32) song.speed = 32; // mvtiaine: fix min bpm (AMP:Slartibartfast/XM.Wonderful Day)
-	if (song.tempo < 1) song.tempo = 1;
+	if (song.tempo < 1) song.tempo = 6; // mvtiaine: default to 6 (XM.Clafouti\ City\ vocals)
 	// ----------------
 
 	if (song.ver < 0x0104) // old FT2 XM format

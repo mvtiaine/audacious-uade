@@ -57,16 +57,28 @@ TESTS = \
     test/converter/test_converter.sh \
     test/songdb/test_songdb1.sh \
     test/songdb/test_songdb2.sh \
-    test/player/test_player1.sh \
-    test/player/test_player2.sh \
-    test/player/test_player3.sh \
-    test/player/test_player4.sh \
-    test/player/test_player5.sh \
-    test/player/test_player6.sh \
-    test/player/test_player7.sh \
-    test/player/test_player8.sh \
-    test/player/test_player9.sh \
-    test/player/test_player10.sh
+    test/player/test_player_uade_1.sh \
+    test/player/test_player_uade_2.sh \
+    test/player/test_player_uade_3.sh \
+    test/player/test_player_uade_4.sh \
+    test/player/test_player_uade_5.sh \
+    test/player/test_player_it2play_1.sh \
+    test/player/test_player_it2play_2.sh \
+    test/player/test_player_it2play_3.sh \
+    test/player/test_player_it2play_4.sh \
+    test/player/test_player_it2play_5.sh \
+    test/player/test_player_it2play_6.sh \
+    test/player/test_player_it2play_7.sh \
+    test/player/test_player_it2play_8.sh \
+    test/player/test_player_it2play_9.sh \
+    test/player/test_player_ft2play_1.sh \
+    test/player/test_player_ft2play_2.sh \
+    test/player/test_player_ft2play_3.sh \
+    test/player/test_player_st3play_1.sh \
+    test/player/test_player_st3play_2.sh \
+    test/player/test_player_libdigibooster3_1.sh \
+    test/player/test_player_libdigibooster3_2.sh \
+    test/player/test_player_hivelytracker_1.sh
 
 EXTRA_DIST += \
     test/common/header.sh \

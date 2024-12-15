@@ -33,6 +33,7 @@ constexpr int MAX_SILENCE = 3000;
     hivelytracker, \
     libdigibooster3, \
     st3play, \
+    it2play, \
     uade, \
     ft2play \
  )
@@ -49,6 +50,7 @@ constexpr_f2 std::string name(Player player) noexcept {
         case Player::uade: return "uade";
         case Player::ft2play: return "ft2play";
         case Player::st3play: return "st3play";
+        case Player::it2play: return "it2play";
         default: assert(false); return "";
     }
     assert(false);
@@ -81,7 +83,7 @@ struct PlayerConfig {
 };
 
 struct PlayerState {
-    ModuleInfo info;
+    Player player;
     int subsong;
     int frequency;
     bool swap_endian;
@@ -169,3 +171,26 @@ struct UADEConfig : PlayerConfig {
 bool seek(PlayerState &state, int millis) noexcept;
 
 } // namespace player::uade
+
+namespace player::it2play {
+
+enum class Driver {
+    HQ = 0,
+    SB16MMX = 1,
+    SB16 = 2,
+    WAVWRITER = 3
+};
+
+// TODO set default audacious config based on this
+struct IT2PlayConfig : PlayerConfig {
+    Player player = Player::it2play;
+    Driver driver = Driver::HQ;
+
+    constexpr_f1 IT2PlayConfig() noexcept {}
+    constexpr_f1 IT2PlayConfig(const int frequency) noexcept
+    : PlayerConfig(frequency) {}
+    constexpr_f1 IT2PlayConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
+    : PlayerConfig(frequency, known_timeout, endian, probe) {}
+};
+
+} // namespace player::it2play

@@ -83,8 +83,7 @@ void operator delete(void* ptr, std::size_t) noexcept {
 
 // for c++17
 
-//#if !(defined(__GNUC__) && __GNUC__ <= 8 && !defined(__clang__) && !defined(__INTEL_COMPILER)) && !defined(__AROS__) && !defined(__OS2__) && !defined(__QNX__) && !defined(__ORBIS__) && !defined(__sysv5__)
-#if defined(__cpp_aligned_new) && !defined(__MINGW32__)
+#if defined(__cpp_aligned_new) && !defined(__MINGW32__)  && !defined(__AMIGA__) && !defined(__AROS__) && !defined(__OS2__) && !defined(__QNX__) && !defined(__ORBIS__) && !defined(__sysv5__) && !defined(__riscos) && !defined(__serenity__) && !defined( __sgi__)
 
 void* operator new(std::size_t size, std::align_val_t al) {
     /* malloc (0) is unpredictable; avoid it.  */
@@ -194,7 +193,7 @@ void* __cxa_get_exception_ptr() noexcept {
     abort();
 }
 
-void __cxa_call_unexpected () noexcept {
+void __cxa_call_unexpected (void*) noexcept {
     abort();
 }
 

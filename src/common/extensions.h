@@ -224,6 +224,7 @@ static constexpr const char *plugin_extensions[] = {
     "ft", "fst", // Fasttracker 1
     "xm", // Fasttracker 2
     "s3m", // Scream Tracker 3
+    "it", // Impulse Tracker
 
     // no replay
     //"ct", Cybertracker
