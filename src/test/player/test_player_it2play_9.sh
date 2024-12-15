@@ -21,9 +21,11 @@ EXPECTED_OUTPUT=$TESTMD5_LITTLE
 # TODO figure out root cause (powf?)
 OUTPUT=$(eval ${TEST})
 TEST="echo ${OUTPUT}"
+# more "known good" hashes
 if [ "$OUTPUT" = "6cc033c5d072d607886eeaca5e8643f8" ]; then
-    # x86 32-bit
     EXPECTED_OUTPUT=6cc033c5d072d607886eeaca5e8643f8
+elif [ "$OUTPUT" = "649caa6bbc9a3d92dedeabe9c338e627" ]; then
+    EXPECTED_OUTPUT=649caa6bbc9a3d92dedeabe9c338e627
 fi
 
 . $(dirname "$0")/../common/check.sh

@@ -31,6 +31,8 @@ elif [ "$OUTPUT" = "49a24ad5c32682a02c20cca6b9c8a1c3" ]; then
     EXPECTED_OUTPUT=49a24ad5c32682a02c20cca6b9c8a1c3
 elif [ "$OUTPUT" = "d18706e3bef07bda13d8052a65e66bc2" ]; then
     EXPECTED_OUTPUT=d18706e3bef07bda13d8052a65e66bc2
+elif [ "$OUTPUT" = "830de8a9691bf632c31ab8a1a8c8a7b5" ]; then
+    EXPECTED_OUTPUT=830de8a9691bf632c31ab8a1a8c8a7b5
 fi
 
 . $(dirname "$0")/../common/check.sh
