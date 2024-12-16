@@ -62,7 +62,7 @@ abuild -r
 (sudo) apk add "${HOME}/packages/*/*/audacious-uade*.apk"
 
 * To install with MacPorts (latest release):
-git clone https://github.com/mvtiaine/macports <path>
+git clone https://github.com/mvtiaine/macports.git <path>
 # Add file://<path> to ${prefix}/etc/macports/sources.conf
 # see https://guide.macports.org/#development.local-repositories
 (sudo) port sync
