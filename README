@@ -17,7 +17,7 @@ Main features:
 - HivelyTracker (http://www.hivelytracker.co.uk/) support using the official portable replay
 - Fasttracker 1 & 2 support using the ft2play replay (https://github.com/8bitbubsy/ft2play)
 - Scream Tracker 3 support using the st3play replay by 8bitbubsy (https://pastebin.com/AwRXZAw7)
-- Impulse Tracker 2 support using the it2play replay (https://github.com/8bitbubsy/it2play)
+- Impulse Tracker support using the it2play replay (https://github.com/8bitbubsy/it2play)
 
 Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
 In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
@@ -29,9 +29,9 @@ Audacious >= 3.8
 
 * To install via Homebrew (latest release):
 brew install mvtiaine/repo/audacious-uade
-macOS:
++ macOS:
 ln -s "${HOMEBREW_PREFIX}/lib/audacious/Input/uade.dylib" "$(pkgconf --variable=plugin_dir audacious)/Input/uade.dylib"
-Linux:
++ Linux:
 ln -s "${HOMEBREW_PREFIX}/lib/audacious/Input/uade.so" "$(pkgconf --variable=plugin_dir audacious)/Input/uade.so"
 
 * To install from Gentoo overlay (latest release):
@@ -55,6 +55,18 @@ git clone https://github.com/mvtiaine/haikuports.git
 cp -rp haikuports/* /boot/home/haikuports/
 haikuporter audacious_uade
 pkgman install /boot/home/haikuports/packages/audacious_uade-*
+
+* To install with Alpine aports (latest release):
+wget https://raw.githubusercontent.com/mvtiaine/aports/main/audacious-uade/APKBUILD
+abuild -r
+(sudo) apk add "${HOME}/packages/*/*/audacious-uade*.apk"
+
+* To install with MacPorts (latest release):
+git clone https://github.com/mvtiaine/macports <path>
+# Add file://<path> to ${prefix}/etc/macports/sources.conf
+# see https://guide.macports.org/#development.local-repositories
+(sudo) port sync
+(sudo) port install audacious-uade
 
 * To build and install with Debian/Ubuntu/etc. from sources (git or latest release):
 scripts/make_deb.sh
