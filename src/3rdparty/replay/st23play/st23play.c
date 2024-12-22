@@ -789,7 +789,9 @@ static void mixAudio(int16_t *stream, int32_t sampleBlockLength)
 	{
 		for (int32_t i = 0; i < sampleBlockLength; i++)
 		{
-			const double dSample = ((*dMixBufferPtr++) + (*dMixBufferPtr++)) * 0.5;
+			// mvtiaine: fix warning: multiple unsequenced modifications to 'dMixBufferPtr' [-Wunsequenced]
+			const double dSample = *dMixBufferPtr + *(dMixBufferPtr+1) * 0.5;
+			dMixBufferPtr += 2;
 			double dOut = dSample * (16384.0 * 0.5);
 
 			// 1-bit triangular dithering (high-pass filtered)
