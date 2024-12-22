@@ -1058,8 +1058,8 @@ bool st23play_PlaySong(const uint8_t *moduleData, uint32_t dataLength, uint32_t 
 	_znewtempo(tempo);
 	subcnt = 0;
 	breakpat = false;
-	vpnt = 127-1; // will be set to 0 in nextpat()
 	nextpat();
+	vpnt = 128-1; // will be set to 0 in nextpat() // mvtiaine: fixed initial value
 	dPrngState = 0.0;
 	musicPaused = false;
 	return true;
