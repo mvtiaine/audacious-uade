@@ -164,4 +164,5 @@
 ^.{33}Fasttracker/
 ^.{33}Fasttracker 2/
 ^.{33}Impulsetracker/
+^.{33}Screamtracker 2/
 ^.{33}Screamtracker 3/
