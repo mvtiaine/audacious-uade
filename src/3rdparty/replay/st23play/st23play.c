@@ -1019,6 +1019,10 @@ static bool loadSTM(const uint8_t *dat, uint32_t modLen)
 		if (s->data == NULL)
 			return false;
 
+		// mvtiaine: added sanity check (- unknown/bros.stm)
+		if (smpOffsetInFile + s->length > modLen)
+			s->length = modLen - smpOffsetInFile;
+
 		memcpy(s->data, &dat[smpOffsetInFile], s->length); // copy over sample data
 	}
 
