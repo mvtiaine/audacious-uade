@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 /*
 ** st23play v0.35 - 31st of December 2020 - https://16-bits.org
 ** ===========================================================
