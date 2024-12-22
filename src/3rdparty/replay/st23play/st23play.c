@@ -79,11 +79,13 @@ uint32_t st23play_GetMixerTicks(void); // returns the amount of milliseconds of 
 
 #define MIX_BUF_SAMPLES 4096
 
+#ifndef AUDACIOUS_UADE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
+#endif
 
 // don't change these!
 #define BLEP_ZC 16
@@ -136,13 +138,18 @@ typedef struct blep_t
 static char songname[20+1];
 static volatile bool musicPaused;
 static bool breakpat;
-static uint8_t vpnt, subcnt, gvolume = 64, tempo = 96, st1[MAX_ORDERS], st2[65536];
-static int32_t mastervol = 256, samplesLeft, soundBufferSize, oversamplingFactor, randSeed = 0x12345000;
+static uint8_t subcnt, gvolume = 64, tempo = 96, st1[MAX_ORDERS], st2[65536];
+static int32_t mastervol = 256, samplesLeft, soundBufferSize, randSeed = 0x12345000;
 static uint32_t samplesPerTick, audioRate, sampleCounter;
 static st_ins_t smp[MAX_SAMPLES];
 static chn_t chn[NUM_CHANNELS];
-static double *dMixBuffer, dPer2HzDiv, dPrngState;
+static double dPer2HzDiv, dPrngState;
 static blep_t blep[NUM_CHANNELS], blepVol[NUM_CHANNELS];
+
+uint8_t vpnt; // mvtiaine: removed static
+bool restarted, moduleLoaded; // mvtiaine: added
+int32_t oversamplingFactor; // mvtiaine: removed static
+double *dMixBuffer; // mvtiaine: removed static
 
 static const uint16_t notespd[80 + 11] =
 {
@@ -240,8 +247,13 @@ static const uint64_t minblepdata[] =
 	0x0000000000000000
 };
 
+#ifdef AUDACIOUS_UADE
+static bool openMixer(uint32_t audioFreq) { return true; }
+static void closeMixer(void) {}
+#else
 static bool openMixer(uint32_t audioFreq);
 static void closeMixer(void);
+#endif
 
 // CODE START
 
@@ -324,7 +336,7 @@ static void _znewtempo(uint8_t val)
 	samplesPerTick = audioRate / hz;
 }
 
-static void nextpat(void) // 8bitbubsy: this routine is not directly ported, but it's even safer
+static void nextpat(bool initial) // 8bitbubsy: this routine is not directly ported, but it's even safer
 {
 	vpnt++;
 	if (vpnt >= MAX_ORDERS || st1[vpnt] == 99) // 8bitbubsy: added vpnt>127 check (prevents Bxx (xx>127) LUT overflow)
@@ -336,6 +348,9 @@ static void nextpat(void) // 8bitbubsy: this routine is not directly ported, but
 
 	if (vpnt == MAX_ORDERS)
 		vpnt = 0;
+
+	if (!initial && vpnt == 0) // mvtiaine: added initial parameter and restarted check
+		restarted = true;
 
 	if (st1[vpnt] == 98)
 		return; // panic!
@@ -645,7 +660,7 @@ static void imusic(void)
 		if (breakpat)
 		{
 			breakpat = false;
-			nextpat();
+			nextpat(false);
 		}
 
 		for (i = 0; i < NUM_CHANNELS; i++)
@@ -807,8 +822,11 @@ static void mixAudio(int16_t *stream, int32_t sampleBlockLength)
 		}
 	}
 }
-
+#ifdef AUDACIOUS_UADE
+void st23play_FillAudioBuffer(int16_t *buffer, int32_t samples)
+#else
 static void st23play_FillAudioBuffer(int16_t *buffer, int32_t samples)
+#endif
 {
 	int32_t a, b;
 
@@ -856,6 +874,8 @@ void st23play_Close(void)
 			smp[i].data = NULL;
 		}
 	}
+
+	moduleLoaded = false;
 }
 
 void st23play_PauseSong(bool flag)
@@ -891,7 +911,7 @@ uint32_t st23play_GetMixerTicks(void)
 	return sampleCounter / (audioRate / 1000);
 }
 
-static bool loadSTM(const uint8_t *dat, uint32_t modLen)
+bool loadSTM(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 {
 	uint8_t pats, *pattdata;
 	uint16_t a, ver;
@@ -1026,6 +1046,9 @@ static bool loadSTM(const uint8_t *dat, uint32_t modLen)
 		memcpy(s->data, &dat[smpOffsetInFile], s->length); // copy over sample data
 	}
 
+	restarted = false; // mvtiaine: added
+	moduleLoaded = true; // mvtiaine: added
+
 	return true;
 }
 
@@ -1058,8 +1081,8 @@ bool st23play_PlaySong(const uint8_t *moduleData, uint32_t dataLength, uint32_t 
 	_znewtempo(tempo);
 	subcnt = 0;
 	breakpat = false;
-	nextpat();
 	vpnt = 128-1; // will be set to 0 in nextpat() // mvtiaine: fixed initial value
+	nextpat(true);
 	dPrngState = 0.0;
 	musicPaused = false;
 	return true;
@@ -1069,6 +1092,7 @@ playError:
 	return false;
 }
 
+#ifndef AUDACIOUS_UADE
 // the following must be changed if you want to use another audio API than WinMM
 
 #ifndef WIN32_LEAN_AND_MEAN
@@ -1229,6 +1253,20 @@ omError:
 	closeMixer();
 	return FALSE;
 }
+
+#else
+void reset() {
+	sampleCounter = 0;
+	memset(chn, 0, sizeof (chn));
+	_znewtempo(96);
+	subcnt = 0;
+	breakpat = false;
+	vpnt = 128-1;
+	nextpat(true);
+	dPrngState = 0.0;
+	restarted = false;
+}
+#endif // AUDACIOUS_UADE
 
 // ---------------------------------------------------------------------------
 

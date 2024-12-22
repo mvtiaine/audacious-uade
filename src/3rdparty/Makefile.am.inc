@@ -6,6 +6,7 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/libreplay_ft2play.la \
     3rdparty/replay/libreplay_st3play.la \
     3rdparty/replay/libreplay_it2play.la \
+    3rdparty/replay/libreplay_st23play.la \
     3rdparty/libreplay.la
 
 
@@ -68,7 +69,14 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/libreplay_libdigibooster3.la \
     3rdparty/replay/libreplay_ft2play.la \
     3rdparty/replay/libreplay_st3play.la \
-    3rdparty/replay/libreplay_it2play.la
+    3rdparty/replay/libreplay_it2play.la \
+    3rdparty/replay/libreplay_st23play.la
+
+
+3rdparty_replay_libreplay_st23play_la_SOURCES = \
+    3rdparty/replay/st23play/st23play.h \
+    3rdparty/replay/st23play/st23play_play.cc \
+    3rdparty/replay/st23play/st23play_probe.cc
 
 
 EXTRA_DIST += \
@@ -123,4 +131,6 @@ EXTRA_DIST += \
     3rdparty/replay/it2play/loaders/it.h \
     3rdparty/replay/it2play/loaders/it.c \
     3rdparty/replay/it2play/loaders/s3m.h \
-    3rdparty/replay/it2play/loaders/s3m.c
+    3rdparty/replay/it2play/loaders/s3m.c \
+    3rdparty/replay/st23play/LICENSE \
+    3rdparty/replay/st23play/st23play.c
