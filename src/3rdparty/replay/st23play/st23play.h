@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+// for endianess check
+#include "config.h"
 
 #define AUDACIOUS_UADE 1
 

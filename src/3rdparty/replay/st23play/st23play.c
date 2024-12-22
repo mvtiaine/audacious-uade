@@ -106,6 +106,18 @@ uint32_t st23play_GetMixerTicks(void); // returns the amount of milliseconds of 
 // fast 32-bit -> 16-bit clamp
 #define CLAMP16(i) if ((int16_t)(i) != i) i = 0x7FFF ^ (i >> 31)
 
+// mvtiaine: added big endian support
+#define SWAP16(value) \
+((uint16_t)( \
+	((uint16_t)(value) << 8) | \
+	((uint16_t)(value) >> 8) \
+))
+#ifdef WORDS_BIGENDIAN
+#define READ16LE(value) SWAP16(value)
+#else
+#define READ16LE(value) value
+#endif
+
 typedef struct st_ins_t
 {
 	uint16_t segm; // for loader
@@ -948,12 +960,12 @@ bool loadSTM(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 	{
 		uint8_t *sdat = (uint8_t *)&dat[48 + (a * 32)];
 
-		s->segm = *(uint16_t *)&sdat[14];
-		s->length = *(uint16_t *)&sdat[16];
-		s->lp_beg = *(uint16_t *)&sdat[18];
-		s->lp_end = *(uint16_t *)&sdat[20];
+		s->segm = READ16LE(*(uint16_t *)&sdat[14]);
+		s->length = READ16LE(*(uint16_t *)&sdat[16]);
+		s->lp_beg = READ16LE(*(uint16_t *)&sdat[18]);
+		s->lp_end = READ16LE(*(uint16_t *)&sdat[20]);
 		s->vol = sdat[22];
-		s->c1spd = *(uint16_t *)&sdat[24];
+		s->c1spd = READ16LE(*(uint16_t *)&sdat[24]);
 
 		if (s->lp_end == 0)
 			s->lp_end = 65535;
