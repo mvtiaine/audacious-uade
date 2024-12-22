@@ -1037,7 +1037,7 @@ bool st23play_PlaySong(const uint8_t *moduleData, uint32_t dataLength, uint32_t 
 	if (audioFreq == 0)
 		audioFreq = 44100;
 
-	audioFreq = CLAMP(audioFreq, 44100, 96000);
+	audioFreq = CLAMP(audioFreq, 8000, 96000); // mvtiaine: changed min freq 44100 -> 8000
 
 	oversamplingFactor = 2;
 	if (audioFreq >= 64372)
