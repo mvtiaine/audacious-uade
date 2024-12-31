@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: CC-PDDC
+// SPDX-License-Identifier: CC-PDM-1.0
 /* tinynew.cpp
 
    Overrides operators new and delete

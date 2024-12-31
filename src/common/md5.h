@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: CC-PDDC
+// SPDX-License-Identifier: CC-PDM-1.0
 /* MD5
  * converted to C++ class by Frank Thilo (thilo@unix-ag.org)
  * for bzflag (http://www.bzflag.org)
