@@ -56,12 +56,9 @@ plugin_cli_songend_songend_SOURCES = \
     plugin/cli/songend/songend_main.cc
 
 plugin_cli_songend_songend_LDADD = \
-	songend/libsongend.la
+	songend/libsongend.la \
+	$(UADE_LIBS)
 
-if BUILD_AIX
-# ERROR: Undefined symbol: .uade_config_set_option etc.
-plugin_cli_songend_songend_LDADD += $(UADE_LIBS)
-endif
 
 plugin_cli_converter_converter_SOURCES += plugin/cli/common/compat.cc
 plugin_cli_player_player_SOURCES += plugin/cli/common/compat.cc

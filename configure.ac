@@ -861,7 +861,8 @@ AX_SUBDIRS_CONFIGURE([uade], [
 ])
 UADE_CPPFLAGS="-I\${top_srcdir}/uade/src/frontends/include -I\${top_builddir}/uade/src/frontends/include"
 AC_SUBST([UADE_CPPFLAGS])
-UADE_LIBS="\${top_builddir}/uade/src/frontends/common/libuade.a ${EXTRA_LIBS}"
+# abs_top_builddir is needed here at least by OpenBSD ports
+UADE_LIBS="\${abs_top_builddir}/uade/src/frontends/common/libuade.a ${EXTRA_LIBS}"
 AC_SUBST([UADE_LIBS])
 
 AC_CONFIG_HEADERS([src/config.h])
