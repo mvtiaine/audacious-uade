@@ -344,18 +344,15 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     st3play_context *context = new st3play_context(true);
     assert(!context->moduleLoaded());
 
-    if (!context->loadS3M((const uint8_t*)buf, size)) {
+    optional<ModuleInfo> info;
+    if (context->loadS3M((const uint8_t*)buf, size)) {
+        info = get_s3m_info(path, buf, size);
+        if (info) {
+            const auto subsongs = get_subsongs(context);
+            info->maxsubsong = subsongs.size();
+        }
+    } else {
         WARN("player_st3play::parse parsing failed for %s\n", path);
-        context->shutdown();
-        delete context;
-        probe_guard.unlock();
-        return {};
-    }
-
-    auto info = get_s3m_info(path, buf, size);
-    if (info) {
-       const auto subsongs = get_subsongs(context);
-       info->maxsubsong = subsongs.size();
     }
 
     context->shutdown();
@@ -391,7 +388,7 @@ bool stop(PlayerState &state) noexcept {
     if (state.context) {
         const auto context = static_cast<st3play_context*>(state.context);
         assert(context);
-        context->Close();
+        context->shutdown();
         if (context->probe) probe_guard.unlock();
         delete context;
     }

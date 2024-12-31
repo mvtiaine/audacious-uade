@@ -84,7 +84,7 @@ inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf,
             // 3.21 writes the version number as 3.20
             snprintf(format, sizeof format, "Scream Tracker 3.2x (%s)", soundcardtype);
         } else {
-            snprintf(format, sizeof format, "Scream Tracker 3.%02X (%s)", ver & 0xFF, soundcardtype);
+            snprintf(format, sizeof format, "Scream Tracker 3.%02d (%s)", ver & 0xFF, soundcardtype);
         }
     }
     assert(player == Player::it2play || player == Player::st3play);
