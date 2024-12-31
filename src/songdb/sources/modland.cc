@@ -22,7 +22,9 @@ using namespace songdb::internal;
 
 namespace {
 // TODO move logic to preprocessing
-constexpr_v string_view COOP = "coop-";
+constexpr_v string_view COOP1 = "coop-";
+constexpr_v string_view COOP2 = "coop - ";
+constexpr_v string_view COOP3 = "coop ";
 constexpr_v string_view UNKNOWN = "- unknown";
 constexpr_v string_view NOTBY = "not by ";
 constexpr_v string_view UNNAMED = "unnamed";
@@ -37,6 +39,14 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
     const auto add_author = [&authors, &item](const string_view &author) {
         item.author = authors.size();
         authors.push_back(string(author));
+    };
+
+    const auto add_author_coop = [&authors, &item, &add_author](const string_view &author1, const string_view &author2) {
+        vector<string_view> coop = {author1, author2};
+        sort(coop.begin(), coop.end());
+        string author;
+        common::mkString(coop, AUTHOR_JOIN, author);
+        add_author(author);
     };
 
     const auto add_album = [&albums, &item](const string_view &album) {
@@ -61,12 +71,12 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
         case 2: {
             const auto author = tokens[0];
             const auto token1 = tokens[1];
-            if (common::starts_with(token1, COOP)) {
-                vector<string_view> authors = {author, token1.substr(COOP.length())};
-                sort(authors.begin(), authors.end());
-                string author;
-                common::mkString(authors, AUTHOR_JOIN, author);
-                add_author(author);
+            if (common::starts_with(token1, COOP1)) {
+                add_author_coop(author, token1.substr(COOP1.length()));
+            } else if (common::starts_with(token1, COOP2)) {
+                add_author_coop(author, token1.substr(COOP2.length()));
+            } else if (common::starts_with(token1, COOP3)) {
+                add_author_coop(author, token1.substr(COOP3.length()));
             } else {
                 if (author == UNKNOWN) {
                     item.author = UNKNOWN_AUTHOR_T;
@@ -90,17 +100,22 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
         case 3: {
             const auto author = tokens[0];
             const auto token1 = tokens[1];
-            if (common::starts_with(token1, COOP)) {
-                vector<string_view> authors = {author, token1.substr(COOP.length())};
-                sort(authors.begin(), authors.end());
-                string author;
-                common::mkString(authors, AUTHOR_JOIN, author);
-                add_author(author);
-                if (tokens[2][0] == 0x7f) {
+            const auto add_album_ = [&item, &prev_item, &add_album](const string_view &album) {
+                if (album[0] == 0x7f) {
                     item.album = prev_item.album;
                 } else {
-                    add_album(tokens[2]);
+                    add_album(album);
                 }
+            };
+            if (common::starts_with(token1, COOP1)) {
+                add_author_coop(author, token1.substr(COOP1.length()));
+                add_album_(tokens[2]);
+            } else if (common::starts_with(token1, COOP2)) {
+                add_author_coop(author, token1.substr(COOP2.length()));
+                add_album_(tokens[2]);
+            } else if (common::starts_with(token1, COOP3)) {
+                add_author_coop(author, token1.substr(COOP3.length()));
+                add_album_(tokens[2]);
             } else {
                 if (author == UNKNOWN) {
                     item.author = UNKNOWN_AUTHOR_T;
@@ -113,11 +128,7 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
                     add_author(author);
                 }
                 const string album = string(token1) + " (" + string(tokens[2]) + ")";
-                if (album[0] == 0x7f) {
-                    item.album = prev_item.album;
-                } else {
-                    add_album(album);
-                }
+                add_album_(album);
             }
             break;
         }
