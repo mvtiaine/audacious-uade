@@ -197,7 +197,7 @@ bool stop(PlayerState &state) noexcept {
     if (state.context) {
         const auto context = static_cast<st23play_context*>(state.context);
         assert(context);
-        context->Close();
+        context->shutdown();
         if (context->probe) probe_guard.unlock();
         delete context;
     }
