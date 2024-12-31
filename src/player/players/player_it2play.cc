@@ -293,7 +293,7 @@ optional<ModuleInfo> get_it_info(const char *path, const char *buf, size_t size)
     } else if ((h->Cwtv & 0xFFF) >= 0x0215 && (h->Cwtv & 0xFFF) <= 0x0217) {
         snprintf(format, sizeof format, "Impulse Tracker 2.14+");
     } else {
-        snprintf(format, sizeof format, "Impulse Tracker %d.%02X", (h->Cwtv & 0x0F00) >> 8, h->Cwtv & 0xFF);
+        snprintf(format, sizeof format, "Impulse Tracker %d.%02d", (h->Cwtv & 0x0F00) >> 8, h->Cwtv & 0xFF);
     }
 
     return ModuleInfo{Player::it2play, format, path, 1, 1, 1, 0};
@@ -411,24 +411,20 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     probe_guard.lock();
     it2play_context *context = new it2play_context(true);
     assert(!context->Song().Loaded);
+    optional<ModuleInfo> info;
     if ((it && !context->LoadIT(buf, size)) || (s3m && !context->LoadS3M(buf, size))) {
         WARN("player_it2play::parse parsing failed for %s\n", path);
-        context->shutdown();
-        delete context;
-        probe_guard.unlock();
-        return {};
-    }
-
-    optional<ModuleInfo> info;
-    if (it) {
-        info = get_it_info(path, buf, size);
-    } else if (s3m) {
-        info = get_s3m_info(path, buf, size);
-    }
-    if (info) {
-        const auto subsongs = get_subsongs_and_channels(context);
-        info->channels = subsongs.second;
-        info->maxsubsong = subsongs.first.size();
+    } else {
+        if (it) {
+            info = get_it_info(path, buf, size);
+        } else if (s3m) {
+            info = get_s3m_info(path, buf, size);
+        }
+        if (info) {
+            const auto subsongs = get_subsongs_and_channels(context);
+            info->channels = subsongs.second;
+            info->maxsubsong = subsongs.first.size();
+        }
     }
 
     context->shutdown();

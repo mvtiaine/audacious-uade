@@ -68,7 +68,7 @@ inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf,
         snprintf(format, sizeof format, "Impulse Tracker 2.14+");
     } else if ((ver & 0xF000) == 0x3000) {
         player = Player::it2play;
-        snprintf(format, sizeof format, "Impulse Tracker %d.%02X", (ver & 0x0F00) >> 8, ver & 0xFF);
+        snprintf(format, sizeof format, "Impulse Tracker %d.%02d", (ver & 0x0F00) >> 8, ver & 0xFF);
     } else {
         player = Player::st3play;
         // Reject non-authentic trackers (based on OpenMPT)
