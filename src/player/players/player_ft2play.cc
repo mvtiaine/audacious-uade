@@ -399,17 +399,14 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     ft2play_context *context = new ft2play_context(true);
     assert(!context->moduleLoaded());
 
-    if (!context->loadMusicFromData((const uint8_t*)buf, size)) {
+    optional<ModuleInfo> info;
+    if (context->loadMusicFromData((const uint8_t*)buf, size)) {
+        info = isXm ? get_xm_info(path, buf) : get_fst_info(path, buf);
+        const auto subsongs = get_subsongs(context);
+        info->maxsubsong = subsongs.size();
+    } else {
         WARN("player_ft2play::parse parsing failed for %s\n", path);
-        context->shutdown();
-        delete context;
-        probe_guard.unlock();
-        return {};
     }
-
-    auto info = isXm ? get_xm_info(path, buf) : get_fst_info(path, buf);
-    const auto subsongs = get_subsongs(context);
-    info.maxsubsong = subsongs.size();
 
     context->shutdown();
     delete context;
