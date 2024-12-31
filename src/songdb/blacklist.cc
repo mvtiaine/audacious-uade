@@ -65,7 +65,6 @@ const set<string> prefix_blacklist ({
     "MTM.",
     "OCT.",
     "PLM.",
-    "STM.",
     "STP.", // amiga
     "STP2.", // amiga
     "ULT.",

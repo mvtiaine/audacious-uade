@@ -32,6 +32,7 @@ constexpr int MAX_SILENCE = 3000;
 #define PLAYERS VA_LIST( \
     hivelytracker, \
     libdigibooster3, \
+    st23play, \
     st3play, \
     it2play, \
     uade, \
@@ -51,6 +52,7 @@ constexpr_f2 std::string name(Player player) noexcept {
         case Player::ft2play: return "ft2play";
         case Player::st3play: return "st3play";
         case Player::it2play: return "it2play";
+        case Player::st23play: return "st23play";
         default: assert(false); return "";
     }
     assert(false);
