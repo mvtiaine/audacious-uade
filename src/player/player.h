@@ -70,6 +70,7 @@ struct ModuleInfo {
 };
 
 struct PlayerConfig {
+    Player player = Player::NONE;
     // frequency and known_timeout are ignored if probing
     int frequency;
     int known_timeout = 0;
@@ -151,7 +152,6 @@ enum class Resampler {
 
 // TODO set default audacious config based on this
 struct UADEConfig : PlayerConfig {
-    Player player = Player::uade;
     Filter filter = Filter::A1200;
     Resampler resampler = Resampler::SINC;
     std::optional<bool> force_led = {};
@@ -163,13 +163,13 @@ struct UADEConfig : PlayerConfig {
     int subsong_timeout = 600;
     int silence_timeout = 10;
 
-    constexpr_f1 UADEConfig() noexcept {}
+    constexpr_f1 UADEConfig() noexcept { player = Player::uade; }
     constexpr_f1 UADEConfig(const int frequency) noexcept
-    : PlayerConfig(frequency) {}
+    : PlayerConfig(frequency) { player = Player::uade; }
     constexpr_f1 UADEConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
-    : PlayerConfig(frequency, known_timeout, endian, probe) {}
+    : PlayerConfig(frequency, known_timeout, endian, probe) { player = Player::uade; }
     constexpr_f1 UADEConfig(const PlayerConfig &config) noexcept
-    : PlayerConfig(config.frequency, config.known_timeout, config.endian, config.probe) {}
+    : PlayerConfig(config.frequency, config.known_timeout, config.endian, config.probe) { player = Player::uade; }
 };
 
 bool seek(PlayerState &state, int millis) noexcept;
@@ -187,16 +187,15 @@ enum class Driver {
 
 // TODO set default audacious config based on this
 struct IT2PlayConfig : PlayerConfig {
-    Player player = Player::it2play;
     Driver driver = Driver::HQ;
 
-    constexpr_f1 IT2PlayConfig() noexcept {}
+    constexpr_f1 IT2PlayConfig() noexcept { player = Player::it2play; }
     constexpr_f1 IT2PlayConfig(const int frequency) noexcept
-    : PlayerConfig(frequency) {}
+    : PlayerConfig(frequency) { player = Player::it2play; }
     constexpr_f1 IT2PlayConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
-    : PlayerConfig(frequency, known_timeout, endian, probe) {}
+    : PlayerConfig(frequency, known_timeout, endian, probe) { player = Player::it2play; }
     constexpr_f1 IT2PlayConfig(const PlayerConfig &config) noexcept
-    : PlayerConfig(config.frequency, config.known_timeout, config.endian, config.probe) {}
+    : PlayerConfig(config.frequency, config.known_timeout, config.endian, config.probe) { player = Player::it2play; }
 };
 
 } // namespace player::it2play
