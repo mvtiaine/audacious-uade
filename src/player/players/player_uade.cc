@@ -10,6 +10,8 @@
 #include <mutex>
 #include <numeric>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "common/logger.h"
 #include "common/strings.h"
