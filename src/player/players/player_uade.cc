@@ -564,11 +564,12 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         context = new uade_context;
         context->id = -1;
         context->probe = false;
-        const auto &uade_config = static_cast<const UADEConfig&>(config);
-        assert(uade_config.player == Player::uade);
         struct uade_config *uc = uade_new_config();
         context->config = uc;
-        context->state = create_uade_state(uade_config, uc);
+        const auto &uade_config = static_cast<const UADEConfig&>(config);
+        context->state = create_uade_state(
+            uade_config.player == Player::uade ? uade_config : UADEConfig(config),
+            uc);
     }
 
     switch (uade_play_from_buffer(path, buf, size, subsong, context->state)) {

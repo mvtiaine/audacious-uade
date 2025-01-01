@@ -325,7 +325,7 @@ player::uade::Resampler uade_resampler(const int resampler) {
     }
 }
 
-player::uade::UADEConfig get_uade_config(int frequency, int known_timeout) {
+player::uade::UADEConfig get_uade_config(const player::PlayerConfig &config) {
     const int filter = aud_get_int(PLUGIN_NAME, "filter");
     const bool force_led_enabled = aud_get_bool(PLUGIN_NAME, "force_led_enabled");
     const int force_led = aud_get_int(PLUGIN_NAME, "force_led");
@@ -337,11 +337,7 @@ player::uade::UADEConfig get_uade_config(int frequency, int known_timeout) {
     const int subsong_timeout = aud_get_int(PLUGIN_NAME, "subsong_timeout");
     const int silence_timeout = aud_get_int(PLUGIN_NAME, "silence_timeout");
 
-    player::uade::UADEConfig conf;
-    conf.frequency = frequency;
-    conf.probe = false;
-    conf.known_timeout = known_timeout;
-    conf.player = player::Player::uade;
+    player::uade::UADEConfig conf(config);
 
     conf.filter = uade_filter(filter);
     conf.resampler = uade_resampler(resampler);
@@ -373,17 +369,11 @@ player::it2play::Driver it2play_driver(const int driver) {
     }
 }
 
-player::it2play::IT2PlayConfig get_it2play_config(int frequency, int known_timeout) {
+player::it2play::IT2PlayConfig get_it2play_config(const player::PlayerConfig &config) {
     const int driver = aud_get_int(PLUGIN_NAME, "it2play_driver");
 
-    player::it2play::IT2PlayConfig conf;
-    conf.frequency = frequency;
-    conf.probe = false;
-    conf.known_timeout = known_timeout;
-    conf.player = player::Player::it2play;
-
+    player::it2play::IT2PlayConfig conf(config);
     conf.driver = it2play_driver(driver);
-
     return conf;
 }
 
@@ -583,9 +573,9 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     int frequency = aud_get_int(PLUGIN_NAME, "frequency");
 
     const auto player = check_player(file, path);
-    const auto uade_config = get_uade_config(frequency, known_timeout);
-    const auto it2play_config = get_it2play_config(frequency, known_timeout);
     const player::PlayerConfig player_config = {frequency, known_timeout};
+    const auto uade_config = get_uade_config(player_config);
+    const auto it2play_config = get_it2play_config(player_config);
     const auto &config =
         player == player::Player::uade ? uade_config :
         player == player::Player::it2play ? it2play_config :

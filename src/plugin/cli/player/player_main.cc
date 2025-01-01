@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
     }
 
     PlayerConfig player_config = { frequency };
-    uade::UADEConfig uade_config = { frequency };
+    auto uade_config = uade::UADEConfig(player_config);
     if (getenv("SONGEND_MODE")) {
         uade_config.subsong_timeout = player::PRECALC_TIMEOUT;
         uade_config.silence_timeout = player::PRECALC_TIMEOUT;
@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
         uade_config.resampler = uade::Resampler::NONE;
         uade_config.panning = 1;
     }
-    it2play::IT2PlayConfig it2play_config = { frequency };
+    auto it2play_config = it2play::IT2PlayConfig(player_config);
     if (getenv("IT2PLAY_DRIVER")) {
         const auto mixer = string(getenv("IT2PLAY_DRIVER"));
         if (mixer == "hq") {

@@ -168,6 +168,8 @@ struct UADEConfig : PlayerConfig {
     : PlayerConfig(frequency) {}
     constexpr_f1 UADEConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
     : PlayerConfig(frequency, known_timeout, endian, probe) {}
+    constexpr_f1 UADEConfig(const PlayerConfig &config) noexcept
+    : PlayerConfig(config.frequency, config.known_timeout, config.endian, config.probe) {}
 };
 
 bool seek(PlayerState &state, int millis) noexcept;
@@ -193,6 +195,8 @@ struct IT2PlayConfig : PlayerConfig {
     : PlayerConfig(frequency) {}
     constexpr_f1 IT2PlayConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
     : PlayerConfig(frequency, known_timeout, endian, probe) {}
+    constexpr_f1 IT2PlayConfig(const PlayerConfig &config) noexcept
+    : PlayerConfig(config.frequency, config.known_timeout, config.endian, config.probe) {}
 };
 
 } // namespace player::it2play

@@ -108,13 +108,10 @@ SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, i
     };
 
     const player::PlayerConfig player_config = { frequency, 0, endian::native, true };
-    player::uade::UADEConfig uade_config = { frequency, 0, endian::native, true };
+    auto uade_config = player::uade::UADEConfig(player_config);
     uade_config.silence_timeout = SILENCE_TIMEOUT;
-    player::it2play::IT2PlayConfig it2play_config = { frequency, 0, endian::native, true };
-    it2play_config.driver = player::it2play::Driver::HQ;
     const auto &config =
         info.player == player::Player::uade ? uade_config :
-        info.player == player::Player::it2play ? it2play_config :
         player_config;
 
     auto state = player::play(info.path.c_str(), buf, size, subsong, config);

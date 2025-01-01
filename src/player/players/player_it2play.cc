@@ -436,15 +436,15 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     it2play_context *context = new it2play_context(config.probe);
     assert(!context->Song().Loaded);
     const auto &it2play_config = static_cast<const IT2PlayConfig&>(config);
-    assert(it2play_config.player == Player::it2play);
-    int freq = limitFreq(it2play_config.driver, it2play_config.frequency);
+    const auto driver = it2play_config.player == Player::it2play ? it2play_config.driver : IT2PlayConfig().driver;
+    int freq = limitFreq(driver, config.frequency);
     bool useFPUCode = false;
     if (isIT(buf, size)) {
         const auto info = get_it_info(path, buf, size);
         assert(info);
         useFPUCode = info->format == "Impulse Tracker 2.15";
     }
-    if (!context->Music_Init(config.frequency, mixBufSize(freq), it2play_config.driver, useFPUCode) ||
+    if (!context->Music_Init(config.frequency, mixBufSize(freq), driver, useFPUCode) ||
         !context->Music_LoadFromData(buf, size)) {
         ERR("player_it2play::play could not play %s\n", path);
         delete context;
