@@ -529,7 +529,9 @@ void parse_modinfos(const string &tsv) noexcept {
             prev_format_t = format_t;
             format_pool.push_back(fmt);
         }
-        const uint8_t channels = cols[1].empty() ? 0 : common::from_chars<uint8_t>(cols[1]);
+        const uint8_t channels = cols[1].empty() ? 0
+            : cols[1][0] == 0x7f ? prev_channels
+            : common::from_chars<uint8_t>(cols[1]);
         prev_channels = channels;
         db_modinfos[md5_idx] = { format_t, channels };
         prev_idx = md5_idx;
