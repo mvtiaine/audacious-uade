@@ -32,7 +32,13 @@ struct st23play_context {
     set<uint8_t> seen; // for songend detection
 
     st23play_context(const bool probe) noexcept : probe(probe) {
+        if (probe) probe_guard.lock();
         reset();
+    }
+    ~st23play_context() noexcept {
+        clearMixBuffer();
+        Close();
+        if (probe) probe_guard.unlock();
     }
     void reset() noexcept  {
         if (probe) probe::reset();
@@ -73,11 +79,6 @@ struct st23play_context {
     void clearMixBuffer() noexcept {
         if (probe) probe::clearMixBuffer();
         else play::clearMixBuffer();
-    }
-    void shutdown() noexcept {
-        clearMixBuffer();
-        Close();
-        reset();
     }
 };
 
@@ -141,7 +142,6 @@ bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
     assert(size >= 1040+128);
-    probe_guard.lock();
     st23play_context *context = new st23play_context(true);
     assert(!context->moduleLoaded());
     optional<ModuleInfo> info;
@@ -151,22 +151,17 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     } else {
         WARN("player_st23play::parse parsing failed for %s\n", path);
     }
-    context->shutdown();
     delete context;
-    probe_guard.unlock();
-
     return info;
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     assert(subsong == 1);
-    if (config.probe) probe_guard.lock();
     st23play_context *context = new st23play_context(config.probe);
     assert(!context->moduleLoaded());
     if (!context->PlaySong((uint8_t*)buf, size, config.frequency)) {
         ERR("player_st23play::play could not play %s\n", path);
         delete context;
-        if (config.probe) probe_guard.unlock();
         return {};
     }
     // TODO subsongs (are there any STMs with proper subsongs?)
@@ -197,8 +192,6 @@ bool stop(PlayerState &state) noexcept {
     if (state.context) {
         const auto context = static_cast<st23play_context*>(state.context);
         assert(context);
-        context->shutdown();
-        if (context->probe) probe_guard.unlock();
         delete context;
     }
     return true;

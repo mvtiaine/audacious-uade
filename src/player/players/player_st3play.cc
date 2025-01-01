@@ -43,7 +43,15 @@ struct st3play_context {
     set<pair<int16_t,int16_t>> seen; // for subsong loop detection
 
     st3play_context(const bool probe) noexcept : probe(probe) {
+        if (probe) probe_guard.lock();
         reset();
+    }
+    ~st3play_context() noexcept {
+        // stop voices
+        SetInterpolation(false);
+        clearMixBuffer();
+        Close();
+        if (probe) probe_guard.unlock();
     }
     void reset() noexcept  {
         if (probe) probe::reset();
@@ -120,13 +128,6 @@ struct st3play_context {
     void clearMixBuffer() noexcept {
         if (probe) probe::clearMixBuffer();
         else play::clearMixBuffer();
-    }
-    void shutdown() noexcept {
-        // stop voices
-        SetInterpolation(false);
-        clearMixBuffer();
-        Close();
-        reset();
     }
 
     pair<int16_t,int16_t> posJump(int pattNr, int16_t pattPos) const noexcept {
@@ -340,7 +341,6 @@ bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
     assert(size >= 0x40 + 32);
 
-    probe_guard.lock();
     st3play_context *context = new st3play_context(true);
     assert(!context->moduleLoaded());
 
@@ -355,22 +355,17 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
         WARN("player_st3play::parse parsing failed for %s\n", path);
     }
 
-    context->shutdown();
     delete context;
-    probe_guard.unlock();
-
     return info;
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     assert(subsong >= 1);
-    if (config.probe) probe_guard.lock();
     st3play_context *context = new st3play_context(config.probe);
     assert(!context->moduleLoaded());
     if (!context->PlaySong((uint8_t*)buf, size, true, config.frequency)) {
         ERR("player_st3play::play could not play %s\n", path);
         delete context;
-        if (config.probe) probe_guard.unlock();
         return {};
     }
 
@@ -388,8 +383,6 @@ bool stop(PlayerState &state) noexcept {
     if (state.context) {
         const auto context = static_cast<st3play_context*>(state.context);
         assert(context);
-        context->shutdown();
-        if (context->probe) probe_guard.unlock();
         delete context;
     }
     return true;

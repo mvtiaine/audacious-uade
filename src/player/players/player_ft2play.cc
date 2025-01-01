@@ -36,13 +36,29 @@ constexpr size_t mixBufSize(const int frequency) noexcept {
 // not in MODSig
 constexpr const char *chn4 = "4CHN";
 
+mutex probe_guard;
+
 struct ft2play_context {
     const bool probe;
     int16_t startPos = 0;
     set<pair<int16_t,int16_t>> seen; // for subsong loop detection
 
     ft2play_context(const bool probe) noexcept : probe(probe) {
+        if (probe) probe_guard.lock();
         reset();
+    }
+    ~ft2play_context() noexcept {
+        stopVoices();
+        mix_ClearChannels();
+        mix_Free();
+        freeMusic();
+        if (probe) {
+            memset(probe::stm, 0, sizeof (probe::stm));
+        } else {
+            memset(play::stm, 0, sizeof (play::stm));
+        }
+        setModuleLoaded(false);
+        if (probe) probe_guard.unlock();
     }
     void reset() noexcept  {
         if (probe) {
@@ -131,19 +147,6 @@ struct ft2play_context {
         if (probe) probe::setPos(pos, 0);
         else play::setPos(pos, 0); 
     }
-    void shutdown() noexcept {
-        stopVoices();
-        mix_ClearChannels();
-        mix_Free();
-        freeMusic();
-        if (probe) {
-            memset(probe::stm, 0, sizeof (probe::stm));
-        } else {
-            memset(play::stm, 0, sizeof (play::stm));
-        }
-        setModuleLoaded(false);
-        reset();
-    }
     uint16_t antChn() const noexcept  {
         if (probe) return probe::song.antChn;
         else return play::song.antChn;
@@ -202,8 +205,6 @@ const set<string> xm_prog_blacklist = {
     "Sk@le Tracker",
     "Skale Tracker",
 };
-
-mutex probe_guard;
 
 // copied from pmplay.c
 struct XMHeader {
@@ -395,7 +396,6 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     if (!isXm && !isFst)
         return {};
 
-    probe_guard.lock();
     ft2play_context *context = new ft2play_context(true);
     assert(!context->moduleLoaded());
 
@@ -407,11 +407,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     } else {
         WARN("player_ft2play::parse parsing failed for %s\n", path);
     }
-
-    context->shutdown();
     delete context;
-    probe_guard.unlock();
-
     return info;
 }
 
@@ -423,15 +419,12 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     else
         assert(is_fasttracker1(buf, size));
 
-    if (config.probe) probe_guard.lock();
     ft2play_context *context = new ft2play_context(config.probe);
     assert(!context->moduleLoaded());
 
     if (!context->loadMusicFromData((const uint8_t*)buf, size)) {
         ERR("player_ft2play::play parsing failed for %s\n", path);
-        context->shutdown();
         delete context;
-        if (config.probe) probe_guard.unlock();
         return {};
     }
 
@@ -439,9 +432,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     
     if (!context->mix_Init(mixBufSize(config.frequency)) || !context->dump_Init(config.frequency, 8, 0)) {
         ERR("player_ft2play::play init failed for %s\n", path);
-        context->shutdown();
         delete context;
-        if (config.probe) probe_guard.unlock();
         return {};
     }
 
@@ -461,8 +452,6 @@ bool stop(PlayerState &state) noexcept {
     if (state.context) {
         const auto context = static_cast<ft2play_context*>(state.context);
         assert(context);
-        context->shutdown();
-        if (context->probe) probe_guard.unlock();
         delete context;
     }
     return true;

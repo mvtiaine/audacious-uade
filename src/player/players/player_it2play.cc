@@ -47,12 +47,21 @@ constexpr int limitFreq(Driver driver, int frequency) {
         default: assert(false); return min(frequency, 48000);
     }
 }
+
+mutex probe_guard;
+
 struct it2play_context {
     const bool probe;
     int16_t startPos = 0;
     set<pair<int16_t,int16_t>> seen; // for subsong loop detection
     it2play_context(const bool probe) noexcept : probe(probe) {
+        if (probe) probe_guard.lock();
         reset();
+    }
+    ~it2play_context() noexcept {
+        Music_FreeSong();
+        Music_Close();
+        if (probe) probe_guard.unlock();
     }
     void reset() noexcept  {
         Music_Stop();
@@ -205,14 +214,7 @@ struct it2play_context {
         song.PatternOffset = p;
         return pair<pair<int16_t,int16_t>,uint8_t>(pair<int16_t,int16_t>(effB,effC),maxChn);
     }
-    void shutdown() noexcept {
-        Music_FreeSong();
-        Music_Close();        
-        reset();
-    }
 };
-
-mutex probe_guard;
 
 struct ITHeader {
     char Sig[4];
@@ -408,7 +410,6 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     bool s3m = !it && isS3M(buf, size);
     if (!it && !s3m) return {};
 
-    probe_guard.lock();
     it2play_context *context = new it2play_context(true);
     assert(!context->Song().Loaded);
     optional<ModuleInfo> info;
@@ -426,17 +427,12 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
             info->maxsubsong = subsongs.first.size();
         }
     }
-
-    context->shutdown();
     delete context;
-    probe_guard.unlock();
-
     return info;
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     assert(subsong >= 1);
-    if (config.probe) probe_guard.lock();
     it2play_context *context = new it2play_context(config.probe);
     assert(!context->Song().Loaded);
     const auto &it2play_config = static_cast<const IT2PlayConfig&>(config);
@@ -451,9 +447,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     if (!context->Music_Init(config.frequency, mixBufSize(freq), it2play_config.driver, useFPUCode) ||
         !context->Music_LoadFromData(buf, size)) {
         ERR("player_it2play::play could not play %s\n", path);
-        context->shutdown();
         delete context;
-        if (config.probe) probe_guard.unlock();
         return {};
     }
 
@@ -501,8 +495,6 @@ bool stop(PlayerState &state) noexcept {
     if (state.context) {
         const auto context = static_cast<it2play_context*>(state.context);
         assert(context);
-        context->shutdown();
-        if (context->probe) probe_guard.unlock();
         delete context;
     }
     return true;
