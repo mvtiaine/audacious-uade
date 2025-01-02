@@ -515,7 +515,7 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
 
     bool needfix = subsong >= 0 && string(uri).find_last_of("?") == string::npos;
     if (needfix) {
-        subsong = applySubsongHack(subsong, uri, md5, aud_get_bool("slow_probe"), "uade_plugin_read_tag");
+        subsong = applySubsongHack(subsong, uri, md5, aud_get_bool(nullptr, "slow_probe"), "uade_plugin_read_tag");
         if (subsong < 0)
             return false;
     }    
@@ -565,7 +565,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     bool needfix = subsong < 0 || (subsong >= 0 && string(uri).find_last_of("?") == string::npos);
     if (needfix) {
         const string &md5 = md5hex(file);
-        subsong = applySubsongHack(subsong, uri, md5, aud_get_bool("slow_probe"), "uade_plugin_play");
+        subsong = applySubsongHack(subsong, uri, md5, aud_get_bool(nullptr, "slow_probe"), "uade_plugin_play");
         if (subsong < 0)
             return false;
     }
