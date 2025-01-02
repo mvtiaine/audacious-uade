@@ -91,7 +91,7 @@ const set<string> stm_tracker_whitelist = {
     "PCSTV"
 };
 
-constexpr std::optional<ModuleInfo> get_stm_info(const char *path, const char *buf, size_t size) noexcept {
+constexpr_f2 std::optional<ModuleInfo> get_stm_info(const char *path, const char *buf, size_t size) noexcept {
     const uint8_t verMajor = buf[30];
     const uint8_t verMinor = buf[31];
     const uint16_t ver = (verMajor * 100) + verMinor;
@@ -134,7 +134,7 @@ bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
     if (buf[29] != 2 || (ver != 200 && ver != 210 && ver != 220 && ver != 221))
         return false; // unsupported
     const auto tracker = string(&buf[20], 8);
-    if (!stm_tracker_whitelist.contains(tracker)) return false;
+    if (!stm_tracker_whitelist.count(tracker)) return false;
     const uint8_t pats = buf[33];
     if (pats > MAX_ORDERS) return false;
     return true;
