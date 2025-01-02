@@ -100,7 +100,7 @@ PKG_CHECK_MODULES([AUDACIOUS],[audacious >= 3.8],
   ])
 fi
 
-if test "$plugin_audacious" == "yes"; then
+if test "$plugin_audacious" = "yes"; then
 AC_MSG_CHECKING([for audacious plugindir])
 AC_ARG_WITH([audacious-plugindir],
   AS_HELP_STRING([--with-audacious-plugindir=<plugindir>], [Installs uade plugin under <plugindir>/Input]),
