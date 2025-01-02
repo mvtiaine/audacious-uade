@@ -21,12 +21,6 @@ int main(int argc, char *argv[]) {
     int fd = -1;
     if (is_stdin) {
         fd = STDIN_FILENO;
-#ifndef NO_FREOPEN
-        if (!freopen(NULL, "rb", stdin)) {
-            fprintf(stderr, "Failed to freopen(rb) stdin\n");
-            return EXIT_FAILURE;
-        }
-#endif
 #ifdef __MINGW32__
         setmode (fileno (stdin), 0x8000);
 #endif

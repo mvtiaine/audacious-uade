@@ -709,12 +709,6 @@ elif test "$build_emscripten" = "yes" ; then
   CFLAGS="-s NODERAWFS=1 ${CFLAGS}"
 fi
 
-# TODO proper freopen() test
-# TODO invert (-DNO_FREOPEN -> -DNEED_FREOPEN)?
-if test "$build_haiku" = "yes" || test "$build_openbsd" = "yes" || test "$build_netbsd" = "yes" || test "$build_mingw" = "yes" || test "$build_amiga" = "yes" || test "$build_solaris" = "yes" || test "$build_irix" = "yes" || test "$build_aix" = "yes" || test "$build_qnx" = "yes" || test "$build_wasix" = "yes" || test "$build_os2" = "yes" ; then
-  CPPFLAGS="-DNO_FREOPEN ${CPPFLAGS}"
-fi
-
 CXXFLAGS="-fvisibility-inlines-hidden -Wall ${CFLAGS} ${CXXSTD} ${CXXFLAGS} -fno-rtti -fno-exceptions"
 CFLAGS="${CSTD} ${CFLAGS}"
 
