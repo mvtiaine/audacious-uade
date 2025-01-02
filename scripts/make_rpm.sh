@@ -6,7 +6,7 @@ if [ -z "$TOOL" ]; then
   if [ -z "$TOOL" ]; then
     TOOL=$(which yum 2>/dev/null)
     if [ -z "$TOOL" ]; then
-	echo Could not find dnf, zypper or yum
+        echo Could not find dnf, zypper or yum
         exit 1
     fi
   fi
@@ -18,7 +18,7 @@ VERSION=$(cat VERSION)
 
 sudo $TOOL install rpmdevtools rpm-build audacious-devel gcc-c++ make autoconf automake libtool pkg-config
 sudo $TOOL install libstdc++-static || true
-autoreconf -i && ./configure && make clean && make dist
+autoreconf -i && ./configure --enable-audacious=yes && make clean && make dist
 mkdir -p build-rpm
 cd build-rpm
 rm -rf *
