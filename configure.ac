@@ -862,7 +862,7 @@ if test "$static_stdlibs" = "yes" ; then
   _UADE_LDFLAGS="-static-libgcc ${_UADE_LDFLAGS}"
 fi
 if test "$plugin_audacious" = "yes" ; then
-  _UADE_CFLAGS="-fPIC ${_UADE_CFLAGS}"
+  _UADE_CFLAGS="${pic_flag} ${_UADE_CFLAGS}"
 fi
 AX_SUBDIRS_CONFIGURE([uade], [
   [--without-uade123], [--without-uadesimple], [--without-write-audio],[--without-uadefs],[--without-libuade],
