@@ -83,56 +83,47 @@ void operator delete(void* ptr, std::size_t) noexcept {
 
 // for c++17
 
-#if defined(__cpp_aligned_new) && !defined(__MINGW32__)  && !defined(__AMIGA__) && !defined(__AROS__) && !defined(__OS2__) && !defined(__QNX__) && !defined(__ORBIS__) && !defined(__sysv5__) && !defined(__riscos) && !defined(__serenity__) && !defined( __sgi__)
+#if defined(__cpp_aligned_new)
+// std::aligned_alloc often not available so just assume aligned new is not needed
 
 void* operator new(std::size_t size, std::align_val_t al) {
-    /* malloc (0) is unpredictable; avoid it.  */
-    if (__builtin_expect (size == 0, false))
-        size = 1;
-
-    // size must be multiple of alignment
-    size_t rounded = (size + static_cast<size_t>(al) - 1) & ~(static_cast<size_t>(al) - 1);
-    void *ptr = std::aligned_alloc(static_cast<size_t>(al), rounded);
-    if (!ptr)
-        abort();
-
-    return ptr;
+    abort();
 }
 
 void* operator new(std::size_t size, std::align_val_t al, const std::nothrow_t&) noexcept {
-    return operator new(size, al);
+    abort();
 }
 
 void* operator new[](std::size_t size, std::align_val_t al) {
-    return operator new(size, al);
+    abort();
 }
 
 void* operator new[](std::size_t size, std::align_val_t al, const std::nothrow_t&) noexcept {
-    return operator new(size, al);
+    abort();
 }
 
 void operator delete(void* ptr, std::align_val_t al) noexcept {
-    operator delete(ptr);
+    abort();
 }
 
 void operator delete(void* ptr, std::align_val_t al, const std::nothrow_t&) noexcept {
-    operator delete(ptr);
+    abort();
 }
 
 void operator delete[](void* ptr, std::align_val_t al) noexcept {
-    operator delete(ptr);
+    abort();
 }
 
 void operator delete[](void* ptr, std::align_val_t al, const std::nothrow_t&) noexcept {
-    operator delete(ptr);
+    abort();
 }
 
 void operator delete(void* ptr, std::size_t size, std::align_val_t al) noexcept {
-    operator delete(ptr);
+    abort();
 }
 
 void operator delete[](void* ptr, std::size_t size, std::align_val_t al) noexcept {
-    operator delete(ptr);
+    abort();
 }
 
 #endif // __cpp_aligned_new
