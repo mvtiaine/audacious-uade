@@ -25,7 +25,7 @@ for version in 23 2x 17 11 1x 99 9x; do
   AX_CHECK_COMPILE_FLAG([${CSTD}],[break],[CSTD=none])
 done
 AC_LANG_POP
-AS_IF([test "$CSTD" == none], [
+AS_IF([test "$CSTD" = none], [
   AC_MSG_ERROR([Could not enable at least C9x (C99) - upgrade your compiler])
 ])
 
@@ -36,7 +36,7 @@ for version in 23 2b 20 2a 17 1z; do
   AX_CHECK_COMPILE_FLAG([${CXXSTD}],[break],[CXXSTD=none])
 done
 AC_LANG_POP
-AS_IF([test "$CXXSTD" == none], [
+AS_IF([test "$CXXSTD" = none], [
   AC_MSG_ERROR([Could not enable at least C++1z (C++17) - upgrade your compiler])
 ])
 
