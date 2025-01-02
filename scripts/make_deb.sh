@@ -5,7 +5,7 @@ set -e
 VERSION=$(cat VERSION)
 
 sudo apt install build-essential audacious-dev autotools-dev autoconf automake libtool pkg-config debhelper
-autoreconf -i && ./configure && make clean && make dist
+autoreconf -i && ./configure --enable-audacious=yes && make clean && make dist
 mkdir -p build-deb
 cd build-deb
 rm -rf *
