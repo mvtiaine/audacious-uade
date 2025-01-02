@@ -865,7 +865,7 @@ if test "$plugin_audacious" = "yes" ; then
   _UADE_CFLAGS="${pic_flag} ${_UADE_CFLAGS}"
 fi
 AX_SUBDIRS_CONFIGURE([uade], [
-  [--without-uade123], [--without-uadesimple], [--without-write-audio],[--without-uadefs],[--without-libuade],
+  [--without-uade123], [--without-uadesimple], [--without-write-audio],[--without-uadefs],[--without-libuade],[--without-avx2],
   [--prefix=\${uade_prefix}/share/audacious-uade],
   [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
   [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
