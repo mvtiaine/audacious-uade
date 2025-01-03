@@ -17,8 +17,7 @@ set -e
 VERSION=$(cat VERSION)
 
 sudo $TOOL install rpmdevtools rpm-build audacious-devel gcc-c++ make autoconf automake libtool pkg-config
-sudo $TOOL install libstdc++-static || true
-autoreconf -i && ./configure --enable-audacious=yes && make clean && make dist
+autoreconf -i && ./configure --enable-plugin-audacious=yes --with-static-stdlibs=no && make clean && make dist
 mkdir -p build-rpm
 cd build-rpm
 rm -rf *
