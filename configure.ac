@@ -75,8 +75,8 @@ if test "$static_stdlibs" != "no"; then
 fi
 
 # Audacious plugin
-AC_ARG_ENABLE(audacious,
-  AS_HELP_STRING([--enable-audacious=yes|no], [Explicitly enable or disable Audacious plugin]),
+AC_ARG_ENABLE(plugin-audacious,
+  AS_HELP_STRING([--enable-plugin-audacious=yes|no], [Explicitly enable or disable Audacious plugin]),
   [plugin_audacious="$enableval"],
   [plugin_audacious=""])
 
