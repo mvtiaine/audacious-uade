@@ -2,3 +2,6 @@
 
 %:
 	dh $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- --enable-plugin-audacious=yes --with-static-stdlibs=no
