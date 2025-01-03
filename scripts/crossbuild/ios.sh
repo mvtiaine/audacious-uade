@@ -4,9 +4,14 @@ set -e
 
 # iOS binaries not tested
 
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
 # TODO parametrina SDK ?
 Build() {
     export CFLAGS="${ARCH_FLAGS} -isysroot $(xcrun --sdk ${SDK} --show-sdk-path)"
+    export CXXFLAGS="${CFLAGS}"
     ./configure --host="${CHOST}"
     make clean
     # TODO wrapper for tests

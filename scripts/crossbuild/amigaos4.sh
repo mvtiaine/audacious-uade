@@ -6,9 +6,13 @@ set -e
 
 #autoreconf -i
 
-PATH=/opt/cross/amigaos4/bin:$PATH \
-  ./configure --host=ppc-amigaos
+export PATH="/opt/cross/amigaos4/bin:$PATH"
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
+./configure --host=ppc-amigaos
 
 make clean
 
-PATH=/opt/cross/amigaos4/bin:$PATH make -j check
+make -j check

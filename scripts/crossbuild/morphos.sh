@@ -4,9 +4,13 @@ set -e
 
 #autoreconf -i
 
-PATH=/opt/cross/morphos/bin:$PATH \
-  ./configure --host=ppc-morphos
+export "PATH=/opt/cross/morphos/bin:$PATH"
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
+./configure --host=ppc-morphos
 
 make clean
 
-PATH=/opt/cross/morphos/bin:$PATH make -j check
+make -j check

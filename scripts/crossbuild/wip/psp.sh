@@ -13,7 +13,6 @@ else
   apk add build-base make autoconf automake libtool pkgconf
   SYSROOT=/usr/local/pspdev \
     CPPFLAGS="-isystem ${SYSROOT}/psp/sdk/include" \
-    CFLAGS="-fno-PIC" \
     ./configure --host=psp --with-sysroot=${SYSROOT}
   make clean
   make -j check

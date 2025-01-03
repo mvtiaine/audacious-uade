@@ -6,9 +6,13 @@ set -e
 
 #autoreconf -i
 
-PATH=/opt/cross/serenityos/bin:$PATH \
-  ./configure --host=x86_64-pc-serenity
+export PATH="/opt/cross/serenityos/bin:$PATH"
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
+./configure --host=x86_64-pc-serenity
 
 make clean
 
-PATH=/opt/cross/serenityos/bin:$PATH make -j check
+make -j check

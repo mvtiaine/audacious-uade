@@ -3,6 +3,7 @@
 set -e
 
 # Genode binaries not tested
+# TODO broken
 
 #autoreconf -i
 
@@ -29,9 +30,13 @@ export LIBS='-L/tmp/build.x86_64/noux-pkg/tar '
 export LIBTOOLFLAGS='--preserve-dup-deps'
 export PS1='<gnu_build>'
 
-PATH=/usr/local/genode/tool/23.05/bin:$PATH \
-  ./configure --host=x86_64-pc-elf
+export PATH="/usr/local/genode/tool/23.05/bin:$PATH"
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
+./configure --host=x86_64-pc-elf
 
 make clean
 
-PATH=/usr/local/genode/tool/23.05/bin:$PATH make -j check
+make -j check

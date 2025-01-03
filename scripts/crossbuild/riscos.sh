@@ -6,9 +6,13 @@ set -e
 
 #autoreconf -i
 
-PATH=/opt/cross/riscos/cross/bin:$PATH \
-  ./configure --host=arm-riscos-gnueabi
+export PATH="/opt/cross/riscos/cross/bin:$PATH"
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
+./configure --host=arm-riscos-gnueabi
 
 make clean
 
-PATH=/opt/cross/riscos/cross/bin:$PATH make -j check
+make -j check

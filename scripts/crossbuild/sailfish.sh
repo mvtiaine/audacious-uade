@@ -23,12 +23,13 @@ else
   # XXX ugly hack
   sudo ln -s $BIN/$TARGET-as /usr/local/bin/as
   sudo ln -s $BIN/$TARGET-ld /usr/local/bin/ld
-  PATH=$BIN:$PATH \
-    CPP="$TARGET-cpp --sysroot=$SYSROOT" CXXCPP="$CPP" \
+  export PATH="$BIN:$PATH"
+
+  CPP="$TARGET-cpp --sysroot=$SYSROOT" CXXCPP="$CPP" \
     CFLAGS="--sysroot=$SYSROOT" CXXFLAGS="--sysroot=$SYSROOT" LDFLAGS="--sysroot=$SYSROOT" \
     ./configure --host=$TARGET --with-sysroot=$SYSROOT
 
-  PATH=$BIN:$PATH make clean
+  make clean
 
-  PATH=$BIN:$PATH make -j check
+  make -j check
 fi

@@ -35,6 +35,10 @@ export PATH="${QNX_TARGET}/bin:${QNX_CONFIGURATION}/bin:${PATH}"
 export PATH="${QNX_TARGET}/features/${LATEST_LINUX_JRE}/jre/bin:${PATH}"
 export PATH="${QNX_HOST}/usr/python32/bin:${QNX_BIN}:${QNX_PREBUILT_BIN}:${PATH}"
 
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
 ./configure --host=${QNX_ABI}
 
 make clean
