@@ -25,8 +25,45 @@ In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-antholo
 
 Project is hosted at https://github.com/mvtiaine/audacious-uade
 
+* Other notes:
+- Case sensitive filesystems may cause issues for formats with external samples
+- Tested on 64-bit, 32-bit, big & little endian hosts. Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin), OpenIndiana, GNU Hurd. Libraries/CLI binaries also tested on AmigaOS3, MorphOS, AROS, QNX 6.5.0, AIX, cosmocc, Tizen, Meego/Sailfish, OS/2 (ArcaOS)
+- Build support (binaries not tested) for Android, iOS, Fuchsia, OpenHarmony, webOS, RISC OS, FreeMiNT, WarpOS, Redox OS, SerenityOS, Genode, BlackBerry 10, QNX 7, QNX 8, PS4 (OpenOrbis)
+- WIP support (runtime failures) for IRIX, AmigaOS4, Wasix, Emscripten, UnixWare.
+- My custom Audacious classic playlist entry/window title template:
+${?codec:[${codec}${?channels: (${channels}ch)}]}  -  ${?artist:${artist}  -  }${title}${?album: - (${album})} ${?copyright:-  (${copyright})}${?publisher:- (${publisher}) }${?year:- (${year}) }${?subsong-id:${?subsong-num:- [${subsong-id}/${subsong-num}]}}
+
+* Some future plans (in no particular order)
+- Automatic A500/A1200/None filter selection depending on format/year/platform (OCS/AGA/DOS) etc. meta data
+- Plugin support for GStreamer, Hollywood, ...
+- Support more platforms
+- Add more replays
+- PTK-Prowiz converter support (portable C-version)
+- Improve UADE format support and portability
+- Improve songdb with more coverage and metadata sources
+- Project might need a new name...
+
+* License (source code)
+The project as a whole is licensed under GPL-2.0-or-later.
+Some parts are also licensed under LGPL-2.0-or-later, specifically sources under src/common, src/converter, src/player and src/songdb.
+See src/3rdparty for 3rd party source code licenses.
+See https://zakalwe.fi/uade/ for UADE license information.
+
 * Dependencies:
 Audacious >= 3.8
+
+* To build and install from source (git or latest release):
+- required (git or release): pkg-config, GNU make, GCC/Clang with C++17 support (GCC-6+, Clang-5.0+)
+- required (git): autoconf, automake, libtool
+- (git): make sure uade submodule has been initialized (git submodule update --init --recursive)
+(libtoolize)
+(autoreconf -i)
+mkdir -p build
+cd build
+../configure
+gmake -j
+gmake -j check
+(sudo) gmake install
 
 * To install via Homebrew (latest release):
 brew install mvtiaine/repo/audacious-uade
@@ -40,12 +77,12 @@ ln -s "${HOMEBREW_PREFIX}/lib/audacious/Input/uade.so" "$(pkgconf --variable=plu
 emerge -p media-plugins/audacious-uade
 emerge media-plugins/audacious-uade
 
-* To install with Arch/Manjaro/etc. (latest release):
+* To install with PKGBUILD for Arch/Manjaro/etc. (latest release):
 wget https://raw.githubusercontent.com/mvtiaine/arch-repo/main/audacious-uade/PKGBUILD
 makepkg -s
 (sudo) pacman -U audacious-uade*.pkg*
 
-* To install with FreeBSD ports (latest release):
+* To install with FreeBSD/MidnightBSD ports or DragonFlyBSD DPorts (latest release):
 git clone https://github.com/mvtiaine/freebsd-overlay.git
 cd freebsd-overlay/multimedia/audacious-uade
 make install clean
@@ -77,38 +114,3 @@ scripts/make_deb.sh
 scripts/make_rpm.sh
 (sudo) dnf/yum/zypper install build-rpm/rpmbuild/RPMS/*/*.rpm
 
-* To build and install from sources (git or latest release):
-- required (git or release): pkg-config, GNU make, GCC/Clang with C++17 support (GCC-6+, Clang-5.0+)
-- required (git): autoconf, automake, libtool
-- (git): make sure uade submodule has been initialized (git submodule update --init --recursive)
-(libtoolize)
-(autoreconf -i)
-mkdir -p build
-cd build
-../configure
-gmake -j
-gmake -j check
-(sudo) gmake install
-
-* Other notes:
-- Case sensitive filesystems may cause issues for formats with external samples
-- Tested on 64-bit, 32-bit, big & little endian hosts. Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin), OpenIndiana, GNU Hurd. Libraries/CLI binaries also tested on AmigaOS3, MorphOS, AROS, QNX 6.5.0, AIX, cosmocc, Tizen, Meego/Sailfish, OS/2 (ArcaOS)
-- Build support (binaries not tested) for Android, iOS, Fuchsia, OpenHarmony, webOS, RISC OS, FreeMiNT, WarpOS, Redox OS, SerenityOS, Genode, BlackBerry 10, QNX 7, QNX 8, PS4 (OpenOrbis)
-- WIP support (runtime failures) for IRIX, AmigaOS4, Wasix, Emscripten, UnixWare.
-- My custom Audacious classic playlist entry/window title template:
-${?codec:[${codec}${?channels: (${channels}ch)}]}  -  ${?artist:${artist}  -  }${title}${?album: - (${album})} ${?copyright:-  (${copyright})}${?publisher:- (${publisher}) }${?year:- (${year}) }${?subsong-id:${?subsong-num:- [${subsong-id}/${subsong-num}]}}
-
-* License (source code)
-The project as a whole is licensed under GPL-2.0-or-later.
-Some parts are also licensed under LGPL-2.0-or-later, specifically sources under src/common, src/converter, src/player and src/songdb.
-See src/3rdparty for 3rd party source code licenses.
-See https://zakalwe.fi/uade/ for UADE license information.
-
-* Some future plans (in no particular order)
-- Automatic A500/A1200/None filter selection depending on format/year/platform (OCS/AGA/DOS) etc. meta data
-- Plugin support for GStreamer, Hollywood, ...
-- Support more platforms
-- Add more replays
-- PTK-Prowiz converter support (portable C-version)
-- Improve UADE format support and portability
-- Project might need a new name...
