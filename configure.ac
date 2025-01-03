@@ -52,7 +52,7 @@ AC_C_BIGENDIAN([
 
 # check if static stdlibs are explicitly enabled/disabled
 AC_ARG_WITH(static-stdlibs,
-  AS_HELP_STRING([--with-static-stdlibs=yes|no], [Explicitly enable or disable statically linked stdlibs for the CLI binaries]),
+  AS_HELP_STRING([--with-static-stdlibs=yes|no], [Explicitly enable or disable statically linked stdlibs for the CLI binaries (default: yes)]),
   [static_stdlibs="$withval"],
   [static_stdlibs=""])
 
@@ -76,7 +76,7 @@ fi
 
 # Audacious plugin
 AC_ARG_ENABLE(plugin-audacious,
-  AS_HELP_STRING([--enable-plugin-audacious=yes|no], [Explicitly enable or disable Audacious plugin]),
+  AS_HELP_STRING([--enable-plugin-audacious=yes|no], [Explicitly enable or disable Audacious plugin (default: auto-detect)]),
   [plugin_audacious="$enableval"],
   [plugin_audacious=""])
 
@@ -103,7 +103,7 @@ fi
 if test "$plugin_audacious" = "yes"; then
 AC_MSG_CHECKING([for audacious plugindir])
 AC_ARG_WITH([audacious-plugindir],
-  AS_HELP_STRING([--with-audacious-plugindir=<plugindir>], [Installs uade plugin under <plugindir>/Input]),
+  AS_HELP_STRING([--with-audacious-plugindir=<plugindir>], [Installs uade plugin under <plugindir>/Input instead of Audacious default]),
   [if test x"$withval" != x ; then
      AUDACIOUS_PLUGINDIR="$withval"
    fi],
