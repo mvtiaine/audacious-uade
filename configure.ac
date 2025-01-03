@@ -51,9 +51,9 @@ AC_C_BIGENDIAN([
 ])
 
 # check if static stdlibs are explicitly enabled/disabled
-AC_ARG_ENABLE(static-stdlibs,
-  AS_HELP_STRING([--enable-static-stdlibs=yes|no], [Explicitly enable or disable statically linked stdlibs for the CLI binaries]),
-  [static_stdlibs="$enableval"],
+AC_ARG_WITH(static-stdlibs,
+  AS_HELP_STRING([--with-static-stdlibs=yes|no], [Explicitly enable or disable statically linked stdlibs for the CLI binaries]),
+  [static_stdlibs="$withval"],
   [static_stdlibs=""])
 
 # check if static stdlibs are supported
