@@ -26,6 +26,8 @@ if [ "$OUTPUT" = "6cc033c5d072d607886eeaca5e8643f8" ]; then
     EXPECTED_OUTPUT=6cc033c5d072d607886eeaca5e8643f8
 elif [ "$OUTPUT" = "649caa6bbc9a3d92dedeabe9c338e627" ]; then
     EXPECTED_OUTPUT=649caa6bbc9a3d92dedeabe9c338e627
+elif [ "$OUTPUT" = "7248488bc49912da4320d8a824c150e3" ]; then
+    EXPECTED_OUTPUT=7248488bc49912da4320d8a824c150e3
 fi
 
 . $(dirname "$0")/../common/check.sh

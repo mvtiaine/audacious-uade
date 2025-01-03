@@ -18,6 +18,138 @@ AC_CONFIG_MACRO_DIR([m4])
 # AC_CANONICAL_HOST is needed to access the 'host_os' variable
 AC_CANONICAL_HOST
 
+# C standard check
+AC_LANG_PUSH([C])
+for version in 23 2x 17 11 1x 99 9x; do
+  CSTD="-std=c${version}"
+  AX_CHECK_COMPILE_FLAG([${CSTD}],[break],[CSTD=none])
+done
+AC_LANG_POP
+AS_IF([test "$CSTD" = none], [
+  AC_MSG_ERROR([Could not enable at least C9x (C99) - upgrade your compiler])
+])
+
+# C++ standard check
+AC_LANG_PUSH([C++])
+for version in 23 2b 20 2a 17 1z; do
+  CXXSTD="-std=c++${version}"
+  AX_CHECK_COMPILE_FLAG([${CXXSTD}],[break],[CXXSTD=none])
+done
+AC_LANG_POP
+AS_IF([test "$CXXSTD" = none], [
+  AC_MSG_ERROR([Could not enable at least C++1z (C++17) - upgrade your compiler])
+])
+
+# defines WORDS_BIGENDIAN
+AC_C_BIGENDIAN([
+  AM_CONDITIONAL([BIG_ENDIAN],[true])
+  AM_CONDITIONAL([LITTLE_ENDIAN],[false])
+  AC_DEFINE(WORDS_BIGENDIAN, 1)
+],[
+  AM_CONDITIONAL([BIG_ENDIAN],[false])
+  AM_CONDITIONAL([LITTLE_ENDIAN],[true])
+])
+
+# check if static stdlibs are explicitly enabled/disabled
+AC_ARG_WITH(static-stdlibs,
+  AS_HELP_STRING([--with-static-stdlibs=yes|no], [Explicitly enable or disable statically linked stdlibs for the CLI binaries (default: yes)]),
+  [static_stdlibs="$withval"],
+  [static_stdlibs=""])
+
+# check if static stdlibs are supported
+if test "$static_stdlibs" != "no"; then
+  STATIC_LDFLAGS="-static-libgcc -static-libstdc++ -Wl,--allow-multiple-definition"
+  AC_LANG_PUSH([C++])
+  AX_CHECK_LINK_FLAG([$STATIC_LDFLAGS],
+    [
+      static_stdlibs=yes
+      AC_SUBST([STATIC_LDFLAGS])
+    ],
+    [
+      if test "$static_stdlibs" = "yes"; then
+        AC_MSG_ERROR([static stdlibs not supported])
+      fi
+      static_stdlibs=no
+    ])
+  AC_LANG_POP
+fi
+
+# Audacious plugin
+AC_ARG_ENABLE(plugin-audacious,
+  AS_HELP_STRING([--enable-plugin-audacious=yes|no], [Explicitly enable or disable Audacious plugin (default: auto-detect)]),
+  [plugin_audacious="$enableval"],
+  [plugin_audacious=""])
+
+if test "$plugin_audacious" != "no"; then
+# TODO check also if audacious linking actually works (to avoid export PKG* in crossbuild scripts)
+PKG_CHECK_MODULES([AUDACIOUS],[audacious >= 3.8],
+  [
+    plugin_audacious=yes
+    ac_audacious_plugindir=`$PKG_CONFIG --variable=plugin_dir audacious`
+    AC_SUBST(AUDACIOUS_CFLAGS)
+    AC_SUBST(AUDACIOUS_LIBS)
+  ],
+  [
+    if test "$plugin_audacious" = "yes"; then
+      AC_MSG_ERROR([Audacious not found!])
+    else
+      plugin_audacious=no
+      ac_audacious_plugindir=;
+      AC_MSG_NOTICE([Audacious not found, only CLI binaries will be built])
+    fi
+  ])
+fi
+
+if test "$plugin_audacious" = "yes"; then
+AC_MSG_CHECKING([for audacious plugindir])
+AC_ARG_WITH([audacious-plugindir],
+  AS_HELP_STRING([--with-audacious-plugindir=<plugindir>], [Installs uade plugin under <plugindir>/Input instead of Audacious default]),
+  [if test x"$withval" != x ; then
+     AUDACIOUS_PLUGINDIR="$withval"
+   fi],
+   [AUDACIOUS_PLUGINDIR=$ac_audacious_plugindir])
+AC_SUBST(AUDACIOUS_PLUGINDIR)
+AC_MSG_RESULT($AUDACIOUS_PLUGINDIR)
+
+saved_cxxflags="$CXXFLAGS"
+CXXFLAGS="$CXXSTD $AUDACIOUS_CFLAGS"
+AC_LANG_PUSH(C++)
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM([
+    #include <libaudcore/tuple.h>
+    int test() {
+      return Tuple::Publisher;
+    }
+  ])],
+  [AC_DEFINE([AUDACIOUS_HAS_PUBLISHER], [1], [Defined if Audacious version supports Publisher tuple.])],
+  []
+)
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM([
+    #include <libaudcore/tuple.h>
+    int test() {
+      return Tuple::Channels;
+    }
+  ])],
+  [AC_DEFINE([AUDACIOUS_HAS_CHANNELS], [1], [Defined if Audacious version supports Channels tuple.])],
+  []
+)
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM([
+    #include <libaudcore/plugin.h>
+    int test() {
+      return _AUD_PLUGIN_DEFAULT_PRIO;
+    }
+  ])],
+  [AC_DEFINE([AUDACIOUS_HAS_DEFAULT_PRIO], [1], [Defined if Audacious version supports _AUD_PLUGIN_DEFAULT_PRIO.])],
+  []
+)
+AC_LANG_POP
+CXXFLAGS="$saved_cxxflags"
+fi
+
+AM_CONDITIONAL([PLUGIN_AUDACIOUS], [test "$plugin_audacious" = "yes"])
+
 # gotta catch 'em all
 build_linux=no
 build_android=no
@@ -89,9 +221,7 @@ build_dreamcast=no
 build_xbox=no
 build_xbox360=no
 
-plugin_audacious=no
 
-static_stdlibs=yes
 
 # Detect the target system
 # emscripten, cosmocc and genode not detectable via host* variables ?
@@ -99,10 +229,8 @@ case "${CC}" in
   *emcc)
     # see scripts/crossbuild/emscripten.sh
     build_emscripten=yes
-    # avoid unsupported linker options
-    static_stdlibs=no
     # needs custom UADE support
-    AC_MSG_WARN(["Emscripten target not yet supported"])
+    AC_MSG_WARN([Emscripten target not yet supported])
     ;;
   *cosmo*cc)
     # see scripts/crossbuild/cosmocc.sh
@@ -113,14 +241,13 @@ case "${CC}" in
   *genode*cc)
     # see scripts/crossbuild/genode.sh
     build_genode=yes
-    static_stdlibs=no
-    AC_MSG_WARN(["Genode binaries have not been runtime tested"])
+    AC_MSG_WARN([Genode binaries have not been runtime tested])
     ;;
   nxdk-cc)
     # see scripts/crossbuild/wip/xbox.sh
     build_xbox=yes
     # needs custom UADE support (at minimum)
-    AC_MSG_WARN(["Xbox target not yet supported"])
+    AC_MSG_WARN([Xbox target not yet supported])
     ;;
   *)
     case "${host_os}" in
@@ -128,13 +255,13 @@ case "${CC}" in
         # see scripts/crossbuild/android.sh
         build_android=yes
         build_linux=yes
-        AC_MSG_WARN(["Android binaries have not been runtime tested"])
+        AC_MSG_WARN([Android binaries have not been runtime tested])
         ;;
       *ohos)
         # see scripts/crossbuild/openharmony.sh
         build_openharmony=yes
         build_linux=yes
-        AC_MSG_WARN(["OpenHarmony binaries have not been runtime tested"])
+        AC_MSG_WARN([OpenHarmony binaries have not been runtime tested])
         ;;
       linux*)
         build_linux=yes
@@ -142,9 +269,7 @@ case "${CC}" in
           webos)
             # see scripts/crossbuild/webos.sh
             build_webos=yes
-            #cannot link statically for some reason?
-            static_stdlibs=no
-            AC_MSG_WARN(["webOS binaries have not been runtime tested"])
+            AC_MSG_WARN([webOS binaries have not been runtime tested])
             ;;
           meego)
             # see scripts/crossbuild/sailfish.sh
@@ -154,20 +279,15 @@ case "${CC}" in
             # see scripts/crossbuild/tizen.sh
             build_tizen=yes
             ;;
-          *)
-            plugin_audacious=yes
-            ;;
         esac
         ;;
       mingw*|msys*)
         build_mingw=yes
         build_windows=yes
-        plugin_audacious=yes
         ;;
       cygwin*)
         build_cygwin=yes
         build_windows=yes
-        plugin_audacious=yes
         ;;
       darwin*)
         build_darwin=yes
@@ -175,33 +295,29 @@ case "${CC}" in
           # see scripts/crossbuild/ios.sh
           *iPhoneOS*|*iPhoneSimulator*|*XROS*|*XRSimulator*)
             build_ios=yes
-            AC_MSG_WARN(["iOS binaries have not been runtime tested"])
+            AC_MSG_WARN([iOS binaries have not been runtime tested])
             ;;
           *WatchOS*|*WatchSimulator*|*AppleTVOS*|*AppleTVSimulator*)
             build_ios=yes
             # no fork/exec available, needs custom UADE support
-            AC_MSG_WARN(["WatchOS and AppleTVOS target not yet supported"])
+            AC_MSG_WARN([WatchOS and AppleTVOS target not yet supported])
             ;;
           *)
             build_macos=yes
-            plugin_audacious=yes
             ;;
         esac
         ;;
       *bsd*|dragonfly*)
         build_bsd=yes
-        plugin_audacious=yes
         case "${host_os}" in
           openbsd*)
             build_openbsd=yes
-            static_stdlibs=no
             ;;
           netbsd*)
             build_netbsd=yes
             ;;
           freebsd*|midnightbsd*)
             build_freebsd=yes
-            static_stdlibs=no
             ;;
           dragonfly*)
             build_dragonflybsd=yes
@@ -210,8 +326,6 @@ case "${CC}" in
         ;;
       haiku*)
         build_haiku=yes
-        plugin_audacious=yes
-        static_stdlibs=no
         ;;
       amigaos*)
         build_amiga=yes
@@ -221,14 +335,14 @@ case "${CC}" in
               # see scripts/crossbuild/amigaos4.sh
               # TODO compiles but executables crash at __start
               build_amigaos4=yes
-              AC_MSG_WARN(["AmigaOS4 target not yet supported"])
+              AC_MSG_WARN([AmigaOS4 target not yet supported])
             elif test "$(echo|$CC --specs=warpup -dM -E - 2>/dev/null|grep -q WARPUP && echo yes)" = "yes" ; then
               # see scripts/crossbuild/warpos.sh
               build_warpos=yes
-              AC_MSG_WARN(["WarpOS binaries have not been runtime tested"])
+              AC_MSG_WARN([WarpOS binaries have not been runtime tested])
             else
               # TODO PowerUP support also possible with mos2wos?
-              AC_MSG_WARN(["Unsupported PPC AmigaOS target"])
+              AC_MSG_WARN([Unsupported PPC AmigaOS target])
             fi
             ;;
           m68k)
@@ -236,7 +350,7 @@ case "${CC}" in
             build_amigaos=yes
             ;;
           *)
-           AC_MSG_WARN(["${host_cpu} target not supported with AmigaOS"])
+           AC_MSG_WARN([${host_cpu} target not supported with AmigaOS])
            ;;
         esac
         ;;
@@ -246,7 +360,7 @@ case "${CC}" in
         if test "$(echo|$CC --specs=warpup -dM -E - 2>/dev/null|grep -q WARPUP && echo yes)" = "yes" ; then
           # see scripts/crossbuild/warpos.sh
           build_warpos=yes
-          AC_MSG_WARN(["WarpOS binaries have not been runtime tested"])
+          AC_MSG_WARN([WarpOS binaries have not been runtime tested])
         else
           build_morphos=yes
         fi
@@ -258,14 +372,13 @@ case "${CC}" in
         ;;
       solaris*)
         build_solaris=yes
-        plugin_audacious=yes
         ;;
       irix*)
         # see scripts/crossbuild/irix.sh
         # audacious not tested
         build_irix=yes
         # compiles, but does not work properly (*printf() seems borked) (compilertron (sgug-rse gcc9))
-        AC_MSG_WARN(["IRIX target not yet supported"])
+        AC_MSG_WARN([IRIX target not yet supported])
         ;;
       aix*)
         # audacious not tested
@@ -276,7 +389,7 @@ case "${CC}" in
         build_unixware=yes
         # compiles, but UADE does not work
         # uade warning: Can not create socketpair: Error 0
-        AC_MSG_WARN(["UnixWare target not yet supported"])
+        AC_MSG_WARN([UnixWare target not yet supported])
         ;;
       *qnx*)
         build_qnx=yes
@@ -284,7 +397,7 @@ case "${CC}" in
           blackberry)
             # see scripts/crossbuild/blackberry10.sh
             build_blackberry10=yes
-            AC_MSG_WARN(["BlackBerry 10 binaries have not been runtime tested"])
+            AC_MSG_WARN([BlackBerry 10 binaries have not been runtime tested])
             ;;
           *)
             case "${host_os}" in
@@ -294,12 +407,12 @@ case "${CC}" in
                   *qnx7*)
                     # see scripts/crossbuild/qnx710.sh
                     build_qnx7=yes
-                    AC_MSG_WARN(["QNX 7 binaries have not been runtime tested"])
+                    AC_MSG_WARN([QNX 7 binaries have not been runtime tested])
                     ;;
                   *qnx8*)
                     # see scripts/crossbuild/qnx800.sh
                     build_qnx8=yes
-                    AC_MSG_WARN(["QNX 8 binaries have not been runtime tested"])
+                    AC_MSG_WARN([QNX 8 binaries have not been runtime tested])
                     ;;
                   *)
                     # assume native compile on QNX 6.5.0 with gcc10 from pkgsrc
@@ -309,7 +422,7 @@ case "${CC}" in
                 esac
                 ;;
               *)
-                AC_MSG_WARN(["QNX $host_cpu-$host_vendor-$host_os build not tested"])
+                AC_MSG_WARN([QNX $host_cpu-$host_vendor-$host_os build not tested])
                 ;;
             esac
             ;;
@@ -318,30 +431,27 @@ case "${CC}" in
       *fuchsia*)
         # see scripts/crossbuild/fuchsia.sh
         build_fuchsia=yes
-        AC_MSG_WARN(["Fuchsia binaries have not been runtime tested"])
+        AC_MSG_WARN([Fuchsia binaries have not been runtime tested])
         ;;
       wasi*)
         # see scripts/crossbuild/wasix.sh
         build_wasix=yes
-        # avoid unsupported linker options
-        static_stdlibs=no
         # compiles, but binaries either don't work or some even fail to run
-        AC_MSG_WARN(["Wasix target not yet supported"])
+        AC_MSG_WARN([Wasix target not yet supported])
         ;;
       gnu0.9)
         build_hurd=yes
-        plugin_audacious=yes
         ;;
       mint)
         # see scripts/crossbuild/freemint.sh
         build_freemint=yes
-        AC_MSG_WARN(["FreeMiNT binaries have not been runtime tested"])
+        AC_MSG_WARN([FreeMiNT binaries have not been runtime tested])
         ;;
       *djgpp)
         # see scripts/crossbuild/wip/dos.sh
         build_dos=yes
         # needs custom UADE support (at minimum)
-        AC_MSG_WARN(["DOS/DJGPP target not yet supported"])
+        AC_MSG_WARN([DOS/DJGPP target not yet supported])
         ;;
       os2-emx)
         # TODO find out test failure reason:
@@ -352,29 +462,29 @@ case "${CC}" in
       redox)
         # see scripts/crossbuild/redox.sh
         build_redox=yes
-        AC_MSG_WARN(["Redox OS binaries have not been runtime tested"])
+        AC_MSG_WARN([Redox OS binaries have not been runtime tested])
         ;;
       serenity)
         # see scripts/crossbuild/serenity.sh
         build_serenity=yes
-        AC_MSG_WARN(["SerenityOS binaries have not been runtime tested"])
+        AC_MSG_WARN([SerenityOS binaries have not been runtime tested])
         ;;
       vxworks)
         # see scripts/crossbuild/wip/vxworks.sh
         build_vxworks=yes
         # needs custom UADE support (at minimum)
-        AC_MSG_WARN(["VxWorks target not yet supported"])
+        AC_MSG_WARN([VxWorks target not yet supported])
         ;;
       ps4)
         # see scripts/crossbuild/ps4.sh
         build_ps4=yes
-        AC_MSG_WARN(["PS4 binaries have not been runtime tested"])
+        AC_MSG_WARN([PS4 binaries have not been runtime tested])
         ;;
       psp)
         # see scripts/crossbuild/wip/psp.sh
         build_psp=yes
         # needs custom UADE support (at minimum)
-        AC_MSG_WARN(["PSP target not yet supported"])
+        AC_MSG_WARN([PSP target not yet supported])
         ;;
       *)
         # inverted os/vendor?
@@ -382,25 +492,25 @@ case "${CC}" in
           riscos)
             # see scripts/crossbuild/riscos.sh
             build_riscos=yes
-            AC_MSG_WARN(["RISC OS binaries have not been runtime tested"])
+            AC_MSG_WARN([RISC OS binaries have not been runtime tested])
             ;;
           ps2)
             # see scripts/crossbuild/wip/ps2.sh
             build_ps2=yes
             # needs custom UADE support (at minimum)
-            AC_MSG_WARN(["PS2 target not yet supported"])
+            AC_MSG_WARN([PS2 target not yet supported])
             ;;
           ps3)
             # see scripts/crossbuild/wip/ps3.sh
             build_ps3=yes
             # needs custom UADE support (at minimum)
-            AC_MSG_WARN(["PS3 target not yet supported"])
+            AC_MSG_WARN([PS3 target not yet supported])
             ;;
           vita)
             # see scripts/crossbuild/wip/psvita.sh
             build_psvita=yes
             # needs custom UADE support (at minimum)
-            AC_MSG_WARN(["PSVita target not yet supported"])
+            AC_MSG_WARN([PSVita target not yet supported])
             ;;
           *)
             case "${CPPFLAGS}" in
@@ -409,40 +519,40 @@ case "${CC}" in
                 # see scripts/crossbuild/wip/switch.sh
                 build_switch=yes
                 # needs custom UADE support (at minimum)
-                AC_MSG_WARN(["Switch target not yet supported"])
+                AC_MSG_WARN([Switch target not yet supported])
                 ;;
               *__WIIU__*)
                 # see scripts/crossbuild/wip/wiiu.sh
                 build_wiiu=yes
                 # needs custom UADE support (at minimum)
-                AC_MSG_WARN(["Wii U target not yet supported"])
+                AC_MSG_WARN([Wii U target not yet supported])
                 ;;
               *__NDS__*)
                 # see scripts/crossbuild/wip/nds.sh
                 build_nds=yes
                 # needs custom UADE support (at minimum)
-                AC_MSG_WARN(["NDS target not yet supported"])
+                AC_MSG_WARN([NDS target not yet supported])
                 ;;
               *__3DS__*)
                 # see scripts/crossbuild/wip/nds.sh
                 build_3ds=yes
                 # needs custom UADE support (at minimum)
-                AC_MSG_WARN(["3DS target not yet supported"])
+                AC_MSG_WARN([3DS target not yet supported])
                 ;;
               *__DREAMCAST__*)
                 # see scripts/crossbuild/wip/dreamcast.sh
                 build_dreamcast=yes
                 # needs custom UADE support (at minimum)
-                AC_MSG_WARN(["Dreamcast target not yet supported"])
+                AC_MSG_WARN([Dreamcast target not yet supported])
                 ;;
               *XENON*)
                 # see scripts/crossbuild/wip/xbox360.sh
                 build_xbox360=yes
                 # needs custom UADE support (at minimum)
-                AC_MSG_WARN(["Xbox 360 target not yet supported"])
+                AC_MSG_WARN([Xbox 360 target not yet supported])
                 ;;
               *)
-                AC_MSG_WARN(["$host_cpu-$host_vendor-$host_os not supported"])
+                AC_MSG_WARN([$host_cpu-$host_vendor-$host_os not supported])
                 ;;
             esac
             ;;
@@ -512,104 +622,6 @@ AM_CONDITIONAL([BUILD_DREAMCAST], [test "$build_dreamcast" = "yes"])
 AM_CONDITIONAL([BUILD_XBOX], [test "$build_xbox" = "yes"])
 AM_CONDITIONAL([BUILD_XBOX360], [test "$build_xbox360" = "yes"])
 
-AM_CONDITIONAL([PLUGIN_AUDACIOUS], [test "$plugin_audacious" = "yes"])
-
-AC_LANG_PUSH([C])
-for version in 23 2x 17 11 1x 99 9x; do
-  CSTD="-std=c${version}"
-  AX_CHECK_COMPILE_FLAG([${CSTD}],[break],[CSTD=none])
-done
-AC_LANG_POP
-AS_IF([test "$CSTD" == none], [
-  AC_MSG_ERROR([Could not enable at least C9x (C99) - upgrade your compiler])
-])
-
-AC_LANG_PUSH([C++])
-for version in 23 2b 20 2a 17 1z; do
-  CXXSTD="-std=c++${version}"
-  AX_CHECK_COMPILE_FLAG([${CXXSTD}],[break],[CXXSTD=none])
-done
-AC_LANG_POP
-AS_IF([test "$CXXSTD" == none], [
-  AC_MSG_ERROR([Could not enable at least C++1z (C++17) - upgrade your compiler])
-])
-
-# defines WORDS_BIGENDIAN
-AC_C_BIGENDIAN([
-  AM_CONDITIONAL([BIG_ENDIAN],[true])
-  AM_CONDITIONAL([LITTLE_ENDIAN],[false])
-  AC_DEFINE(WORDS_BIGENDIAN, 1)
-],[
-  AM_CONDITIONAL([BIG_ENDIAN],[false])
-  AM_CONDITIONAL([LITTLE_ENDIAN],[true])
-])
-
-if test "$plugin_audacious" = "yes" ; then
-PKG_CHECK_MODULES([AUDACIOUS],[audacious >= 3.8],
-  [ac_audacious_plugindir=`$PKG_CONFIG --variable=plugin_dir audacious`],
-  [ac_audacious_plugindir=;])
-AC_SUBST(AUDACIOUS_CFLAGS)
-AC_SUBST(AUDACIOUS_LIBS)
-
-AC_MSG_CHECKING([for audacious plugindir])
-AC_ARG_WITH([audacious-plugindir],
-  [--with-audacious-plugindir=<plugindir> installs uade plugin under <plugindir>/Input],
-  [if test x"$withval" != x ; then
-     AUDACIOUS_PLUGINDIR="$withval"
-   fi],
-   [AUDACIOUS_PLUGINDIR=$ac_audacious_plugindir])
-AC_SUBST(AUDACIOUS_PLUGINDIR)
-AC_MSG_RESULT($AUDACIOUS_PLUGINDIR)
-
-saved_cxxflags="$CXXFLAGS"
-CXXFLAGS="$CXXSTD $AUDACIOUS_CFLAGS"
-AC_LANG_PUSH(C++)
-AC_COMPILE_IFELSE(
-  [AC_LANG_PROGRAM([
-    #include <libaudcore/tuple.h>
-    int test() {
-      return Tuple::Publisher;
-    }
-  ])],
-  [AC_DEFINE([AUDACIOUS_HAS_PUBLISHER], [1], [Defined if Audacious version supports Publisher tuple.])],
-  []
-)
-AC_COMPILE_IFELSE(
-  [AC_LANG_PROGRAM([
-    #include <libaudcore/tuple.h>
-    int test() {
-      return Tuple::Channels;
-    }
-  ])],
-  [AC_DEFINE([AUDACIOUS_HAS_CHANNELS], [1], [Defined if Audacious version supports Channels tuple.])],
-  []
-)
-AC_COMPILE_IFELSE(
-  [AC_LANG_PROGRAM([
-    #include <libaudcore/plugin.h>
-    int test() {
-      return _AUD_PLUGIN_DEFAULT_PRIO;
-    }
-  ])],
-  [AC_DEFINE([AUDACIOUS_HAS_DEFAULT_PRIO], [1], [Defined if Audacious version supports _AUD_PLUGIN_DEFAULT_PRIO.])],
-  []
-)
-AC_LANG_POP
-CXXFLAGS="$saved_cxxflags"
-fi # PLUGIN_AUDACIOUS
-
-EXTRA_LIBS=""
-CPPFLAGS="-D_DEFAULT_SOURCE ${CPPFLAGS}"
-# XXX error: conflicting types for 'basename' (libgen.h vs string.h)
-if test "$build_openharmony" != "yes" && test "$build_ps4" != "yes" && test "$build_dreamcast" != "yes" ; then
-  CPPFLAGS="-D_GNU_SOURCE ${CPPFLAGS}"
-fi
-CFLAGS="-fvisibility=hidden ${CFLAGS} -fno-exceptions"
-# XXX shutup spammy AROS warning: "__PIC__" redefined.
-# also AROS, MorphOS, IRIX/compilertron and AIX linker don't support --gc-sections
-if test "$build_aros" != "yes" && test "$build_morphos" != "yes" && test "$build_warpos" != "yes" && test "$build_irix" != "yes" && test "$build_aix" != "yes" && test "$build_freemint" != "yes" && test "$build_os2" != "yes" ; then
-  CFLAGS="-fPIC -fdata-sections -ffunction-sections ${CFLAGS}"
-fi
 if test "$build_solaris" = "yes" || test "$build_aros" = "yes" ; then
   # on OpenIndiana -std=<any> breaks PATH_MAX for some reason
   # on AROS it breaks asm macros
@@ -619,13 +631,23 @@ fi
 # see AX_PROG_CC_FOR_BUILD
 CFLAGS_FOR_BUILD="${CSTD} ${CFLAGS}"
 
+CPPFLAGS="-D_DEFAULT_SOURCE ${CPPFLAGS}"
+# XXX error: conflicting types for 'basename' (libgen.h vs string.h)
+if test "$build_openharmony" != "yes" && test "$build_ps4" != "yes" && test "$build_dreamcast" != "yes" ; then
+  CPPFLAGS="-D_GNU_SOURCE ${CPPFLAGS}"
+fi
+COMMON_CFLAGS="-fvisibility=hidden -fmerge-all-constants -fno-exceptions"
+CXXFLAGS="-Wall ${CXXSTD} ${CXXFLAGS} ${COMMON_CFLAGS} -fvisibility-inlines-hidden -fno-rtti"
+CFLAGS="${CSTD} ${CFLAGS} ${COMMON_CFLAGS}"
+ARCHFLAGS=""
+EXTRA_LIBS=""
 if test "$build_haiku" = "yes" ; then
   EXTRA_LIBS="-lbsd -lnetwork"
 elif test "$build_cygwin" = "yes" ; then
   EXTRA_LIBS="-lcygwin"
 elif test "$build_mingw" = "yes" ; then
   CPPFLAGS="-I/usr/include ${CPPFLAGS}"
-  CFLAGS="-I/usr/include ${CFLAGS}"
+  ARCHFLAGS="-I/usr/include ${ARCHFLAGS}"
   LIBS="-lws2_32 ${LIBS}"
 elif test "$build_solaris" = "yes" || test "$build_unixware" = "yes"; then
   EXTRA_LIBS="-lsocket -lnsl"
@@ -635,13 +657,13 @@ elif test "$build_irix" = "yes" ; then
   EXTRA_LIBS="-lgen"
 elif test "$build_aix" = "yes" ; then
   # -pthread needed for std::mutex support
-  CFLAGS="-pthread ${CFLAGS}"
+  ARCHFLAGS="-pthread ${ARCHFLAGS}"
   LDFLAGS="-pthread ${LDFLAGS}"
 elif test "$build_qnx6" = "yes" ; then
   # qnx(6.5.0)+gcc10(pkgsrc) quirks
   CPPFLAGS="-D_XOPEN_SOURCE=600 -D_QNX_SOURCE -D_HAS_C9X -D__UINTPTR_TYPE__=uintptr_t -include stdint.h -include math.h ${CPPFLAGS}"
   # dwarf version >= 4 not supported by linker (qnx 6.5.0)
-  CFLAGS="-gdwarf-3 ${CFLAGS}"
+  ARCHFLAGS="-gdwarf-3 ${ARCHFLAGS}"
   LIBS="-lsocket ${LIBS}"
 elif test "$build_qnx" = "yes" ; then
   CPPFLAGS="-D_XOPEN_SOURCE=700 -D_QNX_SOURCE"
@@ -652,30 +674,30 @@ elif test "$build_qnx" = "yes" ; then
     CPPFLAGS="-D__BLACKBERRY__ ${CPPFLAGS}"
   fi
 elif test "$build_hurd" = "yes" ; then
-  # PATH_MAX not defined
+  # PATH_MAX not defined?
   CPPFLAGS="-DPATH_MAX=1024 ${CPPFLAGS}"
 elif test "$build_amigaos" = "yes" ; then
   # TODO UADE crashes with bebbo gcc6 (works on gcc13.2)
   # TODO -mhard-float fails to compile with bebbo gcc13.2, crashes songdb on gcc6
   # -noixemul uses libnix
-  CFLAGS="-noixemul -m68020-60 ${CFLAGS} -fno-PIC"
+  ARCHFLAGS="-noixemul -m68020-60 ${ARCHFLAGS}"
   # XXX with -O2, -foptimize-sibling-calls causes some exes to crash before main() (songdb/player/precalc)
-  CFLAGS="-fno-optimize-sibling-calls ${CFLAGS}"
+  ARCHFLAGS="-fno-optimize-sibling-calls ${ARCHFLAGS}"
   # XXX some weirdness with <limits.h>/PATH_MAX not getting defined with libnix
   CPPFLAGS="-DPATH_MAX=1024 ${CPPFLAGS}"
   # XXX fix some c vs c++ header issues with clib2
   CPPFLAGS="-include stdint.h -include math.h ${CPPFLAGS}"
 elif test "$build_morphos" = "yes" ; then
-  CFLAGS="-noixemul ${CFLAGS} -fno-PIC"
+  ARCHFLAGS="-noixemul ${ARCHFLAGS}"
   # <cstdint> does not work without this
   CPPFLAGS="-D__STDC_LIMIT_MACROS ${CPPFLAGS}"
 elif test "$build_amigaos4" = "yes" ; then
   # static libstdc++ needs also postdeps_CXX hack below
-  CFLAGS="-athread=native ${CFLAGS}"
+  ARCHFLAGS="-athread=native ${ARCHFLAGS}"
   LIBS="-lauto ${LIBS}"
 elif test "$build_warpos" = "yes" ; then
   CPPFLAGS="--specs=warpup -D__STDC_LIMIT_MACROS ${CPPFLAGS}"
-  CFLAGS="--specs=warpup -noixemul -mclib=newlib -pthread ${CFLAGS} -fno-PIC"
+  ARCHFLAGS="--specs=warpup -noixemul -mclib=newlib -pthread ${ARCHFLAGS}"
   LDFLAGS="--specs=warpup ${LDFLAGS}"
 elif test "$build_aros" = "yes" ; then
   LIBS="-lpthread ${LIBS}"
@@ -685,12 +707,12 @@ elif test "$build_freemint" = "yes" ; then
   # XXX crossmint include path handling seems to be broken and uade compiler.h conflicts with system compiler.h
   CPPFLAGS="-include ${SYSROOT}/usr/include/compiler.h ${CPPFLAGS}"
   # shutup warning about fvisibility not supported
-  CFLAGS="-Wno-attributes ${CFLAGS}"
+  ARCHFLAGS="-Wno-attributes ${ARCHFLAGS}"
 elif test "$build_os2" = "yes" ; then
   # shutup warning about fvisibility not supported
-  CFLAGS="-Zexe -Wno-attributes ${CFLAGS}"
+  ARCHFLAGS="-Zexe -Wno-attributes ${ARCHFLAGS}"
   # XXX fixme
-  sed -i s/'NATIVECFLAGS = $'/'NATIVECFLAGS = -Zexe $'/g uade/src/Makefile.in
+  sed -i s/'NATIVECFLAGS = \$'/'NATIVECFLAGS = -Zexe \$'/g uade/src/Makefile.in
 elif test "$build_redox" = "yes" ; then
   # --static required?
   LDFLAGS="--static ${LDFLAGS}"
@@ -705,18 +727,9 @@ elif test "$build_wasix" = "yes" ; then
   CPPFLAGS="-D_WASI_EMULATED_PROCESS_CLOCKS ${CPPFLAGS}"
   LIBS="-lwasi-emulated-process-clocks ${LIBS}"
 elif test "$build_emscripten" = "yes" ; then
-  #CFLAGS="-s NODERAWFS=1 -lwebsocket.js -sPROXY_POSIX_SOCKETS -pthread -sPROXY_TO_PTHREAD ${CFLAGS}"
-  CFLAGS="-s NODERAWFS=1 ${CFLAGS}"
+  #LDFLAGS="-sASSERTIONS -sALLOW_MEMORY_GROWTH -sNODERAWFS=1 -lwebsocket.js -sPROXY_POSIX_SOCKETS -pthread -sPROXY_TO_PTHREAD ${LDFLAGS}"
+  LDFLAGS="-sASSERTIONS -sALLOW_MEMORY_GROWTH -sNODERAWFS=1 ${LDFLAGS}"
 fi
-
-# TODO proper freopen() test
-# TODO invert (-DNO_FREOPEN -> -DNEED_FREOPEN)?
-if test "$build_haiku" = "yes" || test "$build_openbsd" = "yes" || test "$build_netbsd" = "yes" || test "$build_mingw" = "yes" || test "$build_amiga" = "yes" || test "$build_solaris" = "yes" || test "$build_irix" = "yes" || test "$build_aix" = "yes" || test "$build_qnx" = "yes" || test "$build_wasix" = "yes" || test "$build_os2" = "yes" ; then
-  CPPFLAGS="-DNO_FREOPEN ${CPPFLAGS}"
-fi
-
-CXXFLAGS="-fvisibility-inlines-hidden -Wall ${CFLAGS} ${CXXSTD} ${CXXFLAGS} -fno-rtti -fno-exceptions"
-CFLAGS="${CSTD} ${CFLAGS}"
 
 # must be called after C(XX)FLAGS tweaks, as for example on MorphOS -noixemul must be set before LT_INIT
 LT_INIT
@@ -743,8 +756,6 @@ else
         ;;
     *dyld*|*PROGRAM:ld*PROJECT:ld*)
         ld_apple=yes
-        # does not work
-        static_stdlibs=no
         ;;
     *Solaris*)
         ld_solaris=yes
@@ -760,11 +771,14 @@ else
           # does not support -v or -V to get version
           ld_os2=yes
         else
-          AC_MSG_WARN(["Linker $LD ($linker_version) is not supported"])
+          AC_MSG_WARN([Linker $LD ($linker_version) is not supported])
         fi
         ;;
   esac
 fi
+
+CFLAGS="${ARCHFLAGS} ${CFLAGS}"
+CXXFLAGS="${ARCHFLAGS} ${CXXFLAGS}"
 
 AM_CONDITIONAL([LD_APPLE], [test "$ld_apple" = "yes"])
 AM_CONDITIONAL([LD_LLD], [test "$ld_lld" = "yes"])
@@ -774,7 +788,7 @@ AM_CONDITIONAL([LD_AIX], [test "$ld_aix" = "yes"])
 AM_CONDITIONAL([LD_OS2], [test "$ld_os2" = "yes"])
 AM_CONDITIONAL([LD_WASM], [test "$ld_wasm" = "yes"])
 
-# static libgcc/libstdc++ used for executables (except on macOS)
+# static libgcc/libstdc++ used for CLI binaries
 AM_CONDITIONAL([STATIC_STDLIBS], [test "$static_stdlibs" = "yes"])
 
 if test "$ld_wasm" = "yes" ; then
@@ -788,32 +802,26 @@ elif test "$ld_aix" = "yes" || test "$ld_os2" = "yes" ; then
   LDFLAGS="${LDFLAGS}"
 else
   # assume GNU compatible linker
-  LDFLAGS="-Wl,--as-needed -Wl,-O1 ${LDFLAGS}"
-  if test "$build_openbsd" = "yes" ; then
-    # -Wl,--no-undefined is broken(?) on OpenBSD
-    LDFLAGS="-Wl,--gc-sections -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--sort-common ${LDFLAGS}"
-  elif test "$build_mingw" = "yes" && test "$ld_lld" = "yes" ; then
-    # mingw lld linker does not support --exclude-libs=ALL,--discard-all,--sort-common (?)
-    LDFLAGS="-Wl,--gc-sections -Wl,--no-undefined ${LDFLAGS}"
-  elif test "$build_amigaos" = "yes" || test "$build_freemint" = "yes" ; then
-    # no support for --exclude-libs=ALL in bebbos toolchain or crossmint
-    LDFLAGS="-Wl,--gc-sections -Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"
-  elif test "$build_morphos" = "yes" || test "$build_warpos" = "yes" ; then
-    # no support for --exclude-libs=ALL, --gc-sections broken
-    LDFLAGS="-Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"
-  elif test "$build_aros" = "yes" || test "$build_irix" = "yes" ; then
-    # no support for --gc-sections on AROS, broken(?) on IRIX/compilertron
-    LDFLAGS="-Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"
-  else
-    LDFLAGS="-Wl,--gc-sections -Wl,--exclude-libs=ALL -Wl,--discard-all -Wl,--no-undefined -Wl,--sort-common ${LDFLAGS}"
+  LDFLAGS="-Wl,-O1 -Wl,--as-needed ${LDFLAGS}"
+  AX_CHECK_LINK_FLAG([-Wl,--exclude-libs=ALL], [LDFLAGS="-Wl,--exclude-libs=ALL ${LDFLAGS}"], [])
+  AX_CHECK_LINK_FLAG([-Wl,--discard-all], [LDFLAGS="-Wl,--discard-all ${LDFLAGS}"], [])
+  AX_CHECK_LINK_FLAG([-Wl,--sort-common], [LDFLAGS="-Wl,--sort-common ${LDFLAGS}"], [])
+  AX_CHECK_LINK_FLAG([-Wl,--icf=all], [LDFLAGS="-Wl,--icf=all ${LDFLAGS}"], [])
+  # broken(?) MorphOS/WarpOS, IRIX/compilertron
+  if test "$build_morphos" != "yes" && test "$build_warpos" != "yes" && test "$build_irix" != "yes"; then
+    AX_CHECK_LINK_FLAG([-Wl,--gc-sections],
+    [
+      LDFLAGS="-Wl,--gc-sections ${LDFLAGS}"
+      # use only if --gc-sections is supported
+      CFLAGS="-ffunction-sections -fdata-sections ${CFLAGS}"
+      CXXFLAGS="-ffunction-sections -fdata-sections ${CXXFLAGS}"
+    ],[])
+  fi
+  # broken(?) on OpenBSD
+  if test "$build_openbsd" != "yes" ; then
+    AX_CHECK_LINK_FLAG([-Wl,--no-undefined], [LDFLAGS="-Wl,--no-undefined ${LDFLAGS}"], [])
   fi
 fi
-
-STATIC_LDFLAGS="-static-libgcc -static-libstdc++"
-if test "$ld_aix" != "yes" && test "$ld_os2" != "yes" ; then
-  STATIC_LDFLAGS="${STATIC_LDFLAGS} -Wl,--allow-multiple-definition"
-fi
-AC_SUBST([STATIC_LDFLAGS])
 
 if test "$build_darwin" = "yes" ; then
   SHREXT="-shrext .dylib"
@@ -829,14 +837,18 @@ elif test "$build_morphos" = "yes" ; then
   _UADE_TARGET_OS="--target-os=MorphOS"
 elif test "$build_amigaos4" = "yes" ; then
   _UADE_TARGET_OS="--target-os=AmigaOS4"
-  # hack to support statically linked libgcc and libstdc++
-  postdeps_CXX=`echo " $postdeps_CXX " | sed 's,-lgcc,,g'`
-  postdeps_CXX=`echo " $postdeps_CXX " | sed 's,-lstdc++,,g'`
+  if test "$static_stdlibs" = "yes" ; then
+    # hack to support statically linked libgcc and libstdc++
+    postdeps_CXX=`echo " $postdeps_CXX " | sed 's,-lgcc,,g'`
+    postdeps_CXX=`echo " $postdeps_CXX " | sed 's,-lstdc++,,g'`
+  fi
 elif test "$build_aros" = "yes" ; then
   _UADE_TARGET_OS="--target-os=AROS"
 elif test "$build_tizen" = "yes" || test "$build_blackberry10" = "yes" ; then
-  # hack to support statically linked libstdc++
-  postdeps_CXX=`echo " $postdeps_CXX " | sed 's,-lstdc++,,g'`
+  if test "$static_stdlibs" = "yes" ; then
+    # hack to support statically linked libstdc++
+    postdeps_CXX=`echo " $postdeps_CXX " | sed 's,-lstdc++,,g'`
+  fi
 fi
 
 uade_prefix=${prefix}
@@ -849,8 +861,11 @@ _UADE_LDFLAGS="${LDFLAGS} ${EXTRA_LIBS}"
 if test "$static_stdlibs" = "yes" ; then
   _UADE_LDFLAGS="-static-libgcc ${_UADE_LDFLAGS}"
 fi
+if test "$plugin_audacious" = "yes" ; then
+  _UADE_CFLAGS="${pic_flag} ${_UADE_CFLAGS}"
+fi
 AX_SUBDIRS_CONFIGURE([uade], [
-  [--without-uade123], [--without-uadesimple], [--without-write-audio],[--without-uadefs],[--without-libuade],
+  [--without-uade123], [--without-uadesimple], [--without-write-audio],[--without-uadefs],[--without-libuade],[--without-avx2],
   [--prefix=\${uade_prefix}/share/audacious-uade],
   [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
   [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],

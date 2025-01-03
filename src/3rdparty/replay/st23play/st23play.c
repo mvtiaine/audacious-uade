@@ -148,7 +148,7 @@ typedef struct blep_t
 } blep_t;
 
 static char songname[20+1];
-static volatile bool musicPaused;
+static bool musicPaused; // mvtiaine: removed volatile to fix warning
 static bool breakpat;
 static uint8_t subcnt, gvolume = 64, tempo = 96, st1[MAX_ORDERS], st2[65536];
 static int32_t mastervol = 256, samplesLeft, soundBufferSize, randSeed = 0x12345000;

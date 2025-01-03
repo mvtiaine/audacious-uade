@@ -8,11 +8,16 @@ set -e
 
 TARGET=arm-webos-linux-gnueabi
 BIN="/opt/cross/webos/bin" 
-SYSROOT=/opt/cross/webos/$TARGET/sysroot PATH=$BIN:$PATH \
+export PATH="$BIN:$PATH"
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
+SYSROOT=/opt/cross/webos/$TARGET/sysroot \
    CFLAGS="--sysroot=$SYSROOT" CXXFLAGS="--sysroot=$SYSROOT" LDFLAGS="--sysroot=$SYSROOT" \
    CC=$BIN/$TARGET-gcc CXX=$BIN/$TARGET-g++ AR=$BIN/$TARGET-ar RANLIB=$BIN/$TARGET-ranlib \
   ./configure --host=$TARGET --with-sysroot=$SYSROOT
 
 make clean
 
-PATH=$BIN:$PATH make -j check
+make -j check

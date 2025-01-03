@@ -16,7 +16,6 @@ else
   apk add build-base make autoconf automake libtool pkgconf
   autoreconf -i
   CC=nxdk-cc CXX=nxdk-cxx LD=nxdk-link LIB=nxdk-lib AS=nxdk-as \
-    CFLAGS="-fno-PIC" \
     LDFLAGS="-L${NXDK_DIR}/lib -L${NXDK_DIR}/lib/xboxkrnl -llibc++ -llibwinapi -llibxboxkrnl -llibxboxrt -llibpdclib -llibnxdk_hal -llibnxdk -lnxdk_usb" \
     ./configure --host=i386-pc-windows --with-sysroot=${NXDK_DIR}
   make clean

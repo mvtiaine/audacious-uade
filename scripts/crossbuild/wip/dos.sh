@@ -6,9 +6,13 @@ set -e
 
 #autoreconf -i
 
-PATH=/opt/cross/djgpp/bin:$PATH \
-  ./configure --host=i586-pc-msdosdjgpp
+export PATH=/"opt/cross/djgpp/bin:$PATH"
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
+./configure --host=i586-pc-msdosdjgpp
 
 make clean
 
-PATH=/opt/cross/djgpp/bin:$PATH make -j check
+make -j check

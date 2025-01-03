@@ -7,10 +7,14 @@ set -e
 
 #autoreconf -i
 
-PATH=/opt/cross/warpos/bin:$PATH \
-  CC="ppc-morphos-gcc --specs=warpup" CXX="ppc-morphos-g++ --specs=warpup" \
+export PATH="/opt/cross/warpos/bin:$PATH"
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
+CC="ppc-morphos-gcc --specs=warpup" CXX="ppc-morphos-g++ --specs=warpup" \
   ./configure --host=ppc-morphos
 
 make clean
 
-PATH=/opt/cross/warpos/bin:$PATH make -j check
+make -j check

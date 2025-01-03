@@ -59,7 +59,7 @@ inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf,
     const auto special = *(le_uint16_t *)&buf[0x3e];
     Player player;
 
-    char format[26];
+    char format[27];
     if (ver == 0x3320 || (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc)) {
         player = Player::it2play;
         snprintf(format, sizeof format, "Impulse Tracker 1.0x");

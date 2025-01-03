@@ -4,9 +4,13 @@ set -e
 
 #autoreconf -i
 
-PATH=/opt/cross/aros-i386:$PATH \
-  ./configure --host=i386-aros
+export PATH="/opt/cross/aros-i386:$PATH"
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
+./configure --host=i386-aros
 
 make clean
 
-PATH=/opt/cross/aros-i386:$PATH make -j check
+make -j check

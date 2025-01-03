@@ -6,10 +6,17 @@ set -e
 
 #autoreconf -i
 
-SYSROOT=/opt/cross/mint/m68k-atari-mint/sys-root PATH="/opt/cross/mint/bin:$PATH" \
-  CFLAGS="--sysroot=$SYSROOT" CXXFLAGS="--sysroot=$SYSROOT" LDFLAGS="--sysroot=$SYSROOT" \
+CROSSDIR=/opt/cross/mint
+SYSROOT="${CROSSDIR}/m68k-atari-mint/sys-root"
+
+export PATH="${CROSSDIR}/bin:$PATH"
+export PKG_CONFIG_PATH=
+export PKG_CONFIG_LIBDIR="${CROSSDIR}/crosstools/lib/pkgconfig"
+export PKG_CONFIG_SYSROOT_DIR=${SYSROOT}
+
+SYSROOT="${SYSROOT}" CFLAGS="--sysroot=$SYSROOT" CXXFLAGS="--sysroot=$SYSROOT" LDFLAGS="--sysroot=$SYSROOT" \
   ./configure --host=m68k-atari-mint --with-sysroot=$SYSROOT
 
 make clean
 
-PATH=/opt/cross/mint/bin:$PATH make -j check
+make -j check

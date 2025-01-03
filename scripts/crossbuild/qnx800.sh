@@ -11,9 +11,13 @@ QNX_BASE=/opt/cross/qnx800
 export QNX_HOST=$QNX_BASE/host/linux/x86_64
 export QNX_TARGET=$QNX_BASE/target/qnx
 
-PATH=$QNX_HOST/usr/bin:$PATH ./configure \
-  --host=${QNX_ABI}
+export PATH=$QNX_HOST/usr/bin:$PATH
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
+./configure --host=${QNX_ABI}
 
 make clean
 
-PATH=$QNX_HOST/usr/bin:$PATH make -j check
+make -j check

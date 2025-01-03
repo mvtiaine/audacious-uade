@@ -7,6 +7,8 @@
 #include <cstring>
 // for endianess check
 #include "config.h"
+// XXX fix AIX build
+#undef hz
 
 #define AUDACIOUS_UADE 1
 

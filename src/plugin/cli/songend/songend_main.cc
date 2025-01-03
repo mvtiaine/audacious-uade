@@ -27,15 +27,6 @@ int main(int argc, char *argv[]) {
 
     detector::SongEndDetector detector(player::PRECALC_FREQ, false, endian::native);
 
-#ifndef NO_FREOPEN
-    if (!freopen(NULL, "rb", stdin)) {
-        fprintf(stderr, "Failed to freopen(rb) stdin\n");
-        return EXIT_FAILURE;
-    }
-#endif
-#ifdef __MINGW32__
-    setmode (fileno (stdin), 0x8000);
-#endif
     const string fname = argc < 2 ? "-" : argv[1];
     bool is_stdin = (fname == "-");
 
@@ -48,6 +39,9 @@ int main(int argc, char *argv[]) {
         }
         fd = fileno(f);
     }
+#ifdef __MINGW32__
+    else setmode (fileno (stdin), 0x8000);
+#endif
     while ((count = read(fd, buf, sizeof buf)) > 0) {
         detector.update(buf, count);
         total += count;

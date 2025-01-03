@@ -27,7 +27,7 @@ UADE plugin for Audacious music player
 %autosetup -n %{name}-%{VERSION_ORIG}
 
 %build
-%configure
+%configure --enable-plugin-audacious=yes --with-static-stdlibs=no
 %make_build
 
 %install

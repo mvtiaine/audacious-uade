@@ -28,6 +28,10 @@ export LD=$TOOLCHAIN/bin/ld
 export RANLIB=$TOOLCHAIN/bin/llvm-ranlib
 export STRIP=$TOOLCHAIN/bin/llvm-strip
 
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
 ./configure --host $TARGET
 make clean
 # TODO wrapper for tests

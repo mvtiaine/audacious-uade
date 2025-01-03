@@ -182,7 +182,8 @@ constexpr_f bool starts_with(const std::string_view &s, const std::string_view &
 constexpr_f bool ends_with(const std::string_view &s, const std::string_view &suffix) noexcept {
 #if !defined(__cpp_lib_starts_ends_with)
     if (suffix.length() > s.length()) return false;
-    return s.rfind(suffix, s.length() - suffix.length()) == 0;
+    const auto index = s.length() - suffix.length();
+    return s.find(suffix, index) == index;
 #else
     return s.ends_with(suffix);
 #endif

@@ -41,7 +41,7 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
         authors.push_back(string(author));
     };
 
-    const auto add_author_coop = [&authors, &item, &add_author](const string_view &author1, const string_view &author2) {
+    const auto add_author_coop = [&add_author](const string_view &author1, const string_view &author2) {
         vector<string_view> coop = {author1, author2};
         sort(coop.begin(), coop.end());
         string author;

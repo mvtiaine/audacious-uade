@@ -15,6 +15,8 @@ plugin_audacious_uade_la_LIBADD = \
     $(AUDACIOUS_LIBS)
 
 plugin_audacious_uade_la_LDFLAGS = $(AM_LDFLAGS) -avoid-version -module -shared -no-undefined $(SHREXT)
+if BUILD_WINDOWS
+plugin_audacious_uade_la_LDFLAGS += -Xcompiler $(UADE_LIBS)
 if BUILD_CYGWIN
 plugin_audacious_uade_la_LDFLAGS += -Xcompiler -lcygwin
 endif
@@ -22,5 +24,9 @@ if BUILD_MINGW
 if LD_GNU
 plugin_audacious_uade_la_LDFLAGS += -Xcompiler -lmsvcrt -Xcompiler -lmingwex -Xcompiler -lmsvcrt -Xcompiler -lkernel32 -Xcompiler -lws2_32
 endif
+endif
+endif
+if BUILD_NETBSD
+plugin_audacious_uade_la_LDFLAGS += -Xcompiler $(UADE_LIBS)
 endif
 plugin_audacious_uade_la_CXXFLAGS = $(AM_CXXFLAGS) $(AUDACIOUS_CFLAGS)

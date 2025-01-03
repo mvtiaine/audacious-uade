@@ -13,6 +13,7 @@ else
   SYSROOT=/usr/local/ps3dev/ppu/ppu \
      CPPFLAGS="-isystem /usr/local/ps3dev/ppu/include" \
      CFLAGS="--sysroot=${SYSROOT}" \
+     CXXFLAGS="${CFLAGS}" \
     ./configure --host=powerpc64-ps3-elf --with-sysroot=${SYSROOT}
   make clean
   make -j check

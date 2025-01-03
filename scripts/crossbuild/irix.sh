@@ -13,12 +13,13 @@ then
     --entrypoint /bin/bash unxmaal/compilertron \
     $0 build
 else
-  PATH=/opt/irix/sgug/bin:$PATH \
-    CPPFLAGS="-I/opt/irix/root/usr/sgug/include/c++/9 -I/opt/irix/root/usr/sgug/include/c++/9/mips-sgi-irix6.5" \
+  export PATH="/opt/irix/sgug/bin:$PATH"
+
+  CPPFLAGS="-I/opt/irix/root/usr/sgug/include/c++/9 -I/opt/irix/root/usr/sgug/include/c++/9/mips-sgi-irix6.5" \
     LDFLAGS="-L/opt/irix/root/usr/sgug/lib/gcc/mips-sgi-irix6.5/9" \
     ./configure --host=mips-sgi-irix6.5
 
   make clean
 
-  PATH=/opt/irix/sgug/bin:$PATH make -j check
+  make -j check
 fi

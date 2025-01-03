@@ -14,12 +14,16 @@ WRAPPER="${WRAPPER:=ape}"
 
 #autoreconf -i
 
+export PATH="/opt/cross/cosmocc/bin:$PATH"
+export PKG_CONFIG_PATH=/dev/null
+export PKG_CONFIG_LIBDIR=/dev/null
+export PKG_CONFIG_SYSROOT_DIR=/dev/null
+
 #CC=cosmocc CXX=cosmoc++ AR=cosmoar
-PATH=/opt/cross/cosmocc/bin:$PATH \
-  CC=${ARCH}-unknown-cosmo-cc CXX=${ARCH}-unknown-cosmo-c++ AR=${ARCH}-unknown-cosmo-ar \
+CC=${ARCH}-unknown-cosmo-cc CXX=${ARCH}-unknown-cosmo-c++ AR=${ARCH}-unknown-cosmo-ar \
   LD=${ARCH}-linux-cosmo-ld RANLIB=${ARCH}-linux-cosmo-ranlib \
   ./configure --host=${ARCH}-unknown-none
 
 make clean
 
-PATH=/opt/cross/cosmocc/bin:$PATH WRAPPER="${WRAPPER}" make -j check
+WRAPPER="${WRAPPER}" make -j check

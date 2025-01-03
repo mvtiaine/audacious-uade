@@ -63,7 +63,7 @@ namespace std {
 #include <cstdlib>
 #include <string>
 namespace std {
-constexpr_f1 int stoi(const std::string& str, size_t* idx = nullptr, int base = 10) {
+constexpr_f2 int stoi(const std::string& str, size_t* idx = nullptr, int base = 10) {
     assert(idx == nullptr);
     assert(base == 10);
     return atoi(str.c_str());
