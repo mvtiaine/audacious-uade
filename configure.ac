@@ -712,7 +712,7 @@ elif test "$build_os2" = "yes" ; then
   # shutup warning about fvisibility not supported
   ARCHFLAGS="-Zexe -Wno-attributes ${ARCHFLAGS}"
   # XXX fixme
-  sed -i s/'NATIVECFLAGS = $'/'NATIVECFLAGS = -Zexe $'/g uade/src/Makefile.in
+  sed -i s/'NATIVECFLAGS = \$'/'NATIVECFLAGS = -Zexe \$'/g uade/src/Makefile.in
 elif test "$build_redox" = "yes" ; then
   # --static required?
   LDFLAGS="--static ${LDFLAGS}"
