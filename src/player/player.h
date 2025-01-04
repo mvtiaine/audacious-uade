@@ -178,6 +178,7 @@ bool seek(PlayerState &state, int millis) noexcept;
 
 namespace player::it2play {
 
+// note that HQ driver "better tempo (BPM) precision" results in slightly different song lengths than others
 enum class Driver {
     HQ = 0,
     SB16MMX = 1,
