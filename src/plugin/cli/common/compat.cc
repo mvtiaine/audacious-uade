@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: GPL-2.0-or-later
-// Copyright (C) 2024 Matti Tiainen <mvtiaine@cc.hut.fi>
+// SPDX-License-Identifier: LGPL-2.0-or-later
+// Copyright (C) 2024-2025 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 
 #if defined(__CLIB2__)

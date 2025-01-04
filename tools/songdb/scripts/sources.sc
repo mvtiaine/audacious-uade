@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+// Copyright (C) 2023-2025 Matti Tiainen <mvtiaine@cc.hut.fi>
+
 //> using dep org.scala-lang.modules::scala-parallel-collections::1.0.4
 
 import scala.collection.mutable.Buffer

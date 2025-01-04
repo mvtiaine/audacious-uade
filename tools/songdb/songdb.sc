@@ -1,5 +1,8 @@
 #!/usr/bin/env -S scala-cli shebang
 
+// SPDX-License-Identifier: GPL-2.0-or-later
+// Copyright (C) 2023-2025 Matti Tiainen <mvtiaine@cc.hut.fi>
+
 //> using file scripts/sources.sc
 //> using file scripts/songlengths.sc
 //> using file scripts/unexotica.sc

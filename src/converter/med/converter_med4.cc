@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.0-or-later
-// Copyright (C) 2023-2024 Matti Tiainen <mvtiaine@cc.hut.fi>
+// Copyright (C) 2023-2025 Matti Tiainen <mvtiaine@cc.hut.fi>
 // 
 // MED4 file format parsing based on sources included in MED 2.10 distribution, disassembled DeliTracker converter genie
 // and comparing the MED V3.21 saved MED4 vs MMD0 files.
