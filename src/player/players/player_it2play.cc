@@ -295,7 +295,7 @@ optional<ModuleInfo> get_it_info(const char *path, const char *buf, size_t size)
     } else if ((h->Cwtv & 0xFFF) >= 0x0215 && (h->Cwtv & 0xFFF) <= 0x0217) {
         snprintf(format, sizeof format, "Impulse Tracker 2.14+");
     } else {
-        snprintf(format, sizeof format, "Impulse Tracker %d.%02d", (h->Cwtv & 0x0F00) >> 8, h->Cwtv & 0xFF);
+        snprintf(format, sizeof format, "Impulse Tracker %d.%02X", (h->Cwtv & 0x0F00) >> 8, h->Cwtv & 0xFF);
     }
 
     return ModuleInfo{Player::it2play, format, path, 1, 1, 1, 0};
