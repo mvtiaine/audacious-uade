@@ -83,8 +83,8 @@ makepkg -s
 (sudo) pacman -U audacious-uade*.pkg*
 
 * To install with FreeBSD/MidnightBSD ports or DragonFlyBSD DPorts (latest release):
-git clone https://github.com/mvtiaine/freebsd-overlay.git
-cd freebsd-overlay/multimedia/audacious-uade
+git clone https://github.com/mvtiaine/freebsd-ports.git
+cd freebsd-ports/multimedia/audacious-uade
 make install clean
 
 * To install with HaikuPorter (latest release):
