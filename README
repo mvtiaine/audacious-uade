@@ -106,6 +106,19 @@ git clone https://github.com/mvtiaine/macports.git <path>
 (sudo) port sync
 (sudo) port install audacious-uade
 
+* To install with pkgsrc (latest release):
+git clone https://github.com/mvtiaine/pkgsrc.git
+# change /usr/pkgsrc to correct pkgsrc location as needed
+cp -rp pkgsrc/* /usr/pkgsrc/
+cd /usr/pkgsrc/audio/audacious-uade
+make install clean clean-depends
+
+* To install with OpenBSD ports (latest release):
+git clone https://github.com/mvtiaine/openbsd-ports.git
+cp -rp openbsd-ports/* /usr/ports/
+cd /usr/ports/audio/audacious-uade
+make install clean
+
 * To build and install with Debian/Ubuntu/etc. from sources (git or latest release):
 scripts/make_deb.sh
 (sudo) dpkg -i build-deb/audacious-uade*.deb
