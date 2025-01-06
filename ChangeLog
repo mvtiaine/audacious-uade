@@ -1,5 +1,6 @@
 0.12-dev
 - Implement Scream Tracker 2 support using st23play by 8bitbubsy (https://pastebin.com/ifXSCZ71)
+- Sync songdb sources to around 2025-01-04 snapshots
 - Misc fixes and updates
 
 0.12.3 - 2024-12-15
