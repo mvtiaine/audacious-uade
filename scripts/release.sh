@@ -8,5 +8,6 @@ autoreconf -i && \
   ./configure && \
   make clean && \
   CFLAGS="-Werror" \
+  CXXFLAGS="${CFLAGS}" \
     make -j distcheck
 echo ${VERSION_OLD} > VERSION
