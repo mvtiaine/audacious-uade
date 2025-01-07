@@ -12,6 +12,7 @@
 #include <memory>
 #include <mutex>
 #include <numeric>
+#include <set>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
@@ -35,12 +36,8 @@ namespace songdb::modland {
     bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &prev_item, vector<string> &authors, vector<string> &albums) noexcept;
 }
 
-namespace songdb::unexotica {
-    bool parse_tsv_row(const char *tuple, _UnExoticaData &item, const _UnExoticaData &prev_item, vector<string> &authors, vector<string> &albums, vector<string> &publishers) noexcept;
-}
-
-namespace songdb::demozoo {
-    bool parse_tsv_row(const char *tuple, _DemozooData &item, const _DemozooData &prev_item, vector<string> &authors, vector<string> &albums, vector<string> &publishers) noexcept;
+namespace songdb::internal {
+    bool parse_tsv_row(const char *tuple, _FullData &item, const _FullData &prev_item, vector<string> &authors, vector<string> &albums, vector<string> &publishers) noexcept;
 }
 
 namespace {
@@ -422,8 +419,14 @@ void parse_tsv(const string &tsv) noexcept {
                     prev_idx = idx;
                     continue;
                 }
-                string author = tuple + 1;
-                author.pop_back();
+                auto tokens = common::split_view(tuple + 1, SEPARATOR);
+                string author;
+                if (tokens.size() > 1) {
+                    common::mkString(tokens, AUTHOR_JOIN, author);
+                } else {
+                    author = tokens[0];
+                }
+                author.pop_back(); // remove \n
                 string_t sc = author_pool.size();
                 author_pool.push_back(author);
                 ((_AMPData*)tmp)[md5_idx] = {{ md5_idx }, sc};
@@ -445,7 +448,7 @@ void parse_tsv(const string &tsv) noexcept {
                     continue;
                 }
                 _UnExoticaData _item;
-                if (unexotica::parse_tsv_row(tuple + 1, _item, prev, author_pool, album_pool, publisher_pool)) {
+                if (internal::parse_tsv_row(tuple + 1, _item, prev, author_pool, album_pool, publisher_pool)) {
                     _item.md5 = md5_idx;
                     ((_UnExoticaData*)tmp)[md5_idx] = _item;
                     prev_idx = md5_idx;
@@ -467,7 +470,7 @@ void parse_tsv(const string &tsv) noexcept {
                     continue;
                 }
                 _DemozooData _item;
-                if (demozoo::parse_tsv_row(tuple + 1, _item, prev, author_pool, album_pool, publisher_pool)) {
+                if (internal::parse_tsv_row(tuple + 1, _item, prev, author_pool, album_pool, publisher_pool)) {
                     _item.md5 = md5_idx;
                     ((_DemozooData*)tmp)[md5_idx] = _item;
                     prev_idx = md5_idx;
@@ -521,7 +524,7 @@ void parse_modinfos(const string &tsv) noexcept {
         }
         const auto cols = common::split_view_x<2>(tuple + 1, '\t');
         string_t format_t;
-        if (cols[0][0] == 0x7f) {
+        if (cols[0][0] == REPEAT) {
             format_t = prev_format_t;
         } else {
             string fmt = string(cols[0]);
@@ -530,7 +533,7 @@ void parse_modinfos(const string &tsv) noexcept {
             format_pool.push_back(fmt);
         }
         const uint8_t channels = cols[1].empty() ? 0
-            : cols[1][0] == 0x7f ? prev_channels
+            : cols[1][0] == REPEAT ? prev_channels
             : common::from_chars<uint8_t>(cols[1]);
         prev_channels = channels;
         db_modinfos[md5_idx] = { format_t, channels };
@@ -804,3 +807,41 @@ optional<pair<int,int>> subsong_range(const string &md5) noexcept {
 }
 
 } // namespace songdb
+
+namespace songdb::unexotica {
+
+string author_path(const string &author) noexcept {
+    const set<string_view> pseudonyms ({
+        "Creative_Thought",
+        "DJ_Braincrack",
+        "Digital_Masters",
+        "MC_Slack",
+        "Mad_Jack",
+        "Mad_Phantom",
+        "McMullan_and_Low",
+        "Pipe_Smokers_Cough",
+        "Private_Affair",
+        "Radio_Poland",
+        "Sonic_Boom_Boy",
+        "Sonicom_Music",
+        "Ten_Pin_Alley",
+        "Urban_Shakedown"
+    });
+    auto tokens = common::split_view(author, ' ');
+    const auto candidate = common::mkString(tokens, "_");
+    if (tokens.size() < 2 || pseudonyms.count(candidate) || tokens[0] == "The") {
+        return candidate;
+    }
+    if (tokens[1] == "Da" || tokens[1] == "de" || tokens[1] == "van" || tokens[1] == "Pieket") {
+        const auto first = tokens.front();
+        tokens.erase(tokens.begin());
+        tokens.push_back(first);
+    } else {
+        const auto last = tokens.back();
+        tokens.erase(tokens.end() - 1);
+        tokens.insert(tokens.begin(), last);
+    }
+    return common::mkString(tokens, "_");
+}
+
+} // namespace songdb::unexotica

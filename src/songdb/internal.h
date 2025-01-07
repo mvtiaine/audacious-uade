@@ -15,6 +15,9 @@
 #if 1
 
 namespace songdb::internal {
+constexpr_v std::string_view AUTHOR_JOIN = " & ";
+constexpr char REPEAT = 0x7f;
+constexpr char SEPARATOR = 0x7e;
 
 struct uint24_t {
     uint16_t hi;
@@ -157,17 +160,6 @@ struct _ModlandData : _Data {
     : _Data(md5), author(author), album(album) {}
 } __attribute__((packed));
 
-struct _UnExoticaData : _Data {
-    string_t author;
-    string_t album;
-    string_t publisher;
-    year_t year;
-
-    constexpr_f1 _UnExoticaData() noexcept {}
-    constexpr_f1 _UnExoticaData(const md5_idx_t md5, const string_t author, const string_t album, const string_t publisher, const year_t year) noexcept
-    : _Data(md5), author(author), album(album), publisher(publisher), year(year) {}
-} __attribute__((packed));
-
 struct _AMPData : _Data {
     string_t author;
 
@@ -176,15 +168,26 @@ struct _AMPData : _Data {
     : _Data(md5), author(author) {}
 } __attribute__((packed));;
 
-struct _DemozooData : _Data {
+struct _FullData : _Data {
     string_t author;
     string_t album;
     string_t publisher;
     year_t year;
+    constexpr_f1 _FullData() noexcept {}
+    constexpr_f1 _FullData(const md5_idx_t md5, const string_t author, const string_t album, const string_t publisher, const year_t year) noexcept
+    : _Data(md5), author(author), album(album), publisher(publisher), year(year) {}
+} __attribute__((packed));
 
+struct _UnExoticaData : _FullData {
+    constexpr_f1 _UnExoticaData() noexcept {}
+    constexpr_f1 _UnExoticaData(const md5_idx_t md5, const string_t author, const string_t album, const string_t publisher, const year_t year) noexcept
+    : _FullData(md5, author, album, publisher, year) {}
+} __attribute__((packed));
+
+struct _DemozooData : _FullData {
     constexpr_f1 _DemozooData() noexcept {}
     constexpr_f1 _DemozooData(const md5_idx_t md5, const string_t author, const string_t album, const string_t publisher, const year_t year) noexcept
-    : _Data(md5), author(author), album(album), publisher(publisher), year(year) {}
+    : _FullData(md5, author, album, publisher, year) {}
 } __attribute__((packed));
 
 struct _ModInfo {

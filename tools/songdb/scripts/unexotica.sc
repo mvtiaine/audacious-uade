@@ -74,3 +74,55 @@ lazy val metas = sources.unexotica.par.flatMap(e =>
     year == cmp
   }).seq.sortBy(_._2).head // secondarily sort by path for consistency
 }).seq.toSeq
+
+def transformAuthor(author: String): String = {
+  val pseudonyms = Set(
+    "Creative_Thought",
+    "DJ_Braincrack",
+    "Digital_Masters",
+    "MC_Slack",
+    "Mad_Jack",
+    "Mad_Phantom",
+    "McMullan_and_Low",
+    "Pipe_Smokers_Cough",
+    "Private_Affair",
+    "Radio_Poland",
+    "Sonic_Boom_Boy",
+    "Sonicom_Music",
+    "Ten_Pin_Alley",
+    "Urban_Shakedown"
+  )
+
+  if (author == "Unknown") return ""
+
+  val authorTokens = author.split("_").toList
+  val first = authorTokens.head
+  val pseudonym = pseudonyms.contains(author)
+
+  if (!pseudonym && (first == "Da" || first == "de" || first == "van" || first == "Pieket")) {
+    val last = authorTokens.last
+    (last :: authorTokens.init).mkString(" ")
+  } else if (!pseudonym && first != "The") {
+    (authorTokens.tail :+ first).mkString(" ")
+  } else {
+    authorTokens.mkString(" ")
+  }
+}
+
+def transformAlbum(meta: UnExoticaMeta, authorAlbum: Array[String]): String = {
+  val title = meta.title.fold(
+    title => title,
+    title => title.toString
+  // remove subtitle parts to try avoid overly long titles
+  ).split(" - ").head.trim
+  if (title.isEmpty) if (authorAlbum.size > 1) authorAlbum(1) else ""
+  else title
+}
+
+def transformPublisher(meta: UnExoticaMeta): String = {
+  val publisher = meta.group.getOrElse(meta.publisher.getOrElse(meta.team.getOrElse(Right(List(""))))) match {
+    case Left(publisher) => publisher
+    case Right(publishers) => publishers.head
+  }
+  publisher.trim
+}

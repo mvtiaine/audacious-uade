@@ -16,7 +16,6 @@
 namespace songdb {
 
 const std::string UNKNOWN_AUTHOR = "<Unknown>";
-constexpr_v std::string_view AUTHOR_JOIN = " & ";
 
 enum Source {
     //MD5 = 0, // internal
@@ -70,7 +69,7 @@ struct Info {
     std::optional<DemozooData> demozoo;
 };
 
-// if extra_sources is empty, all sources are initialized
+// if sources is empty, all sources are initialized
 void init(const std::string &songdb_path, const std::initializer_list<Source> &sources = {}) noexcept;
 
 std::optional<SubSongInfo> lookup(const std::string &md5, int subsong) noexcept;

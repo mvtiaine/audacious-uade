@@ -8,6 +8,7 @@
 //> using file scripts/unexotica.sc
 //> using file scripts/amp.sc
 //> using file scripts/demozoo.sc
+//> using file scripts/modland.sc
 
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -19,6 +20,9 @@ import scala.util.Success
 import scala.util.Failure
 
 implicit val ec: scala.concurrent.ExecutionContext = scala.concurrent.ExecutionContext.global
+
+val REPEAT = "\u007F"
+val SEPARATOR = "\u007E" // ~
 
 val _md5check = scala.collection.mutable.Map[String,String]()
 def _md5(md5: String) = synchronized {
@@ -151,7 +155,7 @@ def _dedupidx(entries: Iterable[String], file: String, strict: Boolean = false) 
       val tmp = Buffer.empty[String]
       for (i <- s.tail.indices) {
         if (same.contains(i)) {
-          tmp += "\u007F"
+          tmp += REPEAT
         } else {
           tmp += s.tail(i)
         }
@@ -195,7 +199,7 @@ def _validate(entries: Iterable[String], file: String) = {
 
 val _md5idx = scala.collection.mutable.Map[String,String]()
 val _idxmd5 = scala.collection.mutable.Map[String,String]()
-val md5idxTsv = Future { Files.write(Paths.get("/tmp/songdb/md5idx.tsv"), {
+lazy val md5idxTsv = Future { Files.write(Paths.get("/tmp/songdb/md5idx.tsv"), {
   val entries = songlengths.db.sortBy(_.md5).map(_.md5).distinct
   var prev = 0L
   var md5idx = 1
@@ -222,7 +226,7 @@ val md5idxTsv = Future { Files.write(Paths.get("/tmp/songdb/md5idx.tsv"), {
 // needs to be processed first
 Await.ready(md5idxTsv, Duration.Inf)
 
-val songlengthsTsv = Future { Files.write(Paths.get("/tmp/songdb/songlengths.tsv"), {
+lazy val songlengthsTsv = Future { Files.write(Paths.get("/tmp/songdb/songlengths.tsv"), {
   def songend(s: String) = {
     s match {
       case "player+silence" => "b"
@@ -259,7 +263,7 @@ val songlengthsTsv = Future { Files.write(Paths.get("/tmp/songdb/songlengths.tsv
   dedupped.map(_.split("\t").tail.mkString("\t")) // drop md5 as line # == md5idx
 }.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
-val modinfosTsv = Future { Files.write(Paths.get("/tmp/songdb/modinfos.tsv"), {
+lazy val modinfosTsv = Future { Files.write(Paths.get("/tmp/songdb/modinfos.tsv"), {
   var prev = 0
   val entries = songlengths.db.sortBy(e => e.format + "   " + e.channels + "###" + e.md5).map(e =>
     if (!e.format.isEmpty()) {
@@ -285,35 +289,34 @@ val modinfosTsv = Future { Files.write(Paths.get("/tmp/songdb/modinfos.tsv"), {
   _md5idxdiff(dedupped)
 }.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
-val modlandTsv = Future { Files.write(Paths.get("/tmp/songdb/modland.tsv"), {
-  val entries = sources.modland.flatMap(e =>
+lazy val modlandTsv = Future { Files.write(Paths.get("/tmp/songdb/modland.tsv"), {
+  val entries = sources.modland.flatMap(e => {
     val path = e.path.substring(e.path.indexOf("/") + 1, e.path.lastIndexOf("/"))
     if (path != "- unknown" && path != "_unknown") {
-      Some(Buffer(e.md5, path))
+      modland.parseModlandAuthorAlbum(path).map { case (authors, album) =>
+        Buffer(e.md5, authors.sorted.mkString(SEPARATOR), album)
+      }
     } else None
-  ).sortBy(e => e(1) + "###" + e(0)).map(_.mkString("\t")).distinct
+  }).sortBy(e => e(1) + "###" + e(2) + "###" + e(0)).map(_.mkString("\t")).distinct
   val dedupped = _dedupidx(entries, "modland.tsv")
   _validate(dedupped, "modland.tsv")
   _md5idxdiff(dedupped)
 }.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
-val unexoticaTsv = Future { Files.write(Paths.get("/tmp/songdb/unexotica.tsv"), {
+lazy val unexoticaTsv = Future { Files.write(Paths.get("/tmp/songdb/unexotica.tsv"), {
   val entries = unexotica.metas.map(m =>
     val md5 = m._1
     val path = m._2
-    val authoralbum = path.substring(path.indexOf("/") + 1, path.lastIndexOf("/")).split("/")
-    val author = authoralbum(0)
-    val album = if (authoralbum.size > 1) authoralbum(1) else ""
+    val authorAlbum = path.substring(path.indexOf("/") + 1, path.lastIndexOf("/")).split("/")
+    val author = unexotica.transformAuthor(authorAlbum(0))
     val filesize = m._3
     val meta = m._4
-    val publisher = meta.group.getOrElse(meta.publisher.getOrElse(meta.team.getOrElse(Right(List(""))))) match {
-      case Left(publisher) => publisher
-      case Right(publishers) => publishers.head
-    }
+    val album = unexotica.transformAlbum(meta, authorAlbum)
+    val publisher = unexotica.transformPublisher(meta)
     val year = meta.year.fold(_.toString, _.toString)
     Buffer(
       md5,
-      author,
+      unexotica.transformAuthor(author),
       publisher,
       album,
       if (year != "Unknown") year else "",
@@ -324,7 +327,7 @@ val unexoticaTsv = Future { Files.write(Paths.get("/tmp/songdb/unexotica.tsv"), 
   _md5idxdiff(dedupped)
 }.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
-val ampTsv = Future { Files.write(Paths.get("/tmp/songdb/amp.tsv"), {
+lazy val ampTsv = Future { Files.write(Paths.get("/tmp/songdb/amp.tsv"), {
   val entries = amp.metas.groupBy(m => (m.md5, m.path)).map({case ((md5, path), m) =>
     var best = m.head
     if (m.size > 1) {
@@ -336,7 +339,7 @@ val ampTsv = Future { Files.write(Paths.get("/tmp/songdb/amp.tsv"), {
     if (path != "UnknownComposers") {
       Some(Buffer(
         m.md5,
-        if (m.extra_authors.isEmpty) path else m.extra_authors.sorted.filterNot(_.isEmpty).mkString(" & ")
+        if (m.extra_authors.isEmpty) path else m.extra_authors.sorted.filterNot(_.isEmpty).mkString(SEPARATOR)
       ))
     } else None
   ).sortBy(e => e(1) + "###" + e(0)).map(_.mkString("\t")).distinct
@@ -345,21 +348,22 @@ val ampTsv = Future { Files.write(Paths.get("/tmp/songdb/amp.tsv"), {
   _md5idxdiff(dedupped)
 }.mkString("\n").concat("\n").getBytes("UTF-8"))}
 
-val demozooTsv = Future { Files.write(Paths.get("/tmp/songdb/demozoo.tsv"), {
+lazy val demozooTsv = Future { Files.write(Paths.get("/tmp/songdb/demozoo.tsv"), {
   val entries = demozoo.metas.flatMap({case (md5, m) =>
     val dates = Seq(m.modDate, m.prodDate).filterNot(_.isEmpty)
+    val author = m.authors.sorted.mkString(SEPARATOR)
     val row = Buffer(
       md5,
-      m.authors.sorted.mkString(","),
+      if (author == "?") "" else author,
       ((m.prodPublishers, m.party, m.modPublishers) match {
         case (prod,_,_) if !prod.isEmpty => prod
         case (_,party,_) if !party.isEmpty => party
         case (_,_,mod) if !mod.isEmpty => mod
         case _ => Seq.empty
-      }).iterator.to(Seq).sorted.mkString(","),
+      }).iterator.to(Seq).sorted.mkString(SEPARATOR),
       m.prod,
       if (!dates.isEmpty) dates.min.substring(0,4) else "",
-      //if (!m.prodPlatforms.isEmpty) m.prodPlatforms.mkString(",") else m.modPlatform
+      //if (!m.prodPlatforms.isEmpty) m.prodPlatforms.mkString(SEPARATOR) else m.modPlatform
     )
     if (row.forall(r => r == md5 || r.trim.isEmpty)) None
     else Some(row)

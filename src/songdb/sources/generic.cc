@@ -13,14 +13,13 @@
 
 using namespace std;
 using namespace songdb;
-using namespace songdb::internal;
 
-namespace songdb::demozoo {
+namespace songdb::internal {
 
-bool parse_tsv_row(const char *tuple, _DemozooData &item, const _DemozooData &prev_item, vector<string> &authors, vector<string> &albums, vector<string> &publishers) noexcept {
+bool parse_tsv_row(const char *tuple, _FullData &item, const _FullData &prev_item, vector<string> &authors, vector<string> &albums, vector<string> &publishers) noexcept {
     const auto cols = common::split_view_x<4>(tuple, '\t');
-    const auto authors_ = common::split_view(cols[0], ',');
-    const auto publishers_ = common::split_view(cols[1], ',');
+    const auto authors_ = common::split_view(cols[0], SEPARATOR);
+    const auto publishers_ = common::split_view(cols[1], SEPARATOR);
     const auto album = cols[2];
     const auto date = cols[3];
 
@@ -29,7 +28,7 @@ bool parse_tsv_row(const char *tuple, _DemozooData &item, const _DemozooData &pr
     } else if (date.length() >= 4) {
         int year = common::from_chars<int>(date.substr(0,4));
         item.year = year != 0 ? year - 1900u : 0;
-    } else if (date[0] == 0x7f) {
+    } else if (date[0] == REPEAT) {
         item.year = prev_item.year;
     }
 
@@ -50,11 +49,11 @@ bool parse_tsv_row(const char *tuple, _DemozooData &item, const _DemozooData &pr
 
     if (cols[0].empty()) {
         item.author = UNKNOWN_AUTHOR_T;
-    } else if (cols[0][0] == 0x7f) {
+    } else if (cols[0][0] == REPEAT) {
         item.author = prev_item.author;
     } else if (authors_.size() == 1) {
         const auto &author = authors_[0];
-        if (author.empty() || author == "?") {
+        if (author.empty()) {
             item.author = UNKNOWN_AUTHOR_T;
         } else {
             add_author(author);
@@ -67,7 +66,7 @@ bool parse_tsv_row(const char *tuple, _DemozooData &item, const _DemozooData &pr
 
     if (cols[1].empty()) {
         item.publisher = STRING_NOT_FOUND;
-    } else if (cols[1][0] == 0x7f) {
+    } else if (cols[1][0] == REPEAT) {
         item.publisher = prev_item.publisher;
     } else if (publishers_.size() == 1) {
         add_publisher(publishers_[0]);
@@ -79,7 +78,7 @@ bool parse_tsv_row(const char *tuple, _DemozooData &item, const _DemozooData &pr
 
     if (album.empty()) {
         item.album = STRING_NOT_FOUND;
-    } else if (album[0] == 0x7f) {
+    } else if (album[0] == REPEAT) {
         item.album = prev_item.album;
     } else {
         add_album(album);
@@ -88,4 +87,4 @@ bool parse_tsv_row(const char *tuple, _DemozooData &item, const _DemozooData &pr
     return true;
 }
 
-} // namespace songdb::demozoo
+} // namespace songdb::internal
