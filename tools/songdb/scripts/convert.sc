@@ -140,7 +140,8 @@ def decodeSonglengthsTsv(tsv: String, idx2md5: Buffer[String]) = {
     SongInfo(md5, minsubsong, subsongs)
   }
   val songlengths = tsv.split('\n').zipWithIndex.par.map {
-    case (row, index) => decodeRow(row.split('\t'), idx2md5(index))
+    // 0 entry is special in md5 list
+    case (row, index) => decodeRow(row.split('\t'), idx2md5(index + 1))
   }
   assert(songlengths.map(_.md5).distinct.size == songlengths.size)
   songlengths.toBuffer.sortBy(_.md5)
