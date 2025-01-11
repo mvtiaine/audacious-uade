@@ -7,6 +7,7 @@
 //> using file scripts/dedup.sc
 //> using file scripts/convert.sc
 //> using file scripts/pretty.sc
+//> using file scripts/combine.sc
 
 //> using file scripts/sources.sc
 //> using file scripts/songlengths.sc
@@ -29,11 +30,29 @@ import md5._
 import dedup._
 import convert._
 import pretty._
+import combine._
 
 implicit val ec: scala.concurrent.ExecutionContext = scala.concurrent.ExecutionContext.global
 
 // 0 entry is special
 lazy val idx2md5 = Buffer("0" * 12) ++ songlengths.db.sortBy(_.md5).map(_.md5.take(12)).distinct
+
+var ampdata: Buffer[MetaData] = Buffer.empty
+var modlanddata: Buffer[MetaData] = Buffer.empty
+var unexoticadata: Buffer[MetaData] = Buffer.empty
+var demozoodata: Buffer[MetaData] = Buffer.empty
+
+def processMetaTsvs(entries: Buffer[MetaData], name: String) = {
+  // encoding does also deduplication
+  val encoded = encodeMetaTsv(entries, name)
+  val decoded = decodeMetaTsv(encoded, idx2md5)
+  val pretty = createPrettyMetaTsv(decoded)
+  Files.write(Paths.get(s"/tmp/songdb/${name}"), encoded.getBytes("UTF-8"))
+  Files.write(Paths.get(s"/tmp/songdb/pretty/${name}"), pretty.getBytes("UTF-8"))
+  assert(decoded == parsePrettyMetaTsv(pretty))
+  assert(encoded == encodeMetaTsv(decoded, name))
+  decoded
+}
 
 def _try[T](f: => T) = try {
   f
@@ -111,22 +130,18 @@ lazy val ampTsvs = Future(_try {
   }.par.flatMap(m =>
     val path = m.path.substring(m.path.indexOf("/") + 1, m.path.lastIndexOf("/"))
     if (path != "UnknownComposers") {
-      Some(AMPInfo(
+      Some(MetaData(
         m.md5.take(12),
         if (m.extra_authors.isEmpty || m.extra_authors.forall(_.isEmpty)) Buffer(path)
-        else m.extra_authors.sorted.filterNot(_.isEmpty).toBuffer
+        else m.extra_authors.sorted.filterNot(_.isEmpty).toBuffer,
+        Buffer.empty,
+        "",
+        0
       ))
     } else None
   ).toBuffer.distinct
 
-  // encoding does also deduplication
-  val encoded = encodeAMPTsv(entries)
-  val decoded = decodeAMPTsv(encoded, idx2md5)
-  val pretty = createPrettyAMPTsv(decoded)
-  Files.write(Paths.get("/tmp/songdb/amp.tsv"), encoded.getBytes("UTF-8"))
-  Files.write(Paths.get("/tmp/songdb/pretty/amp.tsv"), pretty.getBytes("UTF-8"))
-  assert(decoded == parsePrettyAMPTsv(pretty))
-  assert(encoded == encodeAMPTsv(decoded))
+  ampdata = processMetaTsvs(entries, "amp.tsv")
 })
 
 lazy val modlandTsvs = Future(_try {
@@ -134,23 +149,18 @@ lazy val modlandTsvs = Future(_try {
     val path = e.path.substring(e.path.indexOf("/") + 1, e.path.lastIndexOf("/"))
     if (path != "- unknown" && path != "_unknown") {
       modland.parseModlandAuthorAlbum(path).map { case (authors, album) =>
-        ModlandInfo(
+        MetaData(
           e.md5.take(12),
           authors.sorted.toBuffer,
-          album
+          Buffer.empty,
+          album,
+          0
         )
       }
     } else None
   }.toBuffer.distinct
 
-  // encoding does also deduplication
-  val encoded = encodeModlandTsv(entries)
-  val decoded = decodeModlandTsv(encoded, idx2md5)
-  val pretty = createPrettyModlandTsv(decoded)
-  Files.write(Paths.get("/tmp/songdb/modland.tsv"), encoded.getBytes("UTF-8"))
-  Files.write(Paths.get("/tmp/songdb/pretty/modland.tsv"), pretty.getBytes("UTF-8"))
-  assert(decoded == parsePrettyModlandTsv(pretty))
-  assert(encoded == encodeModlandTsv(decoded))
+  modlanddata = processMetaTsvs(entries, "modland.tsv")
 })
 
 lazy val unexoticaTsvs = Future(_try {
@@ -164,7 +174,7 @@ lazy val unexoticaTsvs = Future(_try {
     val album = unexotica.transformAlbum(meta, authorAlbum)
     val publishers = Buffer(unexotica.transformPublisher(meta))
     val year = meta.year.fold(_.toString, _.toString)
-    FullInfo(
+    MetaData(
       md5.take(12),
       authors,
       publishers,
@@ -173,21 +183,14 @@ lazy val unexoticaTsvs = Future(_try {
     )
   }.toBuffer.distinct
 
-  // encoding does also deduplication
-  val encoded = encodeGenericTsv(entries, "unexotica.tsv")
-  val decoded = decodeGenericTsv(encoded, idx2md5)
-  val pretty = createPrettyGenericTsv(decoded)
-  Files.write(Paths.get("/tmp/songdb/unexotica.tsv"), encoded.getBytes("UTF-8"))
-  Files.write(Paths.get("/tmp/songdb/pretty/unexotica.tsv"), pretty.getBytes("UTF-8"))
-  assert(decoded == parsePrettyGenericTsv(pretty))
-  assert(encoded == encodeGenericTsv(decoded, "unexotica.tsv"))
+  unexoticadata = processMetaTsvs(entries, "unexotica.tsv")
 })
 
 lazy val demozooTsvs = Future(_try {
   val entries = demozoo.metas.par.flatMap { case (md5, m) =>
     val dates = Seq(m.modDate, m.prodDate).filterNot(_.isEmpty)
     val authors = m.authors.filterNot(_ == "?").sorted.toBuffer
-    val info = FullInfo(
+    val info = MetaData(
       md5.take(12),
       if (authors.forall(_.trim.isEmpty)) Buffer.empty else authors,
       ((m.prodPublishers, m.party, m.modPublishers) match {
@@ -203,26 +206,24 @@ lazy val demozooTsvs = Future(_try {
       //if (!m.prodPlatforms.isEmpty) m.prodPlatforms else m.modPlatform
     )
     info match {
-      case FullInfo(_, Buffer(), Buffer(), "", 0) => None
+      case MetaData(_, Buffer(), Buffer(), "", 0) => None
       case _ => Some(info)
     }
   }.toBuffer.distinct
 
-  // encoding does also deduplication
-  val encoded = encodeGenericTsv(entries, "demozoo.tsv")
-  val decoded = decodeGenericTsv(encoded, idx2md5)
-  val pretty = createPrettyGenericTsv(decoded)
-  Files.write(Paths.get("/tmp/songdb/demozoo.tsv"), encoded.getBytes("UTF-8"))
-  Files.write(Paths.get("/tmp/songdb/pretty/demozoo.tsv"), pretty.getBytes("UTF-8"))
-  assert(decoded == parsePrettyGenericTsv(pretty))
-  assert(encoded == encodeGenericTsv(decoded, "demozoo.tsv"))
+  demozoodata = processMetaTsvs(entries, "demozoo.tsv")
 })
 
 // needs to be processed first
 Await.ready(md5idxTsv, Duration.Inf)
 val future = Future.sequence(
   Seq(md5idxTsv, songlengthsTsvs, modinfosTsvs, ampTsvs, modlandTsvs, unexoticaTsvs, demozooTsvs)
-)
+
+) andThen {
+  case _ =>
+    val combined = combineMetadata(ampdata, modlanddata, unexoticadata, demozoodata)
+    processMetaTsvs(combined, "combined.tsv")
+}
 
 future onComplete {
   case Failure(e) =>

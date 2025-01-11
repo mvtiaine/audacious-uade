@@ -38,10 +38,7 @@ struct Info {
     int channels;
     int minsubsong;
     int maxsubsong;
-    optional<songdb::ModlandData> modland;
-    optional<songdb::AMPData> amp;
-    optional<songdb::UnExoticaData> unexotica;
-    optional<songdb::DemozooData> demozoo;
+    optional<songdb::MetaData> metadata;
 };
 
 void fseek0(VFSFile &file) {
@@ -125,102 +122,25 @@ void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SubSong
         }
     };
 
-    const auto set_author = [&tuple](const string &author) {
-        if ((!tuple.is_set(Tuple::Artist) && !author.empty())) {
-            tuple.set_str(Tuple::Artist, author.c_str());
-        } else {
-            const char *oldartist = tuple.get_str(Tuple::Artist);
-            const int oldcount = oldartist ? common::split(oldartist, " & ").size() : 0;
-            const int newcount = common::split(author, " & ").size();
-            if ((!oldartist || string(oldartist) == "" || oldartist == songdb::UNKNOWN_AUTHOR) && !author.empty() && author != songdb::UNKNOWN_AUTHOR) {
-                tuple.set_str(Tuple::Artist, author.c_str());
-            } else if (!author.empty() && author != songdb::UNKNOWN_AUTHOR && newcount > oldcount) {
-                tuple.set_str(Tuple::Artist, author.c_str());
-            }
-        }
-    };
-
     set_int(Tuple::Length, songinfo.songend.length);
     set_str(Tuple::Comment, "songend="+songinfo.songend.status_string());
 
-    if (!info.demozoo && !info.modland && !info.amp && !info.unexotica) {
-        TRACE("No Demozoo/Modland/UnExotica/AMP data for %s %s\n", md5.c_str(), path.c_str());
-        set_author(songdb::UNKNOWN_AUTHOR);
+    if (!info.metadata) {
+        TRACE("No metadata for %s %s\n", md5.c_str(), path.c_str());
         return;
     }
 
-    if (info.unexotica) {
-        const auto &data = info.unexotica.value();
-        TRACE("Found UnExotica data for %s:%d %s, author:%s, album:%s, publisher:%s, year:%d\n", md5.c_str(), songinfo.subsong, path.c_str(), data.author.c_str(), data.album.c_str(), data.publisher.c_str(), data.year);
-        //set_author(data.author); // prefer other sources
-        set_str(Tuple::Album, data.album);
+    const auto &data = info.metadata.value();
+    TRACE("Found metadata for %s:%d %s, author:%s, album:%s, publisher:%s, year:%d\n", md5.c_str(), songinfo.subsong, path.c_str(), data.author.c_str(), data.album.c_str(), data.publisher.c_str(), data.year);
+    set_str(Tuple::Artist, data.author);
+    set_str(Tuple::Album, data.album);
 #if AUDACIOUS_HAS_PUBLISHER
 // since Audacious 4.3
-        set_str(Tuple::Publisher, data.publisher);
+    set_str(Tuple::Publisher, data.publisher);
 #else
-        set_str(Tuple::Copyright, data.publisher);
+    set_str(Tuple::Copyright, data.publisher);
 #endif
-        set_int(Tuple::Year, data.year);
-    }
-    if (info.demozoo) {
-        const auto &data = info.demozoo.value();
-        TRACE("Found Demozoo data for %s:%d %s, author:%s, album:%s, publisher:%s, year:%d\n", md5.c_str(), songinfo.subsong, path.c_str(), data.author.c_str(), data.album.c_str(), data.publisher.c_str(), data.year);
-        //set_author(data.author); // prefer other sources
-        set_str(Tuple::Album, data.album);
-#if AUDACIOUS_HAS_PUBLISHER
-// since Audacious 4.3
-        set_str(Tuple::Publisher, data.publisher);
-#else
-        set_str(Tuple::Copyright, data.publisher);
-#endif
-        set_int(Tuple::Year, data.year);
-    }
-
-    auto tokens = common::split(path,"/");
-    reverse(tokens.begin(), tokens.end());
-
-    const auto has_author = [&tokens](const string& author, const int max_tokens) {
-        const auto authors = common::split(author, " & ");
-        const auto end = min(tokens.begin() + max_tokens, tokens.end());
-        for (const auto &author : authors) {
-            if (find(tokens.begin(), end, author) != end) {
-                return true;
-            }
-        }
-        return false;
-    };
-
-    bool modland_path = false;
-    if (info.modland) {
-        const auto &data = info.modland.value();
-        TRACE("Found Modland data for %s:%d %s, author:%s, album:%s\n", md5.c_str(), songinfo.subsong, path.c_str(), data.author.c_str(), data.album.c_str());
-        set_str(Tuple::Album, data.album);
-        modland_path = has_author(data.author, 4);
-    }
-    bool amp_path = false;
-    if (info.amp) {
-        const auto &data = info.amp.value();
-        TRACE("Found AMP data for %s:%d %s, author:%s\n", md5.c_str(), songinfo.subsong, path.c_str(), data.author.c_str());
-        amp_path = has_author(data.author, 2);
-    }
-    bool unexotica_path = false;
-    if (info.unexotica) {
-        const auto &data = info.unexotica.value();
-        const auto author_path = songdb::unexotica::author_path(data.author);
-        unexotica_path = has_author(author_path, 4);
-    }
-    if (modland_path) {
-        set_author(info.modland->author);
-    } else if (amp_path) {
-        set_author(info.amp->author);
-    } else if (unexotica_path) {
-        set_author(info.unexotica->author);
-    } else {
-        if (info.modland) set_author(info.modland->author);
-        if (info.amp) set_author(info.amp->author);
-        if (info.demozoo) set_author(info.demozoo->author);
-        if (info.unexotica) set_author(info.unexotica->author);
-    }
+    set_int(Tuple::Year, data.year);
 }
 
 bool update_tuple(Tuple &tuple, const string &path, int subsong, const Info &info, const string &modulemd5) {
@@ -292,7 +212,7 @@ optional<Info> parse_info(VFSFile &file, const string &path, const string &md5) 
             info->modinfo->channels,
             minsubsong,
             maxsubsong,
-            info->modland, info->amp, info->unexotica, info->demozoo
+            info->combined,
         };
     }
     const Index<char> buf = read_all(file);

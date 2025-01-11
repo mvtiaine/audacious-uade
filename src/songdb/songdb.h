@@ -15,35 +15,19 @@
 
 namespace songdb {
 
-const std::string UNKNOWN_AUTHOR = "<Unknown>";
-
 enum Source {
     //MD5 = 0, // internal
     Songlengths = 1,
     ModInfos,
+    Combined,
+    // these are by default not included in build
     Modland,
     AMP,
     UnExotica,
     Demozoo,
 };
 
-struct ModlandData {
-    std::string author;
-    std::string album;
-};
-
-struct UnExoticaData {
-    std::string author;
-    std::string album;
-    std::string publisher;
-    uint16_t year;
-};
-
-struct AMPData {
-    std::string author;
-};
-
-struct DemozooData {
+struct MetaData {
     std::string author;
     std::string album;
     std::string publisher;
@@ -63,13 +47,16 @@ struct SubSongInfo {
 struct Info {
     std::vector<SubSongInfo> subsongs;
     std::optional<ModInfo> modinfo;
-    std::optional<ModlandData> modland;
-    std::optional<AMPData> amp;
-    std::optional<UnExoticaData> unexotica;
-    std::optional<DemozooData> demozoo;
+    // combined metadata
+    std::optional<MetaData> combined;
+    // these are by default not included in build
+    std::optional<MetaData> modland;
+    std::optional<MetaData> amp;
+    std::optional<MetaData> unexotica;
+    std::optional<MetaData> demozoo;;
 };
 
-// if sources is empty, all sources are initialized
+// if sources is empty, all builtin sources are used
 void init(const std::string &songdb_path, const std::initializer_list<Source> &sources = {}) noexcept;
 
 std::optional<SubSongInfo> lookup(const std::string &md5, int subsong) noexcept;
@@ -85,9 +72,5 @@ namespace blacklist {
     bool is_blacklisted_md5(const std::string &md5hex) noexcept;
     bool is_blacklisted_songdb_key(const std::string &md5hex) noexcept;
 } // namespace songdb::blacklist
-
-namespace unexotica {
-    std::string author_path(const std::string &author) noexcept;
-} // namespace songdb::unexotica
 
 } // namespace songdb

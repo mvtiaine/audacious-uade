@@ -144,50 +144,15 @@ constexpr_v1 md5_idx_t MD5_NOT_FOUND = UINT24_T_MAX;
 
 typedef common::SongEnd::Status songend_t;
 
-struct _Data {
+struct _MetaData {
     md5_idx_t md5;
-
-    constexpr_f1 _Data() noexcept {}
-    constexpr_f1 _Data(const md5_idx_t md5) noexcept : md5(md5) {}
-} __attribute__((packed));
-
-struct _ModlandData : _Data {
-    string_t author;
-    string_t album;
-
-    constexpr_f1 _ModlandData() noexcept {}
-    constexpr_f1 _ModlandData(const md5_idx_t md5, const string_t author, const string_t album) noexcept
-    : _Data(md5), author(author), album(album) {}
-} __attribute__((packed));
-
-struct _AMPData : _Data {
-    string_t author;
-
-    constexpr_f1 _AMPData() noexcept {}
-    constexpr_f1 _AMPData(const md5_idx_t md5, const string_t author) noexcept
-    : _Data(md5), author(author) {}
-} __attribute__((packed));;
-
-struct _FullData : _Data {
     string_t author;
     string_t album;
     string_t publisher;
     year_t year;
-    constexpr_f1 _FullData() noexcept {}
-    constexpr_f1 _FullData(const md5_idx_t md5, const string_t author, const string_t album, const string_t publisher, const year_t year) noexcept
-    : _Data(md5), author(author), album(album), publisher(publisher), year(year) {}
-} __attribute__((packed));
-
-struct _UnExoticaData : _FullData {
-    constexpr_f1 _UnExoticaData() noexcept {}
-    constexpr_f1 _UnExoticaData(const md5_idx_t md5, const string_t author, const string_t album, const string_t publisher, const year_t year) noexcept
-    : _FullData(md5, author, album, publisher, year) {}
-} __attribute__((packed));
-
-struct _DemozooData : _FullData {
-    constexpr_f1 _DemozooData() noexcept {}
-    constexpr_f1 _DemozooData(const md5_idx_t md5, const string_t author, const string_t album, const string_t publisher, const year_t year) noexcept
-    : _FullData(md5, author, album, publisher, year) {}
+    constexpr_f1 _MetaData() noexcept {}
+    constexpr_f1 _MetaData(const md5_idx_t md5, const string_t author, const string_t album, const string_t publisher, const year_t year) noexcept
+    : md5(md5), author(author), album(album), publisher(publisher), year(year) {}
 } __attribute__((packed));
 
 struct _ModInfo {

@@ -88,54 +88,9 @@ def parsePrettyModInfosTsv(tsv: String) = {
   modinfos.toBuffer.sortBy(_.md5)
 }
 
-def createPrettyAMPTsv(amp: Buffer[AMPInfo]) = {
-  assert(amp.map(_.md5).distinct.size == amp.size)
-  amp.sortBy(_.md5).par.map(a =>
-    Buffer(
-      a.md5.take(12),
-      a.authors.mkString(SEPARATOR)
-    ).mkString("\t")
-  ).mkString("\n").concat("\n")
-}
-
-def parsePrettyAMPTsv(tsv: String) = {
-  val amp = tsv.split('\n').par.map { a =>
-    val cols = a.split("\t", -1)
-    AMPInfo(
-      md5 = cols(0),
-      authors = if (!cols(1).isEmpty) cols(1).split(SEPARATOR).toBuffer else Buffer.empty
-    )
-  }
-  assert(amp.map(_.md5).distinct.size == amp.size)
-  amp.toBuffer.sortBy(_.md5)
-}
-
-def createPrettyModlandTsv(modland: Buffer[ModlandInfo]) = {
-  assert(modland.map(_.md5).distinct.size == modland.size)
-  modland.sortBy(_.md5).par.map(m =>
-    Buffer(
-      m.md5.take(12),
-      m.authors.mkString(SEPARATOR),
-      m.album
-    ).mkString("\t")
-  ).mkString("\n").concat("\n")
-}
-
-def parsePrettyModlandTsv(tsv: String) = {
-  val modland = tsv.split('\n').par.map { m =>
-    val cols = m.split("\t", -1)
-    ModlandInfo(
-      md5 = cols(0),
-      authors = if (!cols(1).isEmpty) cols(1).split(SEPARATOR).toBuffer else Buffer.empty,
-      album = cols(2))
-  }
-  assert(modland.map(_.md5).distinct.size == modland.size)
-  modland.toBuffer.sortBy(_.md5)
-}
-
-def createPrettyGenericTsv(fullinfo: Buffer[FullInfo]) = {
-  assert(fullinfo.map(_.md5).distinct.size == fullinfo.size)
-  fullinfo.sortBy(_.md5).par.map(i =>
+def createPrettyMetaTsv(meta: Buffer[MetaData]) = {
+  assert(meta.map(_.md5).distinct.size == meta.size)
+  meta.sortBy(_.md5).par.map(i =>
     Buffer(
       i.md5.take(12),
       i.authors.mkString(SEPARATOR),
@@ -146,10 +101,10 @@ def createPrettyGenericTsv(fullinfo: Buffer[FullInfo]) = {
   ).mkString("\n").concat("\n")
 }
 
-def parsePrettyGenericTsv(tsv: String) = {
+def parsePrettyMetaTsv(tsv: String) = {
   val infos = tsv.split('\n').par.map { i =>
     val cols =i.split("\t", -1)
-    FullInfo(
+    MetaData(
       md5 = cols(0),
       authors = if (!cols(1).isEmpty) cols(1).split(SEPARATOR).toBuffer else Buffer.empty,
       publishers = if (!cols(2).isEmpty) cols(2).split(SEPARATOR).toBuffer else Buffer.empty,

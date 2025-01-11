@@ -58,12 +58,12 @@ const set<string> prefix_blacklist ({
     "DMF.",
     "DTM.",
     "FAR.",
-    "GT2.",
+    "GT2.", // atari(?)
     "MDL.",
     "MPTM.",
     "MT2.",
     "MTM.",
-    "OCT.",
+    "OCT.", // atari
     "PLM.",
     "STP.", // amiga
     "STP2.", // amiga

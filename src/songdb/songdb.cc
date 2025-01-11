@@ -4,7 +4,6 @@
 #include "common/std/string_view.h"
 
 #include <algorithm>
-#include <array>
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
@@ -32,13 +31,6 @@ using namespace std;
 using namespace songdb;
 using namespace songdb::internal;
 
-namespace songdb::modland {
-void parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &prev_item, vector<string> &authors, vector<string> &albums) noexcept;
-}
-
-namespace songdb::internal {
-void parse_tsv_row(const char *tuple, _FullData &item, const _FullData &prev_item, vector<string> &authors, vector<string> &albums, vector<string> &publishers) noexcept;
-}
 
 namespace {
 
@@ -132,7 +124,7 @@ constexpr_f1 md5_t b64diff2md5(const md5_t prev, const char *b64) noexcept {
 md5_t md5_idx[MD5_IDX_SIZE];
 // these may can contain duplicates
 vector<string> format_pool;
-vector<string> author_pool = {UNKNOWN_AUTHOR};
+vector<string> author_pool = {""}; // unknown author
 vector<string> publisher_pool;
 vector<string> album_pool;
 
@@ -182,19 +174,22 @@ const vector<string> tsvfiles ({
     "md5idx.tsv",
     "songlengths.tsv",
     "modinfos.tsv",
+    "combined.tsv",
     "modland.tsv",
     "amp.tsv",
     "unexotica.tsv",
     "demozoo.tsv"
 });
 
-_SongInfo db_songinfos[MD5_IDX_SIZE]; // md5_idx_t -> first subsong info
+_SongInfo db_songinfos[SONGLENGTHS_SIZE+1]; // md5_idx_t -> first subsong info
 unordered_map<md5_idx_t, vector<_SubSongInfo>> db_subsongs; // infos for extra subsongs
-_ModInfo db_modinfos[MD5_IDX_SIZE];
-array<_ModlandData,MODLAND_SIZE> db_modland;
-array<_AMPData,AMP_SIZE> db_amp;
-array<_UnExoticaData,UNEXOTICA_SIZE> db_unexotica;
-array<_DemozooData,DEMOZOO_SIZE> db_demozoo;
+_ModInfo db_modinfos[MODINFOS_SIZE+1];
+
+_MetaData db_combined[COMBINED_SIZE];
+_MetaData db_modland[MODLAND_SIZE];
+_MetaData db_amp[AMP_SIZE];
+_MetaData db_unexotica[UNEXOTICA_SIZE];
+_MetaData db_demozoo[DEMOZOO_SIZE];
 
 unordered_map<md5_t, vector<SubSongInfo>> extra_subsongs; // runtime only
 unordered_map<md5_t, ModInfo> extra_modinfos; // runtime only
@@ -223,9 +218,9 @@ constexpr_f2 string make_album(const string_t s) noexcept {
     return album_pool[s];
 }
 
-template<typename T, size_t N, typename = std::enable_if<std::is_base_of<_Data, T>::value>>
-constexpr_f1 optional<T> _find(const array<T,N> &db, const md5_idx_t md5) noexcept {
-    if (md5 >= MD5_IDX_SIZE) return optional<T>();
+template<size_t N>
+constexpr_f1 optional<_MetaData> _find(const _MetaData db[N], const md5_idx_t md5) noexcept {
+    if (md5 >= MD5_IDX_SIZE) return {};
     unsigned int idx = ((double)md5 / MD5_IDX_SIZE) * N;
     assert(idx < N);
     md5_idx_t cmp = db[idx].md5;
@@ -236,13 +231,13 @@ constexpr_f1 optional<T> _find(const array<T,N> &db, const md5_idx_t md5) noexce
             idx--;
             cmp = db[idx].md5;
         }
-        return cmp == md5 ? db[idx] : optional<T>();
+        return cmp == md5 ? db[idx] : optional<_MetaData>();
     } else {
         while (cmp < md5 && idx < N - 1) {
             idx++;
             cmp = db[idx].md5;
         }
-        return cmp == md5 ? db[idx] : optional<T>();
+        return cmp == md5 ? db[idx] : optional<_MetaData>();
     }
 }
 
@@ -257,50 +252,17 @@ constexpr_f2 optional<ModInfo> make_modinfo(const md5_idx_t md5) noexcept {
     return {};
 }
 
-constexpr_f2 optional<ModlandData> make_modland(const md5_idx_t md5) noexcept {
-    const auto data = _find<_ModlandData,MODLAND_SIZE>(db_modland, md5);
+template<size_t N>
+constexpr_f2 optional<MetaData> make_meta(const md5_idx_t md5, const _MetaData db[N]) noexcept {
+    const auto data = _find<N>(db, md5);
     if (data) {
-        return ModlandData {
-            make_author(data->author),
-            make_album(data->album),
-        };
-    }
-    return {};
-}
-
-constexpr_f2 optional<AMPData> make_amp(const md5_idx_t md5) noexcept {
-    const auto data = _find<_AMPData,AMP_SIZE>(db_amp, md5);
-    if (data) {
-        return AMPData {
-           make_author(data->author),
-        };
-    }
-    return {};
-}
-
-constexpr_f2 optional<UnExoticaData> make_unexotica(const md5_idx_t md5) noexcept {
-    const auto data = _find<_UnExoticaData,UNEXOTICA_SIZE>(db_unexotica, md5);
-    if (data) {
-        return UnExoticaData {
+        return MetaData {
             make_author(data->author),
             make_album(data->album),
             make_publisher(data->publisher),
             static_cast<uint16_t>(data->year > 0 ? (1900u + data->year) : 0),
         };
-    };
-    return {};
-}
-
-constexpr_f2 optional<DemozooData> make_demozoo(const md5_idx_t md5) noexcept {
-    const auto data = _find<_DemozooData,DEMOZOO_SIZE>(db_demozoo, md5);
-    if (data) {
-        return DemozooData {
-            make_author(data->author),
-            make_album(data->album),
-            make_publisher(data->publisher),
-            static_cast<uint16_t>(data->year > 0 ? (1900u + data->year) : 0),
-        };
-    };
+    }
     return {};
 }
 
@@ -370,16 +332,85 @@ void parse_songlengths(const string &tsv) noexcept {
     assert(md5_idx == MD5_IDX_SIZE);
 }
 
-template<typename T, size_t N, Source S, typename = std::enable_if<std::is_base_of<_Data, T>::value>>
-void parse_tsv(const string &tsv) noexcept {
+void parse_tsv_row(const char *tuple, _MetaData &item, const _MetaData &prev_item, vector<string> &authors, vector<string> &albums, vector<string> &publishers) noexcept {
+    const auto cols = common::split_view_x<4>(tuple, '\t');
+    const auto authors_ = common::split_view(cols[0], SEPARATOR);
+    const auto publishers_ = common::split_view(cols[1], SEPARATOR);
+    const auto album = cols[2];
+    const auto date = cols[3];
+
+    if (date.empty()) {
+        item.year = 0;
+    } else if (date.length() >= 4) {
+        int year = common::from_chars<int>(date.substr(0,4));
+        item.year = year != 0 ? year - 1900u : 0;
+    } else if (date[0] == REPEAT) {
+        item.year = prev_item.year;
+    }
+
+    const auto add_author = [&authors, &item](const string_view &author) {
+        item.author = authors.size();
+        authors.push_back(string(author));
+    };
+
+    const auto add_album = [&albums, &item](const string_view &album) {
+        item.album = albums.size();
+        albums.push_back(string(album));
+    };
+
+    const auto add_publisher = [&publishers, &item](const string_view &publisher) {
+        item.publisher = publishers.size();
+        publishers.push_back(string(publisher));
+    };
+
+    if (cols[0].empty()) {
+        item.author = UNKNOWN_AUTHOR_T;
+    } else if (cols[0][0] == REPEAT) {
+        item.author = prev_item.author;
+    } else if (authors_.size() == 1) {
+        const auto &author = authors_[0];
+        if (author.empty()) {
+            item.author = UNKNOWN_AUTHOR_T;
+        } else {
+            add_author(author);
+        }
+    } else {
+        string author;
+        common::mkString(authors_, AUTHOR_JOIN, author);
+        add_author(author);
+    }
+
+    if (cols[1].empty()) {
+        item.publisher = STRING_NOT_FOUND;
+    } else if (cols[1][0] == REPEAT) {
+        item.publisher = prev_item.publisher;
+    } else if (publishers_.size() == 1) {
+        add_publisher(publishers_[0]);
+    } else {
+        string publisher;
+        common::mkString(publishers_, AUTHOR_JOIN, publisher);
+        add_publisher(publisher);
+    }
+
+    if (album.empty()) {
+        item.album = STRING_NOT_FOUND;
+    } else if (album[0] == REPEAT) {
+        item.album = prev_item.album;
+    } else {
+        add_album(album);
+    }
+}
+
+template<size_t N>
+void parse_tsv(const string &tsv, _MetaData db[N]) noexcept {
     FILE *f = fopen(tsv.c_str(), "r"); 
     if (!f) {
         ERR("Could not open songdb file %s\n", tsv.c_str());
         return;
     }
     char line[BUF_SIZE];
-    T *tmp = (T*)malloc(MD5_IDX_SIZE * sizeof(T));
-    memset((void *)tmp, 0, MD5_IDX_SIZE * sizeof(T));
+    _MetaData tmp[MD5_IDX_SIZE];
+    memset(tmp, 0, sizeof tmp);
     md5_idx_t idx = 0;
     while (fgets(line, sizeof line, f)) {
         int len;
@@ -387,105 +418,33 @@ void parse_tsv(const string &tsv) noexcept {
         assert(next_idx > static_cast<md5_idx_t>(0));
         assert(next_idx < static_cast<md5_idx_t>(MD5_IDX_SIZE));
         char *tuple = line + len; // skip md5
-        switch (S) {
-            case Modland: {
-                const auto &prev = ((_ModlandData*)tmp)[idx];
-                if (*tuple == '\n') {
-                    idx = prev.md5 + next_idx;
-                    ((_ModlandData*)tmp)[idx] = {
-                        { idx },
-                        prev.author,
-                        prev.album,
-                    };
-                    continue;
-                }
-                idx = next_idx;
-                _ModlandData _item;
-                modland::parse_tsv_row(tuple + 1, _item, prev, author_pool, album_pool);
-                _item.md5 = idx;
-                ((_ModlandData*)tmp)[idx] = _item;
-                break;
-            }
-            case AMP: {
-                const auto &prev = ((_AMPData*)tmp)[idx];
-                if (*tuple == '\n') {
-                    idx = prev.md5 + next_idx;
-                    ((_AMPData*)tmp)[idx] = {{ idx }, prev.author};
-                    continue;
-                }
-                idx = next_idx;
-                auto tokens = common::split_view(tuple + 1, SEPARATOR);
-                string author;
-                if (tokens.size() > 1) {
-                    common::mkString(tokens, AUTHOR_JOIN, author);
-                } else {
-                    author = tokens[0];
-                }
-                author.pop_back(); // remove \n
-                string_t sc = author_pool.size();
-                author_pool.push_back(author);
-                ((_AMPData*)tmp)[idx] = {{ idx }, sc};
-                break;
-            }
-            case UnExotica: {
-                const auto &prev = ((_UnExoticaData*)tmp)[idx];
-                if (*tuple == '\n') {
-                    idx = prev.md5 + next_idx;
-                    ((_UnExoticaData*)tmp)[idx] = {
-                        { idx },
-                        prev.author,
-                        prev.album,
-                        prev.publisher,
-                        prev.year,
-                    };
-                    continue;
-                }
-                idx = next_idx;
-                _UnExoticaData _item;
-                internal::parse_tsv_row(tuple + 1, _item, prev, author_pool, album_pool, publisher_pool);
-                _item.md5 = idx;
-                ((_UnExoticaData*)tmp)[idx] = _item;
-                break;
-            }
-            case Demozoo: {
-                const auto &prev = ((_DemozooData*)tmp)[idx];
-                if (*tuple == '\n') {
-                    idx = prev.md5 + next_idx;
-                    ((_DemozooData*)tmp)[idx] = {
-                        { idx },
-                        prev.author,
-                        prev.album,
-                        prev.publisher,
-                        prev.year,
-                    };
-                    continue;
-                }
-                idx = next_idx;
-                _DemozooData _item;
-                internal::parse_tsv_row(tuple + 1, _item, prev, author_pool, album_pool, publisher_pool);
-                _item.md5 = next_idx;
-                ((_DemozooData*)tmp)[idx] = _item;
-                break;
-            }
-            default: assert(false); break;
+        const auto &prev = tmp[idx];
+        if (*tuple == '\n') {
+            idx = prev.md5 + next_idx;
+            assert(idx > static_cast<md5_idx_t>(0));
+            assert(idx < static_cast<md5_idx_t>(MD5_IDX_SIZE));
+            tmp[idx] = {
+                { idx },
+                prev.author,
+                prev.album,
+                prev.publisher,
+                prev.year,
+            };
+        } else {
+            idx = next_idx;
+            _MetaData &item = tmp[idx];
+            parse_tsv_row(tuple + 1, item, prev, author_pool, album_pool, publisher_pool);
+            item.md5 = idx;
         }
-        assert(idx > static_cast<md5_idx_t>(0));
-        assert(idx < static_cast<md5_idx_t>(MD5_IDX_SIZE));
-    };
+    }
     fclose(f);
+    
     int i = 0;
     for (int j = 0; j < MD5_IDX_SIZE; ++j) {
         if (tmp[j].md5 > static_cast<md5_idx_t>(0)) {
-            switch (S) {
-                case Modland: db_modland[i++] = ((_ModlandData*)tmp)[j]; break;
-                case AMP: db_amp[i++] = ((_AMPData*)tmp)[j]; break;
-                case UnExotica: db_unexotica[i++] = ((_UnExoticaData*)tmp)[j]; break;
-                case Demozoo: db_demozoo[i++] = ((_DemozooData*)tmp)[j]; break;
-                default: assert(false); break;
-            }
+            db[i++] = tmp[j];
         }
     }
-    free(tmp);
     assert(i == N);
 }
 
@@ -565,10 +524,11 @@ optional<Info> lookup(const string &md5) noexcept {
     if (md5_idx != MD5_NOT_FOUND) {
         Info res;
         res.modinfo = initialized[ModInfos] ? make_modinfo(md5_idx) : optional<ModInfo>();
-        res.modland = initialized[Modland] ? make_modland(md5_idx) : optional<ModlandData>();
-        res.amp = initialized[AMP] ? make_amp(md5_idx) : optional<AMPData>();
-        res.unexotica = initialized[UnExotica] ? make_unexotica(md5_idx) : optional<UnExoticaData>();
-        res.demozoo = initialized[Demozoo] ? make_demozoo(md5_idx) : optional<DemozooData>();
+        res.combined = initialized[Combined] ? make_meta<COMBINED_SIZE>(md5_idx, db_combined) : optional<MetaData>();
+        res.modland = initialized[Modland] ? make_meta<MODLAND_SIZE>(md5_idx, db_modland) : optional<MetaData>();
+        res.amp = initialized[AMP] ? make_meta<AMP_SIZE>(md5_idx, db_amp) : optional<MetaData>();
+        res.unexotica = initialized[UnExotica] ? make_meta<UNEXOTICA_SIZE>(md5_idx, db_unexotica) : optional<MetaData>();
+        res.demozoo = initialized[Demozoo] ? make_meta<DEMOZOO_SIZE>(md5_idx, db_demozoo) : optional<MetaData>();
         if (!initialized[Songlengths]) {
             return res;
         }
@@ -605,47 +565,82 @@ optional<Info> lookup(const string &md5) noexcept {
 void init(const string &songdb_path, const initializer_list<Source> &sources/*= {}*/) noexcept {
     TRACE("INIT %lu\n", clock() * 1000 / CLOCKS_PER_SEC);
 
-    const auto shouldInit = [&sources](const Source source) {
-        return !initialized[source] &&
-            (source == SOURCE_MD5 || !sources.size() ||
-            any_of(sources.begin(), sources.end(), [source](const Source s) { return s == source; }));
+    const auto sources_ = sources.size() ? sources : std::initializer_list<Source>{
+#if MODINFOS_SIZE > 1
+        ModInfos,
+#endif
+#if SONGLENGTHS_SIZE > 1
+        Songlengths,
+#endif
+#if COMBINED_SIZE > 1
+        Combined,
+#endif
+#if MODLAND_SIZE > 1
+        Modland,
+#endif
+#if AMP_SIZE > 1
+        AMP,
+#endif
+#if UNEXOTICA_SIZE > 1
+        UnExotica,
+#endif
+#if DEMOZOO_SIZE > 1
+        Demozoo,
+#endif
+    };
+    assert(sources_.size());
+
+    const auto shouldInit = [&sources_](const Source source) {
+        return !initialized[source] && (source == SOURCE_MD5 ||
+            any_of(sources_.begin(), sources_.end(), [source](const Source s) { return s == source; }));
     };
 
     const auto path = common::ends_with(songdb_path, "/") ? songdb_path : songdb_path + "/";
 
     if (shouldInit(SOURCE_MD5)) {
+        assert(size(md5_idx) > 0);
         parse_md5idx(path + tsvfiles[SOURCE_MD5]);
         initialized[SOURCE_MD5] = true;
         TRACE("PARSE_MD5IDX %lu\n", clock() * 1000 / CLOCKS_PER_SEC);
     }
 
     if (shouldInit(Songlengths)) {
+        assert(size(db_songinfos) > 1);
         parse_songlengths(path + tsvfiles[Songlengths]);
         initialized[Songlengths] = true;
         TRACE("PARSE_SONGLENGTHS %lu\n", clock() * 1000 / CLOCKS_PER_SEC);
     }
 
     if (shouldInit(ModInfos)) {
+        assert(size(db_modinfos) > 1);
         parse_modinfos(path + tsvfiles[ModInfos]);
         initialized[ModInfos] = true;
         TRACE("PARSE_MOD_INFOS %lu\n", clock() * 1000 / CLOCKS_PER_SEC);
     }
 
-    for (int source = Modland; source <= Demozoo; source++) {
+    for (int source = Combined; source <= Demozoo; source++) {
         if (shouldInit(static_cast<Source>(source))) {
             const auto file = path + tsvfiles[source];
             switch (source) {
+                case Combined:
+                    assert(size(db_combined) > 1);
+                    parse_tsv<COMBINED_SIZE>(file, db_combined);
+                    break;
                 case Modland:
-                    parse_tsv<_ModlandData,MODLAND_SIZE,Modland>(file);
+                    assert(size(db_modland) > 1);
+                    parse_tsv<MODLAND_SIZE>(file, db_modland);
                     break;
                  case AMP:
-                    parse_tsv<_AMPData,AMP_SIZE,AMP>(file);
+                    assert(size(db_amp) > 1);
+                    parse_tsv<AMP_SIZE>(file, db_amp);
                     break;
                 case UnExotica:
-                    parse_tsv<_UnExoticaData,UNEXOTICA_SIZE,UnExotica>(file);
+                    assert(size(db_unexotica) > 1);
+                    parse_tsv<UNEXOTICA_SIZE>(file, db_unexotica);
                     break;
                 case Demozoo:
-                    parse_tsv<_DemozooData,DEMOZOO_SIZE,Demozoo>(file);
+                    assert(size(db_demozoo) > 1);
+                    parse_tsv<DEMOZOO_SIZE>(file, db_demozoo);
                     break;
                 default: assert(false); break;
             }
@@ -693,15 +688,17 @@ void init(const string &songdb_path, const initializer_list<Source> &sources/*= 
     TRACE("FORMATS:%zu/%zu AUTHORS:%zu/%zu ALBUMS:%zu/%zu PUBLISHERS:%zu/%zu\n",
           fsize, format_pool.capacity(), ausize, author_pool.capacity(), alsize, album_pool.capacity(), psize, publisher_pool.capacity());
 
-    TRACE("MD5_IDX:%zu/%zu/%zu SONGINFOS:%zu/%zu/%zu SUBSONGS:%zu/%zu/%zu/%zu MODINFOS:%zu/%zu/%zu MODLAND:%zu/%zu/%zu AMP:%zu/%zu/%zu UNEXOTICA:%zu/%zu/%zu DEMOZOO:%zu/%zu/%zu\n",
+    TRACE("MD5_IDX:%zu/%zu/%zu SONGINFOS:%zu/%zu/%zu SUBSONGS:%zu/%zu/%zu/%zu MODINFOS:%zu/%zu/%zu "
+          "COMBINED:%zu/%zu/%zu MODLAND:%zu/%zu/%zu AMP:%zu/%zu/%zu UNEXOTICA:%zu/%zu/%zu DEMOZOO:%zu/%zu/%zu\n",
         sizeof(md5_idx), sizeof(md5_idx) / sizeof(md5_t), sizeof(md5_t),
         sizeof(db_songinfos), sizeof(db_songinfos) / sizeof(_SongInfo), sizeof(_SongInfo),
         size, db_subsongs.size(), sizeof(_SubSongInfo), count,
         sizeof(db_modinfos), sizeof(db_modinfos) / sizeof(_ModInfo), sizeof(_ModInfo),
-        sizeof(db_modland), sizeof(db_modland) / sizeof(_ModlandData), sizeof(_ModlandData),
-        sizeof(db_amp), sizeof(db_amp) / sizeof(_AMPData), sizeof(_AMPData),
-        sizeof(db_unexotica), sizeof(db_unexotica) / sizeof(_UnExoticaData), sizeof(_UnExoticaData),
-        sizeof(db_demozoo), sizeof(db_demozoo) / sizeof(_DemozooData), sizeof(_DemozooData));
+        sizeof(db_combined), sizeof(db_combined) / sizeof(_MetaData), sizeof(_MetaData),
+        sizeof(db_modland), sizeof(db_modland) / sizeof(_MetaData), sizeof(_MetaData),
+        sizeof(db_amp), sizeof(db_amp) / sizeof(_MetaData), sizeof(_MetaData),
+        sizeof(db_unexotica), sizeof(db_unexotica) / sizeof(_MetaData), sizeof(_MetaData),
+        sizeof(db_demozoo), sizeof(db_demozoo) / sizeof(_MetaData), sizeof(_MetaData));
 
 #endif // DEBUG_TRACE
 
@@ -791,41 +788,3 @@ optional<pair<int,int>> subsong_range(const string &md5) noexcept {
 }
 
 } // namespace songdb
-
-namespace songdb::unexotica {
-
-string author_path(const string &author) noexcept {
-    const set<string_view> pseudonyms ({
-        "Creative_Thought",
-        "DJ_Braincrack",
-        "Digital_Masters",
-        "MC_Slack",
-        "Mad_Jack",
-        "Mad_Phantom",
-        "McMullan_and_Low",
-        "Pipe_Smokers_Cough",
-        "Private_Affair",
-        "Radio_Poland",
-        "Sonic_Boom_Boy",
-        "Sonicom_Music",
-        "Ten_Pin_Alley",
-        "Urban_Shakedown"
-    });
-    auto tokens = common::split_view(author, ' ');
-    const auto candidate = common::mkString(tokens, "_");
-    if (tokens.size() < 2 || pseudonyms.count(candidate) || tokens[0] == "The") {
-        return candidate;
-    }
-    if (tokens[1] == "Da" || tokens[1] == "de" || tokens[1] == "van" || tokens[1] == "Pieket") {
-        const auto first = tokens.front();
-        tokens.erase(tokens.begin());
-        tokens.push_back(first);
-    } else {
-        const auto last = tokens.back();
-        tokens.erase(tokens.end() - 1);
-        tokens.insert(tokens.begin(), last);
-    }
-    return common::mkString(tokens, "_");
-}
-
-} // namespace songdb::unexotica

@@ -7,18 +7,24 @@ songdb_libsongdb_la_SOURCES = \
     songdb/internal.h \
     songdb/songdb.h \
     songdb/songdb.cc \
-    songdb/blacklist.cc \
-    songdb/sources/generic.cc \
-    songdb/sources/modland.cc
+    songdb/blacklist.cc
 
 md5_idx_size=`cat $(top_srcdir)/conf/songdb/md5idx.tsv | wc -l | xargs`
-modland_size=`cat $(top_srcdir)/conf/songdb/modland.tsv | wc -l | xargs`
-amp_size=`cat $(top_srcdir)/conf/songdb/amp.tsv | wc -l | xargs`
-unexotica_size=`cat $(top_srcdir)/conf/songdb/unexotica.tsv | wc -l | xargs`
-demozoo_size=`cat $(top_srcdir)/conf/songdb/demozoo.tsv | wc -l | xargs`
+songlengths_size=`cat $(top_srcdir)/conf/songdb/songlengths.tsv | wc -l | xargs`
+modinfos_size=`cat $(top_srcdir)/conf/songdb/modinfos.tsv | wc -l | xargs`
+combined_size=`cat $(top_srcdir)/conf/songdb/combined.tsv | wc -l | xargs`
+# these are not included by default
+# XXX use size 1 as zero length arrays are not allowed in c++
+modland_size=1
+amp_size=1
+unexotica_size=1
+demozoo_size=1
 
 songdb_libsongdb_la_CPPFLAGS = $(AM_CPPFLAGS) \
                                -DMD5_IDX_SIZE=$(md5_idx_size) \
+                               -DSONGLENGTHS_SIZE=$(songlengths_size) \
+                               -DMODINFOS_SIZE=$(modinfos_size) \
+                               -DCOMBINED_SIZE=$(combined_size) \
                                -DMODLAND_SIZE=$(modland_size) \
                                -DAMP_SIZE=$(amp_size) \
                                -DUNEXOTICA_SIZE=$(unexotica_size) \

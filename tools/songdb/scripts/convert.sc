@@ -41,24 +41,7 @@ case class ModInfo (
   override def copyWithMd5(newMd5: String) = copy(md5 = newMd5)
 }
 
-case class AMPInfo (
-  override val md5: String, // 48-bits of md5 hex encoded (lower case)
-  authors: Buffer[String],
-) extends BaseInfo {
-  override def copyWithMd5(newMd5: String) = copy(md5 = newMd5)
-  override def toString = s"AMPInfo(${md5},${authors.mkString(",")})"
-}
-
-case class ModlandInfo (
-  override val md5: String, // 48-bits of md5 hex encoded (lower case)
-  authors: Buffer[String],
-  album: String,
-) extends BaseInfo {
-  override def copyWithMd5(newMd5: String) = copy(md5 = newMd5)
-  override def toString = s"ModlandInfo(${md5},${authors.mkString(",")},${album})"
-}
-
-case class FullInfo (
+case class MetaData (
   override val md5: String, // 48-bits of md5 hex encoded (lower case)
   authors: Buffer[String],
   publishers: Buffer[String],
@@ -67,7 +50,7 @@ case class FullInfo (
 ) extends BaseInfo {
   override def copyWithMd5(newMd5: String) = copy(md5 = newMd5)
   override def toString =
-    s"FullInfo(${md5},${authors.mkString(",")},${publishers.mkString(",")},${album},${year})"
+    s"MetaData(${md5},${authors.mkString(",")},${publishers.mkString(",")},${album},${year})"
 }
 
 def decodeMd5IdxTsv(tsv: String) = {
@@ -244,67 +227,8 @@ def encodeModInfosTsv(modinfos: Buffer[ModInfo]) = {
   md5idxdiff(dedupped).map(_.mkString("\t").trim).mkString("\n").concat("\n")
 }
 
-def decodeAMPTsv(tsv: String, idx2md5: Buffer[String]) = {
-  def decodeRow(cols: Array[String], md5: String, prev: AMPInfo) = {
-    val authors = if (cols.length > 1) {
-      if (cols(1) == REPEAT) prev.authors
-      else if (cols(1).isEmpty) Buffer.empty
-      else cols(1).split(SEPARATOR).toBuffer
-    } else Buffer.empty
-
-    AMPInfo(md5, authors)
-  }
-  decodeTsv(tsv, idx2md5, decodeRow, AMPInfo("", Buffer.empty))
-}
-
-def encodeAMPTsv(amp: Buffer[AMPInfo]) = {
-  def sorter = (e: AMPInfo) => e.authors.mkString(SEPARATOR) + SORT + e.md5
-  val infos = amp.sortBy(sorter).par.map(a =>
-    Buffer(
-      a.md5.take(12),
-      a.authors.mkString(SEPARATOR)
-    )
-  ).seq
-  val dedupped = dedupidx(infos, "amp.tsv")
-  validate(dedupped, "amp.tsv")
-  md5idxdiff(dedupped).map(_.mkString("\t").trim).mkString("\n").concat("\n")
-}
-
-def decodeModlandTsv(tsv: String, idx2md5: Buffer[String]) = {
-  def decodeRow(cols: Array[String], md5: String, prev: ModlandInfo) = {
-    val authors = if (cols.length > 1) {
-      if (cols(1) == REPEAT) prev.authors
-      else if (cols(1).isEmpty) Buffer.empty
-      else cols(1).split(SEPARATOR).toBuffer
-    } else Buffer.empty
-    
-    val album = if (cols.length > 2) {
-      if (cols(2) == REPEAT) prev.album
-      else if (cols(2).isEmpty) ""
-      else cols(2)
-    } else ""
-
-    ModlandInfo(md5, authors, album)
-  }
-  decodeTsv(tsv, idx2md5, decodeRow, ModlandInfo("", Buffer.empty, ""))
-}
-
-def encodeModlandTsv(modland: Buffer[ModlandInfo]) = {
-  def sorter = (e: ModlandInfo) => e.authors.mkString(SEPARATOR) + SORT+ e.album + SORT + e.md5
-  val infos = modland.sortBy(sorter).par.map(m =>
-    Buffer(
-      m.md5.take(12),
-      m.authors.mkString(SEPARATOR),
-      m.album
-    )
-  ).seq
-  val dedupped = dedupidx(infos, "modland.tsv")
-  validate(dedupped, "modland.tsv")
-  md5idxdiff(dedupped).map(_.mkString("\t").trim).mkString("\n") .concat("\n")
-}
-
-def decodeGenericTsv(tsv: String, idx2md5: Buffer[String]) = {
-  def decodeRow(cols: Array[String], md5: String, prev: FullInfo) = {
+def decodeMetaTsv(tsv: String, idx2md5: Buffer[String]) = {
+  def decodeRow(cols: Array[String], md5: String, prev: MetaData) = {
     val authors = if (cols.length > 1) {
       if (cols(1) == REPEAT) prev.authors
       else if (cols(1).isEmpty) Buffer.empty
@@ -327,20 +251,19 @@ def decodeGenericTsv(tsv: String, idx2md5: Buffer[String]) = {
       else cols(4).toInt
     } else 0
 
-    FullInfo(md5, authors, publishers, album, year)
+    MetaData(md5, authors, publishers, album, year)
   }
-  decodeTsv(tsv, idx2md5, decodeRow, FullInfo("", Buffer.empty, Buffer.empty, "", 0))
+  decodeTsv(tsv, idx2md5, decodeRow, MetaData("", Buffer.empty, Buffer.empty, "", 0))
 }
 
-def encodeGenericTsv(fullinfo: Buffer[FullInfo], name: String) = {
-  assert(fullinfo.map(_.md5).distinct.size == fullinfo.size)
-  def sorter = (e: FullInfo) =>
+def encodeMetaTsv(meta: Buffer[MetaData], name: String) = {
+  def sorter = (e: MetaData) =>
     e.authors.mkString(SEPARATOR) + SORT +
     e.publishers.mkString(SEPARATOR) + SORT +
     e.album + SORT + 
     e.year + SORT +
     e.md5
-  val infos = fullinfo.sortBy(sorter).par.map(i =>
+  val infos = meta.sortBy(sorter).par.map(i =>
     Buffer(
       i.md5.take(12),
       i.authors.mkString(SEPARATOR),
