@@ -63,7 +63,7 @@ lazy val metas = Files.list(Paths.get(amp_path + "detail/")).toScala(Buffer).par
       if (!seenIds.contains(id) && amp_mods_by_id.contains(id)) {
         seenIds += id
         val e = amp_mods_by_id(id).head
-        val extra_authors = if (authors.size == 1) List.empty else authors.toList
+        val extra_authors = authors.toList
         Some(AMPMeta(e.md5, e.path, e.filesize, extra_authors))
       } else None
     })

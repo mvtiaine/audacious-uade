@@ -113,7 +113,7 @@ lazy val ampTsvs = Future(_try {
     if (path != "UnknownComposers") {
       Some(AMPInfo(
         m.md5.take(12),
-        if (m.extra_authors.isEmpty) Buffer(path)
+        if (m.extra_authors.isEmpty || m.extra_authors.forall(_.isEmpty)) Buffer(path)
         else m.extra_authors.sorted.filterNot(_.isEmpty).toBuffer
       ))
     } else None
