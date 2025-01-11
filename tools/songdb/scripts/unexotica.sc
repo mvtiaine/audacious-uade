@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2023-2025 Matti Tiainen <mvtiaine@cc.hut.fi>
 
-//> using dep org.scala-lang.modules::scala-parallel-collections::1.0.4
+//> using dep org.scala-lang.modules::scala-parallel-collections::1.2.0
 //> using dep io.circe::circe-generic::0.14.6
 //> using dep io.circe::circe-yaml::1.15.0
 

@@ -20,7 +20,7 @@ using namespace songdb::internal;
 
 namespace songdb::modland {
 
-bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &prev_item, vector<string> &authors, vector<string> &albums) noexcept {
+void parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &prev_item, vector<string> &authors, vector<string> &albums) noexcept {
     const auto cols = common::split_view_x<2>(tuple, '\t');
 
     const auto add_author = [&authors, &item](const string_view &author) {
@@ -57,8 +57,6 @@ bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &pr
     } else {
         add_album(cols[1]);
     }
-
-    return true;
 }
 
 } // namespace songdb::modland

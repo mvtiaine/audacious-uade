@@ -138,6 +138,44 @@ NP
 .M
 4S;
 .c]
+/3/			Space Quest	
+^c
+0=
+2>S
+BB
+.-X
+0N
+/5O
+a^
+.EA
+Nk
+/=5
+=4
+31L
+Fk
+D?
+j`
+OA
+0Mf
+Bi
+BK
+BZ
+DZ
+Wc
+04R
+/aT
+D1
+L`
+2LO
+2bS
+/ak
+0-`
+.De
+C;
+VT
+1<:
+H
+/g3
 @j			Space Quest II	1988
 :<
 1?-
@@ -180,45 +218,7 @@ W]
 .\2
 .\>
 /4.
-/3/			Space Quest	1987
-^c
-0=
-2>S
-BB
-.-X
-0N
-/5O
-a^
-.EA
-Nk
-/=5
-=4
-31L
-Fk
-D?
-j`
-OA
-0Mf
-Bi
-BK
-BZ
-DZ
-Wc
-04R
-/aT
-D1
-L`
-2LO
-2bS
-/ak
-0-`
-.De
-C;
-VT
-1<:
-H
-/g3
-.OC			The Black Cauldron	
+.OC			The Black Cauldron	1987
 29^
 3OI
 0_X
@@ -241,9 +241,9 @@ DUd			Winnie the Pooh in the Hundred Acre Wood	1986
 XC\		Strategic Simulations, Inc.	Questron II	1988
 \;V			Roadwar Europa	1987
 `Cb		Titus	Battlestorm	1991
+^J4			Crazy Cars	1987
 hc			Crazy Cars II	1989
 9bB			Crazy Cars III	1992
-^J4			Crazy Cars	1987
 GC			Crime Does Not Pay	1989
 /b2
 5kK
@@ -259,10 +259,10 @@ gO
 TL-			Dark Century	1990
 .NQ
 Q?5			Dick Tracy	
-N8X			Fire & Forget II	
-LZ@
 NEY			Fire & Forget	1988
-G0[			Galactic Conqueror	
+N8X			Fire & Forget II	1990
+LZ@
+G0[			Galactic Conqueror	1988
 9PF			Knight Force	1990
 2hk			Les Aventures de Moktar	1991
 B7D
@@ -300,13 +300,13 @@ g?			Jetstrike	1993
 MN2
 8FL
 QKe	Adam Gilmore	Impulze	Vector Championship Run	1989
-.13		Zeppelin Games	Arcade Fruit Machine	1991
+T-9		Zeppelin	Neighbours	1991
+DK?			Titanic Blinky	
+.13		Zeppelin Games	Arcade Fruit Machine	
 4fB			Edd the Duck!	1990
 b_L
 W7L			Match of the Day	1992
-T-9		Zeppelin	Neighbours	1991
-DK?			Titanic Blinky	
-6LX	Adam Lucas	Codemasters	Captain Dynamo	1992
+6LX	Adam Lucas	Codemasters	Captain Dynamo	
 .-b
 D2T
 .-0k	Adam McCrory	Zeppelin Games	American Tag-Team Wrestling	
@@ -471,12 +471,7 @@ L10
 7C<
 JRk	Alain Da Silva	Ubi Soft	Zombi	1990
 <UM
-9\1	Alain Lambin	Microids	Nicky Boom II	1993
-5_;
-/9a
-7GU
-/[6
-7=N			Nicky Boom	1992
+7=N	Alain Lambin	Microids	Nicky Boom	1992
 9LK
 1_9
 /8E
@@ -484,6 +479,11 @@ JRk	Alain Da Silva	Ubi Soft	Zombi	1990
 28A
 =Ih
 .A;
+9\1			Nicky Boom II	1993
+5_;
+/9a
+7GU
+/[6
 0h:	Aleksi Eeben	Renegade	Elfmania	1994
 3E@
 10C
@@ -612,17 +612,17 @@ H7			Super Loopz	1995
 IHV
 =U
 3c>
-7_-		Binary Asylum	Zeewolf 2	
-AA8
-1E4
-2\			Zeewolf	1994
+2\		Binary Asylum	Zeewolf	1994
 27V
 7:1
 7d9
+7_-			Zeewolf 2	1995
+AA8
+1E4
 k@-		Codemasters	1st Division Manager	1992
 iiI			Big Nose the Caveman	1993
 X[]			CJ's Elephant Antics	1991
-R;T	Allister Brimble	Codemasters	Fantasy World Dizzy
+R;T			Fantasy World Dizzy
 `Bb			Fast Food	1991
 <k=			Italy 1990	1990
 .]k
@@ -781,17 +781,17 @@ S7		Team17	ATR	1993
 <0:
 0lM
 FEF
-.Ke			Alien Breed II	
-S6E
-/.;
-O8=			Alien Breed Special Edition	1992
-/IE
 AaX			Alien Breed	1991
 gO
 >eG
 5O6
 1WR
 8Gg
+.Ke			Alien Breed II	1993
+S6E
+/.;
+O8=			Alien Breed Special Edition	1992
+/IE
 .-W8			Alien Breed: Tower Assault	1994
 >eG			Apache	1993
 0j\
@@ -799,12 +799,13 @@ OW.
 2_B			Arcade Pool	1994
 4Dd
 SJ[
-fFf			Assassin Special Edition	1993
 7df			Assassin	1992
 /AK
 .LN
 >-_
 =K2
+fFf			Assassin Special Edition	1993
+6U?			Body Blows	
 iJi			Body Blows (AGA)	1994
 75e			Body Blows Galactic	1993
 5J@
@@ -814,7 +815,6 @@ iJi			Body Blows (AGA)	1994
 2bX
 P`
 0LM
-6U?			Body Blows	
 @F1			Full Contact	1991
 gI
 G6U
@@ -836,8 +836,6 @@ Y7
 R2
 .>H
 67U
-Z<E			Project-X (Revised Edition)	
-2S<
 aH			Project-X	1992
 ../
 1l7
@@ -849,7 +847,9 @@ aH			Project-X	1992
 3>>
 8PH
 0Ak
-19			Superfrog	
+Z<E			Project-X (Revised Edition)	1993
+2S<
+19			Superfrog	1992
 .GP
 4Ql
 TC
@@ -930,18 +930,18 @@ dP_	Anders Hansen	Kefrens	D.A.N.E.	
 H8M
 3
 9VU
-84>	Andi McGinty	Grandslam Video	Beavers	1994
+?><	Andi McGinty	Grandslam	Nick Faldos Championship Golf	1992
+OWZ
+0le			Nick Faldos Championship Golf (CD³²)	1994
+bEJ
+84>		Grandslam Video	Beavers	
 0`=
 /cH
 CBQ
 5cL
 6Q?
 .d?
-0le		Grandslam	Nick Faldos Championship Golf (CD³²)	
-bEJ
-?><			Nick Faldos Championship Golf	1992
-OWZ
-1@6		Ocean	WWF European Rampage Tour	
+1@6		Ocean	WWF European Rampage Tour	1992
 1b8
 3l;
 8Kb
@@ -952,7 +952,15 @@ W.
 4X0
 Ik
 .Cf
-.ZF		Virgin Games	McDonaldland	
+/gC		Virgin	The Simpsons	1993
+AjY
+0NA
+1?R
+3>@
+BM6
+/P[
+M>
+.ZF		Virgin Games	McDonaldland	1992
 1OQ
 ZO
 /k
@@ -963,14 +971,6 @@ ZO
 7/=
 1g2
 12H
-/gC		Virgin	The Simpsons	1993
-AjY
-0NA
-1?R
-3>@
-BM6
-/P[
-M>
 Hk;	Andre Bescond	Lankhor	G.Nius	1988
 AdP
 K^F			Outzone	1991
@@ -1206,6 +1206,7 @@ G2
 .]j
 92		Gametek	American Gladiators	1991
 E^;			The Humans (CD³²)	1994
+N@-		Gremlin	Combo Racer	1990
 5<9		Gremlin Graphics	Harlequin	1992
 <15
 .N6
@@ -1255,8 +1256,7 @@ Lkg			Utopia	
 2hE
 1LC
 1:H
-N@-		Gremlin	Combo Racer	1990
-AH		Konami	Back to the Future Part III	1991
+AH		Konami	Back to the Future Part III	
 BX>
 ;]?
 A<J
@@ -1565,12 +1565,12 @@ _R			Rick Dangerous	
 .a/
 1K4
 kMM		Go!	Wizard Warz	1987
-4Zk		Grandslam Entertainment	Saint & Greavsie	1989
 7/a		Grandslam	Chubby Gristle	1988
 h?C			Pac-Mania	
 .GT			Terramex	1987
 II5			The Flintstones	1988
-l0d		Gremlin Graphics	3D Galax	1989
+4Zk		Grandslam Entertainment	Saint & Greavsie	1989
+l0d		Gremlin Graphics	3D Galax	
 jR^			Artura	1988
 LJ[			Axel's Magic Hammer	1990
 <PG
@@ -1702,11 +1702,11 @@ Xd
 4;6
 >.S
 5<<
-8P^	Blair Zuppicich	Acid Software	Zombie Apocalypse II	1994
-1.1		Acid	Roadkill	
+1.1	Blair Zuppicich	Acid	Roadkill	1994
 3@J
 N-;
 ;Ia
+8P^		Acid Software	Zombie Apocalypse II	
 .Mc		Art Software	Sirius7	1990
 BgU
 7b:
@@ -1839,6 +1839,12 @@ jI_		Electronic Arts	J.R.R. Tolkien's The Lord of the Rings	1991
 /HT		Hewson	Insects in Space	1990
 >c1
 T8>
+66X		Interplay	Battle Chess II	1991
+/[7
+6iR			Dragon Wars	1990
+5eH
+21V
+@>V
 .Yf		Interplay Productions	Castles II (CD³²)	1993
 13;
 .lg
@@ -1854,13 +1860,7 @@ l[
 34i
 ;kd
 .J<
-66X		Interplay	Battle Chess II	1991
-/[7
-6iR			Dragon Wars	1990
-5eH
-21V
-@>V
-gI3		Razor 1911	Habitual Novelty	
+gI3		Razor 1911	Habitual Novelty	1990
 aNh		System 3	Flimbo's Quest	
 GaO			Tusker	
 @Y1
@@ -1903,9 +1903,9 @@ ZLf
 >.E			Cyber Cop	1991
 C[9
 A.4
-e;a		Impressions	Air Bucks v1.2	1993
-MQQ			Air Bucks	1992
-Sad		Ocean	Cool World	
+MQQ		Impressions	Air Bucks	1992
+e;a			Air Bucks v1.2	1993
+Sad		Ocean	Cool World	1992
 =LQ		Renegade	International Sensible Soccer	1994
 5Y/
 /N>	Chris Glaister	Ocean	Lost Patrol	1991
@@ -2006,6 +2006,14 @@ C6L
 1bV
 2kh
 WL
+NZ?			Turrican	1990
+1NB
+OC
+/V>
+8M[
+0M`
+4C
+E/
 ..<			Turrican II	1991
 .AB
 8h-
@@ -2015,15 +2023,7 @@ WL
 1\T
 9a2
 44h
-NZ?			Turrican	1990
-1NB
-OC
-/V>
-8M[
-0M`
-4C
-E/
-6\9			X-Out	
+6\9			X-Out	1990
 /OX
 8IE
 /\0
@@ -2296,8 +2296,7 @@ EM	Daniel Pudenz	Defcom	Arena	1992
 >`i
 .6Z
 NOX
-i2g	Danny Burke	Team17	Body Blows (AGA)	1994
-=Kl			Body Blows	1993
+=Kl	Danny Burke	Team17	Body Blows	1993
 hF
 5@
 /_2
@@ -2307,6 +2306,7 @@ hF
 8UX
 /D-
 1V7
+i2g			Body Blows (AGA)	1994
 :Fb	Darius Zendeh	Electric Dreams	R-Type	1989
 43]
 /0>
@@ -2449,7 +2449,9 @@ Y_
 8^R
 1jB
 YKc			Turbo Out Run	1989
-.Sf		Virgin Interactive	Beneath a Steel Sky (CD³²)	1994
+=ZH		Virgin Interactive	Beneath a Steel Sky	1994
+S05
+.Sf			Beneath a Steel Sky (CD³²)	
 1B@
 /OT
 2-2
@@ -2464,16 +2466,14 @@ YKc			Turbo Out Run	1989
 0I5
 17>
 6Rb
-=ZH			Beneath a Steel Sky	
-S05
 ;kY	Dave Warhol	Electronic Arts	Earl Weaver Baseball	1987
 ESS			F/A-18 Interceptor	1988
 HZQ			Return To Atlantis	
 17j			Sky Fox II	
 `8E			Stuart Smith's Adventure Construction Set	1986
 BU>			Swords of Twilight	1989
-8Sg			The Bard's Tale II	1988
 ;b]			The Bard's Tale	1986
+8Sg			The Bard's Tale II	1988
 9]G		Interplay	Neuromancer	1989
 fgb		Lucasfilm Games	Indiana Jones and the Last Crusade	
 a1D			Loom	1990
@@ -2576,9 +2576,9 @@ S^b		Impressions	Renaissance 1	1990
 G]e		Konami	The Killing Cloud	1991
 ;=d
 AH\
+OEC		Logotron	Quadralien	1988
 \W9		Logotron Entertainment	Archipelagos	1989
 c6Y			Bad Company	1990
-OEC		Logotron	Quadralien	1988
 ?>C		Maelstrom	Grimblood	1989
 =eN		Mastertronic	Kikstart II	1987
 2I\		Melbourne House	Xenon	1988
@@ -2590,9 +2590,9 @@ DjC		Microdeal	Fright Night	1988
 .-SS			Leatherneck	
 _K_		Millennium	Cloud Kingdoms	1990
 kHZ			Kid Gloves	
-YH7		Mindscape International	Days of Thunder	
 jX/		Mindscape	Alfred Chicken	1993
 ;QZ			Loopz	1990
+YH7		Mindscape International	Days of Thunder	
 :`c		Mirrorsoft	Tetris	1987
 SJ:		Ocean	Platoon	1988
 5l			Total Recall	1990
@@ -2638,9 +2638,9 @@ k/
 .^G		Ubi Soft	Jupiter's Masterdrive	
 .76
 \\g
-McO		Virgin Mastertronic	Dan Dare III	
-R>2			Golden Axe	
 _63		Virgin	Krusty's Super Fun House	1992
+McO		Virgin Mastertronic	Dan Dare III	1990
+R>2			Golden Axe	
 gF/	David Yapp	Empire Software	Volfied	1991
 /dA	Dean Evans	Ocean	Hook	
 4I6
@@ -3474,11 +3474,11 @@ BSI
 05>
 0jj
 7A.
+V/4			Great Courts	1989
+>^<
 1:0			Great Courts 2	1990
 92I
 EJ5
-V/4			Great Courts	1989
->^<
 UTK	Hal Canon	U.S. Gold	Gauntlet II	1988
 /e?
 NI	Hannes Seifert	Flair Software	1869	1992
@@ -3544,14 +3544,14 @@ OM
 0/.
 /26
 2WE
-aZf		Neo	Whale's Voyage II	1995
-389			Whale's Voyage	1993
+389		Neo	Whale's Voyage	
 58g
 4P_
 Pe;
 0@e
 .]N
 .SW
+aZf			Whale's Voyage II	1995
 /J9	Hans-Hermann Franck	Bytec	Cobra	1991
 0aE
 B_5
@@ -3596,8 +3596,8 @@ _:K			No!	1995
 46J
 FGb
 0T9
-MB/		Audiogenic	Exile (AGA)	1995
-gQN			Exile	1991
+gQN		Audiogenic	Exile	1991
+MB/			Exile (AGA)	1995
 :CF	Herve Delteil	Oxygen	Cuzco	1994
 PdE	Herve Leport	Silmarils	Wind Surf Willy	1991
 Tdd	Hibiki Godai	Sierra On-Line	Thexder	1988
@@ -3928,7 +3928,14 @@ dN
 9g
 6R8
 ?33
-:4D	Jean Baudlot	Delphine Software	Future Wars	1989
+E?/	Jean Baudlot	Delphine	Bio Challenge	1989
+=[\
+:D[
+Je
+0F2			Castle Warrior	
+@<\
+9dQ
+:4D		Delphine Software	Future Wars	
 Z\
 0.l
 >/8
@@ -3938,13 +3945,6 @@ HU
 11O
 /=0
 1i6
-E?/		Delphine	Bio Challenge	
-=[\
-:D[
-Je
-0F2			Castle Warrior	
-@<\
-9dQ
 BeW		Imagine	Bad Dudes	1988
 .c=		Ocean	Beach Volley	1989
 AI
@@ -4096,7 +4096,7 @@ C9
 0]G
 2-4
 0bN
-Wl3	Jesper Olsen	SuperSoft	Guldkorn Expressen
+Wl3		SuperSoft	Guldkorn Expressen
 <fA
 =.0	Jim Brown	17BIT	Sonix Sounds	1989
 TVS
@@ -4632,7 +4632,7 @@ _3h	Kirk Fitzgerald	Strategic Simulations, Inc.	Hillsfar	
 SC	Klaus Nielsen	Kefrens	Desert Dream	1993
 7kl		Polka Brothers	Friday at Eight	1994
 [ba			No!	1995
-HFN	Klaus Nielsen	Polka Brothers	Zinko
+HFN			Zinko
 Y4T	Klaus Ude	Sphinx	Magic Marble	1989
 @25
 8:I	Klaus-Dieter Sommer	Maxon	Exxon	1991
@@ -4893,8 +4893,7 @@ Rfl			World Championship Soccer	1990
 2V2
 ZE<	Mark Gornall	Zeppelin Games	Universal Warrior	1993
 .V9
-.-e5	Mark Knight	Mindscape International	Overkill & Lunar-C (CD³²)	
-.h.		Mindscape	Alfred Chicken (AGA)	
+.h.	Mark Knight	Mindscape	Alfred Chicken (AGA)	
 .D4
 6UB
 .BC
@@ -4926,6 +4925,7 @@ Z=
 /.X
 .41
 /8Z
+.-e5		Mindscape International	Overkill & Lunar-C (CD³²)	1993
 .fG		Origin Systems	Wing Commander	1990
 /N
 R=
@@ -4982,10 +4982,10 @@ NPf
 Di^			Global Thermonuclear Warfare	
 :7c			Hideous	
 I[^
-<=K			Hilt II	1996
-7bA
 J-V			Hilt	1994
 N^:
+<=K			Hilt II	1996
+7bA
 BKd			Liberator	1992
 RN
 ^YO			One on One (PD)	
@@ -5058,16 +5058,7 @@ SU
 .Mk
 U9V	Martin Halberg		Genetic Species	1998
 8di
-1@^	Martin Iveson	Core Design Ltd	Dragonstone	1993
-36k
-/A^
-1S1
-0JO
-2F/
-4dA
-788
-1UY
-=U;		Core Design	Banshee	1994
+=U;	Martin Iveson	Core Design	Banshee	1994
 5He
 BKg
 72f
@@ -5129,15 +5120,15 @@ IQ4			Darkmere	1993
 1;c
 0]O
 >>L
->kR			Heimdall 2	1994
-21A
-FKW
-cH
 2d_			Heimdall	1991
 @0f
 1N2
 3Qc
 @Jl
+>kR			Heimdall 2	1994
+21A
+FKW
+cH
 @]			Jaguar XJ220	1992
 /E_
 4=d
@@ -5170,10 +5161,10 @@ XR
 0V`
 /8X
 3RY
-P17			Skeleton Krew (CD³²)	1995
-AWD			Skeleton Krew	
+AWD			Skeleton Krew	1995
 <de
 _B
+P17			Skeleton Krew (CD³²)	
 /FE			Universe	1994
 .-8
 23g
@@ -5210,6 +5201,15 @@ H-e			Wolfchild	1992
 4JR
 /.
 4`Y
+1@^		Core Design Ltd	Dragonstone	
+36k
+/A^
+1S1
+0JO
+2F/
+4dA
+788
+1UY
 Ti	Martin Nyrup	Breadline	The Moochies	1991
 0O7
 d_
@@ -5245,10 +5245,10 @@ L4
 9]
 .:1	Martin Rebas	MartinSoft	Pengo	1994
 TkA
-gDF	Martin Schioler	Anarchy	3D Demo II	1992
-R/J			3D Demo	1991
+R/J	Martin Schioler	Anarchy	3D Demo	1991
 GCE
 .VO
+gDF			3D Demo II	1992
 BaR	Martin Silbernagl	Public Domain	Kick 'Up	1988
 \^`	Martin Tykesson	Kingsoft	Paramax
 [[?	Martin Walker	Activision	Atomic Robo-Kid	1990
@@ -5840,7 +5840,10 @@ CXk
 0Zj
 <0Y
 bZ
-/=O			Sonix House II	1988
+H2>			Sonix House	1988
+6OP
+AOi
+/=O			Sonix House II	
 K@j
 7@E
 0-F
@@ -5850,10 +5853,7 @@ JSk			Sonix House III	1989
 :_E
 0KJ
 4L;
-H2>			Sonix House	1988
-6OP
-AOi
->We	Mike Brown	Pandora	Galdregons Domain	1989
+>We	Mike Brown	Pandora	Galdregons Domain	
 YCY	Mike Chilton	Firebird	P47 Thunderbolt	
 7_	Mike Clarke	Charley Brewster	Indigo	1993
 21J
@@ -5956,10 +5956,10 @@ A=C			Dynasty Wars	1990
 g;U			Indiana Jones and the Last Crusade	1989
 C16			Italy 1990: Winners Edition	1990
 UQ7			Mercs	1991
-AO=			Strider II	1990
 1eD			Strider	1989
 ZUM
-WYA			U.N. Squadron	1990
+AO=			Strider II	1990
+WYA			U.N. Squadron	
 290			World Class Soccer	1991
 Pl?	Miko Nyman	Stellar	Galerie Remix	1996
 3e\	Neil Biggin	Gremlin Interactive	Premier Manager 3 (AGA)	1994
@@ -6068,8 +6068,7 @@ F.l	Olli Kuopila	Sonik Clique	Blur	1995
 47C
 5h7
 J;[
-i2a			Pinball Fantasies (CD³²)	1993
-=^5			Pinball Fantasies	1992
+=^5			Pinball Fantasies	
 4\\
 1e/
 .2Q
@@ -6077,13 +6076,7 @@ i2a			Pinball Fantasies (CD³²)	1993
 @@1
 2Ta
 1\U
-Nb:			Pinball Illusions (CD³²)	1995
-11/
-3.f
-/.B
-3F^
-5h>
-.CV
+i2a			Pinball Fantasies (CD³²)	1993
 06L			Pinball Illusions	1994
 1ZB
 05a
@@ -6092,7 +6085,14 @@ Nb:			Pinball Illusions (CD³²)	1995
 F.S
 <9`
 03h
-9^5		Psygnosis	Benefactor	
+Nb:			Pinball Illusions (CD³²)	1995
+11/
+3.f
+/.B
+3F^
+5h>
+.CV
+9^5		Psygnosis	Benefactor	1994
 0i]
 1>e
 4M^
@@ -6158,15 +6158,7 @@ Gh?	Patrick Phelan	Gremlin Graphics	Hero Quest II	1994
 NXA
 /ka
 9fk
-jVc			Zool (CD³²)	1993
-=97			Zool 2	
-._]
-Ac[
-3<`
-2Z3
-.J.
-44_
-15Y			Zool	1992
+15Y			Zool	
 HTd
 2Fc
 61=
@@ -6175,6 +6167,14 @@ HTd
 e:
 1PN
 1HB
+jVc			Zool (CD³²)	1993
+=97			Zool 2	
+._]
+Ac[
+3<`
+2Z3
+.J.
+44_
 U6	Patrick Pose	Wild Copper	Wild Copper demo	1988
 I^9
 2/P
@@ -6250,8 +6250,8 @@ Cia
 7_O
 :IA
 0T9
-hGf			Thomas the Tank Engine II	
 T5P			Thomas the Tank Engine	1992
+hGf			Thomas the Tank Engine II	1993
 @M^		DoMark	F1	1995
 0Ib
 >Y:
@@ -6339,7 +6339,9 @@ Ra
 .YR
 609
 ?dO
-F8l	Phillip Nixon	Flair Software	Double Agent
+;Dg		Flair	Winter Super Sports 92	1992
+J8j
+F8l		Flair Software	Double Agent
 1i;
 2jM			Elvira the Arcade Game	1991
 .eb
@@ -6347,19 +6349,17 @@ j-
 5]:
 YR:
 VVA			Turn n' Burn	1990
-;Dg		Flair	Winter Super Sports 92	1992
-J8j
-TbF		Microvalue	Demon Blue	
+TbF		Microvalue	Demon Blue	1992
 <^c
 K7\			International Ninja Rabbits	1991
-Rcf			Oscar (CD³²)	1993
-.RJ			Oscar	
+.RJ			Oscar	1993
 @__
 BLR
 08J
 0L-
 7/2
 8R
+Rcf			Oscar (CD³²)	
 /bT			Trolls	
 1@
 MF
@@ -6474,17 +6474,7 @@ fh
 /h<
 .?8
 :81	Preben Soot	Talent	Panta-Rhei	1993
-Ad1	Private Affair	Vulcan Software	Valhalla & the Fortress of Eve	1996
-@`f
-4VP
-.24
-3D2			Valhalla & the Lord of Infinity	1994
-73
-7d4
-36^
-1Y0
-6bU
-2[			Valhalla	1995
+2[	Private Affair	Vulcan Software	Valhalla	1995
 6L9
 5^
 7]K
@@ -6495,6 +6485,16 @@ Ad1	Private Affair	Vulcan Software	Valhalla & the Fortress of Eve	1996
 2Z`
 1lD
 1kg
+Ad1			Valhalla & the Fortress of Eve	1996
+@`f
+4VP
+.24
+3D2			Valhalla & the Lord of Infinity	1994
+73
+7d4
+36^
+1Y0
+6bU
 1Bj	Radio Poland	Radio Poland	Technotronic	1990
 ?CW
 AJY
@@ -6722,14 +6722,13 @@ RO5		Image Works	Cadaver	1990
 FR>			Mega-Lo-Mania	1991
 20E
 W[U			Speedball 2	1990
-PCM		Millennium Interactive	Diggers (CD³²)	1993
-bT2			Diggers	
 .P-		Millennium	Aquatic Games	1992
 .AF			Brutal Football	1993
 Cj>
 1J9
 ..:			Cyber Empires	1992
 LBC			Global Effect	
+Of=			James Pond	1990
 .V3			James Pond 2	1991
 ?F\
 1A8
@@ -6743,7 +6742,6 @@ PF
 ;R2
 03W
 1a/
-Of=			James Pond	1990
 6cI			James Pond³	1994
 ca3
 .kP			Moonshine Racers	1991
@@ -6768,7 +6766,9 @@ aiK			Stormball	1991
 6NW
 .O`			The Adventures of Robin Hood	
 YG?
-A23		Mindscape	Knightmare	
+bT2		Millennium Interactive	Diggers	1993
+PCM			Diggers (CD³²)	
+A23		Mindscape	Knightmare	1991
 7SZ
 9?W
 2PA
@@ -6790,10 +6790,10 @@ BR
 _>[		Renegade	Gods	
 2\]			Magic Pockets	
 kQT			Sensible Soccer	1992
-<CO			Sensible World of Soccer 95/96	1995
 16A			Sensible World of Soccer	1994
 1DA
 2DQ
+<CO			Sensible World of Soccer 95/96	1995
 TR			The Chaos Engine	1993
 @dg
 /TE
@@ -6834,6 +6834,13 @@ K`a
 /F9
 :@C
 2M
+=B6		Virgin	Cannon Fodder	1993
+1e`
+;_a
+6bG
+2di
+.[^
+2kd
 :Q`		Virgin Interactive	Cannon Fodder 2	1994
 g0
 .W2
@@ -6844,13 +6851,6 @@ g0
 >\<			Sensible Golf	1995
 =[A
 ;@L
-=B6		Virgin	Cannon Fodder	1993
-1e`
-;_a
-6bG
-2di
-.[^
-2kd
 7RG	Richard van de Veen	Public Domain	Combine!	1989
 G3F
 58\
@@ -6881,21 +6881,7 @@ RO
 .Bl
 dj
 /S
-1Q^		Team17	Super Stardust (CD³²)	1994
-2j:
-.^W
-4-e
-0P8
-.A5
-030
-.10
-3^c
-/Y>
-1UG
-4[
-;?2
-/9`
-.UH			Super Stardust	
+.UH		Team17	Super Stardust	1994
 /:]
 2B
 /FY
@@ -6920,6 +6906,20 @@ S-
 0^[
 10U
 /I.
+1Q^			Super Stardust (CD³²)	
+2j:
+.^W
+4-e
+0P8
+.A5
+030
+.10
+3^c
+/Y>
+1UG
+4[
+;?2
+/9`
 KiX	Rob Balderstone	Ocean	PGA European Tour	
 9HZ
 =j;
@@ -7007,17 +7007,17 @@ E7B
 0\L
 D=3
 Fl\
-27i	Rudolf Stember	Ascon Software	On the Ball	1994
-.b9
-BJV
-9JR
-2QL		Ascon	The Patrician	1992
+2QL	Rudolf Stember	Ascon	The Patrician	1992
 .2N
 7Jj
 =10
 4[i
 :;T
 36P
+27i		Ascon Software	On the Ball	1994
+.b9
+BJV
+9JR
 IkQ		Attic	The Oath	1991
 8-0
 31]
@@ -7246,20 +7246,20 @@ C^k	Stefan Jeworowski	Rainbow Arts	Spherical	1989
 3c1	Stefan Poiss	Max Design	Oldtimer	1994
 A]V	Stefan Schulz	ZenTek	NEMAC IV	1996
 B?8	Sten Larsen	Kefrens	Egregious	1991
+BF?			Guardian Dragon	
+OXS
 UJd			Guardian Dragon II	1992
 0e0
-BF?			Guardian Dragon	1991
-OXS
-gGD			Multi Megamix II	1992
-2=<
-[
-kH
-Ml
 0h-			Multi Megamix	1991
 ;7M
 48P
 Xf
 J]B
+gGD			Multi Megamix II	1992
+2=<
+[
+kH
+Ml
 74j		Public Domain	Bedroom Olympiad	1988
 0TD	Stephan Wenzler	Kingsoft	Gravity-Force	1989
 1SU
@@ -7276,10 +7276,10 @@ CjH
 =D<
 5^P			Mystical	
 KWL			Wanted	1988
+]-9		Virgin	Extase	1990
 .e8		Virgin Interactive	Dune	1991
 @O
 .aA
-]-9		Virgin	Extase	1990
 73_	Stephen Smith	Vulcan Software	Uropa²	1997
 WC<
 5e2
@@ -7317,8 +7317,8 @@ Y>W	Steve Turner	Ocean	Rainbow Islands	1990
 9lK	Steven Green	Paragon	The Amazing Spider-Man	
 La[	Steven van den Heuvel	Public Domain	Dirty Moves	
 ?MZ	Stryper	Yodel	Oberon	1995
-e>3	Stuart Taylor	Zeppelin Games	Jocky Wilson's Darts Challenge	1990
-.-XX		Zeppelin	F1 Tornado	1992
+.-XX	Stuart Taylor	Zeppelin	F1 Tornado	1992
+e>3		Zeppelin Games	Jocky Wilson's Darts Challenge	1990
 =Pb	Stud	Ward	Once Upon A Time	1996
 BBA	Svein Johansen	Scoopex	Scoopex Plays 2 Unlimited	1993
 BJk
@@ -7755,7 +7755,7 @@ ZS
 8h4	Tomas Dahlgren	Hewson	Zarathrusta	1991
 635		Mastertronic	Double Dragon II	1989
 QXk
-KKg	Tomas Dahlgren	Neutron Dance	185 Bobs
+KKg		Neutron Dance	185 Bobs
 :>R		Scoopex	Mental Hangover	1990
 >8X		Share And Enjoy	Amazing Tunes II	
 HBc
@@ -7802,9 +7802,9 @@ MQb	Tony Williams	21st Century Entertainment	MoonFall	1991
 8C7		Ocean	Narc	
 E^@
 M@d			Smash T.V.	1991
-1H4		Pick & Choose	Chuckie Egg II	1989
-E4a			Chuckie Egg	1988
-;l.		Psygnosis	Never Mind	1989
+E4a		Pick & Choose	Chuckie Egg	1988
+1H4			Chuckie Egg II	1989
+;l.		Psygnosis	Never Mind	
 [f:
 6.i			Nitro	1990
 K_1		The Sales Curve	Shinobi	1989
@@ -7827,7 +7827,7 @@ U5W
 ]]2	Tor Gausen	Avesoft	Coloris	1989
 Aad		Cryptoburners	Party Time	1991
 LeL
-WP9	Tor Gausen	Neutron Dance	The Dancing Bolls
+WP9		Neutron Dance	The Dancing Bolls
 ?Ac		Svein Berge	TwinTris	1990
 3]/
 8Ol

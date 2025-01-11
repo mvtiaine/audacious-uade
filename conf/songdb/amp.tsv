@@ -2234,6 +2234,9 @@ P`5
 15U
 Y-Y	Absolute Mute
 2eV
+U^:	Abstract
+;OA
+af
 l[	Abstract Mind
 ;HJ
 .[3
@@ -2247,9 +2250,6 @@ GM
 /AS
 J[
 /Mb
-U^:	Abstract
-;OA
-af
 @k	Absys
 .=E
 .KL
@@ -2327,13 +2327,13 @@ YC
 Qd.	Abuse
 DkE
 R4X	Abuse(tribal)
-.SM	Abyss Master
 /IO	Abyss
 5iP
 14W
 1B:
 ?S8
 6;K
+.SM	Abyss Master
 :g^	Abyss(Fin)
 /MV	Abyss(NL)
 GhQ
@@ -3112,7 +3112,6 @@ GXD	Acro
 029	Acrouzet
 6Kh	Acryl
 W>?
-7O-	Action Man
 06[	Action
 .<R
 <WC
@@ -3130,6 +3129,7 @@ eh
 0T/
 1B4
 35`
+7O-	Action Man
 =3?	Active
 >[:
 Y/A	Active(H)
@@ -3384,8 +3384,8 @@ bT
 :e?
 0NK
 8dK
-YXi	Adriaan van Liempt~Olivier van Liempt
 M1i	Adriaan
+YXi	Adriaan van Liempt~Olivier van Liempt
 5Y	Adrian Cummings
 O?
 .V^
@@ -4039,11 +4039,11 @@ I1:	Akesson
 1J<
 c2b	Ake~Drac~Guybrush
 lg.	Ake~Guybrush
-FZ/	Aki Kenerva
-DVW	Aki Peuralahti
 bV>	Aki
 //L
 /[h
+FZ/	Aki Kenerva
+DVW	Aki Peuralahti
 AZh	Akintunde Omitowoju
 K=>
 J:H	Akira Mix
@@ -5525,13 +5525,13 @@ Bid	AmilcarUbiera
 ]aR	Amoivikos
 W:U	Amokk
 hAd	Amol
+9bO	Amon
+Ui[
 4\?	Amon Ra
 9V?
 6-
 9T=
 M?
-9bO	Amon
-Ui[
 .cd	Amorel
 4c[
 7EA
@@ -5839,6 +5839,7 @@ fQ8	Andi(index)
 9NQ	Andi~JKTP
 X.4
 IO^	Andras Orosz
+;5H	Andre
 0-Y	Andre Meyer
 CQc
 ;X
@@ -5858,7 +5859,6 @@ iFZ	Andre Warstat
 3aB	Andre Wichmann
 O.I
 Fgb	Andre Wuthrich
-;5H	Andre
 .@b	Andrea Bernasconi~Gabriele Petino
 /XM
 ;G-
@@ -5998,6 +5998,55 @@ BQ
 A7
 \2
 043
+/Li	Andrew
+/74
+.AE
+.^5
+2X?
+.7i
+S[
+N2
+/7.
+Wh
+/kb
+TQ
+0-Z
+.af
+0@F
+J
+<-
+.QX
+/-M
+47
+FE
+/83
+.5G
+O@
+Q8
+4R
+bZ
+.;=
+D.
+K?
+gQ
+.h;
+.Qe
+`K
+a`
+.EL
+GU
+AA
+.?\
+Wa
+7F
+;`
+id
+/l9
+RE
+_5
+XB
+0D
+R0
 3:D	Andrew Campbell
 0R=
 7EF
@@ -6088,55 +6137,6 @@ ZV
 1^1
 5Gc
 lMa	Andrew Puttileihalat
-/Li	Andrew
-/74
-.AE
-.^5
-2X?
-.7i
-S[
-N2
-/7.
-Wh
-/kb
-TQ
-0-Z
-.af
-0@F
-J
-<-
-.QX
-/-M
-47
-FE
-/83
-.5G
-O@
-Q8
-4R
-bZ
-.;=
-D.
-K?
-gQ
-.h;
-.Qe
-`K
-a`
-.EL
-GU
-AA
-.?\
-Wa
-7F
-;`
-id
-/l9
-RE
-_5
-XB
-0D
-R0
 L7D	Andrew~Vinze
 iNT	Andrez
 JAb	Andre~Siouxie
@@ -6745,26 +6745,6 @@ _Q
 2lN
 ;C4
 _;4	Antastal~Kaiowa
-0Ma	Anthony Bartram
-1S7
-B?9
-3Fl
-/H7
-1`L
-?P.
-dM
-G-O	Anthony Hicks
-5P8
-Y5
-2V6	Anthony Milas
-.1N
-5Af
-@.i
-29/
-/>4
-@R8
-WOg	Anthony N. Peck
-;UZ
 /4	Anthony
 aJ
 92
@@ -6821,6 +6801,26 @@ l9
 .QO
 /1B
 h9
+0Ma	Anthony Bartram
+1S7
+B?9
+3Fl
+/H7
+1`L
+?P.
+dM
+G-O	Anthony Hicks
+5P8
+Y5
+2V6	Anthony Milas
+.1N
+5Af
+@.i
+29/
+/>4
+@R8
+WOg	Anthony N. Peck
+;UZ
 NML	Anthony~Michael
 f.=	Anthony~Michael~Technix
 AZQ	Anthony~Technix
@@ -7678,6 +7678,7 @@ dk
 8jE	Arf(CH)
 SJd	Argasek(Pol)
 6P2
+YNQ	Argh
 5>3	Argh!~Ballistique
 /TU
 12d
@@ -7691,7 +7692,6 @@ SJd	Argasek(Pol)
 PBb	Argh!~Ballistique~Liam the Lemming
 U@R	Argh!~Liam the Lemming
 HWZ	Argh!~Sunday
-YNQ	Argh
 >9	Argh(UK)
 MJ
 .[B
@@ -7752,6 +7752,15 @@ Ed
 /2P
 .N-
 .9-
+05>	Argon
+/`F
+>17
+7lb
+A2
+3MT
+.90
+7UA
+AC
 Q8	Argon Factor
 RF
 0iI
@@ -7796,15 +7805,6 @@ R5
 Yh
 c9
 .0[
-05>	Argon
-/`F
->17
-7lb
-A2
-3MT
-.90
-7UA
-AC
 85C	Argular
 Jb
 M9M
@@ -7938,6 +7938,7 @@ g@W	Armin Schmidhuber
 E4A	Armour~Core
 6Sj	Arnd Rueger
 Yi[
+`V9	Arne
 BBI	Arne Anka
 giN	Arne Heyna(Ger)
 D35	Arne M. Barlund
@@ -7945,7 +7946,6 @@ D35	Arne M. Barlund
 .QI
 :-h
 UKB	Arne Urbaniak
-`V9	Arne
 126	Arnold
 7_Y
 4T;
@@ -8209,10 +8209,10 @@ EcT
 J?-	Artist(hun)
 2S/	Artjohn
 ^U^	Artless Music Enjoyment
->k@	Arto Kumanto
 0c^	Arto
 ALX
 .c[
+>k@	Arto Kumanto
 ]MA	Artsub
 .[T	Arttu(Fin)
 Ehc	Artur(Poland)
@@ -9481,6 +9481,15 @@ gf
 2X1
 LQ4	Axe
 ?J;	Axe(CZ)
+39b	Axel
+.H\
+2a
+.kg
+APK
+D[G
+.QV
+0hM
+/FN
 /PP	Axel D.
 .X?
 =4
@@ -9535,15 +9544,6 @@ YMN	Axel F.
 ^G_	Axel F.~Tim
 a^]	Axel G
 5Pk	Axel Waltheim
-39b	Axel
-.H\
-2a
-.kg
-APK
-D[G
-.QV
-0hM
-/FN
 70_	Axel(F)
 0R_
 .Z8
@@ -9927,6 +9927,7 @@ DQ.
 0<7	B-Tribe
 W8V
 1/g
+lE/	B.
 ;^A	B. D. Pamier
 N1=	B. Devins
 lV	B. Middlemas
@@ -9946,7 +9947,6 @@ JNa	B. Olafsen
 5Uk
 7Yf
 0`]	B. Schykawy
-lE/	B.
 f=`	B.B
 5W8	B.J.
 [`E	B.S.E
@@ -10321,22 +10321,6 @@ CZ
 7e^
 c<W	Babbage
 FRk	Baboon
-1N`	Baby Kool
-6JC
-.kP
-/k5
-^N
-4S
-0X`
-18A
-/]:
-/87
-68N
-4;G
-90l
-RQ
-.:g
-Ge
 .34	Baby
 /gN
 =[
@@ -10370,6 +10354,22 @@ GV
 .W5
 bi
 .AN
+1N`	Baby Kool
+6JC
+.kP
+/k5
+^N
+4S
+0X`
+18A
+/]:
+/87
+68N
+4;G
+90l
+RQ
+.:g
+Ge
 ?1	Babydee
 .E<
 .eZ
@@ -11531,6 +11531,7 @@ YZ-
 X1_
 <89
 1YH
+MSB	Bart
 /Ud	Bart of Noise
 /B0
 8E-
@@ -11555,7 +11556,6 @@ Kd
 09^
 /Ge
 3<5
-MSB	Bart
 62\	Bartek Gudowski
 :V.
 6Gg
@@ -11908,15 +11908,15 @@ GSQ	Basehead~Necros
 ;9U	Basehead~Neoj1n
 /TY	Basey
 EQ\
+404	Basic
+8Y2
+IfZ
+9P]
 ..	Basic Energy
 .bM
 5Fe
 F1=
 AQA
-404	Basic
-8Y2
-IfZ
-9P]
 Jj5	BasilWar
 LWc
 1Sk	Basilisk
@@ -11937,26 +11937,6 @@ FS<
 7FF
 <CN
 8IP
-.]4	Bass 41
-0JF
-6XM
-72E
-6hj
-2>c
-7[F
-/J3
-81D
-2;k	Bass Cadet
-/;G
-2^8
-jV
-9?X
-4^;
-1bB
-28X
-4QI
-7QV
-3lP	Bass MC
 B<	Bass
 15_
 NV
@@ -12001,6 +11981,26 @@ Jj
 .T\
 2U@
 ML
+.]4	Bass 41
+0JF
+6XM
+72E
+6hj
+2>c
+7[F
+/J3
+81D
+2;k	Bass Cadet
+/;G
+2^8
+jV
+9?X
+4^;
+1bB
+28X
+4QI
+7QV
+3lP	Bass MC
 7d@	Bass(MovSD)
 C50
 .-c
@@ -12493,12 +12493,6 @@ I<
 /19	Beasty Bass
 MhB
 V<-	Beast~Frazer
-c4	Beat Brothers
-=\5
-CTa
-8ag
-7L8
-80F	Beat Bud Production
 =F	Beat
 2Ng
 8?B
@@ -12510,6 +12504,12 @@ f_
 0C]
 2^Z
 SY
+c4	Beat Brothers
+=\5
+CTa
+8ag
+7L8
+80F	Beat Bud Production
 M=	BeatOmen
 D`
 bl
@@ -12550,11 +12550,6 @@ D0
 9YX
 S70
 S?:	Beatbanger
-6Ei	Beatbox Rock
-1FJ
-=ej
-1XL
-.dU
 1\J	Beatbox
 .Ui
 5Wg
@@ -12563,6 +12558,11 @@ S?:	Beatbanger
 Fe
 2]E
 719
+6Ei	Beatbox Rock
+1FJ
+=ej
+1XL
+.dU
 .-jX	Beatbrain(Ger)
 :6R	Beatbreaker
 H5R
@@ -13420,6 +13420,12 @@ G?5
 288
 1ad
 @-e	Beluv
+0SH	Ben
+/i_
+0Ni
+E4b
+<H[
+66e
 e[1	Ben Brown(UK)
 0K6
 ^F?	Ben Chanter
@@ -13438,12 +13444,6 @@ bW	Ben Ellis
 RG-	Ben Thomas
 GWl
 j/
-0SH	Ben
-/i_
-0Ni
-E4b
-<H[
-66e
 /E=	Ben(UK)
 0B7
 18>
@@ -13809,12 +13809,12 @@ U`
 :0a	Bernhard Koehler
 G]C
 JYg	Bernt
+:CC	Berny
 <;	Berny Meyer
 14Y
 Gjb
 9BI
 2\[
-:CC	Berny
 G\A	Berserker(AF)
 S2c
 /=1	Berserker(PL)
@@ -13857,10 +13857,6 @@ EE
 ;5a
 /e/
 N8V	Berserker~XTD
-50c	Bert Brawanski
-OE>
-<Mh
-0N-
 4]C	Bert
 /h]
 /O:
@@ -13900,6 +13896,10 @@ X>
 .g8
 L_
 .X.
+50c	Bert Brawanski
+OE>
+<Mh
+0N-
 ^T>	Berthold
 0??	BetA
 ;[[	Betacarotine
@@ -14332,14 +14332,6 @@ D=<	Bigshituk~Madksh2
 OEG	Bilbo
 D6a
 >A>	Bilgehan~Ilgaz
-gT	Bill Clagget
-<@S
-:R?
-U/c	Bill Lo
-@[T	Bill the Cat
-GWP
-1Bk
-;CW
 /K.	Bill
 2S<
 /_B
@@ -14353,6 +14345,14 @@ GWP
 58Q
 3_<
 ;6?
+gT	Bill Clagget
+<@S
+:R?
+U/c	Bill Lo
+@[T	Bill the Cat
+GWP
+1Bk
+;CW
 Q2?	Bill(Hungary)
 CP/
 0;]
@@ -16335,7 +16335,6 @@ X.<	Bloodlust
 0M
 .^;
 e__	Bloodsoaker
-gJB	Bloody Joseff
 239	Bloody
 .KM
 _5
@@ -16348,6 +16347,7 @@ X5
 .f^
 082
 9]5
+gJB	Bloody Joseff
 5^]	Bloody~Zest
 NZ8	Blot(USA)
 JW\
@@ -16364,6 +16364,93 @@ JW\
 5ES	Blu Angel
 /DW	BluMental
 Vk;
+.hF	Blue
+Z.
+D_
+>M
+?I
+04
+g-
+;Q
+98
+/>9
+b:
+/k
+iE
+f^
+T<
+.[d
+Yk
+Hd
+/9i
+.5]
+7Y
+;>
+.Nc
+.6
+eD
+CU
+@g
+/25
+.[I
+5X
+@N
+[0
+aE
+.6F
+SD
+fR
+Vb
+.e^
+DW
+NW
+0I
+.=k
+G`
+Bk
+fc
+:5
+Ek
+`=
+GD
+Og
+`7
+.K3
+25
+=h
+5e
+0j
+L>
+.1c
+/3O
+=F
+.ZY
+R8
+=@
+W=
+Il
+1J
+2[
+/;`
+/@
+W-
+H;
+K6
+_i
+.?>
+he
+Mb
+/d@
+Jl
+FG
+BJ
+.[U
+:^
+7B
+.FG
+Ub
+52
+l0
 /G^	Blue Adonis
 /;:
 I>
@@ -16722,93 +16809,6 @@ Mg
 .K;
 CI
 0k-
-.hF	Blue
-Z.
-D_
->M
-?I
-04
-g-
-;Q
-98
-/>9
-b:
-/k
-iE
-f^
-T<
-.[d
-Yk
-Hd
-/9i
-.5]
-7Y
-;>
-.Nc
-.6
-eD
-CU
-@g
-/25
-.[I
-5X
-@N
-[0
-aE
-.6F
-SD
-fR
-Vb
-.e^
-DW
-NW
-0I
-.=k
-G`
-Bk
-fc
-:5
-Ek
-`=
-GD
-Og
-`7
-.K3
-25
-=h
-5e
-0j
-L>
-.1c
-/3O
-=F
-.ZY
-R8
-=@
-W=
-Il
-1J
-2[
-/;`
-/@
-W-
-H;
-K6
-_i
-.?>
-he
-Mb
-/d@
-Jl
-FG
-BJ
-.[U
-:^
-7B
-.FG
-Ub
-52
-l0
 hIE	Blue(D)
 D?\	BlueOne
 8O\
@@ -18014,13 +18014,6 @@ FAd
 .`6
 MXC	Brad
 GWN
-=e^	Brain Damage
-1Ob	Brain Rain
-E1J
-20`
-;UH
-:MB
-EbW	Brain Rain~Frensys
 PH	Brain
 >_
 1Ii
@@ -18029,6 +18022,13 @@ PH	Brain
 D>?
 1N2
 iJ
+=e^	Brain Damage
+1Ob	Brain Rain
+E1J
+20`
+;UH
+:MB
+EbW	Brain Rain~Frensys
 b6I	Brain(D)
 DGP	Brain(LV)
 IT	Brainbug
@@ -18973,11 +18973,11 @@ Pc
 .N
 .@g
 :Qa
-j;9	Bronson Man~Bruce Leroy
 7Gj	Bronson
 ;4^
 0L.
 :Kb
+j;9	Bronson Man~Bruce Leroy
 3-4	Bronxy
 9dX	Bronze
 2<O	Brooker
@@ -19109,8 +19109,6 @@ L>H
 56\
 >k
 /@U
-@>h	Bruce Leroy
-J]M
 0O<	Bruce
 1^i
 Ec
@@ -19138,25 +19136,11 @@ Vb
 dE
 :b
 24V
+@>h	Bruce Leroy
+J]M
 JI_	Bruce(AFC)
 62j	Bruce(SF)
 /MA	BrucieMoose
-/fa	Bruno Bossier
-0RZ
-2@_
-..R
-/M-
-.Ol
-4]X
-3C6
-3C0
-0-@
-6<Z
-69T
-9M
-H;
-0-j
-/H
 MZ	Bruno
 J8
 4@
@@ -19223,6 +19207,22 @@ T
 =G
 2B8
 ]<
+/fa	Bruno Bossier
+0RZ
+2@_
+..R
+/M-
+.Ol
+4]X
+3C6
+3C0
+0-@
+6<Z
+69T
+9M
+H;
+0-j
+/H
 9^H	Bruno~Major Tom
 <`R
 /ZF
@@ -19339,39 +19339,6 @@ Fjh
 .-J8	Budweiser~Sleepwalker
 bLH	Buffalo(Fin)
 5hV
-@bP	Bug Boy
-E^/
-2:a
-RL	Bug Vindicator
-/:>
-fJ
-Bf
-K=
-19@
-.5-
-.O;
-.=k
-gh
-/Fa
-f_
-?d
-08Q
-0_L
-.2T
-1UE
-6la
-4BO
-49
-6d
-T;
-.[8
-cO
-fJ
-?a
-/^
-.@\
-?7
-1B@
 .@<	Bug
 kb
 /TU
@@ -19426,6 +19393,39 @@ bT
 SI
 >U
 [i
+@bP	Bug Boy
+E^/
+2:a
+RL	Bug Vindicator
+/:>
+fJ
+Bf
+K=
+19@
+.5-
+.O;
+.=k
+gh
+/Fa
+f_
+?d
+08Q
+0_L
+.2T
+1UE
+6la
+4BO
+49
+6d
+T;
+.[8
+cO
+fJ
+?a
+/^
+.@\
+?7
+1B@
 .@_	Bug(SF)
 8QV
 .a6
@@ -19798,6 +19798,7 @@ CKh	Buzzer~Yzi
 C9S
 9;4	Bynatone
 0Qi
+bR0	Byte
 :d`	Byte Observer
 /4f	Byte Revenger
 JN
@@ -19848,7 +19849,6 @@ j;
 8J
 UO
 /MG
-bR0	Byte
 6Bg	Byteboy
 6YA	Bytecrusher~Counterpoint
 A.W
@@ -20164,6 +20164,7 @@ NC
 0bD
 3aK
 GG8
+RTg	CC
 LJ	CC Catch
 /Q?
 /f2
@@ -20188,7 +20189,6 @@ BC
 4\
 1-i
 /HZ
-RTg	CC
 6R[	CC6
 @Pd
 7?f
@@ -20934,9 +20934,9 @@ H`9
 VJ/	Candyman
 9N=
 WYi	Candyman(Sweden)
+:6B	Cannibal
 7>7	Cannibal Creator
 6YX
-:6B	Cannibal
 \=7	Cannibal(SF)
 1PM	Cannibal~Prymer
 18@	Cantaloup
@@ -20995,6 +20995,24 @@ J\
 1N5
 1]O
 4LM
+2dI	Captain
+06d
+3ac
+.h-
+2^7
+.5h
+RR
+0K=
+0CF
+0A4
+7X
+SE
+2TV
+01-
+27.
+8d@
+.6M
+/9:
 R;/	Captain Apathy
 Z8	Captain Bifat
 U:
@@ -21075,24 +21093,6 @@ TfI
 9hJ	Captain Twilight~Doctor Afterburner
 MTB
 0ZF
-2dI	Captain
-06d
-3ac
-.h-
-2^7
-.5h
-RR
-0K=
-0CF
-0A4
-7X
-SE
-2TV
-01-
-27.
-8d@
-.6M
-/9:
 fS3	CaptainTwilight(SF)
 C:8	Captn Flav
 jlL	Captured~Kemooni
@@ -21217,9 +21217,9 @@ Ka>	Carcall
 BB]
 45:
 .j4
-@Mb	Cardiac Arrest
 <@B	Cardiac
 RUJ
+@Mb	Cardiac Arrest
 5Gh	Cardiaxx
 4B1
 :d=
@@ -21332,6 +21332,8 @@ ZDA	Carebear~Subi
 6;>	Carkki
 2Ad
 D/]
+b>K	Carl
+/B>
 .G<	Carl Jermy
 3YQ
 AVC
@@ -21343,25 +21345,7 @@ H<
 cR9	Carl Paauwe~Jacco de Wijs
 g\-	Carl Wooltort
 /bY
-b>K	Carl
-/B>
 >Dl	Carl-Fredrik
-1EN	Carlos Gracia
-SW
-.aK
-/OQ
-1?Q
-.Hf
-1F>
-;^@
-.k2
-4[W
-2Y4
-7L[
-8U>	Carlos Saavedra Erena
-97.
-J1_
-1LD
 1Di	Carlos
 _]
 .Q9
@@ -21402,6 +21386,22 @@ AM
 .Sj
 5c>
 EZ
+1EN	Carlos Gracia
+SW
+.aK
+/OQ
+1?Q
+.Hf
+1F>
+;^@
+.k2
+4[W
+2Y4
+7L[
+8U>	Carlos Saavedra Erena
+97.
+J1_
+1LD
 >W>	Carlos~Mr. Suxx
 `GI	Carlos~Nagz~Zalza
 H@P	Carlos~Norfair
@@ -22370,8 +22370,8 @@ E;\
 3hd
 OI_	Chaostrooper~Malmen
 @@f	Chaos~Wildfang
-;F6	Chaotic Mind
 iLY	Chaotic
+;F6	Chaotic Mind
 8iJ	ChaoticOne~Cranksy
 2U/	Chaoz(Ru)
 8cc
@@ -22436,6 +22436,7 @@ _7
 0GV
 0G:
 2RR
+=.7	Charles
 W?E	Charles B. Cooper
 :<7
 5R]
@@ -22471,11 +22472,10 @@ G7
 3N
 /PT	Charles KK Lee
 JlY	Charles Lee
-=.7	Charles
 [j:	Charley Cat
 .3[
-[Pf	Charlie Elgholm
 C7/	Charlie
+[Pf	Charlie Elgholm
 J=J	Charlie(SK)
 <0]
 1\h	Charlie(Therapy)
@@ -22539,10 +22539,10 @@ LFj
 BA^	Charon
 ;kB
 @cc
-IP-	Chase Dahl
 /@`	Chase
 YP;
 =j>
+IP-	Chase Dahl
 6	Chaser
 BV
 Xa
@@ -22676,16 +22676,16 @@ lj4	Chaz
 [hY	Chaze(Ger)
 CK-	Chazzy D.
 9J8
+6H-	Cheech
+.BS
+6OV
+L9L
 /6X	Cheech the Sneech
 ;A/
 >O@
 1h`
 7<;
 /RA
-6H-	Cheech
-.BS
-6OV
-L9L
 6F^	Cheesecake
 /9c	Cheeseguy
 .C2
@@ -23288,9 +23288,9 @@ N;
 XD
 Q:
 3C
-GN=	Chosen Few
 0`E	Chosen
 UhI
+GN=	Chosen Few
 h8/	Chosen~Gargamel
 _j	Chr$
 hf
@@ -23632,6 +23632,7 @@ _3M	Christer Ganjabladh
 DLP
 1;7
 51=
+h22	Christian
 W:8	Christian Death
 9F9
 1he	Christian Fruergaard
@@ -23720,7 +23721,6 @@ AW
 D1^
 7Re
 >^f
-h22	Christian
 0[^	ChristianBjorklund
 8BG
 .G5
@@ -25358,8 +25358,6 @@ f6c	Codec~Lizardking
 /fi
 9DG
 K?l	Codepapst
-7Cg	Codex 2005
-?Q8
 0VL	Codex
 d6
 .8;
@@ -25383,6 +25381,8 @@ EU
 .<A
 9;
 MC
+7Cg	Codex 2005
+?Q8
 VlV	Codger(unk)
 51G
 <0@
@@ -25787,9 +25787,6 @@ JEC	Compiler
 Xci
 `7V	Computer Bug
 C:`	ComputerMusiker~Joker
-=CY	Comrade J
-PJC
-6Y<
 26T	Comrade
 .0A
 .C5
@@ -25806,6 +25803,9 @@ PJC
 .?Y
 VB
 ^N
+=CY	Comrade J
+PJC
+6Y<
 e7Y	Comus
 B_e	Conan
 2/	Conan(B)
@@ -26519,8 +26519,8 @@ NO_	Contriver~XTD
 .AI
 <i
 .]h
-P:5	Control Breaker~The Whirler
 jKd	Control
+P:5	Control Breaker~The Whirler
 /-?	Controller
 4IH
 .BK
@@ -27532,8 +27532,8 @@ C<[	Cracknel
 3@4
 [dU	Craft
 3[@
-/;:	Craig White
 .-UL	Craig
+/;:	Craig White
 /S>	Crain
 0/:
 ;j;
@@ -27608,6 +27608,7 @@ k1]	Crayon~Dolphin
 A7B
 .X_
 @NR
+8S`	Crazy
 R]	Crazy Ca-T(Poland)
 @OI
 7;Z
@@ -27629,7 +27630,6 @@ Ag	Crazy Q
 2Uk
 .:d
 2MQ
-8S`	Crazy
 d`c	Crazy(DS)
 Y4S	Crazy(Ger)
 MYS	Crazy(Swiss)
@@ -27780,11 +27780,11 @@ J;=	Criminal(N)
 3^l	Criminal(NL)
 N2V
 @QI
-7:k	Crimson Dream
 FXd	Crimson
 .2[
 <f`
 >V\
+7:k	Crimson Dream
 U	Cringing Multitude
 L5e
 7NJ
@@ -28204,6 +28204,7 @@ eY2	Cry
 4H?	Cryptic Blood
 BLb
 P0
+lk7	Crystal
 @a:	Crystal Air
 kiX	Crystal Air~Dizzy Tunes
 Kg_	Crystal Meth
@@ -28211,7 +28212,6 @@ Kg_	Crystal Meth
 ?5_	Crystal Score
 ;4G
 `l
-lk7	Crystal
 8>i	Crystal99
 1ZQ	Crystron
 .L0
@@ -28366,11 +28366,6 @@ Sa
 HO	Cube~Sphere
 ;4e
 6Fg
-:I5	Cubic One(Swe)
-D[W
-1?`
-4-2
-=P9
 .@@	Cubic
 .9<
 0Vc
@@ -28396,6 +28391,11 @@ Lj
 i_
 ./@
 /X6
+:I5	Cubic One(Swe)
+D[W
+1?`
+4-2
+=P9
 /T1	Cubico(Spain)
 8PW
 /.Z
@@ -29947,12 +29947,12 @@ U3
 Me
 2=
 5S
+E3I	Cyber
 5FI	Cyber G
 IZ4
 >NW
 >bB	Cyber Interceptor
 /B2	Cyber Optik
-E3I	Cyber
 E<	Cyber(N)
 0i7
 3:A
@@ -34514,12 +34514,6 @@ T7
 O.F	Dan(PL2)
 1GX
 QfJ	Dana~Daxx
-Ej\	Dance Away
->:e
-2@4
-2V6
-@dL	Dance for Love
-<h\	Dance night
 WS	Dance
 20
 .9
@@ -34673,11 +34667,15 @@ h
 9d
 62
 2`
+Ej\	Dance Away
+>:e
+2@4
+2V6
+@dL	Dance for Love
+<h\	Dance night
 A2E	Dandy B.
 .Xl
 ;2Q
-kLU	Dane Smith
-G7C	Dane Smith(USA)
 3j@	Dane
 A7
 <Pc
@@ -34687,6 +34685,8 @@ A7
 2`2
 /8L
 /DR
+kLU	Dane Smith
+G7C	Dane Smith(USA)
 M?	Daner
 1C
 5A
@@ -34730,6 +34730,8 @@ g85	Dangtrin
 .]3	Danguard
 :_k	Danguard~N-Joy
 A_j	Dani(unk)
+FG>	Daniel
+JI;
 ;<D	Daniel Amor
 2e=
 6TN
@@ -34833,13 +34835,8 @@ jf
 _i
 haC	Daniel Zandelin
 /Z:
-FG>	Daniel
-JI;
 25=	Daniel(Unk)
 BSX
-3Ak	Daniele Bonvicini
->`i
-OYE
 :DN	Daniele
 .BM
 3AV
@@ -34850,6 +34847,9 @@ OYE
 3MT
 432
 5/M
+3Ak	Daniele Bonvicini
+>`i
+OYE
 \X0	Daniels Sight
 J3C	Danken
 .5E
@@ -35073,12 +35073,6 @@ c7
 ;?N
 3C/	Dario
 C.N
-F\:	Darius Zendeh
-17:
-/Ce
-9-_
-10
-28H
 /Pf	Darius
 .;K
 .5K
@@ -35091,6 +35085,12 @@ Jd
 9Ak
 0>e
 4/8
+F\:	Darius Zendeh
+17:
+/Ce
+9-_
+10
+28H
 8h^	Dark Angel
 .3Z
 0Th
@@ -35957,9 +35957,9 @@ BFW	Dascon~Triace
 9-7
 5[N
 F/j	Dascon~WOTW
+1.N	Dash
 SJ^	Dash Fiss
 DG_
-1.N	Dash
 c]T	Dash~Organic
 /@	Dasse
 .H7
@@ -36527,10 +36527,6 @@ JX
 0LB
 .iQ
 0UR
-P=T	Dawn 7am
-8W2	Dawn Music
-DFA
-<Nf
 OJ	Dawn
 R@
 00
@@ -36594,6 +36590,10 @@ DE
 E>
 I[
 .\Z
+P=T	Dawn 7am
+8W2	Dawn Music
+DFA
+<Nf
 1?e	Dawnbringer(Sweden)
 .J`
 4RH
@@ -37311,16 +37311,6 @@ C1V	DeMOSic~Manical~cTrix
 1Se
 7Xk
 ;LI
-X-i	Dead Angel
-keh	Dead Fish
-[I`	Dead Man
-14	Dead Snake
-6ZJ
-B^Y
-7BJ
-_@
-/5G
-K?H	Dead Soul
 .FS	Dead
 .5I
 2;]
@@ -37344,6 +37334,16 @@ aj
 1Wb
 /NF
 /YH
+X-i	Dead Angel
+keh	Dead Fish
+[I`	Dead Man
+14	Dead Snake
+6ZJ
+B^Y
+7BJ
+_@
+/5G
+K?H	Dead Soul
 Lj1	Deadeye
 OFW	Deadlight
 7PM	Deadline
@@ -37371,6 +37371,57 @@ BX
 ?bg
 4AT
 EaH
+.ke	Dean
+2K
+2IX
+.>2
+.bC
+g/
+P>
+97
+5/
+.OJ
+?j
+CB
+kV
+.]i
+8V
+T
+.^<
+Cl
+.jJ
+7U
+.Kg
+._c
+2j]
+.gh
+1Kl
+aa
+/BE
+fk
+fG
+Rh
+;E
+Zb
+Kf
+H1
+_k
+.@f
+._7
+k8
+AR
+3I
+>^
+/[]
+.KP
+cR
+./U
+J9
+c.
+/07
+6I
+/22
+.SX
 1ig	Dean Evans
 Aj
 B/
@@ -37432,57 +37483,6 @@ Tl
 CC
 17E
 S`
-.ke	Dean
-2K
-2IX
-.>2
-.bC
-g/
-P>
-97
-5/
-.OJ
-?j
-CB
-kV
-.]i
-8V
-T
-.^<
-Cl
-.jJ
-7U
-.Kg
-._c
-2j]
-.gh
-1Kl
-aa
-/BE
-fk
-fG
-Rh
-;E
-Zb
-Kf
-H1
-_k
-.@f
-._7
-k8
-AR
-3I
->^
-/[]
-.KP
-cR
-./U
-J9
-c.
-/07
-6I
-/22
-.SX
 ?F;	DeanFurzer(Australia)
 93O
 ./L	Deansdale
@@ -37514,6 +37514,12 @@ Q>
 3-S
 .9[
 l2h	Dean~Groo
+3iD	Death
+6l>
+=`E
+;HX
+0I;
+4Xf
 Vc<	Death Angel
 g9e	Death Bunny
 /M8
@@ -37523,12 +37529,6 @@ g9e	Death Bunny
 Xhd	Death Master
 ZZ0	Death Morrison
 DCl	Death Weilder
-3iD	Death
-6l>
-=`E
-;HX
-0I;
-4Xf
 THF	Death(NL)
 2h.	DeathBoy
 8A@
@@ -37805,17 +37805,6 @@ g:
 cLX	Dedanis~Kuralesa~MAM
 0Y6	Dedanis~MAM
 E5E	Dedloc
-6UU	Dee Jay CSL(Pol)
-A<g
-1-C
-6Hc
-3.
-9GK
-5lH
-.D=	Dee Jay MFX
-;>]
-.ZW
-GMJ
 3J1	Dee
 i>
 3NG
@@ -37827,6 +37816,17 @@ i>
 /8.
 4-:
 2\E
+6UU	Dee Jay CSL(Pol)
+A<g
+1-C
+6Hc
+3.
+9GK
+5lH
+.D=	Dee Jay MFX
+;>]
+.ZW
+GMJ
 @S=	Dee(SF)
 2CG
 /V8
@@ -37836,6 +37836,414 @@ i>
 /]Z
 /0F
 5@i
+2=	DeeJay Jones
+E@
+/E
+/;
+4k
+3
+;X
+M:
+/J
+.E
+.I
+<<
+8d
+<<
+@Q
+8I
+9j
+4^
+73
+9
+8<
+>h
+2Q
+Qh
+3j
+X-
+/F
+/B
+1F
+9j
+.d
+50
+Y
+D-
+:A
+.i
+/Z
+4J
+/F
+21
+4X
+E:
+./c
+2.
+>T
+B6
+3i
+V
+2E
+aS
+6h
+.5
+7T
+5b
+0/
+2P
+6?
+:P
+E^
+5I
+7f
+.O
+0H
+/e
+1J
+HX
+1S
+;;
+EH
+10
+_
+3b
+/N
+0R
+/]
+30
+0E
+Hl
+k
+Il
+1Z
+6>
+5?
+2E
+6F
+6N
+b
+0Z
+5E
+2Z
+52
+7_
+/K
+/P
+6_
+1P
+;@
+;?
+/A
+1A
+2d
+]
+9Z
+;V
+X.
+3B
+.-
+B4
+/O
+.U
+<^
+/>
+Bl
+.`
+FQ
+1L
+2F
+.j
+;k
+h
+.=
+F1
+;/
+8S
+/F
+2a
+Qa
+.M
+.Q
+CU
+./
+6`
+6G
+4^
+2[
+<g
+0T
+<<
+H_
+9k
+2f
+:/
+1j
+;6
+82
+E2
+/_
+7
+25
+4c
+8g
+<4
+8H
+0T
+/P
+0;
+C=
+0]
+:V
+=F
+1P
+R
+3I
+12
+/[
+;P
+2C
+0b
+Dg
+<h
+6Q
+53
+26
+5f
+2d
+;Z
+.\
+1A
+1Z
+.
+O
+h
+.@
+4Y
+0Q
+.b
+j
+.j
+@
+8L
+35
+/G
+2F
+.C
+<]
+B6
+[
+7U
+2?
+6I
+.G
+>M
+71
+\
+?A
+Ai
+1a
+@8
+;`
+A
+97
+00
+.V
+?5
+h
+:=
+=0
+F7
+.e
+4i
+19
+X
+=:
+/<
+1H
+0V
+?
+:1
+//
+1a
+3M
+/A
+67
+7@
+4D
+3R
+.?
+/j
+7V
+3h
+>_
+<^
+2W
+3[
+9K
+.9
+BH
+@J
+G
+:R
+.l
+2M
+8_
+2]
+=H
+2f
+6D
+/_
+7[
+.P
+;O
+>O
+3B
+/3
+.0
+A6
+/-
+4/
+.3
+.R
+6B
+<2
+H<
+4
+9`
+P6
+1J
+5X
+7O
+7/
+@@
+8<
+/k
+T
+4_
+5b
+42
+3M
+7U
+/C
+=Y
+.G
+J-
+GO
+1i
+RA
+54
+.i
+/@
+:
+9g
+MI
+/c
+90
+7I
+/H
+9K
+6
+QC
+Ih
+1l
+0\
+.P
+I/
+k
+.i
+46
+6N
+7Y
+/4
+84
+?
+/k
+8=
+<L
+/<
+A6
+.?
+OA
+9[
+:;
+/M
+ME
+88
+>h
+1Z
+.j
+/6
+I_
+7`
+NE
+0J
+.:
+6E
+/R
+0F
+Gf
+6S
+7N
+f
+A2
+==
+.V
+6V
+>i
+<.
+EV
+0Z
+6K
+:K
+8Y
+6
+4a
+3j
+.l
+73
+<S
+22
+6?
+:
+R;
+/;
+89
+5G
+7D
+E/
+16
+L>
+>U
+9R
+?;
+6A
+7a
+BO
+56
+AV
+8`
+<N
+<H
+b
+@A
+9i
+1O
+F\
+S`
+/.
+D
+6F
+J6
+dF
+/[
+=i
+8g
+1J
+8A
+5\
+1d
+<N
 A\	DeeJay Jones (B)
 0l
 1S
@@ -37880,8 +38288,7 @@ BY
 3M
 >a
 <]
-3MJ	DeeJay Jones
-3Xc	DeeJay Jones (B)
+C7
 0W
 0
 4Y
@@ -38250,414 +38657,26 @@ b
 1\
 J
 j
-2=	DeeJay Jones
-E@
-/E
-/;
-4k
-3
-;X
-M:
-/J
-.E
-.I
-<<
-8d
-<<
-@Q
-8I
-9j
-4^
-73
-9
-8<
->h
-2Q
-Qh
-3j
-X-
-/F
-/B
-1F
-9j
-.d
-50
-Y
-D-
-:A
-.i
-/Z
-4J
-/F
-21
-Le
-./c
-2.
->T
-B6
-3i
-V
-2E
-aS
-6h
-.5
-7T
-5b
-0/
-2P
-6?
-:P
-E^
-5I
-7f
-.O
-0H
-/e
-1J
-HX
-1S
-;;
-EH
-10
-_
-3b
-/N
-0R
-/]
-30
-0E
-Hl
-k
-Il
-1Z
-6>
-5?
-2E
-6F
-6N
-b
-0Z
-5E
-2Z
-52
-7_
-/K
-/P
-6_
-1P
-;@
-;?
-/A
-1A
-2d
-]
-9Z
-;V
-X.
-3B
-.-
-B4
-/O
-.U
-<^
-/>
-Bl
-.`
-FQ
-1L
-2F
-.j
-;k
-h
-.=
-F1
-;/
-8S
-/F
-2a
-Qa
-.M
-.Q
-CU
-./
-6`
-6G
-4^
-2[
-<g
-0T
-<<
-H_
-9k
-2f
-:/
-1j
-;6
-82
-E2
-/_
-7
-25
-4c
-8g
-<4
-8H
-0T
-/P
-0;
-C=
-0]
-:V
-=F
-1P
-R
-3I
-12
-/[
-;P
-2C
-0b
-Dg
-<h
-6Q
-53
-26
-5f
-2d
-;Z
-.\
-1A
-1Z
-.
-O
-h
-.@
-4Y
-0Q
-.b
-j
-.j
-@
-8L
-35
-/G
-2F
-.C
-<]
-B6
-[
-7U
-2?
-6I
-.G
->M
-71
-\
-?A
-Ai
-1a
-@8
-;`
-A
-97
-00
-.V
-?5
-h
-:=
-=0
-F7
-.e
-4i
-19
-X
-=:
-/<
-1H
-0V
-?
-:1
-//
-1a
-3M
-/A
-67
-7@
-4D
-3R
-.?
-/j
-7V
-3h
->_
-<^
-2W
-3[
-9K
-.9
-BH
-@J
-G
-:R
-.l
-2M
-8_
-2]
-=H
-2f
-6D
-/_
-7[
-.P
-;O
->O
-3B
-/3
-.0
-A6
-/-
-4/
-.3
-.R
-6B
-<2
-H<
-4
-9`
-P6
-1J
-5X
-7O
-7/
-@@
-8<
-/k
-T
-4_
-5b
-42
-3M
-7U
-/C
-=Y
-.G
-J-
-GO
-1i
-RA
-54
-.i
-/@
-:
-9g
-MI
-/c
-90
-7I
-/H
-9K
-6
-QC
-Ih
-1l
-0\
-.P
-I/
-k
-.i
-46
-6N
-7Y
-/4
-84
-?
-/k
-8=
-<L
-/<
-A6
-.?
-OA
-9[
-:;
-/M
-ME
-88
->h
-1Z
-.j
-/6
-I_
-7`
-NE
-0J
-.:
-6E
-/R
-0F
-Gf
-6S
-7N
-f
-A2
-==
-.V
-6V
->i
-<.
-EV
-0Z
-6K
-:K
-8Y
-6
-4a
-3j
-.l
-73
-<S
-22
-6?
-:
-R;
-/;
-89
-5G
-7D
-E/
-16
-L>
->U
-9R
-?;
-6A
-7a
-BO
-56
-AV
-8`
-<N
-<H
-b
-@A
-9i
-1O
-F\
-S`
-/.
-D
-6F
-J6
-dF
-/[
-=i
-8g
-1J
-8A
-5\
-1d
-<N
 GZD	DeeYo
+Ff	Deejay
+708
+/_;
+1FV
+\T
+.Xi
+3LN
+/BV
+3?]
+.Df
+.-7
+0E1
+1NY
+1U
+B1
+1Xf
+4H=
+05S
+0X;
 cK	Deejay 99
 0G
 .;Q
@@ -38784,25 +38803,6 @@ IgP
 ]\
 V]i	Deejay Jones~RokDaZone~SMT
 61d
-Ff	Deejay
-708
-/_;
-1FV
-\T
-.Xi
-3LN
-/BV
-3?]
-.Df
-.-7
-0E1
-1NY
-1U
-B1
-1Xf
-4H=
-05S
-0X;
 <EI	Deejay(NL)
 Bda	Deek
 1Lf
@@ -39526,9 +39526,9 @@ hX
 @aC
 2.A
 ?S
-a2H	Delirium Galaxy
 .^]	Delirium
 CeO
+a2H	Delirium Galaxy
 .<J	Deload
 9@H
 3b
@@ -39883,9 +39883,9 @@ Eh/
 /2<
 /\O
 4FJ
-a=\	Dennis Sarratou
 YlY	Dennis
 6[>
+a=\	Dennis Sarratou
 DCW	DennisBrosch(Germany)
 =9=
 HCX	DennisC
@@ -39944,6 +39944,7 @@ THJ	Depete~Spike
 >F8	Depode
 3`f
 QIf	Depth
+Q@b	Der
 AUK	Der Abgott
 ?Ca
 ;EN
@@ -39969,7 +39970,6 @@ LAF	Der Piipo
 0fF
 0\e
 3T=
-Q@b	Der
 ?2D	Derek Heasley
 5Eb
 0[I	Derelict
@@ -40767,6 +40767,7 @@ B0f	Dice(Norway)
 32;
 G=d
 1B8
+7K`	Dick
 XOV	Dick Tracer
 Z4	Dick the Briton
 .PW
@@ -40790,7 +40791,6 @@ MF
 /8M
 /AT
 .:A
-7K`	Dick
 4gO	Dictator(XTS)
 2cF
 Gj/	Diddle~Jester
@@ -40905,7 +40905,6 @@ b2
 .iM
 4?E	Digistorm~Witsflow
 [XT
-7YQ	Digit MC
 //Y	Digit
 d:
 0RV
@@ -40933,6 +40932,7 @@ lb
 2.b
 .3g
 A_
+7YQ	Digit MC
 7FM	Digit(DK)
 5d
 ;1Q
@@ -41366,8 +41366,6 @@ eQ
 /Ej
 9LO
 0K=
-Hfk	Dirk Bredendiek
-NK>	Dirk Magerkord
 /3W	Dirk
 .NE
 LA
@@ -41387,6 +41385,8 @@ CK
 .<g
 5-G
 0>U
+Hfk	Dirk Bredendiek
+NK>	Dirk Magerkord
 6\J	Dirk(Germany)
 .8S	Dirk~Mephisto
 /H<
@@ -42289,6 +42289,8 @@ DJ
 3<9
 /:W
 6gV
+>VM	Doctor
+L.Z
 HJl	Doctor Acid
 0=d	Doctor Afterburner
 /B2
@@ -42327,8 +42329,6 @@ l>
 2e/
 9.a	Doctor Who
 ;G\
->VM	Doctor
-L.Z
 A<P	Dodge
 EB	Dodger
 ]\?
@@ -42585,31 +42585,6 @@ Kel
 ^7Q	Doker
 /L4
 ../T	Doko E.~Jazy
-25e	Doktor Jeep
-]5d
-[MT	Doktor Meltdown
-3<I	Doktor Noise
-0Cc
-04<
-.X
-/@^
-7>K
-.Zj
-.IQ
-/K3
-.8/
-0`6
-74f
-.;_
-/3k
-3AD
-.2-
-.8G
-0eY
-/bA	Doktor Noise~Gloom
-NT9
-@H9	Doktor Noise~Iceman
-Aic
 ja	Doktor
 ..d
 0CD
@@ -42655,6 +42630,31 @@ Y_
 49
 0E5
 0YB
+25e	Doktor Jeep
+]5d
+[MT	Doktor Meltdown
+3<I	Doktor Noise
+0Cc
+04<
+.X
+/@^
+7>K
+.Zj
+.IQ
+/K3
+.8/
+0`6
+74f
+.;_
+/3k
+3AD
+.2-
+.8G
+0eY
+/bA	Doktor Noise~Gloom
+NT9
+@H9	Doktor Noise~Iceman
+Aic
 O-	Dolby(E)
 0<[
 .FP
@@ -42905,16 +42905,6 @@ hh
 2VH
 .k1
 eE
-2kg	Dominic Hough
-4dJ
-4Jj
-2e8
-.:
-7X?
-U.
-=i0
-.32
-3<L
 /IK	Dominic
 .8A
 .kW
@@ -42935,10 +42925,26 @@ NC
 1.>
 /;h
 2HN
+2kg	Dominic Hough
+4dJ
+4Jj
+2e8
+.:
+7X?
+U.
+=i0
+.32
+3<L
 K@l	Dominic~Mat
 8N;	Dominik(USA)
 L:H	Dominion(USA)
 @a-
+=_G	Dominique
+.SU
+5Wl
+/Z4
+50:
+F;D
 0BD	Dominique Gillis
 0M=
 4PK
@@ -42951,12 +42957,6 @@ L:H	Dominion(USA)
 /F_
 /48
 [[E	Dominique Lengy
-=_G	Dominique
-.SU
-5Wl
-/Z4
-50:
-F;D
 E0V	Domino(Poland)
 PBj
 ?.
@@ -43320,9 +43320,6 @@ HUE
 J0D
 D^.	Dooba
 ;dH	Dooke (PL)
-1X2	Doom Cough
-Ekl
-@k=
 .i	Doom
 .N5
 .Ga
@@ -43363,6 +43360,9 @@ jC
 VN
 :h
 X0
+1X2	Doom Cough
+Ekl
+@k=
 >QK	Doom(Finland)
 .Jg	Doom(TBH)
 :Ll
@@ -43454,6 +43454,7 @@ CSc	Dosh(DK)
 BX[	DotH
 GMQ
 Q\\	Dot~Edzes
+9.C	Double
 1/l	Double D.
 .3K
 8_7
@@ -43483,7 +43484,6 @@ EN
 J-
 .H]
 7L
-9.C	Double
 .L.	Doublestar
 1Be
 86a
@@ -44769,7 +44769,6 @@ Li
 .T?
 .US
 /NG
-@5D	Dragon MC
 :[b	Dragon
 hO
 0f5
@@ -44779,6 +44778,7 @@ hO
 42a
 2UG
 5a]
+@5D	Dragon MC
 7]W	Dragon(H)
 OTS
 .6D
@@ -46526,16 +46526,6 @@ IZc	Dyma
 H=V	Dynabyte
 DCC
 8CU
-5/6	Dynamic Harmony
-/c4
-?:
-.A
-4Ob
-WM
-9Q?
-F74
-1/e
-@I=	Dynamic Harmony~The Earth Gazer
 /Fc	Dynamic
 04Y
 K=
@@ -46558,6 +46548,16 @@ _i
 .Y`
 .J`
 03
+5/6	Dynamic Harmony
+/c4
+?:
+.A
+4Ob
+WM
+9Q?
+F74
+1/e
+@I=	Dynamic Harmony~The Earth Gazer
 EAV	Dynamic(D)
 /gM	Dynamic(Fr)
 .-:	Dynamic(S)
@@ -46751,6 +46751,7 @@ JBj	Dyzma(Pol)
 6@7
 Ne\	Dziobak
 EPW	Dzsozy
+hR>	E
 .<1	E!ghtbm
 @T
 /Z^
@@ -46797,7 +46798,6 @@ Y`J	E!ghtbm~Magnetic-Fox
 GOK	E!ghtbm~Tomarkus
 4D5
 Cd5
-hR>	E
 OIP	E-Cho
 GL=
 E_9	E-Cho~Substance
@@ -47668,8 +47668,6 @@ ML
 1bK
 C8d
 lK7	Ecz(Czech)
-KKA	Ed Ritchie
-D1S
 />W	Ed
 .21
 /CO
@@ -47685,6 +47683,8 @@ Qg
 /5E
 db
 1ji
+KKA	Ed Ritchie
+D1S
 .fk	Ed(S)
 .ZD	Eddie
 4l/
@@ -47717,12 +47717,12 @@ db
 5XB
 7.T
 0Pb
-?d1	Eddy Jason
-1H4
 5j=	Eddy
 7H_
 1QL
 @JW
+?d1	Eddy Jason
+1H4
 ]>	Edgardo Federico Rutenberg
 9c\
 568
@@ -48166,6 +48166,7 @@ E^Z	ElectriC
 Y-M	Electris~Opty
 .@E
 .X;
+I3M	Electro
 :SE	Electro Bastard
 57e
 2Dl
@@ -48182,7 +48183,6 @@ Kk9
 /gS
 1Dj
 94U
-I3M	Electro
 I0	Electro(Poland)
 NOI
 :TW	ElectroPizza
@@ -49146,7 +49146,6 @@ B4_
 2l=	Energy(H)
 IIQ
 /3F
-;_=	Eniac Blast
 1N[	Eniac
 /K[
 Ah
@@ -49164,6 +49163,7 @@ IH
 3c1
 1O
 4iQ
+;_=	Eniac Blast
 0-3	Eniar
 [:
 67_
@@ -49600,8 +49600,8 @@ E/^	ErikB
 iA[	Erise
 fig	Erkki
 8FT	Erlend22
-A<O	Ernest P. Werll
 iJY	Ernest
+A<O	Ernest P. Werll
 CP\	Ernesto Aeroflot
 .2e
 =6Y
@@ -49646,9 +49646,9 @@ A7
 `^7	Error
 4-4
 .-bQ	Error1
+Ee?	Erwin
 d^M	Erwin Greimeister
 Xfl	Erwin de Bruys
-Ee?	Erwin
 5C@	Esa Turunen
 .1f	Esaree
 G]U
@@ -51868,12 +51868,6 @@ V4
 /3N
 8WL
 5Vi	FTS
-IAH	FX!
-5ak
-43j
-:X_
-bd
-R[
 24V	FX
 2ZW
 0`I
@@ -51889,6 +51883,12 @@ K1
 T]
 65k
 6=P
+IAH	FX!
+5ak
+43j
+:X_
+bd
+R[
 <g9	FXL
 0f\
 >ZX
@@ -52602,15 +52602,15 @@ A2[
 5`6
 K[Z	Fanu~Mad-E
 X=.	Faraday
+9/Q	Farenheit
+/f=
+C:I
 B4:	Farenheit 451
 /[
 4?^
 04O
 0ZC
 :j8
-9/Q	Farenheit
-/f=
-C:I
 .B^	Farfar
 9.V
 >X_
@@ -53293,8 +53293,8 @@ Q/
 8U]
 ?E=	Fiend
 N63	FieserWolf
-Mi/	Fifi die Feder
 YBM	Fifi
+Mi/	Fifi die Feder
 ]Te	Figfy
 RN0	Fil(Ru)
 P9l	Fil(uk)
@@ -53414,10 +53414,6 @@ M-
 .Sg
 /W/
 023
-_ZL	Fire Angel
-E\
-9Gg	Fire Mouse(Ger)
-e^/	Fire Shock
 \F	Fire
 <[
 /QT
@@ -53436,6 +53432,10 @@ eg
 2/4
 /<l
 1]8
+_ZL	Fire Angel
+E\
+9Gg	Fire Mouse(Ger)
+e^/	Fire Shock
 X5b	Fire(unk)
 3<G	FireBeetle
 @>7
@@ -53768,10 +53768,10 @@ D7G
 8d1
 :5j
 2CC
+WOc	Fish
 1E-	Fish Boy
 2f;
 `B0
-WOc	Fish
 ;JR	Fish(D)
 FQ
 9Pb
@@ -53858,39 +53858,6 @@ P4d	Flamer
 =XX	Flanger
 7g/
 3a9
-Eg	Flapjack Charlie
-]L
-AU
-.6g
-.8-
-1ZP
-E@
-0.3
-1QA
-gA
-?=
-8Y;
-02
-.Y[
-.lP
-/-F
-/Ia
-0CR
-S/
-]T
-h.
-/Eb
-.I]
-1<e
-2[.
-;;
-.O
-@-
-/aL
-/Ug
-R-
-.N2
-57
 B	Flapjack
 .W@
 ID
@@ -53944,6 +53911,39 @@ KX
 .dQ
 .N2
 .\F
+Eg	Flapjack Charlie
+]L
+AU
+.6g
+.8-
+1ZP
+E@
+0.3
+1QA
+gA
+?=
+8Y;
+02
+.Y[
+.lP
+/-F
+/Ia
+0CR
+S/
+]T
+h.
+/Eb
+.I]
+1<e
+2[.
+;;
+.O
+@-
+/aL
+/Ug
+R-
+.N2
+57
 dec	Flapjack~X-Ceed
 2Al	Flare
 /4[
@@ -54441,11 +54441,11 @@ I_N	Floppi~Zalza
 3Z0
 8]P
 0/T
-9Fi	Floppy Man
 <l1	Floppy
 4XQ
 I]`
 2l]
+9Fi	Floppy Man
 ..4W	Florian
 CH	Florist
 A<
@@ -54766,7 +54766,6 @@ _X@
 8?c	Focus~Tractor
 aN5	Fodder(Cro)
 6S;
-l_J	Fog Product
 37;	Fog
 3M^
 <?-
@@ -54781,6 +54780,7 @@ l_J	Fog Product
 :@A
 KQ
 .QZ
+l_J	Fog Product
 2F@	Fog(old)
 ^8Y
 CbX	Folcka
@@ -54799,7 +54799,7 @@ B`d
 F72	Force Format
 </4
 IBX	Forcer~Mr. Kadde
-2PP	Ford Perfect 
+2PP	Ford Perfect
 8:C
 U0=	Forelogy
 ZbU	Forensic Medicine
@@ -54844,6 +54844,10 @@ CGV
 5Fk
 /K_
 g/
+:J2	Fox
+/U
+1;/
+RAB
 Mhg	Fox (Sweden)
 LY	Fox McLoud
 2;_
@@ -54861,10 +54865,6 @@ LY	Fox McLoud
 0K]
 V[
 fU
-:J2	Fox
-/U
-1;/
-RAB
 :[F	Fox(Rus)
 <3>
 @[W
@@ -55051,9 +55051,9 @@ CY^	Franker
 .PB
 >-2	Franky(CZ)
 IBA	Frank~Richard
-:>^	Frantic Louie
 D`b	Frantic
 1UZ
+:>^	Frantic Louie
 ;N7	Franz_Koopa
 9<4
 36Z	Frapa
@@ -55134,6 +55134,12 @@ CWD	Freaq
 8Z7
 d<
 /NH
+1M/	Fred
+DRN
+TX
+:1I
+@AP
+.<L
 1N0	Fred Jones
 0gW
 7PO
@@ -55146,12 +55152,6 @@ G7
 :UC
 ;3H
 jQ
-1M/	Fred
-DRN
-TX
-:1I
-@AP
-.<L
 RLB	Fred(F)
 4;2
 /@A	Fred(F2)
@@ -55239,12 +55239,12 @@ F5X
 4l4	Freddox~Pib
 5?Z
 Td[
+34a	Freddy
 DJP	Freddy Hajas
 F;f
 l?6	Freddy II(Ger)
 9Si	Freddy Krueger
 U7c
-34a	Freddy
 2k:	Freddy(APP)
 9V-
 Hdh
@@ -55343,13 +55343,13 @@ JfL	Freebase
 IXG
 dYJ	Freed
 34N
-?VN	Freedom Arts
-/e8
-A2S
 \<	Freedom
 R.;
 3j.
 82<
+?VN	Freedom Arts
+/e8
+A2S
 JP/	Freedom(S)
 RH[	Freefix
 /\j
@@ -55679,13 +55679,13 @@ BRC	Frightful~Teemu
 05R
 0A<	Frille
 `.f	Frippe
-US4	Frits Bom(NL)
-UV-	Frits Nielsen
 >ec	Frits
 0RA
 6=f
 AK@
 T_
+US4	Frits Bom(NL)
+UV-	Frits Nielsen
 7P=	Frizzlefried
 0[S
 ACl
@@ -55711,8 +55711,6 @@ i_
 8_5
 =QA	Frodon
 9K:
-9I3	Frog Fuzz
-2O7
 5\L	Frog
 6E8
 Bb
@@ -55721,6 +55719,8 @@ Bb
 1`Y
 3RQ
 /J5
+9I3	Frog Fuzz
+2O7
 2RU	Frog(CHL)
 0eH
 7a[
@@ -55779,6 +55779,7 @@ L0d	Frogger
 S6R	Froggie
 RDO	Froggy
 bQ4	Frolic
+2EG	Front
 A>	Front 6
 Gg
 [.
@@ -55879,7 +55880,6 @@ lcb	Front 6~Stax
 /XR	Front 6~Tommy
 `H[
 5`]
-2EG	Front
 MRC	Frontman(Ger)
 :-G
 CP=	Frost(Sweden)
@@ -55892,9 +55892,9 @@ C_K	Frosty
 7J>
 6-N
 0g2
-<>H	Frown (Russia)
 [d:	Frown
 2Zk
+<>H	Frown (Russia)
 0UN	Froyd the Dreud
 .ZO
 ?1@
@@ -56781,6 +56781,10 @@ D_9	Gabber~Smozzebos
 C7@
 >D]	Gable
 8.-	Gabor Molnar
+.lQ	Gabriel
+2O8
+9^g
+@]4
 .6<	Gabriel Faures
 =D/	Gabriel Klein
 3T1
@@ -56788,10 +56792,6 @@ C7@
 DGK
 09D
 2XV
-.lQ	Gabriel
-2O8
-9^g
-@]4
 O;P	Gabriele Roncolato
 WR	Gadfly(Norway)
 YW6
@@ -56936,8 +56936,8 @@ XH>	Galgox~Robyn
 9@<
 7@1
 >g?	Gambit
-^lH	Game Over
 eKl	Game
+^lH	Game Over
 MCF	Game(SF)
 15>	GameOver
 .87
@@ -57848,6 +57848,8 @@ iS
 0NF
 /0>
 VV\	Gene J.B.
+0?:	General
+KD0
 8SP	General Assasin
 ;7P
 4<`
@@ -57855,8 +57857,6 @@ VV\	Gene J.B.
 =gV
 17L
 ./T
-0?:	General
-KD0
 C=A	Generation
 F87	Generator
 C6Z
@@ -60162,41 +60162,6 @@ X5
 E[
 .aT
 2B<
-Vb	Glue Master
-03K
-0-k
-.3G
-.h2
-Gj
-0jV
-.Be
-hL
-/Le
-0T@
-1W?
-E@
-.dW
-0>7
-/^C
-/e9
-0-1
-I<
-/K^
-0Md
-H;
-E7
-.?<
-6X
-/W0
-.9?
-.:H
-cF
-./C
-WZ
-2`
-kb
-/6@
-18c
 .cU	Glue
 ]Z
 KB
@@ -60241,6 +60206,41 @@ NI
 2F
 d^
 Ik
+Vb	Glue Master
+03K
+0-k
+.3G
+.h2
+Gj
+0jV
+.Be
+hL
+/Le
+0T@
+1W?
+E@
+.dW
+0>7
+/^C
+/e9
+0-1
+I<
+/K^
+0Md
+H;
+E7
+.?<
+6X
+/W0
+.9?
+.:H
+cF
+./C
+WZ
+2`
+kb
+/6@
+18c
 j>Y	Gluefoot
 4IB	Glyph
 /3j
@@ -60294,13 +60294,13 @@ EfT	GoLuigi~Rezon
 5Zg
 >J<	GoRo
 DB^	GoSuB
+QBV	Goa
+>>k
 8TK	Goa Grafix
 [UI
 3ZH
 8CP	Goa Phantasm
 1Od
-QBV	Goa
->>k
 8A<	Goalpost Movement
 3DW	Goatman
 @88
@@ -60319,6 +60319,7 @@ f>
 2H.	Goblin
 EEV
 C^K	Gobus
+^AM	God
 1GB	God Almighty
 `]^
 A=B	God Beat
@@ -60344,7 +60345,6 @@ A0
 17-
 .3g
 ghf	God of Hellfire
-^AM	God
 5VB	Godbrain
 /bC
 Se\
@@ -60434,14 +60434,6 @@ i@
 7JF	Gony(Japan)
 QT_
 1RD
-93R	Gonzo Kyd
-1]\
-3?/
-7UT
-<1J
-3G:
-12<
-2cS
 /Uh	Gonzo
 3-T
 F0
@@ -60493,6 +60485,14 @@ HI
 .IP
 /CC
 .-<
+93R	Gonzo Kyd
+1]\
+3?/
+7UT
+<1J
+3G:
+12<
+2cS
 9ZL	Goo-Roo
 7Q[
 07`
@@ -61409,8 +61409,6 @@ AkF
 .5.
 0:S
 5bH	Gregorius Gniady~Ladek Zdroj
-E:f	Gregory Carter
-LQT	Gregory Schwartz
 2Ie	Gregory
 0XQ
 29<
@@ -61420,6 +61418,8 @@ LQT	Gregory Schwartz
 0I?
 3SI
 Ef
+E:f	Gregory Carter
+LQT	Gregory Schwartz
 9.3	Gregory(Ger)
 `4Y
 ;bV	Gregzy
@@ -61544,11 +61544,6 @@ ZU
 .7`
 1OE
 2k]
-A8c	Grim Reaper
-0g\
-h?
-/d:
-CL6
 G3	Grim
 W8
 7R
@@ -61669,6 +61664,11 @@ CY
 ..O
 ;j
 @:
+A8c	Grim Reaper
+0g\
+h?
+/d:
+CL6
 Ra>	Grim(Can)
 F0O	Grimlock
 :]Y
@@ -62494,12 +62494,6 @@ G:X
 3Rd
 kEZ	Guts(Sweden)
 .-DF	Guvenc Karlan
-j@_	Guy Moss
-@c0	Guy Shavitt
-.QZ
-I3F
-0<:
-gM?	Guy Whitmore~Philippe Charron
 0DV	Guy
 .LP
 :h
@@ -62510,6 +62504,12 @@ if
 2.g
 :/6
 :0F
+j@_	Guy Moss
+@c0	Guy Shavitt
+.QZ
+I3F
+0<:
+gM?	Guy Whitmore~Philippe Charron
 I0E	GuyHenkel
 jJ-	Guybru5h
 :E	Guybrush
@@ -62789,12 +62789,12 @@ VMU	Gyperios
 /-f
 0NY
 6E4
+0Fl	H
 J>	H Sound D
 OBa
 8Pj
 9^l
 <Q
-0Fl	H
 KjP	H. Deppendorf
 070	H. Matthew Smith
 >:.
@@ -63244,6 +63244,7 @@ GYH	Handel
 0FL
 IF/
 TdC	Hanhisuanto
+e1f	Hannes
 NI	Hannes Seifert
 \B
 NT
@@ -63317,7 +63318,6 @@ D_
 .]N
 .SW
 YY
-e1f	Hannes
 :.`	Hannibal Lecter
 /;N
 /^Z
@@ -63396,10 +63396,6 @@ NS0
 f?T	Harald Wuest
 c[k	Hard Boiled
 ZOb	Hardbreaker
-22C	Hardcore Freak
-?O8
-T?l	Hardcore Logic
-?TA
 /I	Hardcore
 3i:
 7bk
@@ -63416,6 +63412,10 @@ T?l	Hardcore Logic
 /:P
 /.N
 .9W
+22C	Hardcore Freak
+?O8
+T?l	Hardcore Logic
+?TA
 K0[	HardcoreManiac
 4:G	Hardcrach(Ger)
 LV2	Hardcrack
@@ -64084,8 +64084,8 @@ B<i	Headache
 UP
 50D
 Wl8	Headache~Nula
-\B@	Headbanger Rok
 FkP	Headbanger
+\B@	Headbanger Rok
 1.S	Headhunter(UK)
 1.U
 Wh
@@ -64607,8 +64607,8 @@ O=
 />c
 eT
 P7k	Helismaa~Lemonade
-LM<	Helix (Germany)
 ].l	Helix
+LM<	Helix (Germany)
 @-G	Hell Hawk(Nor)
 VI=
 j\	HellFlip
@@ -64915,9 +64915,6 @@ P?H	Het(unk)
 ;<
 A92	Hewson Chen
 NiK
-;a9	Hex Max
-GUk
-6Q_
 D[	Hex
 0Ne
 17[
@@ -64951,6 +64948,9 @@ l3
 :.
 .9[
 21
+;a9	Hex Max
+GUk
+6Q_
 ]>2	Hex(FI)
 9a	Hex(Slo)
 OR5
@@ -66013,6 +66013,7 @@ SHZ	Hohla
 PiI
 3Ik
 B0M	Holdys~X-Type
+PLN	Holger
 CM	Holger K.
 /CF
 10G
@@ -66039,7 +66040,6 @@ lY
 1OF	Holger K.~Jake
 ^9:
 E81	Holger Lubitz
-PLN	Holger
 3O4	HolgerKral(Germany)
 95h
 .OZ
@@ -66309,8 +66309,8 @@ AE
 5Uh
 KWd	Hostile
 M/.
-?_J	Hot Dog
 >Y\	Hot
+?_J	Hot Dog
 ;B	Hotdogger~M. Gore
 1ZZ
 ESa	Hotfreezer
@@ -66442,6 +66442,7 @@ Agj
 b=9
 d^W	Houston Bernard~Putito
 =3]	Houyhnhnm
+\3^	Howard
 ;42	Howard Wilsher
 /B`
 lM
@@ -66455,7 +66456,6 @@ RY
 .HT
 9j8
 .Ac
-\3^	Howard
 J@R	Howard(Fr)
 ;@O
 6W/
@@ -67360,6 +67360,8 @@ E-2
 6H8
 /K8
 .-U
+F3P	Hypnotic
+8a<
 7MC	Hypnotic Melody
 ?AV
 @fX
@@ -67368,8 +67370,6 @@ O-
 /[P
 4i;
 ]2S	Hypnotic Melody~Master of Darkness
-F3P	Hypnotic
-8a<
 ?95	Hypnotic(DK)
 5U
 /@0
@@ -68448,6 +68448,7 @@ PRd
 />5
 d/I	Impulse(Rus)
 >VQ	Impulsefus
+CRI	In
 2=-	In Sun and Sea
 S/B
 4[O
@@ -68466,7 +68467,6 @@ OG
 .XY
 3QW
 __
-CRI	In
 2b]	InSine
 0DI
 eY
@@ -68545,9 +68545,9 @@ JE=	Inco(PL)
 /TU
 lO
 1a
-eFS	Indian Summer
 M.	Indian
 Ab>
+eFS	Indian Summer
 B8	Indiana
 M]N
 .Za
@@ -68613,6 +68613,10 @@ K0U
 CT1	Inferno(NL)
 7d^	Infey
 8`7
+=dT	Infinite
+WJW
+0[@
+C\
 7cH	Infinite Oblivion
 3A1
 1E>
@@ -68622,10 +68626,6 @@ CT1	Inferno(NL)
 /:V
 >M>
 .^N
-=dT	Infinite
-WJW
-0[@
-C\
 kWY	Infinite(SF)
 ;</	Infinitus
 M?P
@@ -68743,15 +68743,6 @@ QBA	Inoxis
 Q@@
 G;E	Inquisitor
 EG@
-/.X	Insanity Imparted
-N8T
-40:
-/T7
-ZU
-0CQ
-1[Z
-0lL
-1]G
 ^L	Insanity
 .[Q
 5F6
@@ -68764,6 +68755,15 @@ MU
 /Gj
 7-\
 2X6
+/.X	Insanity Imparted
+N8T
+40:
+/T7
+ZU
+0CQ
+1[Z
+0lL
+1]G
 2H@	Insect
 M.
 G\`
@@ -69086,18 +69086,6 @@ b]e	Isis(UK)
 @^>	Island of Reil
 6>l
 4[i	Ismael Faro
-4i-	Iso Crash
-/P[
-:<4
-3BT
-2FA
-/<7
-9R
-.HJ
-Rb
-0JS
-;h`
-1-\
 j-	Iso
 ./K
 gf
@@ -69134,6 +69122,18 @@ h0
 `W
 ./I
 0Kg
+4i-	Iso Crash
+/P[
+:<4
+3BT
+2FA
+/<7
+9R
+.HJ
+Rb
+0JS
+;h`
+1-\
 c6Z	Isobel
 Y_	Iso~The Fox II
 f?N
@@ -69208,12 +69208,12 @@ I:]	It-Alien
 592
 fZ
 .-29	Itiitrix
+KfW	Ivan
 7Eg	Ivan Gudkov
 5=C	Ivan Roshin
 <SO	Ivan Vella
 :6W
 H]f
-KfW	Ivan
 ;MP	Ivanhoe
 D/<
 /li
@@ -70241,8 +70241,8 @@ ef
 .UO
 .`W
 4B7
-4D;	Jacob Sorensen
 C9I	Jacob
+4D;	Jacob Sorensen
 L33	Jacques LeBlanc
 ?\R	Jacx
 ;Sc
@@ -70255,6 +70255,14 @@ Fl\
 /K^
 3hD
 />Z
+/Df	Jade
+0@]
+2]K
+8Yj
+5Wh
+/RA
+;UC
+c0
 7[i	Jade Cropper
 .C7
 4VR
@@ -70265,14 +70273,6 @@ Fl\
 lR
 :4X
 .X:
-/Df	Jade
-0@]
-2]K
-8Yj
-5Wh
-/RA
-;UC
-c0
 HV	Jade(USA)
 1dg
 =.g
@@ -70614,6 +70614,50 @@ A>N
 6G	Jama
 Q[V	Jame
 WUL	Jamer(Pol)
+.K>	James
+;C
+@i
+6i
+0fd
+0S8
+/^Q
+a5
+`H
+.Ui
+cK
+<>
+.a;
+/QX
+.6@
+.-]
+X2
+.8M
+0TB
+/3U
+BR
+47J
+.I@
+/.e
+B8
+.UH
+.FM
+47
+.8U
+/48
+Z
+.k3
+0B
+P_
+iC
+\[
+.`A
+.1N
+._9
+2[
+0Mf
+C_
+c>
+E/
 \Bk	James Baud
 >M@
 K:_	James Burton(Australia)
@@ -70710,50 +70754,6 @@ JYJ
 fl
 2^^
 .]E
-.K>	James
-;C
-@i
-6i
-0fd
-0S8
-/^Q
-a5
-`H
-.Ui
-cK
-<>
-.a;
-/QX
-.6@
-.-]
-X2
-.8M
-0TB
-/3U
-BR
-47J
-.I@
-/.e
-B8
-.UH
-.FM
-47
-.8U
-/48
-Z
-.k3
-0B
-P_
-iC
-\[
-.`A
-.1N
-._9
-2[
-0Mf
-C_
-c>
-E/
 0j8	JamesKillian(USA)
 GB<
 F@k
@@ -70966,11 +70966,11 @@ _O
 MQ
 MD
 8XE
+1EC	Jani
 <S?	Jani Finer
 HC:
 08Y
 4Z-
-1EC	Jani
 42<	Janko
 .>_
 W3I
@@ -70979,9 +70979,6 @@ W3I
 `<M	Jans-Peter
 V=g	Jantiff
 XXe	Jap(Denmark)
-6>:	Jape Kallio
-<-X
-Mjb
 16g	Jape
 .J>
 0`>
@@ -71004,6 +71001,9 @@ Yl
 /R^
 ]7
 49^
+6>:	Jape Kallio
+<-X
+Mjb
 be`	Japes
 hi6	Jape~Joegi
 9A`	Jape~The Dane
@@ -71030,14 +71030,6 @@ J1
 :QQ	Jarkko Svensk
 E3?
 22a
-6BH	Jarko Liimatainen
-0k;
-=UO
-5d>
-3BO
-/=X
-0:R
-0Ee
 0Hk	Jarko
 Ti
 1E
@@ -71107,6 +71099,14 @@ N?
 jh
 OH
 1:f
+6BH	Jarko Liimatainen
+0k;
+=UO
+5d>
+3BO
+/=X
+0:R
+0Ee
 JKI	Jarko~Kalosz
 ;T>
 /Hh
@@ -71531,6 +71531,7 @@ kj
 0>e
 /2/
 .@;	Jaxx~Squid
+>l]	Jay
 2Za	Jay FX
 eA
 2Jh
@@ -71553,7 +71554,6 @@ FQW
 >FC
 K0i	Jay Vex(France)
 9g@
->l]	Jay
 O9]	Jay(DK)
 3kY
 T3	Jay(NL)
@@ -72996,6 +72996,14 @@ M<V	Jellyfish
 8cB
 d4N	Jelous
 ..26	Jenkis
+54\	Jens
+.HY
+8Mf
+0^l
+AEW
+0MZ
+/h.
+2?/
 J/c	Jens Busse
 3WI	Jens M.
 0OH
@@ -73014,14 +73022,6 @@ Xd/	Jens Malare
 GN
 3`b
 [CE
-54\	Jens
-.HY
-8Mf
-0^l
-AEW
-0MZ
-/h.
-2?/
 7QQ	JensOnnen(German)
 4@G	Jenx
 .CA
@@ -73779,6 +73779,12 @@ TMN	Jets
 0X@
 MQ[
 LE=	Jez
+3OO	Jezz
+GP0
+.Gl
+8\9
+9^G
+1:G
 WO	Jezz Woodroffe
 .5A
 cB
@@ -73815,12 +73821,6 @@ W9
 .YR
 609
 ?dO
-3OO	Jezz
-GP0
-.Gl
-8\9
-9^G
-1:G
 __J	Jhonny the No. 1
 I`]	Jibe
 <6d	Jiihoo
@@ -73894,6 +73894,8 @@ hH
 /D^
 D6:	Jimmac
 5eg
+:K]	Jimmy
+1S@
 cE<	Jimmy Jeff
 =X<	Jimmy Johansson
 @>i
@@ -73902,8 +73904,6 @@ cE<	Jimmy Jeff
 TAk	Jimmy Redfern
 DhD
 :60	Jimmy Superfly
-:K]	Jimmy
-1S@
 AU@	JimmyClytch(Scotland)
 J[h
 .X`
@@ -74005,8 +74005,8 @@ _.h
 .X2
 .kD
 /k\
-Bd9	Jocke Molin
 ^BU	Jocke
+Bd9	Jocke Molin
 >NW	Jocko
 B@X
 5/S
@@ -74205,15 +74205,6 @@ BX/
 44e
 T2?	Joey
 BG>
-WUK	Jogeir Liljedahl~Scorpik
-12>	Jogeir Liljedahl~Shorty
-;Y7
-Aj?
-8SC
-Yh]	Jogeir Liljedahl~Tomas Danko
-96V	Jogeir Liljedahl~Unreal
-KH=	Jogeir Liljedahl~Walkman
-GM[
 1M	Jogeir
 K2
 4M
@@ -74382,6 +74373,15 @@ dc
 8?
 LU
 /\
+WUK	Jogeir Liljedahl~Scorpik
+12>	Jogeir Liljedahl~Shorty
+;Y7
+Aj?
+8SC
+Yh]	Jogeir Liljedahl~Tomas Danko
+96V	Jogeir Liljedahl~Unreal
+KH=	Jogeir Liljedahl~Walkman
+GM[
 2E.	Jogi
 .N3
 dI
@@ -74667,9 +74667,9 @@ CSI	Joint(PL)
 7Sf
 0RC
 ijB	Jojo
-AIg	Joker Melon
 ;7.	Joker
 A@?
+AIg	Joker Melon
 bJ_	Joker(D)
 Dkk	Joker(OZ)
 02K	Joker(RJ)
@@ -74886,9 +74886,9 @@ BVR
 GcV	Jon~Maf
 <:K	Jon~Shazz
 8j<	Jon~Shocker
+`PB	Jools
 c7=	Jools Henn(UK)
 7G]
-`PB	Jools
 ?H1	Joonaz
 9B/
 D/G	Jooon
@@ -75109,6 +75109,7 @@ G84
 d8k	JosSs~Yero
 Z[K	JosSs~Zalza
 KB[	Josch
+=^7	Jose
 .5G	Jose A. Martin
 l:
 /HO
@@ -75138,15 +75139,14 @@ Ha
 .MJ
 ?i/	Jose Armas Jorge
 g>.	Jose Perez
-=^7	Jose
 l[D	Joseba A. Irigoras
+5-O	Josef
 EVC	Josef Vopicka
 6e
 021
 5FX
 6lW
 jI
-5-O	Josef
 F0E	Josef(Ger)
 1MT	Josele(Spain)
 7cU
@@ -75157,6 +75157,7 @@ F0E	Josef(Ger)
 1i?	Joseph C(France)
 <a5
 K<7	Joseph Petersson
+j=F	Josh
 2L@	Josh Cutler
 5QE
 0hg
@@ -75168,7 +75169,6 @@ W/b
 MA:
 0kW
 0g@
-j=F	Josh
 DYP	Josh(Swe)
 K-/	Joshua
 /J0	Joshua(D)
@@ -75195,7 +75195,6 @@ EBV	Jourgensen
 aTA	Jovan
 @-4	Joy
 /WT	Joyce
-gB0	Jozef Parak
 a`	Jozef
 BU
 /<P
@@ -75220,6 +75219,7 @@ K;
 /8O
 .?\
 ..7
+gB0	Jozef Parak
 NlP	Jozef~Raiden
 5lK
 A4	Jozz
@@ -76733,6 +76733,31 @@ M2<
 dJ?	Karel Burger
 ?YJ	Karen Cheung~Luminance
 GO/	Karington
+.UA	Karl
+61_
+.=K
+GQ
+0`c
+C3
+E2
+1?
+3if
+/89
+.a/
+B8
+.9/
+/K
+/_d
+3J
+1gb
+0A`
+.B5
+1/]
+./K
+.<B
+:h0
+=e
+.8F
 Oi4	Karl Ekdahl
 3Fa	Karl Herrebout
 9?D
@@ -76764,31 +76789,6 @@ P9
 6Q=
 K9Y	Karl Noogat
 F1a
-.UA	Karl
-61_
-.=K
-GQ
-0`c
-C3
-E2
-1?
-3if
-/89
-.a/
-B8
-.9/
-/K
-/_d
-3J
-1gb
-0A`
-.B5
-1/]
-./K
-.<B
-:h0
-=e
-.8F
 /?i	Karlos
 .NH
 .7I
@@ -77078,6 +77078,8 @@ jM
 <Lj
 @d8	Keisari666
 MM0
+BHJ	Keith
+GjT
 =B	Keith 303
 FT
 G5
@@ -77177,8 +77179,6 @@ gN
 8Jd
 1aC
 :V6
-BHJ	Keith
-GjT
 `;	Keito(UK)
 8YT
 4\C
@@ -77841,6 +77841,31 @@ ck
 /Ze
 1:L
 6`
+1]U	Killer
+B<
+1Nj
+3SM
+2XJ
+.Yc
+[i
+3`b
+.b;
+a^
+QA
+05=
+^?
+..e
+.^;
+.d>
+2FM
+.e]
+2lP
+39
+.67
+0Wl
+lF
+.S`
+.6K
 [/h	Killer Energy
 3a	Killer Kid
 .=A
@@ -77909,31 +77934,6 @@ kM
 /._
 jB
 :h
-1]U	Killer
-B<
-1Nj
-3SM
-2XJ
-.Yc
-[i
-3`b
-.b;
-a^
-QA
-05=
-^?
-..e
-.^;
-.d>
-2FM
-.e]
-2lP
-39
-.67
-0Wl
-lF
-.S`
-.6K
 1K^	Killer(UK)
 :Q
 7M
@@ -78006,12 +78006,24 @@ YdJ	Kilo
 1Y.
 93`
 V[Z
+WX>	Kim
 ?8W	Kim B. Juul
 2g2	Kim Burgaard
-WX>	Kim
 ;Ij	Kimble
 F8h
 <]=	KimiK
+/H.	King
+7lH
+`P
+3<I
+7/Y
+g`
+1LM
+2BK
+<]g
+0Ke
+0[-
+h[
 S]	King Arthur
 8:
 U/
@@ -78186,18 +78198,6 @@ GVJ
 .Ah	King Ville
 7hM
 TJZ
-/H.	King
-7lH
-`P
-3<I
-7/Y
-g`
-1LM
-2BK
-<]g
-0Ke
-0[-
-h[
 2Dd	King-Chin
 C>8	Kingy(No)
 Y\U	Kinio(Poland)
@@ -78335,8 +78335,8 @@ NS
 N>
 2-L
 Od0	Kjayh~Klown Killer
-?>Y	Kjell Magne Bondevik
 7Mg	Kjell
+?>Y	Kjell Magne Bondevik
 iU;	Kjetil Eik
 hOk	Kjetil Eik~MC Lemon
 GlU	Kjex
@@ -80467,10 +80467,10 @@ g55	Lars Lindstahl
 N<K
 ^O-	Larza
 UjC	Lasa
+`UD	Laser
 ;Ak	Laser Harp
 E@T
 <gV
-`UD	Laser
 ?L/	Laserbunny
 /^1	Laserlore
 1TI
@@ -80484,8 +80484,8 @@ flA	Laserlore~Moby
 44b
 2Df
 UM3	Lasol
-0\Y	Lasse Christiansen
 `AP	Lasse
+0\Y	Lasse Christiansen
 164	Lastpoint
 1d6
 UX
@@ -80612,7 +80612,6 @@ MA
 .9-
 5I_	Lau(unk)
 VNI	Lauman
-RE5	Laurence Francis
 .hR	Laurence
 D4
 bD
@@ -80661,6 +80660,7 @@ FB
 /kU
 /QI
 LT
+RE5	Laurence Francis
 ?W^	Laurence~Mel'O'Dee
 HLP
 i=0	Laurent Benoit
@@ -83379,6 +83379,7 @@ YCH
 cdE	Lizer
 `H]	Llageram(Swe)
 /Ue	Llageran(Swe)
+R:T	Lloyd
 1Ee	Lloyd Rosen
 kJ
 3H
@@ -83411,7 +83412,6 @@ Wi
 31
 MZ
 2TD
-R:T	Lloyd
 ^K7	Lloyd(ATC)
 l8<	Lloyd(N)
 1[M	Lloyd(S)
@@ -83496,12 +83496,12 @@ cca	Loffy
 1CX	Lofihile
 Dd7
 /Xh
+NOi	Logic
+DN[
 .N4	Logic Dream
 ]i
 3R`
 Wc`
-NOi	Logic
-DN[
 2BU	Logik(Slo)
 1B]
 16=
@@ -83609,9 +83609,9 @@ L;
 3gS
 :NG
 0-Q
-Y7Y	Loic Dorgeret
 ;JO	Loic
 =3D
+Y7Y	Loic Dorgeret
 =Ee	Lois Lane
 MLT	Lokalbuz
 2[U
@@ -84440,11 +84440,11 @@ LGR	Lost Boy
 P]j
 6:i
 ?LO	LostCluster
+WO?	Lotek
 U[6	Lotek Style~Phoenix
 3_a	Lotek Style~SCY
 @6-
 IcF
-WO?	Lotek
 i?7	Lothar(Pol)
 5B8	Lotus(Holland)
 2EC
@@ -84643,8 +84643,8 @@ BB4
 /C:
 C8
 0<<
-D04	Lucas Palmeira
 h`-	Lucas
+D04	Lucas Palmeira
 DUZ	LucasVision
 =<R	Lucaz
 6Ee
@@ -84983,9 +84983,9 @@ A?3	Lurch(KFMF)
 0X9
 0fB
 5cj
-C]k	Lutka!~Substance
 PZ	Lutka
 X:O
+C]k	Lutka!~Substance
 1^2	Lutra
 1]
 /R
@@ -85125,6 +85125,8 @@ Y\
 9]J
 /4\
 >0c
+93-	M
+I:d
 .cI	M and M
 0T
 /^R
@@ -85139,8 +85141,6 @@ Y\
 >]
 7-:
 05l
-93-	M
-I:d
 ]Wb	M&M Productions
 :YP
 ^0B	M-
@@ -85343,6 +85343,8 @@ dfI	MB(Poland)
 CUY
 /X3
 MBj	MBY
+4cZ	MC
+EYZ
 ^gZ	MC Allan(unknown)
 .-aa	MC Clearasil
 G]Z	MC Coolbeat
@@ -85637,8 +85639,6 @@ ER9	MC ZZZ
 3e:
 1_c
 /el
-4cZ	MC
-EYZ
 .3D	MCA
 F5
 [3
@@ -87357,9 +87357,9 @@ cPQ	Mag(PL)
 7;8
 >X:
 A2d	Mage~The Zapper
-;aQ	Maggot Man
 Y	Maggot
 X/c
+;aQ	Maggot Man
 5b3	Magi
 =aH
 /I4
@@ -87698,6 +87698,9 @@ Ph
 /51
 1L@	Magnetic~Singer
 Abi	Magnificat
+PfW	Magnum
+/=:
+G8V
 1g]	Magnum 755
 DF]
 d4
@@ -87734,9 +87737,6 @@ Ek
 W2
 9F
 0A
-PfW	Magnum
-/=:
-G8V
 D^N	Magnus Ahl
 `28	Magnus Algebrink
 3dJ	Magnus Eriksson
@@ -89040,48 +89040,6 @@ P7	Marauder(Can)
 >Vc	Marble
 3R3
 8:Q
-9GL	Marc Blumenauer(Germany)
->TA
-6J<
-7LX
-/hV	Marc Francois
-;8;
-874
-7]9
-3Mb
-.Ah
-0Bl
-.HX
-.Mf
-0I]	Marc Francois~Odie
-6\]
-DMD
-7HF
-IT
-6IH
-Q-	Marc Panther
-3^j
-.SZ
-=G5
-0j-
-CA/
-0gW
-P?
-/Zh
-C\Y	Marc Smith
-HQ
-U
-J2
-/I2
-.9:
-.gb
-3bE
-5:R
-.4f
-/YG
-/19
-5X9
-0`Y
 1T	Marc
 4<
 C.
@@ -89249,6 +89207,48 @@ DT
 F.
 7g
 ..;
+9GL	Marc Blumenauer(Germany)
+>TA
+6J<
+7LX
+/hV	Marc Francois
+;8;
+874
+7]9
+3Mb
+.Ah
+0Bl
+.HX
+.Mf
+0I]	Marc Francois~Odie
+6\]
+DMD
+7HF
+IT
+6IH
+Q-	Marc Panther
+3^j
+.SZ
+=G5
+0j-
+CA/
+0gW
+P?
+/Zh
+C\Y	Marc Smith
+HQ
+U
+J2
+/I2
+.9:
+.gb
+3bE
+5:R
+.4f
+/YG
+/19
+5X9
+0`Y
 YK	Marcel Blum
 0BS
 4i[
@@ -90327,9 +90327,18 @@ ZD@	Mark(UK2)
 Wg/	Mark(USA)
 bi7	Marker(Ger)
 ..6[	Markez
-gEe	Marko M
 /E?	Marko
+gEe	Marko M
 XI@	Marks
+.eE	Markus
+QAi
+Yf
+0NO
+i3
+3SO
+g4
+//9
+6_/
 B7d	Markus Heikkila
 /kI	Markus Huether
 1E5
@@ -90357,15 +90366,6 @@ Xc4	Markus Schafer
 .US	Markus Siebold
 dO;
 01>
-.eE	Markus
-QAi
-Yf
-0NO
-i3
-3SO
-g4
-//9
-6_/
 e\P	Mark~Vim!
 6k>	Marlon
 KPi	Marnix
@@ -90512,35 +90512,6 @@ X6M	Martin Reiter
 FKN
 /4\
 [ii	Martin(unk)
-cWd	Marty Lick
-/0Z	Marty Party
-.E.
-?7
-1@Q
-1G<
-.Nk
-.2^
->I
-j5
-AD
-/bE
-1Z2
-.g\
-SQ
-/U_
-.X;
-P0
-/=@
-6^^
-43R
-Fk
-P
-0bk
-.@k
-H
-\<
-P^
-/3O
 .MK	Marty
 455
 .CX
@@ -90570,6 +90541,35 @@ h1
 ?S
 Ui
 /VP
+cWd	Marty Lick
+/0Z	Marty Party
+.E.
+?7
+1@Q
+1G<
+.Nk
+.2^
+>I
+j5
+AD
+/bE
+1Z2
+.g\
+SQ
+/U_
+.X;
+P0
+/=@
+6^^
+43R
+Fk
+P
+0bk
+.@k
+H
+\<
+P^
+/3O
 ;c	Martyn
 6[;
 8D/
@@ -91568,6 +91568,7 @@ F8D
 6Y_
 6Bi
 1/D
+F`5	Matthias
 k3:	Matthias Beilicke
 0P@	Matthias Bock
 08	Matthias Steinwachs
@@ -91621,7 +91622,6 @@ El
 2B_
 <X
 DQ
-F`5	Matthias
 L>`	Matthijs B
 4a	Matths
 .jU
@@ -93186,17 +93186,17 @@ E6g
 ?Ef
 3TG
 .g]
+3<Z	Mega
+X6>
+17Y
+^M
+4hW
 /B6	Mega Mind(Nor)
 3/7
 .GF
 =@;
 5hd
 <Y2
-3<Z	Mega
-X6>
-17Y
-^M
-4hW
 D/E	MegaTon
 jGF	Megadeth
 ^AP	Megadunk
@@ -93996,6 +93996,7 @@ L;-	Mendel
 K[D
 WQ-	Mendelssohn(Cancer)
 4[h
+72^	Mental
 1-<	Mental Cube
 /Q.
 \
@@ -94100,7 +94101,6 @@ Ia	Mental Trip
 1-R
 9@7
 @YI
-72^	Mental
 /4H	Mental(RLT)
 ICP
 6[^
@@ -94935,8 +94935,8 @@ _i
 Gd	Metin~Ramon
 J\9	Metralha 1313
 k6T	Metronix
-TgD	Metronome (UK)
 XY.	Metronome
+TgD	Metronome (UK)
 .-Z;	Metsuri
 WTZ	Mewa(Poland)
 \R9	Mexik
@@ -95328,43 +95328,6 @@ eC
 5;
 H9
 ;4
-7]/	Michael Bertrand
-8D9
-J.<
-B5d	Michael Bromery
-1\W
-/_5
-KUV	Michael Burdett~Richard Joseph
-46D	Michael Couturier
-B7-
->_U
-;;[
-KO9	Michael Dufrechou~Søren Jacobsen
-G5I
-:;g	Michael Gibs
-Q]\	Michael Hay
-H:9
-]LU	Michael Hay(USA)
-]`
-;aC
-GY6	Michael Holst-Olesen
-<;@	Michael Ivashenko
-/ZI	Michael J. Schrody
-JBJ	Michael K. Berg
-2GI	Michael Neylon(USA)
-@f[	Michael R.
-3Ql
-HY-	Michael Scheer~Ralf Katscher
-[jW	Michael Schurkin
-8F>
-2Z0	Michael Smith(UK)
-0VO	Michael Tanzer
-3U1
-AL/
-0Ue
-]
-:D=
-2Z`
 =O	Michael
 .-D
 UA
@@ -95513,6 +95476,43 @@ IP
 ;P
 /;
 0K
+7]/	Michael Bertrand
+8D9
+J.<
+B5d	Michael Bromery
+1\W
+/_5
+KUV	Michael Burdett~Richard Joseph
+46D	Michael Couturier
+B7-
+>_U
+;;[
+KO9	Michael Dufrechou~Søren Jacobsen
+G5I
+:;g	Michael Gibs
+Q]\	Michael Hay
+H:9
+]LU	Michael Hay(USA)
+]`
+;aC
+GY6	Michael Holst-Olesen
+<;@	Michael Ivashenko
+/ZI	Michael J. Schrody
+JBJ	Michael K. Berg
+2GI	Michael Neylon(USA)
+@f[	Michael R.
+3Ql
+HY-	Michael Scheer~Ralf Katscher
+[jW	Michael Schurkin
+8F>
+2Z0	Michael Smith(UK)
+0VO	Michael Tanzer
+3U1
+AL/
+0Ue
+]
+:D=
+2Z`
 AVZ	Michael(Pol)
 00_
 H?
@@ -95640,10 +95640,6 @@ KD
 1W3
 0lG
 kW	Michan
-_aO	Michel Schoo(Hol)
-6@;	Michel Winogradoff
-/5=
-5cY
 3X0	Michel
 1l.
 /MF
@@ -95654,6 +95650,10 @@ XK
 5Y:
 /Jg
 .2c
+_aO	Michel Schoo(Hol)
+6@;	Michel Winogradoff
+/5=
+5cY
 Gg>	Michelin
 9:>
 =Di
@@ -95856,6 +95856,11 @@ QF
 Q^
 /8A
 S5I	Mick Rippon~Yannis Brown
+@Nl	Micke
+/BK
+G<c
+2J`
+D2
 3Cb	Micke Cool
 9-d
 71h
@@ -95863,11 +95868,6 @@ S5I	Mick Rippon~Yannis Brown
 4iO
 07H
 05c
-@Nl	Micke
-/BK
-G<c
-2J`
-D2
 fOJ	Mickelina
 0.:	Micken(unk)
 4Sb
@@ -95959,18 +95959,18 @@ V.
 06L
 U]M	Midaz(Swe)
 BfN	Middle(France)
-=h	Midi Master
-g::	Midi Master~Rotor
 eQ	Midi
 6Bb
 @k6
 1jd
 178
 892
+=h	Midi Master
+g::	Midi Master~Rotor
 \dA	Midi(Sweden)
+BgN	Midnight
 `<<	Midnight Breakdown
 :45	Midnight Joker
-BgN	Midnight
 2>l	Midnight(Belarus)
 21:
 ;GN
@@ -96023,14 +96023,14 @@ PUL	Mighty(NL)
 PiO	Migraine
 =N8
 4XT
-ALk	Miguel Samiez
-T;g	Miguel Silva(Portugal)
-FQ<
 :MP	Miguel
 1^R
 /h2
 E:Q
 75a
+ALk	Miguel Samiez
+T;g	Miguel Silva(Portugal)
+FQ<
 8LB	Mihiem
 RYC	Mijac
 .h`	Mik
@@ -96039,11 +96039,11 @@ RYC	Mijac
 3lV
 7_N
 1fJ	MikMak
+k4@	Mikael
 ?Dl	Mikael Balle(DK)
 WFf	Mikael Eriksson
 ?l.
 4Gb	Mikael Johannesen
-k4@	Mikael
 9X4	Mike Acid
 2OS
 BB
@@ -97281,11 +97281,6 @@ NYB	Mithrill
 1ae
 /-4
 WfA	Miusicman
-4DA	Mix Master Mac
-5S=
-8D@
-1ZW
-BM^	Mix Master(Nor)
 3P=	Mix
 F[G
 4NK
@@ -97293,6 +97288,11 @@ SM
 6D_
 4=Y
 1hA
+4DA	Mix Master Mac
+5S=
+8D@
+1ZW
+BM^	Mix Master(Nor)
 JUc	MixMaster X
 NkV	Mixa
 BNC
@@ -98226,7 +98226,6 @@ UYa	Monster
 3:j
 1cc
 0i[	Montases
-4^U	Monty Python
 M4	Monty
 @A
 5:
@@ -98356,6 +98355,7 @@ GW
 .6A
 M-
 7c
+4^U	Monty Python
 >=1	Monty~Outcast
 45b	Monty~Superbee
 ^
@@ -98432,11 +98432,11 @@ eid	Moog~The Citizen
 9YH
 BHC
 91g
-=gK	Moon Zulie
-KG:
 34N	Moon
 G[4
 3UI
+=gK	Moon Zulie
+KG:
 0]S	Moon(S)
 0Wd
 74
@@ -98922,6 +98922,18 @@ GYX	Morten Hansen
 6GX	Morten Myhrvold
 Bf]
 MRR
+/@7	Mortimer
+0l<
+/C6
+cQ
+8/T
+.1a
+5>c
+4R1
+0>1
+0<;
+3`3
+3a0
 1<	Mortimer Twang
 4H
 3P
@@ -99364,18 +99376,6 @@ cR	Mortimer Twang~Substance
 5.;	Mortimer Twang~Twilight
 T:E
 G\F	Mortimer Twang~Vim!
-/@7	Mortimer
-0l<
-/C6
-cQ
-8/T
-.1a
-5>c
-4R1
-0>1
-0<;
-3`3
-3a0
 0<f	Mosaic
 39@
 ZH
@@ -102613,9 +102613,9 @@ T<c	Nash(Austria)
 ;.X
 Z0.	Nasir N
 Ok<	Nasir N.
-4ET	Nasty Boy
 R9d	Nasty
 5TK
+4ET	Nasty Boy
 F<5	Nasty(Ger)
 7d>
 =lU
@@ -102967,9 +102967,9 @@ g;@	Necrox
 SCI	Nectar
 5WU
 .^`
+XST	Ned
 5lO	Ned Flowers
 9:Z	Ned Funky
-XST	Ned
 /`^	Nedeljko Gajic
 =aF
 T1i
@@ -102980,9 +102980,9 @@ Vk
 0l:
 <3?
 Cf[	Nef
+GJ9	Negative
 6cJ	Negative Action(UK)
 aWG
-GJ9	Negative
 <HI	Negative(Italy)
 G`D
 UM
@@ -103656,10 +103656,10 @@ FGN
 /h<
 7[3
 KO
+8aY	Nexus
 `@E	Nexus 21
 M;0	Nexus 64
 @>J
-8aY	Nexus
 _dM	Nexus(D)
 :D\	Nexus(N)
 2g
@@ -103698,6 +103698,7 @@ S4R	Nexuz(Sweden)
 2SN
 N1K
 LkA	NiMH
+eMC	Nic
 /4;	Nic Cumsworth
 D^>
 L1
@@ -103708,7 +103709,6 @@ e-	Nic Cusworth
 3?c
 1Se
 Qa.
-eMC	Nic
 5>S	Nic(F)
 3-i	Nick Alevridis
 3eE
@@ -104795,7 +104795,6 @@ Y_
 ^d
 /UT
 3>>
-hD7	Noice Motion
 .7c	Noice
 4G_
 KK
@@ -104818,6 +104817,7 @@ Z:
 .L^
 .OY
 H^
+hD7	Noice Motion
 DR3	Noise Reduction
 0I/
 O_-
@@ -105178,6 +105178,7 @@ A[<
 K=l	Nor
 TY
 ?;<
+AjT	Norbert
 K`]	Norbert Szalai
 XkA	Norbert Szalai~Python
 3Q?	Norbert Tausch
@@ -105195,7 +105196,6 @@ MZ
 /eN
 2Y
 .iO
-AjT	Norbert
 :W4	Nordbasse
 >0R
 1]k
@@ -105353,9 +105353,9 @@ C>
 /JR
 .36
 E1;	Norm(PL)
+hW:	Norman
 H2	Norman Lin
 Na>
-hW:	Norman
 =Lb	NoroSoft
 ;RP
 4@\
@@ -105452,9 +105452,6 @@ TP5	Notorious~Slash
 7YH	Notorious~Vedder
 6JN
 E[d
-/Q_	Nova Deluxe
-0;3
->V5
 .RX	Nova
 01c
 .@]
@@ -105475,6 +105472,9 @@ U7
 5DD
 C7
 0cO
+/Q_	Nova Deluxe
+0;3
+>V5
 .<]	Nova(SF)
 ikU
 11W	Nova(USA)
@@ -106829,6 +106829,15 @@ W7d	Olethros~Xarn
 Q1h	Olho
 .fB
 71F
+3ff	Oliver
+/K\
+8_N
+.P]
+Lk
+9/d
+7`;
+dF
+2CA
 DkS	Oliver Roberts
 .E4
 07A
@@ -106848,15 +106857,6 @@ RG
 :XG
 /f.
 3=X
-3ff	Oliver
-/K\
-8_N
-.P]
-Lk
-9/d
-7`;
-dF
-2CA
 8^h	Oliver(Sweden)
 LZT
 ;h=
@@ -106988,12 +106988,6 @@ cM
 80
 .T-
 h[
-2S8	Olle Harstedt
-J=
-9Da
-1K2
-VAP
-XA
 bl	Olle
 a]
 88
@@ -107091,6 +107085,12 @@ CB
 .-@
 8/
 0E
+2S8	Olle Harstedt
+J=
+9Da
+1K2
+VAP
+XA
 iA0	Olli Tuhkanen
 _Sh	Ollon~Rumpskagget
 8?a
@@ -107098,7 +107098,6 @@ _Sh	Ollon~Rumpskagget
 LaT
 Bh	Olympian
 ]Ji
-a1Z	Omar GR
 :e	Omar
 .Bc
 0:P
@@ -107155,6 +107154,7 @@ P^
 Z.
 .A[
 <`
+a1Z	Omar GR
 _Zf	Omega Racer
 \JY	Omega(Austria)
 41A
@@ -107569,7 +107569,6 @@ B>=
 U@6	Or8
 6C/
 eeS	Oracle(Norway)
-[FJ	Orange Sun
 Wf	Orange
 .WO
 ;^
@@ -107610,6 +107609,7 @@ Vd
 A1
 0ha
 Ob
+[FJ	Orange Sun
 Y[h	Orb
 `Bd	Orb(Enigma)
 24L	Orb(Poland)
@@ -107837,8 +107837,8 @@ E88
 d-3	Ortofon
 ]O1	OsamaWegLadenShisha
 e?e	Osborne
-P.R	Oscar Oria
 6S4	Oscar
+P.R	Oscar Oria
 S<[	Oscillator
 7;;	OsiRuS
 1bd
@@ -107990,8 +107990,8 @@ U8
 0Ej
 0`e
 1iW
-@HO	Otto Chrons
 hLa	Otto
+@HO	Otto Chrons
 3c	Otton
 0>D
 ]
@@ -108154,6 +108154,13 @@ j`
 4\b
 >0>
 .gR
+KD	Overlord
+8ek
+0Ci
+B_D
+4Ia
+/-R
+6I8
 740	Overlord X
 2W.
 .MQ
@@ -108175,13 +108182,6 @@ M9
 18Z
 .b`
 d`
-KD	Overlord
-8ek
-0Ci
-B_D
-4Ia
-/-R
-6I8
 QbY	Overlord(venom)
 5/c	Overmind
 V;3	Override
@@ -108526,6 +108526,7 @@ Di	PB
 ?a0
 @OR
 6g.
+^`h	PC
 /`E	PC Pay
 MM
 .F
@@ -108535,7 +108536,6 @@ MM
 0H
 :I6
 >=]
-^`h	PC
 7-h	PC(PL)
 0V>
 /CZ
@@ -109182,10 +109182,10 @@ iY
 /@
 8g/	Pambe
 YH\
-Eh_	Pan Tryksjes
-IMV
 JgI	Pan
 Jjg
+Eh_	Pan Tryksjes
+IMV
 c9d	PanDuh
 ;[A	Pancake
 KM5
@@ -109591,7 +109591,6 @@ Z]
 0@R
 6NG
 U@d
-Vch	Party Animal~Why-Not
 52N	Party
 015
 0Od
@@ -109600,6 +109599,7 @@ Vch	Party Animal~Why-Not
 <WB
 `
 6WZ
+Vch	Party Animal~Why-Not
 74F	PartyBoy
 _^U
 fbO	Partydvargen
@@ -109607,14 +109607,14 @@ lJ8	Pas
 GAJ	Pascal Gisin(Swiss)
 MP6	Pascal(TFN)
 W=;	Pase
+IA<	Pasi
+5_I
 ?P@	Pasi Kovanen
 O33
 /d
 1Pl
 1@L
 L.
-IA<	Pasi
-5_I
 ^@T	Paska
 5hW	Paskelo
 9eY	Paskud
@@ -109822,6 +109822,7 @@ MOZ	Patrick Zemella
 aTW	Patrik Sabel
 Fl<	Patriot
 VSQ	Pattis
+0Nh	Paul
 3aQ	Paul Andrews
 <^X	Paul Barna
 KP0
@@ -109951,7 +109952,6 @@ CW
 Xi0
 1fM
 :2M
-0Nh	Paul
 =aK	Paul(Bungleds)
 /W3	Paul(Poland)
 0`?
@@ -109962,8 +109962,6 @@ Xi0
 3j.
 5WM
 536
-6XN	Paula Haunt
-Yle
 6gN	Paula
 CE
 /86
@@ -109986,6 +109984,8 @@ O@
 [-
 .ZM
 4-a
+6XN	Paula Haunt
+Yle
 ]CU	Paula-Christiina Virtanen
 @Cc	Pauli RM
 N\-
@@ -110148,10 +110148,10 @@ j^8	Peabrain
 _S7
 =c
 J4[	Peacemaker
+36>	Peach
 <h/	Peach Thomas
 @>e
 >1G
-36>	Peach
 ?i	Peachy
 =YQ
 .[h
@@ -110194,9 +110194,6 @@ jL
 1?R
 4<
 Pc=	Peaky
-GfX	Pearl Hunter
-?W\
-5c
 .Gf	Pearl
 0Z:
 /86
@@ -110217,6 +110214,9 @@ jF
 .4d
 1K
 1R3
+GfX	Pearl Hunter
+?W\
+5c
 E:R	Pearl(DK)
 .G\	Peavey
 HON
@@ -110414,10 +110414,6 @@ E[Y	Penuels Tower
 4J3
 2^9
 9^-
-6bF	Pepe Louix
-1hE
-6CB
-F;e
 /AR	Pepe
 /U3
 /L3
@@ -110456,6 +110452,10 @@ G8
 /HU
 Cl
 .4f
+6bF	Pepe Louix
+1hE
+6CB
+F;e
 5V5	Pepe(PL)
 ;3<	Pepeo(Unknown)
 <O7
@@ -110645,8 +110645,8 @@ D/
 7j
 0fI
 [d]	Perruki
-JKa	Perry Horner
 =?e	Perry
+JKa	Perry Horner
 8R/	Persehmuna
 0;\
 /g`
@@ -110697,8 +110697,6 @@ D8	Petador
 23@
 5:6
 5@N
-M1E	Pete Morgan
-@bI
 0L	Pete
 .N:
 LZ
@@ -110828,6 +110826,8 @@ Q/
 PT
 7/
 E\
+M1E	Pete Morgan
+@bI
 V^-	Pete(BP)
 8:a	Pete(Croatia)
 9:a
@@ -111172,6 +111172,7 @@ GRg	Phandral(Sweden)
 hkK	Phandral~Quazar
 J6H	Phantasm
 Z=E	Phantasm(Unk)
+CGW	Phantom
 4YW	Phantom (PL)
 AQS
 1:K	Phantom Lord
@@ -111220,7 +111221,6 @@ CM
 KI
 4Y
 OAi	Phantom Phryer
-CGW	Phantom
 HB/	Phantom(NS)
 .a2	Phantomas
 1i3
@@ -111376,7 +111376,6 @@ H3U	Phatboy
 29a
 2/c
 <-_
-3CW	Phaze!
 4[e	Phaze
 ]O
 1QI
@@ -111386,6 +111385,7 @@ H3U	Phatboy
 2?T
 3db
 6\]
+3CW	Phaze!
 i?d	Phaze(RU)
 0PB	Phaze(USA)
 /UD
@@ -111525,6 +111525,7 @@ E]
 H/Z	Phibxr
 62F
 GT:
+_S<	Phil
 EM0	Phil Brett
 [@-	Phil Brown
 @E0	Phil Cartwright
@@ -111580,7 +111581,6 @@ EMP
 @Aj	Phil Richard
 4Te
 J08	Phil Richard(Can)
-_S<	Phil
 KLT	Phil(EPH)
 .9_
 ._e	Philcraze
@@ -112040,9 +112040,9 @@ X4
 1UP
 0lL
 3Ga
+01:	Pietro
 [45	Pietro Gianelli
 ?PW
-01:	Pietro
 6\Y	Pif(Be)
 /[W
 9bT
@@ -112216,17 +112216,6 @@ Cl
 7d
 0Y
 [Y5	Pinion~Protocol
-LUg	Pink Bull
-A[	Pink Panther
-IT1
-0E=
-K/H
-B=<	Pink Panther(Ger)
-F;-
-3C^
-/]I
-X0K	Pink Panther~Xy International
-Ue
 6I	Pink
 Gc
 B3
@@ -112531,6 +112520,17 @@ G:
 >.
 DK
 J_
+LUg	Pink Bull
+A[	Pink Panther
+IT1
+0E=
+K/H
+B=<	Pink Panther(Ger)
+F;-
+3C^
+/]I
+X0K	Pink Panther~Xy International
+Ue
 9f[	Pink~Xta-C
 3\_	Pinnacle
 U`1
@@ -112628,6 +112628,19 @@ JI9	Piotr Ziemlewski
 Tc7	Piotrex
 CG5
 JgL	Pipatron
+8VW	Pipe
+4-Z
+O
+0dY
+0Sb
+1;1
+.h1
+02H
+0CH
+4B9
+2ge
+07B
+0Y.
 /hc	Pipe Smokers Cough
 2YE
 0fe
@@ -112654,30 +112667,17 @@ Cf
 .?2
 d@
 6b-
-8VW	Pipe
-4-Z
-O
-0dY
-0Sb
-1;1
-.h1
-02H
-0CH
-4B9
-2ge
-07B
-0Y.
 7=5	Pipeline
 6J5
 6cU
 O.d
-fVk	Piper Flatline
 Cd	Piper
 :Q6
 2K`
 CXO
 0HJ
 >>9
+fVk	Piper Flatline
 A5H	Pipimeister
 /XX	Pipo(dk)
 .5h	Pirat
@@ -112775,6 +112775,17 @@ H4
 =a
 .[2
 >1
+/cL	Pirate
+AT:
+3H
+/0B
+2EG
+.^<
+6:l
+0YJ
+1\c
+7iK
+.5S
 3A	Pirate Pete
 0;f
 B[
@@ -112818,17 +112829,6 @@ a6
 @J
 16@
 .1`
-/cL	Pirate
-AT:
-3H
-/0B
-2EG
-.^<
-6:l
-0YJ
-1\c
-7iK
-.5S
 046	Pirat~Prymer
 khM	Pirj
 8l1	Pirlaga
@@ -113036,13 +113036,13 @@ IG	Pixy
 ?0j
 <6-
 C^2
+aWT	Pizza
 .U>	Pizza Dude
 /Xl
 ;<;
 Be>
 <9/
 /V.	Pizza Head
-aWT	Pizza
 JAg	Pizza(N)
 QBM	Pizza(Tentacles)
 PHL	Pizza-Man
@@ -113244,9 +113244,6 @@ MI
 35
 ^I
 >H
-@NE	Player One(Finland)
-Teb
-2VI
 1WW	Player
 4Ek
 U4
@@ -113257,6 +113254,9 @@ U4
 2A.
 2k3
 28h
+@NE	Player One(Finland)
+Teb
+2VI
 0`_	Player~XTD
 H9e	Plexa
 QDa
@@ -113318,6 +113318,29 @@ GF7
 __8	Pogo
 f@L	Pogo~Tarzan
 gbl	Pohjis
+/6e	Poison
+1k]
+/@I
+/Dj
+.LB
+6l
+.d4
+0M^
+/<0
+1ce
+.g`
+._3
+5@
+4<1
+1bk
+5Mh
+U3
+11h
+05O
+/d
+/I;
+;-
+0bQ
 @H	Poison LT
 Ee
 3BY
@@ -113342,29 +113365,6 @@ Ee
 XU
 0H`
 H.
-/6e	Poison
-1k]
-/@I
-/Dj
-.LB
-6l
-.d4
-0M^
-/<0
-1ce
-.g`
-._3
-5@
-4<1
-1bk
-5Mh
-U3
-11h
-05O
-/d
-/I;
-;-
-0bQ
 /l_	Poison(I)
 .M3	PojPoj
 8Kl
@@ -113707,11 +113707,11 @@ EeL	Posdnuos
 Y.=
 2VJ
 0kC	Poseidon(Norway)
-Y/.	Positive Mind
-</C
 ;2Q	Positive
 .;;
 8P.
+Y/.	Positive Mind
+</C
 72J	Positon
 :G\
 C`C
@@ -114030,12 +114030,12 @@ H=
 .T:
 .M4
 3:W
+1E4	Prime
+]XI
 8IJ	Prime Evil
 LjS
 @QI
 a2;	Prime Premium
-1E4	Prime
-]XI
 8W7	Primek(Poland)
 ?bb
 G[P
@@ -116516,11 +116516,11 @@ WH
 1D6
 3LZ	Pyrex(N)
 S1L
+f/P	Pyro
 95X	Pyro Angel
 2ee
 0AG
 JaV
-f/P	Pyro
 :@_	PyroZane
 58<
 TH_
@@ -117616,11 +117616,6 @@ O8
 MYD	RST
 JYd
 a?O	RST(france)
-5@6	RT the Machine
-CWA
-.BQ
->7
-2.i
 .KN	RT
 .M5
 <e
@@ -117648,6 +117643,11 @@ OS
 2[[
 2S-
 /88
+5@6	RT the Machine
+CWA
+.BQ
+>7
+2.i
 0=3	RTS(Germany)
 0Ti	RTS(Poland)
 @W
@@ -117942,6 +117942,7 @@ IX^
 68P
 1i<
 8Lg
+7=]	Radical
 13\	Radical Ray
 0cA
 MKk
@@ -117949,7 +117950,6 @@ MKk
 0:>
 .D`
 GVg	Radical Ray~TFO
-7=]	Radical
 @]:	Radical(unk)
 0K	Radich
 97
@@ -118749,7 +118749,6 @@ B1Q	Ramman
 3Al
 @K`
 ;>R
-.-3L	Ramon Miranda
 Ra	Ramon
 W7
 0<5
@@ -118800,6 +118799,7 @@ Rf
 .]2
 6_
 Wk
+.-3L	Ramon Miranda
 eik	Ramon(HoS)
 /\;	Ramone
 A[
@@ -118981,6 +118981,7 @@ EY
 /QH
 9=
 Fk
+lTH	Random
 0</	Random Voice
 6A
 :K9
@@ -119001,7 +119002,6 @@ M:
 ]e
 @Z
 \Z
-lTH	Random
 bU	Random(Sweden)
 jL
 .7U
@@ -119036,6 +119036,9 @@ HPY	Randy(Norway)
 G8d	Randy(S)
 9Il
 KcI	Randy64
+7Hc	Ranger
+3@P
+Nd
 `Y	Ranger Rick
 .DG
 13S
@@ -119076,9 +119079,6 @@ hd
 .EX
 .XO
 .IE
-7Hc	Ranger
-3@P
-Nd
 H2@	Ranger(D)
 /`I
 SI<	Ranger(H)
@@ -119635,6 +119635,7 @@ jc
 ah
 ./R
 0PW
+;Q.	Ray
 V7a	Ray Garrett(USA)
 /\-
 1<X
@@ -119701,7 +119702,6 @@ a^
 bF
 9;7	Ray Tracing(Ger)
 ]?E
-;Q.	Ray
 .OI	Rayden
 P^A
 .>>	Rayek(Fin)
@@ -119988,6 +119988,7 @@ X`9
 .e`
 <;b
 5U_	Recoil(USA)
+^.=	Red
 1d_	Red Baron(No)
 a3/
 jOX	Red Dwarf
@@ -120084,7 +120085,6 @@ P
 0^Q
 16b	Red Ribbon~The Celsius
 KB7	Red Scorpion
-^.=	Red
 P6X	Red-leb
 .D9	RedBull
 .55
@@ -121888,6 +121888,10 @@ BT7
 .d>
 0/^
 K@\	Richard Rowlands
+;J1	Rick
+4NV
+9.8
+8M^
 4g.	Rick Felice
 :j
 D2P
@@ -121974,10 +121978,6 @@ l9
 Di
 .Q@
 .Dh
-;J1	Rick
-4NV
-9.8
-8M^
 Bb0	Rick(D)
 9Rc
 0E0
@@ -122898,18 +122898,6 @@ Ce
 0c
 :@
 25
-.R	Robin Burrows
-4KW
-2He
-78]
-@J0
->I
-.d4
-16S
-.Xb
-3cB
-//?
-19U
 LG	Robin
 >7
 .\
@@ -123031,6 +123019,18 @@ I>
 YL
 g
 LE
+.R	Robin Burrows
+4KW
+2He
+78]
+@J0
+>I
+.d4
+16S
+.Xb
+3cB
+//?
+19U
 .-Ob	Robin(D)
 </.	Robin(H)
 9MN
@@ -123065,13 +123065,6 @@ eE0	Robot
 Rk>
 X3B	Roby Bar
 /]`
-1YM	Robyn Powell
-:Ki
-0Mk
-5gI
-.]C
-8i^
-7e>
 /@T	Robyn
 .l3
 .I
@@ -123102,6 +123095,13 @@ S7
 2bO
 a<
 0-N
+1YM	Robyn Powell
+:Ki
+0Mk
+5gI
+.]C
+8i^
+7e>
 7k6	Roccow
 e./	Roche
 29K	Rock Lobster
@@ -123143,6 +123143,11 @@ FD
 80C
 .KP
 9ch
+0cc	Rod
+D8>
+ZC
+:MN
+AXJ
 D?	Rod Merida
 6hY
 .6a
@@ -123156,11 +123161,6 @@ HR
 1KT
 1T=
 /bH
-0cc	Rod
-D8>
-ZC
-:MN
-AXJ
 .cF	Rod(Poland)
 1XA
 /CL
@@ -123328,6 +123328,20 @@ Hl3
 /l4
 0Od
 2?C
+D=	Rogue
+1RL
+<aC
+1@Q
+2eD
+54F
+21j
+/6L
+.62
+2?g
+2CH
+`G
+/W=
+fh
 .bb	Rogue Male
 Qd
 `
@@ -123410,20 +123424,6 @@ TN
 1`
 6P
 /8<
-D=	Rogue
-1RL
-<aC
-1@Q
-2eD
-54F
-21j
-/6L
-.62
-2?g
-2CH
-`G
-/W=
-fh
 g4	Rogue(OVF)
 ZE
 5WB
@@ -123499,11 +123499,11 @@ LC
 @I.	RokDaZone~Sonic
 DUN	RokDaZone~YP MP
 J5[	Rok~The Lord-Layer
-Kh=	Roland Gaspar
-1jH
 1]X	Roland
 dQ\
 16M
+Kh=	Roland Gaspar
+1jH
 Ve	Roland(DK)
 .:U
 /-U
@@ -123593,8 +123593,6 @@ N>R
 ;Z4
 FcH	Rolfen(Norway)
 SlP	RollerBoy
-2O^	Rolling Demon
-6i6
 A2	Rolling
 /Ib
 bI
@@ -123639,6 +123637,8 @@ k9
 JH
 j.
 6b
+2O^	Rolling Demon
+6i6
 /-3	Rolpho
 ?O
 IB
@@ -123730,6 +123730,10 @@ f9Y	Romanov Vitaly
 7`d
 .79
 >O6
+79>	Romeo
+4fK
+B2]
+/3^
 @b	Romeo Knight
 NZ
 =Q
@@ -123904,10 +123908,6 @@ We
 SO
 50\	Romeo Knight~Virgill
 AVc
-79>	Romeo
-4fK
-B2]
-/3^
 U4@	Romeo~Zombie
 3f>
 2/h
@@ -123915,12 +123915,12 @@ U4@	Romeo~Zombie
 9bf	Romix
 Y5b	Rompa
 lIc	Rompedraugen
-<dU	Ron the Don
-;VY	Ron van de Beuke
 O`N	Ron
 /<J
 5[R
 >Z>
+<dU	Ron the Don
+;VY	Ron van de Beuke
 N8H	Ron(NL)
 5]4	Ron(S)
 .W]
@@ -123963,26 +123963,6 @@ Cbg	Rondo(Unk)
 0]i
 >E\
 64h
-^D	Ronny Selnes
-514
-1U
-V3
-.54
-g2
-/Q.
-.;W
-3fT
-07[
-5/A
-.1[
-.M:
-3=/
-1i1
-Xb
-/=k
-32:
-/9J
-./l
 Fa	Ronny
 9G
 /F-
@@ -124048,6 +124028,26 @@ A-
 .V4
 .<9
 ./G
+^D	Ronny Selnes
+514
+1U
+V3
+.54
+g2
+/Q.
+.;W
+3fT
+07[
+5/A
+.1[
+.M:
+3=/
+1i1
+Xb
+/=k
+32:
+/9J
+./l
 ?hY	Ronny~Zyad
 O0f	Ronsia(Pol)
 4[:	Ron~Xerxes
@@ -124100,6 +124100,9 @@ QlN	Rotter~Snake
 AkJ	Rottweiler(Can)
 T4Y	Rowie
 iBI	Rox
+3EZ	Roy
+D0>
+?Y9
 l	Roy B Kyan(Poland)
 J@
 .]J
@@ -124142,9 +124145,6 @@ RD
 OM:	Roy Glerum
 1^<
 3k6
-3EZ	Roy
-D0>
-?Y9
 4	Roz
 .U
 .4
@@ -124560,11 +124560,11 @@ b8
 `M
 3C3
 .^N
-?@K	Ruff Daddy
 6li	Ruff
 4eR
 /OC
 <SS
+?@K	Ruff Daddy
 0TM	Ruff(PC)
 jR:	Ruffian
 U[I	Ruffkut
@@ -125429,8 +125429,8 @@ P4
 1`A	Saberrider
 \OK
 E8
-RA	Sable Flame(USA)
 BI6	Sable
+RA	Sable Flame(USA)
 i-@	Saboteur
 NKR	Sabre Wulf
 9[V	Sabrerider(Ger)
@@ -126119,8 +126119,6 @@ ZR
 /1F
 W]V	Sandman(NL)
 dJ`	Sandman(USA)
-^dj	Sandra Chan
-6B0
 56[	Sandra
 .\[
 9[]
@@ -126139,6 +126137,8 @@ _k
 ?H
 /7/
 1@@
+^dj	Sandra Chan
+6B0
 _d1	Sane(Hungary)
 MWF	Sanfred
 6C=	Sanitarium
@@ -127320,6 +127320,7 @@ _15
 9/X
 :e]
 @1X
+bRd	Sean
 TX3	Sean Bishop
 BBS	Sean Connolly
 6J4
@@ -127337,7 +127338,6 @@ Y01	Sean Marren
 TCL	Sean McLean(UK)
 /hk
 @aa
-bRd	Sean
 .\1	Seb
 `JX	Seb(france-Iris)
 L-	Sebastian Gas
@@ -127398,21 +127398,21 @@ BZQ	Sebban
 1Ab
 8hU
 98O
-^E1	Secret Agent
-47Z
-?6E	Secret Man
 3l2	Secret
 6Ij
 C]j
 .^Z
 9=P
 0cI
-iP]	Sector IX
+^E1	Secret Agent
+47Z
+?6E	Secret Man
 KLK	Sector
 2F;
 6?_
 C/
 3d<
+iP]	Sector IX
 8;T	Sed
 5;4
 36K
@@ -127615,11 +127615,14 @@ DUF	Serafeth(Sweden)
 Wd<	Serenity
 Yjf	Sergeant Sam
 .7S	Sergeeo
-8>h	Sergei Pahomov
 OBJ	Sergei
+8>h	Sergei Pahomov
 6g0	Sergej Letyagin
 J8g
 ZNP	Sergey Evdokimov
+9ie	Sergio
+4aB
+;36
 ;F	Sergio DJ(Spain)
 2^f
 .Z7
@@ -127631,9 +127634,6 @@ ZNP	Sergey Evdokimov
 7:P
 /gi
 /3-
-9ie	Sergio
-4aB
-;36
 VjY	Serial Code
 0M?	Serkul
 0[X
@@ -128178,10 +128178,10 @@ U3?	Shane(H)
 1Ni
 ]cP	Shape(H)
 B6V	Shaq
-<>@	Share Khan
 E3a	Share
 4hh
 H4K
+<>@	Share Khan
 S3	Shark
 Qa?
 PCS	Shark(unk)
@@ -128213,6 +128213,7 @@ J\j	Sharque
 7:j
 <O]
 <TQ
+CZ_	Shaun
 4aT	Shaun Southern
 0/8
 /VT
@@ -128223,7 +128224,6 @@ J\j	Sharque
 7\4
 74P
 .f3
-CZ_	Shaun
 :M@	Shawn Watters
 2VE	ShawnM
 2QC
@@ -129292,8 +129292,6 @@ Q5
 C?
 /OR
 [?
-;^V	Silk Paw
-FgS
 0WN	Silk
 4U>
 4;W
@@ -129301,6 +129299,8 @@ FgS
 8>
 De=
 7Bi
+;^V	Silk Paw
+FgS
 6<c	Silke
 9J2
 /MY
@@ -129348,9 +129348,6 @@ Q_
 .\R
 /A1
 /e^
-aNE	Silver S.
-b/i	Silver Spider
-0Z9
 ;B-	Silver
 2bP
 I8
@@ -129359,6 +129356,9 @@ I8
 /Z;
 8[G
 /2.
+aNE	Silver S.
+b/i	Silver Spider
+0Z9
 0g7	Silver(F)
 29[
 /JS
@@ -129626,12 +129626,6 @@ cN
 GE9
 /l
 5QX
-6Qk	Sinister X
-5WB
-:F:
-/N0
-7`O
-:=A
 10I	Sinister
 .d8
 C:5
@@ -129642,6 +129636,12 @@ C:5
 1Ti
 .H/
 1RU
+6Qk	Sinister X
+5WB
+:F:
+/N0
+7`O
+:=A
 0M5	Sinistra
 ;aT
 1dV
@@ -129675,6 +129675,8 @@ AIf	Sinus
 Xb?	Sinus~Sly Spy
 UZX	Sioux
 6bk	Sipos Gyula(H)
+A^X	Sir
+L9W
 <aY	Sir Alexy
 YZE	Sir Arthur(Finland)
 Hkd	Sir Bass
@@ -129762,8 +129764,6 @@ AIM	Sir Silvertape(Swe)
 :]g
 8ZI
 .C[
-A^X	Sir
-L9W
 .@=	Siracon
 37
 76
@@ -130154,7 +130154,6 @@ UK
 .B[
 FAk	Sixtus~TCD
 K_D
-T_L	Size 1
 7aK	Size
 ._W
 0dL
@@ -130163,6 +130162,7 @@ T_L	Size 1
 2^J
 .=j
 /]g
+T_L	Size 1
 e/T	Skader
 25l	Skaga
 >/
@@ -130287,13 +130287,13 @@ B]c
 @MY
 JC2	Skeleton
 4bk	Skema(UK)
-X^>	Sketch the Cow
 05^	Sketch
 0FY
 8XH
 .XL
 Q@e
 18U
+X^>	Sketch the Cow
 .ei	Skid(D)
 Ia
 0-l
@@ -131988,6 +131988,10 @@ D`^
 8]T
 /d	Slug
 .-IK	Slumgud~Teddy Slacks
+2V2	Sly
+3L[
+HJI
+896
 ;Q	Sly Spy
 0@^
 4OH
@@ -132017,10 +132021,6 @@ U^
 .Dk
 1-P
 3c
-2V2	Sly
-3L[
-HJI
-896
 Y>	Sly(D1)
 0C]
 3R
@@ -132111,55 +132111,6 @@ Bc4
 /8N
 TS
 bMe	Smartin
-;TP	Smash 1~Track41
-.`A	Smash!
-0@l
-.3h
-R`
-3A
-.YJ
-^d
-.9N
-e?
-.-N
-.ih
-HT
-/lG
-.i4
-/JW
-E-
-4?M
-.@H
-6d
-_c
-2>
-0US
-.?i
-ca
-EN
-LA
-.YK
-/J2
-.f]
-/S
-MR
-[a
-1:I
-a;
-/Lj
-24?
-4C
-[Y
-4X
-3B
-/Hd
-DQ
-CZ
-/4Z	Smash!~Wonder
-9XR
-5@6
-7Z8
-H@@
 e6	Smash
 .IW
 7M
@@ -132231,6 +132182,55 @@ L
 .:?
 .I2
 5k
+;TP	Smash 1~Track41
+.`A	Smash!
+0@l
+.3h
+R`
+3A
+.YJ
+^d
+.9N
+e?
+.-N
+.ih
+HT
+/lG
+.i4
+/JW
+E-
+4?M
+.@H
+6d
+_c
+2>
+0US
+.?i
+ca
+EN
+LA
+.YK
+/J2
+.f]
+/S
+MR
+[a
+1:I
+a;
+/Lj
+24?
+4C
+[Y
+4X
+3B
+/Hd
+DQ
+CZ
+/4Z	Smash!~Wonder
+9XR
+5@6
+7Z8
+H@@
 @LW	Smash1
 bV
 B2a
@@ -132537,11 +132537,11 @@ Yd
 ;jj
 .R=
 e2R	Smola
-@3[	Smooth Machine
 =cY	Smooth
 7.c
 4X]
 23A
+@3[	Smooth Machine
 2OQ	Smorjan Orjan
 2=2
 LC
@@ -132916,14 +132916,6 @@ R1Q	Sojourne
 MMg	Sokrates
 /B@
 8X^
-:8A	Solar Crisis
-11a
-:6S
-/VF
-.T4
-5dg
-A>g
-bTf	Solar Eclipse
 8T	Solar
 0:2
 .lP
@@ -132951,6 +132943,14 @@ lI
 .dV
 /_@
 NL
+:8A	Solar Crisis
+11a
+:6S
+/VF
+.T4
+5dg
+A>g
+bTf	Solar Eclipse
 3AO	SolarC
 6B=	Solaris(SF)
 0MJ
@@ -133007,8 +133007,6 @@ WS
 >fk
 @Ec
 e.1	Sole~Trace
-_e.	Solid Ox
-1Pe
 Bc	Solid
 .SG
 0Ab
@@ -133032,6 +133030,8 @@ MO
 6O/
 5h
 9:
+_e.	Solid Ox
+1Pe
 ^XE	Solid(Hol)
 3@h	Soliter
 1TQ
@@ -133401,8 +133401,6 @@ l1
 iai	Soski(UK)
 D55	Sosumi
 R0>	Soth
-DI4	Soul D
->]@	Soul Destroyer
 RB	Soul
 .B/
 0\H
@@ -133453,6 +133451,8 @@ S
 Y`
 Tc
 BG
+DI4	Soul D
+>]@	Soul Destroyer
 =L[	Soul(Ger)
 .4I
 /F.
@@ -134202,8 +134202,8 @@ J.G
 Z=i	Spearhead
 _3k	Spears
 TF@	Spec
-TgU	Special K
 Jbl	Special
+TgU	Special K
 =_?	Speck
 ?8
 01[
@@ -136023,14 +136023,14 @@ X4?
 HK]	Stas Furtovsky
 Jc<	Stash(Holland)
 8D>
-1kP	State of Mind
-34R
-AZ2
 D?`	State
 BF@
 2EK
 6jM
 Zj
+1kP	State of Mind
+34R
+AZ2
 ./>	Static(DK)
 51
 NE
@@ -136364,7 +136364,6 @@ H<f
 .W<
 /FI
 .B_
-6Y?	Steinar Henriksen
 .3C	Steinar
 9b
 IH
@@ -136450,6 +136449,7 @@ kk
 V6
 4D
 6:
+6Y?	Steinar Henriksen
 ]l<	Steinheim
 =Vk	Stelmi
 59c
@@ -136464,6 +136464,7 @@ Di
 04X
 P0=
 :@3
+8Lh	Stephan
 i2L	Stephan Fuhrmann
 >l	Stephan Stoop
 7SH
@@ -136481,7 +136482,6 @@ dY
 286
 .Q<
 cV
-8Lh	Stephan
 9TM	Stephane Aubrun
 6b.
 8O`	Stephane Paradis
@@ -136747,12 +136747,12 @@ Gg
 .:A
 0LZ
 Sc
+^E	Stone
 6Z9	Stone Rhino
 /.C
 /0H
 ;VJ
 8KT
-^E	Stone
 6_U	Stone(DK)
 gk
 .0U
@@ -136841,7 +136841,6 @@ RR
 5eB	Stork
 aOF
 :U<	Stork(PL)
-@D:	Storm Knight
 0Ac	Storm
 .j0
 2>C
@@ -136849,6 +136848,7 @@ aOF
 788
 4G-
 4>_
+@D:	Storm Knight
 .5T	Storm(D)
 kIJ
 >Bl	Storm(F)
@@ -137709,8 +137709,8 @@ E9
 Q^h	Styx(Can)
 9@:	Styx(H)
 h>^	Styx(SF)
-]97	Sub Zerox
 kk@	Sub
+]97	Sub Zerox
 UlX	Sub-Zero
 EBM	Subdrain
 :QR
@@ -137871,10 +137871,10 @@ BP
 ..f
 S0
 L4
-L\a	Subject 6
 7gR	Subject
 70X
 SZX
+L\a	Subject 6
 =_9	Sublett
 255	Sublime(sweden)
 ?R@
@@ -138547,8 +138547,6 @@ T]C	Sultan(S)
 8Lh
 bE^	Sumdeus
 _KV	Sumea
-:RS	Sumo Lounge
-D4Y
 ><Y	Sumo
 2Ej
 93G
@@ -138557,7 +138555,8 @@ D4Y
 /hI
 >M
 :7]
-=cR	Sun Stark
+:RS	Sumo Lounge
+D4Y
 b6	Sun
 LU
 .`N
@@ -138618,21 +138617,22 @@ ZO
 QT
 .:/
 0VJ
+=cR	Sun Stark
 ^Lb	Sun(D)
 W_7	Sun(PL)
 `2U	Sun(S)
 ?RA	SunSpire
 G5h
 A6i
+8^_	Sundance
+.EK
+CR6
+DM0
 Oi	Sundance Kid
 4;2
 Bkk
 8R5
 4C6
-8^_	Sundance
-.EK
-CR6
-DM0
 .Nk	Sunday
 1bd
 0_W
@@ -139075,15 +139075,15 @@ j11	Supreme(ZAF)
 <T>
 jS	Surfaze(SF)
 bgZ	Surfers
-<>[	Surfing Bird(Germany)
-2b;
-3[-
->VV
 .Ic	Surfing
 /i?
 .ab
 2k@
 _?e
+<>[	Surfing Bird(Germany)
+2b;
+3[-
+>VV
 bi2	Surgeon General
 6=R	Surgeon(Belarus)
 7g6
@@ -139501,8 +139501,8 @@ IJk
 NbE	Sweeper(Swiss)
 ]ce	Sweetfeet(NO)
 F=:	Swettr
-Jk:	Swiety Mikolaj
 AbI	Swiety
+Jk:	Swiety Mikolaj
 hYO	Swill
 1e2
 [[Q	SwissPope
@@ -139736,7 +139736,6 @@ Ne
 SK9	Synth_o_Nic
 hUE	Synthalia
 4JN	Syntheslav
-?Q`	Synthetic Minds
 :;]	Synthetic
 01Y
 @O^
@@ -139745,6 +139744,7 @@ hUE	Synthalia
 58.
 65@
 3.]
+?Q`	Synthetic Minds
 ?Ya	Synthetique Sounds(Swe)
 9U6	Synthfreak
 @1O
@@ -140781,8 +140781,8 @@ Q8
 Qj
 /hE
 h]a	TMA K
-?@@	TMB Designs
 3eP	TMB
+?@@	TMB Designs
 A@8	TMG
 NNA
 E06	TMII
@@ -140876,8 +140876,8 @@ ikY	TRD
 k/>	TRM
 `:5	TRX(Hungary)
 3KA
-C57	TSC Ace
 fHB	TSC
+C57	TSC Ace
 A`	TSC(H)
 5R3
 7gQ
@@ -141250,8 +141250,8 @@ FdF	Tacha
 I1C
 ?W.	Tafkaps
 0Ei
-12f	Tag Team
 fN_	Tag
+12f	Tag Team
 EPL	Tagesdosis
 ;7c	Tai
 Kh.
@@ -141288,9 +141288,9 @@ dE
 0Ri
 2YV
 .8e
-lU<	Tall Order
 i@	Tall
 FMM
+lU<	Tall Order
 G^9	Talo
 M4=
 ^`V	Talonmies
@@ -141541,14 +141541,14 @@ AWP
 /7I
 1fi
 =kl
-1aF	Tapani Hoyssa
-2GR
-1l:
-PUX
 >6	Tapani
 LHF
 2:=
 9_K
+1aF	Tapani Hoyssa
+2GR
+1l:
+PUX
 0_.	Tappi
 gd	Taque(Pol)
 3gk	Tarantula
@@ -142138,6 +142138,11 @@ FZ
 .@F
 fG
 =Qk	Technix~Vim!
+C7H	Techno
+0^<
+;?I
+5\E
+5`6
 8Z4	Techno Beat
 9OQ
 /U`	Techno Eric
@@ -142148,11 +142153,6 @@ Q?G	Techno Overdose
 F]f
 6N
 RZE	Techno Tim~The Terminator
-C7H	Techno
-0^<
-;?I
-5\E
-5`6
 902	Techno(France)
 >:F	Techno(USA)
 0gb
@@ -143134,6 +143134,12 @@ B3b	Teque~Turtle
 49T
 UJ`	Termax
 =dP
+@<;	Terminal
+0=D
+2G5
+@4B
+5/H
+0@a
 0Dj	Terminal Silence
 .;1
 3fV
@@ -143174,16 +143180,10 @@ Tl
 :\h
 kg
 5N
-@<;	Terminal
-0=D
-2G5
-@4B
-5/H
-0@a
-35Z	Terminator D
 F^X	Terminator
 D9.
 <[H
+35Z	Terminator D
 9eK	Terminator(PT)
 .EF
 7aV	Terminus
@@ -143223,8 +143223,8 @@ AMQ
 .Td
 G5
 .XD
-P]X	Terror Fed
 e-.	Terror
+P]X	Terror Fed
 ..8D	Terrorist
 X;7	Terrorize
 Ma	Terrorizer
@@ -143249,7 +143249,6 @@ Fl
 1@9
 .bf	Terrorlevel
 KGD
-OPg	Terry Mood
 07?	Terry
 7e_
 dc
@@ -143265,6 +143264,7 @@ dc
 .BD
 fQ
 .eN
+OPg	Terry Mood
 .KP	Terry(PL)
 D9
 LO
@@ -143443,8 +143443,6 @@ M^1	The Animal
 Jl[
 j<S	The Animal(Z)
 ORd	The Anvil
-W0J	The Art Man
-C=V
 50R	The Art
 1Q`
 2?M
@@ -143458,6 +143456,8 @@ FC
 1G\
 2NJ
 2^[
+W0J	The Art Man
+C=V
 .R\	The Artist
 8fd
 TX7	The Ascender(USA)
@@ -143491,8 +143491,8 @@ FcP
 =8i
 @LX	The Bard(Norway)
 EQI	The Bastard
-.8E	The Beast 666
 dZ@	The Beast
+.8E	The Beast 666
 0/_	The Beastmaster
 :Rb	The Beatmaster
 0G;
@@ -143620,8 +143620,8 @@ C<e
 4`G
 ;HH	The Dark Lord
 /lY
-71:	The Dead Vulcan
 ak>	The Dead
+71:	The Dead Vulcan
 OEF	The Deft
 3Qb	The Demon
 6GU
@@ -143808,6 +143808,89 @@ i4
 JG5
 9@[
 05E
+05	The Fox
+.G]
+>X
+>U
+8D
+=V
+2Q
+0:
+H1
+.8^
+6=
+]f
+C2
+.eA
+]M
+Jh
+CP
+.O2
+K]
+/--
+Q2
+UV
+aS
+]5
+/jV
+./P
+1H4
+.Y
+<J
+Q=
+9Q
+=P
+.e_
+2J
+.L7
+a>
+/Tc
+LH
+Dg
+:X
+XE
+:.
+8H
+lF
+;2
+/Q
+0:
+Fc
+.j>
+.-I
+f6
+=E
+/KH
+3T
+.ki
+.UQ
+3I
+TA
+.BC
+._;
+F8
+UR
+gg
+.-G
+:4
+B5
+_G
+Q@
+.F9
+P2
+.[A
+_3
+SR
+>d
+Gk
+.E=
+OK
+1g
+=B
+cN
+:=
+kB
+0.
 2R	The Fox II
 P]
 .OZ
@@ -143895,89 +143978,6 @@ L
 HF
 /<L
 .2
-05	The Fox
-.G]
->X
->U
-8D
-=V
-2Q
-0:
-H1
-.8^
-6=
-]f
-C2
-.eA
-]M
-Jh
-CP
-.O2
-K]
-/--
-Q2
-UV
-aS
-]5
-/jV
-./P
-1H4
-.Y
-<J
-Q=
-9Q
-=P
-.e_
-2J
-.L7
-a>
-/Tc
-LH
-Dg
-:X
-XE
-:.
-8H
-lF
-;2
-/Q
-0:
-Fc
-.j>
-.-I
-f6
-=E
-/KH
-3T
-.ki
-.UQ
-3I
-TA
-.BC
-._;
-F8
-UR
-gg
-.-G
-:4
-B5
-_G
-Q@
-.F9
-P2
-.[A
-_3
-SR
->d
-Gk
-.E=
-OK
-1g
-=B
-cN
-:=
-kB
-0.
 FDK	The Fox(DK)
 .c_	The Fox(NL3)
 ;P
@@ -144716,23 +144716,23 @@ T1
 @3
 .d?
 YY[	The Judge(DK)
-0AO	The King Arthur
-\4E
-6Z=
 >X7	The King
 =E.
 ;PQ
 6HZ
 /YT
-JS^	The Knight Rider
-4eU
-4PE
-15Y
+0AO	The King Arthur
+\4E
+6Z=
 8:N	The Knight
 6@F
 =k0
 1l5
 0KY
+JS^	The Knight Rider
+4eU
+4PE
+15Y
 .-jV	The Kraken
 Lc]	The Krazy Goose(Spain)
 ?@9	The Last Boyscout
@@ -144849,9 +144849,6 @@ ck.	The Malefactor
 0e;	The Marsipan Death
 `1W	The Mask
 1RV
-Q3A	The Master Mixer
-0F9
-1@U
 ^J	The Master
 .3e
 B>
@@ -144896,6 +144893,9 @@ Ri
 FO
 1L^
 2S[
+Q3A	The Master Mixer
+0F9
+1@U
 52<	The Match
 66E
 C2X
@@ -144969,8 +144969,6 @@ Yg
 8-C
 4H>
 0@O
-fTE	The Notorious Team
-.ke
 .PZ	The Notorious
 I\
 .0g
@@ -145012,6 +145010,8 @@ OC
 .3@
 /=S
 .=D
+fTE	The Notorious Team
+.ke
 k<j	The Old Wizard
 UP	The Omen
 /C<
@@ -145690,7 +145690,6 @@ j_
 GUL
 GGW	Thierry Prouteau
 BgK	Thiesen
-gg=	Thom Robertson
 4kC	Thom
 1:>
 .J]
@@ -145699,6 +145698,7 @@ eW
 U7
 :.P
 =-@
+gg=	Thom Robertson
 ``e	Thom(NL)
 8gO	Thom42
 JO@	Thomas Adick
@@ -145783,6 +145783,11 @@ JZX	ThomasVolker
 =TK	Thomaz J
 Q>Z	Thomson(H)
 <MB
+21/	Thor
+S.Q
+57M
+42`
+k?
 0WY	Thor Konnat
 4SN
 5Id
@@ -145790,11 +145795,6 @@ Q>Z	Thomson(H)
 .kG
 IO]
 WeV	Thor Sorensen
-21/	Thor
-S.Q
-57M
-42`
-k?
 \e/	Thor(I)
 BH?	Thor(SF)
 1Mj
@@ -146086,7 +146086,6 @@ SB^
 ?CF
 .eZ
 .3<
-b^Q	Tiger Hawk
 6V>	Tiger
 2V
 WD
@@ -146098,6 +146097,7 @@ WD
 0:-
 9:0
 SX
+b^Q	Tiger Hawk
 66d	Tiger(Boxel)
 KT	Tiger(Fin)
 .2?
@@ -147476,6 +147476,10 @@ AcW
 OE
 7G4	Tomarkus
 8QX
+ZC5	Tomas
+8^]
+HMB	Tomas Danko
+IQ2
 1]1	Tomas Danko Jr.
 1Qc
 /Hg
@@ -147510,14 +147514,10 @@ A0
 N2
 .aE
 ??
-HMB	Tomas Danko
-IQ2
 @Eg	Tomas Penc
 ?`j
 <db
 33h
-ZC5	Tomas
-8^]
 @A@	TomasM
 .jU	Tomasz Liebich
 ;?i
@@ -147803,6 +147803,9 @@ S]-	Tompa do Pompa
 .-V<	Tompeli(Finland)
 VeE	Tomsoft
 >l;	Tomy
+G/c	Tone
+/PM
+76c
 2aW	Tone C(Ger)
 /^]
 :Tb
@@ -147813,9 +147816,6 @@ VeE	Tomsoft
 32h
 5`k
 _A
-G/c	Tone
-/PM
-76c
 ;.f	Tone(NL)
 4=A
 ;J-
@@ -148295,6 +148295,7 @@ h6c	Toxagone
 19[
 >ch
 M4a
+]]g	Toxic
 .-W@	Toxic Avenger
 A6B	Toxic Brain
 4/i	Toxic Child
@@ -148310,7 +148311,6 @@ BdB	Toxic Trancer
 /1-
 /Q;
 SK_	Toxic Waste
-]]g	Toxic
 28g	Toxic(UK)
 6ff
 .ZV
@@ -148618,6 +148618,7 @@ C`D
 EhL
 4j=
 =Yj	Trace~Wizard
+[1?	Track
 gj	Track 41
 @dX
 :Ye
@@ -148626,7 +148627,6 @@ gj	Track 41
 .3/
 0W:
 <P3	Track Master(NO)
-[1?	Track
 .Ag	TrackWald
 0T_
 0Xj
@@ -149071,7 +149071,6 @@ K?
 @G
 0bl
 ]bg	Travolta~Trice
-94Q	Trax 44(Germany)
 PQ	Trax
 4:8
 2bg
@@ -149079,10 +149078,14 @@ PQ	Trax
 :[
 2<>
 W11
+94Q	Trax 44(Germany)
 7Nf	Trax(Belgium)
 1Ak	Trax(DK)
 OKi
 DEI
+/>^	Traxx
+WD\
+/G0
 RT	Traxx (UK)
 .BT
 2AZ
@@ -149095,9 +149098,6 @@ O@
 3V?
 /?4
 0`/
-/>^	Traxx
-WD\
-/G0
 gHA	Traxxion
 E_L	Tray(Ger)
 11b
@@ -149279,11 +149279,11 @@ g^E	Tremor
 V<O	Tren
 5XJ
 L9\	Trent
+U-S	Trevor
 .-CH	Trevor Hamlett
 2]C	Trevor Ouelette
 7VS	Trevor Stainsby
 <09
-U-S	Trevor
 8j	Trex
 K@8
 4V=
@@ -150044,7 +150044,6 @@ LL
 692	Tripwire
 hHS	Trisekki
 =>7	TristEndo
-@di	Tristan Lorach
 /8g	Tristan
 99f
 HW
@@ -150062,6 +150061,7 @@ BM
 5\?
 W?
 /-M
+@di	Tristan Lorach
 7JQ	Tritan(Swiss)
 5J
 7Qa
@@ -150205,8 +150205,6 @@ M`2
 >B>
 3Fe	Trone
 /GG
-GT^	Tronic DJ
-/-E
 2G3	Tronic
 /IK
 /Kh
@@ -150215,6 +150213,8 @@ gG
 E5<
 >eA
 .Ei
+GT^	Tronic DJ
+/-E
 G/D	Tronic(DE)
 PNZ	Tronic(S)
 5YI
@@ -150261,14 +150261,6 @@ Q:
 U\
 >W
 b@
-81	Trooper of Doom
-Og7
-/lD
-PR
-/M_
-/:j
-8.P
-.i=
 7IE	Trooper
 /Zf
 /_.
@@ -150282,6 +150274,14 @@ PR
 .:a
 N?
 3BL
+81	Trooper of Doom
+Og7
+/lD
+PR
+/M_
+/:j
+8.P
+.i=
 <@i	Trooper(SF)
 4l0
 4OX
@@ -150636,8 +150636,6 @@ A5X
 ;ig	Turrican(unknown)
 3OE
 2IC	Turso
-[VH	Turtle Lotion
-729
 :R	Turtle
 /-K
 /aG
@@ -150677,6 +150675,8 @@ _
 0I[
 1SD
 C^
+[VH	Turtle Lotion
+729
 .5K	Turtle(Swe-Maffia)
 ]2Z	Turtle(UK)
 Fae	Turtle(Yodel)
@@ -150924,7 +150924,6 @@ ZJ
 1PS
 .H7
 .L?
-aY.	Twisted Image
 /[f	Twisted
 2a
 1@5
@@ -150943,6 +150942,7 @@ lg
 3/a
 .BB
 R2
+aY.	Twisted Image
 ;5h	Twister
 I^
 0l<
@@ -152457,10 +152457,10 @@ J/Q
 CQ_
 7Oc	Varanus
 Yfa	Varappo
-U-D	Varg Vikernes
 0LA	Varg
 W7M
 5-T
+U-D	Varg Vikernes
 NY\	Variat
 7^B
 UhE	Varix
@@ -152691,9 +152691,6 @@ KGB	Vega(Norway)
 0E8
 .T>
 3O4
-?<S	Vegard Laurendz Pedersen
-8EW
-;j[
 YL	Vegard
 1F
 .=O
@@ -152784,6 +152781,9 @@ Hl
 .<
 84
 5A
+?<S	Vegard Laurendz Pedersen
+8EW
+;j[
 9C	Vegas(Can)
 ]Y?
 1E9
@@ -152814,14 +152814,6 @@ SN=	Velocity
 7gS
 eB
 O5
-/e-	Velvet Scream
-/N=
-5ZE
-2GW
-PF<
-/Ac
-\^
-3-k
 45@	Velvet
 3O
 FJ
@@ -152842,6 +152834,14 @@ aU
 /P6
 4c
 .@K
+/e-	Velvet Scream
+/N=
+5ZE
+2GW
+PF<
+/Ac
+\^
+3-k
 1XK	Vend
 3EI	Vendetta
 4<^
@@ -153629,6 +153629,8 @@ SH
 =_
 J5
 /T
+M<<	Vincent
+FJ]
 G6	Vincent Voois
 `>
 ZZ
@@ -153720,8 +153722,6 @@ G8
 .iL
 P_
 0aZ	Vincent van Eck
-M<<	Vincent
-FJ]
 O.8	Vincent(D)
 BjB	Vincent(Poland)
 ;[	Vincenzo
@@ -154394,13 +154394,13 @@ l]3	Virus(YU)
 ;@/	VisaSoft
 >B0
 <1N	Visant
-6S2	Vision Gonzales
-FXC
-`_9	Vision Thing
 9I	Vision
 Jg?
 =?F
 >MW
+6S2	Vision Gonzales
+FXC
+`_9	Vision Thing
 8P0	Vision(N)
 9fk
 9gT
@@ -154566,6 +154566,8 @@ EAZ
 6Pj	Vladimir Ivanov
 4X:
 ;/i	Vladimir Roudnev
+2E-	Vlado
+abD
 Q<L	Vlado Saffa
 3Pi
 /\J	Vlado Tomic
@@ -154599,8 +154601,6 @@ CY
 D;
 @`
 1`3
-2E-	Vlado
-abD
 ..3H	Vlagyimir
 02T	Vocal
 T5
@@ -154745,8 +154745,6 @@ B0
 PA
 R:
 .QP
-OM\	Void Master
-0iX
 4V9	Void
 .j6
 :9=
@@ -154761,6 +154759,8 @@ OM\	Void Master
 1=P
 /S9
 /BM
+OM\	Void Master
+0iX
 V\7	Voider
 9Z:	Voidnull
 ;-=	Vokke
@@ -157502,22 +157502,6 @@ ik
 /E4
 //U
 :0V
-0jU	Wild Eye
-/U_
-/66
-SM3
-/[h
-.DZ
-/1]
-0ga
-17H
-.I6
-2@A	Wild MC
-XQP
-J:Q	Wild Weasel
-AWR
-;3H
-M
 .Gc	Wild
 0X=
 4KW
@@ -157548,6 +157532,22 @@ jC
 <J
 =`
 1T-
+0jU	Wild Eye
+/U_
+/66
+SM3
+/[h
+.DZ
+/1]
+0ga
+17H
+.I6
+2@A	Wild MC
+XQP
+J:Q	Wild Weasel
+AWR
+;3H
+M
 =Z6	WildChild
 6;O
 /]2	Wildcat
@@ -157615,10 +157615,10 @@ YR
 /AX
 .83
 i?C	Willem Bruins
-bRJ	Willi Delac
 gX	Willi
 P.9
 2ZH
+bRJ	Willi Delac
 /Jl	William Hensel
 2RK
 1J6
@@ -157678,13 +157678,13 @@ EgP	Wimpy
 >kM	Wince
 7ZP	Winchester
 3]6
+4UX	Wind
+G72
+?SZ
 56j	Wind Dragon
 <Cd
 8_^
 2R/
-4UX	Wind
-G72
-?SZ
 8a1	Windi(PL)
 dQh	Winditup
 V5O	Winger
@@ -157888,10 +157888,10 @@ KC
 /CB
 eB
 e=>	Wiwa
+LF>	Wiz
 1N3	Wiz Of Oz
 V;f
 >jA
-LF>	Wiz
 4gS	Wiz(DK)
 I8Y
 9hC
@@ -158059,13 +158059,13 @@ O8T
 5he	Wolfe Bowers(Can)
 3I7
 1Q_
+Lah	Wolfgang
 5V	Wolfgang 1
 A0
 .G=
 Mj`
 /g2
 7YM
-Lah	Wolfgang
 kR1	Wolfi
 \=G	Wolfman Jack(Swe)
 .-`H	Wolfman(Bastards)
@@ -158514,11 +158514,11 @@ GE
 0;]
 VFH	Wozni
 YOc	Wozz
-Xl/	Wraith Lord
 4T@	Wraith
 KJ\
 =iA
 /1Y
+Xl/	Wraith Lord
 aI_	Wraith(Cancer)
 J^<	Wraith(Lee)
 MW]	Wrath
@@ -158526,11 +158526,11 @@ fQf	Wray
 76/	Wrench
 O_N
 CAJ	Wrinkle
-K@/	Wrong Way
 <Sh	Wrong
 =C8
 8DI
 3Wd
+K@/	Wrong Way
 eMN	Wry
 A\`	Wu
 8k9	Wuerp
@@ -162693,8 +162693,6 @@ QX8	Zero-X
 W?6	Zerox
 <Cc	Zest(NL)
 A>`	Zeszyt
-/h_	Zeta (C64)
-Dk=
 0@j	Zeta
 1Ff
 ^Y
@@ -162704,6 +162702,8 @@ Dk=
 5Q9
 /We
 >bZ
+/h_	Zeta (C64)
+Dk=
 :6\	Zetec
 C\?
 4G3	Zetesis(Italy)
@@ -163155,15 +163155,15 @@ Z;C	Zogu
 9.Z	Zoltan Percsich
 Ea4
 /.0
+08V	Zoltar
+Hf@
+>-2
+.7e
 B:M	Zoltar X(Poland)
 /?
 6MN
 5>5
 EA
-08V	Zoltar
-Hf@
->-2
-.7e
 :?h	Zoltar(SF)
 0cj
 Yj
@@ -163302,10 +163302,9 @@ MK
 8Z;
 KQ.
 J/O	Zonah
-5//	Zond 3
 ZFg	Zond
+5//	Zond 3
 Mj=	Zondiac
-F0<	Zone 14
 0fB	Zone
 =FP
 175
@@ -163319,6 +163318,7 @@ F0<	Zone 14
 Yd
 0I=
 ^H
+F0<	Zone 14
 92Q	Zone(F)
 3XQ
 ;]/

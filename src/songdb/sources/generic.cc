@@ -16,7 +16,7 @@ using namespace songdb;
 
 namespace songdb::internal {
 
-bool parse_tsv_row(const char *tuple, _FullData &item, const _FullData &prev_item, vector<string> &authors, vector<string> &albums, vector<string> &publishers) noexcept {
+void parse_tsv_row(const char *tuple, _FullData &item, const _FullData &prev_item, vector<string> &authors, vector<string> &albums, vector<string> &publishers) noexcept {
     const auto cols = common::split_view_x<4>(tuple, '\t');
     const auto authors_ = common::split_view(cols[0], SEPARATOR);
     const auto publishers_ = common::split_view(cols[1], SEPARATOR);
@@ -83,8 +83,6 @@ bool parse_tsv_row(const char *tuple, _FullData &item, const _FullData &prev_ite
     } else {
         add_album(album);
     }
-
-    return true;
 }
 
 } // namespace songdb::internal

@@ -1,3 +1,6 @@
+-- SPDX-License-Identifier: GPL-2.0-or-later
+-- Copyright (C) 2023-2025 Matti Tiainen <mvtiaine@cc.hut.fi>
+
 COPY (
     SELECT DISTINCT CONCAT('http://ftp.amigascne.org/pub/amiga',a.parameter) FROM
         productions_production_types c,

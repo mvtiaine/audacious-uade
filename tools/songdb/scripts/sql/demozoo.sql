@@ -1,3 +1,6 @@
+-- SPDX-License-Identifier: GPL-2.0-or-later
+-- Copyright (C) 2023-2025 Matti Tiainen <mvtiaine@cc.hut.fi>
+
 CREATE OR REPLACE FUNCTION decode_url(p varchar) RETURNS varchar AS $$
 BEGIN
     RETURN(SELECT convert_from(CAST(E'\\x' || string_agg(CASE WHEN length(r.m[1]) = 1 THEN encode(convert_to(r.m[1], 'SQL_ASCII'), 'hex') ELSE substring(r.m[1] from 2 for 2) END, '') AS bytea), 'UTF8')

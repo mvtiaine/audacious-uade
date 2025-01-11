@@ -33,11 +33,11 @@ using namespace songdb;
 using namespace songdb::internal;
 
 namespace songdb::modland {
-    bool parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &prev_item, vector<string> &authors, vector<string> &albums) noexcept;
+void parse_tsv_row(const char *tuple, _ModlandData &item, const _ModlandData &prev_item, vector<string> &authors, vector<string> &albums) noexcept;
 }
 
 namespace songdb::internal {
-    bool parse_tsv_row(const char *tuple, _FullData &item, const _FullData &prev_item, vector<string> &authors, vector<string> &albums, vector<string> &publishers) noexcept;
+void parse_tsv_row(const char *tuple, _FullData &item, const _FullData &prev_item, vector<string> &authors, vector<string> &albums, vector<string> &publishers) noexcept;
 }
 
 namespace {
@@ -344,24 +344,21 @@ void parse_songlengths(const string &tsv) noexcept {
         const auto cols = common::split_view_x<2>(line, '\t');
         const auto subsongs = common::split_view(cols[0], ' ');
         vector<_SubSongInfo> subsong_infos;
-        _SubSongInfo prev_info(0,common::SongEnd::Status::ERROR);
+        _SubSongInfo subsong_info(0,common::SongEnd::Status::ERROR);
         for (const auto &col : subsongs) {
-            if (col.empty()) {
-                subsong_infos.push_back(prev_info);
-            } else {
+            if (!col.empty()) {
                 const auto e = common::split_view<2>(col, ',');
                 const songlength_t songlength = e[0].empty() ? static_cast<songlength_t>(0) : b64d24(e[0]);
                 const songend_t songend = e[1].empty() ? common::SongEnd::PLAYER : parse_songend(e[1]);
-                const auto info = _SubSongInfo(songlength, songend);
-                subsong_infos.push_back(info);
-                prev_info = info;
+                subsong_info = _SubSongInfo(songlength, songend);
             }
+            subsong_infos.push_back(subsong_info);
         }
         assert(!subsong_infos.empty());
         const uint8_t minsubsong = cols[1].empty() ? 1 : common::from_chars<uint8_t>(cols[1]);
-        const _SongInfo info(subsongs.size() > 1, minsubsong, subsong_infos.front());
+        const _SongInfo song_info(subsongs.size() > 1, minsubsong, subsong_infos.front());
         assert(md5_idx < MD5_IDX_SIZE);
-        db_songinfos[md5_idx] = info;
+        db_songinfos[md5_idx] = song_info;
         if (subsong_infos.size() > 1) {
             subsong_infos.erase(subsong_infos.begin());
             subsong_infos.shrink_to_fit();
@@ -383,42 +380,40 @@ void parse_tsv(const string &tsv) noexcept {
     char line[BUF_SIZE];
     T *tmp = (T*)malloc(MD5_IDX_SIZE * sizeof(T));
     memset((void *)tmp, 0, MD5_IDX_SIZE * sizeof(T));
-    md5_idx_t prev_idx = 0;
+    md5_idx_t idx = 0;
     while (fgets(line, sizeof line, f)) {
         int len;
-        const md5_idx_t md5_idx = b64d24(line, len);
-        assert(md5_idx > static_cast<md5_idx_t>(0));
-        assert(md5_idx < static_cast<md5_idx_t>(MD5_IDX_SIZE));
+        const md5_idx_t next_idx = b64d24(line, len);
+        assert(next_idx > static_cast<md5_idx_t>(0));
+        assert(next_idx < static_cast<md5_idx_t>(MD5_IDX_SIZE));
         char *tuple = line + len; // skip md5
         switch (S) {
             case Modland: {
-                const auto &prev = ((_ModlandData*)tmp)[prev_idx];
+                const auto &prev = ((_ModlandData*)tmp)[idx];
                 if (*tuple == '\n') {
-                    const md5_idx_t idx = prev.md5 + md5_idx;
+                    idx = prev.md5 + next_idx;
                     ((_ModlandData*)tmp)[idx] = {
                         { idx },
                         prev.author,
                         prev.album,
                     };
-                    prev_idx = idx;
                     continue;
                 }
+                idx = next_idx;
                 _ModlandData _item;
-                if (modland::parse_tsv_row(tuple + 1, _item, prev, author_pool, album_pool)) {
-                    _item.md5 = md5_idx;
-                    ((_ModlandData*)tmp)[md5_idx] = _item;
-                    prev_idx = md5_idx;
-                }
+                modland::parse_tsv_row(tuple + 1, _item, prev, author_pool, album_pool);
+                _item.md5 = idx;
+                ((_ModlandData*)tmp)[idx] = _item;
                 break;
             }
             case AMP: {
-                const auto &prev = ((_AMPData*)tmp)[prev_idx];
+                const auto &prev = ((_AMPData*)tmp)[idx];
                 if (*tuple == '\n') {
-                    const md5_idx_t idx = prev.md5 + md5_idx;
+                    idx = prev.md5 + next_idx;
                     ((_AMPData*)tmp)[idx] = {{ idx }, prev.author};
-                    prev_idx = idx;
                     continue;
                 }
+                idx = next_idx;
                 auto tokens = common::split_view(tuple + 1, SEPARATOR);
                 string author;
                 if (tokens.size() > 1) {
@@ -429,14 +424,13 @@ void parse_tsv(const string &tsv) noexcept {
                 author.pop_back(); // remove \n
                 string_t sc = author_pool.size();
                 author_pool.push_back(author);
-                ((_AMPData*)tmp)[md5_idx] = {{ md5_idx }, sc};
-                prev_idx = md5_idx;
+                ((_AMPData*)tmp)[idx] = {{ idx }, sc};
                 break;
             }
             case UnExotica: {
-                const auto &prev = ((_UnExoticaData*)tmp)[prev_idx];
+                const auto &prev = ((_UnExoticaData*)tmp)[idx];
                 if (*tuple == '\n') {
-                    const md5_idx_t idx = prev.md5 + md5_idx;
+                    idx = prev.md5 + next_idx;
                     ((_UnExoticaData*)tmp)[idx] = {
                         { idx },
                         prev.author,
@@ -444,21 +438,19 @@ void parse_tsv(const string &tsv) noexcept {
                         prev.publisher,
                         prev.year,
                     };
-                    prev_idx = idx;
                     continue;
                 }
+                idx = next_idx;
                 _UnExoticaData _item;
-                if (internal::parse_tsv_row(tuple + 1, _item, prev, author_pool, album_pool, publisher_pool)) {
-                    _item.md5 = md5_idx;
-                    ((_UnExoticaData*)tmp)[md5_idx] = _item;
-                    prev_idx = md5_idx;
-                }
+                internal::parse_tsv_row(tuple + 1, _item, prev, author_pool, album_pool, publisher_pool);
+                _item.md5 = idx;
+                ((_UnExoticaData*)tmp)[idx] = _item;
                 break;
             }
             case Demozoo: {
-                const auto &prev = ((_DemozooData*)tmp)[prev_idx];
+                const auto &prev = ((_DemozooData*)tmp)[idx];
                 if (*tuple == '\n') {
-                    const md5_idx_t idx = prev.md5 + md5_idx;
+                    idx = prev.md5 + next_idx;
                     ((_DemozooData*)tmp)[idx] = {
                         { idx },
                         prev.author,
@@ -466,21 +458,19 @@ void parse_tsv(const string &tsv) noexcept {
                         prev.publisher,
                         prev.year,
                     };
-                    prev_idx = idx;
                     continue;
                 }
+                idx = next_idx;
                 _DemozooData _item;
-                if (internal::parse_tsv_row(tuple + 1, _item, prev, author_pool, album_pool, publisher_pool)) {
-                    _item.md5 = md5_idx;
-                    ((_DemozooData*)tmp)[md5_idx] = _item;
-                    prev_idx = md5_idx;
-                }
+                internal::parse_tsv_row(tuple + 1, _item, prev, author_pool, album_pool, publisher_pool);
+                _item.md5 = next_idx;
+                ((_DemozooData*)tmp)[idx] = _item;
                 break;
             }
             default: assert(false); break;
         }
-        assert(prev_idx > static_cast<md5_idx_t>(0));
-        assert(prev_idx < static_cast<md5_idx_t>(MD5_IDX_SIZE));
+        assert(idx > static_cast<md5_idx_t>(0));
+        assert(idx < static_cast<md5_idx_t>(MD5_IDX_SIZE));
     };
     fclose(f);
     int i = 0;
@@ -506,38 +496,32 @@ void parse_modinfos(const string &tsv) noexcept {
         return;
     }
 
-    md5_idx_t prev_idx = 0;
+    md5_idx_t idx = 0;
     char line[BUF_SIZE];
-    string_t prev_format_t = STRING_NOT_FOUND;
-    uint8_t prev_channels = 0;
+    string_t format_t = STRING_NOT_FOUND;
+    uint8_t channels = 0;
     while (fgets(line, sizeof line, f)) {
         int len;
-        const md5_idx_t md5_idx = b64d24(line, len);
-        assert(md5_idx < static_cast<md5_idx_t>(MD5_IDX_SIZE));
+        const md5_idx_t next_idx = b64d24(line, len);
+        assert(next_idx < static_cast<md5_idx_t>(MD5_IDX_SIZE));
         char *tuple = line + len; // skip md5
         if (*tuple == '\n') {
-            md5_idx_t idx = prev_idx + md5_idx;
+            idx = idx + next_idx;
             assert(idx < static_cast<md5_idx_t>(MD5_IDX_SIZE));
-            db_modinfos[idx] = { prev_format_t, prev_channels };
-            prev_idx = idx;
+            db_modinfos[idx] = { format_t, channels };
             continue;
         }
+        idx = next_idx;
         const auto cols = common::split_view_x<2>(tuple + 1, '\t');
-        string_t format_t;
-        if (cols[0][0] == REPEAT) {
-            format_t = prev_format_t;
-        } else {
+        if (cols[0][0] != REPEAT) {
             string fmt = string(cols[0]);
             format_t = format_pool.size();
-            prev_format_t = format_t;
             format_pool.push_back(fmt);
         }
-        const uint8_t channels = cols[1].empty() ? 0
-            : cols[1][0] == REPEAT ? prev_channels
+        channels = cols[1].empty() ? 0
+            : cols[1][0] == REPEAT ? channels
             : common::from_chars<uint8_t>(cols[1]);
-        prev_channels = channels;
-        db_modinfos[md5_idx] = { format_t, channels };
-        prev_idx = md5_idx;
+        db_modinfos[idx] = { format_t, channels };
     }
     fclose(f);
 }
