@@ -70,7 +70,7 @@ def createPrettyModInfosTsv(modinfos: Buffer[ModInfo]) = {
     Buffer(
       m.md5.take(12),
       m.format,
-      m.channels.toString
+      if (m.channels > 0) m.channels.toString else ""
     ).mkString("\t")
   ).mkString("\n").concat("\n")
 }
@@ -81,7 +81,7 @@ def parsePrettyModInfosTsv(tsv: String) = {
     ModInfo(
       md5 = cols(0),
       format = cols(1),
-      channels = cols(2).toInt
+      channels = if (!cols(2).isEmpty) cols(2).toInt else 0
     )
   }
   assert(modinfos.map(_.md5).distinct.size == modinfos.size)
@@ -96,7 +96,7 @@ def createPrettyMetaTsv(meta: Buffer[MetaData]) = {
       i.authors.mkString(SEPARATOR),
       i.publishers.mkString(SEPARATOR),
       i.album,
-      i.year.toString
+      if (i.year > 0) i.year.toString else ""
     ).mkString("\t")
   ).mkString("\n").concat("\n")
 }
@@ -109,7 +109,7 @@ def parsePrettyMetaTsv(tsv: String) = {
       authors = if (!cols(1).isEmpty) cols(1).split(SEPARATOR).toBuffer else Buffer.empty,
       publishers = if (!cols(2).isEmpty) cols(2).split(SEPARATOR).toBuffer else Buffer.empty,
       album = cols(3),
-      year = cols(4).toInt)
+      year = if (!cols(4).isEmpty) cols(4).toInt else 0)
   }
   assert(infos.map(_.md5).distinct.size == infos.size)
   infos.toBuffer.sortBy(_.md5)
