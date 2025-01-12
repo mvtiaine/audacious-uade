@@ -206,3 +206,29 @@ struct _SongInfo {
 } __attribute__((packed));
 
 } // namespace songdb::internal
+
+#ifndef MD5_IDX_SIZE
+#error "MD5_IDX_SIZE not defined"
+#define MD5_IDX_SIZE 1
+#endif
+#ifndef SONGLENGTHS_SIZE
+#define SONGLENGTHS_SIZE 1
+#endif
+#ifndef MODINFOS_SIZE
+#define MODINFOS_SIZE 1
+#endif
+#ifndef COMBINED_SIZE
+#define COMBINED_SIZE 1
+#endif
+#ifndef MODLAND_SIZE
+#define MODLAND_SIZE 1
+#endif
+#ifndef AMP_SIZE
+#define AMP_SIZE 1
+#endif
+#ifndef DEMOZOO_SIZE
+#define DEMOZOO_SIZE 1
+#endif
+#ifndef UNEXOTICA_SIZE
+#define UNEXOTICA_SIZE 1
+#endif

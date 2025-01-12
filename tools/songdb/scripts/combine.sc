@@ -18,10 +18,10 @@ def combineMetadata(
 
   val ag = amp.groupBy(_.md5).par.mapValues(_.head)
   // canonize Falcon (PL) -> Falcon etc.
-  val mg = modland.groupBy(_.md5).mapValues(v => v.head.copy(
+  val mg = modland.groupBy(_.md5).par.mapValues(v => v.head.copy(
     authors = v.head.authors.map(_.replaceAll(" \\(.*\\)$", "")))).seq
-  val dg = demozoo.groupBy(_.md5).mapValues(_.head)
-  val ug = unexotica.groupBy(_.md5).mapValues(_.head)
+  val dg = demozoo.groupBy(_.md5).par.mapValues(_.head)
+  val ug = unexotica.groupBy(_.md5).par.mapValues(_.head)
 
   md5s.par.map { md5 =>
     val a = ag.get(md5)
