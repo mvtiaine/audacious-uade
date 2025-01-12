@@ -24,13 +24,14 @@ Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExotica (ht
 In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
 
 Project is hosted at https://github.com/mvtiaine/audacious-uade
+Companion repo for songdb is at https://github.com/mvtiaine/audacious-uade-tools
 
 * Other notes:
 - Case sensitive filesystems may cause issues for formats with external samples
 - Tested on 64-bit, 32-bit, big & little endian hosts. Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin), OpenIndiana, GNU Hurd. Libraries/CLI binaries also tested on AmigaOS3, MorphOS, AROS, QNX 6.5.0, AIX, cosmocc, Tizen, Meego/Sailfish, OS/2 (ArcaOS)
 - Build support (binaries not tested) for Android, iOS, Fuchsia, OpenHarmony, webOS, RISC OS, FreeMiNT, WarpOS, Redox OS, SerenityOS, Genode, BlackBerry 10, QNX 7, QNX 8, PS4 (OpenOrbis)
 - WIP support (runtime failures) for IRIX, AmigaOS4, Wasix, Emscripten, UnixWare.
-- My custom Audacious classic playlist entry/window title template:
+- Recommended custom Audacious playlist entry/window title template:
 ${?codec:[${codec}${?channels: (${channels}ch)}]}  -  ${?artist:${artist}  -  }${title}${?album: - (${album})} ${?copyright:-  (${copyright})}${?publisher:- (${publisher}) }${?year:- (${year}) }${?subsong-id:${?subsong-num:- [${subsong-id}/${subsong-num}]}}
 
 * Some future plans (in no particular order)

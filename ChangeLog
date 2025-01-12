@@ -1,3 +1,11 @@
+0.13-dev
+- Songdb refactorings
+-- move all preprocessing logic from c++ to Scala scripts
+-- use single combined db/tsv for amp/modland/unexotica/demozoo metadata
+-- generate also pretty printed tsv files in addition to the encoded/"compressed" tsvs
+-- songdb scripts and raw TSVs moved to https://github.com/mvtiaine/audacious-uade-tools
+-- misc cleanups/fixes/updates
+
 0.12.4 - 2024-01-06
 - Implement Scream Tracker 2 support using st23play by 8bitbubsy (https://pastebin.com/ifXSCZ71)
 - Sync songdb sources to around 2025-01-04 snapshots

@@ -72,8 +72,17 @@ int main(int argc, char *argv[]) {
     _setmode(_fileno(stdout), 0x8000);
 #endif
 
-    fprintf(stdout, "songlengths.tsv:%s\t%d\t%s\n", md5short.c_str(), info->subsongs.front().subsong, common::mkString(songends, " ").c_str());
-    fprintf(stdout, "modinfos.tsv:%s\t%s\t%d\n", md5short.c_str(), info->modinfo->format.c_str(), info->modinfo->channels);
+    if (!info->subsongs.empty()) {
+        fprintf(stdout, "songlengths.tsv:%s\t%d\t%s\n", md5short.c_str(), info->subsongs.front().subsong, common::mkString(songends, " ").c_str());
+    }
+
+    if (info->modinfo) {
+        fprintf(stdout, "modinfos.tsv:%s\t%s\t%d\n", md5short.c_str(), info->modinfo->format.c_str(), info->modinfo->channels);
+    }
+
+    if (info->combined) {
+        fprintf(stdout, "combined.tsv:%s\t%s\t%s\t%s\t%u\n", md5short.c_str(), info->combined->author.c_str(), info->combined->publisher.c_str(), info->combined->album.c_str(), info->combined->year);
+    }
 
     if (info->amp) {
         fprintf(stdout, "amp.tsv:%s\t%s\n", md5short.c_str(), info->amp->author.c_str());
@@ -88,9 +97,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (info->unexotica) {
-        const auto author_path = songdb::unexotica::author_path(info->unexotica->author);
-        const auto album_path = common::mkString(common::split(info->unexotica->album, " "), "_");
-        fprintf(stdout, "unexotica.tsv:%s\t%s/%s\t%s\t%u\n", md5short.c_str(), author_path.c_str(), album_path.c_str(), info->unexotica->publisher.c_str(), info->unexotica->year);
+        fprintf(stdout, "unexotica.tsv:%s\t%s\t%s\t%s\t%u\n", md5short.c_str(), info->unexotica->author.c_str(), info->unexotica->publisher.c_str(), info->unexotica->album.c_str(), info->unexotica->year);
     }
 
     return EXIT_SUCCESS;
