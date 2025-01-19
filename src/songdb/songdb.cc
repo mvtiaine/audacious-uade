@@ -218,8 +218,7 @@ constexpr_f2 string make_album(const string_t s) noexcept {
     return album_pool[s];
 }
 
-template<size_t N>
-constexpr_f1 optional<_MetaData> _find(const _MetaData db[N], const md5_idx_t md5) noexcept {
+constexpr_f1 optional<_MetaData> _find(const _MetaData *db, const size_t N, const md5_idx_t md5) noexcept {
     if (md5 >= MD5_IDX_SIZE) return {};
     unsigned int idx = ((double)md5 / MD5_IDX_SIZE) * N;
     assert(idx < N);
@@ -252,9 +251,8 @@ constexpr_f2 optional<ModInfo> make_modinfo(const md5_idx_t md5) noexcept {
     return {};
 }
 
-template<size_t N>
-constexpr_f2 optional<MetaData> make_meta(const md5_idx_t md5, const _MetaData db[N]) noexcept {
-    const auto data = _find<N>(db, md5);
+constexpr_f2 optional<MetaData> make_meta(const md5_idx_t md5, const _MetaData *db, const size_t N) noexcept {
+    const auto data = _find(db, N, md5);
     if (data) {
         return MetaData {
             make_author(data->author),
@@ -401,8 +399,7 @@ void parse_tsv_row(const char *tuple, _MetaData &item, const _MetaData &prev_ite
     }
 }
 
-template<size_t N>
-void parse_tsv(const string &tsv, _MetaData db[N]) noexcept {
+void parse_tsv(const string &tsv, _MetaData *db, const size_t N) noexcept {
     FILE *f = fopen(tsv.c_str(), "r"); 
     if (!f) {
         ERR("Could not open songdb file %s\n", tsv.c_str());
@@ -527,11 +524,11 @@ optional<Info> lookup(const string &md5) noexcept {
     if (md5_idx != MD5_NOT_FOUND) {
         Info res;
         res.modinfo = initialized[ModInfos] ? make_modinfo(md5_idx) : optional<ModInfo>();
-        res.combined = initialized[Combined] ? make_meta<COMBINED_SIZE>(md5_idx, db_combined) : optional<MetaData>();
-        res.modland = initialized[Modland] ? make_meta<MODLAND_SIZE>(md5_idx, db_modland) : optional<MetaData>();
-        res.amp = initialized[AMP] ? make_meta<AMP_SIZE>(md5_idx, db_amp) : optional<MetaData>();
-        res.unexotica = initialized[UnExotica] ? make_meta<UNEXOTICA_SIZE>(md5_idx, db_unexotica) : optional<MetaData>();
-        res.demozoo = initialized[Demozoo] ? make_meta<DEMOZOO_SIZE>(md5_idx, db_demozoo) : optional<MetaData>();
+        res.combined = initialized[Combined] ? make_meta(md5_idx, db_combined, COMBINED_SIZE) : optional<MetaData>();
+        res.modland = initialized[Modland] ? make_meta(md5_idx, db_modland, MODLAND_SIZE) : optional<MetaData>();
+        res.amp = initialized[AMP] ? make_meta(md5_idx, db_amp, AMP_SIZE) : optional<MetaData>();
+        res.unexotica = initialized[UnExotica] ? make_meta(md5_idx, db_unexotica, UNEXOTICA_SIZE) : optional<MetaData>();
+        res.demozoo = initialized[Demozoo] ? make_meta(md5_idx, db_demozoo, DEMOZOO_SIZE) : optional<MetaData>();
         if (!initialized[Songlengths]) {
             return res;
         }
@@ -627,23 +624,23 @@ void init(const string &songdb_path, const initializer_list<Source> &sources/*= 
             switch (source) {
                 case Combined:
                     assert(size(db_combined) > 1);
-                    parse_tsv<COMBINED_SIZE>(file, db_combined);
+                    parse_tsv(file, db_combined, COMBINED_SIZE);
                     break;
                 case Modland:
                     assert(size(db_modland) > 1);
-                    parse_tsv<MODLAND_SIZE>(file, db_modland);
+                    parse_tsv(file, db_modland, MODLAND_SIZE);
                     break;
                  case AMP:
                     assert(size(db_amp) > 1);
-                    parse_tsv<AMP_SIZE>(file, db_amp);
+                    parse_tsv(file, db_amp, AMP_SIZE);
                     break;
                 case UnExotica:
                     assert(size(db_unexotica) > 1);
-                    parse_tsv<UNEXOTICA_SIZE>(file, db_unexotica);
+                    parse_tsv(file, db_unexotica, UNEXOTICA_SIZE);
                     break;
                 case Demozoo:
                     assert(size(db_demozoo) > 1);
-                    parse_tsv<DEMOZOO_SIZE>(file, db_demozoo);
+                    parse_tsv(file, db_demozoo, DEMOZOO_SIZE);
                     break;
                 default: assert(false); break;
             }
