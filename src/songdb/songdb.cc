@@ -409,8 +409,10 @@ void parse_tsv(const string &tsv, _MetaData db[N]) noexcept {
         return;
     }
     char line[BUF_SIZE];
-    _MetaData tmp[MD5_IDX_SIZE];
-    memset((void *)tmp, 0, sizeof tmp);
+    // use malloc to avoid excessive stack usage
+    _MetaData *tmp = (_MetaData *)malloc(MD5_IDX_SIZE * sizeof(_MetaData));
+    assert(tmp);
+    memset(tmp, 0, MD5_IDX_SIZE * sizeof(_MetaData));
     md5_idx_t idx = 0;
     while (fgets(line, sizeof line, f)) {
         int len;
@@ -445,6 +447,7 @@ void parse_tsv(const string &tsv, _MetaData db[N]) noexcept {
             db[i++] = tmp[j];
         }
     }
+    free(tmp);
     assert(i == N);
 }
 
