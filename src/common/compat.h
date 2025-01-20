@@ -18,11 +18,10 @@
 
 #if defined(__QNX__)
 #include <sys/neutrino.h>
-#endif
-
-#if defined(__AROS__) || (defined(__QNX__) && _NTO_VERSION <= 650)
+#if _NTO_VERSION <= 650
 // XXX error: call of overloaded 'to_string(const float&)' is ambiguous
 #define _GLIBCXX_USE_C99_STDIO 1
+#endif
 #endif
 
 #if (defined(__AMIGA__) || defined(__COSMOCC__) || defined(__serenity__)) && !defined(__amigaos4__) && !defined(WARPUP)
@@ -69,4 +68,23 @@ constexpr_f2 int stoi(const std::string& str, size_t* idx = nullptr, int base = 
     return atoi(str.c_str());
 }
 }
+#endif
+
+#if defined(__libnix__) || defined(__CLIB2__) || defined(__CLIB4__) || defined (__AROS__) || defined (__ixemul__)
+// XXX __NEWLIB__ may get defined via sys includes even with other runtimes
+#  ifdef __NEWLIB__
+#    undef __NEWLIB__
+#  endif
+#endif
+
+#if defined(__CLIB2__)
+#warning "clib2 runtime not supported"
+#endif
+
+#if defined(__ixemul__)
+#warning "ixemul runtime not supported"
+#endif
+
+#if defined(__AMIGA__) && defined(__NEWLIB__) && !defined(__amigaos4__)
+#warning "newlib runtime not supported on AmigaOS3"
 #endif

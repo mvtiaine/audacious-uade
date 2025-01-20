@@ -17,8 +17,8 @@ export TARGET="${TARGET:=aarch64-linux-android}"
 #export TARGET=i686-linux-android
 #export TARGET=x86_64-linux-android
 # Set this to your minSdkVersion.
-export API="${API:=28}"
-#export API=28
+export API="${API:=21}"
+#export API=21
 # Configure and build.
 export AR=$TOOLCHAIN/bin/llvm-ar
 export CC=$TOOLCHAIN/bin/$TARGET$API-clang

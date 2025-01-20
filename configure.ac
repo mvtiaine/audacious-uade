@@ -683,10 +683,6 @@ elif test "$build_amigaos" = "yes" ; then
   ARCHFLAGS="-noixemul -m68020-60 ${ARCHFLAGS}"
   # XXX with -O2, -foptimize-sibling-calls causes some exes to crash before main() (songdb/player/precalc)
   ARCHFLAGS="-fno-optimize-sibling-calls ${ARCHFLAGS}"
-  # XXX some weirdness with <limits.h>/PATH_MAX not getting defined with libnix
-  CPPFLAGS="-DPATH_MAX=1024 ${CPPFLAGS}"
-  # XXX fix some c vs c++ header issues with clib2
-  CPPFLAGS="-include stdint.h -include math.h ${CPPFLAGS}"
 elif test "$build_morphos" = "yes" ; then
   ARCHFLAGS="-noixemul ${ARCHFLAGS}"
   # <cstdint> does not work without this
@@ -807,7 +803,7 @@ else
   AX_CHECK_LINK_FLAG([-Wl,--discard-all], [LDFLAGS="-Wl,--discard-all ${LDFLAGS}"], [])
   AX_CHECK_LINK_FLAG([-Wl,--sort-common], [LDFLAGS="-Wl,--sort-common ${LDFLAGS}"], [])
   AX_CHECK_LINK_FLAG([-Wl,--icf=all], [LDFLAGS="-Wl,--icf=all ${LDFLAGS}"], [])
-  # broken(?) MorphOS/WarpOS, IRIX/compilertron
+  # broken(?) on MorphOS/WarpOS, IRIX/compilertron
   if test "$build_morphos" != "yes" && test "$build_warpos" != "yes" && test "$build_irix" != "yes"; then
     AX_CHECK_LINK_FLAG([-Wl,--gc-sections],
     [

@@ -307,7 +307,7 @@ pair<uint64_t, int> get_looplen(const vector<int8_t> &buf, const uint64_t begin,
     ok = max(ok, 0);
 
     TRACE1("LOOP LEN %f POS %f NEG %f pok %d nok %d ok %d\n", looplen / ACR_PER_SEC, pacravg / ACR_PER_SEC, nacravg / ACR_PER_SEC, pok, nok, ok);
-#if defined(__CLIB2__) || defined(__COSMOCC__)
+#if defined(__COSMOCC__)
     // XXX undefined reference to llround
     return pair<uint64_t, int>(lround(looplen * SAMPLES_PER_SEC / ACR_PER_SEC), ok);
 #else
