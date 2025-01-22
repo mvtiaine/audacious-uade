@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 #ifndef MINIZ_EXPORT
 #define MINIZ_EXPORT
 #endif
