@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-2-Clause
 // ------------------------------------------------------
 // Protrekkr
 // Based on Juan Antonio Arguelles Rius's NoiseTrekker.
