@@ -16,7 +16,7 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/hivelytracker/replay.c
 
 # try keep byte-by-byte consistent audio output across platforms, by disabling some floating point optimizations
-3rdparty/replay/hivelytracker/% : CFLAGS += -ffp-contract=off -fno-fast-math -Wno-sign-compare -Wno-overflow -Wno-implicit-fallthrough -Wno-stringop-truncation
+3rdparty/replay/hivelytracker/% : CFLAGS += -ffp-contract=off -fno-fast-math -Wno-sign-compare -Wno-overflow -Wno-implicit-fallthrough -Wno-stringop-truncation -Wno-unknown-warning-option
 
 
 3rdparty_replay_libreplay_libdigibooster3_la_SOURCES = \
