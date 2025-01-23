@@ -706,10 +706,7 @@ void init(const string &songdb_path, const initializer_list<Source> &sources/*= 
 }
 
 void update(const string &md5, const SubSongInfo &info, const int minsubsong, const int maxsubsong) noexcept {
-    if (md5.empty() || info.subsong < 0 || info.subsong > 255) {
-        WARN("Invalid songdb update entry md5:%s subsong:%d\n", md5.c_str(), info.subsong);
-        return;
-    }
+    assert(md5.size() >= 12);
     if (blacklist::is_blacklisted_songdb_key(md5)) {
         INFO("Blacklisted songdb key md5:%s\n", md5.c_str());
         return;
@@ -721,7 +718,6 @@ void update(const string &md5, const SubSongInfo &info, const int minsubsong, co
     assert(minsubsong <= maxsubsong);
     assert(info.subsong >= 0);
     assert(info.subsong <= 255);
-    assert(info.songend.length >= 0);
     assert(info.songend.length <= UINT24_T_MAX);
 
     const md5_t hash = hex2md5(md5.c_str());
