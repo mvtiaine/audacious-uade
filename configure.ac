@@ -637,7 +637,7 @@ if test "$build_openharmony" != "yes" && test "$build_ps4" != "yes" && test "$bu
   CPPFLAGS="-D_GNU_SOURCE ${CPPFLAGS}"
 fi
 COMMON_CFLAGS="-fvisibility=hidden -fmerge-all-constants -fno-exceptions"
-CXXFLAGS="-Wall ${CXXSTD} ${CXXFLAGS} ${COMMON_CFLAGS} -fvisibility-inlines-hidden -fno-rtti"
+CXXFLAGS="${CXXSTD} ${CXXFLAGS} ${COMMON_CFLAGS} -fvisibility-inlines-hidden -fno-rtti"
 CFLAGS="${CSTD} ${CFLAGS} ${COMMON_CFLAGS}"
 ARCHFLAGS=""
 EXTRA_LIBS=""
@@ -773,8 +773,8 @@ else
   esac
 fi
 
-CFLAGS="${ARCHFLAGS} ${CFLAGS}"
-CXXFLAGS="${ARCHFLAGS} ${CXXFLAGS}"
+CFLAGS="${ARCHFLAGS} ${CFLAGS} -Wno-unused-parameter"
+CXXFLAGS="${ARCHFLAGS} ${CXXFLAGS} -Wno-unused-parameter"
 
 AM_CONDITIONAL([LD_APPLE], [test "$ld_apple" = "yes"])
 AM_CONDITIONAL([LD_LLD], [test "$ld_lld" = "yes"])
@@ -852,7 +852,9 @@ if test "$uade_prefix" = "NONE" ; then
   uade_prefix=/usr/local
 fi
 _UADE_CPPFLAGS="${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE"
-_UADE_CFLAGS="${CFLAGS} -Wno-error=format -Wno-error=format-security"
+_UADE_CFLAGS="${CFLAGS} -Wno-unused -Wno-deprecated-declarations -Wno-tautological-compare"
+_UADE_CFLAGS="${_UADE_CFLAGS} -Wno-zero-length-array -Wno-variadic-macros -Wno-gnu-zero-variadic-macro-arguments"
+_UADE_CFLAGS="${_UADE_CFLAGS} -Wno-format -Wno-format-security -Wno-sign-compare"
 _UADE_LDFLAGS="${LDFLAGS} ${EXTRA_LIBS}"
 if test "$static_stdlibs" = "yes" ; then
   _UADE_LDFLAGS="-static-libgcc ${_UADE_LDFLAGS}"

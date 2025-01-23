@@ -23,3 +23,5 @@ player_libplayer_la_LIBADD = \
 # TODO fix libuade dependency tracking
 
 player_libplayer_la_CPPFLAGS = $(AM_CPPFLAGS) $(UADE_CPPFLAGS)
+
+player/players/% : CXXFLAGS += -Wno-keyword-macro
