@@ -22,6 +22,8 @@ TEST="echo ${OUTPUT}"
 # more "known good" hashes
 if [ "$OUTPUT" = "530d561780e253f1f520914fc74428c5" ]; then
     EXPECTED_OUTPUT=530d561780e253f1f520914fc74428c5
+elif [ "$OUTPUT" = "58f213c9fdfe7711b5e3a3c64c794ea4" ]; then
+    EXPECTED_OUTPUT=58f213c9fdfe7711b5e3a3c64c794ea4
 fi
 
 . $(dirname "$0")/../common/check.sh
