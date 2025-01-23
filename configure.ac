@@ -199,6 +199,7 @@ build_os2=no
 build_redox=no
 build_serenity=no
 build_genode=no
+build_symbian=no  # no new enough libstdc++/libc++ available? (llvm-cbe?)
 
 build_ps4=no
 
@@ -486,6 +487,12 @@ case "${CC}" in
         # needs custom UADE support (at minimum)
         AC_MSG_WARN([PSP target not yet supported])
         ;;
+      symbian*)
+        # see scripts/crossbuild/wip/symbian.sh
+        build_symbian=yes
+        # needs custom UADE support (at minimum)
+        AC_MSG_WARN([Symbian target not yet supported])
+        ;;
       *)
         # inverted os/vendor?
         case "${host_vendor}" in
@@ -603,6 +610,7 @@ AM_CONDITIONAL([BUILD_OS2], [test "$build_os2" = "yes"])
 AM_CONDITIONAL([BUILD_REDOX], [test "$build_redox" = "yes"])
 AM_CONDITIONAL([BUILD_SERENITY], [test "$build_serenity" = "yes"])
 AM_CONDITIONAL([BUILD_GENODE], [test "$build_genode" = "yes"])
+AM_CONDITIONAL([BUILD_SYMBIAN], [test "$build_symbian" = "yes"])
 AM_CONDITIONAL([BUILD_PS4], [test "$build_ps4" = "yes"])
 AM_CONDITIONAL([BUILD_COSMOCC], [test "$build_cosmocc" = "yes"])
 AM_CONDITIONAL([BUILD_WASIX], [test "$build_wasix" = "yes"])
@@ -725,6 +733,14 @@ elif test "$build_wasix" = "yes" ; then
 elif test "$build_emscripten" = "yes" ; then
   #LDFLAGS="-sASSERTIONS -sALLOW_MEMORY_GROWTH -sNODERAWFS=1 -lwebsocket.js -sPROXY_POSIX_SOCKETS -pthread -sPROXY_TO_PTHREAD ${LDFLAGS}"
   LDFLAGS="-sASSERTIONS -sALLOW_MEMORY_GROWTH -sNODERAWFS=1 ${LDFLAGS}"
+elif test "$build_symbian" = "yes" ; then
+  if test "${EPOCROOT}" = "" ; then
+    AC_MSG_ERROR([EPOCROOT not set])
+  fi
+  # PATH_MAX not defined?
+  CPPFLAGS="-DPATH_MAX=1024 ${CPPFLAGS}"
+  CPPFLAGS="-isystem ${EPOCROOT}/epoc32/include/stdapis -isystem ${EPOCROOT}/epoc32/include/libc -isystem ${EPOCROOT}/epoc32/include ${CPPFLAGS}"
+  CPPFLAGS="-include gcce/gcce.h ${CPPFLAGS}"
 fi
 
 # must be called after C(XX)FLAGS tweaks, as for example on MorphOS -noixemul must be set before LT_INIT
