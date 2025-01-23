@@ -32,6 +32,7 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #if defined(__WIN32__)
 #include <windows.h>
 #if defined(__GCC__)
@@ -44,7 +45,7 @@
 #endif
 
 #include "include/samples_unpack.h"
-
+#endif // AUDACIOUS_UADE
 // ------------------------------------------------------
 // Variables
 #if defined(__STAND_ALONE__)

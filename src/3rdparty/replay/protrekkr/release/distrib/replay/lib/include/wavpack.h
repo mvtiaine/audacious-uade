@@ -34,8 +34,8 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _WAVPACK_H_
-#define _WAVPACK_H_
+#ifndef AUDACIOUS_UADE
+#pragma once
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -77,6 +77,8 @@ typedef unsigned int uint;
 
 #define FALSE 0
 #define TRUE 1
+
+#endif // AUDACIOUS_UADE
 
 typedef struct
 {
@@ -285,4 +287,3 @@ int32_t read_bytes (void *buff, int32_t bcount);
 void decorr_mono_pass (struct decorr_pass *dpp, int32_t *buffer, int32_t sample_count);
 void fixup_samples (WavpackStream *wps, int32_t *buffer, uint32_t sample_count);
 
-#endif

@@ -32,8 +32,9 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "include/303s.h"
-
+#endif
 // ------------------------------------------------------
 // Read a 303 pattern data
 void Load_303_Data(int (*Read_Function)(void *, int ,int, FILE *),

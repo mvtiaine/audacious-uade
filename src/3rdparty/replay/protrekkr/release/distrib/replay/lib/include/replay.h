@@ -30,8 +30,8 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _REPLAY_H_
-#define _REPLAY_H_
+#ifndef AUDACIOUS_UADE
+#pragma once
 
 // ------------------------------------------------------
 // Includes
@@ -66,6 +66,7 @@
 #include "samples_unpack.h"
 #include "ptkreplay.h"
 #include "synth.h"
+#endif // AUDACIOUS_UADE
 
 // ------------------------------------------------------
 // Constants
@@ -463,8 +464,8 @@ extern SYNTH_DATA PARASynth[128];
 extern float ramper[MAX_TRACKS];
 extern unsigned char nPatterns;
 extern int delay_time;
-extern int DelayType;
 #endif
+extern int DelayType; // mvtiaine: moved outside #if !defined(__STAND_ALONE__)
 
 #if defined(PTK_TRACK_EQ)
 extern EQSTATE EqDat[MAX_TRACKS];
@@ -524,6 +525,4 @@ void Init_Equ(LPEQSTATE es);
 float Do_Equ(LPEQSTATE es, float sample, int Left);
 #if defined(PTK_SHUFFLE)
 void Update_Shuffle(void);
-#endif
-
 #endif

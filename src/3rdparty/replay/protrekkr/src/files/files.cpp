@@ -32,6 +32,7 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "../extralibs/zlib-1.2.3/zlib.h"
 
 #include "../include/ptk.h"
@@ -59,6 +60,7 @@
 #include "../editors/include/editor_pattern.h"
 
 #include "../../release/distrib/replay/lib/include/endianness.h"
+#endif
 
 // ------------------------------------------------------
 // Variables
@@ -84,7 +86,9 @@ int Final_Mod_Length;
 // Functions
 int Read_Mod_Data(void *Datas, int Unit, int Length, FILE *Handle);
 int Read_Mod_Data_Swap(void *Datas, int Unit, int Length, FILE *Handle);
+#ifndef AUDACIOUS_UADE
 short *Unpack_Sample(FILE *FileHandle, int Dest_Length, char Pack_Type, int BitRate);
+#endif
 void Swap_Short_Buffer(short *buffer, int size);
 short *Swap_New_Sample(short *buffer, int sample, int bank);
 
@@ -151,8 +155,14 @@ void Init_Tracker_Context_After_ModLoad(void)
 
 // ------------------------------------------------------
 // Load a module file
+#ifdef AUDACIOUS_UADE
+int Load_Ptk(FILE *in)
+{
+    char FileName[21];
+#else
 int Load_Ptk(char *FileName)
 {
+#endif
     int Ye_Old_Phony_Value;
     int New_adsr = FALSE;
     int New_Comp = FALSE;
@@ -195,13 +205,13 @@ int Load_Ptk(char *FileName)
     int UnPacked_Size;
     int Flanger_Bug = FALSE;
     unsigned char *Packed_Module = NULL;
-    FILE *in;
-
+#ifndef AUDACIOUS_UADE
+    FILE *in = fopen(FileName, "rb");
+#endif
     Mod_Simulate = LOAD_READ;
     Mod_Mem_Pos = 0;
     Mod_Memory = NULL;
 
-    in = fopen(FileName, "rb");
     Old_Ntk = FALSE;
     Ntk_Beta = FALSE;
 
@@ -511,13 +521,23 @@ Read_Mod_File:
                 {
                     switch(SampleCompression[swrite])
                     {
+#if defined(PTK_MP3) // mvtiaine: added PTK_MP3 check
                         case SMP_PACK_MP3:
                             Read_Mod_Data(&Mp3_BitRate[swrite], sizeof(char), 1, in);
                             break;
-
+#endif
+#if defined(PTK_AT3) // mvtiaine: added PTK_AT3 check
                         case SMP_PACK_AT3:
                             Read_Mod_Data(&At3_BitRate[swrite], sizeof(char), 1, in);
                             break;
+#endif
+#ifdef AUDACIOUS_UADE
+                        case SMP_PACK_MP3:
+                        case SMP_PACK_AT3:
+                            char dummy;
+                            Read_Mod_Data(&dummy, sizeof(char), 1, in);
+                            break;
+#endif
                     }
                 }
                 SampleCompression[swrite] = Fix_Codec(SampleCompression[swrite]);
@@ -778,9 +798,9 @@ Read_Mod_File:
             Read_Mod_Data_Swap(&tb303engine[0].tbVolume, sizeof(float), 1, in);
             Read_Mod_Data_Swap(&tb303engine[1].tbVolume, sizeof(float), 1, in);
         }
-
+#ifndef AUDACIOUS_UADE
         fclose(in);
-
+#endif
         if(!New_Reverb)
         {
             // Set the reverb to one of the old presets
@@ -807,14 +827,15 @@ Read_Mod_File:
 
 #if !defined(__WINAMP__)
     Clear_Input();
-    if(Mod_Memory) free(Mod_Memory);
 #endif
+    if(Mod_Memory) free(Mod_Memory); // mvtiaine: moved outside #if
 
     return(TRUE);
 }
 
 // ------------------------------------------------------
 // Load and decode a packed sample
+#ifndef AUDACIOUS_UADE
 short *Unpack_Sample(FILE *FileHandle, int Dest_Length, char Pack_Type, int BitRate)
 {
     int Packed_Length;
@@ -875,7 +896,7 @@ short *Unpack_Sample(FILE *FileHandle, int Dest_Length, char Pack_Type, int BitR
 
     }
 }
-
+#endif // AUDACIOUS_UADE
 // ------------------------------------------------------
 // Save a packed sample
 #if !defined(__WINAMP__)
@@ -1111,6 +1132,7 @@ int File_Exist_Req(char *Format, char *Directory, char *FileName)
 
 // ------------------------------------------------------
 // Return the size of an opened file
+#ifndef AUDACIOUS_UADE
 int Get_File_Size(FILE *Handle)
 {
     int File_Size;
@@ -1122,7 +1144,7 @@ int Get_File_Size(FILE *Handle)
     fseek(Handle, Current_Pos, SEEK_SET);
     return(File_Size);
 }
-
+#endif
 #if !defined(__WINAMP__)
 
 // ------------------------------------------------------
@@ -1770,6 +1792,7 @@ short *Swap_New_Sample(short *buffer, int sample, int bank)
 
 // ------------------------------------------------------
 // Save a given unpacked sample
+#ifndef AUDACIOUS_UADE
 void Write_Unpacked_Sample(int (*Write_Function)(void *, int ,int, FILE *),
                            FILE *in, int sample, int bank)
 {
@@ -1843,7 +1866,7 @@ int Read_Data(void *value, int size, int amount, FILE *handle)
 {
     return(fread(value, size, amount, handle));
 }
-
+#endif // AUDACIOUS_UADE
 // ------------------------------------------------------
 // Read data from a file taking care of the endianness
 int Read_Data_Swap(void *value, int size, int amount, FILE *handle)
@@ -2120,8 +2143,12 @@ void Clear_Instrument_Dat(int n_index, int split, int lenfir)
 #else
         SampleCompression[n_index] = SMP_PACK_NONE;
 #endif
+#if defined(PTK_MP3) // mvtiaine: added PTK_MP3 check
         Mp3_BitRate[n_index] = 0;
+#endif
+#if defined(PTK_AT3) // mvtiaine: added PTK_AT3 check
         At3_BitRate[n_index] = 0;
+#endif
     }
 }
 

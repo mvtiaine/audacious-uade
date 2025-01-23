@@ -32,12 +32,13 @@ constexpr int MAX_SILENCE = 3000;
 #define PLAYERS VA_LIST( \
     hivelytracker, \
     libdigibooster3, \
+    protrekkr, \
     st23play, \
     st3play, \
     it2play, \
     uade, \
     ft2play \
- )
+)
 
 enum class Player {
     NONE,
@@ -53,6 +54,7 @@ constexpr_f2 std::string name(Player player) noexcept {
         case Player::st3play: return "st3play";
         case Player::it2play: return "it2play";
         case Player::st23play: return "st23play";
+        case Player::protrekkr: return "protrekkr";
         default: assert(false); return "";
     }
     assert(false);

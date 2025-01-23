@@ -30,8 +30,9 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _CUBIC_SPLINE_H_
-#define _CUBIC_SPLINE_H_
+#ifndef AUDACIOUS_UADE
+#pragma once
+#endif
 
 // ------------------------------------------------------
 // Functions
@@ -53,5 +54,3 @@ inline float Cubic_Work(float ym, float input, float y1, float y2, unsigned int 
     float c3 = odd1 * -0.36030f + odd2 * 0.10174f;
     return(((c3 * z + c2) * z + c1) * z + c0);
 }
-
-#endif

@@ -30,14 +30,13 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _SYNTH_H_
-#define _SYNTH_H_
-
+#ifndef AUDACIOUS_UADE
+#pragma once
 // ------------------------------------------------------
 // Includes
 #include <math.h>
 #include "replay.h"
-
+#endif // AUDACIOUS_UADE
 // ------------------------------------------------------
 // Constants
 #define SIZE_WAVEFORMS_SPACE 88273
@@ -518,6 +517,4 @@ class rFilter
             return buffy1;
         };
 };
-#endif
-
 #endif

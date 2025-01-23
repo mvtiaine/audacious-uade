@@ -32,10 +32,11 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "../include/variables.h"
 #include "include/patterns_blocks.h"
 #include "include/editor_pattern.h"
-
+#endif
 #if !defined(__WINAMP__)
 
 // ------------------------------------------------------

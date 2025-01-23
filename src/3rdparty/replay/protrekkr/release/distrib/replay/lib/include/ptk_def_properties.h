@@ -30,8 +30,9 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _PTK_DEF_PROPERTIES_H_
-#define _PTK_DEF_PROPERTIES_H_
+#ifndef AUDACIOUS_UADE
+#pragma once
+#endif
 
 // ------------------------------------------------------
 // constants
@@ -159,5 +160,3 @@
 #define PTK_DISCLAP
 #define PTK_TRACK_VOLUME
 #define PTK_TRACK_EQ
-
-#endif

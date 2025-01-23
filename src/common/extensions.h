@@ -219,6 +219,8 @@ static constexpr const char *plugin_extensions[] = {
     // non-UADE/native player
     "hvl", // HivelyTracker
     "dbm", // Digibooster Pro
+    "ntk", // NoiseTrekker
+    "ptk", // ProTrekkr
 
     // PC-tracker
     "ft", "fst", // Fasttracker 1

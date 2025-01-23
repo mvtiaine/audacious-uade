@@ -30,9 +30,7 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _SAMPLES_UNPACK_H_
-#define _SAMPLES_UNPACK_H_
-
+#ifndef AUDACIOUS_UADE
 // ------------------------------------------------------
 // Includes
 #if defined(__STAND_ALONE__)
@@ -48,7 +46,7 @@
 #else
     #include "ptk_def_properties.h"
 #endif
-
+#endif // AUDACIOUS_UADE
 // ------------------------------------------------------
 // Types
 typedef unsigned char Uint8;
@@ -85,5 +83,3 @@ void Unpack_MP3(Uint8 *Source, short *Dest, int Src_Size, int Dst_Size, int BitR
 void Unpack_ADPCM(Uint8 *Source, short *Dest, int Src_Size, int Dst_Size);
 void Unpack_8Bit(Uint8 *Source, short *Dest, int Src_Size, int Dst_Size);
 void Unpack_WavPack(Uint8 *Source, short *Dest, int Src_Size, int Dst_Size);
-
-#endif

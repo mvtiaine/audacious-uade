@@ -32,6 +32,7 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "include/replay.h"
 #include "include/endianness.h"
 
@@ -49,7 +50,7 @@
 #include "../../../../src/include/variables.h"
 #include "../../../../src/include/ptk.h"
 #endif
-
+#endif // AUDACIOUS_UADE
 // ------------------------------------------------------
 // Variables
 #if !defined(__STAND_ALONE__) && !defined(__WINAMP__)
@@ -1330,7 +1331,9 @@ short *Unpack_Sample(int Dest_Length, char Pack_Type, int BitRate)
                 Unpack_WavPack(Packed_Read_Buffer, Dest_Buffer, Packed_Length, Dest_Length);
                 break;
 #endif
-
+#ifdef AUDACIOUS_UADE
+            default: assert(false); break;
+#endif
         }
 #endif
 

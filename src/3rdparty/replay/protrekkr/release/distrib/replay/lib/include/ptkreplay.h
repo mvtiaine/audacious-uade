@@ -30,8 +30,8 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _PTK_REPLAY_H_
-#define _PTK_REPLAY_H_
+#ifndef AUDACIOUS_UADE
+#pragma once
 
 // ------------------------------------------------------
 // Includes
@@ -41,7 +41,7 @@
 #else
 #define PTKEXPORT
 #endif
-
+#endif
 // ------------------------------------------------------
 // Functions
 #if !defined(__WINAMP__)
@@ -60,5 +60,3 @@ void PTKEXPORT Ptk_SetPosition(int position);
 void PTKEXPORT Ptk_Play(void);
 void PTKEXPORT Ptk_Stop(void);
 void PTKEXPORT Ptk_ReleaseDriver(void);
-
-#endif

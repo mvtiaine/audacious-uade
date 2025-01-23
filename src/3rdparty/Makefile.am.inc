@@ -7,7 +7,8 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/libreplay_st3play.la \
     3rdparty/replay/libreplay_it2play.la \
     3rdparty/replay/libreplay_st23play.la \
-    3rdparty/libreplay.la
+    3rdparty/replay/libreplay_protrekkr.la \
+    3rdparty/libreplay.la 
 
 
 3rdparty_replay_libreplay_hivelytracker_la_SOURCES = \
@@ -63,6 +64,21 @@ noinst_LTLIBRARIES += \
 3rdparty/replay/it2play/libreplay_it2play_la-it2play_probe.% : CXXFLAGS += -ffp-contract=off -fno-fast-math
 
 
+3rdparty_replay_libreplay_st23play_la_SOURCES = \
+    3rdparty/replay/st23play/st23play.h \
+    3rdparty/replay/st23play/st23play_play.cc \
+    3rdparty/replay/st23play/st23play_probe.cc
+
+
+3rdparty_replay_libreplay_protrekkr_la_SOURCES = \
+    3rdparty/replay/protrekkr/protrekkr.h \
+    3rdparty/replay/protrekkr/protrekkr_play.cc \
+    3rdparty/replay/protrekkr/protrekkr_probe.cc \
+    3rdparty/miniz/miniz.c
+
+3rdparty/replay/protrekkr/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare
+
+
 3rdparty_libreplay_la_SOURCES =
 3rdparty_libreplay_la_LIBADD = \
     3rdparty/replay/libreplay_hivelytracker.la \
@@ -70,16 +86,16 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/libreplay_ft2play.la \
     3rdparty/replay/libreplay_st3play.la \
     3rdparty/replay/libreplay_it2play.la \
-    3rdparty/replay/libreplay_st23play.la
-
-
-3rdparty_replay_libreplay_st23play_la_SOURCES = \
-    3rdparty/replay/st23play/st23play.h \
-    3rdparty/replay/st23play/st23play_play.cc \
-    3rdparty/replay/st23play/st23play_probe.cc
+    3rdparty/replay/libreplay_st23play.la \
+    3rdparty/replay/libreplay_protrekkr.la
 
 
 EXTRA_DIST += \
+    3rdparty/miniz/ChangeLog.md \
+    3rdparty/miniz/LICENSE \
+    3rdparty/miniz/readme.md \
+    3rdparty/miniz/miniz.h \
+    3rdparty/miniz/miniz.c \
     3rdparty/replay/hivelytracker/LICENSE \
     3rdparty/replay/libdigibooster3/CHANGELOG \
     3rdparty/replay/libdigibooster3/COPYING \
@@ -133,4 +149,31 @@ EXTRA_DIST += \
     3rdparty/replay/it2play/loaders/s3m.h \
     3rdparty/replay/it2play/loaders/s3m.c \
     3rdparty/replay/st23play/LICENSE \
-    3rdparty/replay/st23play/st23play.c
+    3rdparty/replay/st23play/st23play.c \
+    3rdparty/replay/protrekkr/LICENSE \
+    3rdparty/replay/protrekkr/README.md \
+    3rdparty/replay/protrekkr/release/distrib/changes.txt \
+    3rdparty/replay/protrekkr/release/distrib/license.txt \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/cubic_spline.h \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/endianness.h \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/ptk_def_properties.h \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/ptkreplay.h \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/replay.h \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/samples_unpack.h \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/spline.h \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/synth.h \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/tb_303.h \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/wavpack.h \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/endianness.cpp \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/replay.cpp \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/samples_unpack.cpp \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/spline.cpp \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/synth.cpp \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/tb_303.cpp \
+    3rdparty/replay/protrekkr/release/distrib/replay/lib/wavpack.cpp \
+    3rdparty/replay/protrekkr/src/editors/include/patterns_blocks.h \
+    3rdparty/replay/protrekkr/src/editors/patterns_blocks.cpp \
+    3rdparty/replay/protrekkr/src/files/303s.cpp \
+    3rdparty/replay/protrekkr/src/files/files.cpp \
+    3rdparty/replay/protrekkr/src/files/reverbs.cpp \
+    3rdparty/replay/protrekkr/src/files/synths.cpp

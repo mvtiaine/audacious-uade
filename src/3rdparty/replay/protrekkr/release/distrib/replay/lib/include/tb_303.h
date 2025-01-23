@@ -30,9 +30,8 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _TB303_H_
-#define _TB303_H_
-
+#ifndef AUDACIOUS_UADE
+#pragma once
 // ------------------------------------------------------
 // Includes
 #include <math.h>
@@ -50,6 +49,7 @@
 #else
     #include "ptk_def_properties.h"
 #endif
+#endif // AUDACIOUS_UADE
 
 #if defined(PTK_303)
 
@@ -212,8 +212,6 @@ class gear303
 #if !defined(__STAND_ALONE__) || defined(__WINAMP__)
 void ReInit_303_Parameters(para303 *tbpars);
 void Reset_303_Parameters(para303 *tbpars);
-#endif
-
 #endif
 
 #endif

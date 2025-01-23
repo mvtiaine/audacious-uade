@@ -30,15 +30,15 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _PATTERNS_BLOCKS_H_
-#define _PATTERNS_BLOCKS_H_
+#ifndef AUDACIOUS_UADE
+#pragma once
 
 // ------------------------------------------------------
 // Includes
 #if defined(__AROS__)
 #include <string.h>
 #endif
-
+#endif // AUDACIOUS_UADE
 // ------------------------------------------------------
 // Constants
 #define NBR_COPY_BLOCKS 5
@@ -156,5 +156,3 @@ int Are_Columns_Compatible(int type_src, int type_dst);
 void Delete_Track(void);
 void Insert_Track(void);
 void Reset_Track(int Position, int Track);
-
-#endif

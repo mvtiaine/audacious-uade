@@ -32,8 +32,9 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "include/synths.h"
-
+#endif
 // ------------------------------------------------------
 // Load the data of a synth instrument
 // (The new version (v4) use correct data aligment)

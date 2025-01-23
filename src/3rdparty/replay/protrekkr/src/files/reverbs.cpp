@@ -32,8 +32,9 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "include/reverbs.h"
-
+#endif
 // ------------------------------------------------------
 // Load the data from a reverb file (or a module)
 void Load_Reverb_Data(int (*Read_Function)(void *, int ,int, FILE *),

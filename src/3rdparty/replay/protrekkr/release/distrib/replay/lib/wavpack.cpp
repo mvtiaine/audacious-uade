@@ -33,9 +33,10 @@
 // OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 // SUCH DAMAGE.
 // ------------------------------------------------------
-
+#ifndef AUDACIOUS_UADE
 #include "include/samples_unpack.h"
 #include "include/wavpack.h"
+#endif
 
 #if defined(PTK_WAVPACK)
 

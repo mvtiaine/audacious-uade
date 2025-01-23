@@ -32,8 +32,9 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "include/endianness.h"
-
+#endif
 // ------------------------------------------------------
 // Functions
 #if defined(__BIG_ENDIAN__) || defined(__MOT_SWAP__)

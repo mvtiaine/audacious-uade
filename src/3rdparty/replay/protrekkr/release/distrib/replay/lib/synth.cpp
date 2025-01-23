@@ -32,8 +32,9 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "include/replay.h"
-
+#endif
 // ------------------------------------------------------
 // Variables
 float SIN[360]; // Sine float-precalculated table, in absolute degrees.

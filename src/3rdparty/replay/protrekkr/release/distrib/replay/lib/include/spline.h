@@ -30,8 +30,9 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _SPLINE_H_
-#define _SPLINE_H_
+#ifndef AUDACIOUS_UADE
+#pragma once
+#endif
 
 // ------------------------------------------------------
 // Constants
@@ -41,5 +42,3 @@
 // Functions
 void Spline_Init(void);
 float Spline_Work(float yo, float y0, float y1, float y2, unsigned int res);
-
-#endif

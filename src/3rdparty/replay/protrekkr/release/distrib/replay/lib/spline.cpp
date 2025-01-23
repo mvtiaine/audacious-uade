@@ -32,9 +32,10 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "include/spline.h"
 #include "include/ptk_def_properties.h"
-
+#endif
 #if defined(PTK_USE_SPLINE)
 // ------------------------------------------------------
 // Variables

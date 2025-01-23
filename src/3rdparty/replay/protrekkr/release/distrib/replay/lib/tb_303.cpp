@@ -32,8 +32,10 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "include/tb_303.h"
 #include "include/replay.h"
+#endif
 
 #if defined(PTK_303)
 
