@@ -16,7 +16,7 @@ int Read_Data(void *value, int size, int amount, FILE *handle) noexcept {
     ssize_t bytes = min((size_t)(size * amount), handle->size - handle->pos);
     if (bytes <= 0) return 0;
     assert(bytes > 0);
-    assert(handle->pos >= 0 && handle->pos <= handle->size);
+    assert(handle->pos <= handle->size);
     assert(handle->pos + bytes <= handle->size);
     memcpy(value, handle->data + handle->pos, bytes);
     handle->pos += bytes;
