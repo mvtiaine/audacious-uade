@@ -75,7 +75,8 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/protrekkr/protrekkr_probe.cc \
     3rdparty/miniz/miniz.c
 
-3rdparty/replay/protrekkr/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare
+# try keep byte-by-byte consistent audio output across platforms, by disabling some floating point optimizations
+3rdparty/replay/protrekkr/% : CXXFLAGS += -ffp-contract=off -fno-fast-math -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar
 
 
 3rdparty_libreplay_la_SOURCES =
