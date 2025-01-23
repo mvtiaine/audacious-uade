@@ -579,7 +579,7 @@ int SongEndDetector::detect_loop() noexcept {
         uint64_t songlen = 0;
         if (looplen < UINT64_MAX && looplen > 0) {
             uint64_t loopstart = get_loopstart(bufz, SAMPLES_PER_SEC, looplen, 0);
-            if (loopstart >= 0 && loopstart < UINT64_MAX) {
+            if (loopstart < UINT64_MAX) {
                 songlen = (loopstart + looplen) * 1000 / SAMPLES_PER_SEC + 1000;
                 TRACE1("SONGLEN0 %zu loopstart %zu looplen %zu\n", songlen, loopstart / SAMPLES_PER_SEC, looplen / SAMPLES_PER_SEC);
             }
