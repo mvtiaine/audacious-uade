@@ -1,0 +1,15 @@
+The following software is vendored here:
+
+- miniz 3.0.2 (MIT) - https://github.com/richgel999/miniz
+- proplayer.h (OctaMED-Soundstudio-Player) - https://aminet.net/package/dev/src/OcSS_src
+- SimpleBinStream.h 1.0.4 (MIT) - https://github.com/shaovoon/simplebinstream
+
+- ft2play (BSD-3-Clause) - https://github.com/8bitbubsy/ft2play
+- HivelyTracker 1.9 (BSD-3-Clause) - https://github.com/pete-gordon/hivelytracker
+- it2play (BSD-3-Clause) - https://github.com/8bitbubsy/it2play
+- libdigibooster3 1.2 (BSD-2-Clause) - https://github.com/grzegorz-kraszewski/libdigibooster3
+- ProTrekkr v2.7.6 (BSD-2-Clause) - https://github.com/hitchhikr/protrekkr
+- st23play v0.35 (BSD-3-Clause) - https://pastebin.com/ifXSCZ71
+- st3play v1.0.1 (BSD-3-Clause) - https://pastebin.com/AwRXZAw7
+
+Note that I have made modifications to some of the sources, see git history of the subdirectories or files for details. Also not all files from the original distributions are included.

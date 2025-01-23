@@ -91,6 +91,7 @@ noinst_LTLIBRARIES += \
 
 
 EXTRA_DIST += \
+    3rdparty/README \
     3rdparty/miniz/ChangeLog.md \
     3rdparty/miniz/LICENSE \
     3rdparty/miniz/readme.md \
