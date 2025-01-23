@@ -23,10 +23,6 @@ struct uint24_t {
     uint16_t hi;
     uint8_t lo;
     constexpr_f1 uint24_t() noexcept {}
-    constexpr_f1 uint24_t(const uint24_t &other) noexcept {
-        hi = other.hi;
-        lo = other.lo;
-    }
     constexpr_f1 uint24_t(const uint32_t val) noexcept {
         assert(val <= (1u << 24) - 1);
         hi = (val >> 8) & 0xffff;
@@ -60,10 +56,6 @@ struct uint48_t {
     uint32_t hi;
     uint16_t lo;
     constexpr_f1 uint48_t() noexcept {}
-    constexpr_f1 uint48_t(const uint48_t &other) noexcept {
-        hi = other.hi;
-        lo = other.lo;
-    }
     constexpr_f1 uint48_t(const uint64_t val) noexcept {
         assert(val <= (1ull << 48) - 1);
         hi = (val >> 16) & 0xffffffff;

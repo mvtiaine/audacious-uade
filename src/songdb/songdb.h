@@ -53,7 +53,7 @@ struct Info {
     std::optional<MetaData> modland;
     std::optional<MetaData> amp;
     std::optional<MetaData> unexotica;
-    std::optional<MetaData> demozoo;;
+    std::optional<MetaData> demozoo;
 };
 
 // if sources is empty, all builtin sources are used
