@@ -6,7 +6,7 @@ set -e
 make clean && CFLAGS="-Wall -Wpedantic -Wextra -Werror" CXXFLAGS="${CFLAGS}" ./configure && make -j check
 
 # assert disabled
-#make clean && CPPFLAGS="-DNDEBUG" CFLAGS="-Wall -Wpedantic -Wextra -Werror" CXXFLAGS="${CFLAGS}" ./configure && make -j check
+#make clean && CPPFLAGS="-DNDEBUG" CFLAGS="-Wall -Wpedantic -Wextra -Werror -Wno-unused" CXXFLAGS="${CFLAGS}" ./configure && make -j check
 
 # scan-build
 #make clean && ./configure && scan-build -disable-checker unix.Errno -disable-checker deadcode.DeadStores -analyze-headers --status-bugs make -j
