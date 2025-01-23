@@ -24,6 +24,8 @@ if [ "$OUTPUT" = "530d561780e253f1f520914fc74428c5" ]; then
     EXPECTED_OUTPUT=530d561780e253f1f520914fc74428c5
 elif [ "$OUTPUT" = "58f213c9fdfe7711b5e3a3c64c794ea4" ]; then
     EXPECTED_OUTPUT=58f213c9fdfe7711b5e3a3c64c794ea4
+elif [ "$OUTPUT" = "9733d4eea2a4e75bca5c45388ec4d66f" ]; then
+    EXPECTED_OUTPUT=9733d4eea2a4e75bca5c45388ec4d66f
 fi
 
 . $(dirname "$0")/../common/check.sh
