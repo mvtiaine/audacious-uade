@@ -282,13 +282,14 @@ int Load_Ptk(char *FileName)
             case '3':
                 goto Read_Mod_File;
 
-            // Old noisetrekker
-            case '2':
-                Old_Ntk = TRUE;
-
+            // mvtiaine: https://github.com/hitchhikr/protrekkr/issues/17
             // Noisetrekker Beta (1.6)
             case '1':
                 Ntk_Beta = TRUE;
+
+            // Old noisetrekker
+            case '2':
+                Old_Ntk = TRUE;
         }
 
 Read_Mod_File:
