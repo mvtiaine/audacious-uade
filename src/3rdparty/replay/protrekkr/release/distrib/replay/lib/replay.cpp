@@ -4045,7 +4045,7 @@ void Schedule_Instrument(int channel,
                          int Row)
 {
     int Cur_Position = Song_Position;
-    if(Chan_Active_State[Cur_Position][channel])
+    if(Chan_Active_State[Cur_Position][channel] && sample != 255) // mvtiaine: added sample sanity check (Comic\ Bakery\ Remix.ptk)
     {
         // Nothing is already playing so play it directly
         old_note[channel][sub_channel] = inote;
