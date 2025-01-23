@@ -868,7 +868,7 @@ if test "$uade_prefix" = "NONE" ; then
   uade_prefix=/usr/local
 fi
 _UADE_CPPFLAGS="${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE"
-_UADE_CFLAGS="${CFLAGS} -Wno-unused -Wno-deprecated-declarations -Wno-tautological-compare -Wno-pedantic"
+_UADE_CFLAGS="${CFLAGS} -Wno-unused -Wno-deprecated-declarations -Wno-tautological-compare -Wno-pedantic -Wno-implicit-function-declaration"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-zero-length-array -Wno-variadic-macros -Wno-gnu-zero-variadic-macro-arguments"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-format -Wno-format-security -Wno-sign-compare -Wno-shift-negative-value"
 _UADE_LDFLAGS="${LDFLAGS} ${EXTRA_LIBS}"
