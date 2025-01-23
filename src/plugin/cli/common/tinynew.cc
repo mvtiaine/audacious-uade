@@ -69,15 +69,19 @@ void operator delete[](void* ptr, const std::nothrow_t&) noexcept {
 
 // for c++14
 
-void operator delete (void* ptr, std::size_t, const std::nothrow_t&) noexcept {
+void operator delete(void* ptr, std::size_t, const std::nothrow_t&) noexcept {
     operator delete(ptr);
 }
 
-void operator delete[] (void* ptr, std::size_t, const std::nothrow_t&) noexcept {
+void operator delete[](void* ptr, std::size_t, const std::nothrow_t&) noexcept {
     operator delete(ptr);
 }
 
 void operator delete(void* ptr, std::size_t) noexcept {
+    operator delete(ptr);
+}
+
+void operator delete[](void* ptr, std::size_t) noexcept {
     operator delete(ptr);
 }
 
