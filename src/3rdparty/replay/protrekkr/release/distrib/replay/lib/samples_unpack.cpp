@@ -80,7 +80,7 @@ extern TRUESPEECHWAVEFORMAT At3_Format;
 
 #endif
 
-#if defined(__WIN32__)
+#if defined(__WIN32__) && !defined(AUDACIOUS_UADE)
 ACMSTREAMHEADER Unpack_Stream_Head;
 HACMSTREAM Unpack_Stream;
 WAVEFORMATEX Wave_Format;

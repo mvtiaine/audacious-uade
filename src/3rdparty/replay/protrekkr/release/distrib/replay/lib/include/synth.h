@@ -56,6 +56,7 @@
 
 // ------------------------------------------------------
 // Types
+#ifndef AUDACIOUS_UADE
 #if defined(__WIN32__) && !defined(__GCC__)
 typedef __int64 int64;
 typedef unsigned __int64 Uint64;
@@ -68,6 +69,7 @@ typedef uint64_t Uint64;
 typedef unsigned long long Uint64;
 #endif
 #endif
+#endif // AUDACIOUS_UADE
 
 extern float SIN[360];
 

@@ -32,20 +32,18 @@
 
 #ifndef AUDACIOUS_UADE
 #pragma once
-#endif
 
 #if defined(__WIN32__) && !defined(__GCC__)
 typedef unsigned __int64 Uint64;
 #else
 #if defined(__HAIKU__) || defined(__LINUX__)
-#ifndef AUDACIOUS_UADE
 #include <stdint.h>
-#endif
 typedef uint64_t Uint64;
 #else
 typedef unsigned long long Uint64;
 #endif
 #endif
+#endif // AUDACIOUS_UADE
 
 // ------------------------------------------------------
 // Functions

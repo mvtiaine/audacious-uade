@@ -2111,7 +2111,7 @@ void PTKEXPORT Ptk_Stop(void)
 #if defined(__MACOSX_PPC__) || defined(__LINUX__) || defined(__AROS__) || defined(__AMIGAOS4__)
         usleep(10);
 #endif
-#if defined(__WIN32__)
+#if defined(__WIN32__) && !defined(AUDACIOUS_UADE)
         Sleep(10);
 #endif
 
