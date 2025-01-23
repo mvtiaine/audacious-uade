@@ -964,6 +964,7 @@ int32_t read_bytes(void *buff, int32_t bcount)
     {
         bcount = wpc.Source_Size - wpc.Pos_Source;
     }
+    assert(bcount >= 0);
     memcpy(buff, wpc.Source + wpc.Pos_Source, bcount);
     wpc.Pos_Source += bcount;
     return bcount;
