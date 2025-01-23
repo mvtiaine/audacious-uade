@@ -13,4 +13,4 @@ converter_libconverter_la_SOURCES = \
     3rdparty/SimpleBinStream.h \
     3rdparty/proplayer.h
 
-converter/med/% : CXXFLAGS += -Wno-zero-length-array
+converter/med/% : CXXFLAGS += -Wno-zero-length-array -Wno-pedantic
