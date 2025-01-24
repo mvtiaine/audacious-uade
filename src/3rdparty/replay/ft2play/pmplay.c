@@ -692,6 +692,8 @@ static bool loadPatterns(MEMFILE *f, uint16_t antPtn)
 		{
 			const uint16_t a = ph.pattLen * song.antChn * sizeof (tonTyp);
 
+			if (a < ph.dataLen) // mvtiaine: added sanity check (305pmbt3.xm)
+				return false;
 			patt[i] = (tonTyp *)malloc(a);
 			if (patt[i] == NULL)
 				return false;
