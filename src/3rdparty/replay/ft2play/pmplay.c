@@ -601,6 +601,8 @@ static bool loadInstrHeader(MEMFILE *f, uint16_t i)
 		sampleHeaderTyp *src = ih.samp;
 		for (int32_t j = 0; j < ih.antSamp; j++, s++, src++)
 		{
+			if (src->skrap == 0xad)
+				return false; // mvtiaine: added ADPCM check
 			memcpy(s->name, src->name, 22);
 			s->name[22] = '\0';
 
