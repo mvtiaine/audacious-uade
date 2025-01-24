@@ -336,7 +336,9 @@ constexpr_f2 ModuleInfo get_xm_info(const char *path, const char *buf) noexcept 
     }
     replace_if(progName.begin(), progName.end(), ::not_fn<int (*)(int _c)>(::isprint), '?');
     if (progName.empty()) progName = "<Unknown>";
-    return {Player::ft2play, progName, path, 1, 1, 1, hdr->antChn};
+    char xmVer[12];
+    snprintf(xmVer, sizeof(xmVer), " (XM %d.%02d)", hdr->ver >> 8, hdr->ver & 0xFF);
+    return {Player::ft2play, progName + xmVer, path, 1, 1, 1, hdr->antChn};
 }
 
 constexpr_f2 int get_xm_version(const char *buf) noexcept {
