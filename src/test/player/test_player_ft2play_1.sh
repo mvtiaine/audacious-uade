@@ -2,6 +2,8 @@
 
 set -e
 
+player=ft2play
+
 . $(dirname "$0")/../common/header.sh
 
 #

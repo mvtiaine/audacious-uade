@@ -25,6 +25,7 @@ uade_base_dir=$(top_builddir)/build-tmp/uade
 endif
 
 TESTS_ENVIRONMENT = \
+    export players=$(players); \
     export top_srcdir=$(top_srcdir); \
     export top_builddir=$(top_builddir); \
     export UADE_CORE_FILE=$(uade_core_file); \

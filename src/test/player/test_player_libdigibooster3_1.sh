@@ -2,6 +2,8 @@
 
 set -e
 
+player=libdigibooster3
+
 . $(dirname "$0")/../common/header.sh
 
 #

@@ -2,6 +2,8 @@
 
 set -e
 
+player=protrekkr
+
 . $(dirname "$0")/../common/header.sh
 
 #

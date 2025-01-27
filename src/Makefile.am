@@ -11,7 +11,7 @@ plugin_audaciousdir = $(AUDACIOUS_PLUGINDIR)/Input
 
 AM_CPPFLAGS = -I$(top_srcdir)/src -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(uadedatadir)\""
 
-EXTRA_DIST = 
+EXTRA_DIST = config.h
 
 ## Libs
 

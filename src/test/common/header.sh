@@ -2,6 +2,10 @@
 
 set -e
 
+if [[ "$player" != "" && "$players" != "all" && ! ",${players}," =~ ",${player}" ]]; then
+  exit 77
+fi
+
 DIRNAME=$(dirname "$0")
 : ${top_srcdir:="$DIRNAME/../../.."}
 : ${top_builddir:="$DIRNAME/../../.."}

@@ -1,15 +1,13 @@
 # NOT a standalone Makefile.am
 
-noinst_LTLIBRARIES += \
-    3rdparty/replay/libreplay_hivelytracker.la \
-    3rdparty/replay/libreplay_libdigibooster3.la \
-    3rdparty/replay/libreplay_ft2play.la \
-    3rdparty/replay/libreplay_st3play.la \
-    3rdparty/replay/libreplay_it2play.la \
-    3rdparty/replay/libreplay_st23play.la \
-    3rdparty/replay/libreplay_protrekkr.la \
-    3rdparty/libreplay.la 
+noinst_LTLIBRARIES += 3rdparty/libreplay.la 
 
+3rdparty_libreplay_la_SOURCES = 3rdparty/replay/dummy_replay.c
+3rdparty_libreplay_la_LIBADD =
+
+if PLAYER_hivelytracker
+noinst_LTLIBRARIES += 3rdparty/replay/libreplay_hivelytracker.la
+3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_hivelytracker.la
 
 3rdparty_replay_libreplay_hivelytracker_la_SOURCES = \
     3rdparty/replay/hivelytracker/replay.h \
@@ -17,7 +15,11 @@ noinst_LTLIBRARIES += \
 
 # try keep byte-by-byte consistent audio output across platforms, by disabling some floating point optimizations
 3rdparty/replay/hivelytracker/% : CFLAGS += -ffp-contract=off -fno-fast-math -Wno-sign-compare -Wno-overflow -Wno-implicit-fallthrough -Wno-stringop-truncation -Wno-unknown-warning-option
+endif
 
+if PLAYER_libdigibooster3
+noinst_LTLIBRARIES += 3rdparty/replay/libreplay_libdigibooster3.la
+3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_libdigibooster3.la
 
 3rdparty_replay_libreplay_libdigibooster3_la_SOURCES = \
     3rdparty/replay/libdigibooster3/dsp.h \
@@ -36,7 +38,11 @@ noinst_LTLIBRARIES += \
 
 3rdparty_replay_libreplay_libdigibooster3_la_CPPFLAGS = $(AM_CPPFLAGS) -DTARGET_LINUX=1
 3rdparty/replay/libdigibooster3/% : CFLAGS += -Wno-parentheses -Wno-unused -Wno-overflow
+endif
 
+if PLAYER_ft2play
+noinst_LTLIBRARIES += 3rdparty/replay/libreplay_ft2play.la
+3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_ft2play.la
 
 3rdparty_replay_libreplay_ft2play_la_SOURCES = \
     3rdparty/replay/ft2play/ft2play.h \
@@ -44,7 +50,11 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/ft2play/ft2play_probe.cc
 
 3rdparty/replay/ft2play/% : CXXFLAGS += -Wno-volatile -Wno-unknown-warning-option
+endif
 
+if PLAYER_st3play
+noinst_LTLIBRARIES += 3rdparty/replay/libreplay_st3play.la
+3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_st3play.la
 
 3rdparty_replay_libreplay_st3play_la_SOURCES = \
     3rdparty/replay/st3play/st3play.h \
@@ -52,7 +62,11 @@ noinst_LTLIBRARIES += \
     3rdparty/replay/st3play/st3play_probe.cc
 
 3rdparty/replay/st3play/% : CXXFLAGS += -Wno-keyword-macro
+endif
 
+if PLAYER_it2play
+noinst_LTLIBRARIES += 3rdparty/replay/libreplay_it2play.la
+3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_it2play.la
 
 3rdparty_replay_libreplay_it2play_la_SOURCES = \
     3rdparty/replay/it2play/it2play.h \
@@ -61,13 +75,21 @@ noinst_LTLIBRARIES += \
 
 # try keep byte-by-byte consistent audio output across platforms, by disabling some floating point optimizations
 3rdparty/replay/it2play/% : CXXFLAGS += -ffp-contract=off -fno-fast-math -Wno-misleading-indentation
+endif
 
+if PLAYER_st23play
+noinst_LTLIBRARIES += 3rdparty/replay/libreplay_st23play.la
+3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_st23play.la
 
 3rdparty_replay_libreplay_st23play_la_SOURCES = \
     3rdparty/replay/st23play/st23play.h \
     3rdparty/replay/st23play/st23play_play.cc \
     3rdparty/replay/st23play/st23play_probe.cc
+endif
 
+if PLAYER_protrekkr
+noinst_LTLIBRARIES += 3rdparty/replay/libreplay_protrekkr.la
+3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_protrekkr.la
 
 3rdparty_replay_libreplay_protrekkr_la_SOURCES = \
     3rdparty/replay/protrekkr/protrekkr.h \
@@ -77,18 +99,7 @@ noinst_LTLIBRARIES += \
 
 # try keep byte-by-byte consistent audio output across platforms, by disabling some floating point optimizations
 3rdparty/replay/protrekkr/% : CXXFLAGS += -fno-strict-aliasing -ffp-contract=off -fno-fast-math -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-volatile -Wno-unknown-warning-option
-
-
-3rdparty_libreplay_la_SOURCES =
-3rdparty_libreplay_la_LIBADD = \
-    3rdparty/replay/libreplay_hivelytracker.la \
-    3rdparty/replay/libreplay_libdigibooster3.la \
-    3rdparty/replay/libreplay_ft2play.la \
-    3rdparty/replay/libreplay_st3play.la \
-    3rdparty/replay/libreplay_it2play.la \
-    3rdparty/replay/libreplay_st23play.la \
-    3rdparty/replay/libreplay_protrekkr.la
-
+endif
 
 EXTRA_DIST += \
     3rdparty/README \

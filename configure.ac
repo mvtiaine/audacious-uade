@@ -78,6 +78,24 @@ if test "$static_stdlibs" != "no"; then
   AC_LANG_POP
 fi
 
+# Players
+AC_ARG_ENABLE(players,
+  AS_HELP_STRING([--enable-players=[PLAYERS]], [List of comma separated players to enable [default=all]]),
+  [players="$enableval"],
+  [players="all"])
+
+AC_SUBST([players])
+m4_foreach_w([player], [ft2play hivelytracker it2play libdigibooster3 protrekkr st23play st3play uade], [
+  AS_VAR_SET([p], [player])
+  if test "$players" = "all" || [[[ ",${players}," =~ ",${p}," ]]]; then
+    AC_DEFINE_UNQUOTED([PLAYER_[]player[]], [1], [Enable player ]player)
+    AM_CONDITIONAL([PLAYER_]player, [true])
+  else
+    AC_DEFINE_UNQUOTED([PLAYER_[]player[]], [0], [Disable player ]player)
+    AM_CONDITIONAL([PLAYER_]player, [false])
+  fi
+])
+
 # Audacious plugin
 AC_ARG_ENABLE(plugin-audacious,
   AS_HELP_STRING([--enable-plugin-audacious=[yes|no|auto]], [Explicitly enable or disable Audacious plugin [default=auto]]),
@@ -867,6 +885,7 @@ elif test "$build_tizen" = "yes" || test "$build_blackberry10" = "yes" ; then
   fi
 fi
 
+if test "$players" = "all" || [[[ ",${players}," =~ ",uade," ]]]; then
 uade_prefix=${prefix}
 if test "$uade_prefix" = "NONE" ; then
   uade_prefix=/usr/local
@@ -897,8 +916,11 @@ AC_SUBST([UADE_CPPFLAGS])
 # abs_top_builddir is needed here at least by OpenBSD ports
 UADE_LIBS="\${abs_top_builddir}/uade/src/frontends/common/libuade.a ${EXTRA_LIBS}"
 AC_SUBST([UADE_LIBS])
+fi # uade
 
-AC_CONFIG_HEADERS([src/config.h])
+# XXX autoheader does not support dynamic variables with AC_DEFINE_UNQUOTED
+#AC_CONFIG_HEADERS([src/config.h])
+cp confdefs.h src/config.h
 AC_CONFIG_FILES(Makefile
                 src/Makefile)
 

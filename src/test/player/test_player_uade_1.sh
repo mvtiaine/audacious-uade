@@ -2,6 +2,8 @@
 
 set -e
 
+player=uade
+
 . $(dirname "$0")/../common/header.sh
 
 #

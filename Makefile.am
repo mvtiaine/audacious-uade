@@ -1,7 +1,13 @@
 ACLOCAL_AMFLAGS = -I m4
 
 DIST_SUBDIRS = src
-SUBDIRS = uade/src/frontends/common $(subdirs_extra) $(DIST_SUBDIRS)
+
+if PLAYER_uade
+subdirs_extra += uade/src/frontends/common
+endif
+
+SUBDIRS = $(subdirs_extra) $(DIST_SUBDIRS)
+
 EXTRA_DIST = \
 	NOTICE \
 	conf \
@@ -18,6 +24,10 @@ install installdirs: SUBDIRS = src
 uninstall uninstalldirs: SUBDIRS = src
 
 dist-hook:
+	if test "$(players)" != "all"; then \
+	    echo "ERROR: make dist requires all players to be enabled"; \
+		exit 1; \
+	fi
 	$(MKDIR_P) "$(distdir)/uade"
 	cd uade && git ls-files | tar Tc - | tar x -C "../$(distdir)/uade"
 

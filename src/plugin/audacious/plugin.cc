@@ -12,9 +12,11 @@
 #include <libaudcore/runtime.h>
 #include <libaudcore/vfs.h>
 
-extern "C" {
+#if PLAYER_uade
 #include "../uade/src/frontends/include/uade/options.h"
-}
+#else
+#define UADE_VERSION "N/A"
+#endif
 
 #include "config.h"
 #include "common/extensions.h"

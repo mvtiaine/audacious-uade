@@ -2,6 +2,8 @@
 
 set -e
 
+player=st3play
+
 . $(dirname "$0")/../common/header.sh
 
 #

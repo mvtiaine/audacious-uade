@@ -2,6 +2,8 @@
 
 set -e
 
+player=it2play
+
 . $(dirname "$0")/../common/header.sh
 
 #

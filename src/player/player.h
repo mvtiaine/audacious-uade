@@ -16,6 +16,7 @@
 #include "common/constexpr.h"
 #include "common/endian.h"
 #include "common/songend.h"
+#include "config.h"
 
 namespace player {
 
@@ -27,7 +28,6 @@ constexpr int PRECALC_TIMEOUT = 3600;
 constexpr int SILENCE_TIMEOUT = 30;
 constexpr int MAX_SILENCE = 3000;
 
-// TODO make externally configurable
 // uade has heaviest detection, but must be before ft2play for MOD detection
 #define PLAYERS VA_LIST( \
     hivelytracker, \

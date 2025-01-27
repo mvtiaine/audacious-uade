@@ -2,6 +2,8 @@
 
 set -e
 
+player=hivelytracker
+
 . $(dirname "$0")/../common/header.sh
 
 #

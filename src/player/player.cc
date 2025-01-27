@@ -34,7 +34,24 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
 bool stop(PlayerState &state) noexcept; \
 bool restart(PlayerState &state) noexcept; \
 } // namespace ns
-FOREACH(DEFINE_PLAYER, PLAYERS)
+#define DUMMY_PLAYER(ns) \
+namespace ns { \
+void init() noexcept {} \
+void shutdown() noexcept {} \
+bool is_our_file(const char *path, const char *buf, size_t size) noexcept { return false; } \
+optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept { return {}; } \
+optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept { return {}; } \
+pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept { return {SongEnd::ERROR, 0}; } \
+bool stop(PlayerState &state) noexcept { return false; } \
+bool restart(PlayerState &state) noexcept { return false; } \
+} // namespace ns
+#define CAT(a, ...) PRIMITIVE_CAT(a, __VA_ARGS__)
+#define PRIMITIVE_CAT(a, ...) a ## __VA_ARGS__
+#define IIF(c) PRIMITIVE_CAT(IIF_, c)
+#define IIF_0(t, ...) __VA_ARGS__
+#define IIF_1(t, ...) t
+#define MAYBE_DEFINE_PLAYER(ns) IIF(PLAYER_ ## ns)(DEFINE_PLAYER(ns), DUMMY_PLAYER(ns))
+FOREACH(MAYBE_DEFINE_PLAYER, PLAYERS)
 }
 
 namespace {
@@ -194,7 +211,9 @@ bool seek(PlayerState &state, int millis) noexcept {
     TRACE("Seeking to %d current pos %d player %d\n", millis, state.pos_millis, static_cast<int>(state.player));
 
     // use UADEs own seek as it doesn't support "restart"
+#if PLAYER_uade
     if (state.player == Player::uade) return uade::seek(state, millis);
+#endif
 
     vector<char> dummybuf(state.buffer_size);
     if (millis < state.pos_millis) {
