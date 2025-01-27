@@ -920,7 +920,7 @@ fi # uade
 
 # XXX autoheader does not support dynamic variables with AC_DEFINE_UNQUOTED
 #AC_CONFIG_HEADERS([src/config.h])
-cp confdefs.h src/config.h
+cp confdefs.h "${srcdir}/src/config.h"
 AC_CONFIG_FILES(Makefile
                 src/Makefile)
 
