@@ -1585,6 +1585,7 @@ static void UpdateData(void)
 						{
 							NewOrder = 0;
 							Song.StopSong = true; // 8bb: for WAV rendering
+							break; // mvtiaine: added break to avoid infinite loop (liquid\ marantha\ -\ Lmsamp.it)
 						}
 					}
 					else

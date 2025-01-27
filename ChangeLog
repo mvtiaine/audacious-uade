@@ -5,6 +5,9 @@
 -- generate also pretty printed tsv files in addition to the encoded/"compressed" tsvs
 -- songdb scripts and raw TSVs moved to https://github.com/mvtiaine/audacious-uade-tools
 -- misc cleanups/fixes/updates
+- Implement ProTrekkr 2 (https://github.com/hitchhikr/protrekkr) support using the official portable replay
+-- NOTE: NoiseTrekker 1 & 2 and ProTrekkr 1 mods also work, but play incorrectly
+- Misc fixes and updates
 
 0.12.4 - 2024-01-06
 - Implement Scream Tracker 2 support using st23play by 8bitbubsy (https://pastebin.com/ifXSCZ71)

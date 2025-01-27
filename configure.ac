@@ -44,15 +44,19 @@ AS_IF([test "$CXXSTD" = none], [
 AC_C_BIGENDIAN([
   AM_CONDITIONAL([BIG_ENDIAN],[true])
   AM_CONDITIONAL([LITTLE_ENDIAN],[false])
-  AC_DEFINE(WORDS_BIGENDIAN, 1)
+  AC_DEFINE([WORDS_BIGENDIAN], [1]),
 ],[
   AM_CONDITIONAL([BIG_ENDIAN],[false])
   AM_CONDITIONAL([LITTLE_ENDIAN],[true])
+],[
+  AC_MSG_ERROR([Could not determine endianness])
+],[
+  AC_MSG_ERROR([Universal build not supported])
 ])
 
 # check if static stdlibs are explicitly enabled/disabled
 AC_ARG_WITH(static-stdlibs,
-  AS_HELP_STRING([--with-static-stdlibs=yes|no], [Explicitly enable or disable statically linked stdlibs for the CLI binaries (default: yes)]),
+  AS_HELP_STRING([--with-static-stdlibs=[yes|no|auto]], [Explicitly enable or disable statically linked stdlibs for the CLI binaries [default=auto]]),
   [static_stdlibs="$withval"],
   [static_stdlibs=""])
 
@@ -76,7 +80,7 @@ fi
 
 # Audacious plugin
 AC_ARG_ENABLE(plugin-audacious,
-  AS_HELP_STRING([--enable-plugin-audacious=yes|no], [Explicitly enable or disable Audacious plugin (default: auto-detect)]),
+  AS_HELP_STRING([--enable-plugin-audacious=[yes|no|auto]], [Explicitly enable or disable Audacious plugin [default=auto]]),
   [plugin_audacious="$enableval"],
   [plugin_audacious=""])
 
@@ -103,7 +107,7 @@ fi
 if test "$plugin_audacious" = "yes"; then
 AC_MSG_CHECKING([for audacious plugindir])
 AC_ARG_WITH([audacious-plugindir],
-  AS_HELP_STRING([--with-audacious-plugindir=<plugindir>], [Installs uade plugin under <plugindir>/Input instead of Audacious default]),
+  AS_HELP_STRING([--with-audacious-plugindir=[PLUGINDIR]], [Installs uade plugin under [PLUGINDIR]/Input instead of Audacious default]),
   [if test x"$withval" != x ; then
      AUDACIOUS_PLUGINDIR="$withval"
    fi],
@@ -199,6 +203,7 @@ build_os2=no
 build_redox=no
 build_serenity=no
 build_genode=no
+build_symbian=no  # no new enough libstdc++/libc++ available? (llvm-cbe?)
 
 build_ps4=no
 
@@ -486,6 +491,12 @@ case "${CC}" in
         # needs custom UADE support (at minimum)
         AC_MSG_WARN([PSP target not yet supported])
         ;;
+      symbian*)
+        # see scripts/crossbuild/wip/symbian.sh
+        build_symbian=yes
+        # needs custom UADE support (at minimum)
+        AC_MSG_WARN([Symbian target not yet supported])
+        ;;
       *)
         # inverted os/vendor?
         case "${host_vendor}" in
@@ -603,6 +614,7 @@ AM_CONDITIONAL([BUILD_OS2], [test "$build_os2" = "yes"])
 AM_CONDITIONAL([BUILD_REDOX], [test "$build_redox" = "yes"])
 AM_CONDITIONAL([BUILD_SERENITY], [test "$build_serenity" = "yes"])
 AM_CONDITIONAL([BUILD_GENODE], [test "$build_genode" = "yes"])
+AM_CONDITIONAL([BUILD_SYMBIAN], [test "$build_symbian" = "yes"])
 AM_CONDITIONAL([BUILD_PS4], [test "$build_ps4" = "yes"])
 AM_CONDITIONAL([BUILD_COSMOCC], [test "$build_cosmocc" = "yes"])
 AM_CONDITIONAL([BUILD_WASIX], [test "$build_wasix" = "yes"])
@@ -637,7 +649,7 @@ if test "$build_openharmony" != "yes" && test "$build_ps4" != "yes" && test "$bu
   CPPFLAGS="-D_GNU_SOURCE ${CPPFLAGS}"
 fi
 COMMON_CFLAGS="-fvisibility=hidden -fmerge-all-constants -fno-exceptions"
-CXXFLAGS="-Wall ${CXXSTD} ${CXXFLAGS} ${COMMON_CFLAGS} -fvisibility-inlines-hidden -fno-rtti"
+CXXFLAGS="${CXXSTD} ${CXXFLAGS} ${COMMON_CFLAGS} -fvisibility-inlines-hidden -fno-rtti"
 CFLAGS="${CSTD} ${CFLAGS} ${COMMON_CFLAGS}"
 ARCHFLAGS=""
 EXTRA_LIBS=""
@@ -725,6 +737,14 @@ elif test "$build_wasix" = "yes" ; then
 elif test "$build_emscripten" = "yes" ; then
   #LDFLAGS="-sASSERTIONS -sALLOW_MEMORY_GROWTH -sNODERAWFS=1 -lwebsocket.js -sPROXY_POSIX_SOCKETS -pthread -sPROXY_TO_PTHREAD ${LDFLAGS}"
   LDFLAGS="-sASSERTIONS -sALLOW_MEMORY_GROWTH -sNODERAWFS=1 ${LDFLAGS}"
+elif test "$build_symbian" = "yes" ; then
+  if test "${EPOCROOT}" = "" ; then
+    AC_MSG_ERROR([EPOCROOT not set])
+  fi
+  # PATH_MAX not defined?
+  CPPFLAGS="-DPATH_MAX=1024 ${CPPFLAGS}"
+  CPPFLAGS="-isystem ${EPOCROOT}/epoc32/include/stdapis -isystem ${EPOCROOT}/epoc32/include/libc -isystem ${EPOCROOT}/epoc32/include ${CPPFLAGS}"
+  CPPFLAGS="-include gcce/gcce.h ${CPPFLAGS}"
 fi
 
 # must be called after C(XX)FLAGS tweaks, as for example on MorphOS -noixemul must be set before LT_INIT
@@ -773,8 +793,8 @@ else
   esac
 fi
 
-CFLAGS="${ARCHFLAGS} ${CFLAGS}"
-CXXFLAGS="${ARCHFLAGS} ${CXXFLAGS}"
+CFLAGS="${ARCHFLAGS} ${CFLAGS} -Wno-unused-parameter"
+CXXFLAGS="${ARCHFLAGS} ${CXXFLAGS} -Wno-unused-parameter"
 
 AM_CONDITIONAL([LD_APPLE], [test "$ld_apple" = "yes"])
 AM_CONDITIONAL([LD_LLD], [test "$ld_lld" = "yes"])
@@ -852,7 +872,9 @@ if test "$uade_prefix" = "NONE" ; then
   uade_prefix=/usr/local
 fi
 _UADE_CPPFLAGS="${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE"
-_UADE_CFLAGS="${CFLAGS} -Wno-error=format -Wno-error=format-security"
+_UADE_CFLAGS="${CFLAGS} -Wno-unused -Wno-deprecated-declarations -Wno-tautological-compare -Wno-pedantic -Wno-implicit-function-declaration"
+_UADE_CFLAGS="${_UADE_CFLAGS} -Wno-zero-length-array -Wno-variadic-macros -Wno-gnu-zero-variadic-macro-arguments"
+_UADE_CFLAGS="${_UADE_CFLAGS} -Wno-format -Wno-format-security -Wno-sign-compare -Wno-shift-negative-value"
 _UADE_LDFLAGS="${LDFLAGS} ${EXTRA_LIBS}"
 if test "$static_stdlibs" = "yes" ; then
   _UADE_LDFLAGS="-static-libgcc ${_UADE_LDFLAGS}"

@@ -601,6 +601,8 @@ static bool loadInstrHeader(MEMFILE *f, uint16_t i)
 		sampleHeaderTyp *src = ih.samp;
 		for (int32_t j = 0; j < ih.antSamp; j++, s++, src++)
 		{
+			if (src->skrap == 0xad)
+				return false; // mvtiaine: added ADPCM check
 			memcpy(s->name, src->name, 22);
 			s->name[22] = '\0';
 
@@ -635,6 +637,8 @@ static bool loadInstrSample(MEMFILE *f, uint16_t i)
 				return false;
 
 			mread(s->pek, 1, s->len, f);
+			if (s->len >= 8 && s->pek[4] == 'O' && s->pek[5] == 'g' && s->pek[6] == 'g' && s->pek[7] == 'S')
+				return false; // mvtiaine: added OggS (Ogg Vorbis) check
 			delta2Samp(s->pek, s->len, sample16Bit);
 		}
 
@@ -688,6 +692,8 @@ static bool loadPatterns(MEMFILE *f, uint16_t antPtn)
 		{
 			const uint16_t a = ph.pattLen * song.antChn * sizeof (tonTyp);
 
+			if (a < ph.dataLen) // mvtiaine: added sanity check (305pmbt3.xm)
+				return false;
 			patt[i] = (tonTyp *)malloc(a);
 			if (patt[i] == NULL)
 				return false;

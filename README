@@ -19,6 +19,8 @@ Main features:
 - Scream Tracker 2 support using the st23play replay by 8bitbubsy (https://pastebin.com/ifXSCZ71)
 - Scream Tracker 3 support using the st3play replay by 8bitbubsy (https://pastebin.com/AwRXZAw7)
 - Impulse Tracker 1 & 2 support using the it2play replay (https://github.com/8bitbubsy/it2play)
+- ProTrekkr 2 (https://github.com/hitchhikr/protrekkr) support using the official portable replay
+-- NOTE: NoiseTrekker 1 & 2 and ProTrekkr 1 mods also work, but play incorrectly
 
 Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
 In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.

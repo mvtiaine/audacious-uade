@@ -101,12 +101,7 @@ namespace songend::precalc {
 SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, int subsong, const string &md5hex) noexcept {
     const auto check_stop = []() { return false; };
     const auto check_seek = []() { return -1; };
-    const int frequency = PRECALC_FREQ;
-    SongEndDetector detector(frequency, info.player != Player::uade, endian::native);
-    const auto write_audio = [&detector](char *mixbuf, int size) {
-         detector.update(mixbuf, size);
-    };
-
+    int frequency = PRECALC_FREQ;
     const player::PlayerConfig player_config = { frequency, 0, endian::native, true };
     auto uade_config = player::uade::UADEConfig(player_config);
     uade_config.silence_timeout = SILENCE_TIMEOUT;
@@ -119,6 +114,11 @@ SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, i
         WARN("Could not play %s subsong %d md5 %s\n", info.path.c_str(), subsong, md5hex.c_str());
         return { SongEnd::ERROR, 0 };
     }
+    frequency = state->frequency; // may differ from requested
+    SongEndDetector detector(frequency, info.player != Player::uade, endian::native);
+    const auto write_audio = [&detector](char *mixbuf, int size) {
+         detector.update(mixbuf, size);
+    };
 
     auto res = support::playback_loop(state.value(), config, check_stop, check_seek, write_audio);
     assert(!res.seeked);

@@ -11,6 +11,7 @@ player_libplayer_la_SOURCES = \
     player/players/player_hivelytracker.cc \
     player/players/player_it2play.cc \
     player/players/player_libdigibooster3.cc \
+    player/players/player_protrekkr.cc \
     player/players/player_st23play.cc \
     player/players/player_st3play.cc \
     player/players/player_uade.cc
@@ -22,3 +23,5 @@ player_libplayer_la_LIBADD = \
 # TODO fix libuade dependency tracking
 
 player_libplayer_la_CPPFLAGS = $(AM_CPPFLAGS) $(UADE_CPPFLAGS)
+
+player/players/% : CXXFLAGS += -Wno-keyword-macro

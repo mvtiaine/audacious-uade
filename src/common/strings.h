@@ -156,7 +156,7 @@ constexpr_f T from_chars(const std::string_view &s) noexcept {
     return std::stoi(ss);
 #else
     T number = 0;
-#if defined(__Fuchsia__)
+#if defined(__Fuchsia__) || defined(__EMSCRIPTEN__)
     // XXX Fuchsia toolchain bug? error: no viable conversion from '__wrap_iter<const char *>' to 'const char *'
     const char *end = __unwrap_iter(s.begin() + s.size());
     auto result = std::from_chars(__unwrap_iter(s.begin()), end, number);
