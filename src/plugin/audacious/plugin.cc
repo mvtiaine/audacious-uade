@@ -347,7 +347,7 @@ public:
         "st23play v0.35 (BSD-3-Clause)\n"
         "Copyright (c) 2016-2024, Olav Sørensen\n"
         "\n"
-        "ProTrekkr 2.7.6 (BSD-2-Clause)\n"
+        "ProTrekkr v2.7.6 (BSD-2-Clause)\n"
         "Copyright (C) 2008-2024, Franck Charlet\n"
         "\n"
         "See NOTICE file for full list\n",
