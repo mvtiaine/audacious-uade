@@ -44,15 +44,19 @@ AS_IF([test "$CXXSTD" = none], [
 AC_C_BIGENDIAN([
   AM_CONDITIONAL([BIG_ENDIAN],[true])
   AM_CONDITIONAL([LITTLE_ENDIAN],[false])
-  AC_DEFINE(WORDS_BIGENDIAN, 1)
+  AC_DEFINE([WORDS_BIGENDIAN], [1]),
 ],[
   AM_CONDITIONAL([BIG_ENDIAN],[false])
   AM_CONDITIONAL([LITTLE_ENDIAN],[true])
+],[
+  AC_MSG_ERROR([Could not determine endianness])
+],[
+  AC_MSG_ERROR([Universal build not supported])
 ])
 
 # check if static stdlibs are explicitly enabled/disabled
 AC_ARG_WITH(static-stdlibs,
-  AS_HELP_STRING([--with-static-stdlibs=yes|no], [Explicitly enable or disable statically linked stdlibs for the CLI binaries (default: yes)]),
+  AS_HELP_STRING([--with-static-stdlibs=[yes|no|auto]], [Explicitly enable or disable statically linked stdlibs for the CLI binaries [default=auto]]),
   [static_stdlibs="$withval"],
   [static_stdlibs=""])
 
@@ -76,7 +80,7 @@ fi
 
 # Audacious plugin
 AC_ARG_ENABLE(plugin-audacious,
-  AS_HELP_STRING([--enable-plugin-audacious=yes|no], [Explicitly enable or disable Audacious plugin (default: auto-detect)]),
+  AS_HELP_STRING([--enable-plugin-audacious=[yes|no|auto]], [Explicitly enable or disable Audacious plugin [default=auto]]),
   [plugin_audacious="$enableval"],
   [plugin_audacious=""])
 
@@ -103,7 +107,7 @@ fi
 if test "$plugin_audacious" = "yes"; then
 AC_MSG_CHECKING([for audacious plugindir])
 AC_ARG_WITH([audacious-plugindir],
-  AS_HELP_STRING([--with-audacious-plugindir=<plugindir>], [Installs uade plugin under <plugindir>/Input instead of Audacious default]),
+  AS_HELP_STRING([--with-audacious-plugindir=[PLUGINDIR]], [Installs uade plugin under [PLUGINDIR]/Input instead of Audacious default]),
   [if test x"$withval" != x ; then
      AUDACIOUS_PLUGINDIR="$withval"
    fi],
