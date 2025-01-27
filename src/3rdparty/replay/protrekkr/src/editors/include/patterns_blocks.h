@@ -149,6 +149,10 @@ int Get_Max_Nibble_Track_From_Nibble(char *Buffer_MultiNotes, char *Buffer_Effec
 int Get_Max_Nibble_Effects_From_Nibble(char *Buffer_MultiNotes, char *Buffer_Effects, int nibble);
 int Get_Byte_From_Column(char *Buffer_MultiNotes, char *Buffer_Effects, int column);
 COLUMN_TYPE Get_Column_Type(char *Buffer_MultiNotes, char *Buffer_Effects, int column);
+COLUMN_TYPE Get_Column_Type_With_Track(char *Buffer_MultiNotes, char *Buffer_Effects, int track, int column);
+int Get_Column_Panning_Data_With_Track(char *Buffer_MultiNotes, char *Buffer_Effects, int Position, int track, int row);
+int Get_Column_Data_With_Track(char *Buffer_MultiNotes, char *Buffer_Effects, int Position, int track, int column, int row);
+void Set_Column_Data_With_Track(char *Buffer_MultiNotes, char *Buffer_Effects, int Position, int track, int column, int row, int data);
 int Get_Track_Relative_Column(char *Buffer_MultiNotes, char *Buffer_Effects, int column);
 int Get_Max_Nibble_All_Tracks(void);
 void Clear_Buff(int Idx);
@@ -156,3 +160,6 @@ int Are_Columns_Compatible(int type_src, int type_dst);
 void Delete_Track(void);
 void Insert_Track(void);
 void Reset_Track(int Position, int Track);
+void Sanitize_Sliders_Block(void);
+void Set_Slider_Value(int delta);
+void Reset_Transpose_Block(void);

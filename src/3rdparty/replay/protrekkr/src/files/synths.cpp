@@ -38,9 +38,15 @@
 // ------------------------------------------------------
 // Load the data of a synth instrument
 // (The new version (v4) use correct data aligment)
-void Read_Synth_Params(int (*Read_Function)(void *, int ,int, FILE *),
-                       int (*Read_Function_Swap)(void *, int ,int, FILE *),
+#if !defined(BZR2)
+void Read_Synth_Params(int (*Read_Function)(void *, int, int, FILE *),
+                       int (*Read_Function_Swap)(void *, int, int, FILE *),
                        FILE *in,
+#else
+void Read_Synth_Params(int (*Read_Function)(void *, int, int, FILE *),
+                       int (*Read_Function_Swap)(void *, int, int, CustomFile &),
+                       CustomFile &in,
+#endif
                        int idx,
                        int read_disto,
                        int read_lfo_adsr,
@@ -55,7 +61,7 @@ void Read_Synth_Params(int (*Read_Function)(void *, int ,int, FILE *),
     {
         if(read_disto && read_lfo_adsr)
         {
-            Read_Function(&PARASynth[idx], sizeof(Synth_Parameters) - 4, 1, in); // mvtiaine: https://github.com/hitchhikr/protrekkr/issues/17
+            Read_Function(&PARASynth[idx], sizeof(Synth_Parameters) - 4, 1, in);
             PARASynth[idx].disto /= 2;
             PARASynth[idx].disto += 64;
             PARASynth[idx].glb_volume = 0x7f;
@@ -64,7 +70,7 @@ void Read_Synth_Params(int (*Read_Function)(void *, int ,int, FILE *),
         {
             if(read_disto)
             {
-                Read_Function(&PARASynth[idx], sizeof(Synth_Parameters) - 32 - 4, 1, in); // mvtiaine: https://github.com/hitchhikr/protrekkr/issues/17
+                Read_Function(&PARASynth[idx], sizeof(Synth_Parameters) - 32 - 4, 1, in);
             }
             else
             {
@@ -157,7 +163,7 @@ void Read_Synth_Params(int (*Read_Function)(void *, int ,int, FILE *),
                 }
                 else
                 {
-                    Read_Function(&PARASynth[idx], sizeof(Synth_Parameters) - 4 - 32 - 4, 1, in); // mvtiaine: https://github.com/hitchhikr/protrekkr/issues/17
+                    Read_Function(&PARASynth[idx], sizeof(Synth_Parameters) - 4 - 32 - 4, 1, in);
                 }
             }
         }

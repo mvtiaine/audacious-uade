@@ -38,6 +38,7 @@
 #include "tb_303.h"
 #include "cubic_spline.h"
 #include "spline.h"
+#if !defined(BZR2)
 #if defined(__WIN32__)
 #include "../sounddriver/include/sounddriver_windows.h"
 #elif defined(__FREEBSD__)
@@ -62,6 +63,9 @@
 #include "../sounddriver/include/sounddriver_haiku.h"
 #else
 #error "No sound driver defined !"
+#endif
+#else
+#include "sounddriver_dummy.h"
 #endif
 #include "samples_unpack.h"
 #include "ptkreplay.h"
@@ -413,6 +417,7 @@ extern short Beat_Lines[128];
 extern float Reverb_Filter_Cutoff;
 extern float Reverb_Filter_Resonance;
 extern unsigned char Reverb_Stereo_Amount;
+extern float Reverb_Damp;
 
 extern float Sample_Vol[MAX_INSTRS];
 
@@ -525,4 +530,6 @@ void Init_Equ(LPEQSTATE es);
 float Do_Equ(LPEQSTATE es, float sample, int Left);
 #if defined(PTK_SHUFFLE)
 void Update_Shuffle(void);
+float absf(float x);
+
 #endif

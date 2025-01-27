@@ -1745,7 +1745,7 @@ float CSynth::GetSample(short *Left_Samples,
 #endif
                    ;
         GS_VAL /= 32767.0f;
-        GS_VAL = GS_VAL * (fabsf(GS_VAL) + Disto) / ((GS_VAL * GS_VAL) + (Disto - 1.0f) * fabsf(GS_VAL) + 1.0f);
+        GS_VAL = GS_VAL * (absf(GS_VAL) + Disto) / ((GS_VAL * GS_VAL) + (Disto - 1.0f) * absf(GS_VAL) + 1.0f);
         GS_VAL *= 32767.0f;
     }
 #endif
@@ -1861,7 +1861,7 @@ float CSynth::GetSample(short *Left_Samples,
 #endif
                        ;
             GS_VAL2 /= 32767.0f;
-            GS_VAL2 = GS_VAL2 * (fabsf(GS_VAL2) + Disto) / ((GS_VAL2 * GS_VAL2) + (Disto - 1.0f) * fabsf(GS_VAL2) + 1.0f);
+            GS_VAL2 = GS_VAL2 * (absf(GS_VAL2) + Disto) / ((GS_VAL2 * GS_VAL2) + (Disto - 1.0f) * absf(GS_VAL2) + 1.0f);
             GS_VAL2 *= 32767.0f;
         }
 #endif

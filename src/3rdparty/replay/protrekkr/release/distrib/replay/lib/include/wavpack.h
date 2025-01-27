@@ -6,7 +6,7 @@
 // Copyright (C) 2008-2024 Franck Charlet.
 // All rights reserved.
 //
-// This file is :
+// This file is:
 // Copyright (c) 1998-2007 Conifer Software.
 // All right reserved.
 //
@@ -75,8 +75,13 @@ typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
 
+#if !defined(FALSE)
 #define FALSE 0
+#endif
+
+#if !defined(TRUE)
 #define TRUE 1
+#endif
 
 #endif // AUDACIOUS_UADE
 

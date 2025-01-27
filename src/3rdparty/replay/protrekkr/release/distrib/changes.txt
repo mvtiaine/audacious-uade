@@ -2,6 +2,46 @@
 ProTrekkr releases history
 ===============================================================================
 
+v2.8.0
+
+- Added a function to negate the current palette.
+- Added two functions to rotate the current palette on the left or right.
+- Re-arranged bitchbiker.ptk and added it into the official list of modules.
+
+v2.8.0 PRE 2
+
+- Changed the behaviour of the single step mode, plays only stops when
+  enter (or return) key is depressed and only the current pattern is played
+  (press Left Shift to go into song mode).
+- Added a function to transpose a range of instruments.
+- Patterns modifications functions are only active when edition mode is on.
+- Transposition functions now keep track of last used instruments to be able
+  to transpose relevant notes used without instruments.
+- Stopping step mode will keep edit mode intact.
+
+v2.8.0 PRE 1
+
+- Sample "Maximize" (Max) is now called "Normalize" (Norm) in samples editor.
+- More visual feedback for currently played sample in samples editor.
+- Added the option to show/clear leading zeroes digits in patterns.
+- Added patterns sliders edition mode (check manual for explanations).
+  Note: This mode can be quite CPU intensive.
+- Fixed various bugs in patterns edition.
+- Channels VU meters were drawn way to many times over each others, fixed.
+- Fixed the audio levels of the channels VU meters.
+- Modified the reverb (should sound better (?)) also added a damp parameter
+  (had to rework some modules due to this).
+- Added effect 2C: Set reverb damp ratio.
+- Improved the volume ramping.
+- Added LCTRL + LALT + HOME / END keyboard shortcuts (jump to top/first track
+  or bottom/last track of a pattern).
+- Added Enter or Return keys for single step play.
+- Fixed channels multi polyphony allocations.
+- Fixed the fullscreen mode switching under AROS.
+- Added an OpenGL executable in AROS distribution (ptk_aros_ogl)
+  for some reason i don't explain it may be slower than the regular one, 
+  your mileage may vary.
+
 v2.7.6
 
 - Fixed keyboard handling on Mac OS.
@@ -779,7 +819,7 @@ v1.83c:
   --- .. .. .. 0000
   --- .. .. .. 0000
   --- .. .. .. 0000
-  --- .. .. .. 1B38 <- Change datas
+  --- .. .. .. 1B38 <- Change data
   --- .. .. .. 0000
   --- .. .. .. 0000
   --- .. .. .. 0000
@@ -837,7 +877,7 @@ v1.82:
 v1.81:
 
 - Blocks commands can now work without a block being actually selected
-  (the complete datas of the current track will be processed in that case).
+  (the complete data of the current track will be processed in that case).
 - Right mouse button in sampler now selects complete sample
   if nothing is already selected (and unselect all if something is).
 - LSHIFT + M: Toggle mute state of the current channel.
