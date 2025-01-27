@@ -7,6 +7,8 @@
 -- misc cleanups/fixes/updates
 - Implement ProTrekkr 2 (https://github.com/hitchhikr/protrekkr) support using the official portable replay
 -- NOTE: NoiseTrekker 1 & 2 and ProTrekkr 1 mods also work, but play incorrectly
+- Allow build time selection of enabled players/replays
+-- for example ./configure --enable-players=uade to only build with UADE
 - Misc fixes and updates
 
 0.12.4 - 2024-01-06
