@@ -8,6 +8,15 @@ make clean && CFLAGS="-Wall -Wpedantic -Wextra -Werror" CXXFLAGS="${CFLAGS}" ./c
 # assert disabled
 #make clean && CPPFLAGS="-DNDEBUG" CFLAGS="-Wall -Wpedantic -Wextra -Werror -Wno-unused" CXXFLAGS="${CFLAGS}" ./configure && make -j check
 
+# -Wformat
+#make clean && CFLAGS="-Wformat=2 -Werror" CXXFLAGS="${CFLAGS}" ./configure && make -j check
+
+# -D_FORTIFY_SOURCE=3 -fstrict-flex-arrays=3
+#make clean && CFLAGS="-O -fstrict-flex-arrays=3 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -Werror" CXXFLAGS="${CFLAGS}" ./configure && make -j check
+
+# -fstack-clash-protection -fstack-protector-strong -fcf-protection=full
+#make clean && CFLAGS="-fstack-clash-protection -fstack-protector-strong -fcf-protection=full -Werror" CXXFLAGS="${CFLAGS}" ./configure && make -j check
+
 # scan-build
 #make clean && ./configure && scan-build -disable-checker unix.Errno -disable-checker deadcode.DeadStores -analyze-headers --status-bugs make -j
 #make clean && ./configure && scan-build -disable-checker unix.Errno --exclude ./uade/src/ -analyze-headers --status-bugs make -j
@@ -19,13 +28,13 @@ make clean && CFLAGS="-Wall -Wpedantic -Wextra -Werror" CXXFLAGS="${CFLAGS}" ./c
 
 # sanitizers
 #make clean && \
-#    CFLAGS="-fsanitize=address -Og -g" CXXFLAGS="${CFLAGS}" LDFLAGS=-fsanitize=address ./configure && \
+#    CFLAGS="-fsanitize=address -fno-sanitize-recover=all -Og -g" CXXFLAGS="${CFLAGS}" LDFLAGS=-fsanitize=address ./configure && \
 #    make -j check
 #make clean && \
-#    CFLAGS="-fsanitize=undefined -Og -g" CXXFLAGS="${CFLAGS}" LDFLAGS=-fsanitize=undefined ./configure && \
+#    CFLAGS="-fsanitize=undefined -fno-sanitize-recover=all -Og -g" CXXFLAGS="${CFLAGS}" LDFLAGS=-fsanitize=undefined ./configure && \
 #    make -j check
 #make clean && \
-#    CFLAGS="-fsanitize=thread -Og -g" CXXFLAGS="${CFLAGS}" LDFLAGS=-fsanitize=thread ./configure && \
+#    CFLAGS="-fsanitize=thread -fno-sanitize-recover=all -Og -g" CXXFLAGS="${CFLAGS}" LDFLAGS=-fsanitize=thread ./configure && \
 #    make -j check
 
 #make clean &&
