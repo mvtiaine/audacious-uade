@@ -72,8 +72,7 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_it2play.la
     3rdparty/replay/it2play/it2play_play.cc \
     3rdparty/replay/it2play/it2play_probe.cc
 
-# try keep byte-by-byte consistent audio output across platforms, by disabling some floating point optimizations
-3rdparty/replay/it2play/% : CXXFLAGS += -ffp-contract=off -fno-fast-math -Wno-misleading-indentation
+3rdparty/replay/it2play/% : CXXFLAGS += -Wno-misleading-indentation
 endif
 
 if PLAYER_st23play

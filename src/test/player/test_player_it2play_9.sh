@@ -20,7 +20,7 @@ TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
 EXPECTED_OUTPUT=$TESTMD5_LITTLE
 
 # XXX it2play WAVWriter driver output can depend on CPU, compiler and libc
-# TODO figure out root cause (powf?)
+# TODO figure out root cause
 OUTPUT=$(eval ${TEST})
 TEST="echo ${OUTPUT}"
 # more "known good" hashes
