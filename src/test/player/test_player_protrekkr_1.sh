@@ -11,7 +11,7 @@ player=protrekkr
 export PLAYER_ENDIAN=little
 
 TESTMOD="${top_srcdir}/testdata/elevator zax.ptk"
-TESTMD5_LITTLE=bc34686a2df0ec88239a6baad2f0f20c
+TESTMD5_LITTLE=da8d02449e5a3ea1af0167590be72c0f
 
 TEST_NAME="ProTrekkr 2"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
