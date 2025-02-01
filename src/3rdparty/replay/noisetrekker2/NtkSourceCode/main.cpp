@@ -2816,7 +2816,7 @@ void init_sample_bank(void)
 	beatsync[inico]=false;
 	beatlines[inico]=16;
 
-	sprintf(nameins[inico],"Unnamed");
+	snprintf(nameins[inico],7,"Unnamed");
 	ResetSynthParameters(&PARASynth[inico]);
 	
 	for (int ced_split=0;ced_split<16;ced_split++)
@@ -2833,7 +2833,7 @@ void init_sample_bank(void)
 	SampleVol[inico][ced_split]=0.0f;
 	FDecay[inico][ced_split]=0.0;
 	Basenote[inico][ced_split]=48;
-	sprintf(SampleName[inico][ced_split],"Unnamed");
+	snprintf(SampleName[inico][ced_split],7,"Unnamed");
 	Midiprg[inico]=-1;
 	Synthprg[inico]=false;
 	CustomVol[inico]=1.0f;
@@ -3772,7 +3772,7 @@ void Sp_Player(void)
 		res_dec=sp_Position[c].half.last;
 
 		currsygnal=Resampler.Work(
-			*(Player_WL[c]+Currentpointer-1),
+			*(Player_WL[c]+(Currentpointer > 0 ? Currentpointer - 1 : Currentpointer)), // mvtiaine: fixed buffer underflow
 			*(Player_WL[c]+Currentpointer),
 			*(Player_WL[c]+Currentpointer+1),
 			*(Player_WL[c]+Currentpointer+2),res_dec,Currentpointer,Rns[c])*sp_Cvol[c]*Player_SV[c];
@@ -3781,7 +3781,7 @@ void Sp_Player(void)
 		{
 		grown=true;
 		currsygnal2=Resampler.Work(
-			*(Player_WR[c]+Currentpointer-1),
+			*(Player_WR[c]+(Currentpointer > 0 ? Currentpointer - 1 : Currentpointer)), // mvtiaine: fixed buffer underflow
 			*(Player_WR[c]+Currentpointer),
 			*(Player_WR[c]+Currentpointer+1),
 			*(Player_WR[c]+Currentpointer+2),res_dec,Currentpointer,Rns[c])*sp_Cvol[c]*Player_SV[c];
@@ -5565,12 +5565,12 @@ fread(&SampleNumSamples[swrite][slwrite], sizeof(int ),1,in);
 fread(&Finetune[swrite][slwrite], sizeof(char ),1,in);
 fread(&SampleVol[swrite][slwrite], sizeof(float ),1,in);
 fread(&FDecay[swrite][slwrite], sizeof(float ),1,in);
-RawSamples[swrite][0][slwrite]=(short *)malloc(SampleNumSamples[swrite][slwrite]*2);
+RawSamples[swrite][0][slwrite]=(short *)malloc(SampleNumSamples[swrite][slwrite]*2 + 6); // mvtiaine: fixed buffer overflow
 fread(RawSamples[swrite][0][slwrite], sizeof(short),SampleNumSamples[swrite][slwrite],in);
 fread(&SampleChannels[swrite][slwrite], sizeof(char ),1,in);
 if (SampleChannels[swrite][slwrite]==2)
 {
-RawSamples[swrite][1][slwrite]=(short *)malloc(SampleNumSamples[swrite][slwrite]*2);
+RawSamples[swrite][1][slwrite]=(short *)malloc(SampleNumSamples[swrite][slwrite]*2 + 6); // mvtiaine: fixed buffer overflow
 fread(RawSamples[swrite][1][slwrite], sizeof(short),SampleNumSamples[swrite][slwrite],in);
 }
 }// Exist Sample

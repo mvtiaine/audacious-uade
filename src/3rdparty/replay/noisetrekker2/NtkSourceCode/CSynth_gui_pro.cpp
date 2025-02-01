@@ -1221,7 +1221,7 @@ void Initreverb()
 	decays[5][0]=  1; decays[5][1]= 19;
 	decays[6][0]= 15; decays[6][1]= -1;
 	decays[7][0]=  1; decays[7][1]= 12;
-	decays[8][0]=  7; decays[8][1]=- 1;
+	decays[8][0]=  7; decays[8][1]= -1; // mvtiaine: fixed warning
 	decays[9][0]=  2; decays[9][1]=  3;
 	
 	delays[0] =  100;

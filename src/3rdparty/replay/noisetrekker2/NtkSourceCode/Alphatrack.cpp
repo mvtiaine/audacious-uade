@@ -409,6 +409,9 @@ void CSynth::SynthReset(void)
 	for (int ini=0;ini<360;ini++)
 		SIN[ini]=(float)sin(ini*0.0174532);
 
+	// mvtiaine: reset also sbuf0 and sbuf1
+	sbuf0 = 0;
+	sbuf1 = 0;
 }
 
 /* This next function returns (gives) a 32-bit float value (sample),
@@ -918,7 +921,7 @@ SynthEnvUpdate(); /* Update envelopes coefficients */
 
 void ResetSynthParameters(SynthParameters *TSP)
 {
-sprintf(TSP->presetname,"Untitled");
+snprintf(TSP->presetname,8,"Untitled");
 TSP->osc1_waveform=1;
 TSP->osc2_waveform=1;
 TSP->osc1_pw=256;
