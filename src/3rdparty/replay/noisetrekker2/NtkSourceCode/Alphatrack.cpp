@@ -990,7 +990,17 @@ float CSynth::SynthFilter(float input)
 	+LFO2_VALUE*LFO2_VCF_CUTOFF
 	+ENV1_VALUE*ENV1_VCF_CUTOFF
 	+ENV2_VALUE*ENV2_VCF_CUTOFF;
-  
+
+	// mvtiaine: XXX the sources included in noisetrekker2 final release
+	// do not match the binary (verified with Ghidra) :(
+	// this very ad hoc hack makes negative resonance values sound more like the real deal
+	// but there is still very audible crackling that should not be there
+	if (ENV1_VCF_RESONANCE < 0.0f)
+		f *= (1.0f + ENV1_VCF_RESONANCE);
+
+	if (ENV2_VCF_RESONANCE < 0.0f)
+		f *= (1.0f + ENV2_VCF_RESONANCE);
+
 	float q=VCF_RESONANCE
 	+LFO1_VALUE*LFO1_VCF_RESONANCE
 	+LFO2_VALUE*LFO2_VCF_RESONANCE

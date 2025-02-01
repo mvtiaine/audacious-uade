@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 // Copyright (C) 2025 Matti Tiainen <mvtiaine@cc.hut.fi>
 
+// NOTE: while the replay code is based on the NoiseTrekker 2 final source
+// the included sources don't actually completely match the final binary (verified with Ghidra).
+// For example negative resonance values in synth filter do not behave the same way
+// and there is audible crackling in some mods not present with the original binary.
+
 #include <mutex>
 
 #include "common/logger.h"
