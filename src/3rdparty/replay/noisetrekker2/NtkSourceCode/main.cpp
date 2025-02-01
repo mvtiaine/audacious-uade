@@ -2,7 +2,7 @@
 /* The Original && Best, NoiseTrekker Main Source Code [Part 1]*/
 
 // Includes ----------------------------------------------------------
-
+#ifndef AUDACIOUS_UADE
 #include <stdio.h>
 #include <CON_All.h>
 #include <windows.h>
@@ -16,6 +16,7 @@
 #include "Alphatrack.cpp"
 #include "tb303.cpp"
 #include "cubicspline.cpp"
+#endif
 
 // Definitions -------------------------------------------------------
 
@@ -52,14 +53,14 @@ int	currentCounter=0;
 // SAMPLE COUNTER
 struct smpos
 {
-	unsigned __int32 last;
-	unsigned __int32 first;
+	__uint32 last;
+	__uint32 first;
 };
 
 union s_access
 {
 	smpos half;
-	unsigned __int64 absolu;
+	__uint64 absolu;
 };
 
 int clipc=0;
@@ -135,7 +136,7 @@ float FADECOEF[MAX_TRACKS];
 CSynth Synthesizer[MAX_TRACKS];
 Cubic Resampler;
 
-char compressor=0; // 0-->Off 1-->On
+int compressor=0; // 0-->Off 1-->On
 int b_buff_xsize=0;
 int b_buff_ysize=0;
 int player_pos=-1;
@@ -171,7 +172,7 @@ bool SACTIVE[256][16];
 unsigned FILETYPE[2048];
 bool grown=false;
 unsigned int Currentpointer=0;
-unsigned __int32 res_dec=0;
+__uint32 res_dec=0;
 int ped_row=0;
 int ped_line=0;
 char appbuffer[_MAX_PATH];
@@ -210,8 +211,8 @@ char SampleChannels[128][16];
 char Player_SC[MAX_TRACKS];
 
 char SampleType[128][16];
-long LoopStart[128][16];
-long LoopEnd[128][16];
+int LoopStart[128][16]; // mvtiaine: long -> int
+int LoopEnd[128][16]; // mvtiaine: long -> int
 unsigned int Player_LS[MAX_TRACKS];
 unsigned int Player_LE[MAX_TRACKS];
 unsigned int Player_LL[MAX_TRACKS];
@@ -220,7 +221,7 @@ unsigned int Player_NS[MAX_TRACKS];
 SynthParameters PARASynth[128];
 char LoopType[128][16];
 char Player_LT[MAX_TRACKS];
-long SampleNumSamples[128][16];
+int SampleNumSamples[128][16]; // mvtiaine: long -> int
 char Finetune[128][16];
 char SampleName[128][16][64];
 float SampleVol[128][16];
@@ -288,9 +289,9 @@ bool draw_sampled_wave=false;
 bool draw_sampled_wave2=false;
 bool draw_sampled_wave3=false;
 
-signed __int64 sp_Step[MAX_TRACKS];
-signed __int64 Vstep1[MAX_TRACKS];
-signed __int64 glidestep[MAX_TRACKS];
+__int64 sp_Step[MAX_TRACKS];
+__int64 Vstep1[MAX_TRACKS];
+__int64 glidestep[MAX_TRACKS];
 float ramper[MAX_TRACKS];
 float fx1[MAX_TRACKS];
 float fx2[MAX_TRACKS];
@@ -385,7 +386,7 @@ char sr_isrecording=0;
 
 int po_shift=0;
 int snamesel=0;
-
+#ifndef AUDACIOUS_UADE
 signed char n_midioutdevices=0;
 signed char n_midiindevices=0;
 MIDIINCAPS caps_midiin[255];
@@ -403,7 +404,7 @@ HDC dc;
 HFONT fnt;
 HFONT old_f;
 MEMORYSTATUS memstate;
-
+#endif // AUDACIOUS_UADE
 rFilter LFP_L;
 rFilter LFP_R;
 
@@ -425,7 +426,7 @@ to the initConsole
 This will attach the function to the library exit code, and will be executed automatically
 */
 // Initializing Console -----------------------------------------
-
+#ifndef AUDACIOUS_UADE
 int initConsole(int& Width, int& Height, int& FullScreen, int& Flags, Screen* S)
 {
 LoadSettings();				/* Load configuration file */
@@ -2792,6 +2793,7 @@ void vloid(void)
 {
 if(!GUIMODE)S->copy(MOUSEBACK, LastX-1, LastY-1,0,0, 10,18,0);
 }
+#endif // AUDACIOUS_UADE
 
 // Bank initializer ---------------------------------------------
 
@@ -2838,7 +2840,7 @@ void init_sample_bank(void)
 	}
 }}
 }
-
+#ifndef AUDACIOUS_UADE
 void AllocateWave(int n_index, long lenfir, int samplechans)
 {
 
@@ -3141,6 +3143,7 @@ valuer_box(188,114,patternLines[pSequence[cPosition]]);
 
 if (userscreen==4)Actualize_Seq_Ed();
 }
+#endif // AUDACIOUS_UADE
 
 int AllocPattern(void)
 {
@@ -3177,13 +3180,19 @@ void FreeAll(void)
 	{
 		for(char pedsplit=0;pedsplit<16;pedsplit++)
 		{
-		if (SampleType[freer][pedsplit]!=0)
-		{free(RawSamples[freer][0][pedsplit]);
-		if (SampleChannels[freer][pedsplit]==2)free(RawSamples[freer][1][pedsplit]);}
+		// mvtiaine: added NULLing
+		if (SampleType[freer][pedsplit]!=0) {
+			free(RawSamples[freer][0][pedsplit]);
+			RawSamples[freer][0][pedsplit]=NULL;
+			if (SampleChannels[freer][pedsplit]==2) {
+				free(RawSamples[freer][1][pedsplit]);
+				RawSamples[freer][1][pedsplit]=NULL;
+			}
+			}
 		}
 	}
 }
-
+#ifndef AUDACIOUS_UADE
 void draw_pated(int pattern,int track, int line, int petrack, int row)
 {
 S->endDraw();
@@ -3613,6 +3622,7 @@ valuer_box2(90,152,ped_pattad);
 valuer_box(258,152,ped_patoct);
 valuer_box(258,134,ped_patsam);
 }
+#endif // AUDACIOUS_UADE
 
 // Main Player Routine ---------------------------------------------
 
@@ -3648,14 +3658,14 @@ void Sp_Player(void)
 				live303(pl_eff_row,pl_dat_row);
 				if(pl_eff_row==49){track3031=ct;Fire303(pl_dat_row,0);}
 				if(pl_eff_row==50){track3032=ct;Fire303(pl_dat_row,1);}
-			
+#ifndef AUDACIOUS_UADE
 				/* MidiController commands */
 				if (pl_pan_row==144 && c_midiout!=-1 && pl_eff_row<128)
 				midiOutShortMsg(midiout_handle, (176+TRACKMIDICHANNEL[ct]) | (pl_eff_row << 8) | (pl_dat_row << 16));
 				
 				if (pl_eff_row==128 && c_midiout!=-1 && pl_dat_row<128)
 				midiOutShortMsg(midiout_handle, (176+TRACKMIDICHANNEL[ct]) | (0 << 8) | (pl_dat_row << 16));
-				
+#endif // AUDACIOUS_UADE
 				if (pl_eff_row==13 && pl_dat_row<64)Patbreak=pl_dat_row;
 				
 				if (pl_note<120)
@@ -3680,9 +3690,10 @@ void Sp_Player(void)
 				
 					Synthesizer[ct].SynthNoteOff();
 					noteoff303(ct); // 303 Note Off...
-
+#ifndef AUDACIOUS_UADE
 					if (c_midiout!=-1)
 					midiOutShortMsg(midiout_handle, (176+ct) | (123 << 8) | (0 << 16)); 					
+#endif
 				}
 
 			}// For loop
@@ -4086,7 +4097,7 @@ void Sp_Playwave(int channel, float note, int sample, float vol, unsigned int of
 	}
 
 	}
-
+#ifndef AUDACIOUS_UADE
 	if(TRACKSTATE[channel]==0 && c_midiout!=-1 && Midiprg[sample]!=-1)
 	{
 	/* haz esta linea si se cambia el programa midi */
@@ -4099,6 +4110,7 @@ void Sp_Playwave(int channel, float note, int sample, float vol, unsigned int of
 	float veloc=vol*mas_vol;
 	midiOutShortMsg(midiout_handle, (144+TRACKMIDICHANNEL[channel]) | (mnote << 8) | (f2i(veloc*255)<< 16));
 	}
+#endif
 	}
 }
 
@@ -4253,7 +4265,7 @@ coeftab[4][cutt][rezz][typp]=coef[4];
 }
 
 }
-
+#ifndef AUDACIOUS_UADE
 void Actualize_Master(char gode)
 {
 
@@ -4339,7 +4351,7 @@ guiDial(456,378,40,16,"Flat2T",200);
 guiDial(456,414,40,16,"Center",200);
 guiDial3(570,388,60,16,"Midi Chnl.",200);
 }
-	
+#endif // AUDACIOUS_UADE
 float Filter( float x, char i)
 {
         float y;
@@ -4437,7 +4449,7 @@ float Bandwidth( int v)
 {
         return float(pow( v/127.0, 4)*4+0.1);
 }
-
+#ifndef AUDACIOUS_UADE
 void Actualize_Track_Ed(char gode)
 {
 if (userscreen==1)
@@ -4578,14 +4590,14 @@ guiDial(x+2+val,y+1,13,14,"",240);
 S->setColor(0,0,0);
 bjbox(x+2+val+16,y+2,64-val,16);
 }
-
+#endif // AUDACIOUS_UADE
 inline int f2i(double d)
 {
   const double magic = 6755399441055744.0; // 2^51 + 2^52
   double tmp = (d-0.5) + magic;
   return *(int*) &tmp;
 }
-
+#ifndef AUDACIOUS_UADE
 void draw_fxed(void)
 {
 guiDial(112,309,64,16,"Track FX",200);
@@ -4975,7 +4987,7 @@ case 8:sprintf(xstr,"%.1f Tk.",cant);break;
 
 guiDial3(x,y,60,16,xstr,150);
 }
-
+#endif // AUDACIOUS_UADE
 
 void DoEffects(void)
 {
@@ -5033,7 +5045,9 @@ for (int trackef=0;trackef<Songtracks;trackef++)
 		}
 
 		Synthesizer[trackef].SynthNoteOff();
+#ifndef AUDACIOUS_UADE
 		if (c_midiout!=-1)midiOutShortMsg(midiout_handle, (176+TRACKMIDICHANNEL[trackef]) | (123 << 8) | (0 << 16)); 
+#endif
 		}
 	}
 	
@@ -5214,7 +5228,7 @@ for (int trackef=0;trackef<Songtracks;trackef++)
 
 }// Function of pattern effects
 
-
+#ifndef AUDACIOUS_UADE
 void Actualize_Main_Ed(void)
 {
 if (userscreen==0)
@@ -5480,15 +5494,20 @@ mess_box("Module save failed...");
 }
 if (snamesel==1 || snamesel==4 || snamesel==5){snamesel=0;Actualize_Main_Ed();}
 }
-
+#endif // AUDACIOUS_UADE
+#ifdef AUDACIOUS_UADE
+bool LoadMod(FILE *in)
+#else
 void LoadMod(void)
+#endif
 {
 SongStop();
 mess_box("Attempting to load the song file...");
-
-Sleep(1000);	
+#ifndef AUDACIOUS_UADE
+Sleep(1000);
 FILE *in;
 in = fopen(name,"rb");
+#endif
 
 if (in!=NULL)
 {
@@ -5539,10 +5558,10 @@ if (SampleType[swrite][slwrite]!=0)
 {
 fread(&SampleName[swrite][slwrite], sizeof(char),256,in);
 fread(&Basenote[swrite][slwrite],sizeof(char),1,in);
-fread(&LoopStart[swrite][slwrite], sizeof(long ),1,in);
-fread(&LoopEnd[swrite][slwrite], sizeof(long ),1,in);
+fread(&LoopStart[swrite][slwrite], sizeof(int ),1,in);
+fread(&LoopEnd[swrite][slwrite], sizeof(int ),1,in);
 fread(&LoopType[swrite][slwrite], sizeof(char ),1,in);
-fread(&SampleNumSamples[swrite][slwrite], sizeof(long ),1,in);
+fread(&SampleNumSamples[swrite][slwrite], sizeof(int ),1,in);
 fread(&Finetune[swrite][slwrite], sizeof(char ),1,in);
 fread(&SampleVol[swrite][slwrite], sizeof(float ),1,in);
 fread(&FDecay[swrite][slwrite], sizeof(float ),1,in);
@@ -5601,17 +5620,17 @@ for (int tps_pos=0;tps_pos<256;tps_pos++){for (int tps_trk=0;tps_trk<16;tps_trk+
 for (int spl=0;spl<MAX_TRACKS;spl++)
 	CCoef[spl]=float((float)CSend[spl]/127.0);
 
-for (twrite=0;twrite<MAX_TRACKS;twrite++)
+for (int twrite=0;twrite<MAX_TRACKS;twrite++)
 fread(&TRACKMIDICHANNEL[twrite], sizeof(int),1,in);
 
-for (twrite=0;twrite<MAX_TRACKS;twrite++)
+for (int twrite=0;twrite<MAX_TRACKS;twrite++)
 {
 fread(&LFO_ON[twrite], sizeof(char),1,in);
 fread(&LFORATE[twrite], sizeof(float),1,in);
 fread(&LFOAMPL[twrite], sizeof(float),1,in);
 }
 
-for (twrite=0;twrite<MAX_TRACKS;twrite++){
+for (int twrite=0;twrite<MAX_TRACKS;twrite++){
 fread(&FLANGER_ON[twrite], sizeof(char),1,in);
 fread(&FLANGER_AMOUNT[twrite], sizeof(float),1,in);
 fread(&FLANGER_DEPHASE[twrite], sizeof(float),1,in);
@@ -5630,7 +5649,7 @@ fread(&TRACKSTATE[tps_trk],sizeof(int),1,in);
 
 fread(&Songtracks,sizeof(char),1,in);
 
-for (tps_trk=0;tps_trk<16;tps_trk++)
+for (char tps_trk=0;tps_trk<16;tps_trk++)
 {
 fread(&Disclap[tps_trk],sizeof(bool),1,in);
 fread(&Dispan[tps_trk],sizeof(bool),1,in);
@@ -5678,11 +5697,13 @@ Actualize_Master(4);
 else
 {
 mess_box("That file is not a NoiseTrekker song-file...");
+return false;
 }
 }
 else
 {
 mess_box("Module loading failed. (Probably: file not found)");
+return false;
 }
 
 if (snamesel==1 || snamesel==4 || snamesel==5)
@@ -5690,7 +5711,7 @@ if (snamesel==1 || snamesel==4 || snamesel==5)
 	snamesel=0;
 	if(userscreen!=8)Actualize_Main_Ed();
 }
-
+return true;
 }
 
 float filter2p(char ch,float input,float f,float q)
@@ -5740,7 +5761,7 @@ float filter2p24d(char ch,float input,float f,float q)
   return buf124[ch];  
 }
 
-
+#ifndef AUDACIOUS_UADE
 void Actualize_Songname(int newletter, char *nam)
 {
 if (newletter==39 && namesize>0){snamesel=0;return;}
@@ -6352,7 +6373,7 @@ guiDial3(128,370,192,16,"None",100);
 }
 
 }
-
+#endif // AUDACIOUS_UADE
 void GetPlayerValues(float master_coef)
 {
 left_chorus=2.0f;
@@ -6378,7 +6399,7 @@ if (left_value<-32767)left_value=-32767;
 if (right_value>32767)right_value=32767;
 if (right_value<-32767)right_value=-32767;
 }
-
+#ifndef AUDACIOUS_UADE
 void GetPlayerValues2(float master_coef)
 {
 left_chorus=2.0f;
@@ -6619,7 +6640,7 @@ if(userscreen==7)
 
 }//User gui screen match
 }
-
+#endif // AUDACIOUS_UADE
 float ApplyLfo(float cy,char trcy)
 {
 	if (LFO_ON[trcy]==1)
@@ -6745,7 +6766,7 @@ fy1[tr]=0.0f;
 fy2[tr]=0.0f;
 xi0[tr]=xi1[tr]=xi2[tr]=0.0f;
 }
-
+#ifndef AUDACIOUS_UADE
 void SeqFill(int st,int en,bool n)
 {
 for(int cl=st;cl<en;cl++)
@@ -6781,7 +6802,7 @@ if(actuloop==2 || actuloop==3)
 }}
 actuloop=0;
 }
-
+#endif // AUDACIOUS_UADE
 float int_filter2p(char ch,float input,float f,float q, float q2)
 {
 q*=0.0787401f;
@@ -6799,7 +6820,7 @@ float filter2px(char ch,float input,float f,float q)
   float output = buf1[ch];  
   return output;
 }
-
+#ifndef AUDACIOUS_UADE
 void SaveInst(void)
 {
 guiDial(172,350,80,16,"Save Inst",100);
@@ -7076,7 +7097,9 @@ free(RawPatterns);
 SaveSettings();
 return 0;
 }
-
+#else
+#include "CSynth_gui_pro.cpp"
+#endif // AUDACIOUS_UADE
 void ComputeStereo(char channel)
 {
 LVol[channel]=1.0f-TPan[channel];

@@ -24,6 +24,10 @@ if PLAYER_libdigibooster3
 player_libplayer_la_SOURCES += player/players/player_libdigibooster3.cc
 endif
 
+if PLAYER_noisetrekker2
+player_libplayer_la_SOURCES += player/players/player_noisetrekker2.cc
+endif
+
 if PLAYER_protrekkr
 player_libplayer_la_SOURCES += player/players/player_protrekkr.cc
 endif

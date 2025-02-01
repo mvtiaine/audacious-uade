@@ -351,6 +351,8 @@ public:
         "ProTrekkr v2.8.1 (BSD-2-Clause)\n"
         "Copyright (C) 2008-2024, Franck Charlet\n"
         "\n"
+        "NoiseTrekker2 final by Arguru\n"
+        "\n"
         "See README for more information\n",
         &plugin_prefs
     };

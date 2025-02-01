@@ -4,7 +4,7 @@
 //
 // CSynth-Noisetrekker GUI functions prototypes 
 //
-
+#ifndef AUDACIOUS_UADE
 void Actualize_SynthParSlider(void)
 {
 switch(ped_synthpar)
@@ -1153,7 +1153,7 @@ void guiDial3(int x,int y, int sx,int sy,const char* str,int brill)
 	
 	S->printXY(x+3, y+1, 0x00BBDDDD, str);	
 }
-
+#endif // AUDACIOUS_UADE
 
 
 void Initreverb()
@@ -1439,7 +1439,7 @@ allBuffer_L6[yb]=0.0f;
 }
 
 }
-
+#ifndef AUDACIOUS_UADE
 void CheckLoops(void)
 {
 if (LoopStart[ped_patsam][ped_split]<0)LoopStart[ped_patsam][ped_split]=0;
@@ -1982,7 +1982,7 @@ void Sp_Player3(void) /* Lowest Quality Player , Standard Mod Properties.*/
 	}// Fortracker
 
 }
-
+#endif // AUDACIOUS_UADE
 
 void Go303(void)
 {
@@ -2092,7 +2092,7 @@ void live303(int pltr_eff_row,int pltr_dat_row)
 	case 60:tb303[1].tune=pltr_dat_row/2;break;
 	}
 }
-
+#ifndef AUDACIOUS_UADE
 void Letter(int x,int y,char ltr,int ys,int y2)
 {
 	switch(ltr)
@@ -2337,3 +2337,4 @@ PARASynth[ped_patsam].env2_osc2_pitch=64+((rand()-16384)/10923);
 
 if (userscreen==6)Actualize_Midi_Ed(1);
 }
+#endif //AUDACIOUS_UADE

@@ -85,6 +85,14 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_st23play.la
     3rdparty/replay/st23play/st23play_probe.cc
 endif
 
+if PLAYER_noisetrekker2
+noinst_LTLIBRARIES += 3rdparty/replay/libreplay_noisetrekker2.la
+3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_noisetrekker2.la
+3rdparty_replay_libreplay_noisetrekker2_la_SOURCES = \
+    3rdparty/replay/noisetrekker2/noisetrekker2.h \
+    3rdparty/replay/noisetrekker2/noisetrekker2_play.cc \
+    3rdparty/replay/noisetrekker2/noisetrekker2_probe.cc
+endif
 if PLAYER_protrekkr
 noinst_LTLIBRARIES += 3rdparty/replay/libreplay_protrekkr.la
 3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_protrekkr.la
@@ -159,6 +167,15 @@ EXTRA_DIST += \
     3rdparty/replay/it2play/loaders/s3m.c \
     3rdparty/replay/st23play/LICENSE \
     3rdparty/replay/st23play/st23play.c \
+    3rdparty/replay/noisetrekker2/whatisnew.txt \
+    3rdparty/replay/noisetrekker2/file_id.diz \
+    3rdparty/replay/noisetrekker2/readme.txt \
+    3rdparty/replay/noisetrekker2/NtkSourceCode/tb303.cpp \
+    3rdparty/replay/noisetrekker2/NtkSourceCode/Alphatrack.cpp \
+    3rdparty/replay/noisetrekker2/NtkSourceCode/CSynth_gui_pro.cpp \
+    3rdparty/replay/noisetrekker2/NtkSourceCode/IMPORTANT_READ.TXT \
+    3rdparty/replay/noisetrekker2/NtkSourceCode/cubicspline.cpp \
+    3rdparty/replay/noisetrekker2/NtkSourceCode/main.cpp \
     3rdparty/replay/protrekkr/LICENSE \
     3rdparty/replay/protrekkr/README.md \
     3rdparty/replay/protrekkr/release/distrib/changes.txt \

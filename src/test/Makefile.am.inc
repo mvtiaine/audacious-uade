@@ -63,6 +63,7 @@ TESTS = \
     test/player/test_player_uade_3.sh \
     test/player/test_player_uade_4.sh \
     test/player/test_player_uade_5.sh \
+    test/player/test_player_noisetrekker2_1.sh \
     test/player/test_player_protrekkr_1.sh \
     test/player/test_player_it2play_1.sh \
     test/player/test_player_it2play_2.sh \
