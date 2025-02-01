@@ -47,10 +47,10 @@ ${?codec:[${codec}${?channels: (${channels}ch)}]}  -  ${?artist:${artist}  -  }$
 - Project might need a new name...
 
 * License (source code)
-The project as a whole is licensed under GPL-2.0-or-later.
-Some parts are also licensed under LGPL-2.0-or-later, specifically sources under src/common, src/converter, src/player and src/songdb.
-See src/3rdparty for 3rd party source code licenses.
-See https://zakalwe.fi/uade/ for UADE license information.
+The project as a whole is licensed under GPL-2.0-or-later. See COPYING for license text.
+Some parts are also licensed under LGPL-2.1-or-later, specifically sources under src/common/, src/converter/, src/player/ and src/songdb/. See COPYING.LGPL for license text.
+See NOTICE for 3rd party source code licenses (sources under src/3rdparty/).
+See uade/COPYING for UADE license information (sources under uade/).
 
 * Dependencies:
 Audacious >= 3.8

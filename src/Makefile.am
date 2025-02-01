@@ -55,7 +55,7 @@ endif
 	cp -rf "$(top_srcdir)/conf/songdb" "$(DESTDIR)$(uadedir)/"
 	cp -rf "$(top_srcdir)/conf/ext" "$(DESTDIR)$(uadedir)/"
 	$(MKDIR_P) "$(DESTDIR)$(uadedir)/doc"
-	cp -f "$(top_srcdir)/README" "$(top_srcdir)/NOTICE" "$(top_srcdir)/AUTHORS" "$(top_srcdir)/COPYING" "$(top_srcdir)/VERSION" "$(top_srcdir)/ChangeLog" "$(DESTDIR)$(uadedir)/doc/"
+	cp -f "$(top_srcdir)/README" "$(top_srcdir)/NOTICE" "$(top_srcdir)/AUTHORS" "$(top_srcdir)/COPYING"* "$(top_srcdir)/VERSION" "$(top_srcdir)/ChangeLog" "$(DESTDIR)$(uadedir)/doc/"
 	$(MKDIR_P) "$(DESTDIR)$(uadedatadir)"
 	cp -f "$(top_srcdir)/conf/song.conf" "$(top_srcdir)/conf/uade.conf" "$(DESTDIR)$(uadedatadir)/"
 	cp -f "$(top_srcdir)/uade/amigasrc/score/score" "$(top_srcdir)/uade/uaerc" "$(top_srcdir)/uade/eagleplayer.conf" "$(DESTDIR)$(uadedatadir)/"
@@ -63,6 +63,8 @@ endif
 	$(MKDIR_P) -m 755 "$(DESTDIR)$(uadelibdir)"
 	$(INSTALL) "$(top_builddir)/uade/src/uadecore" "$(DESTDIR)$(uadelibdir)/"
 	chmod -R 755 "$(DESTDIR)$(uadedir)"
+	$(MKDIR_P) "$(DESTDIR)$(uadedir)/doc/uade"
+	cp -f "$(top_srcdir)/uade/AUTHORS" "$(top_srcdir)/COPYING"* "$(top_srcdir)/ChangeLog" "$(top_srcdir)/README" "$(top_srcdir)/version" "$(DESTDIR)$(uadedir)/doc/uade/"
 
 uninstall-hook:
 	rm -rf "$(DESTDIR)$(uadedir)" || true
