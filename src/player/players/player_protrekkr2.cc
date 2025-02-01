@@ -6,12 +6,12 @@
 #include "common/logger.h"
 #include "player/player.h"
 
-#include "3rdparty/replay/protrekkr/protrekkr.h"
+#include "3rdparty/replay/protrekkr2/protrekkr2.h"
 
 using namespace std;
 using namespace common;
 using namespace player;
-using namespace replay::protrekkr;
+using namespace replay::protrekkr2;
 
 namespace {
 
@@ -20,21 +20,21 @@ constexpr size_t mixBufSize(const int frequency) noexcept {
 }
 
 mutex probe_guard;
-struct protrekkr_context {
+struct protrekkr2_context {
     const bool probe;
     unsigned int length = 0; // song length in millis
 
-    protrekkr_context(const bool probe) noexcept : probe(probe) {
+    protrekkr2_context(const bool probe) noexcept : probe(probe) {
         if (probe) probe_guard.lock();
     }
-    ~protrekkr_context() noexcept {
+    ~protrekkr2_context() noexcept {
         Ptk_Stop();
         Free_Samples();
         if (probe) probe_guard.unlock();
     }
 
     int Load_Ptk(const char *buf, size_t size) noexcept {
-        replay::protrekkr::FILE file = {buf, size, 0};
+        replay::protrekkr2::FILE file = {buf, size, 0};
         if (probe) return probe::Load_Ptk(&file);
         else return play::Load_Ptk(&file);
     }
@@ -61,6 +61,14 @@ struct protrekkr_context {
     int Channels() const noexcept {
         if (probe) return probe::Song_Tracks;
         else return play::Song_Tracks;
+    }
+    string artist() const noexcept {
+        if (probe) return probe::artist;
+        else return play::artist;
+    }
+    string FileName() const noexcept {
+        if (probe) return probe::FileName;
+        else return play::FileName;
     }
     void reset() noexcept {
         if (probe) probe::Init_Tracker_Context_After_ModLoad();
@@ -97,7 +105,7 @@ string get_tracker(const char *buf) noexcept {
 }
 } // namespace {}
 
-namespace player::protrekkr {
+namespace player::protrekkr2 {
 
 void init() noexcept {
     if (!play::Ptk_InitDriver()) assert(false);
@@ -127,13 +135,14 @@ bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
-    protrekkr_context *context = new protrekkr_context(true);
+    protrekkr2_context *context = new protrekkr2_context(true);
+    // TODO assert(!context->moduleLoaded());
     optional<ModuleInfo> info;
     if (context->Load_Ptk(buf, size)) {
         const string tracker = get_tracker(buf);
-        info = ModuleInfo{Player::protrekkr, tracker, path, 1, 1, 1, context->Channels()};
+        info = ModuleInfo{Player::protrekkr2, tracker, path, 1, 1, 1, context->Channels()};
     } else {
-        WARN("player_protrekkr::parse parsing failed for %s\n", path);
+        WARN("player_protrekkr2::parse parsing failed for %s\n", path);
     }
     delete context;
     return info;
@@ -141,22 +150,22 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     assert(subsong == 1);
-    protrekkr_context *context = new protrekkr_context(config.probe);
+    protrekkr2_context *context = new protrekkr2_context(config.probe);
     if (!context->Load_Ptk(buf, size)) {
-        ERR("player_protrekkr::play could not play %s\n", path);
+        ERR("player_protrekkr2::play could not play %s\n", path);
         delete context;
         return {};
     }
     context->Calc_Length();
     context->Ptk_Play();
     // mix rate hard coded to 44100
-    return PlayerState {Player::protrekkr, subsong, MIX_RATE, config.endian != endian::native, context, true, mixBufSize(MIX_RATE), 0};
+    return PlayerState {Player::protrekkr2, subsong, MIX_RATE, config.endian != endian::native, context, true, mixBufSize(MIX_RATE), 0};
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
-    assert(state.player == Player::protrekkr);
+    assert(state.player == Player::protrekkr2);
     assert(size >= mixBufSize(state.frequency));
-    const auto context = static_cast<protrekkr_context*>(state.context);
+    const auto context = static_cast<protrekkr2_context*>(state.context);
     assert(context);
     context->Mixer((Uint8 *)buf, mixBufSize(state.frequency));
     const int64_t bytespersec = 4 * state.frequency;
@@ -165,9 +174,9 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
 }
 
 bool stop(PlayerState &state) noexcept {
-    assert(state.player == Player::protrekkr);
+    assert(state.player == Player::protrekkr2);
     if (state.context) {
-        const auto context = static_cast<protrekkr_context*>(state.context);
+        const auto context = static_cast<protrekkr2_context*>(state.context);
         assert(context);
         delete context;
     }
@@ -175,12 +184,12 @@ bool stop(PlayerState &state) noexcept {
 }
 
 bool restart(PlayerState &state) noexcept {
-    assert(state.player == Player::protrekkr);
-    const auto context = static_cast<protrekkr_context*>(state.context);
+    assert(state.player == Player::protrekkr2);
+    const auto context = static_cast<protrekkr2_context*>(state.context);
     assert(context);
     context->reset();
     context->Ptk_Play();
     return true;
 }
 
-} // namespace player::protrekkr
+} // namespace player::protrekkr2

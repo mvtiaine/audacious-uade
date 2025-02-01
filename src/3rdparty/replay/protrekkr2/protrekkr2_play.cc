@@ -3,11 +3,11 @@
 #include <cassert>
 #include <cstddef>
 
-#include "protrekkr.h"
+#include "protrekkr2.h"
 
 using namespace std;
 
-namespace replay::protrekkr {
+namespace replay::protrekkr2 {
 
 int Read_Data(void *value, int size, int amount, FILE *handle) noexcept {
     ssize_t bytes = min((size_t)(size * amount), handle->size - handle->pos);
@@ -47,4 +47,4 @@ int done = 0;
 #include "release/distrib/replay/lib/tb_303.cpp"
 }
 
-} // namespace replay::protrekkr
+} // namespace replay::protrekkr2

@@ -415,6 +415,9 @@ extern float FLANGER_OFFSET1[MAX_TRACKS];
 extern int Chan_Mute_State[MAX_TRACKS]; // 0->Normal 1->Muted
 extern char Disclap[MAX_TRACKS];
 
+#ifdef AUDACIOUS_UADE
+extern char FileName[21];
+#endif
 extern char artist[20];
 extern char style[20];
 

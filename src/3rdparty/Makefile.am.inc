@@ -112,16 +112,16 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_protrekkr1.la
 
 endif
 
-if PLAYER_protrekkr
-noinst_LTLIBRARIES += 3rdparty/replay/libreplay_protrekkr.la
-3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_protrekkr.la
+if PLAYER_protrekkr2
+noinst_LTLIBRARIES += 3rdparty/replay/libreplay_protrekkr2.la
+3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_protrekkr2.la
 
-3rdparty_replay_libreplay_protrekkr_la_SOURCES = \
-    3rdparty/replay/protrekkr/protrekkr.h \
-    3rdparty/replay/protrekkr/protrekkr_play.cc \
-    3rdparty/replay/protrekkr/protrekkr_probe.cc
+3rdparty_replay_libreplay_protrekkr2_la_SOURCES = \
+    3rdparty/replay/protrekkr2/protrekkr2.h \
+    3rdparty/replay/protrekkr2/protrekkr2_play.cc \
+    3rdparty/replay/protrekkr2/protrekkr2_probe.cc
 
-3rdparty/replay/protrekkr/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-volatile -Wno-unknown-warning-option
+3rdparty/replay/protrekkr2/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-volatile -Wno-unknown-warning-option
 endif
 
 EXTRA_DIST += \
@@ -211,30 +211,30 @@ EXTRA_DIST += \
     3rdparty/replay/protrekkr1/src/editors/include/patterns_blocks.h \
     3rdparty/replay/protrekkr1/src/editors/patterns_blocks.cpp \
     3rdparty/replay/protrekkr1/src/files/files.cpp \
-    3rdparty/replay/protrekkr/LICENSE \
-    3rdparty/replay/protrekkr/README.md \
-    3rdparty/replay/protrekkr/release/distrib/changes.txt \
-    3rdparty/replay/protrekkr/release/distrib/license.txt \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/cubic_spline.h \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/endianness.h \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/ptk_def_properties.h \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/ptkreplay.h \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/replay.h \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/samples_unpack.h \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/spline.h \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/synth.h \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/tb_303.h \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/include/wavpack.h \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/endianness.cpp \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/replay.cpp \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/samples_unpack.cpp \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/spline.cpp \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/synth.cpp \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/tb_303.cpp \
-    3rdparty/replay/protrekkr/release/distrib/replay/lib/wavpack.cpp \
-    3rdparty/replay/protrekkr/src/editors/include/patterns_blocks.h \
-    3rdparty/replay/protrekkr/src/editors/patterns_blocks.cpp \
-    3rdparty/replay/protrekkr/src/files/303s.cpp \
-    3rdparty/replay/protrekkr/src/files/files.cpp \
-    3rdparty/replay/protrekkr/src/files/reverbs.cpp \
-    3rdparty/replay/protrekkr/src/files/synths.cpp
+    3rdparty/replay/protrekkr2/LICENSE \
+    3rdparty/replay/protrekkr2/README.md \
+    3rdparty/replay/protrekkr2/release/distrib/changes.txt \
+    3rdparty/replay/protrekkr2/release/distrib/license.txt \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/include/cubic_spline.h \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/include/endianness.h \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/include/ptk_def_properties.h \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/include/ptkreplay.h \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/include/replay.h \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/include/samples_unpack.h \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/include/spline.h \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/include/synth.h \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/include/tb_303.h \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/include/wavpack.h \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/endianness.cpp \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/replay.cpp \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/samples_unpack.cpp \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/spline.cpp \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/synth.cpp \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/tb_303.cpp \
+    3rdparty/replay/protrekkr2/release/distrib/replay/lib/wavpack.cpp \
+    3rdparty/replay/protrekkr2/src/editors/include/patterns_blocks.h \
+    3rdparty/replay/protrekkr2/src/editors/patterns_blocks.cpp \
+    3rdparty/replay/protrekkr2/src/files/303s.cpp \
+    3rdparty/replay/protrekkr2/src/files/files.cpp \
+    3rdparty/replay/protrekkr2/src/files/reverbs.cpp \
+    3rdparty/replay/protrekkr2/src/files/synths.cpp

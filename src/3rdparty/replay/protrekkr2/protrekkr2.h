@@ -34,7 +34,7 @@ typedef unsigned char uchar;
 typedef int64_t int64;
 typedef uint64_t Uint64;
 
-namespace replay::protrekkr {
+namespace replay::protrekkr2 {
 
 #undef FILE
 struct FILE {
@@ -127,4 +127,4 @@ namespace probe {
 PROTREKKR_NS
 } // namespace probe
 
-} // namespace replay::protrekkr
+} // namespace replay::protrekkr2

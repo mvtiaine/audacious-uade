@@ -86,7 +86,7 @@ AC_ARG_ENABLE(players,
 
 AC_SUBST([players])
 m4_foreach_w([player],
-  [ft2play hivelytracker it2play libdigibooster3 noisetrekker2 protrekkr1 protrekkr st23play st3play uade], [
+  [ft2play hivelytracker it2play libdigibooster3 noisetrekker2 protrekkr1 protrekkr2 st23play st3play uade], [
   AS_VAR_SET([p], [player])
   if test "$players" = "all" || [[[ ",${players}," =~ ",${p}," ]]]; then
     AC_DEFINE_UNQUOTED([PLAYER_[]player[]], [1], [Enable player ]player)

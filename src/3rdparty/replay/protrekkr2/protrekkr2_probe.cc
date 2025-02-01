@@ -3,11 +3,11 @@
 #include <cassert>
 #include <cstddef>
 
-#include "protrekkr.h"
+#include "protrekkr2.h"
 
 using namespace std;
 
-namespace replay::protrekkr::probe {
+namespace replay::protrekkr2::probe {
 char artist[20];
 char style[20];
 char SampleName[128][16][64];

@@ -34,7 +34,7 @@ constexpr int MAX_SILENCE = 3000;
     libdigibooster3, \
     noisetrekker2, \
     protrekkr1, \
-    protrekkr, \
+    protrekkr2, \
     st23play, \
     st3play, \
     it2play, \
@@ -58,7 +58,7 @@ constexpr_f2 std::string name(Player player) noexcept {
         case Player::st23play: return "st23play";
         case Player::noisetrekker2: return "noisetrekker2";
         case Player::protrekkr1: return "protrekkr1";
-        case Player::protrekkr: return "protrekkr";
+        case Player::protrekkr2: return "protrekkr2";
         default: assert(false); return "";
     }
     assert(false);

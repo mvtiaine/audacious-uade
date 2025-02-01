@@ -174,9 +174,9 @@ void Init_Tracker_Context_After_ModLoad(void)
 // ------------------------------------------------------
 // Load a module file
 #ifdef AUDACIOUS_UADE
+char FileName[21];
 int Load_Ptk(FILE *in)
 {
-    char FileName[21];
 #else
 #if !defined(BZR2)
 int Load_Ptk(char *FileName)
