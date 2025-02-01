@@ -58,7 +58,7 @@ struct protrekkr_context {
         if (probe) probe::Free_Samples();
         else play::Free_Samples();
     }
-    int Channels() noexcept {
+    int Channels() const noexcept {
         if (probe) return probe::Song_Tracks;
         else return play::Song_Tracks;
     }
@@ -100,10 +100,10 @@ string get_tracker(const char *buf) noexcept {
 namespace player::protrekkr {
 
 void init() noexcept {
-    play::Ptk_InitDriver();
-    play::Alloc_Patterns_Pool();
-    probe::Ptk_InitDriver();
-    probe::Alloc_Patterns_Pool();
+    if (!play::Ptk_InitDriver()) assert(false);
+    if (!play::Alloc_Patterns_Pool()) assert(false);
+    if (!probe::Ptk_InitDriver()) assert(false);
+    if (!probe::Alloc_Patterns_Pool()) assert(false);
 }
 
 void shutdown() noexcept {
@@ -141,7 +141,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
-    assert(subsong == 1); // TODO subsongs
+    assert(subsong == 1);
     protrekkr_context *context = new protrekkr_context(config.probe);
     if (!context->Load_Ptk(buf, size)) {
         ERR("player_protrekkr::play could not play %s\n", path);

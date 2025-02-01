@@ -9,9 +9,6 @@ using namespace std;
 
 namespace replay::protrekkr {
 
-int Chan_Midi_Prg[MAX_TRACKS];
-char Chan_History_State[256][MAX_TRACKS];
-
 int Read_Data(void *value, int size, int amount, FILE *handle) noexcept {
     ssize_t bytes = min((size_t)(size * amount), handle->size - handle->pos);
     if (bytes <= 0) return 0;

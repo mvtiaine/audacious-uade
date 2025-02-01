@@ -2169,12 +2169,14 @@ void PTKEXPORT Ptk_Stop(void)
     {
         local_ramp_vol = 0.0f;
 
+#ifndef AUDACIOUS_UADE
 #if defined(__MACOSX_PPC__) || defined(__LINUX__) || defined(__AROS__) || defined(__AMIGAOS4__)
         usleep(10);
 #endif
-#if defined(__WIN32__) && !defined(AUDACIOUS_UADE)
+#if defined(__WIN32__)
         Sleep(10);
 #endif
+#endif // AUDACIOUS_UADE
 
 #if !defined(__STAND_ALONE__)
         if(local_curr_ramp_vol == 1.0f || rawrender)

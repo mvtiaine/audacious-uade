@@ -41,7 +41,7 @@
 #else
 #define PTKEXPORT
 #endif
-#endif
+#endif // AUDACIOUS_UADE
 // ------------------------------------------------------
 // Functions
 #if !defined(__WINAMP__)
