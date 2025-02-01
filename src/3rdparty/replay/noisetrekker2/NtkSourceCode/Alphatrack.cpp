@@ -1,4 +1,4 @@
-
+// SPDX-License-Identifier: LicenseRef-NoiseTrekker2
 // CSynth V1.4 Class for C++
 // Description: Analogue Physical Modelling Simulation of monophonic
 // Vintage modular synthesizer in realtime. 32 Bit float resolution.

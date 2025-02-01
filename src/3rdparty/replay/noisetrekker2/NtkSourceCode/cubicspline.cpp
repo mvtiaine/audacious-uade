@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LicenseRef-NoiseTrekker2
 // CUBIC SPLINE FUNCTION
 //
 // Arguru
