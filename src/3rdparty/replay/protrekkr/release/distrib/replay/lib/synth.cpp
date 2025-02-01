@@ -37,7 +37,7 @@
 #endif
 // ------------------------------------------------------
 // Variables
-float SIN[360]; // Sine float-precalculated table, in absolute degrees.
+float SIN[360];     // Sine float-precalculated table, in absolute degrees.
 
 #if defined(PTK_SYNTH)
 

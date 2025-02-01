@@ -57,7 +57,10 @@
     extern SDL_sem *thread_sema;
 #endif
 
+void Compute_Stereo_Quick(int channel);
+
 int SamplesPerTick;
+float SQRT[1025];   // Sqrt float-precalculated table.
 
 #if !defined(__STAND_ALONE__) || defined(__WINAMP__)
     int Beats_Per_Min = 125;
@@ -98,8 +101,13 @@ int PosInTick_Delay;
 
 #if defined(PTK_LFO)
     float LFO_RATE[MAX_TRACKS];
-    float LFO_AMPL[MAX_TRACKS];
-    float LFOGR[MAX_TRACKS];
+    float LFO_RATE_SCALE[MAX_TRACKS];
+    float LFO_AMPL_FILTER[MAX_TRACKS];
+    float LFO_AMPL_VOLUME[MAX_TRACKS];
+    float LFO_AMPL_PANNING[MAX_TRACKS];
+    float LFO_CARRIER_FILTER[MAX_TRACKS];
+    float LFO_CARRIER_VOLUME[MAX_TRACKS];
+    float LFO_CARRIER_PANNING[MAX_TRACKS];
 #endif
 
 char FLANGER_ON[MAX_TRACKS];
@@ -136,9 +144,7 @@ int64 Vstep1[MAX_TRACKS][MAX_POLYPHONY];
     int64 glidestep[MAX_TRACKS];
 #endif
 
-#if defined(PTK_TRACK_EQ)
 EQSTATE EqDat[MAX_TRACKS];
-#endif
 
 #if !defined(__STAND_ALONE__)
 float Default_Pan[MAX_TRACKS] =
@@ -155,6 +161,7 @@ float Default_Pan[MAX_TRACKS] =
 #endif
 
 float TPan[MAX_TRACKS];
+float old_TPan[MAX_TRACKS];
 int old_note[MAX_TRACKS][MAX_POLYPHONY];
 
 s_access sp_Position[MAX_TRACKS][MAX_POLYPHONY];
@@ -874,7 +881,8 @@ int delay_time;
     int pos_scope_latency;
     extern signed char c_midiin;
     extern signed char c_midiout;
-    int plx;
+    int play_pattern;
+    int reset_carriers;
     int Midiprg[128];
     int LastProgram[MAX_TRACKS];
     int wait_level;
@@ -916,7 +924,9 @@ void Clear_Midi_Channels_Pool(void);
 
 // ------------------------------------------------------
 // Functions
-float Apply_Lfo(float cy, int trcy);
+float Apply_Lfo_To_Filter(float value, int channel);
+float Apply_Lfo_To_Volume(int channel);
+float Apply_Lfo_To_Panning(float value, int channel);
 void ComputeCoefs(int freq, int r, int t);
 void Record_Delay_Event();
 
@@ -968,10 +978,20 @@ void Reset_Values(void);
 // -----------------------------------------------------------------------------
 float absf(float x) 
 {
-    *(long *) &x &= 0x7fffffff;
+    *(unsigned int *) &x &= 0x7fffffff;
     return(x);
 }
 
+__inline float denormal(float sample)
+{
+    unsigned int isample;
+    
+    *(unsigned int *) &isample = *(unsigned int *) &sample;
+    unsigned int exponent = isample & 0x7F800000;
+    int aNaN = exponent < 0x7F800000;
+    int aDen = exponent > 0;
+    return sample * (aNaN & aDen);
+}
 // ------------------------------------------------------
 // Audio mixer
 #if !defined(BZR2)
@@ -1032,7 +1052,7 @@ Uint32 STDCALL Mixer(Uint8 *Buffer, Uint32 Len)
                 break;
             }
             
-#endif 
+#endif
 
             Get_Player_Values();
 
@@ -1073,7 +1093,7 @@ Uint32 STDCALL Mixer(Uint8 *Buffer, Uint32 Len)
 #endif
 #endif
 
-#if defined(__MACOSX_PPC__) || defined(__MACOSX_X86__) || defined (BZR2)
+#if defined(__MACOSX_PPC__) || defined(__MACOSX_X86__) || defined(BZR2)
             *pSamples_flt++ = left_float;
             *pSamples_flt++ = right_float;
 #else
@@ -1133,6 +1153,7 @@ Uint32 STDCALL Mixer(Uint8 *Buffer, Uint32 Len)
 // ------------------------------------------------------
 // Init the replayer driver
 #if !defined(__WINAMP__)
+
 #if defined(__WIN32__)
 int STDCALL Ptk_InitDriver(HWND hWnd, int milliseconds)
 {
@@ -1142,12 +1163,16 @@ int STDCALL Ptk_InitDriver(int milliseconds)
 {
     AUDIO_Milliseconds = milliseconds;
 #endif
+
 #else
 int STDCALL Ptk_InitDriver(void)
 {
-#endif
+#endif // !defined(__WINAMP__)
 
     int i;
+
+    left_value = 0;
+    right_value = 0;
 
 #if defined(PTK_SYNTH)
     // Create the stock waveforms
@@ -1250,6 +1275,12 @@ int STDCALL Ptk_InitDriver(void)
         SIN[i] = (float) sinf(i * 0.0174532f);
     }
 
+    // Initializing work panning
+    for(i = 0; i < 1025; i++)
+    {
+        SQRT[i] = (float) sqrtf(i / 1024.0f);
+    }
+
     #if defined(__STAND_ALONE__) && !defined(__WINAMP__)
         #if defined(PTK_USE_SPLINE)
             Spline_Init();
@@ -1275,11 +1306,11 @@ int STDCALL Ptk_InitDriver(void)
 
     AUDIO_Play();
 
-#else  // __WINAMP__
+#else  // !defined(__WINAMP__)
 
     Pre_Song_Init();
 
-#endif // __WINAMP__
+#endif // defined(__WINAMP__)
 
     return(TRUE);
 }
@@ -1814,7 +1845,10 @@ int PTKEXPORT Ptk_InitModule(Uint8 *Module, int start_position)
             if(LFO_ON[twrite])
             {
                 Mod_Dat_Read(&LFO_RATE[twrite], sizeof(float));
-                Mod_Dat_Read(&LFO_AMPL[twrite], sizeof(float));
+                Mod_Dat_Read(&LFO_AMPL_FILTER[twrite], sizeof(float));
+                Mod_Dat_Read(&LFO_AMPL_VOLUME[twrite], sizeof(float));
+                Mod_Dat_Read(&LFO_AMPL_PANNING[twrite], sizeof(float));
+                Mod_Dat_Read(&LFO_RATE_SCALE[twrite], sizeof(float));
 
             }
 #endif
@@ -1892,48 +1926,18 @@ int PTKEXPORT Ptk_InitModule(Uint8 *Module, int start_position)
 // Release the replayer driver
 void PTKEXPORT Ptk_ReleaseDriver(void)
 {
-#if !defined(__STAND_ALONE__)
-    int i;
-#endif
-
 #if !defined(__WINAMP__)
     AUDIO_Stop_Driver();
 #endif
 
-#if !defined(__STAND_ALONE__)
-    for(i = 0; i < MAX_TRACKS; i++)
-    {  
-        // ---
-        if(Scope_Dats[i])
-        {
-            free(Scope_Dats[i]);
-        }
-        Scope_Dats[i] = NULL;
-
-        // ---
-        if(Scope_Dats_L[i])
-        {
-            free(Scope_Dats_L[i]);
-        }
-        Scope_Dats_L[i] = NULL;
-        
-        // ---
-        if(Scope_Dats_R[i])
-        {
-            free(Scope_Dats_R[i]);
-        }
-        Scope_Dats_R[i] = NULL;
-    }
-    if(Scope_Dats_LeftRight[0])
-    {
-        free(Scope_Dats_LeftRight[0]);
-    }
-    Scope_Dats_LeftRight[0] = NULL;
-    if(Scope_Dats_LeftRight[1])
-    {
-        free(Scope_Dats_LeftRight[1]);
-    }
-    Scope_Dats_LeftRight[1] = NULL;
+#if defined(__STAND_ALONE__) && !defined(__WINAMP__)
+    // Free the patterns block
+#if defined(__PSVITA__)
+    if(RawPatterns) PSVITA_free(RawPatterns);
+#else
+    if(RawPatterns) free(RawPatterns);
+#endif
+    RawPatterns = NULL;
 #endif
 
 }
@@ -2182,16 +2186,6 @@ void PTKEXPORT Ptk_Stop(void)
     }
 #endif
 
-#if defined(__STAND_ALONE__) && !defined(__WINAMP__)
-    // Free the patterns block
-#if defined(__PSVITA__)
-    if(RawPatterns) PSVITA_free(RawPatterns);
-#else
-    if(RawPatterns) free(RawPatterns);
-#endif
-    RawPatterns = NULL;
-#endif
-
 }
 
 // ------------------------------------------------------
@@ -2220,10 +2214,7 @@ void Pre_Song_Init(void)
             Chan_Active_State[ini][i] = TRUE;
         }
 
-#if defined(PTK_TRACK_VOLUME)
         Track_Volume[ini] = 1.0f;
-#endif
-
         Track_Surround[ini] = FALSE;
 
 #if defined(PTK_TRACK_EQ)
@@ -2247,7 +2238,13 @@ void Pre_Song_Init(void)
 #if defined(PTK_LFO)
         LFO_ON[ini] = 0;
         LFO_RATE[ini] = 0.0001f;
-        LFO_AMPL[ini] = 0;
+        LFO_RATE_SCALE[ini] = 1.0f;
+        LFO_AMPL_FILTER[ini] = 0.0f;
+        LFO_AMPL_VOLUME[ini] = 0.0f;
+        LFO_AMPL_PANNING[ini] = 0.0f;
+        LFO_CARRIER_FILTER[ini] = 0.0f;
+        LFO_CARRIER_VOLUME[ini] = 0.0f;
+        LFO_CARRIER_PANNING[ini] = 0.0f;
 #endif
 
 #if !defined(__STAND_ALONE__)
@@ -2263,6 +2260,7 @@ void Pre_Song_Init(void)
         FLANGER_OFFSET[ini] = 8192;
 
         TPan[ini] = Default_Pan[ini];
+        old_TPan[ini] = TPan[ini];
         TCut[ini] = 126.0f;
         ICut[ini] = 0.0039062f;
         FType[ini] = 4;
@@ -2304,6 +2302,7 @@ void Pre_Song_Init(void)
 
 #if defined(PTK_LIMITER_TRACKS)
     int j;
+
     for(j = 0; j < MAX_TRACKS; j++)
     {
         mas_comp_threshold_Track[j] = 100.0f;
@@ -2423,6 +2422,7 @@ void Post_Song_Init(void)
 
         }
 
+        old_TPan[i] = TPan[i];
         sp_Tvol_Mod[i] = 1.0f;
 
         Player_FD[i] = 0.0f;
@@ -2467,6 +2467,19 @@ void Post_Song_Init(void)
 
 #if defined(PTK_FX_TRANCEGLIDER)
         glidestep[i] = 0;
+#endif
+
+#if defined(PTK_LFO)
+#if !defined(__STAND_ALONE__)
+        if(reset_carriers)
+        {
+#endif
+        LFO_CARRIER_FILTER[i] = 0.0f;
+        LFO_CARRIER_VOLUME[i] = 0.0f;
+        LFO_CARRIER_PANNING[i] = 0.0f;
+#if !defined(__STAND_ALONE__)
+        }
+#endif
 #endif
 
 #if defined(PTK_FLANGER)
@@ -2834,7 +2847,6 @@ void Sp_Player(void)
                 if(pl_pan_row <= 128)
                 {
                     TPan[ct] = (float) pl_pan_row * 0.0078125f; 
-                    Compute_Stereo(ct);
 
 #if !defined(__STAND_ALONE__)
                     if(userscreen == USER_SCREEN_TRACK_EDIT)
@@ -3145,7 +3157,7 @@ void Sp_Player(void)
                     {
 
 #if !defined(__STAND_ALONE__)
-                        if(!plx)            // Playing a pattern or not ?
+                        if(!play_pattern)            // Playing a pattern or not ?
 #endif
                         {
 
@@ -3220,7 +3232,7 @@ void Sp_Player(void)
                     {
 
 #if !defined(__STAND_ALONE__)
-                        if(!plx)
+                        if(!play_pattern)
 #endif
                         {
 
@@ -3635,6 +3647,8 @@ ByPass_Wav:
 #endif // PTK_SYNTH
 
             // Gather the signals of all the sub channels
+            Curr_Signal_L[i] = denormal(Curr_Signal_L[i]);
+            Curr_Signal_R[i] = denormal(Curr_Signal_R[i]);
             All_Signal_L += Curr_Signal_L[i];
             All_Signal_R += Curr_Signal_R[i];
         }
@@ -3719,6 +3733,9 @@ ByPass_Wav:
             Segue_SamplesR[c] = All_Signal_R;
         }
 
+        All_Signal_L = denormal(All_Signal_L);
+        All_Signal_R = denormal(All_Signal_R);
+
         // -----------------------------------------------
 
 #if defined(PTK_TRACKFILTERS)
@@ -3728,7 +3745,7 @@ ByPass_Wav:
 
             if(dfi < -1.0f || dfi > 1.0f) CCut[c] += dfi * ICut[c];
 
-            realcut = Apply_Lfo(CCut[c] - ramper[c], c);
+            realcut = Apply_Lfo_To_Filter(CCut[c] - ramper[c], c);
 
             ramper[c] += Player_FD[c] * realcut * 0.015625f;
             gco = (int) realcut;
@@ -3964,6 +3981,9 @@ ByPass_Wav:
                                                        FLANGER_AMOUNT[c] +
                                                        roldspawn[c] *
                                                        FLANGER_FEEDBACK[c];
+            FLANGE_LEFTBUFFER[c][FLANGER_OFFSET[c]] = denormal(FLANGE_LEFTBUFFER[c][FLANGER_OFFSET[c]]);
+            FLANGE_RIGHTBUFFER[c][FLANGER_OFFSET[c]] = denormal(FLANGE_RIGHTBUFFER[c][FLANGER_OFFSET[c]]);
+            
             float fstep1;
             float fstep2;
             float gr_value = FLANGER_GR[c] / 6.283185f;
@@ -3973,6 +3993,8 @@ ByPass_Wav:
                 de_value -= 6.283185f;
             }
             de_value = ((de_value / 6.283185f));
+            gr_value = denormal(gr_value);
+            de_value = denormal(de_value);
             fstep1 = POWF2(SIN[(int) (gr_value * 359.0f)] * FLANGER_AMPL[c]);
             fstep2 = POWF2(SIN[(int) (de_value * 359.0f)] * FLANGER_AMPL[c]);
             
@@ -4010,6 +4032,9 @@ ByPass_Wav:
         }
 #endif
 
+        All_Signal_L = denormal(All_Signal_L);
+        All_Signal_R = denormal(All_Signal_R);
+
 #if defined(PTK_LIMITER_TRACKS)
         // Compress the track signal
         if(Compress_Track[c])
@@ -4036,10 +4061,16 @@ ByPass_Wav:
             All_Signal_R = Do_Equ(&EqDat[c], All_Signal_R, 1);
         }
 #endif
+
         if(Track_Surround[c])
         {
             All_Signal_R = -All_Signal_R;
         }
+
+        All_Signal_L = denormal(All_Signal_L);
+        All_Signal_R = denormal(All_Signal_R);
+
+        Compute_Stereo_Quick(c);
 
         All_Signal_L *= LVol[c];
         All_Signal_R *= RVol[c];
@@ -4072,6 +4103,11 @@ ByPass_Wav:
                 if(RVol[c] > Old_RVol[c]) RVol[c] = Old_RVol[c];
             }
         }
+
+#if defined(PTK_LFO)
+        All_Signal_L *= Apply_Lfo_To_Volume(c);
+        All_Signal_R *= Apply_Lfo_To_Volume(c);
+#endif
 
 #if defined(PTK_TRACK_VOLUME)
         All_Signal_L *= Track_Volume[c];
@@ -4106,8 +4142,8 @@ ByPass_Wav:
 #if !defined(__STAND_ALONE__)
         if(!Chan_Mute_State[c])
         {
-            Scope_Dats_L[c][pos_scope] = All_Signal_L / 32767.0f;
-            Scope_Dats_R[c][pos_scope] = All_Signal_R / 32767.0f;
+            Scope_Dats_L[c][pos_scope] = denormal(All_Signal_L / 32767.0f);
+            Scope_Dats_R[c][pos_scope] = denormal(All_Signal_R / 32767.0f);
         }
         else
         {
@@ -4933,6 +4969,103 @@ void Do_Effects_Tick_0(void)
                     break;
 #endif
 
+#if defined(PTK_LFO)
+#if defined(PTK_FX_RESETFILTERLFO)
+                // $16 Set channel filter lfo carrier value
+                case 0x16:
+                    LFO_CARRIER_FILTER[trackef] = ((float) pltr_dat_row[j] / 255.0f) * 359.0f;
+                    LFO_CARRIER_VOLUME[trackef] = ((float) pltr_dat_row[j] / 255.0f) * 359.0f;
+                    LFO_CARRIER_PANNING[trackef] = ((float) pltr_dat_row[j] / 255.0f) * 359.0f;
+                    break;
+#endif
+#endif
+
+#if defined(PTK_LFO)
+#if defined(PTK_FX_SETLFORATE)
+                // $43 Set channel lfo frequency value
+                case 0x43:
+                    LFO_RATE[trackef] = ((float) pltr_dat_row[j] / 255.0f) * 0.0078125f;
+                    if(LFO_RATE[trackef] < 0.0001f) LFO_RATE[trackef] = 0.0001f;
+
+#if !defined(__STAND_ALONE__)
+                    if(userscreen == USER_SCREEN_TRACK_FX_EDIT)
+                    {
+                        gui_action_external |= GUI_UPDATE_EXTERNAL_LFO;
+                    }
+#endif
+                    
+                    break;
+#endif
+#endif
+
+#if defined(PTK_LFO)
+#if defined(PTK_FX_SETLFOSCALE)
+                // $44 Set channel lfo scale value
+                case 0x44:
+                    LFO_RATE_SCALE[trackef] = ((float) pltr_dat_row[j] / 255.0f) * 15.0f + 1.0f;
+
+#if !defined(__STAND_ALONE__)
+                    if(userscreen == USER_SCREEN_TRACK_FX_EDIT)
+                    {
+                        gui_action_external |= GUI_UPDATE_EXTERNAL_LFO;
+                    }
+#endif
+                    
+                    break;
+#endif
+#endif
+
+#if defined(PTK_LFO)
+#if defined(PTK_FX_SETFILTERLFO)
+                // $45 Set channel filter lfo value
+                case 0x45:
+                    LFO_AMPL_FILTER[trackef] = ((float) pltr_dat_row[j] / 255.0f) * 128.0f;
+
+#if !defined(__STAND_ALONE__)
+                    if(userscreen == USER_SCREEN_TRACK_FX_EDIT)
+                    {
+                        gui_action_external |= GUI_UPDATE_EXTERNAL_LFO;
+                    }
+#endif
+
+                    break;
+#endif
+#endif
+
+#if defined(PTK_LFO)
+#if defined(PTK_FX_SETVOLUMELFO)
+                // $46 Set channel volume lfo value
+                case 0x46:
+                    LFO_AMPL_VOLUME[trackef] = ((float) pltr_dat_row[j] / 255.0f) * 128.0f;
+
+#if !defined(__STAND_ALONE__)
+                    if(userscreen == USER_SCREEN_TRACK_FX_EDIT)
+                    {
+                        gui_action_external |= GUI_UPDATE_EXTERNAL_LFO;
+                    }
+#endif
+                    
+                    break;
+#endif
+#endif
+
+#if defined(PTK_LFO)
+#if defined(PTK_FX_SETPANNINGLFO)
+                // $47 Set channel panning lfo value
+                case 0x47:
+                    LFO_AMPL_PANNING[trackef] = ((float) pltr_dat_row[j] / 255.0f) * 128.0f;
+
+#if !defined(__STAND_ALONE__)
+                    if(userscreen == USER_SCREEN_TRACK_FX_EDIT)
+                    {
+                        gui_action_external |= GUI_UPDATE_EXTERNAL_LFO;
+                    }
+#endif
+                    
+                    break;
+#endif
+#endif
+
 #if defined(PTK_FX_SETBPM)
                 // $f0 Set BPM
                 case 0xf0:
@@ -5561,15 +5694,6 @@ void Do_Effects_Ticks_X(void)
                     break;
 #endif
 
-#if defined(PTK_LFO)
-#if defined(PTK_FX_RESETFILTERLFO)
-                // $16 Set filter lfo value
-                case 0x16:
-                    LFOGR[trackef] = ((float) pltr_dat_row[k] / 255.0f) * 359.0f;
-                    break;
-#endif
-#endif
-
 #if defined(PTK_FX_AUTOFADEIN)
                 // $17 Auto fade in xx ticks
                 case 0x17:
@@ -5621,7 +5745,8 @@ void Do_Effects_Ticks_X(void)
                     local_mas_vol = pltr_dat_row[k] / 255.0f;
                     break;
 #endif
-            }
+
+        }
 
 #endif  // PTK_FX_X
 
@@ -5757,29 +5882,119 @@ void Reset_Filters(int tr)
 
 // ------------------------------------------------------
 // Process track filter LFO
-float Apply_Lfo(float cy, int trcy)
+float Apply_Lfo_To_Filter(float value, int channel)
 {
 
 #if defined(PTK_LFO)
-    if(LFO_ON[trcy] == 1)
+    if(LFO_ON[channel] == 1)
     {
-        cy += SIN[(int) (LFOGR[trcy])] * LFO_AMPL[trcy];
-        LFOGR[trcy] += LFO_RATE[trcy];
-        if(LFOGR[trcy] >= 360.0f) LFOGR[trcy] -= 360.0f;
+        if(LFO_AMPL_FILTER[channel] != 0.0f)
+        {
+            value += ((SIN[(int) (LFO_CARRIER_FILTER[channel])] + 1.0f) * 0.5f) * LFO_AMPL_FILTER[channel];
+        }
+        LFO_CARRIER_FILTER[channel] += LFO_RATE[channel] * LFO_RATE_SCALE[channel];
+        if(LFO_CARRIER_FILTER[channel] >= 360.0f) LFO_CARRIER_FILTER[channel] -= 360.0f;
     }
 #endif
 
-    if(cy < 1.0f) cy = 1.0f;
-    if(cy > 126.0f) cy = 126.0f;
-    return cy;
+    if(value < 1.0f) value = 1.0f;
+    if(value > 126.0f) value = 126.0f;
+    return value;
+}
+
+// ------------------------------------------------------
+// Process track volume LFO
+#if defined(PTK_LFO)
+float Apply_Lfo_To_Volume(int channel)
+{
+    float temp_value;
+    float value = 1.0f;
+
+    if(LFO_ON[channel] == 1)
+    {
+        if(LFO_AMPL_VOLUME[channel] != 0.0f)
+        {
+            temp_value = ((SIN[(int) (LFO_CARRIER_VOLUME[channel])] + 1.0f) * 0.5f) * LFO_AMPL_VOLUME[channel];
+            temp_value /= 128.0f;
+            value = 1.0f - temp_value;
+        }
+        LFO_CARRIER_VOLUME[channel] += LFO_RATE[channel] * LFO_RATE_SCALE[channel];
+        if(LFO_CARRIER_VOLUME[channel] >= 360.0f) LFO_CARRIER_VOLUME[channel] -= 360.0f;
+    }
+
+    if(value < 0.0f) value = 0.0f;
+    if(value > 1.0f) value = 1.0f;
+    return value;
+}
+#endif
+
+// ------------------------------------------------------
+// Process track panning LFO
+#if defined(PTK_LFO)
+float Apply_Lfo_To_Panning(float value, int channel)
+{
+    float temp_value;
+
+    // [-0.5f..0.5f]
+    value -= 0.5f;
+    // [-1.0f..1.0f]
+    value *= 2.0f;
+    temp_value = SIN[(int) (LFO_CARRIER_PANNING[channel])] * LFO_AMPL_PANNING[channel];
+    temp_value /= 128.0f;
+    value *= temp_value;
+    // [-0.5f..0.5f]
+    value *= 0.5f;
+    // [0.0f..1.0f]
+    value += 0.5f;
+
+    if(value < 0.0f) value = 0.0f;
+    if(value > 1.0f) value = 1.0f;
+    return value;
+}
+#endif
+
+// ------------------------------------------------------
+// Set stereo panning only when necessary
+void Compute_Stereo_Quick(int channel)
+{
+    float pan_value;
+    int changed = FALSE;
+
+    pan_value = TPan[channel];
+    if(old_TPan[channel] != TPan[channel])
+    {
+        old_TPan[channel] = TPan[channel];
+        changed = TRUE;
+    }
+
+#if defined(PTK_LFO)
+    if(LFO_ON[channel] == 1)
+    {
+        // Check if not 'Off'
+        if(LFO_AMPL_PANNING[channel] != 0.0f)
+        {
+            pan_value = Apply_Lfo_To_Panning(pan_value, channel);
+            LFO_CARRIER_PANNING[channel] += LFO_RATE[channel] * LFO_RATE_SCALE[channel];
+            if(LFO_CARRIER_PANNING[channel] >= 360.0f) LFO_CARRIER_PANNING[channel] -= 360.0f;
+            changed = TRUE;
+        }
+    }
+#endif
+
+    if(changed)
+    {
+        Old_LVol[channel] = SQRT[(int) ((1.0f - pan_value) * 1024.0f)];
+        Old_RVol[channel] = SQRT[(int) (pan_value * 1024.0f)];
+    }
+
 }
 
 // ------------------------------------------------------
 // Set stereo panning
 void Compute_Stereo(int channel)
 {
-    Old_LVol[channel] = sqrtf(1.0f - TPan[channel]);
-    Old_RVol[channel] = sqrtf(TPan[channel]);
+    Old_LVol[channel] = SQRT[(int) ((1.0f - TPan[channel]) * 1024.0f)];
+    Old_RVol[channel] = SQRT[(int) (TPan[channel] * 1024.0f)];
 }
 
 // ------------------------------------------------------
@@ -5837,22 +6052,27 @@ void Get_Player_Values(void)
     rbuff_chorus[rchorus_counter] = right_chorus + rbuff_chorus[rchorus_counter2] * rchorus_feedback;
     if(++lchorus_counter2 > (MIX_RATE * 2)) lchorus_counter2 = MIX_RATE;
     if(++rchorus_counter2 > (MIX_RATE * 2)) rchorus_counter2 = MIX_RATE;
+
+    lbuff_chorus[lchorus_counter2] = denormal(lbuff_chorus[lchorus_counter2]);
+    rbuff_chorus[lchorus_counter2] = denormal(rbuff_chorus[lchorus_counter2]);
+
     float rchore = lbuff_chorus[lchorus_counter2];
     float lchore = rbuff_chorus[rchorus_counter2];
     left_float += lchore;
     right_float += rchore;
-    lchore /= 32767.0f;
-    rchore /= 32767.0f;
 
 #if defined(PTK_COMPRESSOR)
     Reverb_work();
     left_float += left_reverb;
     right_float += right_reverb;
 #endif
-    
+
     left_float /= 32767.0f;
     right_float /= 32767.0f;
 
+    left_float = denormal(left_float);
+    right_float = denormal(right_float);
+    
 #if defined(PTK_LIMITER_MASTER)
 #if !defined(__STAND_ALONE__) || defined(__WINAMP__)
     if(mas_comp_ratio_Master > 0.01f)
@@ -5921,23 +6141,17 @@ void Get_Player_Values(void)
     {
         if(!Chan_Mute_State[c])
         {
-            Scope_Dats_L[c][pos_scope] = ((((Scope_Dats_L[c][pos_scope]// + lchore
-#if defined(PTK_COMPRESSOR)
-//                                         + left_reverb
-#endif
+            Scope_Dats_L[c][pos_scope] = denormal(((((Scope_Dats_L[c][pos_scope]
                                          ) * left_compress
                                          ) * mas_vol
                                          ) * local_curr_mas_vol
-                                         ) * local_curr_ramp_vol;
+                                         ) * local_curr_ramp_vol);
 
-            Scope_Dats_R[c][pos_scope] = ((((Scope_Dats_R[c][pos_scope] //+ rchore
-#if defined(PTK_COMPRESSOR)
-//                                         + right_reverb
-#endif
+            Scope_Dats_R[c][pos_scope] = denormal(((((Scope_Dats_R[c][pos_scope]
                                          ) * right_compress
                                          ) * mas_vol
                                          ) * local_curr_mas_vol
-                                         ) * local_curr_ramp_vol;
+                                         ) * local_curr_ramp_vol);
 
             Scope_Dats[c][pos_scope] = (Scope_Dats_L[c][pos_scope] + Scope_Dats_R[c][pos_scope]) * 1.2f;
         }
@@ -6980,7 +7194,8 @@ void Reverb_work(void)
             }
             nev_l *= Reverb_Damp;
             nev_r *= Reverb_Damp;
-
+            nev_l = denormal(nev_l);
+            nev_r = denormal(nev_r);
             if(++counters_L[i] > 99999) counters_L[i] -= 99999;
             if(++counters_R[i] > 99999) counters_R[i] -= 99999;
             delay_left_buffer[i][counters_L[i]] = nev_l;
@@ -6994,6 +7209,8 @@ void Reverb_work(void)
         {
             l_rout = allpass_filter(allBuffer_L[i], l_rout, delayedCounterL[i]);
             r_rout = allpass_filter(allBuffer_R[i], r_rout, delayedCounterR[i]);
+            l_rout = denormal(l_rout);
+            r_rout = denormal(r_rout);
             if(++delayedCounterL[i] > 5759) delayedCounterL[i] -= 5759;
             if(++delayedCounterR[i] > 5759) delayedCounterR[i] -= 5759;
         }
@@ -7288,6 +7505,11 @@ float Process_Sample(short *Data, int c, int i, unsigned int res_dec)
 }
 
 #if defined(USE_FASTPOW)
+void ToFloat(int *dest, int val)
+{
+    *dest = val;
+}
+
 #if defined(__PSP__)
 float FastPow2(float x)
 {
@@ -7300,41 +7522,7 @@ float FastPow2(float x)
 	: "=r"(result) : "r"(x));
 	return result;
 }
-void ToFloat(int *dest, int val)
-{
-    *dest = val;
-}
-float FastLog(float i)
-{
-	float x;
-	float y;
-	x = (float) (*(int *) &i);
-	x *= 1.0f / (1 << 23);
-	x = x - 127;
-	y = x - floorf(x);
-	y = (y - y * y) * 0.346607f;
-	return x + y;
-}
-float FastPow(float a, float b)
-{
-    return FastPow2(b * FastLog(a));
-}
 #else
-void ToFloat(int *dest, int val)
-{
-    *dest = val;
-}
-float FastLog(float i)
-{
-	float x;
-	float y;
-	x = (float) (*(int *) &i);
-	x *= 1.0f / (1 << 23);
-	x = x - 127;
-	y = x - floorf(x);
-	y = (y - y * y) * 0.346607f;
-	return x + y;
-}
 float FastPow2(float i)
 {
 	float x;
@@ -7345,11 +7533,23 @@ float FastPow2(float i)
 	ToFloat((int *) &x, (int) x);
     return x;
 }
+#endif
+
+float FastLog(float i)
+{
+	float x;
+	float y;
+	x = (float) (*(int *) &i);
+	x *= 1.0f / (1 << 23);
+	x = x - 127;
+	y = x - floorf(x);
+	y = (y - y * y) * 0.346607f;
+	return x + y;
+}
 float FastPow(float a, float b)
 {
     return FastPow2(b * FastLog(a));
 }
-#endif
 #endif
 
 #if defined(PTK_TRACK_EQ)

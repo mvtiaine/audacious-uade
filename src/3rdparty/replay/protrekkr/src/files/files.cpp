@@ -201,6 +201,7 @@ int Load_Ptk(CustomFile customFile)
     int Stereo_Reverb = FALSE;
     int Reverb_Resonance = FALSE;
     int Reverb_Damp_On = FALSE;
+    int extended_LFO = FALSE;
     int Tb303_Scaling = FALSE;
     int Track_Srnd = FALSE;
     int Long_Midi_Prg = FALSE;
@@ -255,7 +256,7 @@ int Load_Ptk(CustomFile customFile)
     {
 
 #if !defined(__WINAMP__)
-        Status_Box("Attempting To Load The Song File...");
+        Status_Box("Attempting To Load The Song File...", TRUE);
 #endif
 
         Song_Playing = FALSE;
@@ -266,6 +267,8 @@ int Load_Ptk(CustomFile customFile)
 
         switch(extension[7])
         {
+            case 'T':
+                extended_LFO = TRUE;
             case 'S':
                 Reverb_Damp_On = TRUE;
             case 'R':
@@ -332,7 +335,7 @@ int Load_Ptk(CustomFile customFile)
 Read_Mod_File:
 
 #if !defined(__WINAMP__)
-        Status_Box("Loading Song -> Header...");
+        Status_Box("Loading Song -> Header...", TRUE);
 #endif
         Free_Samples();
 
@@ -510,8 +513,9 @@ Read_Mod_File:
         }
 
 #if !defined(__WINAMP__)
-        Status_Box("Loading Song -> Sample Data...");
+        Status_Box("Loading Song -> Sample Data...", TRUE);
 #endif
+
         for(int swrite = 0; swrite < MAX_INSTRS; swrite++)
         {
             Read_Mod_Data(&nameins[swrite], sizeof(char), 20, in);
@@ -624,7 +628,7 @@ Read_Mod_File:
         }
 
 #if !defined(__WINAMP__)
-        Status_Box("Loading Song -> Track Info, Patterns And Sequences...");   
+        Status_Box("Loading Song -> Track Info, Patterns And Sequences...", TRUE);
 #endif
 
         Set_Default_Channels_Polyphony();
@@ -726,7 +730,13 @@ Read_Mod_File:
         {
             Read_Mod_Data(&LFO_ON[twrite], sizeof(char), 1, in);
             Read_Mod_Data_Swap(&LFO_RATE[twrite], sizeof(float), 1, in);
-            Read_Mod_Data_Swap(&LFO_AMPL[twrite], sizeof(float), 1, in);
+            Read_Mod_Data_Swap(&LFO_AMPL_FILTER[twrite], sizeof(float), 1, in);
+            if(extended_LFO)
+            {
+                Read_Mod_Data_Swap(&LFO_AMPL_VOLUME[twrite], sizeof(float), 1, in);
+                Read_Mod_Data_Swap(&LFO_AMPL_PANNING[twrite], sizeof(float), 1, in);
+                Read_Mod_Data_Swap(&LFO_RATE_SCALE[twrite], sizeof(float), 1, in);
+            }
         }
         for(twrite = 0; twrite < MAX_TRACKS; twrite++)
         {
@@ -868,7 +878,7 @@ Read_Mod_File:
         Init_Tracker_Context_After_ModLoad();
 
 #if !defined(__WINAMP__)
-        Status_Box("Module Loaded Successfully.");
+        Status_Box("Module Loaded Successfully.", TRUE);
 #endif
 
     }
@@ -876,7 +886,7 @@ Read_Mod_File:
     {
 
 #if !defined(__WINAMP__)
-        Status_Box("Module Loading Failed. (Possible Cause: File Not Found)");
+        Status_Box("Module Loading Failed. (Possible Cause: File Not Found)", TRUE);
 #endif
 
         return(FALSE);
@@ -1269,13 +1279,13 @@ int Save_Ptk(char *FileName, int NewFormat, int Simulate, Uint8 *Memory)
         if(NewFormat)
         {
             sprintf(Temph, "Saving '%s.ptp' Song In Modules Directory...", FileName);
-            Status_Box(Temph);
+            Status_Box(Temph, TRUE);
             sprintf(Temph, "%s" SLASH "%s.ptp", Dir_Mods, FileName);
         }
         else
         {
             sprintf(Temph, "Saving '%s.ptk' Song In Modules Directory...", FileName);
-            Status_Box(Temph);
+            Status_Box(Temph, TRUE);
             sprintf(Temph, "%s" SLASH "%s.ptk", Dir_Mods, FileName);
         }
         in = fopen(Temph, "wb");
@@ -1538,7 +1548,10 @@ int Save_Ptk(char *FileName, int NewFormat, int Simulate, Uint8 *Memory)
             {
                 Write_Mod_Data(&LFO_ON[twrite], sizeof(char), 1, in);
                 Write_Mod_Data_Swap(&LFO_RATE[twrite], sizeof(float), 1, in);
-                Write_Mod_Data_Swap(&LFO_AMPL[twrite], sizeof(float), 1, in);
+                Write_Mod_Data_Swap(&LFO_AMPL_FILTER[twrite], sizeof(float), 1, in);
+                Write_Mod_Data_Swap(&LFO_AMPL_VOLUME[twrite], sizeof(float), 1, in);
+                Write_Mod_Data_Swap(&LFO_AMPL_PANNING[twrite], sizeof(float), 1, in);
+                Write_Mod_Data_Swap(&LFO_RATE_SCALE[twrite], sizeof(float), 1, in);
             }
 
             for(twrite = 0; twrite < MAX_TRACKS; twrite++)
@@ -1633,14 +1646,14 @@ int Save_Ptk(char *FileName, int NewFormat, int Simulate, Uint8 *Memory)
                 {
                     sprintf(name, "Module '%s.ptk' Saved Successfully.", FileName);
                 }
-                Status_Box(name);
+                Status_Box(name, TRUE);
             }
         }
-        if(!Ok_Memory) Status_Box("Not Enough Memory.");
+        if(!Ok_Memory) Status_Box("Not Enough Memory.", TRUE);
     }
     else
     {
-        if(!Simulate) Status_Box("Module Saving Failed.");   
+        if(!Simulate) Status_Box("Module Saving Failed.", TRUE);
     }
 
     return(Mod_Length);
@@ -1766,7 +1779,7 @@ int Pack_Module(char *FileName)
     if(!strlen(FileName))
     {
         sprintf(name, "Can't Save A Module Without A Name...");
-        Status_Box(name);
+        Status_Box(name, TRUE);
         return(FALSE);
     }
 
@@ -1788,7 +1801,7 @@ int Pack_Module(char *FileName)
     output = fopen(Temph, "wb");
     if(output)
     {
-        sprintf(extension, "PROTREKS");
+        sprintf(extension, "PROTREKT");
         Write_Data(extension, sizeof(char), 9, output);
         Write_Data_Swap(&Depack_Size, sizeof(int), 1, output);
         Write_Data(Final_Mem_Out, sizeof(char), Len, output);
@@ -1803,7 +1816,7 @@ int Pack_Module(char *FileName)
     if(Final_Mem) free(Final_Mem);
 
     Clear_Input();
-    Status_Box(name);
+    Status_Box(name, TRUE);
     Read_SMPT();
     last_index = -1;
     Actualize_Files_List(0);
