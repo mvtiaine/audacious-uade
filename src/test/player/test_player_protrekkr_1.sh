@@ -8,20 +8,13 @@ player=protrekkr
 
 #
 
-export PLAYER_ENDIAN=little
+# XXX using precalc as protrekkr output can depend on CPU, compiler and libc
+# TODO figure out root cause
 
 TESTMOD="${top_srcdir}/testdata/elevator zax.ptk"
-TESTMD5_LITTLE=da8d02449e5a3ea1af0167590be72c0f
-
 TEST_NAME="ProTrekkr 2"
-TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
-EXPECTED_OUTPUT=$TESTMD5_LITTLE
-
-# XXX protrekkr output can depend on CPU, compiler and libc
-# TODO figure out root cause
-OUTPUT=$(eval ${TEST})
-TEST="echo ${OUTPUT}"
-# TODO more "known good" hashes
+TEST="${PRECALC} \"${TESTMOD}\""
+EXPECTED_OUTPUT="1373828675fa04145d5e9eb0244b0e24	1	30700	player	protrekkr	ProTrekkr 2.x	12	15436"
 
 . $(dirname "$0")/../common/check.sh
 

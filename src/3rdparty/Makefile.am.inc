@@ -95,8 +95,7 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_protrekkr.la
     3rdparty/replay/protrekkr/protrekkr_probe.cc \
     3rdparty/miniz/miniz.c
 
-# try keep byte-by-byte consistent audio output across platforms, by disabling some floating point optimizations
-3rdparty/replay/protrekkr/% : CXXFLAGS += -fno-strict-aliasing -ffp-contract=off -fno-fast-math -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-volatile -Wno-unknown-warning-option
+3rdparty/replay/protrekkr/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-volatile -Wno-unknown-warning-option
 endif
 
 EXTRA_DIST += \
