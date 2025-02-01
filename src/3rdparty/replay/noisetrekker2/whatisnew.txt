@@ -1,0 +1,137 @@
+NEW! on Noisetrekker2 Final (29-March-2000)
+
+- Fixed some problems with some WAV cHunks.['LIST' cHunk] and 
+  a problem with loop points data on the RIFFWAV 'smpl' cHunk.
+- Csynth: Added Gain parameter.
+- Vumeter goes white when you raise Clipping levels.
+- CSynth: Phase Distortion used instead PW[pulse width].
+  [Warmer oscillators]
+- CSynth: Added volume/portamento[glide] controls.
+- Cooler patternframe skin.
+- Now, the WAVs loop points information are loaded and used.
+  [most WAVs converted from Akai libraries has loop points info]
+- CSynth: VCF -> Stabilized filters + 2 new modes BandPass&BandReject.
+- Some other stuff.
+- SOURCE CODE RELEASED.
+- long live to NOISETREKKER.
+
+* THANX TO ALL PEOPLE THAT SUPPORTED THIS PROJECT 
+  [Amir Geva, F.Portillo, Felix Petrescu, Buzz Crew, Blaster, 
+   Whitenoise, Panic, Tor Inge, Mike Edwards, Csoka Zsolt, 
+   , Galaxee, Ray Lasdak, people I forgot, www.maz-sound.com,  
+   etc... and all DSP junkies around this world]
+
+[Notice I'm not wasting time from Psycle, all those features are used
+ on psycle code, excepts ntk new patternframe skin of course.]
+
+NEW! on Noisetrekker2 R12 (26 -Feb-2000)
+
+- Final Release [Working on Psycle now]
+- Bugfixes and little speeds opt.
+- New patternframe skin.
+
+NEW! on Noisetrekker2 R11 (8-Feb-2000)
+
+- Fixed NoteCut bug command [vol row, $F'x']. [Tor Inge]
+- Fixed volume bug on HighCPU mode.
+- Fixed the annoying bug of the directories on the file browser.
+  [i'm not sure of this, 
+   it works here, please report if I'm right or not]
+- Fixed CPU wasting of time when any cSynth voice was not 
+  producing any sound. [HighCPU mode]
+
+NEW! on Noisetrekker2 R10 (06-Feb-2000)
+
+- Much Faster Playroutine.
+
+NEW! on Noisetrekker2 R9 (05-Feb-2000)
+
+- Upgraded from 32 to 64 Bit sampling point [offset] accuracy.
+  [Much higher precission on playing samples at lower pitches]
+  (32 integers bits/32 decimal bits instead 24/8 of older ntk).
+- Slighty faster resampling algorithm.
+- Samples length up to 65536^2 samples aka 4 Gigas [ehrr,,,, you'll never use
+  this length anyway:]....
+- Spline table resolution upgraded from 256 to 1024 points.
+  [Smoother interpolation]
+- Skinable/bitmapped pattern font, faster editing, nicer looking.
+- 303 Control Tweakings are now auto-written on pattern when 
+  SliderRecord switch is on [great for on-live tweaking recording
+  while song is playing.
+- New synthpresets, accurate playroutine and other minor bugfixes.
+
+NEW! on Noisetrekker2 R8 (01-Feb-2000)
+[Fast Release to avoid Propellerheads Legal stuff]
+
+- Enhanced 303 emulation, better .rbs support. More resonance and
+  filter envelope range.
+- Fixed a little bug on playroutine that crashed ntk.
+- No-longer used Rebirth 303 gfx. New one. Re-designed.
+  No copyright infrightment now. =P [sorry props]
+- 57 new cSynth presets by Michael Wolniak included and other some
+  more by Tor Inge.
+
+NEW! on Noisetrekker R7 (29-Jan-2000)
+
+- 4point cubic Spline RESAMPLING!
+- Fixed glide on tb303s.
+- Two virtual Roland TB303, "Rebirth 338" interface, custom pattern
+  engine, very closed to the real Roland TB sound.
+- 303 Patterns are 'triggerable' from the tracker.
+- Additional pattern commands to change 303 properties [cutoff, rez,
+  tune, envmod, decay, etc...] for automatize control.
+- LowPass/HighPass filter mode switch for the 303s.
+- All ntk track effects can be aplied to the 303 engine.
+  [Distort, Filterbank, Flanger/Chorus, Delay and Reverb]
+- Propellerheads "Rebirth V2.0" .rbs files support [importing patterns].
+- 303 interface [gui] can be  skinable by the user :]
+- 303 engine supported in all CPU modes, [they're pretty fast =]
+- Old Skool Support. ntk now recognizes and read Amiga MOD FILES:
+  [Protracker, Startrekker, 4CH Mod, Soundtracker, Noisetracker]
+  (But will not work with all modules.)
+- Much better and rich reverb engine with filter for hi frequency 
+  dampering.
+- Auto-volume-fade in/Out pattern commands 
+  + another new pattern commands.
+- Bugfix that crashed NTK when a note is played and no instrument
+  number is specified on the pattern.
+- IFF2NTI by krokpitr/AGGES.
+
+- Tb303 is a trademark from Roland.
+- "Rebirth" [c]1996-1998 Propellerhead software.[Steinberg]
+
+I dont matter if i'm violating any copyright stuff in my code...
+I just tried [and sucessfully I think =] clone Roland's TB303 & RB GUI,
+style, but neither Roland/Propellerheads discovered AnalogSynthesizers, 
+so, if my proggy is not legal for the $$$ audio company's , FUCK THEM!
+
+The 303-audio engine/synthesis is 100% new & coded by myself, 
+	absolutely no-hackering from any program used.
+ 
+	Just based on few documentation from the Internet.
+				
+	- The .RBS fileformat information can be accessed in
+			- http://www.wotsit.org -
+-----------------------------------------------------------------------
+
+Noisetrekker r1 update 3 (20-Jan-2000)
+
+- Loop Tempo synchronizer option on instruments [great for fine-looping]
+  It plays samples like ACID. The number of lines to sync can be changed
+  between 1 and 128 lines.
+- Vertical [Amplitude] zoom options on sample editor.
+- Wav-File exporting on sample/instrument editor.
+
+-----------------------------------------------------------------------
+
+Noisetrekker r1 update 2 (18-Jan-2000)
+
+- Added 2 player modes, "Medium" that will disable CSynth and "Lowest"
+  for disable all DSP units (no fx's, dry module, as most trackers) for
+  CPU saving. [Highest Quality is used on wav-rendering anyway]
+- Added "3xx" pattern command for auxiliary volume finetune. Great for
+  fadein/out or dance drumrolls.
+- Added two new options on "sequencer" section.
+- Fixed bugs and several speed-ups optimizations.
+- Some new synthpresets and two example songs.
+
