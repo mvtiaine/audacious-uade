@@ -153,7 +153,6 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
         if (context->ped_line()) bru = true;
         songend |= bru && !context->cPosition() && !context->ped_line();
     }
-    const int64_t bytespersec = 4 * state.frequency;
     return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, mixBufSize(state.frequency));
 }
 
