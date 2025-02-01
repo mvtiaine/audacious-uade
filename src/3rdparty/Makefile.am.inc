@@ -99,6 +99,8 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_noisetrekker2.la
     3rdparty/replay/noisetrekker2/noisetrekker2.h \
     3rdparty/replay/noisetrekker2/noisetrekker2_play.cc \
     3rdparty/replay/noisetrekker2/noisetrekker2_probe.cc
+
+3rdparty/replay/noisetrekker2/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare
 endif
 
 if PLAYER_protrekkr1
