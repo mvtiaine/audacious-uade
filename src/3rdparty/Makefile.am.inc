@@ -4,7 +4,7 @@ noinst_LTLIBRARIES += \
     3rdparty/libreplay.la \
     3rdparty/libminiz.la
 
-3rdparty_libreplay_la_SOURCES = 3rdparty/replay/dummy_replay.c
+3rdparty_libreplay_la_SOURCES =
 
 3rdparty_libminiz_la_SOURCES = \
     3rdparty/miniz/miniz.h \
