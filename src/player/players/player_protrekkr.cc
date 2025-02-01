@@ -116,15 +116,14 @@ void shutdown() noexcept {
 }
 
 bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
-    if (size < 8) return false;
-    return (
         // NoiseTrekker?
+    return size >= 8 && (
         (buf[0] == 'T' && buf[1] == 'W' && buf[2] == 'N' && buf[3] == 'N' &&
          buf[4] == 'S' && buf[5] == 'N' && buf[6] == 'G') ||
         // ProTrekker?
         (buf[0] == 'P' && buf[1] == 'R' && buf[2] == 'O' && buf[3] == 'T' &&
          buf[4] == 'R' && buf[5] == 'E' && buf[6] == 'K')
-    ) && (buf[7] >= '1' && buf[7] <= 'T');
+        ) && (buf[7] >= '1' && buf[7] <= 'T');
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
