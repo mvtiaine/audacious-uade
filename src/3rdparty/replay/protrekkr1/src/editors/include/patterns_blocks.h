@@ -30,14 +30,15 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _PATTERNS_BLOCKS_H_
-#define _PATTERNS_BLOCKS_H_
+#ifndef AUDACIOUS_UADE
+#pragma once
 
 // ------------------------------------------------------
 // Includes
 #if defined(__AROS__)
 #include <string.h>
 #endif
+#endif // AUDACIOUS_UADE
 
 // ------------------------------------------------------
 // Constants
@@ -139,5 +140,3 @@ COLUMN_TYPE Get_Column_Type(char *Buffer, int column);
 int Get_Track_Relative_Column(char *Buffer, int column);
 int Get_Max_Nibble_All_Tracks(void);
 void Clear_Buff(int Idx);
-
-#endif

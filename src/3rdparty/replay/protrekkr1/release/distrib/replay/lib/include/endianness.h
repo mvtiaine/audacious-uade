@@ -30,8 +30,8 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef __ENDIANNESS_H_
-#define __ENDIANNESS_H_
+#ifndef AUDACIOUS_UADE
+#pragma once
 
 #if defined(__WIN32__) && !defined(__GCC__)
 typedef unsigned __int64 Uint64;
@@ -43,6 +43,7 @@ typedef uint64_t Uint64;
 typedef unsigned long long Uint64;
 #endif
 #endif
+#endif // AUDACIOUS_UADE
 
 // ------------------------------------------------------
 // Functions
@@ -74,6 +75,4 @@ short __Swap_16(short Value);
 #define Mot_Swap_32(x) __Swap_32((int) x)
 #define Mot_Swap_16(x) __Swap_16((int) x)
 #endif
-#endif
-
 #endif

@@ -348,7 +348,7 @@ public:
         "st23play v0.35 (BSD-3-Clause)\n"
         "Copyright (c) 2016-2024, Olav Sørensen\n"
         "\n"
-        "ProTrekkr v2.8.1 (BSD-2-Clause)\n"
+        "ProTrekkr v1.99e, v2.8.1 (BSD-2-Clause)\n"
         "Copyright (C) 2008-2024, Franck Charlet\n"
         "\n"
         "NoiseTrekker2 final by Arguru\n"

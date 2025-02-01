@@ -32,7 +32,9 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "include/replay.h"
+#endif
 
 // ------------------------------------------------------
 // Variables

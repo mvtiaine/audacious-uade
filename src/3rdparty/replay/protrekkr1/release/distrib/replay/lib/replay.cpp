@@ -32,6 +32,7 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "include/replay.h"
 #include "include/endianness.h"
 
@@ -48,6 +49,7 @@
 #include "../../../../src/midi/include/midi.h"
 #include "../../../../src/include/variables.h"
 #endif
+#endif // AUDACIOUS_UADE
 
 // ------------------------------------------------------
 // Variables
@@ -917,6 +919,9 @@ short *Unpack_Sample(int Dest_Length, char Pack_Type, int BitRate)
 #endif
 #endif
                 break;
+#ifdef AUDACIOUS_UADE
+            default: assert(false); break;
+#endif
         }
 
         free(Packed_Read_Buffer);
@@ -1600,7 +1605,7 @@ void PTKEXPORT Ptk_Stop(void)
     while(Done_Reset == FALSE && AUDIO_Play_Flag && local_curr_ramp_vol != 0.0f)
     {
         local_ramp_vol = 0.0f;
-
+#ifndef AUDACIOUS_UADE
 #if defined(__MACOSX__)
         usleep(10);
 #endif
@@ -1610,6 +1615,7 @@ void PTKEXPORT Ptk_Stop(void)
 #if defined(__LINUX__) 
         usleep(10);
 #endif
+#endif // AUDACIOUS_UADE
 
     }
 #endif

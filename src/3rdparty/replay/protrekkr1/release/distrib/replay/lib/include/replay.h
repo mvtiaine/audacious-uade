@@ -30,8 +30,8 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _REPLAY_H_
-#define _REPLAY_H_
+#ifndef AUDACIOUS_UADE
+#pragma once
 
 // ------------------------------------------------------
 // Includes
@@ -56,7 +56,7 @@
 #include "samples_unpack.h"
 #include "ptkreplay.h"
 #include "synth.h"
-
+#endif // AUDACIOUS_UADE
 // ------------------------------------------------------
 // Constants
 #define MAX_TRACKS 16
@@ -353,8 +353,8 @@ extern SYNTH_DATA PARASynth[128];
 extern float ramper[MAX_TRACKS];
 extern unsigned char nPatterns;
 extern int delay_time;
-extern int DelayType;
 #endif
+extern int DelayType; // mvtiaine: moved outside #if !defined(__STAND_ALONE__)
 
 // ------------------------------------------------------
 // Functions
@@ -381,5 +381,3 @@ void Mas_Compressor_Set_Variables(float treshold, float ratio);
 int Get_Free_Sub_Channel(int channel, int polyphony);
 int Get_Pattern_Offset(int pattern, int track, int row);
 void InitRevervbFilter(void);
-
-#endif

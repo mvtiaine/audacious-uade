@@ -32,7 +32,9 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "include/spline.h"
+#endif
 
 // ------------------------------------------------------
 // Variables

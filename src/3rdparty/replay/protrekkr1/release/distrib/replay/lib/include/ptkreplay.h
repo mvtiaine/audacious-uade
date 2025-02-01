@@ -30,8 +30,8 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _PTK_REPLAY_H_
-#define _PTK_REPLAY_H_
+#ifndef AUDACIOUS_UADE
+#pragma once
 
 // ------------------------------------------------------
 // Includes
@@ -43,6 +43,7 @@
 #if defined(__LINUX__) || defined(__MACOSX__) || defined(__PSP__) || defined(__AMIGAOS4__) || defined(__AROS__)
 #define PTKEXPORT
 #endif
+#endif // AUDACIOUS_UADE
 
 // ------------------------------------------------------
 // Functions
@@ -62,5 +63,3 @@ void PTKEXPORT Ptk_SetPosition(int position);
 void PTKEXPORT Ptk_Play(void);
 void PTKEXPORT Ptk_Stop(void);
 void PTKEXPORT Ptk_ReleaseDriver(void);
-
-#endif

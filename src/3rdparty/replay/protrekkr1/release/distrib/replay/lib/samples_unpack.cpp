@@ -34,6 +34,7 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #if defined(__WIN32__)
 #include <windows.h>
 #if defined(__GCC__)
@@ -46,7 +47,6 @@
 #endif
 
 #include "include/samples_unpack.h"
-
 // ------------------------------------------------------
 // Variables
 #if defined(__STAND_ALONE__)
@@ -76,6 +76,7 @@ extern MPEGLAYER3WAVEFORMAT MP3_Format;
 #endif
 ACMSTREAMHEADER Unpack_Stream_Head;
 HACMSTREAM Unpack_Stream;
+#endif // AUDACIOUS_UADE
 
 // ------------------------------------------------------
 // Unpack a GSM sample

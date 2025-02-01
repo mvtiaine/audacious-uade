@@ -30,8 +30,8 @@
 // SUCH DAMAGE.
 // ------------------------------------------------------
 
-#ifndef _SYNTH_H_
-#define _SYNTH_H_
+#ifndef AUDACIOUS_UADE
+#pragma once
 
 // ------------------------------------------------------
 // Includes
@@ -50,7 +50,7 @@
 #else
     #include "ptk_def_properties.h"
 #endif
-
+#endif // AUDACIOUS_UADE
 // ------------------------------------------------------
 // Constants
 #define SIZE_WAVEFORMS_SPACE 88200
@@ -65,6 +65,7 @@
 
 // ------------------------------------------------------
 // Types
+#ifndef AUDACIOUS_UADE
 #if defined(__WIN32__) && !defined(__GCC__)
 typedef __int64 int64;
 typedef unsigned __int64 Uint64;
@@ -77,6 +78,7 @@ typedef uint64_t Uint64;
 typedef unsigned long long Uint64;
 #endif
 #endif
+#endif // AUDACIOUS_UADE
 
 extern float SIN[360];
 
@@ -493,6 +495,4 @@ class rFilter
             return buffy1;  
         };
 };
-#endif
-
 #endif

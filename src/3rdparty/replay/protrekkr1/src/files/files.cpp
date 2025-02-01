@@ -32,6 +32,7 @@
 
 // ------------------------------------------------------
 // Includes
+#ifndef AUDACIOUS_UADE
 #include "../extralibs/zlib-1.2.3/zlib.h"
 
 #include "../include/ptk.h"
@@ -52,6 +53,7 @@
 #include "../editors/include/editor_pattern.h"
 
 #include "../../release/distrib/replay/lib/include/endianness.h"
+#endif // AUDACIOUS_UADE
 
 // ------------------------------------------------------
 // Structures
@@ -210,7 +212,9 @@ int Read_Mod_Data_Swap(void *Datas, int Unit, int Length, FILE *Handle);
 int Write_Mod_Data(void *Datas, int Unit, int Length, FILE *Handle);
 int Write_Mod_Data_Swap(void *Datas, int Unit, int Length, FILE *Handle);
 void Pack_Sample(FILE *FileHandle, short *Sample, int Size, char Pack_Type, int BitRate);
+#ifndef AUDACIOUS_UADE
 short *Unpack_Sample(FILE *FileHandle, int Dest_Length, char Pack_Type, int BitRate);
+#endif
 void Read_Synth_Params(int (*Read_Function)(void *, int ,int, FILE *),
                        int (*Read_Function_Swap)(void *, int ,int, FILE *),
                        FILE *in,
@@ -231,7 +235,9 @@ void Write_Unpacked_Sample(int (*Write_Function)(void *, int ,int, FILE *),
 void Swap_Sample(short *buffer, int sample, int bank);
 int Write_Data(void *value, int size, int amount, FILE *handle);
 int Write_Data_Swap(void *value, int size, int amount, FILE *handle);
+#ifndef AUDACIOUS_UADE
 int Read_Data(void *value, int size, int amount, FILE *handle);
+#endif
 int Read_Data_Swap(void *value, int size, int amount, FILE *handle);
 void Load_303_Data(int (*Read_Function)(void *, int ,int, FILE *),
                    int (*Read_Function_Swap)(void *, int ,int, FILE *),
@@ -897,7 +903,12 @@ void Load_Old_Reverb_Presets(int Type)
 
 // ------------------------------------------------------
 // Load a module file
+#ifdef AUDACIOUS_UADE
+char FileName[21];
+int LoadMod(FILE *in)
+#else
 int LoadMod(char *FileName)
+#endif
 {
     int Ye_Old_Phony_Value;
     int New_adsr = FALSE;
@@ -942,9 +953,10 @@ int LoadMod(char *FileName)
 
     Status_Box("Attempting to load the song file...");
 #endif
-
+#ifndef AUDACIOUS_UADE
     FILE *in;
     in = fopen(FileName, "rb");
+#endif
     Old_Ntk = FALSE;
 
     if(in != NULL)
@@ -1155,13 +1167,23 @@ Read_Mod_File:
                 {
                     switch(SampleCompression[swrite])
                     {
+#if defined(PTK_MP3) // mvtiaine: added PTK_MP3 check
                         case SMP_PACK_MP3:
                             Read_Mod_Data(&Mp3_BitRate[swrite], sizeof(char), 1, in);
                             break;
-
+#endif
+#if defined(PTK_AT3) // mvtiaine: added PTK_AT3 check
                         case SMP_PACK_AT3:
                             Read_Mod_Data(&At3_BitRate[swrite], sizeof(char), 1, in);
                             break;
+#endif
+#ifdef AUDACIOUS_UADE
+                        case SMP_PACK_MP3:
+                        case SMP_PACK_AT3:
+                            char dummy;
+                            Read_Mod_Data(&dummy, sizeof(char), 1, in);
+                            break;
+#endif
                     }
                 }
             }
@@ -1383,9 +1405,9 @@ Read_Mod_File:
         Read_Mod_Data_Swap(&tb303engine[1].tbVolume, sizeof(float), 1, in);
         Read_Mod_Data(&tb303engine[0].hpf, sizeof(char), 1, in);
         Read_Mod_Data(&tb303engine[1].hpf, sizeof(char), 1, in);
-
+#ifndef AUDACIOUS_UADE
         fclose(in);
-
+#endif
         if(!New_Reverb)
         {
             // Set the reverb to one of the old presets
@@ -1412,14 +1434,15 @@ Read_Mod_File:
 
 #if !defined(__WINAMP__)
     Clear_Input();
-    if(Mod_Memory) free(Mod_Memory);
 #endif
+    if(Mod_Memory) free(Mod_Memory); // mvtiaine: moved outside #if
 
     return(TRUE);
 }
 
 // ------------------------------------------------------
 // Load and decode a packed sample
+#ifndef AUDACIOUS_UADE
 short *Unpack_Sample(FILE *FileHandle, int Dest_Length, char Pack_Type, int BitRate)
 {
     int Packed_Length;
@@ -1478,6 +1501,7 @@ short *Unpack_Sample(FILE *FileHandle, int Dest_Length, char Pack_Type, int BitR
 
     }
 }
+#endif // AUDACIOUS_UADE
 
 // ------------------------------------------------------
 // Save a packed sample
@@ -1731,6 +1755,7 @@ int File_Exist(char *Format, char *Directory, char *FileName)
 
 // ------------------------------------------------------
 // Return the size of an opened file
+#ifndef AUDACIOUS_UADE
 int Get_File_Size(FILE *Handle)
 {
     int File_Size;
@@ -1742,7 +1767,7 @@ int Get_File_Size(FILE *Handle)
     fseek(Handle, Current_Pos, SEEK_SET);
     return(File_Size);
 }
-
+#endif // AUDACIOUS_UADE
 #if !defined(__WINAMP__)
 // ------------------------------------------------------
 // module saving related functions
@@ -4600,6 +4625,7 @@ void Swap_Sample(short *buffer, int sample, int bank)
 #endif
 }
 
+#ifndef AUDACIOUS_UADE
 // ------------------------------------------------------
 // Create a new buffer and switch the endianness of a sample
 short *Swap_New_Sample(short *buffer, int sample, int bank)
@@ -4647,6 +4673,7 @@ void Write_Unpacked_Sample(int (*Write_Function)(void *, int ,int, FILE *),
         }
     }
 }
+#endif // AUDACIOUS_UADE
 
 // ------------------------------------------------------
 // Load the data of a synth instrument
@@ -4814,7 +4841,7 @@ void Read_Synth_Params(int (*Read_Function)(void *, int ,int, FILE *),
         if(PARASynth[idx].env2_osc2_volume == 64) PARASynth[idx].env2_osc2_volume = 127;
     }
 }
-
+#ifndef AUDACIOUS_UADE
 // ------------------------------------------------------
 // Save the data of a synth instrument
 void Write_Synth_Params(int (*Write_Function)(void *, int ,int, FILE *),
@@ -4904,6 +4931,7 @@ void Write_Synth_Params(int (*Write_Function)(void *, int ,int, FILE *),
     Write_Function(&PARASynth[idx].lfo2_sustain, sizeof(char), 1, in);
     Write_Function_Swap(&PARASynth[idx].lfo2_release, sizeof(int), 1, in);
 }
+#endif // AUDACIOUS_UADE
 
 // ------------------------------------------------------
 // Load a 303 pattern
@@ -4922,6 +4950,7 @@ void Load_303_Data(int (*Read_Function)(void *, int ,int, FILE *),
     Read_Function(&tb303[unit].pattern_name[pattern], sizeof(char), 20, in);
 }
 
+#ifndef AUDACIOUS_UADE
 // ------------------------------------------------------
 // Save a 303 pattern
 void Save_303_Data(int (*Write_Function)(void *, int ,int, FILE *),
@@ -4980,7 +5009,7 @@ int Read_Data(void *value, int size, int amount, FILE *handle)
 {
     return(fread(value, size, amount, handle));
 }
-
+#endif // AUDACIOUS_UADE
 // ------------------------------------------------------
 // Read data from a file taking care of the endianness
 int Read_Data_Swap(void *value, int size, int amount, FILE *handle)

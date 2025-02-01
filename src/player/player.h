@@ -33,6 +33,7 @@ constexpr int MAX_SILENCE = 3000;
     hivelytracker, \
     libdigibooster3, \
     noisetrekker2, \
+    protrekkr1, \
     protrekkr, \
     st23play, \
     st3play, \
@@ -56,6 +57,7 @@ constexpr_f2 std::string name(Player player) noexcept {
         case Player::it2play: return "it2play";
         case Player::st23play: return "st23play";
         case Player::noisetrekker2: return "noisetrekker2";
+        case Player::protrekkr1: return "protrekkr1";
         case Player::protrekkr: return "protrekkr";
         default: assert(false); return "";
     }
