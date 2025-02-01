@@ -1205,8 +1205,8 @@ Read_Mod_File:
                     Read_Mod_Data(&Finetune[swrite][slwrite], sizeof(char), 1, in);
                     Read_Mod_Data_Swap(&SampleVol[swrite][slwrite], sizeof(float), 1, in);
                     Read_Mod_Data_Swap(&FDecay[swrite][slwrite], sizeof(float), 1, in);
-
-                    RawSamples[swrite][0][slwrite] = (short *) malloc(SampleNumSamples[swrite][slwrite] * sizeof(short));
+                    // mvtiaine: fixed buffer overflow by allocating + 6 bytes (chemistry.ptk,alterraid.ptk)
+                    RawSamples[swrite][0][slwrite] = (short *) malloc(SampleNumSamples[swrite][slwrite] * sizeof(short) + 6);
                     Read_Mod_Data(RawSamples[swrite][0][slwrite], sizeof(short), SampleNumSamples[swrite][slwrite], in);
                     Swap_Sample(RawSamples[swrite][0][slwrite], swrite, slwrite);
                     *RawSamples[swrite][0][slwrite] = 0;
@@ -1215,7 +1215,8 @@ Read_Mod_File:
                     Read_Mod_Data(&SampleChannels[swrite][slwrite], sizeof(char), 1, in);
                     if(SampleChannels[swrite][slwrite] == 2)
                     {
-                        RawSamples[swrite][1][slwrite] = (short *) malloc(SampleNumSamples[swrite][slwrite] * sizeof(short));
+                        // mvtiaine: fixed buffer overflow by allocating + 6 bytes (chemistry.ptk,alterraid.ptk)
+                        RawSamples[swrite][1][slwrite] = (short *) malloc(SampleNumSamples[swrite][slwrite] * sizeof(short) + 6);
                         Read_Mod_Data(RawSamples[swrite][1][slwrite], sizeof(short), SampleNumSamples[swrite][slwrite], in);
                         Swap_Sample(RawSamples[swrite][1][slwrite], swrite, slwrite);
                         *RawSamples[swrite][1][slwrite] = 0;

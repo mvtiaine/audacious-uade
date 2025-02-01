@@ -358,7 +358,7 @@ char SampleType[MAX_INSTRS][16];
 char Finetune[MAX_INSTRS][16];
 
 #if !defined(__NO_CODEC__)
-#if !defined(__STAND_ALONE__) && !(__WINAMP__)
+#if !defined(__STAND_ALONE__) && !defined(__WINAMP__) // mvtiaine: fixed __WINAMP__
 char SamplesSwap[MAX_INSTRS];
 short *RawSamples_Swap[MAX_INSTRS][2][16];
 #endif
