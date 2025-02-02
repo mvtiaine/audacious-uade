@@ -2816,7 +2816,7 @@ void init_sample_bank(void)
 	beatsync[inico]=false;
 	beatlines[inico]=16;
 
-	snprintf(nameins[inico],7,"Unnamed");
+	sprintf(nameins[inico],"Unnamed");
 	ResetSynthParameters(&PARASynth[inico]);
 	
 	for (int ced_split=0;ced_split<16;ced_split++)
@@ -2833,7 +2833,7 @@ void init_sample_bank(void)
 	SampleVol[inico][ced_split]=0.0f;
 	FDecay[inico][ced_split]=0.0;
 	Basenote[inico][ced_split]=48;
-	snprintf(SampleName[inico][ced_split],7,"Unnamed");
+	sprintf(SampleName[inico][ced_split],"Unnamed");
 	Midiprg[inico]=-1;
 	Synthprg[inico]=false;
 	CustomVol[inico]=1.0f;

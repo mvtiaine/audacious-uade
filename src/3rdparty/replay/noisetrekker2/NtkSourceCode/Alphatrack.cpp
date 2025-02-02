@@ -921,7 +921,7 @@ SynthEnvUpdate(); /* Update envelopes coefficients */
 
 void ResetSynthParameters(SynthParameters *TSP)
 {
-snprintf(TSP->presetname,8,"Untitled");
+sprintf(TSP->presetname,"Untitled");
 TSP->osc1_waveform=1;
 TSP->osc2_waveform=1;
 TSP->osc1_pw=256;
