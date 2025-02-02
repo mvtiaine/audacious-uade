@@ -1672,7 +1672,7 @@ int16_t msynth_panenv_interpolator(struct EnvInterp *evi, struct DB3ModEnvelope 
 	if (evi->TickCtr == 0)   // end of section, fetch next one
 	{
 		if (evi->Section == evi->LoopEnd) evi->Section = mde->LoopFirst;
-		evi->YStart = mde->Points[evi->Section].Value << 7;
+		evi->YStart = (int16_t)(((uint16_t)mde->Points[evi->Section].Value) << 7); // mvtiaine: fixed UB
 		if (evi->Section == evi->SustainA) return evi->YStart;
 		else if (evi->Section == evi->SustainB) return evi->YStart;
 		else if (evi->Section >= mde->NumSections) return evi->YStart;
@@ -1680,7 +1680,7 @@ int16_t msynth_panenv_interpolator(struct EnvInterp *evi, struct DB3ModEnvelope 
 		{
 			evi->XDelta = mde->Points[evi->Section + 1].Position - mde->Points[evi->Section].Position;
 			evi->TickCtr = evi->XDelta;
-			evi->YDelta = (mde->Points[evi->Section + 1].Value << 7) - evi->YStart;
+			evi->YDelta = (int16_t)((uint16_t)mde->Points[evi->Section + 1].Value << 7) - evi->YStart; // mvtiaine: fixed UB
 			evi->Section++;
 		}
 	}

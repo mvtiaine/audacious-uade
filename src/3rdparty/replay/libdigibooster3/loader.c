@@ -701,7 +701,7 @@ static int read_sample_data_8bit(struct DataChunk *dc, struct DB3ModSample *ms, 
 			for (frame = 0; frame < block; frame++)
 			{
 				x = *ps++;
-				*pd++ = ((int16_t)x) << 8;
+				*pd++ = ((uint16_t)((int16_t)x)) << 8; // mvtiaine: fixed UB
 			}
 
 			bytes -= block;
@@ -735,7 +735,8 @@ static int read_sample_data_16bit(struct DataChunk *dc, struct DB3ModSample *ms,
 				for (frame = 0; frame < (block >> 1); frame++)
 				{
 					x = *ps++;
-					*pd++ = ((x >> 8) & 0xFF) | (x << 8);
+					uint16_t ux = (uint16_t)x;
+					*pd++ = ((ux >> 8) & 0xFF) | (ux << 8); // mvtiaine: fixed UB
 				}
 
 				bytes -= block;
