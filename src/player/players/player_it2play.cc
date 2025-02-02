@@ -259,8 +259,11 @@ constexpr bool isIT(const char *buf, size_t size) noexcept {
         const uint32_t patOffset0 = smpOffset0 + h->SmpNum * 4;
         if (patOffset0 + 4 >= size)
             return false;
-        const le_uint32_t *smpPos = (const le_uint32_t *)&buf[smpOffset0];
-        const le_uint32_t *patPos = (const le_uint32_t *)&buf[patOffset0];
+        le_uint32_t smpVal, patVal;
+        memcpy(&smpVal, &buf[smpOffset0], sizeof(le_uint32_t));
+        memcpy(&patVal, &buf[patOffset0], sizeof(le_uint32_t));
+        const le_uint32_t *smpPos = &smpVal;
+        const le_uint32_t *patPos = &patVal;
         if (h->Cwtv == 0x0202 && h->Cmwt == 0x0200 && h->HighLightMajor == 0 && h->HighLightMinor == 0 && h->Reserved == 0 && patPos[0] != 0 && patPos[0] < smpPos[0]) {
             // ModPlug Tracker 1.0 pre-alpha / alpha
             return false;
@@ -307,7 +310,7 @@ pair<vector<int16_t>, uint8_t> get_subsongs_and_channels(it2play_context *contex
 
     set<int16_t> seen;
     set<int16_t> notseen;
-    for (int i = 0; i < context->Song().Header.OrdNum; ++i) {
+    for (int i = 0; i < context->Song().Header.OrdNum && i < MAX_ORDERS; ++i) {
         if (context->Song().Orders[i] <= context->Song().Header.PatNum)
             notseen.insert(i);
     }
@@ -364,7 +367,8 @@ pair<vector<int16_t>, uint8_t> get_subsongs_and_channels(it2play_context *contex
                 jump = true;
             }
             pattPos = posJump.second == -1 ? 0 : posJump.second;
-       	    if (pattPos >= context->Song().Patt[context->Song().Orders[songPos]].Rows)
+            int nextPattNr = context->Song().Orders[songPos];
+       	    if (nextPattNr >= PATT_SEP || pattPos >= context->Song().Patt[nextPattNr].Rows)
                 pattPos = 0;
             if (oldPos == songPos && oldPatt == pattPos)
                 break;
