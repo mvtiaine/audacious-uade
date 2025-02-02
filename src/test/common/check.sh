@@ -14,9 +14,13 @@ if [[ ! "$TEST_OUTPUT" =~ .*$EXPECTED_OUTPUT.* ]]; then
     echo "------------TEST OUTPUT------------"
     echo $TEST_OUTPUT
     echo "-----------------------------------"
+else
+    SUCCESS="yes"
+fi
+
+if [ "$SUCCESS" != "yes" ]; then
     echo "FAILURE"
     exit 1
 fi
 
 echo "SUCCESS"
-
