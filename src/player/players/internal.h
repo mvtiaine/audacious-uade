@@ -39,7 +39,9 @@ inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf,
     int16_t insnum = *(le_uint16_t *)&buf[0x22];
     uint16_t gusAddresses = 0;
     for (auto i = 0; i < insnum; ++i) {
-        uint16_t offs = *(le_uint16_t *)&buf[0x60 + ordNum + (i * 2)] << 4;
+        // avoid UB read
+        uint16_t offs = ((unsigned char)buf[0x60 + ordNum + (i * 2) + 1] << 8 |
+                         (unsigned char)buf[0x60 + ordNum + (i * 2)]) << 4;
         if (offs == 0)
             continue; // empty
         assert((size_t)offs + 0x28 < size);
