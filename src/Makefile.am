@@ -64,7 +64,7 @@ endif
 	$(INSTALL) "$(top_builddir)/uade/src/uadecore" "$(DESTDIR)$(uadelibdir)/"
 	chmod -R 755 "$(DESTDIR)$(uadedir)"
 	$(MKDIR_P) "$(DESTDIR)$(uadedir)/doc/uade"
-	cp -f "$(top_srcdir)/uade/AUTHORS" "$(top_srcdir)/COPYING"* "$(top_srcdir)/ChangeLog" "$(top_srcdir)/README" "$(top_srcdir)/version" "$(DESTDIR)$(uadedir)/doc/uade/"
+	cp -f "$(top_srcdir)/uade/AUTHORS" "$(top_srcdir)/uade/COPYING"* "$(top_srcdir)/uade/ChangeLog" "$(top_srcdir)/uade/README" "$(top_srcdir)/uade/version" "$(DESTDIR)$(uadedir)/doc/uade/"
 
 uninstall-hook:
 	rm -rf "$(DESTDIR)$(uadedir)" || true
