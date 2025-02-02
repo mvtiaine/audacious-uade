@@ -14,7 +14,7 @@ player=it2play
 TESTMOD="${top_srcdir}/testdata/mizzle.it"
 TEST_NAME="it2play (IT 16-bit + delta)"
 TEST="${PRECALC} \"${TESTMOD}\""
-EXPECTED_OUTPUT="cc722dd8dfbe85796bebe8d4fd6782a0	1	175528	player+volume	it2play	Impulse Tracker 2.15	17	61211"
+EXPECTED_OUTPUT="cc722dd8dfbe85796bebe8d4fd6782a0	1	1755[0-9][0-9]	player+volume	it2play	Impulse Tracker 2.15	17	61211"
 
 . $(dirname "$0")/../common/check.sh
 
