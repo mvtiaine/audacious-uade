@@ -1550,7 +1550,7 @@ void msynth_tick_gains_and_pitch(struct ModSynth *msyn)
 	for (track = 0; track < msyn->Mod->NumTracks; track++)
 	{
 		struct ModTrack *mt = &msyn->Tracks[track];
-		int32_t vol, volc, pan, pitch, p2;
+		int32_t vol, volc, pan = 0, pitch, p2;
 		int16_t p1;
 		struct DSPTag tags[2] = { 
 			{ DSPA_Panning, 0 },
@@ -1571,7 +1571,8 @@ void msynth_tick_gains_and_pitch(struct ModSynth *msyn)
 		// mt->Panning   <-128 * speed, +128 * speed>   |  pan  <-16384, +16384>
 
 		volc = ((int32_t)mt->Volume << 8) / msyn->Speed;
-		pan = ((int32_t)mt->Panning << 7) / msyn->Speed;
+		if (mt->Panning > 0) // mvtiaine: fixed UB
+			pan = ((int32_t)mt->Panning << 7) / msyn->Speed;
 
 		// Apply envelopes. Volume envelope is just multiplied with the current
 		// gain and renormalized (gain: <0, +16384>, vol envelope <0, +16384>).
