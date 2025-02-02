@@ -471,7 +471,8 @@ static bool GetPatternLength(uint16_t Rows, uint16_t *LengthOut)
 				}
 			}
 
-			uint16_t EfxAndParam = ((uint16_t)Src[4] << 8) | Src[3]; // mvtiaine: fixed UB
+			uint16_t EfxAndParam;
+			memcpy(&EfxAndParam, &Src[3], sizeof(uint16_t));  // mvtiaine: fixed UB
 			if (EfxAndParam != 0)
 			{
 				if (*(uint16_t *)&Enc[4] != EfxAndParam)
@@ -562,7 +563,8 @@ static void EncodePattern(pattern_t *p, uint8_t Rows)
 				}
 			}
 
-			uint16_t EfxAndParam = ((uint16_t)Src[4] << 8) | Src[3]; // mvtiaine: fixed UB
+			uint16_t EfxAndParam;
+			memcpy(&EfxAndParam, &Src[3], sizeof(uint16_t));  // mvtiaine: fixed UB
 			if (EfxAndParam != 0)
 			{
 				if (EfxAndParam != *(uint16_t *)&Enc[4])
