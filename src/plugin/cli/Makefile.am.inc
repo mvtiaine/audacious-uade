@@ -13,6 +13,8 @@ EXTRA_DIST += \
 plugin_cli_common_SOURCES = \
 	plugin/cli/common/logger.cc
 
+plugin/cli/common/logger.% : CXXFLAGS += -Wno-format-nonliteral
+
 # converter
 plugin_cli_converter_converter_SOURCES = \
     $(plugin_cli_common_SOURCES) \
