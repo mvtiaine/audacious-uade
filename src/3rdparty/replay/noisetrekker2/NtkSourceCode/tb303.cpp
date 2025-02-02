@@ -218,7 +218,7 @@ void gear303::tbNoteOn(int tbNote,para303 *PARAT303)
 
 	// Aqui se mira el glide de atras...
 
-	char tbLine2=tbLine-1;
+	char tbLine2=tbLine > 0 ? tbLine-1 : 0; // mvtiaine: fixed OOB
 	if(tbLine<0)tbLine=PARAT303->patternlength[tbPattern]-1;
 	bool forcefault=true;
 	if(PARAT303->flag[tbPattern][tbLine2].slide_flag)
