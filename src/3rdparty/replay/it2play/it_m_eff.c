@@ -318,8 +318,8 @@ static void NoOldEffect(hostChn_t *hc, uint8_t hcFlags)
 			InitCommandX2(hc, vol - 128);
 		}
 
-		if (!(hc->NotePackMask & 0x22) || hc->Smp == 0) // Instrument present?
-		{
+		if (!(hc->NotePackMask & 0x22) || hc->Smp == 0 || hc->Smp > MAX_SAMPLES) // Instrument present?
+		{ // mvtiaine: added MAX_SAMPLES sanity check
 			InitNoCommand3(hc, hcFlags);
 			return;
 		}
