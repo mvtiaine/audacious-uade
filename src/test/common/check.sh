@@ -8,14 +8,14 @@ echo Running ${TEST}
 #TEST_OUTPUT=$(eval time ${TEST})
 TEST_OUTPUT=$(eval ${TEST})
 
-if [[ ! "$TEST_OUTPUT" =~ .*$EXPECTED_OUTPUT.* ]]; then
+if [[ "$TEST_OUTPUT" =~ .*$EXPECTED_OUTPUT.* ]]; then
+    SUCCESS="yes"
+else
     echo "----------EXPECTED OUTPUT----------"
     echo $EXPECTED_OUTPUT
     echo "------------TEST OUTPUT------------"
     echo $TEST_OUTPUT
     echo "-----------------------------------"
-else
-    SUCCESS="yes"
 fi
 
 if [ "$SUCCESS" != "yes" ]; then
