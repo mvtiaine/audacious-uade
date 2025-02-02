@@ -112,7 +112,7 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_protrekkr1.la
     3rdparty/replay/protrekkr1/protrekkr1_play.cc \
     3rdparty/replay/protrekkr1/protrekkr1_probe.cc
 
-3rdparty/replay/protrekkr1/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-type-limits
+3rdparty/replay/protrekkr1/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-type-limits -Wno-volatile -Wno-unknown-warning-option
 endif
 
 if PLAYER_protrekkr2
