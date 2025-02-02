@@ -14,7 +14,7 @@ player=it2play
 TESTMOD="${top_srcdir}/testdata/syoa.s3m"
 TEST_NAME="it2play (S3M)"
 TEST="${PRECALC} \"${TESTMOD}\""
-EXPECTED_OUTPUT="071c79fb4583effc70d473c9b976f1a0	1	203169	player+silence	it2play	Impulse Tracker 2.14	14	51174"
+EXPECTED_OUTPUT="071c79fb4583effc70d473c9b976f1a0	1	203169	player\+silence	it2play	Impulse Tracker 2.14	14	51174"
 
 . $(dirname "$0")/../common/check.sh
 

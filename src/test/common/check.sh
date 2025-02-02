@@ -8,7 +8,7 @@ echo Running ${TEST}
 #TEST_OUTPUT=$(eval time ${TEST})
 TEST_OUTPUT=$(eval ${TEST})
 
-if [[ "$TEST_OUTPUT" =~ ".*$EXPECTED_OUTPUT.*" ]]; then
+if [[ ! "$TEST_OUTPUT" =~ .*$EXPECTED_OUTPUT.* ]]; then
     echo "----------EXPECTED OUTPUT----------"
     echo $EXPECTED_OUTPUT
     echo "------------TEST OUTPUT------------"
