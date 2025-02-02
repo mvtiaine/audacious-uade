@@ -1235,7 +1235,7 @@ int STDCALL Ptk_InitDriver(void)
 
 #if defined(PTK_SYNTH_SAW)
         // There's a problem with fmodf->signed short in mingw here
-        temp_saw = (unsigned short) (fmodf(x * 2.0f, 64.0f) * 32767.0f);
+        temp_saw = (short) fminf((fmodf(x * 2.0f, 64.0f) * 32767.0f), 32767.0f); // mvtiaine: fixed undefined behaviour
         *wav_saw++ = (short) (((float) (short) temp_saw));
 #endif
 
@@ -1245,7 +1245,7 @@ int STDCALL Ptk_InitDriver(void)
         //*wav_saw++ = (short) (value2 * 16384.0f);
 
 #if defined(PTK_SYNTH_SIN)
-        *wav_sin++ = (unsigned short) (sinf(value) * 32767.0f);
+        *wav_sin++ = (short) (sinf(value) * 32767.0f); // mvtiaine: fixed undefined behaviour
 #endif
 
 #if defined(PTK_SYNTH_WHITE)
@@ -7532,6 +7532,7 @@ float FastPow2(float i)
 	y = (y - y * y) * 0.33971f;
 	x = i + 127 - y;
 	x *= (1 << 23);
+    if (x > INT_MAX || x < INT_MIN) x = (x > INT_MAX) ? INT_MAX : INT_MIN; // mvtiaine: added range check
 	ToFloat((int *) &x, (int) x);
     return x;
 }
