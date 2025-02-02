@@ -1121,7 +1121,10 @@ static int read_contents(struct DB3Module *m, struct AbstractHandle *ah)
 
 	while (!error && (ah->ah_Read(ah, h, 8) == 1))
 	{
-		dc.Size = (h[4] << 24) | (h[5] << 16) | (h[6] << 8) | h[7];
+		dc.Size = ((unsigned int)h[4] << 24) | // mvtiaine: fixed UB
+		          ((unsigned int)h[5] << 16) | 
+		          ((unsigned int)h[6] << 8) | 
+		          h[7];
 		dc.Pos = 0;
 
 		if (strequ((char*)h, "NAME", 4))
