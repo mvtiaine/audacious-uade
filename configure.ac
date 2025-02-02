@@ -88,7 +88,7 @@ AC_SUBST([players])
 m4_foreach_w([player],
   [ft2play hivelytracker it2play libdigibooster3 noisetrekker2 protrekkr1 protrekkr2 st23play st3play uade], [
   AS_VAR_SET([p], [player])
-  if test "$players" = "all" || [[[ ",${players}," =~ ",${p}," ]]]; then
+  if test "$players" = "all" || printf ",${players}," | grep -Eq ",${p},"; then
     AC_DEFINE_UNQUOTED([PLAYER_[]player[]], [1], [Enable player ]player)
     AM_CONDITIONAL([PLAYER_]player, [true])
   else
@@ -886,7 +886,7 @@ elif test "$build_tizen" = "yes" || test "$build_blackberry10" = "yes" ; then
   fi
 fi
 
-if test "$players" = "all" || [[[ ",${players}," =~ ",uade," ]]]; then
+if test "$players" = "all" || printf ",${players}," | grep -Eq ",${p},"; then
 uade_prefix=${prefix}
 if test "$uade_prefix" = "NONE" ; then
   uade_prefix=/usr/local
