@@ -443,8 +443,8 @@ static void Decompress16BitData(int16_t *Dst, const uint8_t *Src, uint32_t Block
 	BlockLength >>= 1;
 	while (BlockLength != 0 && Src < End)
 	{
-		memcpy(&Bytes32, Src, sizeof(uint32_t)); // mvitiaine: fixed UB
-		Bytes32 = READ32LE(Bytes32); // mvtiaine: added big endian support
+		memcpy(&Bytes32, Src, sizeof(uint32_t)); // mvtiaine: fixed UB
+		Bytes32 = READ32LE(Bytes32) >> BitsRead; // mvtiaine: added big endian support
 
 		BitsRead += BitDepth;
 		Src += BitsRead >> 3;
