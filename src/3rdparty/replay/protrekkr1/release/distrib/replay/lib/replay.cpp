@@ -2212,13 +2212,14 @@ void Sp_Player(void)
                         else
 #endif
                         {
+                            int smp = pl_sample[i];
                             // Use the default sample volume if there's nothing
                             // in the volume column of no 0x3 fx
                             Play_Instrument(ct,
                                             free_sub_channel,
                                             pl_note[i],
-                                            pl_sample[i],
-                                            CustomVol[pl_sample[i]],
+                                            smp,
+                                            smp < 128 ? CustomVol[smp] : 0.0f, // mvtiaine: fixed OOB
                                             toffset,
                                             glide,
                                             FALSE, i + 1);
@@ -4071,11 +4072,12 @@ void DoEffects(void)
                             }
                             else
                             {
+                                int smp = pltr_sample[i];
                                 Play_Instrument(trackef,
                                                 free_sub_channel,
                                                 pltr_note[i],
-                                                pltr_sample[i],
-                                                CustomVol[pltr_sample[i]],
+                                                smp,
+                                                smp < 128 ? CustomVol[smp] : 0.0f, // mvtiaine: fixed OOB
                                                 0, 0,
                                                 FALSE, i + 1);
                             }
