@@ -419,9 +419,11 @@ static int read_envelope(struct DataChunk *dc, struct DB3ModEnvelope *menv, stru
 			{
 				if (flags & DBM0_ENV_ENABLED)
 				{
-					if (creator == CREATOR_DIGIBOOSTER_2) val = (val << 2) - 128;
-					if ((pos < 0) || (pos > 2048)) error = DB3_ERROR_DATA_CORRUPTED;
-					if ((val < -128) || (val > 128)) error = DB3_ERROR_DATA_CORRUPTED;
+					if ((pos < 0) || (pos > 2048)) error = DB3_ERROR_DATA_CORRUPTED; // mvtiaine: moved before creator check
+					else {
+						if (creator == CREATOR_DIGIBOOSTER_2) val = (val << 2) - 128;
+						if ((val < -128) || (val > 128)) error = DB3_ERROR_DATA_CORRUPTED;
+					}
 				}
 				else
 				{
