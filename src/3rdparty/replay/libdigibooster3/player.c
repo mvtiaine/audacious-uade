@@ -424,7 +424,7 @@ void msynth_pitch(struct ModSynth *msyn, struct ModTrack *mt, uint16_t pitch)
 					s_porta	= pitch % msyn->Speed;
 					f_tune = pitch / msyn->Speed;
 					alpha = SmoothPorta[msyn->Speed][s_porta];
-					f_tune -= 96;
+					f_tune = f_tune > 96 ? f_tune - 96 : 0; // mvtiaine: added sanity check
 
 					while (f_tune >= 96)
 					{
