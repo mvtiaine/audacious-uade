@@ -77,7 +77,7 @@ static void updateVolume(CIType *v, int32_t volIPLen)
 	v->SLVol1 = (vol * panningTab[256-v->SPan]) >> (32-28);
 	v->SRVol1 = (vol * panningTab[    v->SPan]) >> (32-28);
 
-	if (volumeRampingFlag)
+	if (volumeRampingFlag && volIPLen > 0) // mvtiaine: fixed divide by zero
 	{
 		v->SLVolIP = (v->SLVol1 - v->SLVol2) / volIPLen;
 		v->SRVolIP = (v->SRVol1 - v->SRVol2) / volIPLen;
