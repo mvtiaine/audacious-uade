@@ -16,6 +16,16 @@
 //
 struct flag303
 {
+#ifdef WORDS_BIGENDIAN
+	unsigned reserved4_flag:1;
+	unsigned reserved3_flag:1;
+	unsigned reserved2_flag:1;
+	unsigned pause:1;
+	unsigned transposedown_flag:1;
+	unsigned transposeup_flag:1;
+	unsigned accent_flag:1;
+	unsigned slide_flag:1;
+#else
 	unsigned slide_flag:1;
 	unsigned accent_flag:1;
 	unsigned transposeup_flag:1;
@@ -24,6 +34,7 @@ struct flag303
 	unsigned reserved2_flag:1;
 	unsigned reserved3_flag:1;
 	unsigned reserved4_flag:1;
+#endif
 };
 
 struct para303{

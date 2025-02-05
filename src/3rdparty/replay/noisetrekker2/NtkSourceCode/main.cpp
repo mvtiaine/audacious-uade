@@ -28,6 +28,47 @@
 #define MAX_FILTER 23
 #define PBLEN 1572864
 
+// mvtiaine: added big endian support
+#define SWAP16(value) \
+((uint16_t)( \
+	((uint16_t)(value) << 8) | \
+	((uint16_t)(value) >> 8) \
+))
+#define SWAP32(value) \
+((uint32_t)( \
+	((uint32_t)(value) << 24) | \
+	(((uint32_t)(value) & 0x0000FF00U) << 8) | \
+	(((uint32_t)(value) & 0x00FF0000U) >> 8) | \
+	((uint32_t)(value) >> 24) \
+))
+
+size_t fread_swap(void *ptr, size_t size, size_t n, FILE *stream) {
+#ifdef WORDS_BIGENDIAN
+	if (size == 2) {
+		uint16_t *data = (uint16_t *)ptr;
+		for (size_t i = 0; i < n; ++i) {
+			uint16_t value;
+			if (fread(&value, size, 1, stream) != 1) return i;
+			*data++ = SWAP16(value);
+		}
+		return n;
+	} else if (size == 4) {
+		uint32_t *data = (uint32_t *)ptr;
+		for (size_t i = 0; i < n; ++i) {
+			uint32_t value;
+			if (fread(&value, size, 1, stream) != 1) return i;
+			*data++ = SWAP32(value);
+		}
+		return n;
+	} else {
+		return fread(ptr, size, n, stream);
+	}
+#else
+	return fread(ptr, size, n, stream);
+#endif
+}
+
+
 // Global Variables --------------------------------------------------
 
 FILE *HDSTREAM;
@@ -53,8 +94,13 @@ int	currentCounter=0;
 // SAMPLE COUNTER
 struct smpos
 {
+#ifdef WORDS_BIGENDIAN
+	__uint32 first;
+	__uint32 last;
+#else
 	__uint32 last;
 	__uint32 first;
+#endif
 };
 
 union s_access
@@ -4595,7 +4641,11 @@ inline int f2i(double d)
 {
   const double magic = 6755399441055744.0; // 2^51 + 2^52
   double tmp = (d-0.5) + magic;
+#ifdef WORDS_BIGENDIAN
+  return *((int*) &tmp + 1);
+#else
   return *(int*) &tmp;
+#endif
 }
 #ifndef AUDACIOUS_UADE
 void draw_fxed(void)
@@ -5537,7 +5587,7 @@ fread(name, sizeof( char ), 20,in);
 fread(&nPatterns, sizeof(unsigned char ), 1,in);
 fread(&sLength, sizeof(unsigned char ), 1,in);
 fread(pSequence, sizeof(unsigned char ), 256,in);
-fread(patternLines, sizeof(short),128,in);
+fread_swap(patternLines, sizeof(short),128,in);
 
 for (int pwrite=0;pwrite<nPatterns;pwrite++)
 fread(RawPatterns+pwrite*12288, 12288,1,in);
@@ -5550,7 +5600,18 @@ fread(&nameins[swrite], sizeof( char ), 20,in);
 fread(&Midiprg[swrite],sizeof(char),1,in);
 fread(&Synthprg[swrite],sizeof(bool),1,in);
 fread(&PARASynth[swrite], sizeof(SynthParameters),1,in);
-
+#ifdef WORDS_BIGENDIAN // mvtiaine: big endian support
+PARASynth[swrite].osc1_pw = SWAP32(PARASynth[swrite].osc1_pw);
+PARASynth[swrite].osc2_pw = SWAP32(PARASynth[swrite].osc2_pw);
+PARASynth[swrite].env1_attack = SWAP32(PARASynth[swrite].env1_attack);
+PARASynth[swrite].env1_decay = SWAP32(PARASynth[swrite].env1_decay);
+PARASynth[swrite].env1_release = SWAP32(PARASynth[swrite].env1_release);
+PARASynth[swrite].env2_attack = SWAP32(PARASynth[swrite].env2_attack);
+PARASynth[swrite].env2_decay = SWAP32(PARASynth[swrite].env2_decay);
+PARASynth[swrite].env2_release = SWAP32(PARASynth[swrite].env2_release);
+PARASynth[swrite].lfo1_period = SWAP32(PARASynth[swrite].lfo1_period);
+PARASynth[swrite].lfo2_period = SWAP32(PARASynth[swrite].lfo2_period);
+#endif
 for (int slwrite=0;slwrite<16;slwrite++)
 {
 fread(&SampleType[swrite][slwrite], sizeof(char ),1,in);
@@ -5558,20 +5619,20 @@ if (SampleType[swrite][slwrite]!=0)
 {
 fread(&SampleName[swrite][slwrite], sizeof(char),256,in);
 fread(&Basenote[swrite][slwrite],sizeof(char),1,in);
-fread(&LoopStart[swrite][slwrite], sizeof(int ),1,in);
-fread(&LoopEnd[swrite][slwrite], sizeof(int ),1,in);
+fread_swap(&LoopStart[swrite][slwrite], sizeof(int ),1,in);
+fread_swap(&LoopEnd[swrite][slwrite], sizeof(int ),1,in);
 fread(&LoopType[swrite][slwrite], sizeof(char ),1,in);
-fread(&SampleNumSamples[swrite][slwrite], sizeof(int ),1,in);
+fread_swap(&SampleNumSamples[swrite][slwrite], sizeof(int ),1,in);
 fread(&Finetune[swrite][slwrite], sizeof(char ),1,in);
-fread(&SampleVol[swrite][slwrite], sizeof(float ),1,in);
-fread(&FDecay[swrite][slwrite], sizeof(float ),1,in);
+fread_swap(&SampleVol[swrite][slwrite], sizeof(float ),1,in);
+fread_swap(&FDecay[swrite][slwrite], sizeof(float ),1,in);
 RawSamples[swrite][0][slwrite]=(short *)malloc(SampleNumSamples[swrite][slwrite]*2 + 6); // mvtiaine: fixed buffer overflow
-fread(RawSamples[swrite][0][slwrite], sizeof(short),SampleNumSamples[swrite][slwrite],in);
+fread_swap(RawSamples[swrite][0][slwrite], sizeof(short),SampleNumSamples[swrite][slwrite],in);
 fread(&SampleChannels[swrite][slwrite], sizeof(char ),1,in);
 if (SampleChannels[swrite][slwrite]==2)
 {
 RawSamples[swrite][1][slwrite]=(short *)malloc(SampleNumSamples[swrite][slwrite]*2 + 6); // mvtiaine: fixed buffer overflow
-fread(RawSamples[swrite][1][slwrite], sizeof(short),SampleNumSamples[swrite][slwrite],in);
+fread_swap(RawSamples[swrite][1][slwrite], sizeof(short),SampleNumSamples[swrite][slwrite],in);
 }
 }// Exist Sample
 }
@@ -5582,37 +5643,37 @@ mess_box("Loading 'NoiseTrekker' song -> Track info, patterns and sequence.");
 // Reading Track Propertiers
 for (int twrite=0;twrite<MAX_TRACKS;twrite++)
 {
-fread(&TCut[twrite], sizeof(float ),1,in);
-fread(&ICut[twrite], sizeof(float ),1,in);
+fread_swap(&TCut[twrite], sizeof(float ),1,in);
+fread_swap(&ICut[twrite], sizeof(float ),1,in);
 if (ICut[ped_track]>0.0078125f)ICut[ped_track]=0.0078125f;
 if (ICut[ped_track]<0.00006103515625f)ICut[ped_track]=0.00006103515625f;
 
-fread(&TPan[twrite], sizeof(float ),1,in);
+fread_swap(&TPan[twrite], sizeof(float ),1,in);
 ComputeStereo(twrite);
-fread(&FType[twrite], sizeof(int ),1,in);
-fread(&FRez[twrite], sizeof(int ),1,in);
-fread(&DThreshold[twrite], sizeof(float ),1,in);
-fread(&DClamp[twrite], sizeof(float ),1,in);
-fread(&DSend[twrite], sizeof(float ),1,in);
-fread(&CSend[twrite], sizeof(int ),1,in);
+fread_swap(&FType[twrite], sizeof(int ),1,in);
+fread_swap(&FRez[twrite], sizeof(int ),1,in);
+fread_swap(&DThreshold[twrite], sizeof(float ),1,in);
+fread_swap(&DClamp[twrite], sizeof(float ),1,in);
+fread_swap(&DSend[twrite], sizeof(float ),1,in);
+fread_swap(&CSend[twrite], sizeof(int ),1,in);
 }
 
 // Reading mod properties
-fread(&compressor, sizeof(int ),1,in);
-fread(&c_threshold, sizeof(int ),1,in);
-fread(&BeatsPerMin, sizeof(int ),1,in);
-fread(&TicksPerBeat, sizeof(int ),1,in);
-fread(&mas_vol, sizeof(float ),1,in);
+fread_swap(&compressor, sizeof(int ),1,in);
+fread_swap(&c_threshold, sizeof(int ),1,in);
+fread_swap(&BeatsPerMin, sizeof(int ),1,in);
+fread_swap(&TicksPerBeat, sizeof(int ),1,in);
+fread_swap(&mas_vol, sizeof(float ),1,in);
 if (mas_vol<0.01f)mas_vol=0.01f;
 if (mas_vol>1.0f)mas_vol=1.0f;
-fread(&delay_time, sizeof(int ),1,in);
-fread(&Feedback, sizeof(float ),1,in);
-fread(&DelayType, sizeof(int ),1,in);
-fread(&lchorus_delay, sizeof(int),1,in);
-fread(&rchorus_delay, sizeof(int),1,in);
-fread(&lchorus_feedback, sizeof(float),1,in);
-fread(&rchorus_feedback, sizeof(float ),1,in);
-fread(&shuffle, sizeof(int),1,in);
+fread_swap(&delay_time, sizeof(int ),1,in);
+fread_swap(&Feedback, sizeof(float ),1,in);
+fread_swap(&DelayType, sizeof(int ),1,in);
+fread_swap(&lchorus_delay, sizeof(int),1,in);
+fread_swap(&rchorus_delay, sizeof(int),1,in);
+fread_swap(&lchorus_feedback, sizeof(float),1,in);
+fread_swap(&rchorus_feedback, sizeof(float ),1,in);
+fread_swap(&shuffle, sizeof(int),1,in);
 
 // Reading track part sequence
 for (int tps_pos=0;tps_pos<256;tps_pos++){for (int tps_trk=0;tps_trk<16;tps_trk++){fread(&SACTIVE[tps_pos][tps_trk],sizeof(bool),1,in);}}
@@ -5621,31 +5682,31 @@ for (int spl=0;spl<MAX_TRACKS;spl++)
 	CCoef[spl]=float((float)CSend[spl]/127.0);
 
 for (int twrite=0;twrite<MAX_TRACKS;twrite++)
-fread(&TRACKMIDICHANNEL[twrite], sizeof(int),1,in);
+fread_swap(&TRACKMIDICHANNEL[twrite], sizeof(int),1,in);
 
 for (int twrite=0;twrite<MAX_TRACKS;twrite++)
 {
 fread(&LFO_ON[twrite], sizeof(char),1,in);
-fread(&LFORATE[twrite], sizeof(float),1,in);
-fread(&LFOAMPL[twrite], sizeof(float),1,in);
+fread_swap(&LFORATE[twrite], sizeof(float),1,in);
+fread_swap(&LFOAMPL[twrite], sizeof(float),1,in);
 }
 
 for (int twrite=0;twrite<MAX_TRACKS;twrite++){
 fread(&FLANGER_ON[twrite], sizeof(char),1,in);
-fread(&FLANGER_AMOUNT[twrite], sizeof(float),1,in);
-fread(&FLANGER_DEPHASE[twrite], sizeof(float),1,in);
-fread(&FLANGER_RATE[twrite], sizeof(float),1,in);
-fread(&FLANGER_AMPL[twrite], sizeof(float),1,in);
-fread(&FLANGER_FEEDBACK[twrite], sizeof(float),1,in);
-fread(&FLANGER_DELAY[twrite], sizeof(int),1,in);
+fread_swap(&FLANGER_AMOUNT[twrite], sizeof(float),1,in);
+fread_swap(&FLANGER_DEPHASE[twrite], sizeof(float),1,in);
+fread_swap(&FLANGER_RATE[twrite], sizeof(float),1,in);
+fread_swap(&FLANGER_AMPL[twrite], sizeof(float),1,in);
+fread_swap(&FLANGER_FEEDBACK[twrite], sizeof(float),1,in);
+fread_swap(&FLANGER_DELAY[twrite], sizeof(int),1,in);
 FLANGER_OFFSET[twrite]=8192;
 foff2[twrite]=float(FLANGER_OFFSET[twrite]-FLANGER_DELAY[twrite]);
 foff1[twrite]=float(FLANGER_OFFSET[twrite]-FLANGER_DELAY[twrite]);
 }
-fread(&FLANGER_DEPHASE, sizeof(float),1,in);
+fread_swap(&FLANGER_DEPHASE, sizeof(float),1,in);
 
 for (char tps_trk=0;tps_trk<16;tps_trk++)
-fread(&TRACKSTATE[tps_trk],sizeof(int),1,in);
+fread_swap(&TRACKSTATE[tps_trk],sizeof(int),1,in);
 
 fread(&Songtracks,sizeof(char),1,in);
 
@@ -5659,14 +5720,14 @@ fread(artist, sizeof( char ), 20,in);
 fread(style, sizeof( char ), 20,in);
 fread(&QUALITYPLAY, sizeof( char ), 1,in);
 fread(beatsync,sizeof(bool),128,in);
-fread(beatlines,sizeof(short),128,in);
-fread(&REVERBFILTER,sizeof(float),1,in);
+fread_swap(beatlines,sizeof(short),128,in);
+fread_swap(&REVERBFILTER,sizeof(float),1,in);
 
-fread(CustomVol,sizeof(float),128,in);
+fread_swap(CustomVol,sizeof(float),128,in);
 fread(&AMIMODE,sizeof(bool),1,in);
 fread(&tb303,sizeof(para303),2,in);
-fread(&tb303engine[0].tbVolume,sizeof(float),1,in);
-fread(&tb303engine[1].tbVolume,sizeof(float),1,in);
+fread_swap(&tb303engine[0].tbVolume,sizeof(float),1,in);
+fread_swap(&tb303engine[1].tbVolume,sizeof(float),1,in);
 fread(&tb303engine[0].hpf,sizeof(bool),1,in);
 fread(&tb303engine[1].hpf,sizeof(bool),1,in);
 fclose(in);

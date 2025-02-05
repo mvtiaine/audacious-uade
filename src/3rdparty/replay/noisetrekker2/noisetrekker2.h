@@ -8,8 +8,10 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+// for endianess check
+#include "config.h"
 
-#include "common/logger.h"
+//#include "common/logger.h"
 
 #define AUDACIOUS_UADE 1
 #define Screen void

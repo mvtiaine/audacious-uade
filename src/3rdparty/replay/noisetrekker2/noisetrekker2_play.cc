@@ -17,7 +17,7 @@ size_t fread(void *ptr, size_t size, size_t n, FILE *stream) {
     assert(stream->pos + bytes <= stream->size);
     memcpy(ptr, stream->data + stream->pos, bytes);
     stream->pos += bytes;
-    return bytes;
+    return bytes / size;
 }
 
 }

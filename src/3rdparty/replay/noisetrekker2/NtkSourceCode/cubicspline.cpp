@@ -9,7 +9,7 @@ class Cubic
 public:
 	Cubic();
 
-	float Work(float yo,float y0,float y1,float y2,__uint32 res, long offset,long length);
+	float Work(float yo,float y0,float y1,float y2,__uint32 res, __uint32 offset, __uint32 length);
 
 	// Work function. Where all is cooked :]
 	// yo = y[-1] [sample at x-1]
@@ -52,7 +52,7 @@ for (int i=0;i<RESOLUTION;i++)
 
 // Work body
 
-float Cubic::Work(float yo,float y0,float y1,float y2,__uint32 res, long offset,long length)
+float Cubic::Work(float yo,float y0,float y1,float y2, __uint32 res, __uint32 offset, __uint32 length)
 {
 	res=res>>22;
 	if(offset==0)yo=0;
