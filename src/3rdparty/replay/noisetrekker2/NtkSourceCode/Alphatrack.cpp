@@ -453,7 +453,7 @@ float CSynth::SynthGetOscValue(char type,float offset)
 		/* Noise */
 
 		case 3:
-			return (float)rand()-16384;
+			return (float)(rand() % 32768) - 16384; // mvtiaine: limit rand()
 		break;
 		
 		/* Silence */

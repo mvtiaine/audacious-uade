@@ -5157,7 +5157,8 @@ for (int trackef=0;trackef<Songtracks;trackef++)
 			// d10 $0a SetRandomCutOff 
 			case 10:
 				if (Subicounter==0){
-			TCut[trackef]=float((float)(rand()/256)/((float)pltr_dat_row+1.0));
+			// mvtiaine: limit rand()
+			TCut[trackef]=float((float)((rand() % 32768)/256)/((float)pltr_dat_row+1.0));
 			
 			if (TCut[trackef]<1)
 			TCut[trackef]=1;
