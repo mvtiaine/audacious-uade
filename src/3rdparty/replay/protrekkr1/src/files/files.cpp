@@ -906,10 +906,13 @@ void Load_Old_Reverb_Presets(int Type)
 #ifdef AUDACIOUS_UADE
 char FileName[21];
 int LoadMod(FILE *in)
+{
+static_assert(sizeof(SynthParameters) == 152, "SynthParameters size");
+static_assert(sizeof(struct flag303) == 4, "flag303 size");
 #else
 int LoadMod(char *FileName)
-#endif
 {
+#endif
     int Ye_Old_Phony_Value;
     int New_adsr = FALSE;
     int New_Comp = FALSE;

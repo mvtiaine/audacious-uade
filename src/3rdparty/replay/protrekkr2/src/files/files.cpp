@@ -177,6 +177,8 @@ void Init_Tracker_Context_After_ModLoad(void)
 char FileName[21];
 int Load_Ptk(FILE *in)
 {
+static_assert(sizeof(Synth_Parameters) == 156, "Synth_Parameters size");
+static_assert(sizeof(struct flag303) == 4, "flag303 size");
 #else
 #if !defined(BZR2)
 int Load_Ptk(char *FileName)
