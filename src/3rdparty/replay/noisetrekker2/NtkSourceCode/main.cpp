@@ -5548,10 +5548,13 @@ if (snamesel==1 || snamesel==4 || snamesel==5){snamesel=0;Actualize_Main_Ed();}
 #endif // AUDACIOUS_UADE
 #ifdef AUDACIOUS_UADE
 bool LoadMod(FILE *in)
+{
+static_assert(sizeof(SynthParameters) == 116, "SynthParameters size");
+static_assert(sizeof(para303) == 2604, "para303 size");
 #else
 void LoadMod(void)
-#endif
 {
+#endif
 SongStop();
 mess_box("Attempting to load the song file...");
 #ifndef AUDACIOUS_UADE
