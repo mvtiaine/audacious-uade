@@ -80,7 +80,7 @@
         unsigned transposeup_flag : 1;
         unsigned accent_flag : 1;
         unsigned slide_flag : 1;
-    };
+    } __attribute__((packed, aligned(4))); // mvtiaine: ensure consistent alignment/padding;
 #else
     struct flag303
     {
@@ -90,7 +90,7 @@
         unsigned transposedown_flag : 1;
         unsigned pause : 1;
         unsigned reserved_flag : 27;
-    };
+    } __attribute__((packed, aligned(4))); // mvtiaine: ensure consistent alignment/padding
 #endif
 
 struct para303

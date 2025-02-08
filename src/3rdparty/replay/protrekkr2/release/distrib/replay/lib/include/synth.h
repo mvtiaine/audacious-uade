@@ -89,6 +89,7 @@ struct Synth_Parameters
     unsigned char osc_1_waveform;
     unsigned char osc_2_waveform;
     unsigned char osc_combine;
+    char _pad1[1];  // mvtiaine: added padding
 
     int osc_1_pw;
     int osc_2_pw;
@@ -99,17 +100,19 @@ struct Synth_Parameters
     unsigned char vcf_cutoff;
     unsigned char vcf_resonance;
     unsigned char vcf_type;
-
+    char _pad2[3];  // mvtiaine: added padding
     /* Envelopes and LFO's properties */
 
     int env_1_attack;
     int env_1_decay;
     unsigned char env_1_sustain;
+    char _pad3[3];  // mvtiaine: added padding
     int env_1_release;
 
     int env_2_attack;
     int env_2_decay;
     unsigned char env_2_sustain;
+    char _pad4[3];  // mvtiaine: added padding
     int env_2_release;
 
     int lfo_1_period;
@@ -160,22 +163,25 @@ struct Synth_Parameters
     unsigned char glb_volume;
 
     unsigned char disto;
+    char _pad5[3];  // mvtiaine: added padding
 
     int lfo_1_attack;
     int lfo_1_decay;
     unsigned char lfo_1_sustain;
+    char _pad6[3];  // mvtiaine: added padding
     int lfo_1_release;
 
     int lfo_2_attack;
     int lfo_2_decay;
     unsigned char lfo_2_sustain;
+    char _pad7[3];  // mvtiaine: added padding
     int lfo_2_release;
 
     unsigned char lfo_1_disto;
     unsigned char lfo_2_disto;
     unsigned char env_1_disto;
     unsigned char env_2_disto;
-};
+} __attribute__((packed, aligned(4))); // mvtiaine: ensure consistent alignment/padding
 
 #endif      // !defined(__STAND_ALONE__) || defined(__WINAMP__)
 
