@@ -35,7 +35,7 @@ struct flag303
 	unsigned reserved3_flag:1;
 	unsigned reserved4_flag:1;
 #endif
-};
+} __attribute__((packed, aligned(4))); // mvtiaine: ensure consistent alignment/padding
 
 struct para303{
 unsigned char enabled;			//Enabled				  UBYTE           0       0x00 = off, 0x01 = on (pattern mode)

@@ -33,28 +33,31 @@ char presetname[20];
 
 unsigned char osc1_waveform; /* 0 - 4 */
 unsigned char osc2_waveform;
-	
+char _pad1[2];  // mvtiaine: added padding
+
 int osc1_pw; /* 0 - 512 */
 int osc2_pw;	
 
 unsigned char osc2_detune; /* 0 - 128 */
 unsigned char osc2_finetune; /* 0 - 128 */
-	
+
 unsigned char vcf_cutoff; /* 0 - 128 */
 unsigned char vcf_resonance; /* 0 - 128 */
 
 unsigned char vcf_type; /* 0 - 2 */ 
-
+char _pad2[3];  // mvtiaine: added padding
 /* Envelopes and LFO's properties */
 
 int env1_attack; /* In samples */
 int env1_decay;
 unsigned char env1_sustain; /* 0 -128 */
+char _pad3[3];  // mvtiaine: added padding
 int env1_release;
 
 int env2_attack; /* In samples */
 int env2_decay;
 unsigned char env2_sustain; /* 0 -128 */
+char _pad4[3];  // mvtiaine: added padding
 int env2_release;
 
 int lfo1_period;
@@ -105,7 +108,7 @@ unsigned char ptc_glide;
 unsigned char glb_volume;
 
 /* hehe, 46 parameters =] */
-};
+} __attribute__((packed, aligned(4))); // mvtiaine: ensure consistent alignment/padding
 
 class CSynth{
 public:
