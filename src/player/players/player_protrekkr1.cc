@@ -92,7 +92,7 @@ bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
     return size >= 8 &&
         (buf[0] == 'T' && buf[1] == 'W' && buf[2] == 'N' && buf[3] == 'N' &&
          buf[4] == 'S' && buf[5] == 'N' && buf[6] == 'G') &&
-        (buf[7] >= '3' && buf[7] <= 'I');
+        buf[7] >= '2' && buf[7] <= 'I';
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
