@@ -1235,7 +1235,7 @@ int STDCALL Ptk_InitDriver(void)
 
 #if defined(PTK_SYNTH_SAW)
         // There's a problem with fmodf->signed short in mingw here
-        temp_saw = (short) fminf((fmodf(x * 2.0f, 64.0f) * 32767.0f), 32767.0f); // mvtiaine: fixed undefined behaviour
+        temp_saw = (unsigned short)((unsigned int)(fmodf(x * 2.0f, 64.0f) * 32767.0f) % 65536); // mvtiaine: fixed undefined behaviour
         *wav_saw++ = (short) (((float) (short) temp_saw));
 #endif
 
