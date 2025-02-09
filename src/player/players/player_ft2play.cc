@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-2.0-or-later
+// SPDX-License-Identifier: LGPL-2.1-or-later
 // Copyright (C) 2024-2025 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include "common/std/functional.h"
@@ -336,7 +336,7 @@ constexpr_f2 ModuleInfo get_xm_info(const char *path, const char *buf) noexcept 
     }
     replace_if(progName.begin(), progName.end(), ::not_fn<int (*)(int _c)>(::isprint), '?');
     if (progName.empty()) progName = "<Unknown>";
-    char xmVer[12];
+    char xmVer[14];
     snprintf(xmVer, sizeof(xmVer), " (XM %d.%02d)", hdr->ver >> 8, hdr->ver & 0xFF);
     return {Player::ft2play, progName + xmVer, path, 1, 1, 1, hdr->antChn};
 }

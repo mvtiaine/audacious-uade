@@ -13,14 +13,15 @@ Main features:
 -- Protracker4 / Protracker IFF
 -- Support for AmigaOS (and related), Windows (MSYS2/MinGW), ...
 - MED4 sng+samples format support via MED4->MMD0 conversion
-- DigiBooster 3 and DigiBooster Pro 2 (http://www.digibooster.de/) support using the official portable replay
-- HivelyTracker (http://www.hivelytracker.co.uk/) support using the official portable replay
-- Fasttracker 1 & 2 support using the ft2play replay (https://github.com/8bitbubsy/ft2play)
-- Scream Tracker 2 support using the st23play replay by 8bitbubsy (https://pastebin.com/ifXSCZ71)
-- Scream Tracker 3 support using the st3play replay by 8bitbubsy (https://pastebin.com/AwRXZAw7)
-- Impulse Tracker 1 & 2 support using the it2play replay (https://github.com/8bitbubsy/it2play)
-- ProTrekkr 2 (https://github.com/hitchhikr/protrekkr) support using the official portable replay
--- NOTE: NoiseTrekker 1 & 2 and ProTrekkr 1 mods also work, but play incorrectly
+- DigiBooster 3 and DigiBooster Pro 2 support (http://www.digibooster.de/)
+- HivelyTracker support (http://www.hivelytracker.co.uk/)
+- Fasttracker 1 & 2 support (https://github.com/8bitbubsy/ft2play)
+- Scream Tracker 2 support (https://pastebin.com/ifXSCZ71)
+- Scream Tracker 3 suppor (https://pastebin.com/AwRXZAw7)
+- Impulse Tracker 1 & 2 support (https://github.com/8bitbubsy/it2play)
+- ProTrekkr 1 & 2 support (https://github.com/hitchhikr/protrekkr)
+-- note: older ProTrekkr mods may play incorrectly
+- NoiseTrekker 2 support based on sources from the final release
 
 Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
 In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
@@ -47,10 +48,10 @@ ${?codec:[${codec}${?channels: (${channels}ch)}]}  -  ${?artist:${artist}  -  }$
 - Project might need a new name...
 
 * License (source code)
-The project as a whole is licensed under GPL-2.0-or-later.
-Some parts are also licensed under LGPL-2.0-or-later, specifically sources under src/common, src/converter, src/player and src/songdb.
-See src/3rdparty for 3rd party source code licenses.
-See https://zakalwe.fi/uade/ for UADE license information.
+The project as a whole is licensed under GPL-2.0-or-later. See COPYING for license text.
+Some parts are also licensed under LGPL-2.1-or-later, specifically sources under src/common/, src/converter/, src/player/ and src/songdb/. See COPYING.LGPL for license text.
+See NOTICE for 3rd party source code licenses (sources under src/3rdparty/).
+See uade/COPYING for UADE license information (sources under uade/).
 
 * Dependencies:
 Audacious >= 3.8

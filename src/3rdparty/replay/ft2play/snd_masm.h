@@ -154,7 +154,7 @@
 		samplesToMix = 65535; \
 	} \
 	\
-	if (samplesToMix > CDA_BytesLeft) \
+	if (samplesToMix > CDA_BytesLeft || samplesToMix < 0) /* mvtiaine: added sanity check */ \
 		samplesToMix = CDA_BytesLeft; \
 
 #define LIMIT_MIX_NUM_RAMP \

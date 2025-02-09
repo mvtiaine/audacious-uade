@@ -778,7 +778,7 @@ static void mixChannels(int32_t numSamples)
 static inline int32_t random32(void)
 {
 	// LCG random 32-bit generator (quite good and fast)
-	randSeed *= 134775813;
+	randSeed = (unsigned int)(randSeed * 134775813U); // mvtiaine: fixed UB
 	randSeed++;
 	return randSeed;
 }

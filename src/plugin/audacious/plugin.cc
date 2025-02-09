@@ -332,10 +332,10 @@ public:
         "UADE Plugin",
         "audacious-uade",
         "audacious-uade " PACKAGE_VERSION " (GPL-2.0-or-later)\n"
-        "Copyright (c) 2014-2024, Matti Tiainen\n"
-        PACKAGE_URL"\n"
+        "Copyright (c) 2014-2025, Matti Tiainen\n"
+        PACKAGE_URL "\n"
         "\n"
-        "Using bundled UADE " UADE_VERSION "\n"
+        "UADE " UADE_VERSION " (GPL-2.0-or-later)\n"
         "https://zakalwe.fi/uade/\n"
         "\n"
         "HivelyTracker 1.9 (BSD-3-Clause)\n"
@@ -344,15 +344,16 @@ public:
         "libdigibooster3 1.2 (BSD-2-Clause)\n"
         "Copyright (c) 2014, Grzegorz Kraszewski\n"
         "\n"
-        "ft2play, it2play (BSD-3-Clause)\n"
-        "st3play v1.0.1 (BSD-3-Clause)\n"
+        "ft2play, it2play, st3play v1.0.1,\n"
         "st23play v0.35 (BSD-3-Clause)\n"
         "Copyright (c) 2016-2024, Olav Sørensen\n"
         "\n"
-        "ProTrekkr v2.7.6 (BSD-2-Clause)\n"
+        "ProTrekkr v1.99e, v2.8.1 (BSD-2-Clause)\n"
         "Copyright (C) 2008-2024, Franck Charlet\n"
         "\n"
-        "See NOTICE file for full list\n",
+        "NoiseTrekker2 final by Arguru\n"
+        "\n"
+        "See README for more information\n",
         &plugin_prefs
     };
 

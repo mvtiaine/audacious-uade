@@ -1609,10 +1609,11 @@ void hvl_process_frame( struct hvl_tune *ht, struct hvl_voice *voice )
     uint32  i;
     int32   Delta;
     const int8   *SquarePtr;
-    int32  X;
+    int32  X = 0;
     
     SquarePtr = &waves[WO_SQUARES+(voice->vc_FilterPos-0x20)*(0xfc+0xfc+0x80*0x1f+0x80+0x280*3)];
-    X = voice->vc_SquarePos << (5 - voice->vc_WaveLength);
+    if (voice->vc_SquarePos > 0) // mvtiaine: fixed UB
+      X = voice->vc_SquarePos << (5 - voice->vc_WaveLength);
     
     if( X > 0x20 )
     {
@@ -1675,7 +1676,10 @@ void hvl_process_frame( struct hvl_tune *ht, struct hvl_voice *voice )
       AudioSource += ( voice->vc_WNRandom & (2*0x280-1) ) & ~1;
       // GoOnRandom
       voice->vc_WNRandom += 2239384;
-      voice->vc_WNRandom  = ((((voice->vc_WNRandom >> 8) | (voice->vc_WNRandom << 24)) + 782323) ^ 75) - 6735;
+      // mvtiaine: fixed UB
+      voice->vc_WNRandom = (int32_t)(((unsigned int)(voice->vc_WNRandom >> 8) | 
+                                     ((unsigned int)voice->vc_WNRandom << 24)) + 782323U) ^ 75;
+      voice->vc_WNRandom -= 6735;
     }
 
     voice->vc_AudioSource = AudioSource;

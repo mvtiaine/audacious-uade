@@ -424,7 +424,7 @@ void msynth_pitch(struct ModSynth *msyn, struct ModTrack *mt, uint16_t pitch)
 					s_porta	= pitch % msyn->Speed;
 					f_tune = pitch / msyn->Speed;
 					alpha = SmoothPorta[msyn->Speed][s_porta];
-					f_tune -= 96;
+					f_tune = f_tune > 96 ? f_tune - 96 : 0; // mvtiaine: added sanity check
 
 					while (f_tune >= 96)
 					{
@@ -1571,7 +1571,7 @@ void msynth_tick_gains_and_pitch(struct ModSynth *msyn)
 		// mt->Panning   <-128 * speed, +128 * speed>   |  pan  <-16384, +16384>
 
 		volc = ((int32_t)mt->Volume << 8) / msyn->Speed;
-		pan = ((int32_t)mt->Panning << 7) / msyn->Speed;
+		pan = (int32_t)((uint32_t)mt->Panning << 7) / msyn->Speed;
 
 		// Apply envelopes. Volume envelope is just multiplied with the current
 		// gain and renormalized (gain: <0, +16384>, vol envelope <0, +16384>).
@@ -1672,7 +1672,7 @@ int16_t msynth_panenv_interpolator(struct EnvInterp *evi, struct DB3ModEnvelope 
 	if (evi->TickCtr == 0)   // end of section, fetch next one
 	{
 		if (evi->Section == evi->LoopEnd) evi->Section = mde->LoopFirst;
-		evi->YStart = mde->Points[evi->Section].Value << 7;
+		evi->YStart = (int16_t)(((uint16_t)mde->Points[evi->Section].Value) << 7); // mvtiaine: fixed UB
 		if (evi->Section == evi->SustainA) return evi->YStart;
 		else if (evi->Section == evi->SustainB) return evi->YStart;
 		else if (evi->Section >= mde->NumSections) return evi->YStart;
@@ -1680,7 +1680,7 @@ int16_t msynth_panenv_interpolator(struct EnvInterp *evi, struct DB3ModEnvelope 
 		{
 			evi->XDelta = mde->Points[evi->Section + 1].Position - mde->Points[evi->Section].Position;
 			evi->TickCtr = evi->XDelta;
-			evi->YDelta = (mde->Points[evi->Section + 1].Value << 7) - evi->YStart;
+			evi->YDelta = (int16_t)((uint16_t)mde->Points[evi->Section + 1].Value << 7) - evi->YStart; // mvtiaine: fixed UB
 			evi->Section++;
 		}
 	}

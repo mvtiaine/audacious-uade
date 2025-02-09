@@ -44,7 +44,7 @@ AS_IF([test "$CXXSTD" = none], [
 AC_C_BIGENDIAN([
   AM_CONDITIONAL([BIG_ENDIAN],[true])
   AM_CONDITIONAL([LITTLE_ENDIAN],[false])
-  AC_DEFINE([WORDS_BIGENDIAN], [1]),
+  AC_DEFINE([WORDS_BIGENDIAN], [1])
 ],[
   AM_CONDITIONAL([BIG_ENDIAN],[false])
   AM_CONDITIONAL([LITTLE_ENDIAN],[true])
@@ -85,9 +85,10 @@ AC_ARG_ENABLE(players,
   [players="all"])
 
 AC_SUBST([players])
-m4_foreach_w([player], [ft2play hivelytracker it2play libdigibooster3 protrekkr st23play st3play uade], [
+m4_foreach_w([player],
+  [ft2play hivelytracker it2play libdigibooster3 noisetrekker2 protrekkr1 protrekkr2 st23play st3play uade], [
   AS_VAR_SET([p], [player])
-  if test "$players" = "all" || [[[ ",${players}," =~ ",${p}," ]]]; then
+  if test "$players" = "all" || printf ",${players}," | grep -Eq ",${p},"; then
     AC_DEFINE_UNQUOTED([PLAYER_[]player[]], [1], [Enable player ]player)
     AM_CONDITIONAL([PLAYER_]player, [true])
   else
@@ -885,7 +886,7 @@ elif test "$build_tizen" = "yes" || test "$build_blackberry10" = "yes" ; then
   fi
 fi
 
-if test "$players" = "all" || [[[ ",${players}," =~ ",uade," ]]]; then
+if test "$players" = "all" || printf ",${players}," | grep -Eq ",${p},"; then
 uade_prefix=${prefix}
 if test "$uade_prefix" = "NONE" ; then
   uade_prefix=/usr/local
@@ -893,7 +894,8 @@ fi
 _UADE_CPPFLAGS="${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE"
 _UADE_CFLAGS="${CFLAGS} -Wno-unused -Wno-deprecated-declarations -Wno-tautological-compare -Wno-pedantic -Wno-implicit-function-declaration"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-zero-length-array -Wno-variadic-macros -Wno-gnu-zero-variadic-macro-arguments"
-_UADE_CFLAGS="${_UADE_CFLAGS} -Wno-format -Wno-format-security -Wno-sign-compare -Wno-shift-negative-value"
+_UADE_CFLAGS="${_UADE_CFLAGS} -Wno-format -Wno-format-nonliteral -Wno-format-security"
+_UADE_CFLAGS="${_UADE_CFLAGS} -Wno-sign-compare -Wno-shift-negative-value"
 _UADE_LDFLAGS="${LDFLAGS} ${EXTRA_LIBS}"
 if test "$static_stdlibs" = "yes" ; then
   _UADE_LDFLAGS="-static-libgcc ${_UADE_LDFLAGS}"

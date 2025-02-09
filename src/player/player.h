@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-2.0-or-later
+// SPDX-License-Identifier: LGPL-2.1-or-later
 // Copyright (C) 2023-2025 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #pragma once
@@ -32,7 +32,9 @@ constexpr int MAX_SILENCE = 3000;
 #define PLAYERS VA_LIST( \
     hivelytracker, \
     libdigibooster3, \
-    protrekkr, \
+    noisetrekker2, \
+    protrekkr1, \
+    protrekkr2, \
     st23play, \
     st3play, \
     it2play, \
@@ -54,7 +56,9 @@ constexpr_f2 std::string name(Player player) noexcept {
         case Player::st3play: return "st3play";
         case Player::it2play: return "it2play";
         case Player::st23play: return "st23play";
-        case Player::protrekkr: return "protrekkr";
+        case Player::noisetrekker2: return "noisetrekker2";
+        case Player::protrekkr1: return "protrekkr1";
+        case Player::protrekkr2: return "protrekkr2";
         default: assert(false); return "";
     }
     assert(false);

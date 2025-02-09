@@ -5,8 +5,9 @@
 -- generate also pretty printed tsv files in addition to the encoded/"compressed" tsvs
 -- songdb scripts and raw TSVs moved to https://github.com/mvtiaine/audacious-uade-tools
 -- misc cleanups/fixes/updates
-- Implement ProTrekkr 2 (https://github.com/hitchhikr/protrekkr) support using the official portable replay
--- NOTE: NoiseTrekker 1 & 2 and ProTrekkr 1 mods also work, but play incorrectly
+- Implement ProTrekkr 1 & 2 support (https://github.com/hitchhikr/protrekkr)
+-- note: old ProTrekkr files may play incorrectly
+- Implement NoiseTrekker 2 support based on the sources from final release
 - Allow build time selection of enabled players/replays
 -- for example ./configure --enable-players=uade to only build with UADE
 - Misc fixes and updates

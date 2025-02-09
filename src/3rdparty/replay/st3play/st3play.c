@@ -2653,7 +2653,7 @@ mixRoutine mixRoutineTable[8] =
 static inline uint32_t random32(void)
 {
 	// LCG 32-bit random
-	randSeed *= 134775813;
+	randSeed = (unsigned int)(randSeed * 134775813u); // mvtiaine: fixed UB
 	randSeed++;
 
 	return randSeed;

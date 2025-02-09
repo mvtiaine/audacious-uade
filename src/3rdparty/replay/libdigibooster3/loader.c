@@ -419,9 +419,11 @@ static int read_envelope(struct DataChunk *dc, struct DB3ModEnvelope *menv, stru
 			{
 				if (flags & DBM0_ENV_ENABLED)
 				{
-					if (creator == CREATOR_DIGIBOOSTER_2) val = (val << 2) - 128;
-					if ((pos < 0) || (pos > 2048)) error = DB3_ERROR_DATA_CORRUPTED;
-					if ((val < -128) || (val > 128)) error = DB3_ERROR_DATA_CORRUPTED;
+					if ((pos < 0) || (pos > 2048)) error = DB3_ERROR_DATA_CORRUPTED; // mvtiaine: moved before creator check
+					else {
+						if (creator == CREATOR_DIGIBOOSTER_2) val = (val << 2) - 128;
+						if ((val < -128) || (val > 128)) error = DB3_ERROR_DATA_CORRUPTED;
+					}
 				}
 				else
 				{
@@ -701,7 +703,7 @@ static int read_sample_data_8bit(struct DataChunk *dc, struct DB3ModSample *ms, 
 			for (frame = 0; frame < block; frame++)
 			{
 				x = *ps++;
-				*pd++ = ((int16_t)x) << 8;
+				*pd++ = ((uint16_t)((int16_t)x)) << 8; // mvtiaine: fixed UB
 			}
 
 			bytes -= block;
@@ -735,7 +737,8 @@ static int read_sample_data_16bit(struct DataChunk *dc, struct DB3ModSample *ms,
 				for (frame = 0; frame < (block >> 1); frame++)
 				{
 					x = *ps++;
-					*pd++ = ((x >> 8) & 0xFF) | (x << 8);
+					uint16_t ux = (uint16_t)x;
+					*pd++ = ((ux >> 8) & 0xFF) | (ux << 8); // mvtiaine: fixed UB
 				}
 
 				bytes -= block;
@@ -1120,7 +1123,10 @@ static int read_contents(struct DB3Module *m, struct AbstractHandle *ah)
 
 	while (!error && (ah->ah_Read(ah, h, 8) == 1))
 	{
-		dc.Size = (h[4] << 24) | (h[5] << 16) | (h[6] << 8) | h[7];
+		dc.Size = ((unsigned int)h[4] << 24) | // mvtiaine: fixed UB
+		          ((unsigned int)h[5] << 16) | 
+		          ((unsigned int)h[6] << 8) | 
+		          h[7];
 		dc.Pos = 0;
 
 		if (strequ((char*)h, "NAME", 4))

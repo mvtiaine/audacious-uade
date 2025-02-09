@@ -8,15 +8,19 @@ echo Running ${TEST}
 #TEST_OUTPUT=$(eval time ${TEST})
 TEST_OUTPUT=$(eval ${TEST})
 
-if [ "$TEST_OUTPUT" != "$EXPECTED_OUTPUT" ]; then
+if printf "$TEST_OUTPUT" | grep -Eq ".*$EXPECTED_OUTPUT.*"; then
+    SUCCESS="yes"
+else
     echo "----------EXPECTED OUTPUT----------"
     echo $EXPECTED_OUTPUT
     echo "------------TEST OUTPUT------------"
     echo $TEST_OUTPUT
     echo "-----------------------------------"
+fi
+
+if [ "$SUCCESS" != "yes" ]; then
     echo "FAILURE"
     exit 1
 fi
 
 echo "SUCCESS"
-

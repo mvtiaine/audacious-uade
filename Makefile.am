@@ -9,6 +9,7 @@ endif
 SUBDIRS = $(subdirs_extra) $(DIST_SUBDIRS)
 
 EXTRA_DIST = \
+	COPYING.LGPL \
 	NOTICE \
 	conf \
 	scripts/audacious-uade.spec \

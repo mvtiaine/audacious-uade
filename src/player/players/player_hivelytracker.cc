@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-2.0-or-later
+// SPDX-License-Identifier: LGPL-2.1-or-later
 // Copyright (C) 2023-2025 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include <cassert>

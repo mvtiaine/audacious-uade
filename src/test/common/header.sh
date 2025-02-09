@@ -2,7 +2,7 @@
 
 set -e
 
-if [[ "$player" != "" && "$players" != "all" && ! ",${players}," =~ ",${player}" ]]; then
+if [ "$player" != "" ] && [ "$players" != "all" ] && ! printf ",${players}," | grep -Eq ",${player},"; then
   exit 77
 fi
 

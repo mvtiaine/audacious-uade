@@ -1094,7 +1094,7 @@ static void fixaEnvelopeVibrato(stmTyp *ch)
 						}
 					}
 
-					if (envInterpolateFlag)
+					if (envInterpolateFlag && envPos < 12) // mvtiaine: fix out-of-bounds
 					{
 						ch->envVPos = envPos;
 
@@ -1195,7 +1195,7 @@ static void fixaEnvelopeVibrato(stmTyp *ch)
 					}
 				}
 
-				if (envInterpolateFlag)
+				if (envInterpolateFlag && envPos < 12) // mvtiaine: fix out-of-bounds
 				{
 					ch->envPPos = envPos;
 
