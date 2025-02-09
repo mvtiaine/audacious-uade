@@ -1254,7 +1254,9 @@ Read_Mod_File:
         }
 
         // Reading mod properties
-        Read_Mod_Data_Swap(&compressor, sizeof(int), 1, in);
+        int cvalue; // mvtiaine: backported endian fix from ProTrekkr 2.5.0
+        Read_Mod_Data_Swap(&cvalue, sizeof(int), 1, in);
+        compressor = cvalue;
         Read_Mod_Data_Swap(&c_threshold, sizeof(int), 1, in);
         Read_Mod_Data_Swap(&BeatsPerMin, sizeof(int), 1, in);
         Read_Mod_Data_Swap(&TicksPerBeat, sizeof(int), 1, in);
