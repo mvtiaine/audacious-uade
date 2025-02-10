@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include <mutex>
 #include <string>
 #include <type_traits>
 #include <vector>
@@ -55,6 +56,8 @@ FOREACH(MAYBE_DEFINE_PLAYER, PLAYERS)
 }
 
 namespace {
+mutex init_guard;
+bool initialized[size(player_names)] = { false };
 
 #define APPLY(f, p) \
     p::f;
@@ -72,24 +75,46 @@ namespace {
         default: assert(false); \
     }
 
-bool initialized = false;
+#define MAYBE_SHUTDOWN_PLAYER(ns) \
+    if (initialized[static_cast<int>(Player::ns)]) { \
+        player::ns::shutdown(); \
+        initialized[static_cast<int>(Player::ns)] = false; \
+    }
+
+#define CASE_VOID(f, p) \
+    case Player::p: p::f; break;
+
+#define MAYBE_INIT_PLAYER(p) \
+    if (!initialized[static_cast<int>(p)]) { \
+        init_guard.lock(); \
+        if (!initialized[static_cast<int>(p)]) { \
+            switch (p) { \
+                FOREACHA(CASE_VOID, init(), PLAYERS) \
+                case Player::NONE: \
+                default: assert(false); \
+            } \
+            initialized[static_cast<int>(p)] = true; \
+        } \
+        init_guard.unlock(); \
+    }
 
 } // namespace {}
 
 namespace player {
 
 void init() noexcept {
-    FOREACHA(APPLY, init(), PLAYERS)
-    initialized = true;
+#if PLAYER_uade
+    // uade must be initialized eagerly
+    uade::init();
+    initialized[static_cast<int>(Player::uade)] = true;
+#endif
 }
 
 void shutdown() noexcept {
-    assert(initialized);
-    FOREACHA(APPLY, shutdown(), PLAYERS)
+    FOREACH(MAYBE_SHUTDOWN_PLAYER, PLAYERS)
 }
 
 Player check(const char *path, const char *buf, size_t size) noexcept {
-    assert(initialized);
     if (size < MAGIC_SIZE || size < converter::MAGIC_SIZE) return Player::NONE;
     assert(path);
     assert(buf);
@@ -100,7 +125,6 @@ Player check(const char *path, const char *buf, size_t size) noexcept {
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size, Player player/* = Player::NONE*/) noexcept {
-    assert(initialized);
     if (size < MAGIC_SIZE || size < converter::MAGIC_SIZE) return {};
     assert(path);
     assert(buf);
@@ -117,6 +141,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size, Playe
     if (player == Player::NONE) player = check(path, buf, size);
     if (player == Player::NONE) return {};
     optional<ModuleInfo> res;
+    MAYBE_INIT_PLAYER(player)
     SWITCH_PLAYER(player, res,
         parse(path, buf, size)
     )
@@ -128,7 +153,6 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size, Playe
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     if (size < MAGIC_SIZE || size < converter::MAGIC_SIZE) return {};
-    assert(initialized);
     assert(path);
     assert(buf);
     assert(subsong >= 0);
@@ -146,6 +170,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     if (player == Player::NONE) player = check(path, buf, size);
     if (player == Player::NONE) return {};
     optional<PlayerState> res;
+    MAYBE_INIT_PLAYER(player)
     SWITCH_PLAYER(player, res,
         play(path, buf, size, subsong, config)
     )
@@ -154,7 +179,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 }
 
 bool stop(PlayerState &state) noexcept {
-    assert(initialized);
+    assert(initialized[static_cast<int>(state.player)]);
     assert(state.player != Player::NONE);
     bool res = false;
     SWITCH_PLAYER(state.player, res,
@@ -165,7 +190,7 @@ bool stop(PlayerState &state) noexcept {
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
-    assert(initialized);
+    assert(initialized[static_cast<int>(state.player)]);
     assert(state.player != Player::NONE);
     assert(buf);
     assert(size >= state.buffer_size);
@@ -194,6 +219,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
 }
 
 bool restart(PlayerState &state) noexcept {
+    assert(initialized[static_cast<int>(state.player)]);
     assert(state.player != Player::NONE);
     bool res = false;
     SWITCH_PLAYER(state.player, res,
@@ -206,7 +232,7 @@ bool restart(PlayerState &state) noexcept {
 }
 
 bool seek(PlayerState &state, int millis) noexcept {
-    assert(initialized);
+    assert(initialized[static_cast<int>(state.player)]);
     assert(state.player != Player::NONE);
 
     TRACE("Seeking to %d current pos %d player %d\n", millis, state.pos_millis, static_cast<int>(state.player));

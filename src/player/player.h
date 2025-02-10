@@ -4,6 +4,7 @@
 #pragma once
 
 #include "common/std/optional.h"
+#include "common/std/string_view.h"
 
 #include <cassert>
 #include <cstddef>
@@ -14,6 +15,7 @@
 
 #include "common/compat.h"
 #include "common/constexpr.h"
+#include "common/foreach.h"
 #include "common/endian.h"
 #include "common/songend.h"
 #include "config.h"
@@ -42,27 +44,19 @@ constexpr int MAX_SILENCE = 3000;
     ft2play \
 )
 
+#define STRINGIFY(x) #x,
+constexpr char const *player_names[] = {
+    "NONE",
+    FOREACH(STRINGIFY, PLAYERS)
+};
+
 enum class Player {
     NONE,
     PLAYERS
 };
 
-constexpr_f2 std::string name(Player player) noexcept {
-    switch(player) {
-        case Player::hivelytracker: return "hivelytracker";
-        case Player::libdigibooster3: return "libdigibooster3";
-        case Player::uade: return "uade";
-        case Player::ft2play: return "ft2play";
-        case Player::st3play: return "st3play";
-        case Player::it2play: return "it2play";
-        case Player::st23play: return "st23play";
-        case Player::noisetrekker2: return "noisetrekker2";
-        case Player::protrekkr1: return "protrekkr1";
-        case Player::protrekkr2: return "protrekkr2";
-        default: assert(false); return "";
-    }
-    assert(false);
-    return "";
+constexpr std::string_view name(Player player) noexcept {
+    return player_names[static_cast<int>(player)];
 }
 
 struct ModuleInfo {

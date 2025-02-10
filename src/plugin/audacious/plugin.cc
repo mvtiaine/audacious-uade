@@ -156,7 +156,7 @@ bool update_tuple(Tuple &tuple, const string &path, int subsong, const Info &inf
     string codec = info.format;
     transform(codec.begin(), codec.end(), codec.begin(), ::tolower);
     if (codec != player) {
-        codec = info.format + " [" + player::name(info.player) + "]";
+        codec = info.format + " [" + player.data() + "]";
     } else {
         codec = info.format; // undo tolower
     }
@@ -336,24 +336,36 @@ public:
         "Copyright (c) 2014-2025, Matti Tiainen\n"
         PACKAGE_URL "\n"
         "\n"
+#if PLAYER_uade
         "UADE " UADE_VERSION " (GPL-2.0-or-later)\n"
         "https://zakalwe.fi/uade/\n"
         "\n"
+#endif
+#if PLAYER_hivelytracker
         "HivelyTracker 1.9 (BSD-3-Clause)\n"
         "Copyright (c) 2006-2018, Pete Gordon\n"
         "\n"
+#endif
+#if PLAYER_libdigibooster3
         "libdigibooster3 1.2 (BSD-2-Clause)\n"
         "Copyright (c) 2014, Grzegorz Kraszewski\n"
         "\n"
+#endif
+#if PLAYER_ft2play || PLAYER_it2play || PLAYER_st3play || PLAYER_st23play
         "ft2play, it2play, st3play v1.0.1,\n"
         "st23play v0.35 (BSD-3-Clause)\n"
         "Copyright (c) 2016-2024, Olav Sørensen\n"
         "\n"
+#endif
+#if PLAYER_protrekkr1 || PLAYER_protrekkr2
         "ProTrekkr v1.99e, v2.8.1 (BSD-2-Clause)\n"
         "Copyright (C) 2008-2024, Franck Charlet\n"
         "\n"
+#endif
+#if PLAYER_noisetrekker2
         "NoiseTrekker2 final by Arguru\n"
         "\n"
+#endif
         "See README for more information\n",
         &plugin_prefs
     };

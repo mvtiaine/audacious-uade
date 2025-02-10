@@ -32,17 +32,17 @@ void print(const common::SongEnd &songend, const player::ModuleInfo &info, int s
     if (subsong == info.minsubsong) {
         const auto pl = player::name(info.player);
         if (includepath) {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl.c_str(),info.format.c_str(),info.channels,buf.size(),info.path.c_str());
+            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl.data(),info.format.c_str(),info.channels,buf.size(),info.path.c_str());
         } else {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl.c_str(),info.format.c_str(),info.channels,buf.size());
+            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl.data(),info.format.c_str(),info.channels,buf.size());
         }
     } else {
         fprintf(stdout, "%s\t%d\t%d\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str());
     }
 }
 
-int player_songend(vector<char> &buf, const char *path, bool includepath, const string &md5hex) {
-    const auto &info = player::parse(path, buf.data(), buf.size());
+int player_songend(const player::Player player, vector<char> &buf, const char *path, bool includepath, const string &md5hex) {
+    const auto &info = player::parse(path, buf.data(), buf.size(), player);
     if (!info) {
         fprintf(stderr, "Could not parse %s md5 %s\n", path, md5hex.c_str());
         return EXIT_FAILURE;
@@ -119,8 +119,9 @@ int main(int argc, char *argv[]) {
 #endif
 
     const player::support::PlayerScope p;
-    if (player::check(path, buffer.data(), buffer.size()) != player::Player::NONE) {
-        int res = player_songend(buffer, path, includepath, md5hex);
+    const auto player = player::check(path, buffer.data(), buffer.size());
+    if (player != player::Player::NONE) {
+        int res = player_songend(player, buffer, path, includepath, md5hex);
         return res;
     } else {
         fprintf(stderr, "Could not recognize %s md5 %s\n", path, md5hex.c_str());
