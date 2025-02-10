@@ -29,6 +29,10 @@ dist-hook:
 	    echo "ERROR: make dist requires all players to be enabled"; \
 		exit 1; \
 	fi
+if !PLAYER_PROBE
+	echo "ERROR: make dist requires player probes to be enabled"
+	exit 1
+endif
 	$(MKDIR_P) "$(distdir)/uade"
 	cd uade && git ls-files | tar Tc - | tar x -C "../$(distdir)/uade"
 
