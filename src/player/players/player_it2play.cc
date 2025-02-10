@@ -398,8 +398,10 @@ void init() noexcept {
 }
 
 void shutdown() noexcept {
+#ifdef PLAYER_PROBE
     probe::Music_FreeSong();
     probe::Music_Close();
+#endif
     play::Music_FreeSong();
     play::Music_Close();
 }

@@ -75,17 +75,21 @@ namespace player::protrekkr1 {
 void init() noexcept {
     if (!play::Ptk_InitDriver()) assert(false);
     if (!play::Alloc_Patterns_Pool()) assert(false);
+#ifdef PLAYER_PROBE
     if (!probe::Ptk_InitDriver()) assert(false);
     if (!probe::Alloc_Patterns_Pool()) assert(false);
+#endif
 }
 
 void shutdown() noexcept {
     play::Ptk_Stop();
     play::Free_Samples();
     if (play::RawPatterns) free(play::RawPatterns);
+#ifdef PLAYER_PROBE
     probe::Ptk_Stop();
     probe::Free_Samples();
     if (probe::RawPatterns) free(probe::RawPatterns);
+#endif
 }
 
 bool is_our_file(const char *path, const char *buf, size_t size) noexcept {

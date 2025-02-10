@@ -34,24 +34,13 @@ constexpr_f2 ModuleInfo get_info(const string &path, struct hvl_tune *ht) noexce
     return {Player::hivelytracker, format, path, 0, maxsubsong, 0, channels};
 }
 
-bool initialized = false;
-mutex init_guard;
-void lazy_init() noexcept {
-    if (!initialized) {
-        init_guard.lock();
-        if (!initialized) {
-            hvl_InitReplayer();
-            initialized = true;
-        }
-        init_guard.unlock();
-    }
-}
-
 } // namespace {}
 
 namespace player::hivelytracker {
 
-void init() noexcept {}
+void init() noexcept {
+    hvl_InitReplayer();
+}
 
 void shutdown() noexcept {}
 
@@ -74,7 +63,6 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     assert(subsong >= 0);
-    lazy_init();
     struct hvl_tune *ht = hvl_reset((uint8_t*)buf, size, 0, config.frequency);
     if (!ht) {
         ERR("player_hivelytracker::play parsing failed for %s\n", path);

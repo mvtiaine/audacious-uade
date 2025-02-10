@@ -30,4 +30,8 @@ inline void clearMixBuffer() { \
 }
 
 ST23PLAY(replay::st23play::play)
+#ifdef PLAYER_PROBE
 ST23PLAY(replay::st23play::probe)
+#else
+namespace replay::st23play { namespace probe = replay::st23play::play; }
+#endif

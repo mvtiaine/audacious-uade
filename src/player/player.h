@@ -4,6 +4,7 @@
 #pragma once
 
 #include "common/std/optional.h"
+#include "common/std/string_view.h"
 
 #include <cassert>
 #include <cstddef>
@@ -14,6 +15,7 @@
 
 #include "common/compat.h"
 #include "common/constexpr.h"
+#include "common/foreach.h"
 #include "common/endian.h"
 #include "common/songend.h"
 #include "config.h"
@@ -42,27 +44,19 @@ constexpr int MAX_SILENCE = 3000;
     ft2play \
 )
 
+#define STRINGIFY(x) #x,
+constexpr char const *player_names[] = {
+    "NONE",
+    FOREACH(STRINGIFY, PLAYERS)
+};
+
 enum class Player {
     NONE,
     PLAYERS
 };
 
-constexpr_f2 std::string name(Player player) noexcept {
-    switch(player) {
-        case Player::hivelytracker: return "hivelytracker";
-        case Player::libdigibooster3: return "libdigibooster3";
-        case Player::uade: return "uade";
-        case Player::ft2play: return "ft2play";
-        case Player::st3play: return "st3play";
-        case Player::it2play: return "it2play";
-        case Player::st23play: return "st23play";
-        case Player::noisetrekker2: return "noisetrekker2";
-        case Player::protrekkr1: return "protrekkr1";
-        case Player::protrekkr2: return "protrekkr2";
-        default: assert(false); return "";
-    }
-    assert(false);
-    return "";
+constexpr std::string_view name(Player player) noexcept {
+    return player_names[static_cast<int>(player)];
 }
 
 struct ModuleInfo {
@@ -84,11 +78,12 @@ struct PlayerConfig {
     bool probe = false;
 
     constexpr_f1 PlayerConfig() noexcept {}
-    constexpr_f1 PlayerConfig(const int frequency) noexcept : frequency(frequency) {}
-    constexpr_f1 PlayerConfig(const int frequency, const int known_timeout) noexcept
-    : frequency(frequency), known_timeout(known_timeout) {}
-    constexpr_f1 PlayerConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
-    : frequency(frequency), known_timeout(known_timeout), endian(endian), probe(probe) {}
+    constexpr_f1 PlayerConfig(const Player player, const int frequency) noexcept
+    : player(player), frequency(frequency) {}
+    constexpr_f1 PlayerConfig(const Player player, const int frequency, const int known_timeout) noexcept
+    : player(player), frequency(frequency), known_timeout(known_timeout) {}
+    constexpr_f1 PlayerConfig(const Player player, const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
+    : player(player), frequency(frequency), known_timeout(known_timeout), endian(endian), probe(probe) {}
 };
 
 struct PlayerState {
@@ -106,7 +101,7 @@ void init() noexcept;
 void shutdown() noexcept;
 
 Player check(const char *path, const char *buf, size_t size) noexcept;
-std::optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept;
+std::optional<ModuleInfo> parse(const char *path, const char *buf, size_t size, Player player = Player::NONE) noexcept;
 std::optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept;
 std::pair<common::SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) noexcept;
 bool stop(PlayerState &state) noexcept;
@@ -171,11 +166,11 @@ struct UADEConfig : PlayerConfig {
 
     constexpr_f1 UADEConfig() noexcept { player = Player::uade; }
     constexpr_f1 UADEConfig(const int frequency) noexcept
-    : PlayerConfig(frequency) { player = Player::uade; }
+    : PlayerConfig(Player::uade, frequency) {}
     constexpr_f1 UADEConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
-    : PlayerConfig(frequency, known_timeout, endian, probe) { player = Player::uade; }
+    : PlayerConfig(Player::uade, frequency, known_timeout, endian, probe) {}
     constexpr_f1 UADEConfig(const PlayerConfig &config) noexcept
-    : PlayerConfig(config.frequency, config.known_timeout, config.endian, config.probe) { player = Player::uade; }
+    : PlayerConfig(Player::uade, config.frequency, config.known_timeout, config.endian, config.probe) {}
 };
 
 bool seek(PlayerState &state, int millis) noexcept;
@@ -198,11 +193,11 @@ struct IT2PlayConfig : PlayerConfig {
 
     constexpr_f1 IT2PlayConfig() noexcept { player = Player::it2play; }
     constexpr_f1 IT2PlayConfig(const int frequency) noexcept
-    : PlayerConfig(frequency) { player = Player::it2play; }
+    : PlayerConfig(Player::it2play, frequency) {}
     constexpr_f1 IT2PlayConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
-    : PlayerConfig(frequency, known_timeout, endian, probe) { player = Player::it2play; }
+    : PlayerConfig(Player::it2play, frequency, known_timeout, endian, probe) {}
     constexpr_f1 IT2PlayConfig(const PlayerConfig &config) noexcept
-    : PlayerConfig(config.frequency, config.known_timeout, config.endian, config.probe) { player = Player::it2play; }
+    : PlayerConfig(Player::it2play, config.frequency, config.known_timeout, config.endian, config.probe) {}
 };
 
 } // namespace player::it2play

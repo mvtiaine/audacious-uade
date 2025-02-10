@@ -39,4 +39,8 @@ inline void clearMixBuffer() { \
 }
 
 ST3PLAY(replay::st3play::play)
+#ifdef PLAYER_PROBE
 ST3PLAY(replay::st3play::probe)
+#else
+namespace replay::st3play { namespace probe = replay::st3play::play; }
+#endif
