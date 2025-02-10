@@ -95,16 +95,20 @@ namespace player::noisetrekker2 {
 
 void init() noexcept {
     if (!play::AllocPattern()) assert(false);
+#ifdef PLAYER_PROBE
     if (!probe::AllocPattern()) assert(false);
+#endif
 }
 
 void shutdown() noexcept {
     play::SongStop();
     play::FreeAll();
     if (play::RawPatterns) free(play::RawPatterns);
+#ifdef PLAYER_PROBE
     probe::SongStop();
     probe::FreeAll();
     if (probe::RawPatterns) free(probe::RawPatterns);
+#endif
 }
 
 bool is_our_file(const char *path, const char *buf, size_t size) noexcept {

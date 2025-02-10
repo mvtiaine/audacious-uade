@@ -39,6 +39,7 @@ inline bool openMixer(int32_t mixingFrequency, int32_t mixingBufferSize) { retur
 inline void closeMixer(void) {}
 } // namespace replay::it2play::play
 
+#ifdef PLAYER_PROBE
 namespace replay::it2play::probe {
 using namespace replay::it2play;
 extern hostChn_t hChn[MAX_HOST_CHANNELS];
@@ -56,3 +57,6 @@ inline void unlockMixer(void) {}
 inline bool openMixer(int32_t mixingFrequency, int32_t mixingBufferSize) { return true; }
 inline void closeMixer(void) {}
 } // namespace replay::it2play::probe
+#else
+namespace replay::it2play { namespace probe = replay::it2play::play; }
+#endif

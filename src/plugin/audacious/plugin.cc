@@ -189,13 +189,14 @@ bool update_tuple(Tuple &tuple, const string &path, int subsong, const Info &inf
 }
 
 common::SongEnd precalc_song_end(
+    player::Player player,
     VFSFile &file,
     const string &path,
     const string &md5,
     const int subsong
 ) {
     const Index<char> buf = read_all(file);
-    const auto modinfo = player::parse(path.c_str(), buf.begin(), buf.len());
+    const auto modinfo = player::parse(path.c_str(), buf.begin(), buf.len(), player);
     if (!modinfo) {
         return { common::SongEnd::ERROR, 0 };
     }
@@ -461,7 +462,7 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
         const bool do_precalc = !has_db_entry && !for_playback &&
             tuple.get_int(Tuple::Length) <= 0 && aud_get_bool(PLUGIN_NAME, PRECALC_SONGLENGTHS);
         if (do_precalc) {
-            const auto &songend = precalc_song_end(file, path, md5, subsong);
+            const auto &songend = precalc_song_end(info->player, file, path, md5, subsong);
             update_tuple_song_end(tuple, songend, info->format);
             // update songdb (runtime only) so next read_tag call doesn't precalc again
             songdb::update(md5, songdb::SubSongInfo{static_cast<uint8_t>(subsong), {songend.status, songend.length}}, info->minsubsong, info->maxsubsong);
@@ -498,7 +499,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     int frequency = aud_get_int(PLUGIN_NAME, "frequency");
 
     const auto player = check_player(file, path);
-    const player::PlayerConfig player_config = {frequency, known_timeout};
+    const player::PlayerConfig player_config = {player, frequency, known_timeout};
     const auto uade_config = get_uade_config(player_config);
     const auto it2play_config = get_it2play_config(player_config);
     const auto &config =

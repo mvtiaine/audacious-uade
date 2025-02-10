@@ -52,8 +52,11 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_ft2play.la
 
 3rdparty_replay_libreplay_ft2play_la_SOURCES = \
     3rdparty/replay/ft2play/ft2play.h \
-    3rdparty/replay/ft2play/ft2play_play.cc \
-    3rdparty/replay/ft2play/ft2play_probe.cc
+    3rdparty/replay/ft2play/ft2play_play.cc
+
+if PLAYER_PROBE
+3rdparty_replay_libreplay_ft2play_la_SOURCES += 3rdparty/replay/ft2play/ft2play_probe.cc
+endif
 
 3rdparty/replay/ft2play/% : CXXFLAGS += -Wno-volatile -Wno-unknown-warning-option
 endif
@@ -64,8 +67,11 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_st3play.la
 
 3rdparty_replay_libreplay_st3play_la_SOURCES = \
     3rdparty/replay/st3play/st3play.h \
-    3rdparty/replay/st3play/st3play_play.cc \
-    3rdparty/replay/st3play/st3play_probe.cc
+    3rdparty/replay/st3play/st3play_play.cc
+
+if PLAYER_PROBE
+3rdparty_replay_libreplay_st3play_la_SOURCES += 3rdparty/replay/st3play/st3play_probe.cc
+endif
 
 3rdparty/replay/st3play/% : CXXFLAGS += -Wno-keyword-macro
 endif
@@ -76,8 +82,11 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_it2play.la
 
 3rdparty_replay_libreplay_it2play_la_SOURCES = \
     3rdparty/replay/it2play/it2play.h \
-    3rdparty/replay/it2play/it2play_play.cc \
-    3rdparty/replay/it2play/it2play_probe.cc
+    3rdparty/replay/it2play/it2play_play.cc
+
+if PLAYER_PROBE
+3rdparty_replay_libreplay_it2play_la_SOURCES += 3rdparty/replay/it2play/it2play_probe.cc
+endif
 
 3rdparty/replay/it2play/% : CXXFLAGS += -Wno-misleading-indentation
 endif
@@ -88,8 +97,11 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_st23play.la
 
 3rdparty_replay_libreplay_st23play_la_SOURCES = \
     3rdparty/replay/st23play/st23play.h \
-    3rdparty/replay/st23play/st23play_play.cc \
-    3rdparty/replay/st23play/st23play_probe.cc
+    3rdparty/replay/st23play/st23play_play.cc
+
+if PLAYER_PROBE
+3rdparty_replay_libreplay_st23play_la_SOURCES += 3rdparty/replay/st23play/st23play_probe.cc
+endif
 endif
 
 if PLAYER_noisetrekker2
@@ -97,8 +109,11 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_noisetrekker2.la
 3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_noisetrekker2.la
 3rdparty_replay_libreplay_noisetrekker2_la_SOURCES = \
     3rdparty/replay/noisetrekker2/noisetrekker2.h \
-    3rdparty/replay/noisetrekker2/noisetrekker2_play.cc \
-    3rdparty/replay/noisetrekker2/noisetrekker2_probe.cc
+    3rdparty/replay/noisetrekker2/noisetrekker2_play.cc 
+
+if PLAYER_PROBE
+3rdparty_replay_libreplay_noisetrekker2_la_SOURCES += 3rdparty/replay/noisetrekker2/noisetrekker2_probe.cc
+endif
 
 3rdparty/replay/noisetrekker2/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-deprecated-declarations -Wno-type-limits
 endif
@@ -109,8 +124,11 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_protrekkr1.la
 
 3rdparty_replay_libreplay_protrekkr1_la_SOURCES = \
     3rdparty/replay/protrekkr1/protrekkr1.h \
-    3rdparty/replay/protrekkr1/protrekkr1_play.cc \
-    3rdparty/replay/protrekkr1/protrekkr1_probe.cc
+    3rdparty/replay/protrekkr1/protrekkr1_play.cc
+
+if PLAYER_PROBE
+3rdparty_replay_libreplay_protrekkr1_la_SOURCES += 3rdparty/replay/protrekkr1/protrekkr1_probe.cc
+endif
 
 3rdparty/replay/protrekkr1/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-type-limits -Wno-volatile -Wno-unknown-warning-option
 endif
@@ -121,8 +139,11 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_protrekkr2.la
 
 3rdparty_replay_libreplay_protrekkr2_la_SOURCES = \
     3rdparty/replay/protrekkr2/protrekkr2.h \
-    3rdparty/replay/protrekkr2/protrekkr2_play.cc \
-    3rdparty/replay/protrekkr2/protrekkr2_probe.cc
+    3rdparty/replay/protrekkr2/protrekkr2_play.cc
+
+if PLAYER_PROBE
+3rdparty_replay_libreplay_protrekkr2_la_SOURCES += 3rdparty/replay/protrekkr2/protrekkr2_probe.cc
+endif
 
 3rdparty/replay/protrekkr2/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-volatile -Wno-unknown-warning-option
 endif

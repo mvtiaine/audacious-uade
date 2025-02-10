@@ -231,7 +231,7 @@ struct FSTHeader {
 constexpr_f2 bool is_fasttracker2(const char *buf, size_t size) noexcept {
     if (size < sizeof(XMHeader) || memcmp(buf, "Extended Module:", 16)) return false;
     const auto &h = (const XMHeader *)buf;
-    if (h->ver < 0x0102 || h->ver > 0x104 ||
+    if (h->ver < 0x102 || h->ver > 0x104 ||
         h->antChn < 2 || h->antChn > 32 || (h->antChn & 1) != 0 ||
         h->len > 256 || h->antPtn > 256 || h->antInstrs > 128) {
         DEBUG("player_ft2play::parse failed - ver %d progName %s len %d antChn %d antPtn %d antInstrs %d\n", (int16_t)h->ver, h->progName, (int16_t)h->len, (int16_t)h->antChn, (int16_t)h->antPtn, (int16_t)h->antInstrs);
@@ -372,11 +372,13 @@ void init() noexcept {
 }
 
 void shutdown() noexcept {
+#ifdef PLAYER_PROBE
     probe::stopVoices();
     probe::mix_ClearChannels();
     probe::mix_Free();
     probe::freeMusic();
     probe::moduleLoaded = false;
+#endif
     play::stopVoices();
     play::mix_ClearChannels();
     play::mix_Free();

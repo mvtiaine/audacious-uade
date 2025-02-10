@@ -102,7 +102,7 @@ SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, i
     const auto check_stop = []() { return false; };
     const auto check_seek = []() { return -1; };
     int frequency = PRECALC_FREQ;
-    const player::PlayerConfig player_config = { frequency, 0, endian::native, true };
+    player::PlayerConfig player_config = { info.player, frequency, 0, endian::native, true };
     auto uade_config = player::uade::UADEConfig(player_config);
     uade_config.silence_timeout = SILENCE_TIMEOUT;
     auto it2play_config = it2play::IT2PlayConfig(player_config);

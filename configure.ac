@@ -97,6 +97,12 @@ m4_foreach_w([player],
   fi
 ])
 
+# Player probe support
+AC_ARG_ENABLE(player-probe,
+  AS_HELP_STRING([--enable-player-probe=[yes|no]], [Enable or disable player probe support [default=auto]]),
+  [player_probe="$enableval"],
+  [player_probe=""])
+
 # Audacious plugin
 AC_ARG_ENABLE(plugin-audacious,
   AS_HELP_STRING([--enable-plugin-audacious=[yes|no|auto]], [Explicitly enable or disable Audacious plugin [default=auto]]),
@@ -124,6 +130,10 @@ PKG_CHECK_MODULES([AUDACIOUS],[audacious >= 3.8],
 fi
 
 if test "$plugin_audacious" = "yes"; then
+if test "$player_probe" = "no"; then
+  AC_MSG_ERROR([Player probe support is required for Audacious plugin])
+fi
+player_probe="yes"
 AC_MSG_CHECKING([for audacious plugindir])
 AC_ARG_WITH([audacious-plugindir],
   AS_HELP_STRING([--with-audacious-plugindir=[PLUGINDIR]], [Installs uade plugin under [PLUGINDIR]/Input instead of Audacious default]),
@@ -170,6 +180,11 @@ AC_COMPILE_IFELSE(
 AC_LANG_POP
 CXXFLAGS="$saved_cxxflags"
 fi
+
+if test "$player_probe" = "yes"; then
+  AC_DEFINE([PLAYER_PROBE], [1], [Enable player probe support])
+fi
+AM_CONDITIONAL([PLAYER_PROBE], [test "$player_probe" = "yes"])
 
 AM_CONDITIONAL([PLUGIN_AUDACIOUS], [test "$plugin_audacious" = "yes"])
 

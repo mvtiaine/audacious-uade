@@ -59,13 +59,13 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    auto info = parse(fname, buffer.data(), buffer.size());
+    auto info = parse(fname, buffer.data(), buffer.size(), player);
     if (!info) {
         fprintf(stderr, "Could not parse %s\n", fname);
         return EXIT_FAILURE;
     }
 
-    PlayerConfig player_config = { frequency };
+    PlayerConfig player_config = { info->player, frequency };
     auto uade_config = uade::UADEConfig(player_config);
     if (getenv("SONGEND_MODE")) {
         uade_config.subsong_timeout = player::PRECALC_TIMEOUT;

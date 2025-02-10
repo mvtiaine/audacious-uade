@@ -122,8 +122,10 @@ namespace player::st23play {
 void init() noexcept {}
 
 void shutdown() noexcept {
+#ifdef PLAYER_PROBE
     probe::clearMixBuffer();
     probe::st23play_Close();
+#endif
     play::clearMixBuffer();
     play::st23play_Close();
 }

@@ -119,6 +119,7 @@ namespace play {
 PROTREKKR_NS
 } // namespace play
 
+#ifdef PLAYER_PROBE
 namespace probe {
 #include "release/distrib/replay/lib/include/synth.h"
 #include "release/distrib/replay/lib/include/tb_303.h"
@@ -127,5 +128,7 @@ namespace probe {
 #include "src/editors/include/patterns_blocks.h"
 PROTREKKR_NS
 } // namespace probe
-
+#else
+namespace probe = play;
+#endif
 } // namespace replay::protrekkr2

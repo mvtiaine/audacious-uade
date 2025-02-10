@@ -94,6 +94,10 @@ void ComputeStereo(char channel); \
 void reset() noexcept; \
 
 namespace play { NOISETREKKER2_NS }
+#ifdef PLAYER_PROBE
 namespace probe { NOISETREKKER2_NS }
+#else
+namespace probe = play;
+#endif
 
 } // namespace replay::noisetrekker2

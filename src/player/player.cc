@@ -99,7 +99,7 @@ Player check(const char *path, const char *buf, size_t size) noexcept {
     return Player::NONE;
 }
 
-optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
+optional<ModuleInfo> parse(const char *path, const char *buf, size_t size, Player player/* = Player::NONE*/) noexcept {
     assert(initialized);
     if (size < MAGIC_SIZE || size < converter::MAGIC_SIZE) return {};
     assert(path);
@@ -114,7 +114,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
         buf = conversion->data.data();
         size = conversion->data.size();
     }
-    Player player = check(path, buf, size);
+    if (player == Player::NONE) player = check(path, buf, size);
     if (player == Player::NONE) return {};
     optional<ModuleInfo> res;
     SWITCH_PLAYER(player, res,
@@ -127,8 +127,8 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
-    assert(initialized);
     if (size < MAGIC_SIZE || size < converter::MAGIC_SIZE) return {};
+    assert(initialized);
     assert(path);
     assert(buf);
     assert(subsong >= 0);
@@ -142,7 +142,8 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         buf = conversion->data.data();
         size = conversion->data.size();
     }
-    Player player = check(path, buf, size);
+    Player player = config.player;
+    if (player == Player::NONE) player = check(path, buf, size);
     if (player == Player::NONE) return {};
     optional<PlayerState> res;
     SWITCH_PLAYER(player, res,

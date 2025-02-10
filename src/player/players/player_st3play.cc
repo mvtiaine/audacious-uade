@@ -292,9 +292,11 @@ namespace player::st3play {
 
 void init() noexcept {}
 void shutdown() noexcept {
+#ifdef PLAYER_PROBE
     probe::st3play_SetInterpolation(false);
     probe::clearMixBuffer();
     probe::st3play_Close();
+#endif
     play::st3play_SetInterpolation(false);
     play::clearMixBuffer();
     play::st3play_Close();
