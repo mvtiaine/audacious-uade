@@ -1,0 +1,31 @@
+pkgname=audacious-uade
+pkgver=$(cat ../VERSION | sed 's/-/_/g')
+pkgrel=1
+pkgdesc="UADE plugin for Audacious music player"
+arch=('any')
+url="https://github.com/mvtiaine/audacious-uade"
+license=('GPL')
+depends=('audacious')
+makedepends=('autoconf' 'automake' 'libtool' 'which' 'make' 'pkg-config')
+
+build() {
+    cd "$startdir"/..
+    autoreconf -i
+    ./configure >/dev/null 2>&1
+    make distclean >/dev/null 2>&1
+    mkdir -p build-arch
+    cd build-arch
+    rm -rf *
+    ../configure --enable-plugin-audacious=yes --with-static-stdlibs=no
+    make -j
+}
+
+check() {
+    cd "$startdir/../build-arch"
+    make -j check
+}
+
+package() {
+    cd "$startdir/../build-arch"
+    make DESTDIR="$pkgdir/" install
+}

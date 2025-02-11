@@ -81,10 +81,14 @@ ln -s "${HOMEBREW_PREFIX}/lib/audacious/Input/uade.so" "$(pkgconf --variable=plu
 emerge -p media-plugins/audacious-uade
 emerge media-plugins/audacious-uade
 
-* To install with PKGBUILD for Arch/Manjaro/etc. (latest release):
+* To install with PKGBUILD for Arch/Manjaro/etc.:
+(Latest release)
 wget https://raw.githubusercontent.com/mvtiaine/arch-repo/main/audacious-uade/PKGBUILD
 makepkg -s
 (sudo) pacman -U audacious-uade*.pkg*
+(Git)
+makepkg -c -s -f -D scripts
+(sudo) pacman -U scripts/audacious-uade*.pkg*
 
 * To install with FreeBSD/MidnightBSD ports or DragonFlyBSD DPorts (latest release):
 git clone https://github.com/mvtiaine/freebsd-ports.git

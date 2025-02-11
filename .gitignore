@@ -44,6 +44,7 @@ bak
 audacious-uade-*
 *.tar.bz2
 debian/changelog
+build-arch
 build-deb
 build-rpm
 build
@@ -58,3 +59,4 @@ build-tmp
 *.worker.js
 *.aarch64.elf
 *.com.dbg
+*.pkg.tar.*
