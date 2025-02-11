@@ -82,11 +82,11 @@ emerge -p media-plugins/audacious-uade
 emerge media-plugins/audacious-uade
 
 * To install with PKGBUILD for Arch/Manjaro/etc.:
-(Latest release)
+# Latest release
 wget https://raw.githubusercontent.com/mvtiaine/arch-repo/main/audacious-uade/PKGBUILD
 makepkg -s
 (sudo) pacman -U audacious-uade*.pkg*
-(Git)
+# Git
 makepkg -c -s -f -D scripts
 (sudo) pacman -U scripts/audacious-uade*.pkg*
 
