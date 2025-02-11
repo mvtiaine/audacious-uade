@@ -901,7 +901,7 @@ elif test "$build_tizen" = "yes" || test "$build_blackberry10" = "yes" ; then
   fi
 fi
 
-if test "$players" = "all" || printf ",${players}," | grep -Eq ",${p},"; then
+if test "$players" = "all" || printf ",${players}," | grep -Eq ",uade,"; then
 uade_prefix=${prefix}
 if test "$uade_prefix" = "NONE" ; then
   uade_prefix=/usr/local
