@@ -105,7 +105,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     if (context->LoadMod(buf, size)) {
         info = ModuleInfo{Player::protrekkr1, "ProTrekkr 1.x", path, 1, 1, 1, context->Channels()};
     } else {
-        WARN("player_protrekkr1::parse parsing failed for %s\n", path);
+        DEBUG("player_protrekkr1::parse parsing failed for %s\n", path);
     }
     delete context;
     return info;

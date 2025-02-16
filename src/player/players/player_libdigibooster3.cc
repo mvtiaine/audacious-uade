@@ -107,7 +107,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
         if (mod) {
             DB3_Unload(mod);
         }
-        WARN("player_libdigibooster3::parse parsing failed for %s reason %s\n", path, ErrorReasons[error]);
+        DEBUG("player_libdigibooster3::parse parsing failed for %s reason %s\n", path, ErrorReasons[error]);
         return {};
     }
 

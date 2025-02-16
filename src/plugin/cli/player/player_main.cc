@@ -53,13 +53,27 @@ int main(int argc, char *argv[]) {
 
     const support::PlayerScope p;
 
-    const auto player = check(fname, buffer.data(), buffer.size());
-    if (player == Player::NONE) {
+    vector<Player> players;
+    if (getenv("PLAYER")) {
+        Player player = player::player(getenv("PLAYER"));
+        if (player == Player::NONE) {
+            fprintf(stderr, "Unknown player %s\n", getenv("PLAYER"));
+            return EXIT_FAILURE;
+        }
+        players.push_back(player::player(getenv("PLAYER")));
+    } else {
+        players = check(fname, buffer.data(), buffer.size());
+    }
+    if (players.empty()) {
         fprintf(stderr, "Could not recognize %s\n", fname);
         return EXIT_FAILURE;
     }
 
-    auto info = parse(fname, buffer.data(), buffer.size(), player);
+    optional<ModuleInfo> info;
+    for (const auto player : players) {
+        info = parse(fname, buffer.data(), buffer.size(), player);
+        if (info) break;
+    }
     if (!info) {
         fprintf(stderr, "Could not parse %s\n", fname);
         return EXIT_FAILURE;
@@ -70,7 +84,7 @@ int main(int argc, char *argv[]) {
     if (getenv("SONGEND_MODE")) {
         uade_config.subsong_timeout = player::PRECALC_TIMEOUT;
         uade_config.silence_timeout = player::PRECALC_TIMEOUT;
-        uade_config.filter = uade::Filter::NONE;
+        uade_config.filter = player::Filter::NONE;
         uade_config.resampler = uade::Resampler::NONE;
         uade_config.panning = 1;
     }
@@ -88,8 +102,8 @@ int main(int argc, char *argv[]) {
         }
     }
     auto &config =
-        player == Player::uade ? uade_config :
-        player == Player::it2play ? it2play_config :
+        info->player == Player::uade ? uade_config :
+        info->player == Player::it2play ? it2play_config :
         player_config;
 
     const char *endian_ = getenv("PLAYER_ENDIAN");

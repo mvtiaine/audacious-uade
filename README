@@ -22,6 +22,8 @@ Main features:
 - ProTrekkr 1 & 2 support (https://github.com/hitchhikr/protrekkr)
 -- note: older ProTrekkr mods may play incorrectly
 - NoiseTrekker 2 support based on sources from the final release
+- libopenmpt support (https://lib.openmpt.org/libopenmpt/)
+- libxmp support (https://xmp.sourceforge.net/)
 
 Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
 In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.

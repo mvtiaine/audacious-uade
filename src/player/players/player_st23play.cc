@@ -151,7 +151,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
         // TODO subsongs (are there any STMs with proper subsongs?)
         info = get_stm_info(path, buf, size);
     } else {
-        WARN("player_st23play::parse parsing failed for %s\n", path);
+        DEBUG("player_st23play::parse parsing failed for %s\n", path);
     }
     delete context;
     return info;

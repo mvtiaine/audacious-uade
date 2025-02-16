@@ -180,7 +180,7 @@ struct uade_file *sample_loader_wrapper(const char *name, const char *playerdir,
         }
     }
     if (!amiga_file) {
-        ERR("sample_loader_wrapper could NOT find file: %s\n", name);
+        DEBUG("sample_loader_wrapper could NOT find file: %s\n", name);
     }
     return amiga_file;
 }
@@ -551,7 +551,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
             WARN("uade::parse fatal error on %s \n", path);
             return {};
         default:
-            WARN("uade::parse cannot play %s\n", path);
+            DEBUG("uade::parse cannot play %s\n", path);
             return {};
     }
 }

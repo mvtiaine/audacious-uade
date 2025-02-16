@@ -420,7 +420,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     assert(!context->Song().Loaded);
     optional<ModuleInfo> info;
     if ((it && !context->LoadIT(buf, size)) || (s3m && !context->LoadS3M(buf, size))) {
-        WARN("player_it2play::parse parsing failed for %s\n", path);
+        DEBUG("player_it2play::parse parsing failed for %s\n", path);
     } else {
         if (it) {
             info = get_it_info(path, buf, size);

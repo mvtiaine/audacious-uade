@@ -146,7 +146,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
         const string tracker = get_tracker(buf);
         info = ModuleInfo{Player::protrekkr2, tracker, path, 1, 1, 1, context->Channels()};
     } else {
-        WARN("player_protrekkr2::parse parsing failed for %s\n", path);
+        DEBUG("player_protrekkr2::parse parsing failed for %s\n", path);
     }
     delete context;
     return info;

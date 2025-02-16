@@ -123,7 +123,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     if (context->LoadMod(buf, size)) {
         info = ModuleInfo{Player::noisetrekker2, "NoiseTrekker 2.x", path, 1, 1, 1, context->Songtracks()};
     } else {
-        WARN("player_noisetrekker2::parse parsing failed for %s\n", path);
+        DEBUG("player_noisetrekker2::parse parsing failed for %s\n", path);
     }
     delete context;
     return info;

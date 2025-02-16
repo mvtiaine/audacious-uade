@@ -9,9 +9,11 @@
 #include <cassert>
 #include <cstddef>
 #include <functional>
+#include <set>
 #include <string>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "common/compat.h"
 #include "common/constexpr.h"
@@ -41,7 +43,9 @@ constexpr int MAX_SILENCE = 3000;
     st3play, \
     it2play, \
     uade, \
-    ft2play \
+    ft2play, \
+    libopenmpt, \
+    libxmp \
 )
 
 #define STRINGIFY(x) #x,
@@ -58,6 +62,22 @@ enum class Player {
 constexpr std::string_view name(Player player) noexcept {
     return player_names[static_cast<int>(player)];
 }
+
+constexpr_f Player player(const std::string_view &name) noexcept {
+    for (size_t i = 0; i < std::size(player_names); ++i) {
+        if (name == player_names[i]) {
+            return static_cast<Player>(i);
+        }
+    }
+    return Player::NONE;
+}
+
+struct MetaData {
+    std::string author;
+    std::string album;
+    std::string publisher;
+    uint16_t year;
+};
 
 struct ModuleInfo {
     Player player;
@@ -97,10 +117,16 @@ struct PlayerState {
     int pos_millis = 0;
 };
 
+enum class Filter {
+    NONE,
+    A500,
+    A1200
+};
+
 void init() noexcept;
 void shutdown() noexcept;
 
-Player check(const char *path, const char *buf, size_t size) noexcept;
+std::vector<Player> check(const char *path, const char *buf, size_t size, bool check_all = true) noexcept;
 std::optional<ModuleInfo> parse(const char *path, const char *buf, size_t size, Player player = Player::NONE) noexcept;
 std::optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept;
 std::pair<common::SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) noexcept;
@@ -138,12 +164,6 @@ PlaybackResult playback_loop(
 namespace player::uade {
 
 constexpr const char* UNKNOWN_CODEC = "UADE";
-
-enum class Filter {
-    NONE,
-    A500,
-    A1200
-};
 
 enum class Resampler {
     NONE,
@@ -201,3 +221,35 @@ struct IT2PlayConfig : PlayerConfig {
 };
 
 } // namespace player::it2play
+
+namespace player::libopenmpt {
+
+struct LibOpenMPTConfig : PlayerConfig {
+    Filter filter = Filter::A1200;
+    float panning = 0.7;
+    LibOpenMPTConfig() noexcept { player = Player::libopenmpt; }
+    LibOpenMPTConfig(const int frequency) noexcept
+    : PlayerConfig(Player::libopenmpt, frequency) {}
+    LibOpenMPTConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
+    : PlayerConfig(Player::libopenmpt, frequency, known_timeout, endian, probe) {}
+    LibOpenMPTConfig(const PlayerConfig &config) noexcept
+    : PlayerConfig(Player::libopenmpt, config.frequency, config.known_timeout, config.endian, config.probe) {}
+};
+
+} // namespace player::libopenmpt
+
+namespace player::libxmp {
+
+struct LibXMPConfig : PlayerConfig {
+    Filter filter = Filter::NONE;
+    float panning = 0.7;
+    LibXMPConfig() noexcept { player = Player::libxmp; }
+    LibXMPConfig(const int frequency) noexcept
+    : PlayerConfig(Player::libxmp, frequency) {}
+    LibXMPConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
+    : PlayerConfig(Player::libxmp, frequency, known_timeout, endian, probe) {}
+    LibXMPConfig(const PlayerConfig &config) noexcept
+    : PlayerConfig(Player::libxmp, config.frequency, config.known_timeout, config.endian, config.probe) {}
+};
+
+} // namespace player::libxmp

@@ -354,7 +354,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
             info->maxsubsong = subsongs.size();
         }
     } else {
-        WARN("player_st3play::parse parsing failed for %s\n", path);
+        DEBUG("player_st3play::parse parsing failed for %s\n", path);
     }
 
     delete context;

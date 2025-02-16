@@ -409,7 +409,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
         const auto subsongs = get_subsongs(context);
         info->maxsubsong = subsongs.size();
     } else {
-        WARN("player_ft2play::parse parsing failed for %s\n", path);
+        DEBUG("player_ft2play::parse parsing failed for %s\n", path);
     }
     delete context;
     return info;

@@ -25,10 +25,10 @@ install installdirs: SUBDIRS = src
 uninstall uninstalldirs: SUBDIRS = src
 
 dist-hook:
-	if test "$(players)" != "all"; then \
-	    echo "ERROR: make dist requires all players to be enabled"; \
-		exit 1; \
-	fi
+if !PLAYER_all
+	echo "ERROR: make dist requires all players to be enabled"
+	exit 1
+endif
 if !PLAYER_PROBE
 	echo "ERROR: make dist requires player probes to be enabled"
 	exit 1

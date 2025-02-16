@@ -80,20 +80,27 @@ fi
 
 # Players
 AC_ARG_ENABLE(players,
-  AS_HELP_STRING([--enable-players=[PLAYERS]], [List of comma separated players to enable [default=all]]),
+  AS_HELP_STRING([--enable-players=[PLAYERS]],
+  [List of comma separated players to enable, or 'all', or 'any' [default=any]]),
   [players="$enableval"],
-  [players="all"])
+  [players="any"])
 
+all_players=yes
+players_found=""
 AC_SUBST([players])
 m4_foreach_w([player],
-  [ft2play hivelytracker it2play libdigibooster3 noisetrekker2 protrekkr1 protrekkr2 st23play st3play uade], [
+  [ft2play hivelytracker it2play libdigibooster3 noisetrekker2 protrekkr1 protrekkr2 st23play st3play uade libopenmpt libxmp], [
   AS_VAR_SET([p], [player])
-  if test "$players" = "all" || printf ",${players}," | grep -Eq ",${p},"; then
+  if test "${p}" != "libopenmpt" && test "${p}" != "libxmp"; then # handle separately
+  if test "$players" = "all" || test "$players" = "any" || printf ",${players}," | grep -Eq ",${p},"; then
     AC_DEFINE_UNQUOTED([PLAYER_[]player[]], [1], [Enable player ]player)
     AM_CONDITIONAL([PLAYER_]player, [true])
+    players_found="${players_found},${p}"
   else
     AC_DEFINE_UNQUOTED([PLAYER_[]player[]], [0], [Disable player ]player)
     AM_CONDITIONAL([PLAYER_]player, [false])
+    all_players=no
+  fi
   fi
 ])
 
@@ -102,6 +109,55 @@ AC_ARG_ENABLE(player-probe,
   AS_HELP_STRING([--enable-player-probe=[yes|no]], [Enable or disable player probe support [default=auto]]),
   [player_probe="$enableval"],
   [player_probe=""])
+
+# libopenmpt
+player_libopenmpt=no
+if test "$players" = "all" || test "$players" = "any" || printf ",${players}," | grep -Eq ",libopenmpt,"; then
+PKG_CHECK_MODULES([LIBOPENMPT],[libopenmpt >= 0.6.0],
+  [
+    AC_SUBST(LIBOPENMPT_CFLAGS)
+    AC_SUBST(LIBOPENMPT_LIBS)
+    AC_DEFINE([PLAYER_libopenmpt], [1], [Enable player libopenmpt])
+    AM_CONDITIONAL([PLAYER_libopenmpt], [true])
+    player_libopenmpt=yes
+    players_found="${players_found},libopenmpt"
+  ],
+  [
+    if test "$players" = "all" || test "$(printf ',${players},' | grep -Eq ',libopenmpt,' && echo yes)" = "yes"; then
+      AC_MSG_ERROR([libopenmpt not found!])
+    fi
+  ])
+fi
+if test "$player_libopenmpt" != "yes"; then
+  AC_DEFINE([PLAYER_libopenmpt], [0], [Disable player libopenmpt])
+  AM_CONDITIONAL([PLAYER_libopenmpt], [false])
+  all_players=no
+fi
+
+# libxmp
+player_libxmp=no
+if test "$players" = "all" || test "$players" = "any" || printf ",${players}," | grep -Eq ",libxmp,"; then
+# TODO check version
+PKG_CHECK_MODULES([LIBXMP],[libxmp >= 4.5.0],
+  [
+    AC_SUBST(LIBXMP_CFLAGS)
+    AC_SUBST(LIBXMP_LIBS)
+    AC_DEFINE([PLAYER_libxmp], [1], [Enable player libxmp])
+    AM_CONDITIONAL([PLAYER_libxmp], [true])
+    player_libxmp=yes
+    players_found="${players_found},libxmp"
+  ],
+  [
+    if test "$players" = "all" || test "$(printf ',${players},' | grep -Eq ',libxmp,' && echo yes)" = "yes"; then
+      AC_MSG_ERROR([libxmp not found!])
+    fi
+  ])
+fi
+if test "$player_libxmp" != "yes"; then
+  AC_DEFINE([PLAYER_libxmp], [0], [Disable player libxmp])
+  AM_CONDITIONAL([PLAYER_libxmp], [false])
+  all_players=no
+fi
 
 # Audacious plugin
 AC_ARG_ENABLE(plugin-audacious,
@@ -141,6 +197,11 @@ AC_ARG_WITH([audacious-plugindir],
      AUDACIOUS_PLUGINDIR="$withval"
    fi],
    [AUDACIOUS_PLUGINDIR=$ac_audacious_plugindir])
+
+if test "$AUDACIOUS_PLUGINDIR" = ""; then
+  AC_MSG_ERROR([Audacious plugindir missing!])
+fi
+
 AC_SUBST(AUDACIOUS_PLUGINDIR)
 AC_MSG_RESULT($AUDACIOUS_PLUGINDIR)
 
@@ -901,7 +962,7 @@ elif test "$build_tizen" = "yes" || test "$build_blackberry10" = "yes" ; then
   fi
 fi
 
-if test "$players" = "all" || printf ",${players}," | grep -Eq ",uade,"; then
+if test "$players" = "all" || test "$players" = "any" || printf ",${players}," | grep -Eq ",uade,"; then
 uade_prefix=${prefix}
 if test "$uade_prefix" = "NONE" ; then
   uade_prefix=/usr/local
@@ -934,6 +995,16 @@ AC_SUBST([UADE_CPPFLAGS])
 UADE_LIBS="\${abs_top_builddir}/uade/src/frontends/common/libuade.a ${EXTRA_LIBS}"
 AC_SUBST([UADE_LIBS])
 fi # uade
+
+if test "$all_players" = "yes"; then
+  AC_DEFINE([PLAYER_all], [1], [All players enabled])
+  AM_CONDITIONAL([PLAYER_all], [true])
+  players="all"
+else
+  AC_DEFINE([PLAYER_all], [0], [Not all players enabled])
+  AM_CONDITIONAL([PLAYER_all], [false])
+  players="${players_found}"
+fi
 
 # XXX autoheader does not support dynamic variables with AC_DEFINE_UNQUOTED
 #AC_CONFIG_HEADERS([src/config.h])

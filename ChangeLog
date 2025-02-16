@@ -1,15 +1,19 @@
 0.13-dev
 - Songdb refactorings
--- move all preprocessing logic from c++ to Scala scripts
--- use single combined db/tsv for amp/modland/unexotica/demozoo metadata
--- generate also pretty printed tsv files in addition to the encoded/"compressed" tsvs
--- songdb scripts and raw TSVs moved to https://github.com/mvtiaine/audacious-uade-tools
--- misc cleanups/fixes/updates
+--  move all preprocessing logic from c++ to Scala scripts
+--  use single combined db/tsv for amp/modland/unexotica/demozoo metadata
+--  generate also pretty printed tsv files in addition to the encoded/"compressed" tsvs
+--  songdb scripts and raw TSVs moved to https://github.com/mvtiaine/audacious-uade-tools
+--  misc cleanups/fixes/updates
 - Implement ProTrekkr 1 & 2 support (https://github.com/hitchhikr/protrekkr)
--- note: old ProTrekkr files may play incorrectly
+--  note: old ProTrekkr files may play incorrectly
 - Implement NoiseTrekker 2 support based on the sources from final release
 - Allow build time selection of enabled players/replays
--- for example ./configure --enable-players=uade to only build with UADE
+--  for example ./configure --enable-players=uade to only build with UADE
+- Implement optional libopenmpt support (https://lib.openmpt.org/libopenmpt/)
+--  must be installed on system or provided externally via build flags
+- Implement optional libxmp support (https://xmp.sourceforge.net/)
+--  must be installed on system or provided externally via build flags
 - Misc fixes and updates
 
 0.12.4 - 2024-01-06
@@ -26,7 +30,7 @@
 - st3play: fixed 16-bit samples with big endian
 - ft2play: fixed 16-bit samples with big endian
 - Detect when "Probe content of files with no recognized file name extension" setting is disabled and show error message instead of crashing with assert failure
--- see https://github.com/mvtiaine/audacious-uade/issues/30 for details. Subsongs and metadata cannot be supported without it for some files using prefixes (TFMX etc.)
+--  see https://github.com/mvtiaine/audacious-uade/issues/30 for details. Subsongs and metadata cannot be supported without it for some files using prefixes (TFMX etc.)
 - Implement Impulse Tracker support (https://github.com/8bitbubsy/it2play)
 - Misc fixes and updates
 
@@ -78,17 +82,17 @@
 0.11.1 - 2023-12-18
 - Avoid claiming XM/S3M/etc. files for UADE
 - Updated default UADE playback config:
--- Frequency=48000 (was 44100), Filter=A1200 (was A500), Resampler=Sinc (was Default)
+--  Frequency=48000 (was 44100), Filter=A1200 (was A500), Resampler=Sinc (was Default)
 - Made audio buffer size dynamic, depending on frequency
 - Include format + channels (if available) in songdb
 - Misc fixes and updates
 
 0.11.0 - 2023-12-08
 - Songdb rewrite:
--- Add author/album/publisher/year from Demozoo SQL export
--- Add publisher/year from UnExotica
--- Support multiple authors from AMP
--- Optimize songdb storage size and runtime memory usage
+--  Add author/album/publisher/year from Demozoo SQL export
+--  Add publisher/year from UnExotica
+--  Support multiple authors from AMP
+--  Optimize songdb storage size and runtime memory usage
 - Avoid claiming C64 .sid files for UADE
 - Misc fixes and updates
 
@@ -122,19 +126,19 @@
 
 0.9 - 2023-11-03
 - Implement support for non-UADE players:
--- Add HivelyTracker player (http://www.hivelytracker.co.uk/)
--- Add DigiBooster 3 & DigiBooster Pro 2 (http://www.digibooster.de/)
+--  Add HivelyTracker player (http://www.hivelytracker.co.uk/)
+--  Add DigiBooster 3 & DigiBooster Pro 2 (http://www.digibooster.de/)
 - Misc fixes and updates
 
 0.8.4 - 2023-10-12
 - UADE updates:
--- Enable ADPCM player
--- Fix Scott Johnston player (Lemmings alternative rip)
--- Fix Jesper Olsen EP player (Harald Hårdtand alternative rip)
--- Remove obsolete version of Jason Page player
--- Add Face The Music player
--- Add Protracker4/IFF player
--- Add OctaMED Soundstudio / MMD3 player
+--  Enable ADPCM player
+--  Fix Scott Johnston player (Lemmings alternative rip)
+--  Fix Jesper Olsen EP player (Harald Hårdtand alternative rip)
+--  Remove obsolete version of Jason Page player
+--  Add Face The Music player
+--  Add Protracker4/IFF player
+--  Add OctaMED Soundstudio / MMD3 player
 
 0.8.3 - 2023-10-06
 - Add Gentoo overlay
@@ -176,8 +180,8 @@
 0.6 - 2023-04-05
 - Implement UADE config widget
 - Add UADE as submodule
--- uses own fork which includes some fixes/updates not found (yet) in official branch
--- system libuade can be used via --with-system-libuade configure flag
+--  uses own fork which includes some fixes/updates not found (yet) in official branch
+--  system libuade can be used via --with-system-libuade configure flag
 - Misc cleanups/fixes
 
 0.5 - 2023-03-21

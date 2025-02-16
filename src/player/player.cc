@@ -114,14 +114,20 @@ void shutdown() noexcept {
     FOREACH(MAYBE_SHUTDOWN_PLAYER, PLAYERS)
 }
 
-Player check(const char *path, const char *buf, size_t size) noexcept {
-    if (size < MAGIC_SIZE || size < converter::MAGIC_SIZE) return Player::NONE;
+vector<Player> check(const char *path, const char *buf, size_t size, bool check_all /* = true*/) noexcept {
+    if (size < MAGIC_SIZE || size < converter::MAGIC_SIZE) return {};
     assert(path);
     assert(buf);
     // TODO support conversion for other players
-    if (converter::needs_conversion(buf, size)) return Player::uade;
-    FOREACHA(CHECK, is_our_file(path, buf, size), PLAYERS)
-    return Player::NONE;
+    if (converter::needs_conversion(buf, size)) return {Player::uade};
+    vector<Player> players;
+    #define MAYBE_ADD_PLAYER(p) \
+      if (p::is_our_file(path, buf, size)) { \
+        players.push_back(Player::p); \
+        if (!check_all) return players; \
+      }
+    FOREACH(MAYBE_ADD_PLAYER, PLAYERS)
+    return players;
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size, Player player/* = Player::NONE*/) noexcept {
@@ -132,23 +138,28 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size, Playe
     if (converter::needs_conversion(buf, size)) {
         conversion = converter::convert(buf, size);
         if (!conversion->success) {
-            WARN("Could not convert %s: %s\n", path, conversion->reason_failed.c_str());
+            DEBUG("Could not convert %s: %s\n", path, conversion->reason_failed.c_str());
             return {};
         }
         buf = conversion->data.data();
         size = conversion->data.size();
     }
-    if (player == Player::NONE) player = check(path, buf, size);
-    if (player == Player::NONE) return {};
+    vector<Player> players = player == Player::NONE ? check(path, buf, size) : vector<Player>{player};
+    if (players.empty()) return {};
     optional<ModuleInfo> res;
-    MAYBE_INIT_PLAYER(player)
-    SWITCH_PLAYER(player, res,
-        parse(path, buf, size)
-    )
-    if (res && conversion) {
-        res->format = conversion->format;
+    for (const auto &p : players) {
+        MAYBE_INIT_PLAYER(p)
+        SWITCH_PLAYER(p, res,
+            parse(path, buf, size)
+        )
+        if (res) {
+            if (conversion) {
+                res->format = conversion->format;
+            }
+            return res;
+        }
     }
-    return res;
+    return {};
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
@@ -160,21 +171,20 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     if (converter::needs_conversion(buf, size)) {
         conversion = converter::convert(buf, size);
         if (!conversion->success) {
-            WARN("Could not convert %s: %s\n", path, conversion->reason_failed.c_str());
+            DEBUG("Could not convert %s: %s\n", path, conversion->reason_failed.c_str());
             return {};
         }
         buf = conversion->data.data();
         size = conversion->data.size();
     }
-    Player player = config.player;
-    if (player == Player::NONE) player = check(path, buf, size);
-    if (player == Player::NONE) return {};
+    vector<Player> players = config.player == Player::NONE ? check(path, buf, size) : vector<Player>{config.player};
+    if (players.empty()) return {};
+    Player player = players.front();
     optional<PlayerState> res;
     MAYBE_INIT_PLAYER(player)
     SWITCH_PLAYER(player, res,
         play(path, buf, size, subsong, config)
     )
-
     return res;
 }
 
@@ -247,7 +257,7 @@ bool seek(PlayerState &state, int millis) noexcept {
         bool res = restart(state);
         if (!res) {
             // TODO better error reporting
-            ERR("Could not seek to %d\n", millis);
+            DEBUG("Could not seek to %d\n", millis);
             return false;
         }
     }
@@ -295,11 +305,11 @@ PlaybackResult playback_loop(
         if (seek_millis >= 0) {
             seeked = true;
             if (!seek(state, seek_millis)) {
-                ERR("Could not seek to %d\n", seek_millis);
+                DEBUG("Could not seek to %d\n", seek_millis);
                 songend.status = SongEnd::ERROR;
                 break;
             } else {
-                DEBUG("Seek to %d\n", seek_millis);
+                TRACE("Seek to %d\n", seek_millis);
                 totalbytes = seek_millis * bytespersec / 1000;
             };
         }
@@ -314,7 +324,7 @@ PlaybackResult playback_loop(
         }
 
         if (res.first == SongEnd::ERROR) {
-            ERR("Playback error.\n");
+            DEBUG("Playback error.\n");
             songend.status = SongEnd::ERROR;
             break;
         } else if (res.first == SongEnd::TIMEOUT) {
