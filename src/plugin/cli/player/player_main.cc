@@ -123,6 +123,11 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    if (state->frequency != frequency) {
+        fprintf(stderr, "Frequency not supported (%d != %d) with player %s\n", state->frequency, frequency, player::name(state->player).data());
+        return EXIT_FAILURE;
+    }
+
 #ifdef __MINGW32__
     _setmode(_fileno(stdout), 0x8000);
 #endif
