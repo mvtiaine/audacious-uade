@@ -57,7 +57,7 @@ constexpr_f2 bool is_s3m(const char *path,  const char *buf, size_t size) noexce
 }
     
 constexpr_f2 bool is_it(const char *path,  const char *buf, size_t size) noexcept {
-    if (!has_ext(path, "it")) return false;
+    if (!has_ext(path, "it") && !has_ext(path, "mptm")) return false;
     return size >= 4 && buf[0] == 'I' && buf[1] == 'M' && buf[2] == 'P' && buf[3] == 'M';
 }
 
