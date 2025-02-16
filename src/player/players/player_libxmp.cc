@@ -6,6 +6,9 @@
 #include "common/endian.h"
 #include "common/logger.h"
 #include "player/player.h"
+#include "player/players/internal.h"
+
+#include "config.h"
 
 extern "C" {
 #include <xmp.h>
@@ -14,6 +17,7 @@ extern "C" {
 using namespace std;
 using namespace common;
 using namespace player;
+using namespace player::internal;
 
 namespace {
 
@@ -30,6 +34,11 @@ void init() noexcept {}
 void shutdown() noexcept {}
 
 bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
+#if PLAYER_libopenmpt
+    // do not accept it or xm when libopenmpt is available as xmp does not detect missing openmpt plugins/extensions
+    if (is_xm(path, buf, size) || is_it(path, buf, size))
+        return false;
+#endif
 	return xmp_test_module_from_memory(buf, size, nullptr) == 0;
 }
 

@@ -340,7 +340,6 @@ static constexpr const char *exts[] = {
     // Soundtracker and variants:
     "mod", // Sound/Noise/Protracker    M.K., M!K!, M&K!, N.T., CD81
     "m15", // Soundtracker              2.2, UST
-    "nt", // Startrekker/ADSC           FLT4/8/M, EXO4/8
     /*MOD*/"nt", // Startrekker/ADSC    FLT4/8/M, EXO4/8
     //MOD             Digital Tracker   FA04, FA06, FA08
     //MOD             Fast/Taketracker  xCHN, xxCH, TDZx
