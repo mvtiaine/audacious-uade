@@ -115,7 +115,7 @@ if PLAYER_PROBE
 3rdparty_replay_libreplay_noisetrekker2_la_SOURCES += 3rdparty/replay/noisetrekker2/noisetrekker2_probe.cc
 endif
 
-3rdparty/replay/noisetrekker2/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-deprecated-declarations -Wno-type-limits
+3rdparty/replay/noisetrekker2/% : CXXFLAGS += -fno-strict-aliasing -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-deprecated-declarations -Wno-type-limits
 endif
 
 if PLAYER_protrekkr1

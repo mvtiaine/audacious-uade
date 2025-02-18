@@ -4471,6 +4471,7 @@ void ComputeCoefs(int freq, int r, int t)
                 a1 =  -2*cs;
                 a2 =   1 - alpha;
                 break;
+		default: assert(false); // mvtiaine: added to shutup warning
 		}
 
         coef[0] = b0/a0;
@@ -5906,7 +5907,7 @@ case 66: sprintf(nam,"%sZ",nam);break;
 case 67: sprintf(nam,"%s,",nam);break;
 case 68: sprintf(nam,"%s-",nam);break;
 case 69: sprintf(nam,"%s'",nam);break;
-case 70: sprintf(nam,"%s¡",nam);break;
+case 70: sprintf(nam,"%sï¿½",nam);break;
 }
 }
 
