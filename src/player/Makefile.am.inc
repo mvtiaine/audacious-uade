@@ -4,9 +4,13 @@ noinst_LTLIBRARIES += \
     player/libplayer.la
 
 player_libplayer_la_SOURCES = \
+    player/extensions.h \
     player/player.h \
     player/player.cc \
     player/players/internal.h
+
+player_libplayer_la_CXXFLAGS = $(AM_CXXFLAGS)
+player_libplayer_la_CPPFLAGS = $(AM_CPPFLAGS)
 
 if PLAYER_ft2play
 player_libplayer_la_SOURCES += player/players/player_ft2play.cc
@@ -22,6 +26,16 @@ endif
 
 if PLAYER_libdigibooster3
 player_libplayer_la_SOURCES += player/players/player_libdigibooster3.cc
+endif
+
+if PLAYER_libopenmpt
+player_libplayer_la_SOURCES += player/players/player_libopenmpt.cc
+player_libplayer_la_CXXFLAGS += $(LIBOPENMPT_CFLAGS)
+endif
+
+if PLAYER_libxmp
+player_libplayer_la_SOURCES += player/players/player_libxmp.cc
+player_libplayer_la_CXXFLAGS += $(LIBXMP_CFLAGS)
 endif
 
 if PLAYER_noisetrekker2
@@ -47,7 +61,7 @@ endif
 if PLAYER_uade
 player_libplayer_la_SOURCES += player/players/player_uade.cc
 # TODO fix libuade dependency tracking
-player_libplayer_la_CPPFLAGS = $(AM_CPPFLAGS) $(UADE_CPPFLAGS)
+player_libplayer_la_CPPFLAGS += $(UADE_CPPFLAGS)
 endif
 
 player_libplayer_la_LIBADD = \

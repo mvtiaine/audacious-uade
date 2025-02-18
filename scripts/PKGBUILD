@@ -5,7 +5,9 @@ pkgdesc="UADE plugin for Audacious music player"
 arch=('any')
 url="https://github.com/mvtiaine/audacious-uade"
 license=('GPL')
-depends=('audacious')
+depends=('audacious' 'libopenmpt')
+# libxmp in AUR
+optdepends=('libxmp: support for additional formats') 
 makedepends=('autoconf' 'automake' 'libtool' 'which' 'make' 'pkg-config')
 
 build() {

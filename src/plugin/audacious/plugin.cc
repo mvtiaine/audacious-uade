@@ -18,14 +18,22 @@
 #define UADE_VERSION "N/A"
 #endif
 
+#if PLAYER_libopenmpt
+#include <libopenmpt/libopenmpt_version.h>
+#endif
+
+#if PLAYER_libxmp
+#include <xmp.h>
+#endif
+
 #include "config.h"
-#include "common/extensions.h"
 #include "common/logger.h"
 #include "common/md5.h"
 #include "common/songend.h"
 #include "common/strings.h"
 #include "common/std/optional.h"
 #include "prefs.h"
+#include "player/extensions.h"
 #include "player/player.h"
 #include "songend/precalc.h"
 #include "songdb/songdb.h"
@@ -42,6 +50,13 @@ struct Info {
     int maxsubsong;
     optional<songdb::MetaData> metadata;
 };
+
+const set<string> extensions = [](){
+    set<string> exts;
+    for (const auto ext : player::exts)
+        if (ext) exts.insert(ext);
+    return exts;
+}();
 
 void fseek0(VFSFile &file) {
     if (file.fseek(0, VFS_SEEK_SET)) {
@@ -66,11 +81,11 @@ string md5hex(VFSFile &file) {
     return md5.hexdigest();
 }
 
-player::Player check_player(VFSFile &file, const string &path) {
+vector<player::Player> check_player(VFSFile &file, const string &path, bool check_all) {
     fseek0(file);
     // note: this only reads 256k or so, see read_all(file) above to read full file
     const Index<char> buf = file.read_all();
-    return player::check(path.c_str(), buf.begin(), buf.len());
+    return player::check(path.c_str(), buf.begin(), buf.len(), check_all);
 }
 
 int parse_uri(const char *uri, string &path, string &ext) {
@@ -204,39 +219,50 @@ common::SongEnd precalc_song_end(
 };
 
 optional<Info> parse_info(VFSFile &file, const string &path, const string &md5) {
-    const auto info = songdb::lookup(md5);
-    if (info && info->modinfo && !info->subsongs.empty()) {
-        const auto player = check_player(file, path);
-        const auto minsubsong = info->subsongs.front().subsong;
-        const auto maxsubsong = info->subsongs.back().subsong;
+    const auto players = check_player(file, path, true);
+    if (players.empty()) {
+        return {};
+    }
+    const auto songdbinfo = songdb::lookup(md5);
+#if PLAYER_all
+    if (songdbinfo && songdbinfo->modinfo && !songdbinfo->subsongs.empty()) {
+        const auto player = players.front();
+        const auto minsubsong = songdbinfo->subsongs.front().subsong;
+        const auto maxsubsong = songdbinfo->subsongs.back().subsong;
         return Info {
             player,
-            info->modinfo->format,
-            info->modinfo->channels,
+            songdbinfo->modinfo->format,
+            songdbinfo->modinfo->channels,
             minsubsong,
             maxsubsong,
-            info->combined,
+            songdbinfo->combined,
         };
     }
+#endif
+    optional<player::ModuleInfo> modinfo;
     const Index<char> buf = read_all(file);
-    const auto modinfo = player::parse(path.c_str(), buf.begin(), buf.len());
-    if (modinfo) {
-        return Info {
-            modinfo->player,
-            modinfo->format,
-            modinfo->channels,
-            modinfo->minsubsong,
-            modinfo->maxsubsong,
-        };
+    for (const auto &p : players) {
+        modinfo = player::parse(path.c_str(), buf.begin(), buf.len(), p);
+        if (modinfo)  break;
     }
-    return {};
+    if (!modinfo) {
+        return {};
+    }
+    return Info {
+        modinfo->player,
+        modinfo->format,
+        modinfo->channels,
+        modinfo->minsubsong,
+        modinfo->maxsubsong,
+        songdbinfo ? songdbinfo->combined : optional<songdb::MetaData>{},
+    };
 }
 
-player::uade::Filter uade_filter(const int filter) {
+player::Filter player_filter(const int filter) {
     switch(filter) {
-        case 2: return player::uade::Filter::A1200;
-        case 3: return player::uade::Filter::NONE;
-        default: return player::uade::Filter::A500;
+        case 2: return player::Filter::A1200;
+        case 3: return player::Filter::NONE;
+        default: return player::Filter::A500;
     }
 }
 
@@ -262,7 +288,7 @@ player::uade::UADEConfig get_uade_config(const player::PlayerConfig &config) {
 
     player::uade::UADEConfig conf(config);
 
-    conf.filter = uade_filter(filter);
+    conf.filter = player_filter(filter);
     conf.resampler = uade_resampler(resampler);
 
     if (force_led_enabled)
@@ -297,6 +323,28 @@ player::it2play::IT2PlayConfig get_it2play_config(const player::PlayerConfig &co
 
     player::it2play::IT2PlayConfig conf(config);
     conf.driver = it2play_driver(driver);
+    return conf;
+}
+
+player::libopenmpt::LibOpenMPTConfig get_libopenmpt_config(const player::PlayerConfig &config) {
+    const int filter = aud_get_int(PLUGIN_NAME, "filter");
+    const float panning = aud_get_double(PLUGIN_NAME, "panning");
+
+    player::libopenmpt::LibOpenMPTConfig conf(config);
+    conf.filter = player_filter(filter);
+    conf.panning = panning;
+
+    return conf;
+}
+
+player::libxmp::LibXMPConfig get_libxmp_config(const player::PlayerConfig &config) {
+    const int filter = aud_get_int(PLUGIN_NAME, "filter");
+    const float panning = aud_get_double(PLUGIN_NAME, "panning");
+
+    player::libxmp::LibXMPConfig conf(config);
+    conf.filter = player_filter(filter);
+    conf.panning = panning;
+
     return conf;
 }
 
@@ -366,6 +414,16 @@ public:
         "NoiseTrekker2 final by Arguru\n"
         "\n"
 #endif
+#if PLAYER_libopenmpt
+        "libopenmpt " OPENMPT_API_VERSION_STRING " (BSD-3-Clause)\n"
+        "https://lib.openmpt.org/libopenmpt/\n"
+        "\n"
+#endif
+#if PLAYER_libxmp
+        "libxmp " XMP_VERSION " (MIT)\n"
+        "https://xmp.sourceforge.net/\n"
+        "\n"
+#endif
         "See README for more information\n",
         &plugin_prefs
     };
@@ -376,8 +434,8 @@ public:
 #else
         .with_priority(-1)
 #endif
-        .with_exts(common::plugin_extensions)
-        .with_mimes(common::plugin_mimes)) {}
+        .with_exts(player::exts)
+        .with_mimes(player::mimetypes)) {}
 
     bool init();
     void cleanup();
@@ -415,18 +473,18 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
     string path, ext;
     parse_uri(uri, path, ext);
 
-    if (songdb::blacklist::is_blacklisted_extension(path, ext)) {
+    if (songdb::blacklist::is_blacklisted_extension(path, ext, extensions)) {
         TRACE("uade_plugin_is_our_file blacklisted %s\n", uri);
         return false;
     }
     
-    if (check_player(file, path) != player::Player::NONE) {
-        TRACE("uade_plugin_is_our_file accepted %s\n", uri);
-        return true;
+    if (check_player(file, path, false).empty()) {
+        TRACE("uade_plugin_is_our_file rejected %s\n", uri);
+        return false;
     }
 
-    TRACE("uade_plugin_is_our_file rejected %s\n", uri);
-    return false;
+    TRACE("uade_plugin_is_our_file accepted %s\n", uri);
+    return true;
 }
 
 bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<char> *image) {
@@ -436,21 +494,23 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
 
     const string &md5 = md5hex(file);
 
+#if PLAYER_uade
     // add to playlist, but call uade_play() on-demand (may hang UADE/audacious completely)
     if (songdb::blacklist::is_blacklisted_md5(md5)) {
         DEBUG("uade_plugin_read_tag blacklisted md5 %s\n", uri);
         return true;
     }
-
+#endif
     // try read subsongs directly from songdb
-    const auto &subsongs = songdb::subsong_range(md5);
-    if (subsongs && subsong < 0) {
+#if PLAYER_all
+    const auto subsongs = subsong < 0 ? songdb::subsong_range(md5) : optional<pair<int, int>>();
+    if (subsongs) {
         TRACE("uade_plugin_read_tag read subsong range from songdb for md5 %s uri %s\n", md5.c_str(), uri);
         const auto &minmax = subsongs.value();
         update_tuple_subsong_range(tuple, minmax.first, minmax.second);
         return true;
     }
-
+#endif
     bool needfix = subsong >= 0 && string(uri).find_last_of("?") == string::npos;
     if (needfix) {
         subsong = applySubsongHack(subsong, uri, md5, aud_get_bool(nullptr, "slow_probe"), "uade_plugin_read_tag");
@@ -510,20 +570,37 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     
     int frequency = aud_get_int(PLUGIN_NAME, "frequency");
 
-    const auto player = check_player(file, path);
+    const auto players = check_player(file, path, true);
+    if (players.empty()) {
+        ERR("uade_plugin_play no player found for %s\n", uri);
+        return false;
+    }
+    const Index<char> buf = read_all(file);
+    auto player = players.front();
+    if (players.size() > 1) {
+        for (const auto &p : players) {
+            if (player::parse(path.c_str(), buf.begin(), buf.len(), p)) {
+                player = p;
+                break;
+            }
+        }
+    }
     const player::PlayerConfig player_config = {player, frequency, known_timeout};
     const auto uade_config = get_uade_config(player_config);
     const auto it2play_config = get_it2play_config(player_config);
+    const auto libopenmpt_config = get_libopenmpt_config(player_config);
+    const auto libxmp_config = get_libxmp_config(player_config);
     const auto &config =
         player == player::Player::uade ? uade_config :
         player == player::Player::it2play ? it2play_config :
+        player == player::Player::libopenmpt ? libopenmpt_config :
+        player == player::Player::libxmp ? libxmp_config :
         player_config;
     
     const auto check_stop_ = []() { return check_stop(); };
     const auto check_seek_ = []() { return check_seek(); };
     const auto write_audio_ = [](char *buf, int bytes) { write_audio(buf, bytes); };
 
-    const Index<char> buf = read_all(file);
     auto state = player::play(path.c_str(), buf.begin(), buf.len(), subsong, config);
     if (!state) {
         ERR("Could not play %s", uri);

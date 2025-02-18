@@ -151,13 +151,15 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
         // TODO subsongs (are there any STMs with proper subsongs?)
         info = get_stm_info(path, buf, size);
     } else {
-        WARN("player_st23play::parse parsing failed for %s\n", path);
+        DEBUG("player_st23play::parse parsing failed for %s\n", path);
     }
     delete context;
     return info;
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(config.player == Player::st23play || config.player == Player::NONE);
+    assert(config.tag == Player::st23play || config.tag == Player::NONE);
     assert(subsong == 1);
     st23play_context *context = new st23play_context(config.probe);
     assert(!context->moduleLoaded());

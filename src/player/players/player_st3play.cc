@@ -354,7 +354,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
             info->maxsubsong = subsongs.size();
         }
     } else {
-        WARN("player_st3play::parse parsing failed for %s\n", path);
+        DEBUG("player_st3play::parse parsing failed for %s\n", path);
     }
 
     delete context;
@@ -362,6 +362,8 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(config.player == Player::st3play || config.player == Player::NONE);
+    assert(config.tag == Player::st3play || config.tag == Player::NONE);
     assert(subsong >= 1);
     st3play_context *context = new st3play_context(config.probe);
     assert(!context->moduleLoaded());

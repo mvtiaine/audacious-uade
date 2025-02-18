@@ -123,13 +123,15 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     if (context->LoadMod(buf, size)) {
         info = ModuleInfo{Player::noisetrekker2, "NoiseTrekker 2.x", path, 1, 1, 1, context->Songtracks()};
     } else {
-        WARN("player_noisetrekker2::parse parsing failed for %s\n", path);
+        DEBUG("player_noisetrekker2::parse parsing failed for %s\n", path);
     }
     delete context;
     return info;
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(config.player == Player::noisetrekker2 || config.player == Player::NONE);
+    assert(config.tag == Player::noisetrekker2 || config.tag == Player::NONE);
     assert(subsong == 1);
     noisetrekker2_context *context = new noisetrekker2_context(config.probe);
     if (!context->LoadMod(buf, size)) {

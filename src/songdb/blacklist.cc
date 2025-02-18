@@ -5,7 +5,6 @@
 #include <set>
 #include <string>
 
-#include "common/extensions.h"
 #include "common/logger.h"
 #include "common/strings.h"
 #include "songdb/songdb.h"
@@ -14,27 +13,14 @@ using namespace std;
 
 namespace {
 
-const set<string> extensions = []() {
-    set<string> exts;
-    for (const auto ext : common::plugin_extensions) {
-        if (ext) {
-            exts.insert(ext);
-        }
-    }
-    return exts;
-}();
-
 // modland extensions blacklist
 const set<string> extension_blacklist ({
     // No support
     ".ct", // Cybertracker
-    ".dsm", // Dynamic Studio Professional
     ".fuchs", // Fuchs Tracker
     ".dux", // GT Game Systems
     ".mxtx", // MaxTrax
-    ".stp", // SoundTracker Pro II
     ".spm", // Stonetracker
-    ".symmod", // Symphonie
     // Not amiga
     ".ym", // YM
     // Sample etc. files
@@ -52,22 +38,6 @@ const set<string> extension_blacklist ({
 
 // prefix blacklist
 const set<string> prefix_blacklist ({
-    "669.",
-    "AMF.",
-    "AMS.",
-    "DMF.",
-    "DTM.",
-    "FAR.",
-    "GT2.", // atari(?)
-    "MDL.",
-    "MPTM.",
-    "MT2.",
-    "MTM.",
-    "OCT.", // atari
-    "PLM.",
-    "STP.", // amiga
-    "STP2.", // amiga
-    "ULT.",
     "SMP.",
     "SMPL.",
     "smp.",
@@ -106,19 +76,19 @@ const set<string> songdb_blacklist ({
 
 namespace songdb::blacklist {
 
-bool is_blacklisted_extension(const string &path, const string &ext) noexcept {
+bool is_blacklisted_extension(const string &path, const string &ext, const set<string> &whitelist) noexcept {
     string filename = common::split(path, "/").back();
     string lcfilename = filename;
     string lcext = ext;
     transform(lcfilename.begin(), lcfilename.end(), lcfilename.begin(), ::tolower);
     transform(lcext.begin(), lcext.end(), lcext.begin(), ::tolower);
 
-    if (lcext.size() > 1 && extensions.count(lcext.substr(1))) {
+    if (lcext.size() > 1 && whitelist.count(lcext.substr(1))) {
         return false;
     }
 
     string lcprefix = common::split(lcfilename, ".").front();
-    if (extensions.count(lcprefix)) {
+    if (whitelist.count(lcprefix)) {
         return false;
     }
     

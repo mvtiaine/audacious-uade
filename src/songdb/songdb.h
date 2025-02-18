@@ -7,6 +7,7 @@
 #include "common/std/string_view.h"
 
 #include <cstdint>
+#include <set>
 #include <string>
 #include <utility>
 
@@ -68,7 +69,7 @@ void update(const std::string &md5, const ModInfo &modinfo) noexcept;
 std::optional<std::pair<int,int>> subsong_range(const std::string &md5) noexcept;
 
 namespace blacklist {
-    bool is_blacklisted_extension(const std::string &path, const std::string &ext) noexcept;
+    bool is_blacklisted_extension(const std::string &path, const std::string &ext, const std::set<std::string> &whitelist) noexcept;
     bool is_blacklisted_md5(const std::string &md5hex) noexcept;
     bool is_blacklisted_songdb_key(const std::string &md5hex) noexcept;
 } // namespace songdb::blacklist

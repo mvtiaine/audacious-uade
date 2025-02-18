@@ -14,6 +14,8 @@ plugin_audacious_uade_la_LIBADD = \
     songdb/libsongdb.la \
     common/libmd5.la \
     $(UADE_LIBS) \
+    $(LIBOPENMPT_LIBS) \
+    $(LIBXMP_LIBS) \
     $(AUDACIOUS_LIBS)
 
 plugin_audacious_uade_la_LDFLAGS = $(AM_LDFLAGS) -avoid-version -module -shared -no-undefined $(SHREXT)

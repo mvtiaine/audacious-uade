@@ -41,27 +41,26 @@ void print(const common::SongEnd &songend, const player::ModuleInfo &info, int s
     }
 }
 
-int player_songend(const player::Player player, vector<char> &buf, const char *path, bool includepath, const string &md5hex) {
-    const auto &info = player::parse(path, buf.data(), buf.size(), player);
-    if (!info) {
-        fprintf(stderr, "Could not parse %s md5 %s\n", path, md5hex.c_str());
-        return EXIT_FAILURE;
-    }
-    
-    const int minsubsong = info->minsubsong;
-    const int maxsubsong = info->maxsubsong;
-    for (int subsong = minsubsong; subsong <= maxsubsong; subsong++) {
-        auto songend = songend::precalc::precalc_song_end(info.value(), buf.data(), buf.size(), subsong, md5hex);
-        if (songend.status == common::SongEnd::ERROR && !songend::precalc::allow_songend_error(info->format)) {
-            songend.length = 0;
+int player_songend(const vector<player::Player> &players, vector<char> &buf, const char *path, bool includepath, const string &md5hex) {
+    for (const auto &player : players) {
+        const auto &info = player::parse(path, buf.data(), buf.size(), player);
+        if (!info) continue;
+        const int minsubsong = info->minsubsong;
+        const int maxsubsong = info->maxsubsong;
+        for (int subsong = minsubsong; subsong <= maxsubsong; subsong++) {
+            auto songend = songend::precalc::precalc_song_end(info.value(), buf.data(), buf.size(), subsong, md5hex);
+            if (songend.status == common::SongEnd::ERROR && !songend::precalc::allow_songend_error(info->format)) {
+                songend.length = 0;
+            }
+            print(songend, info.value(), subsong, buf, includepath, md5hex);
         }
-        print(songend, info.value(), subsong, buf, includepath, md5hex);
+        return EXIT_SUCCESS;
     }
-
-    return EXIT_SUCCESS;
+    fprintf(stderr, "Could not parse %s md5 %s\n", path, md5hex.c_str());
+    return EXIT_FAILURE;
 }
 
-}
+} // namespace {}
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
@@ -119,14 +118,21 @@ int main(int argc, char *argv[]) {
 #endif
 
     const player::support::PlayerScope p;
-    const auto player = player::check(path, buffer.data(), buffer.size());
-    if (player != player::Player::NONE) {
-        int res = player_songend(player, buffer, path, includepath, md5hex);
-        return res;
+    vector<player::Player> players;
+    if (getenv("PLAYER")) {
+        player::Player player = player::player(getenv("PLAYER"));
+        if (player == player::Player::NONE) {
+            fprintf(stderr, "Unknown player %s\n", getenv("PLAYER"));
+            return EXIT_FAILURE;
+        }
+        players.push_back(player::player(getenv("PLAYER")));
     } else {
+        players = player::check(path, buffer.data(), buffer.size());
+    }
+    if (players.empty()) {
         fprintf(stderr, "Could not recognize %s md5 %s\n", path, md5hex.c_str());
         return EXIT_FAILURE;
     }
 
-    return EXIT_SUCCESS;
+    return player_songend(players, buffer, path, includepath, md5hex);
 }

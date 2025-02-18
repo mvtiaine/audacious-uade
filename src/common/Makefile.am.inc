@@ -4,7 +4,6 @@
     common/compat.h \
     common/constexpr.h \
     common/endian.h \
-    common/extensions.h \
     common/foreach.h \
     common/logger.h \
     common/songend.h \

@@ -52,7 +52,7 @@ bool is_our_file(const char */*path*/, const char *buf, size_t size) noexcept {
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
     struct hvl_tune *ht = hvl_reset((uint8_t*)buf, size, 0, 0);
     if (!ht) {
-        WARN("player_hivelytracker::parse parsing failed for %s\n", path);
+        DEBUG("player_hivelytracker::parse parsing failed for %s\n", path);
         return {};
     }
 
@@ -62,6 +62,8 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(config.player == Player::hivelytracker || config.player == Player::NONE);
+    assert(config.tag == Player::hivelytracker || config.tag == Player::NONE);
     assert(subsong >= 0);
     struct hvl_tune *ht = hvl_reset((uint8_t*)buf, size, 0, config.frequency);
     if (!ht) {

@@ -107,7 +107,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
         if (mod) {
             DB3_Unload(mod);
         }
-        WARN("player_libdigibooster3::parse parsing failed for %s reason %s\n", path, ErrorReasons[error]);
+        DEBUG("player_libdigibooster3::parse parsing failed for %s reason %s\n", path, ErrorReasons[error]);
         return {};
     }
 
@@ -118,6 +118,8 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(config.player == Player::libdigibooster3 || config.player == Player::NONE);
+    assert(config.tag == Player::libdigibooster3 || config.tag == Player::NONE);
     assert(subsong >= 0);
     int error = 0;
     struct DB3Module *mod = my_DB3_Load(buf, size, &error);

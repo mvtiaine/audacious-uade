@@ -22,6 +22,8 @@ Main features:
 - ProTrekkr 1 & 2 support (https://github.com/hitchhikr/protrekkr)
 -- note: older ProTrekkr mods may play incorrectly
 - NoiseTrekker 2 support based on sources from the final release
+- libopenmpt support (https://lib.openmpt.org/libopenmpt/)
+- libxmp support (https://xmp.sourceforge.net/)
 
 Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
 In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
@@ -55,6 +57,8 @@ See uade/COPYING for UADE license information (sources under uade/).
 
 * Dependencies:
 Audacious >= 3.8
+libopenmpt >= 0.6.0 (optional)
+libxmp >= 4.5.0 (optional)
 
 * To build and install from source (git or latest release):
 - required (git or release): pkg-config, GNU make, GCC/Clang with C++17 support (GCC-6+, Clang-5.0+)
@@ -87,6 +91,7 @@ wget https://raw.githubusercontent.com/mvtiaine/arch-repo/main/audacious-uade/PK
 makepkg -s
 (sudo) pacman -U audacious-uade*.pkg*
 # Git
+# (optional) install libxmp from AUR first https://aur.archlinux.org/packages/libxmp
 makepkg -c -s -f -D scripts
 (sudo) pacman -U scripts/audacious-uade*.pkg*
 

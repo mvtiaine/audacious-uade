@@ -336,9 +336,7 @@ constexpr_f2 ModuleInfo get_xm_info(const char *path, const char *buf) noexcept 
     }
     replace_if(progName.begin(), progName.end(), ::not_fn<int (*)(int _c)>(::isprint), '?');
     if (progName.empty()) progName = "<Unknown>";
-    char xmVer[14];
-    snprintf(xmVer, sizeof(xmVer), " (XM %d.%02d)", hdr->ver >> 8, hdr->ver & 0xFF);
-    return {Player::ft2play, progName + xmVer, path, 1, 1, 1, hdr->antChn};
+    return {Player::ft2play, progName, path, 1, 1, 1, hdr->antChn};
 }
 
 constexpr_f2 int get_xm_version(const char *buf) noexcept {
@@ -409,13 +407,15 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
         const auto subsongs = get_subsongs(context);
         info->maxsubsong = subsongs.size();
     } else {
-        WARN("player_ft2play::parse parsing failed for %s\n", path);
+        DEBUG("player_ft2play::parse parsing failed for %s\n", path);
     }
     delete context;
     return info;
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(config.player == Player::ft2play || config.player == Player::NONE);
+    assert(config.tag == Player::ft2play || config.tag == Player::NONE);
     assert(subsong >= 1);
     bool volumeRamping = false;
     if (is_fasttracker2(buf, size))

@@ -30,7 +30,9 @@ plugin_cli_player_player_SOURCES = \
 
 plugin_cli_player_player_LDADD = \
     player/libplayer.la \
-    $(UADE_LIBS)
+    $(UADE_LIBS) \
+    $(LIBOPENMPT_LIBS) \
+    $(LIBXMP_LIBS)
 
 # precalc
 plugin_cli_precalc_precalc_SOURCES = \
@@ -41,7 +43,9 @@ plugin_cli_precalc_precalc_LDADD = \
     songend/libsongend.la \
     songdb/libsongdb.la \
     common/libmd5.la \
-    $(UADE_LIBS)
+    $(UADE_LIBS) \
+    $(LIBOPENMPT_LIBS) \
+    $(LIBXMP_LIBS)
 
 # songdb
 plugin_cli_songdb_songdb_SOURCES = \
@@ -58,8 +62,10 @@ plugin_cli_songend_songend_SOURCES = \
     plugin/cli/songend/songend_main.cc
 
 plugin_cli_songend_songend_LDADD = \
-	songend/libsongend.la \
-	$(UADE_LIBS)
+    songend/libsongend.la \
+    $(UADE_LIBS) \
+    $(LIBOPENMPT_LIBS) \
+    $(LIBXMP_LIBS)
 
 
 plugin_cli_converter_converter_SOURCES += plugin/cli/common/compat.cc

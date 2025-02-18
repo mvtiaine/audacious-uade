@@ -42,8 +42,8 @@ const PreferencesWidget uade_audio_widgets1[] = {
 const PreferencesWidget uade_audio_widgets2[] = {
     WidgetSeparator(),
     WidgetSeparator(),
-    WidgetSpin("Panning", WidgetFloat(PLUGIN_NAME, "panning"), {0, 2, 0.1}),
-    WidgetLabel("<i>0 stereo 1 mono 2 inverse stereo</i>"),
+    WidgetSpin("Panning", WidgetFloat(PLUGIN_NAME, "panning"), {0, 1, 0.1}),
+    WidgetLabel("<i>0 stereo 1 mono</i>"),
     WidgetSeparator(),
     WidgetSpin("Volume gain", WidgetFloat(PLUGIN_NAME, "gain"), {0, 128.0, 0.1}),
 
@@ -55,7 +55,7 @@ const PreferencesWidget uade_audio_widgets2[] = {
 
 const PreferencesWidget uade_timeout_widgets[] = {
     WidgetLabel("<b>Timeouts (seconds)</b>"),
-    WidgetLabel("<i>Applied when songlength not available</i>", WIDGET_CHILD),
+    WidgetLabel("<i>Applied when songlength N/A</i>", WIDGET_CHILD),
     WidgetSpin("Song timeout", WidgetInt(PLUGIN_NAME, "subsong_timeout"), {1, 3600, 5}, WIDGET_CHILD),
     WidgetSpin("Silence timeout", WidgetInt(PLUGIN_NAME, "silence_timeout"), {1, 3600, 1}, WIDGET_CHILD),
 };

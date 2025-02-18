@@ -149,7 +149,7 @@ SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, i
         apply_trimmer(detector, res.songend);
         TRACE("precalc_song_length %s - status: %d length: %d\n", info.path.c_str(), res.songend.status, res.songend.length);
     } else {
-        ERR("Error precalcing %s\n", info.path.c_str());
+        WARN("Error precalcing %s\n", info.path.c_str());
     }
 
     return res.songend;

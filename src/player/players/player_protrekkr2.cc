@@ -146,13 +146,15 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
         const string tracker = get_tracker(buf);
         info = ModuleInfo{Player::protrekkr2, tracker, path, 1, 1, 1, context->Channels()};
     } else {
-        WARN("player_protrekkr2::parse parsing failed for %s\n", path);
+        DEBUG("player_protrekkr2::parse parsing failed for %s\n", path);
     }
     delete context;
     return info;
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(config.player == Player::protrekkr2 || config.player == Player::NONE);
+    assert(config.tag == Player::protrekkr2 || config.tag == Player::NONE);
     assert(subsong == 1);
     protrekkr2_context *context = new protrekkr2_context(config.probe);
     if (!context->Load_Ptk(buf, size)) {

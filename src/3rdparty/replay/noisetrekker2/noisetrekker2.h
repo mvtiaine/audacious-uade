@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: LicenseRef-NoiseTrekker2
 #pragma once
 
+#include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstddef>
