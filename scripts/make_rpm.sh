@@ -16,8 +16,8 @@ set -e
 
 VERSION=$(cat VERSION)
 
-sudo $TOOL install rpmdevtools rpm-build audacious-devel gcc-c++ make autoconf automake libtool pkg-config
-autoreconf -i && ./configure --enable-plugin-audacious=yes --with-static-stdlibs=no && make clean && make dist
+sudo $TOOL install rpmdevtools rpm-build audacious-devel libopenmpt-devel libxmp-devel gcc-c++ make autoconf automake libtool pkg-config
+autoreconf -i && ./configure --enable-players=all --enable-plugin-audacious=yes --with-static-stdlibs=no && make clean && make dist
 mkdir -p build-rpm
 cd build-rpm
 rm -rf *
