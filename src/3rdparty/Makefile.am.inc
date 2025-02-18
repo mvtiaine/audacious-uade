@@ -130,7 +130,7 @@ if PLAYER_PROBE
 3rdparty_replay_libreplay_protrekkr1_la_SOURCES += 3rdparty/replay/protrekkr1/protrekkr1_probe.cc
 endif
 
-3rdparty/replay/protrekkr1/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-type-limits -Wno-volatile -Wno-unknown-warning-option
+3rdparty/replay/protrekkr1/% : CXXFLAGS += -fno-strict-aliasing -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-type-limits -Wno-volatile -Wno-unknown-warning-option
 endif
 
 if PLAYER_protrekkr2
@@ -145,7 +145,7 @@ if PLAYER_PROBE
 3rdparty_replay_libreplay_protrekkr2_la_SOURCES += 3rdparty/replay/protrekkr2/protrekkr2_probe.cc
 endif
 
-3rdparty/replay/protrekkr2/% : CXXFLAGS += -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-volatile -Wno-unknown-warning-option
+3rdparty/replay/protrekkr2/% : CXXFLAGS += -fno-strict-aliasing -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-volatile -Wno-unknown-warning-option
 endif
 
 EXTRA_DIST += \
