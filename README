@@ -91,6 +91,7 @@ wget https://raw.githubusercontent.com/mvtiaine/arch-repo/main/audacious-uade/PK
 makepkg -s
 (sudo) pacman -U audacious-uade*.pkg*
 # Git
+# (optional) install libxmp from AUR first https://aur.archlinux.org/packages/libxmp
 makepkg -c -s -f -D scripts
 (sudo) pacman -U scripts/audacious-uade*.pkg*
 
