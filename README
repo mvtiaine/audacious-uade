@@ -57,6 +57,8 @@ See uade/COPYING for UADE license information (sources under uade/).
 
 * Dependencies:
 Audacious >= 3.8
+libopenmpt >= 0.6.0 (optional)
+libxmp >= 4.5.0 (optional)
 
 * To build and install from source (git or latest release):
 - required (git or release): pkg-config, GNU make, GCC/Clang with C++17 support (GCC-6+, Clang-5.0+)
