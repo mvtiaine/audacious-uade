@@ -158,6 +158,8 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(config.player == Player::st23play || config.player == Player::NONE);
+    assert(config.tag == Player::st23play || config.tag == Player::NONE);
     assert(subsong == 1);
     st23play_context *context = new st23play_context(config.probe);
     assert(!context->moduleLoaded());

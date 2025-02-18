@@ -65,9 +65,11 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &_config) noexcept {
+    assert(_config.player == Player::libxmp || _config.player == Player::NONE);
+    assert(_config.tag == Player::libxmp || _config.tag == Player::NONE);
     assert(subsong >= 0);
     const auto &__config = static_cast<const LibXMPConfig&>(_config);
-    const auto config = __config.player == Player::libxmp ? __config : LibXMPConfig(_config);
+    const auto config = __config.tag == Player::libxmp ? __config : LibXMPConfig(_config);
     xmp_context c = xmp_create_context();
     int frequency = min(_config.frequency, 48000);
     if (!c) {

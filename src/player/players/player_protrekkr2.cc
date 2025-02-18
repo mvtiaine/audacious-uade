@@ -153,6 +153,8 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(config.player == Player::protrekkr2 || config.player == Player::NONE);
+    assert(config.tag == Player::protrekkr2 || config.tag == Player::NONE);
     assert(subsong == 1);
     protrekkr2_context *context = new protrekkr2_context(config.probe);
     if (!context->Load_Ptk(buf, size)) {

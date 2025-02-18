@@ -438,11 +438,13 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(config.player == Player::it2play || config.player == Player::NONE);
+    assert(config.tag == Player::it2play || config.tag == Player::NONE);
     assert(subsong >= 1);
     it2play_context *context = new it2play_context(config.probe);
     assert(!context->Song().Loaded);
     const auto &it2play_config = static_cast<const IT2PlayConfig&>(config);
-    const auto driver = it2play_config.player == Player::it2play ? it2play_config.driver : IT2PlayConfig().driver;
+    const auto driver = config.tag == Player::it2play ? it2play_config.driver : IT2PlayConfig().driver;
     int freq = limitFreq(driver, config.frequency);
     bool useFPUCode = false;
     if (isIT(buf, size)) {

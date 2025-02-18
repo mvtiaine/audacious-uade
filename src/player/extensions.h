@@ -257,8 +257,8 @@ static constexpr const char *exts[] = {
 #endif
 #if PLAYER_libopenmpt
     // from Tables.cpp
-	"mptm", // OpenMPT
-	"mod", // ProTracker, ChipTracker, TCB Tracker
+    "mptm", // OpenMPT
+    "mod", // ProTracker, ChipTracker, TCB Tracker
     "s3m", // Scream Tracker 3
     "xm", // FastTracker 2
     "it", // Impulse Tracker

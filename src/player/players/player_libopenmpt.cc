@@ -104,6 +104,8 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &_config) noexcept {
+    assert(_config.player == Player::libopenmpt || _config.player == Player::NONE);
+    assert(_config.tag == Player::libopenmpt || _config.tag == Player::NONE);
     assert(subsong >= 0);
     auto *mod = create_module(path, buf, size, true);
     if (!mod) {
@@ -117,7 +119,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     }
     openmpt_module_ctl_set_text(mod, "play.at_end", "stop");
     const auto &__config = static_cast<const LibOpenMPTConfig&>(_config);
-    const auto config = __config.player == Player::libopenmpt ? __config : LibOpenMPTConfig(_config);
+    const auto config = _config.tag == Player::libopenmpt ? __config : LibOpenMPTConfig(_config);
     if (config.probe) {
         openmpt_module_ctl_set_integer(mod, "dither", 0);
         openmpt_module_ctl_set_boolean(mod, "render.resampler.emulate_amiga", 0);

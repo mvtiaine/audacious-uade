@@ -112,6 +112,8 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(config.player == Player::protrekkr1 || config.player == Player::NONE);
+    assert(config.tag == Player::protrekkr1 || config.tag == Player::NONE);
     assert(subsong == 1);
     protrekkr1_context *context = new protrekkr1_context(config.probe);
     if (!context->LoadMod(buf, size)) {

@@ -90,6 +90,7 @@ struct ModuleInfo {
 };
 
 struct PlayerConfig {
+    Player tag = Player::NONE; // internal
     Player player = Player::NONE;
     // frequency and known_timeout are ignored if probing
     int frequency;
@@ -184,13 +185,13 @@ struct UADEConfig : PlayerConfig {
     int subsong_timeout = 600;
     int silence_timeout = 10;
 
-    constexpr_f1 UADEConfig() noexcept { player = Player::uade; }
+    constexpr_f1 UADEConfig() noexcept { player = tag = Player::uade; }
     constexpr_f1 UADEConfig(const int frequency) noexcept
-    : PlayerConfig(Player::uade, frequency) {}
+    : PlayerConfig(Player::uade, frequency) { tag = Player::uade; }
     constexpr_f1 UADEConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
-    : PlayerConfig(Player::uade, frequency, known_timeout, endian, probe) {}
+    : PlayerConfig(Player::uade, frequency, known_timeout, endian, probe) { tag = Player::uade; }
     constexpr_f1 UADEConfig(const PlayerConfig &config) noexcept
-    : PlayerConfig(Player::uade, config.frequency, config.known_timeout, config.endian, config.probe) {}
+    : PlayerConfig(Player::uade, config.frequency, config.known_timeout, config.endian, config.probe) { tag = Player::uade; }
 };
 
 bool seek(PlayerState &state, int millis) noexcept;
@@ -211,13 +212,13 @@ enum class Driver {
 struct IT2PlayConfig : PlayerConfig {
     Driver driver = Driver::HQ;
 
-    constexpr_f1 IT2PlayConfig() noexcept { player = Player::it2play; }
+    constexpr_f1 IT2PlayConfig() noexcept { player = tag = Player::it2play; }
     constexpr_f1 IT2PlayConfig(const int frequency) noexcept
-    : PlayerConfig(Player::it2play, frequency) {}
+    : PlayerConfig(Player::it2play, frequency) { tag = Player::it2play; }
     constexpr_f1 IT2PlayConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
-    : PlayerConfig(Player::it2play, frequency, known_timeout, endian, probe) {}
+    : PlayerConfig(Player::it2play, frequency, known_timeout, endian, probe) { tag = Player::it2play; }
     constexpr_f1 IT2PlayConfig(const PlayerConfig &config) noexcept
-    : PlayerConfig(Player::it2play, config.frequency, config.known_timeout, config.endian, config.probe) {}
+    : PlayerConfig(Player::it2play, config.frequency, config.known_timeout, config.endian, config.probe) { tag = Player::it2play; }
 };
 
 } // namespace player::it2play
@@ -227,13 +228,13 @@ namespace player::libopenmpt {
 struct LibOpenMPTConfig : PlayerConfig {
     Filter filter = Filter::A1200;
     float panning = 0.7;
-    LibOpenMPTConfig() noexcept { player = Player::libopenmpt; }
+    LibOpenMPTConfig() noexcept { player = tag = Player::libopenmpt; }
     LibOpenMPTConfig(const int frequency) noexcept
-    : PlayerConfig(Player::libopenmpt, frequency) {}
+    : PlayerConfig(Player::libopenmpt, frequency) { tag = Player::libopenmpt; }
     LibOpenMPTConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
-    : PlayerConfig(Player::libopenmpt, frequency, known_timeout, endian, probe) {}
+    : PlayerConfig(Player::libopenmpt, frequency, known_timeout, endian, probe) { tag = Player::libopenmpt; }
     LibOpenMPTConfig(const PlayerConfig &config) noexcept
-    : PlayerConfig(Player::libopenmpt, config.frequency, config.known_timeout, config.endian, config.probe) {}
+    : PlayerConfig(Player::libopenmpt, config.frequency, config.known_timeout, config.endian, config.probe) { tag = Player::libopenmpt; }
 };
 
 } // namespace player::libopenmpt
@@ -243,13 +244,13 @@ namespace player::libxmp {
 struct LibXMPConfig : PlayerConfig {
     Filter filter = Filter::NONE;
     float panning = 0.7;
-    LibXMPConfig() noexcept { player = Player::libxmp; }
+    LibXMPConfig() noexcept { player = tag = Player::libxmp; }
     LibXMPConfig(const int frequency) noexcept
-    : PlayerConfig(Player::libxmp, frequency) {}
+    : PlayerConfig(Player::libxmp, frequency) { tag = Player::libxmp; }
     LibXMPConfig(const int frequency, const int known_timeout, const std::endian endian, const bool probe) noexcept
-    : PlayerConfig(Player::libxmp, frequency, known_timeout, endian, probe) {}
+    : PlayerConfig(Player::libxmp, frequency, known_timeout, endian, probe) { tag = Player::libxmp; }
     LibXMPConfig(const PlayerConfig &config) noexcept
-    : PlayerConfig(Player::libxmp, config.frequency, config.known_timeout, config.endian, config.probe) {}
+    : PlayerConfig(Player::libxmp, config.frequency, config.known_timeout, config.endian, config.probe) { tag = Player::libxmp; }
 };
 
 } // namespace player::libxmp

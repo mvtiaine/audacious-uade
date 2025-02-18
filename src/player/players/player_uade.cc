@@ -516,6 +516,8 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
+    assert(config.player == Player::uade || config.player == Player::NONE);
+    assert(config.tag == Player::uade || config.tag == Player::NONE);
     assert(subsong >= 0 && subsong <= 255);
     uade_context *context;
     if (config.probe) {
@@ -529,7 +531,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         context->config = uc;
         const auto &uade_config = static_cast<const UADEConfig&>(config);
         context->state = create_uade_state(
-            uade_config.player == Player::uade ? uade_config : UADEConfig(config),
+            config.tag == Player::uade ? uade_config : UADEConfig(config),
             uc);
     }
 
