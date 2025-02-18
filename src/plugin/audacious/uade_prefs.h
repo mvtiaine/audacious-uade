@@ -45,7 +45,7 @@ const PreferencesWidget uade_audio_widgets2[] = {
     WidgetSpin("Panning", WidgetFloat(PLUGIN_NAME, "panning"), {0, 1, 0.1}),
     WidgetLabel("<i>0 stereo 1 mono</i>"),
     WidgetSeparator(),
-    WidgetSpin("Volume gain", WidgetFloat(PLUGIN_NAME, "gain"), {0, 3.0, 0.1}),
+    WidgetSpin("Volume gain", WidgetFloat(PLUGIN_NAME, "gain"), {0, 128.0, 0.1}),
 
     WidgetLabel("<b>Headphones effect</b>"),
     WidgetCheck("Enable", WidgetBool(PLUGIN_NAME, "headphones"), WIDGET_CHILD),
