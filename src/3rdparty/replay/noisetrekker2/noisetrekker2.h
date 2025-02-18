@@ -16,11 +16,13 @@
 
 #define AUDACIOUS_UADE 1
 #define Screen void
-#define _MAX_PATH 1024
 #define PI M_PI
+#ifndef __MINGW32__
+#define _MAX_PATH 1024
 typedef int32_t __int32;
-typedef uint32_t __uint32;
 typedef int64_t __int64;
+#endif
+typedef uint32_t __uint32;
 typedef uint64_t __uint64;
 
 namespace replay::noisetrekker2 {
