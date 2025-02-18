@@ -11,9 +11,9 @@
 - Allow build time selection of enabled players/replays
 --  for example ./configure --enable-players=uade to only build with UADE
 - Implement optional libopenmpt support (https://lib.openmpt.org/libopenmpt/)
---  must be installed on system or provided externally via build flags
+--  must be installed on system or provided externally via build flags, otherwise disabled
 - Implement optional libxmp support (https://xmp.sourceforge.net/)
---  must be installed on system or provided externally via build flags
+--  must be installed on system or provided externally via build flags, otherwise disabled
 - Misc fixes and updates
 
 0.12.4 - 2024-01-06
