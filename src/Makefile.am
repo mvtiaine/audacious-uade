@@ -73,6 +73,7 @@ endif
 	chmod 755 "$(DESTDIR)$(uadedatadir)/players"
 	chmod 755 "$(DESTDIR)$(uadedatadir)/players/S"
 	chmod 755 "$(DESTDIR)$(uadedatadir)/players/ENV"
+	chmod 755 "$(DESTDIR)$(uadedatadir)/players/ENV/EaglePlayer"
 
 uninstall-hook:
 	rm -rf "$(DESTDIR)$(uadedir)" || true
