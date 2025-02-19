@@ -451,7 +451,7 @@ void parse_tsv(const string &tsv, _MetaData *db, const size_t N) noexcept {
 void parse_modinfos(const string &tsv) noexcept {
     FILE *f = fopen(tsv.c_str(), "r"); 
     if (!f) {
-        ERR("Could not open songdb file %s\n", tsv.c_str());
+        ERR("Could not open songdb file %s (%d)\n", tsv.c_str(), errno);
         return;
     }
 
