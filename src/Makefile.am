@@ -64,7 +64,6 @@ endif
 	$(INSTALL) "$(top_builddir)/uade/src/uadecore" "$(DESTDIR)$(uadelibdir)/"
 	$(MKDIR_P) "$(DESTDIR)$(uadedir)/doc/uade"
 	cp -f "$(top_srcdir)/uade/AUTHORS" "$(top_srcdir)/uade/COPYING"* "$(top_srcdir)/uade/ChangeLog" "$(top_srcdir)/uade/README" "$(top_srcdir)/uade/version" "$(DESTDIR)$(uadedir)/doc/uade/"
-	chmod -R 644 "$(DESTDIR)$(uadedir)/"*
 	chmod 755 "$(DESTDIR)$(uadedir)/"*
 	chmod 755 "$(DESTDIR)$(uadedir)/doc/uade"
 	chmod 755 "$(DESTDIR)$(uadedir)/ext/"*
