@@ -18,7 +18,7 @@ build() {
     mkdir -p build-arch
     cd build-arch
     rm -rf *
-    ../configure --enable-plugin-audacious=yes --with-static-stdlibs=no
+    ../configure --enable-plugin-audacious=yes --with-static-stdlibs=no --prefix=/usr
     make -j
 }
 
