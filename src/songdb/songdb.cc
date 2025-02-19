@@ -274,7 +274,7 @@ constexpr_f1 SubSongInfo make_subsonginfo(const uint8_t subsong, const _SubSongI
 void parse_md5idx(const string &tsv) noexcept {
     FILE *f = fopen(tsv.c_str(), "r"); 
     if (!f) {
-        ERR("Could not open songdb file %s\n", tsv.c_str());
+        ERR("Could not open songdb file %s (%d)\n", tsv.c_str(), errno);
         return;
     }
 
@@ -295,7 +295,7 @@ void parse_md5idx(const string &tsv) noexcept {
 void parse_songlengths(const string &tsv) noexcept {
     FILE *f = fopen(tsv.c_str(), "r"); 
     if (!f) {
-        ERR("Could not open songdb file %s\n", tsv.c_str());
+        ERR("Could not open songdb file %s (%d)\n", tsv.c_str(), errno);
         return;
     }
     int md5_idx = 1; // 0 entry is special
@@ -402,7 +402,7 @@ void parse_tsv_row(const char *tuple, _MetaData &item, const _MetaData &prev_ite
 void parse_tsv(const string &tsv, _MetaData *db, const size_t N) noexcept {
     FILE *f = fopen(tsv.c_str(), "r"); 
     if (!f) {
-        ERR("Could not open songdb file %s\n", tsv.c_str());
+        ERR("Could not open songdb file %s (%d)\n", tsv.c_str(), errno);
         return;
     }
     char line[BUF_SIZE];
