@@ -745,7 +745,7 @@ if test "$build_openharmony" != "yes" && test "$build_ps4" != "yes" && test "$bu
 fi
 COMMON_CFLAGS="-fmerge-all-constants -fno-exceptions"
 CXXFLAGS="-fvisibility=hidden ${CXXSTD} ${CXXFLAGS} ${COMMON_CFLAGS} -fvisibility-inlines-hidden -fno-rtti"
-CFLAGS="-fvisibility=hidden "${CSTD} ${CFLAGS} ${COMMON_CFLAGS}"
+CFLAGS="-fvisibility=hidden ${CSTD} ${CFLAGS} ${COMMON_CFLAGS}"
 ARCHFLAGS=""
 EXTRA_LIBS=""
 if test "$build_haiku" = "yes" ; then
