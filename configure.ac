@@ -743,9 +743,9 @@ CPPFLAGS="-D_DEFAULT_SOURCE ${CPPFLAGS}"
 if test "$build_openharmony" != "yes" && test "$build_ps4" != "yes" && test "$build_dreamcast" != "yes" ; then
   CPPFLAGS="-D_GNU_SOURCE ${CPPFLAGS}"
 fi
-COMMON_CFLAGS="-fvisibility=hidden -fmerge-all-constants -fno-exceptions"
-CXXFLAGS="${CXXSTD} ${CXXFLAGS} ${COMMON_CFLAGS} -fvisibility-inlines-hidden -fno-rtti"
-CFLAGS="${CSTD} ${CFLAGS} ${COMMON_CFLAGS}"
+COMMON_CFLAGS="-fmerge-all-constants -fno-exceptions"
+CXXFLAGS="-fvisibility=hidden ${CXXSTD} ${CXXFLAGS} ${COMMON_CFLAGS} -fvisibility-inlines-hidden -fno-rtti"
+CFLAGS=-fvisibility=hidden "${CSTD} ${CFLAGS} ${COMMON_CFLAGS}"
 ARCHFLAGS=""
 EXTRA_LIBS=""
 if test "$build_haiku" = "yes" ; then
