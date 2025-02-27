@@ -1079,7 +1079,11 @@ AC_CONFIG_FILES(Makefile
 AC_OUTPUT
 
 echo ------------------------------------------------
-echo Players: ${players:1}
+if test "$all_players" = "yes"; then
+  echo Players: all
+else
+  echo Players: ${players:1}
+fi
 echo Player probe support: ${player_probe}
 echo Static stdlibs: ${static_stdlibs}
 echo Audacious plugin: ${plugin_audacious}
