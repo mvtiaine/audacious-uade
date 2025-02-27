@@ -309,6 +309,8 @@ fi
 
 if test "$player_probe" = "yes"; then
   AC_DEFINE([PLAYER_PROBE], [1], [Enable player probe support])
+else
+  player_probe="no"
 fi
 AM_CONDITIONAL([PLAYER_PROBE], [test "$player_probe" = "yes"])
 
@@ -1075,3 +1077,17 @@ AC_CONFIG_FILES(Makefile
                 src/Makefile)
 
 AC_OUTPUT
+
+echo ------------------------------------------------
+echo Players: ${players:1}
+echo Player probe support: ${player_probe}
+echo Static stdlibs: ${static_stdlibs}
+echo Audacious plugin: ${plugin_audacious}
+if test "$plugin_audacious" = "yes"; then
+  echo Audacious plugin dir: ${AUDACIOUS_PLUGINDIR}
+fi
+echo DeaDBeeF plugin: ${plugin_deadbeef}
+if test "$plugin_deadbeef" = "yes"; then
+  echo DeaDBeeF plugin dir: ${DEADBEEF_PLUGINDIR}
+fi
+echo ------------------------------------------------
