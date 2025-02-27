@@ -19,7 +19,9 @@ EXTRA_DIST = \
 	testdata
 
 AM_DISTCHECK_DVI_TARGET =
-DISTCHECK_CONFIGURE_FLAGS = --with-audacious-plugindir="$$dc_install_base/lib/audacious"
+DISTCHECK_CONFIGURE_FLAGS = \
+	--with-audacious-plugindir="$$dc_install_base/lib/audacious" \
+	--with-deadbeef-plugindir="$$dc_install_base/lib/deadbeef"
 
 install installdirs: SUBDIRS = src
 uninstall uninstalldirs: SUBDIRS = src
@@ -31,6 +33,14 @@ if !PLAYER_all
 endif
 if !PLAYER_PROBE
 	echo "ERROR: make dist requires player probes to be enabled"
+	exit 1
+endif
+if !PLUGIN_AUDACIOUS
+	echo "ERROR: make dist requires Audacious plugin to be enabled"
+	exit 1
+endif
+if !PLUGIN_DEADBEEF
+	echo "ERROR: make dist requires DeaDBeeF plugin to be enabled"
 	exit 1
 endif
 	$(MKDIR_P) "$(distdir)/uade"

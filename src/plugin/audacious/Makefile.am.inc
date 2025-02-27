@@ -2,12 +2,13 @@
 
 plugin_audacious_LTLIBRARIES = plugin/audacious/uade.la
 plugin_audacious_uade_la_SOURCES = \
+    plugin/common/copyright.h \
     plugin/audacious/prefs.h \
     plugin/audacious/uade_prefs.h \
     plugin/audacious/logger.cc \
     plugin/audacious/plugin.cc
 
-plugin/audacious/uade.% : CXXFLAGS += -Wno-format-nonliteral
+plugin/audacious/% : CXXFLAGS += -Wno-format-nonliteral -Wno-missing-field-initializers
 
 plugin_audacious_uade_la_LIBADD = \
     songend/libsongend.la \
@@ -34,5 +35,3 @@ if BUILD_NETBSD
 plugin_audacious_uade_la_LDFLAGS += -Xcompiler $(UADE_LIBS)
 endif
 plugin_audacious_uade_la_CXXFLAGS = $(AM_CXXFLAGS) $(AUDACIOUS_CFLAGS)
-
-plugin/audacious/% : CXXFLAGS += -Wno-missing-field-initializers

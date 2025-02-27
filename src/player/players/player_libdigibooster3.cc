@@ -171,11 +171,11 @@ bool stop(PlayerState &state) noexcept {
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(state.player == Player::libdigibooster3);
-    assert(size >= mixBufSize(state.frequency));
+    assert(size >= state.buffer_size);
     const auto context = static_cast<DB3Context*>(state.context);
     assert(context);
-    size_t totalbytes = DB3_Mix(context->engine, mixBufSize(state.frequency) / 4, (int16_t*)buf) * 4;
-    bool songend = context->songend || totalbytes < mixBufSize(state.frequency);
+    size_t totalbytes = DB3_Mix(context->engine, state.buffer_size / 4, (int16_t*)buf) * 4;
+    bool songend = context->songend || totalbytes < state.buffer_size;
 
     return pair<SongEnd::Status,size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, totalbytes);
 }

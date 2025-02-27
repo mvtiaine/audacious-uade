@@ -121,7 +121,7 @@ error:
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(state.player == Player::libxmp);
-    assert(size >= mixBufSize(state.frequency));
+    assert(size >= state.buffer_size);
     xmp_context c = static_cast<xmp_context>(state.context);
     assert(c);
     int ret = xmp_play_buffer(c, buf, size, 1);
@@ -130,7 +130,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
         ERR("player_libxmp::render xmp_play_buffer failed (%d)\n", ret);
         return {SongEnd::ERROR, 0};
     }
-    return {songend ? SongEnd::PLAYER : SongEnd::NONE, mixBufSize(state.frequency)};
+    return {songend ? SongEnd::PLAYER : SongEnd::NONE, state.buffer_size};
 }
 
 bool stop(PlayerState &state) noexcept {

@@ -129,13 +129,13 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(state.player == Player::protrekkr1);
-    assert(size >= mixBufSize(state.frequency));
+    assert(size >= state.buffer_size);
     const auto context = static_cast<protrekkr1_context*>(state.context);
     assert(context);
-    context->Mixer((Uint8 *)buf, mixBufSize(state.frequency));
+    context->Mixer((Uint8 *)buf, state.buffer_size);
     const int64_t bytespersec = 4 * state.frequency;
-    bool songend = state.pos_millis + mixBufSize(state.frequency) * 1000 / bytespersec >= context->length;
-    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, mixBufSize(state.frequency));
+    bool songend = state.pos_millis + state.buffer_size * 1000 / bytespersec >= context->length;
+    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, state.buffer_size);
 }
 
 bool stop(PlayerState &state) noexcept {

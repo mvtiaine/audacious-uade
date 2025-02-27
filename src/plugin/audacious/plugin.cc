@@ -37,6 +37,7 @@
 #include "player/player.h"
 #include "songend/precalc.h"
 #include "songdb/songdb.h"
+#include "plugin/common/copyright.h"
 
 using namespace std;
 
@@ -260,17 +261,19 @@ optional<Info> parse_info(VFSFile &file, const string &path, const string &md5) 
 
 player::Filter player_filter(const int filter) {
     switch(filter) {
+        case 1: return player::Filter::A500;
         case 2: return player::Filter::A1200;
         case 3: return player::Filter::NONE;
-        default: return player::Filter::A500;
+        default: return player::Filter::A1200;
     }
 }
 
 player::uade::Resampler uade_resampler(const int resampler) {
     switch(resampler) {
+        case 0: return player::uade::Resampler::DEFAULT;
         case 1: return player::uade::Resampler::SINC;
         case 2: return player::uade::Resampler::NONE;
-        default: return player::uade::Resampler::DEFAULT;
+        default: return player::uade::Resampler::SINC;
     }
 }
 
@@ -380,51 +383,7 @@ public:
     static constexpr PluginInfo info = {
         "UADE Plugin",
         "audacious-uade",
-        "audacious-uade " PACKAGE_VERSION " (GPL-2.0-or-later)\n"
-        "Copyright (c) 2014-2025, Matti Tiainen\n"
-        PACKAGE_URL "\n"
-        "\n"
-#if PLAYER_uade
-        "UADE " UADE_VERSION " (GPL-2.0-or-later)\n"
-        "https://zakalwe.fi/uade/\n"
-        "\n"
-#endif
-#if PLAYER_hivelytracker
-        "HivelyTracker 1.9 (BSD-3-Clause)\n"
-        "Copyright (c) 2006-2018, Pete Gordon\n"
-        "\n"
-#endif
-#if PLAYER_libdigibooster3
-        "libdigibooster3 1.2 (BSD-2-Clause)\n"
-        "Copyright (c) 2014, Grzegorz Kraszewski\n"
-        "\n"
-#endif
-#if PLAYER_ft2play || PLAYER_it2play || PLAYER_st3play || PLAYER_st23play
-        "ft2play, it2play, st3play v1.0.1,\n"
-        "st23play v0.35 (BSD-3-Clause)\n"
-        "Copyright (c) 2016-2024, Olav Sørensen\n"
-        "\n"
-#endif
-#if PLAYER_protrekkr1 || PLAYER_protrekkr2
-        "ProTrekkr v1.99e, v2.8.1 (BSD-2-Clause)\n"
-        "Copyright (C) 2008-2024, Franck Charlet\n"
-        "\n"
-#endif
-#if PLAYER_noisetrekker2
-        "NoiseTrekker2 final by Arguru\n"
-        "\n"
-#endif
-#if PLAYER_libopenmpt
-        "libopenmpt " OPENMPT_API_VERSION_STRING " (BSD-3-Clause)\n"
-        "https://lib.openmpt.org/libopenmpt/\n"
-        "\n"
-#endif
-#if PLAYER_libxmp
-        "libxmp " XMP_VERSION " (MIT)\n"
-        "https://xmp.sourceforge.net/\n"
-        "\n"
-#endif
-        "See README for more information\n",
+        plugin_copyright,
         &plugin_prefs
     };
 
@@ -497,7 +456,7 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
 #if PLAYER_uade
     // add to playlist, but call uade_play() on-demand (may hang UADE/audacious completely)
     if (songdb::blacklist::is_blacklisted_md5(md5)) {
-        DEBUG("uade_plugin_read_tag blacklisted md5 %s\n", uri);
+        WARN("uade_plugin_read_tag blacklisted md5 %s (%s)\n", uri, md5.c_str());
         return true;
     }
 #endif
@@ -553,7 +512,7 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     int known_timeout = tuple.get_int(Tuple::Length);
     const auto comment = tuple.get_str(Tuple::Comment);
     if (known_timeout <= 0 && comment && common::starts_with(string(comment), "songend=")) {
-        WARN("uade_plugin_play skipped known invalid file %s\n", uri);
+        DEBUG("uade_plugin_play skipped known invalid file/subsong %s\n", uri);
         return true;
     }
 

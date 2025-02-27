@@ -8,6 +8,7 @@ endif
 uadedatadir = $(uadedir)/share/uade
 uadelibdir = $(uadedir)/lib/uade
 plugin_audaciousdir = $(AUDACIOUS_PLUGINDIR)/Input
+plugin_deadbeefdir = $(DEADBEEF_PLUGINDIR)
 
 AM_CPPFLAGS = -I$(top_srcdir)/src -DUADEDIR="\"$(uadedir)\"" -DUADEDATADIR="\"$(uadedatadir)\""
 
@@ -41,6 +42,11 @@ if PLUGIN_AUDACIOUS
 include $(srcdir)/plugin/audacious/Makefile.am.inc
 endif
 
+## DeaDBeeF plugin
+if PLUGIN_DEADBEEF
+include $(srcdir)/plugin/deadbeef/Makefile.am.inc
+endif
+
 install-data-hook:
 # TODO better way
 # remove .la cruft
@@ -48,6 +54,12 @@ if PLUGIN_AUDACIOUS
 	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade.la" || true
 if BUILD_WINDOWS
 	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade.dll.a" || true
+endif
+endif
+if PLUGIN_DEADBEEF
+	rm -f "$(DESTDIR)$(plugin_deadbeefdir)/aaa_uade.la" || true
+if BUILD_WINDOWS
+	rm -f "$(DESTDIR)$(plugin_deadbeefdir)/aaa_uade.dll.a" || true
 endif
 endif
 	$(MKDIR_P) "$(DESTDIR)$(uadedir)"
@@ -79,4 +91,7 @@ uninstall-hook:
 	rm -rf "$(DESTDIR)$(uadedir)" || true
 if PLUGIN_AUDACIOUS
 	rm -f "$(DESTDIR)$(plugin_audaciousdir)/uade."* || true
+endif
+if PLUGIN_DEADBEEF
+	rm -f "$(DESTDIR)$(plugin_deadbeefdir)/aaa_uade."* || true
 endif

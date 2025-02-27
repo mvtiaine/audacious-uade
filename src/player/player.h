@@ -160,6 +160,16 @@ PlaybackResult playback_loop(
     const std::function<int(void)> check_seek,
     const std::function<void(char *, int)> write_audio) noexcept;
 
+struct PlaybackStepResult {
+    common::SongEnd songend;
+    std::vector<char> buffer;
+};
+
+PlaybackStepResult playback_step(
+    PlayerState &state,
+    int known_timeout = 0,
+    int silence_timeout = 0) noexcept;
+
 } // namespace player::support
 
 namespace player::uade {

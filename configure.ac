@@ -18,6 +18,10 @@ AC_CONFIG_MACRO_DIR([m4])
 # AC_CANONICAL_HOST is needed to access the 'host_os' variable
 AC_CANONICAL_HOST
 
+if test "$prefix" = "NONE" ; then
+  prefix=/usr/local
+fi
+
 # C standard check
 AC_LANG_PUSH([C])
 for version in 23 2x 17 11 1x 99 9x; do
@@ -159,6 +163,7 @@ if test "$player_libxmp" != "yes"; then
   all_players=no
 fi
 
+
 # Audacious plugin
 AC_ARG_ENABLE(plugin-audacious,
   AS_HELP_STRING([--enable-plugin-audacious=[yes|no|auto]], [Explicitly enable or disable Audacious plugin [default=auto]]),
@@ -180,7 +185,7 @@ PKG_CHECK_MODULES([AUDACIOUS],[audacious >= 3.8],
     else
       plugin_audacious=no
       ac_audacious_plugindir=;
-      AC_MSG_NOTICE([Audacious not found, only CLI binaries will be built])
+      AC_MSG_NOTICE([Audacious not found, Audacious plugin will not be built])
     fi
   ])
 fi
@@ -196,12 +201,10 @@ AC_ARG_WITH([audacious-plugindir],
   [if test x"$withval" != x ; then
      AUDACIOUS_PLUGINDIR="$withval"
    fi],
-   [AUDACIOUS_PLUGINDIR=$ac_audacious_plugindir])
-
+  [AUDACIOUS_PLUGINDIR=$ac_audacious_plugindir])
 if test "$AUDACIOUS_PLUGINDIR" = ""; then
   AC_MSG_ERROR([Audacious plugindir missing!])
 fi
-
 AC_SUBST(AUDACIOUS_PLUGINDIR)
 AC_MSG_RESULT($AUDACIOUS_PLUGINDIR)
 
@@ -242,12 +245,75 @@ AC_LANG_POP
 CXXFLAGS="$saved_cxxflags"
 fi
 
+
+# DeaDBeeF plugin
+AC_ARG_ENABLE(plugin-deadbeef,
+  AS_HELP_STRING([--enable-plugin-deadbeef=[yes|no|auto]], [Explicitly enable or disable DeaDBeeF plugin [default=auto]]),
+  [plugin_deadbeef="$enableval"],
+  [plugin_deadbeef=""])
+
+if test "$plugin_deadbeef" != "no"; then
+AC_CHECK_HEADER([deadbeef/deadbeef.h],
+  [],
+  [
+    if test "$plugin_deadbeef" = "yes"; then
+      AC_MSG_ERROR([DeaDBeeF header not found!])
+    else
+      plugin_deadbeef=no
+      AC_MSG_NOTICE([DeaDBeeF header not found, DeaDBeeF plugin will not be built])
+    fi
+  ])
+fi
+if test "$plugin_deadbeef" != "no"; then
+AC_MSG_CHECKING([for deadbeef plugindir])
+DEADBEEF_PLUGINDIR=""
+AC_ARG_WITH([deadbeef-plugindir],
+  AS_HELP_STRING([--with-deadbeef-plugindir=[PLUGINDIR]], [Installs uade plugin under [PLUGINDIR] instead of default $prefix/lib/deadbeef]),
+  [
+    if test x"$withval" != x ; then
+      DEADBEEF_PLUGINDIR="$withval"
+      plugin_deadbeef=yes
+      AC_SUBST(DEADBEEF_PLUGINDIR)
+    fi
+  ],
+  [])
+# XXX skip plugindir check if explicitly given to support distcheck
+if test "$DEADBEEF_PLUGINDIR" = ""; then
+DEADBEEF_PLUGINDIR="$prefix/lib/deadbeef"
+AC_MSG_RESULT($DEADBEEF_PLUGINDIR)
+AC_CHECK_FILE([$DEADBEEF_PLUGINDIR],
+  [
+    plugin_deadbeef=yes
+    AC_SUBST(DEADBEEF_PLUGINDIR)
+  ],
+  [
+    if test "$plugin_deadbeef" = "yes"; then
+      AC_MSG_ERROR([DeaDBeeF plugin dir not found!])
+    else
+      plugin_deadbeef=no
+      AC_MSG_NOTICE([DeaDBeeF plugin dir not found, DeaDBeeF plugin will not be built])
+    fi
+  ])
+else
+AC_MSG_RESULT($DEADBEEF_PLUGINDIR)
+fi
+fi
+
+if test "$plugin_deadbeef" = "yes"; then
+if test "$player_probe" = "no"; then
+  AC_MSG_ERROR([Player probe support is required for DeaDBeeF plugin])
+fi
+player_probe="yes"
+fi
+
+
 if test "$player_probe" = "yes"; then
   AC_DEFINE([PLAYER_PROBE], [1], [Enable player probe support])
 fi
 AM_CONDITIONAL([PLAYER_PROBE], [test "$player_probe" = "yes"])
 
 AM_CONDITIONAL([PLUGIN_AUDACIOUS], [test "$plugin_audacious" = "yes"])
+AM_CONDITIONAL([PLUGIN_DEADBEEF], [test "$plugin_deadbeef" = "yes"])
 
 # gotta catch 'em all
 build_linux=no
@@ -963,10 +1029,6 @@ elif test "$build_tizen" = "yes" || test "$build_blackberry10" = "yes" ; then
 fi
 
 if test "$players" = "all" || test "$players" = "any" || printf ",${players}," | grep -Eq ",uade,"; then
-uade_prefix=${prefix}
-if test "$uade_prefix" = "NONE" ; then
-  uade_prefix=/usr/local
-fi
 _UADE_CPPFLAGS="${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE"
 _UADE_CFLAGS="${CFLAGS} -Wno-unused -Wno-deprecated-declarations -Wno-tautological-compare -Wno-pedantic -Wno-implicit-function-declaration"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-zero-length-array -Wno-variadic-macros -Wno-gnu-zero-variadic-macro-arguments"
@@ -976,12 +1038,12 @@ _UADE_LDFLAGS="${LDFLAGS} ${EXTRA_LIBS}"
 if test "$static_stdlibs" = "yes" ; then
   _UADE_LDFLAGS="-static-libgcc ${_UADE_LDFLAGS}"
 fi
-if test "$plugin_audacious" = "yes" ; then
+if test "$plugin_audacious" = "yes" || test "$plugin_deadbeef" = "yes" ; then
   _UADE_CFLAGS="${pic_flag} ${_UADE_CFLAGS}"
 fi
 AX_SUBDIRS_CONFIGURE([uade], [
   [--without-uade123], [--without-uadesimple], [--without-write-audio],[--without-uadefs],[--without-libuade],[--without-avx2],
-  [--prefix=\${uade_prefix}/share/audacious-uade],
+  [--prefix=\${prefix}/share/audacious-uade],
   [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
   [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
   [--target-ar=${AR}],[--target-cc=${CC}],[CC=${CC_FOR_BUILD}],[CXX=${CXX}],
