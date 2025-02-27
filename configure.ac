@@ -1083,7 +1083,7 @@ echo Prefix: ${prefix}
 if test "$all_players" = "yes"; then
   echo Players: all
 else
-  echo Players: ${players:1}
+  echo Players: $(echo ${players} | sed 's/^,//')
 fi
 echo Player probe support: ${player_probe}
 echo Static stdlibs: ${static_stdlibs}
