@@ -415,7 +415,7 @@ DB_playItem_t *uade_insert(ddb_playlist_t *plt, DB_playItem_t *after, const char
             if (metadata->combined->year)
                 deadbeef->pl_add_meta(it, "year", to_string(metadata->combined->year).c_str());
         }
-        common::SongEnd songend;
+        common::SongEnd songend = {common::SongEnd::NONE, 0};
         const auto songinfo = metadata ? songdb::lookup(md5.c_str(), s) : optional<songdb::SubSongInfo>();
         bool precalc = deadbeef->conf_get_int("uade.precalc_songlengths", 1);
         if (songinfo) {
@@ -423,8 +423,10 @@ DB_playItem_t *uade_insert(ddb_playlist_t *plt, DB_playItem_t *after, const char
         } else if (precalc) {
             songend = songend::precalc::precalc_song_end(modinfo.value(), buf.data(), size, s, md5);
         }
-        deadbeef->pl_add_meta(it, "songend", songend.status_string().c_str());
-        deadbeef->plt_set_item_duration(plt, it, songend.length / 1000.0f);
+        if (songend.status != common::SongEnd::NONE) {
+            deadbeef->pl_add_meta(it, "songend", songend.status_string().c_str());
+            deadbeef->plt_set_item_duration(plt, it, songend.length / 1000.0f);
+        }
         after = deadbeef->plt_insert_item(plt, after, it);
         deadbeef->pl_item_unref(it);
     }
