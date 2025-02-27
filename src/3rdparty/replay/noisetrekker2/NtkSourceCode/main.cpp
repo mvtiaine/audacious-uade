@@ -4471,7 +4471,7 @@ void ComputeCoefs(int freq, int r, int t)
                 a1 =  -2*cs;
                 a2 =   1 - alpha;
                 break;
-		default: assert(false); // mvtiaine: added to shutup warning
+		default: assert(false); return; // mvtiaine: added to shutup warning
 		}
 
         coef[0] = b0/a0;
