@@ -217,6 +217,7 @@ static constexpr const char *exts[] = {
     "prt", // Pretracker
     "ptm", "mod3", // Protracker IFF (Protracker4)
     "mmd3", "oss", // Octamed SoundStudio / MMD3
+    "stk", // Soundtracker
 
     // no replay
     //"ct", Cybertracker
