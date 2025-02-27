@@ -1079,6 +1079,7 @@ AC_CONFIG_FILES(Makefile
 AC_OUTPUT
 
 echo ------------------------------------------------
+echo Prefix: ${prefix}
 if test "$all_players" = "yes"; then
   echo Players: all
 else
