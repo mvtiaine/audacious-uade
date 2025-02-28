@@ -1100,8 +1100,7 @@ if test "$linker" = ""; then
 fi
 echo ------------------------------------------------
 echo Prefix: ${prefix}
-echo Platform: $(echo ${platform} | sed 's/^,//') \(${linker}\)
-echo Endian: ${endian}
+echo Platform: $(echo ${platform} | sed 's/^,//') - ${endian} endian - ${linker}
 echo Triplet: ${host_cpu}-${host_os}-${host_vendor}
 echo CC: ${CC}
 echo CXX: ${CXX}
