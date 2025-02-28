@@ -1,15 +1,19 @@
 pkgname=audacious-uade
 pkgver=$(cat ../VERSION | sed 's/-/_/g')
 pkgrel=1
-pkgdesc="UADE plugin for Audacious music player"
+pkgdesc="Audacious (https://audacious-media-player.org/) and DeaDBeeF (https://deadbeef.sourceforge.io/) input plugin for UADE (https://zakalwe.fi/uade/) and other retro music replays"
 arch=('any')
 url="https://github.com/mvtiaine/audacious-uade"
 license=('GPL')
 depends=('audacious' 'libopenmpt')
-# libxmp in AUR
-optdepends=('libxmp: support for additional formats') 
+# libxmp and deadbeef in AUR
+optdepends=(
+    'libxmp: support for additional formats'
+    'deadbeef: DeaDBeeF plugin'
+) 
 makedepends=('autoconf' 'automake' 'libtool' 'which' 'make' 'pkg-config')
 
+# NOTE: DeaDBeeF plugin is also built/installed if deadbeef is installed
 build() {
     cd "$startdir"/..
     autoreconf -i
@@ -18,7 +22,10 @@ build() {
     mkdir -p build-arch
     cd build-arch
     rm -rf *
-    ../configure --enable-plugin-audacious=yes --with-static-stdlibs=no --prefix=/usr
+    ../configure \
+        --enable-plugin-audacious=yes \
+        --with-static-stdlibs=no \
+        --prefix=/usr
     make -j
 }
 
