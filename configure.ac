@@ -1083,14 +1083,14 @@ AC_CONFIG_FILES(Makefile
 AC_OUTPUT
 
 platform=""
-for var in $(set | grep '^build_.*=yes' | cut -d= -f1); do
+for var in $(set | grep '^build_.*=.*yes.*' | cut -d= -f1); do
   platform="${platform},${var#build_}"
 done
 if test "$platform" = ""; then
   platform="unknown"
 fi
 linker=""
-for var in $(set | grep '^ld_.*=yes' | grep -v ld_shlibs | cut -d= -f1); do
+for var in $(set | grep '^ld_.*=.*yes.*' | grep -v ld_shlibs | cut -d= -f1); do
   linker="${linker}${var}"
 done
 if test "$linker" = ""; then
