@@ -18,6 +18,7 @@ plugin_deadbeef_aaa_uade_la_LIBADD = \
     $(LIBXMP_LIBS)
 
 plugin_deadbeef_aaa_uade_la_LDFLAGS = $(AM_LDFLAGS) -avoid-version -module -shared -no-undefined $(SHREXT)
+plugin_deadbeef_aaa_uade_la_LDFLAGS += -Xcompiler -Wno-odr -Xcompiler -Wno-lto-type-mismatch
 if BUILD_WINDOWS
 plugin_deadbeef_aaa_uade_la_LDFLAGS += -Xcompiler $(UADE_LIBS)
 if BUILD_CYGWIN

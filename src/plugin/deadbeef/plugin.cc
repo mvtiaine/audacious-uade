@@ -2,7 +2,9 @@
 // Copyright (C) 2025 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #define DDB_API_LEVEL 10
+extern "C" {
 #include <deadbeef/deadbeef.h>
+}
 
 #include <cstring>
 #include <string>
