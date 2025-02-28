@@ -1082,9 +1082,24 @@ AC_CONFIG_FILES(Makefile
 
 AC_OUTPUT
 
+platform=""
+for var in $(set | grep '^build_.*=yes' | cut -d= -f1); do
+  platform+=",${var#build_}"
+done
+if test "$platform" = ""; then
+  platform="unknown"
+fi
+linker=""
+for var in $(set | grep '^ld_.*=yes' | grep -v ld_shlibs | cut -d= -f1); do
+  linker+="${var}"
+done
+if test "$linker" = ""; then
+  linker="ld_unknown"
+fi
 echo ------------------------------------------------
 echo Prefix: ${prefix}
-echo Host: ${host_cpu}-${host_os}-${host_vendor}
+echo Platform: $(echo ${platform} | sed 's/^,//') \(${linker}\)
+echo Triplet: ${host_cpu}-${host_os}-${host_vendor}
 echo CC: ${CC}
 echo CXX: ${CXX}
 echo LD: ${LD}
