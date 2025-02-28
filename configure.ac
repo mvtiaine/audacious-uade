@@ -91,6 +91,7 @@ AC_ARG_ENABLE(players,
 
 all_players=yes
 players_found=""
+players_notfound=""
 AC_SUBST([players])
 m4_foreach_w([player],
   [ft2play hivelytracker it2play libdigibooster3 noisetrekker2 protrekkr1 protrekkr2 st23play st3play uade libopenmpt libxmp], [
@@ -103,6 +104,7 @@ m4_foreach_w([player],
   else
     AC_DEFINE_UNQUOTED([PLAYER_[]player[]], [0], [Disable player ]player)
     AM_CONDITIONAL([PLAYER_]player, [false])
+    players_notfound="${players_notfound},${p}"
     all_players=no
   fi
   fi
@@ -135,6 +137,7 @@ fi
 if test "$player_libopenmpt" != "yes"; then
   AC_DEFINE([PLAYER_libopenmpt], [0], [Disable player libopenmpt])
   AM_CONDITIONAL([PLAYER_libopenmpt], [false])
+  players_notfound="${players_notfound},libopenmpt"
   all_players=no
 fi
 
@@ -160,6 +163,7 @@ fi
 if test "$player_libxmp" != "yes"; then
   AC_DEFINE([PLAYER_libxmp], [0], [Disable player libxmp])
   AM_CONDITIONAL([PLAYER_libxmp], [false])
+  players_notfound="${players_notfound},libxmp"
   all_players=no
 fi
 
@@ -1081,9 +1085,10 @@ AC_OUTPUT
 echo ------------------------------------------------
 echo Prefix: ${prefix}
 if test "$all_players" = "yes"; then
-  echo Players: all
+  echo Enabled players: all
 else
-  echo Players: $(echo ${players} | sed 's/^,//')
+  echo Enabled players: $(echo ${players} | sed 's/^,//')
+  echo Disabled players: $(echo ${players_notfound} | sed 's/^,//')
 fi
 echo Player probe support: ${player_probe}
 echo Static stdlibs: ${static_stdlibs}
