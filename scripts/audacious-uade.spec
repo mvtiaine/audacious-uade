@@ -50,7 +50,8 @@ Audacious (https://audacious-media-player.org/) and DeaDBeeF (https://deadbeef.s
     --with-static-stdlibs=no \
     --enable-players=all \
     --enable-plugin-audacious=yes \
-    %{?with_deadbeef:--enable-plugin-deadbeef=yes}
+    %{?with_deadbeef:--enable-plugin-deadbeef=yes} \
+    %{?with_deadbeef:--with-deadbeef-plugindir=%{_libdir}/deadbeef}
 %make_build
 
 %install

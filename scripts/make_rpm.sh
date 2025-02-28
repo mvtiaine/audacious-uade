@@ -20,7 +20,7 @@ sudo $TOOL install rpmdevtools rpm-build audacious-devel libopenmpt-devel libxmp
 DEADBEEF=""
 if [ "$1" = "--with-deadbeef" ]; then
   sudo $TOOL install deadbeef deadbeef-devel
-  DEADBEEF="--enable-plugin-deadbeef=yes"
+  DEADBEEF="--enable-plugin-deadbeef=yes --with-deadbeef-plugindir=/dev/null"
   DEADBEEF_RPM="--with deadbeef"
 fi
 autoreconf -i
