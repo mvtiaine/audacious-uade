@@ -16,6 +16,7 @@ set -e
 
 VERSION=$(cat VERSION)
 
+# if you want DeaDBeeF support install deadbeef and deadbeef-devel first
 sudo $TOOL install rpmdevtools rpm-build audacious-devel libopenmpt-devel libxmp-devel gcc-c++ make autoconf automake libtool pkg-config
 autoreconf -i && ./configure --enable-players=all --enable-plugin-audacious=yes --with-static-stdlibs=no && make clean && make dist
 mkdir -p build-rpm
