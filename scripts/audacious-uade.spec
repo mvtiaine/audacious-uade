@@ -15,7 +15,7 @@ Requires:       libopenmpt0 >= %{libopenmpt_ver}
 Requires:       libxmp4 >= %{libxmp_ver}
 %else
 Requires:       libopenmpt >= %{libopenmpt_ver}
-%if %{undefined rhel_version}
+%if %{undefined rhel} && %{undefined centos}
 Requires:       libxmp >= %{libxmp_ver}
 %endif
 %endif
@@ -33,7 +33,7 @@ BuildRequires:  audacious-devel >= %{aud_ver}
 BuildRequires:  deadbeef-devel >= %{deadbeef_ver}
 %endif
 BuildRequires:  libopenmpt-devel >= %{libopenmpt_ver}
-%if %{undefined rhel_version}
+%if %{undefined rhel} && %{undefined centos}
 BuildRequires:  libxmp-devel >= %{libxmp_ver}
 %endif
 BuildRequires:  gcc-c++
@@ -52,7 +52,7 @@ Audacious (https://audacious-media-player.org/) and DeaDBeeF (https://deadbeef.s
 %build
 %configure \
     --with-static-stdlibs=no \
-%if %{undefined rhel_version}
+%if %{undefined rhel} && %{undefined centos}
     --enable-players=all \
 %endif
     --enable-plugin-audacious=yes \
