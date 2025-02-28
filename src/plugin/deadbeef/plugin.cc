@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2025 Matti Tiainen <mvtiaine@cc.hut.fi>
 
+#define DDB_API_LEVEL 10
 #include <deadbeef/deadbeef.h>
 
 #include <cstring>
