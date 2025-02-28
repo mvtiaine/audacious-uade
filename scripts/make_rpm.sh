@@ -26,7 +26,6 @@ fi
 autoreconf -i
 ./configure \
   --with-static-stdlibs=no \
-  --enable-players=all \
   --enable-plugin-audacious=yes \
   $DEADBEEF
 make clean
