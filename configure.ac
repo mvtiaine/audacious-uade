@@ -1084,6 +1084,11 @@ AC_OUTPUT
 
 echo ------------------------------------------------
 echo Prefix: ${prefix}
+echo Host: ${host_cpu}-${host_os}-${host_vendor}
+echo CC: ${CC}
+echo CXX: ${CXX}
+echo LD: ${LD}
+echo ------------------------------------------------
 if test "$all_players" = "yes"; then
   echo Enabled players: all
 else
