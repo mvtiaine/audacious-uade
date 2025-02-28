@@ -49,9 +49,11 @@ AC_C_BIGENDIAN([
   AM_CONDITIONAL([BIG_ENDIAN],[true])
   AM_CONDITIONAL([LITTLE_ENDIAN],[false])
   AC_DEFINE([WORDS_BIGENDIAN], [1])
+  endian=big
 ],[
   AM_CONDITIONAL([BIG_ENDIAN],[false])
   AM_CONDITIONAL([LITTLE_ENDIAN],[true])
+  endian=little
 ],[
   AC_MSG_ERROR([Could not determine endianness])
 ],[
@@ -1099,6 +1101,7 @@ fi
 echo ------------------------------------------------
 echo Prefix: ${prefix}
 echo Platform: $(echo ${platform} | sed 's/^,//') \(${linker}\)
+echo Endian: ${endian}
 echo Triplet: ${host_cpu}-${host_os}-${host_vendor}
 echo CC: ${CC}
 echo CXX: ${CXX}
