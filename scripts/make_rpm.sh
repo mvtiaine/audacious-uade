@@ -16,7 +16,12 @@ set -e
 
 VERSION=$(cat VERSION)
 
-sudo $TOOL install rpmdevtools rpm-build audacious-devel libopenmpt-devel libxmp-devel gcc-c++ make autoconf automake libtool pkg-config
+sudo $TOOL install rpmdevtools rpm-build audacious-devel libopenmpt-devel gcc-c++ make autoconf automake libtool pkg-config
+# libxmp not available on CentOS
+if [ -z "$(grep rhel /etc/os-release)" ]; then
+  sudo $TOOL install libxmp-devel
+fi
+# NOTE: deadbeef not available on CentOS
 DEADBEEF=""
 if [ "$1" = "--with-deadbeef" ]; then
   sudo $TOOL install deadbeef deadbeef-devel
