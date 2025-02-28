@@ -17,7 +17,7 @@ Requires:       libxmp4 >= %{libxmp_ver}
 Requires:       libopenmpt >= %{libopenmpt_ver}
 %if %{undefined rhel_version}
 Requires:       libxmp >= %{libxmp_ver}
-#endif
+%endif
 %endif
 %if %{with deadbeef}
 Requires:       deadbeef >= %{deadbeef_ver}
