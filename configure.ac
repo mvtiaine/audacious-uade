@@ -1103,7 +1103,12 @@ echo Triplet: ${host_cpu}-${host_os}-${host_vendor}
 echo CC: ${CC}
 echo CXX: ${CXX}
 echo LD: ${LD}
+echo CPPFLAGS: ${CPPFLAGS}
+echo CFLAGS: ${CFLAGS}
+echo CXXFLAGS: ${CXXFLAGS}
+echo LDFLAGS: ${LDFLAGS}
 echo ------------------------------------------------
+
 if test "$all_players" = "yes"; then
   echo Enabled players: all
 else
