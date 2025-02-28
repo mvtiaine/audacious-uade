@@ -27,22 +27,6 @@ install installdirs: SUBDIRS = src
 uninstall uninstalldirs: SUBDIRS = src
 
 dist-hook:
-if !PLAYER_all
-	echo "ERROR: make dist requires all players to be enabled"
-	exit 1
-endif
-if !PLAYER_PROBE
-	echo "ERROR: make dist requires player probes to be enabled"
-	exit 1
-endif
-if !PLUGIN_AUDACIOUS
-	echo "ERROR: make dist requires Audacious plugin to be enabled"
-	exit 1
-endif
-if !PLUGIN_DEADBEEF
-	echo "ERROR: make dist requires DeaDBeeF plugin to be enabled"
-	exit 1
-endif
 	$(MKDIR_P) "$(distdir)/uade"
 	cd uade && git ls-files | tar Tc - | tar x -C "../$(distdir)/uade"
 
