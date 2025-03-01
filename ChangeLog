@@ -14,6 +14,7 @@
 --  must be installed on system or provided externally via build flags, otherwise disabled
 - Implement optional libxmp support (https://xmp.sourceforge.net/)
 --  must be installed on system or provided externally via build flags, otherwise disabled
+- Implement optional DeadDBeeF plugin support (https://deadbeef.sourceforge.io/)
 - Misc fixes and updates
 
 0.12.4 - 2024-01-06
