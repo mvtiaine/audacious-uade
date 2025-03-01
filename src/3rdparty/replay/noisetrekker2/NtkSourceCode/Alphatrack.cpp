@@ -535,8 +535,8 @@ void CSynth::SynthNoteOn(float note, float speed)
 
 	/* Assign resampling steps to each oscillator: */
 
-	OSC1_STEP=(float)pow(2.0,note/12.0f);
-	OSC2_STEP=(float)pow(2.0,(note+OSC2_FINETUNE+OSC2_DETUNE)/12.0f);
+	OSC1_STEP=(float)powf(2.0f,note/12.0f); // mvtiaine: pow -> powf
+	OSC2_STEP=(float)powf(2.0f,(note+OSC2_FINETUNE+OSC2_DETUNE)/12.0f); // mvtiaine: pow -> powf
 	OSC3_STEP=OSC1_STEP*0.5f;
 	
 	OSC1_freakpw1=OSC1_STEP*2;
