@@ -1,7 +1,7 @@
 pkgname=audacious-uade
 pkgver=$(cat ../VERSION | sed 's/-/_/g')
 pkgrel=1
-pkgdesc="Audacious (https://audacious-media-player.org/) and DeaDBeeF (https://deadbeef.sourceforge.io/) input plugin for UADE (https://zakalwe.fi/uade/) and other retro music replays"
+pkgdesc="UADE plugin for Audacious and DeaDBeeF"
 arch=('any')
 url="https://github.com/mvtiaine/audacious-uade"
 license=('GPL')
