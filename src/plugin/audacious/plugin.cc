@@ -12,20 +12,6 @@
 #include <libaudcore/runtime.h>
 #include <libaudcore/vfs.h>
 
-#if PLAYER_uade
-#include "../uade/src/frontends/include/uade/options.h"
-#else
-#define UADE_VERSION "N/A"
-#endif
-
-#if PLAYER_libopenmpt
-#include <libopenmpt/libopenmpt_version.h>
-#endif
-
-#if PLAYER_libxmp
-#include <xmp.h>
-#endif
-
 #include "config.h"
 #include "common/logger.h"
 #include "common/md5.h"
