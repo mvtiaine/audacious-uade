@@ -29,7 +29,9 @@
 typedef unsigned int Uint32;
 typedef unsigned char Uint8;
 typedef int int32;
+#ifndef _AIX
 typedef char int8;
+#endif
 typedef unsigned char uchar;
 typedef int64_t int64;
 typedef uint64_t Uint64;
