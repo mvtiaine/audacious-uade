@@ -34,4 +34,4 @@ endif
 if BUILD_NETBSD
 plugin_audacious_uade_la_LDFLAGS += -Xcompiler $(UADE_LIBS)
 endif
-plugin_audacious_uade_la_CXXFLAGS = $(AM_CXXFLAGS) $(AUDACIOUS_CFLAGS)
+plugin_audacious_uade_la_CXXFLAGS = $(AM_CXXFLAGS) $(AUDACIOUS_CFLAGS) $(LIBOPENMPT_CFLAGS) $(LIBXMP_CFLAGS)
