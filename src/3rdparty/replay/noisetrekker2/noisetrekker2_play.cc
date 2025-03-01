@@ -5,6 +5,9 @@
 
 #include "noisetrekker2.h"
 
+// XXX fix AIX compile
+#undef SACTIVE
+
 using namespace std;
 
 namespace replay::noisetrekker2 {

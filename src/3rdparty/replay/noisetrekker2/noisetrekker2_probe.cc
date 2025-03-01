@@ -2,6 +2,9 @@
 
 #include "noisetrekker2.h"
 
+// XXX fix AIX compile
+#undef SACTIVE
+
 namespace replay::noisetrekker2::probe {
 
 long SamplesPerTick = 0;
