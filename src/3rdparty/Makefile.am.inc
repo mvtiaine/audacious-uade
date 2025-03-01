@@ -1,16 +1,13 @@
 # NOT a standalone Makefile.am
 
 noinst_LTLIBRARIES += \
-    3rdparty/libreplay.la \
-    3rdparty/libminiz.la
+    3rdparty/libreplay.la
 
-3rdparty_libreplay_la_SOURCES =
-
-3rdparty_libminiz_la_SOURCES = \
+3rdparty_libreplay_la_SOURCES = \
     3rdparty/miniz/miniz.h \
     3rdparty/miniz/miniz.c
 
-3rdparty_libreplay_la_LIBADD = 3rdparty/libminiz.la
+3rdparty_libreplay_la_LIBADD =
 
 if PLAYER_hivelytracker
 noinst_LTLIBRARIES += 3rdparty/replay/libreplay_hivelytracker.la
