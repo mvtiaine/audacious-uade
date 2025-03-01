@@ -1,4 +1,4 @@
-This is Audacious (https://audacious-media-player.org/) input plugin for UADE (https://zakalwe.fi/uade/) and other retro music replays.
+This is Audacious (https://audacious-media-player.org/) and DeaDBeeF (https://deadbeef.sourceforge.io/) input plugin for UADE (https://zakalwe.fi/uade/) and other retro music replays.
 
 * IMPORTANT!
 - Make sure "Probe content of files with no recognized file name extension" setting is *enabled* and "Guess missing metadata from filepath" setting is *disabled* in Audacious prefs in order for subsongs and meta data to work properly. The playlist must also have been created *after* the settings are applied.
@@ -22,8 +22,8 @@ Main features:
 - ProTrekkr 1 & 2 support (https://github.com/hitchhikr/protrekkr)
 -- note: older ProTrekkr mods may play incorrectly
 - NoiseTrekker 2 support based on sources from the final release
-- libopenmpt support (https://lib.openmpt.org/libopenmpt/)
-- libxmp support (https://xmp.sourceforge.net/)
+- libopenmpt support (optional) (https://lib.openmpt.org/libopenmpt/)
+- libxmp support (optional) (https://xmp.sourceforge.net/)
 
 Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
 In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
@@ -38,6 +38,8 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 - WIP support (runtime failures) for IRIX, AmigaOS4, Wasix, Emscripten, UnixWare.
 - Recommended custom Audacious playlist entry/window title template:
 ${?codec:[${codec}${?channels: (${channels}ch)}]}  -  ${?artist:${artist}  -  }${title}${?album: - (${album})} ${?copyright:-  (${copyright})}${?publisher:- (${publisher}) }${?year:- (${year}) }${?subsong-id:${?subsong-num:- [${subsong-id}/${subsong-num}]}}
+- Audacious metadata available: Artist, Album, Publisher, Year, Track, Length, Comment
+- DeaDBeeF metadata available: Track Number, Artist, Album, Year, Duration, Codec, %publisher%, %channels%, %player%, %songend%
 
 * Some future plans (in no particular order)
 - Automatic A500/A1200/None filter selection depending on format/year/platform (OCS/AGA/DOS) etc. meta data
@@ -55,10 +57,11 @@ Some parts are also licensed under LGPL-2.1-or-later, specifically sources under
 See NOTICE for 3rd party source code licenses (sources under src/3rdparty/).
 See uade/COPYING for UADE license information (sources under uade/).
 
-* Dependencies:
+* Dependencies (optional/auto detected):
 Audacious >= 3.8
-libopenmpt >= 0.6.0 (optional)
-libxmp >= 4.5.0 (optional)
+DeaDBeeF >= 1.8.0
+libopenmpt >= 0.6.0
+libxmp >= 4.5.0
 
 * To build and install from source (git or latest release):
 - required (git or release): pkg-config, GNU make, GCC/Clang with C++17 support (GCC-6+, Clang-5.0+)
@@ -74,6 +77,7 @@ gmake -j check
 (sudo) gmake install
 
 * To install via Homebrew (latest release):
+# (optional) install deadbeef@nightly cask for DeaDBeeF plugin support (macOS only)
 brew install mvtiaine/repo/audacious-uade
 + macOS:
 ln -s "${HOMEBREW_PREFIX}/lib/audacious/Input/uade.dylib" "$(pkgconf --variable=plugin_dir audacious)/Input/uade.dylib"
@@ -86,21 +90,24 @@ emerge -p media-plugins/audacious-uade
 emerge media-plugins/audacious-uade
 
 * To install with PKGBUILD for Arch/Manjaro/etc.:
+# (optional) install libxmp from AUR https://aur.archlinux.org/packages/libxmp
+# (optional) install DeaDBeeF from AUR https://aur.archlinux.org/packages/deadbeef
 # Latest release
 wget https://raw.githubusercontent.com/mvtiaine/arch-repo/main/audacious-uade/PKGBUILD
 makepkg -s
 (sudo) pacman -U audacious-uade*.pkg*
 # Git
-# (optional) install libxmp from AUR first https://aur.archlinux.org/packages/libxmp
 makepkg -c -s -f -D scripts
 (sudo) pacman -U scripts/audacious-uade*.pkg*
 
 * To install with FreeBSD/MidnightBSD ports or DragonFlyBSD DPorts (latest release):
+# NOTE: DeaDBeeF support not available
 git clone https://github.com/mvtiaine/freebsd-ports.git
 cd freebsd-ports/multimedia/audacious-uade
 make install clean
 
 * To install with HaikuPorter (latest release):
+# NOTE: DeaDBeeF support not available
 (pkgman install audacious audacious_plugins)
 git clone https://github.com/mvtiaine/haikuports.git
 cp -rp haikuports/* /boot/home/haikuports/
@@ -108,11 +115,13 @@ haikuporter audacious_uade
 pkgman install /boot/home/haikuports/packages/audacious_uade-*
 
 * To install with Alpine aports (latest release):
+# (optional) install deadbeef and deadbeef-dev packages for DeaDBeeF plugin support
 wget https://raw.githubusercontent.com/mvtiaine/aports/main/audacious-uade/APKBUILD
 abuild -r
 (sudo) apk add "${HOME}/packages/*/*/audacious-uade*.apk"
 
 * To install with MacPorts (latest release):
+# NOTE: DeaDBeeF support not available
 git clone https://github.com/mvtiaine/macports.git <path>
 # Add file://<path> to ${prefix}/etc/macports/sources.conf
 # see https://guide.macports.org/#development.local-repositories
@@ -121,22 +130,29 @@ git clone https://github.com/mvtiaine/macports.git <path>
 
 * To install with pkgsrc (latest release):
 git clone https://github.com/mvtiaine/pkgsrc.git
-# change /usr/pkgsrc to correct pkgsrc location as needed
+# (optional) install DeaDBeeF from https://pkgsrc.se/wip/deadbeef for DeaDBeeF plugin support
+# change /usr/pkgsrc to correct pkgsrc location below as needed
 cp -rp pkgsrc/* /usr/pkgsrc/
 cd /usr/pkgsrc/audio/audacious-uade
 make install clean clean-depends
 
 * To install with OpenBSD ports (latest release):
 git clone https://github.com/mvtiaine/openbsd-ports.git
+# (optional) install audio/deadbeef for DeaDBeeF plugin support
 cp -rp openbsd-ports/* /usr/ports/
 cd /usr/ports/audio/audacious-uade
 make install clean
 
 * To build and install with Debian/Ubuntu/etc. from sources (git or latest release):
+# Debian: (optional) install deadbeef and deadbeef-plugins-dev from https://www.deb-multimedia.org/
+# Ubuntu: (optional) install deadbeef and deadbeef-plugins-dev from https://launchpad.net/~spvkgn/+archive/ubuntu/deadbeef
 scripts/make_deb.sh
 (sudo) dpkg -i build-deb/audacious-uade*.deb
 
 * To build and install with Fedora/openSUSE/etc. from sources (git or latest release):
+# NOTE: CentOS >= 10 not supported. EPEL repo required on CentOS <= 9.
+# NOTE: DeaDBeeF and libxmp support not available on CentOS.
+# add --with-deadbeef for DeaDBeeF support (requires RPM Fusion repo on Fedora)
 scripts/make_rpm.sh
 (sudo) dnf/yum/zypper install build-rpm/rpmbuild/RPMS/*/*.rpm
 
