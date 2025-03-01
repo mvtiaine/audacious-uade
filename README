@@ -64,6 +64,7 @@ libopenmpt >= 0.6.0
 libxmp >= 4.5.0
 
 * To build and install from source (git or latest release):
+# NOTE: DeaDBeeF plugin support may require adjusting CPPFLAGS and --with-deadbeef-plugindir as it does not use pkg-config
 - required (git or release): pkg-config, GNU make, GCC/Clang with C++17 support (GCC-6+, Clang-5.0+)
 - required (git): autoconf, automake, libtool
 - (git): make sure uade submodule has been initialized (git submodule update --init --recursive)
@@ -71,6 +72,7 @@ libxmp >= 4.5.0
 (autoreconf -i)
 mkdir -p build
 cd build
+# NOTE: see ../configure --help for build options
 ../configure
 gmake -j
 gmake -j check
