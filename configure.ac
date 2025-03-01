@@ -609,7 +609,7 @@ case "${CC}" in
         # compiles, but binaries either don't work or some even fail to run
         AC_MSG_WARN([Wasix target not yet supported])
         ;;
-      gnu0.9)
+      gnu*)
         build_hurd=yes
         ;;
       mint)
