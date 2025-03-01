@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <stdbool.h>
 // for endianess check
 #include "config.h"
 
