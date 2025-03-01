@@ -549,17 +549,14 @@ case "${CC}" in
         ;;
       irix*)
         # see scripts/crossbuild/irix.sh
-        # audacious not tested
         build_irix=yes
         # compiles, but does not work properly (*printf() seems borked) (compilertron (sgug-rse gcc9))
         AC_MSG_WARN([IRIX target not yet supported])
         ;;
       aix*)
-        # audacious not tested
         build_aix=yes
         ;;
       *UnixWare*)
-        # audacious not tested
         build_unixware=yes
         # compiles, but UADE does not work
         # uade warning: Can not create socketpair: Error 0
@@ -590,7 +587,6 @@ case "${CC}" in
                     ;;
                   *)
                     # assume native compile on QNX 6.5.0 with gcc10 from pkgsrc
-                    # audacious not tested
                     build_qnx6=yes
                     ;;
                 esac
