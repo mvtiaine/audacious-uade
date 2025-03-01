@@ -18,7 +18,7 @@
 
 #if defined(__QNX__)
 #include <sys/neutrino.h>
-#if _NTO_VERSION <= 650
+#if _NTO_VERSION <= 650 && !defined(_GLIBCXX_USE_C99_STDIO)
 // XXX error: call of overloaded 'to_string(const float&)' is ambiguous
 #define _GLIBCXX_USE_C99_STDIO 1
 #endif
