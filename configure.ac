@@ -860,6 +860,8 @@ elif test "$build_amigaos" = "yes" ; then
   ARCHFLAGS="-noixemul -m68020-60 ${ARCHFLAGS}"
   # XXX with -O2, -foptimize-sibling-calls causes some exes to crash before main() (songdb/player/precalc)
   ARCHFLAGS="-fno-optimize-sibling-calls ${ARCHFLAGS}"
+  # XXX some weirdness with <limits.h>/PATH_MAX not getting defined with libnix (gcc13.2)
+  CPPFLAGS="-DPATH_MAX=1024 ${CPPFLAGS}"
 elif test "$build_morphos" = "yes" ; then
   ARCHFLAGS="-noixemul ${ARCHFLAGS}"
   # <cstdint> does not work without this
