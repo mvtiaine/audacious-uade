@@ -539,11 +539,18 @@ typedef void *const voidpc;
 
 
 #pragma once
+// mvtiaine: use c++ headers to fix compile on some platforms
+#ifdef __cplusplus
+#include <cassert>
+#include <cstdint>
+#include <cstdlib>
+#include <cstring>
+#else
 #include <assert.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-
+#endif
 
 
 /* ------------------- Types and macros */
