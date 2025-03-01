@@ -33,3 +33,4 @@ endif
 if BUILD_NETBSD
 plugin_deadbeef_aaa_uade_la_LDFLAGS += -Xcompiler $(UADE_LIBS)
 endif
+plugin_deadbeef_aaa_uade_la_CXXFLAGS = $(AM_CXXFLAGS) $(LIBOPENMPT_CFLAGS) $(LIBXMP_CFLAGS)
