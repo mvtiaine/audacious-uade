@@ -472,7 +472,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(state.player == Player::it2play);
-    assert(size >= mixBufSize(state.frequency));
+    assert(size >= state.buffer_size);
     const auto context = static_cast<it2play_context*>(state.context);
     assert(context);
     const auto &song = context->Song();
@@ -480,7 +480,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     const auto prevPos = pair<uint16_t, uint16_t>(song.CurrentOrder, song.CurrentRow);
     bool prevJump = context->jumpLoop();
     const auto prevProcessRow = song.ProcessRow;
-    context->Music_FillAudioBuffer((int16_t*)buf, mixBufSize(state.frequency) / 4);
+    context->Music_FillAudioBuffer((int16_t*)buf, state.buffer_size / 4);
     const auto pos = pair<uint16_t, uint16_t>(song.CurrentOrder, song.CurrentRow);
     bool jump = context->jumpLoop();
     bool songend = song.StopSong || song.CurrentOrder >= song.Header.OrdNum;
@@ -495,7 +495,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     // XXX quick and dirty hack for Bogdan/dream.it and others (Bxx jump to same order)
     if (!prevJump && !jump && pos == prevPos && song.ProcessOrder == (song.CurrentOrder - 1) && song.ProcessRow == 0xFFFE && prevProcessRow == 0xFFFE && context->seen.count(pos))
         songend = true;
-    return pair<SongEnd::Status,size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, mixBufSize(state.frequency));
+    return pair<SongEnd::Status,size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, state.buffer_size);
 }
 
 bool stop(PlayerState &state) noexcept {

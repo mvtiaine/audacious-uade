@@ -5,6 +5,7 @@
 
 #include <mutex>
 #include <set>
+#include <string>
 
 #include "common/endian.h"
 #include "common/logger.h"
@@ -40,8 +41,8 @@ openmpt_module *create_module(const char *path, const char *buf, size_t size, bo
             DEBUG("player_libopenmpt::parse parsing failed for %s - reason: %s (%d)\n", path, reason, err);
         }
     };
-    std::string warning;
-    const auto logfunc = [](const char * message, std::string *warning) {
+    string warning;
+    const auto logfunc = [](const char * message, string *warning) {
         TRACE("libopenmpt: %s\n", message);
         if (warning->empty()) warning->append(message);
     };
@@ -80,7 +81,7 @@ void init() noexcept {}
 void shutdown() noexcept {}
 
 bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
-	int res = openmpt_probe_file_header_without_filesize(OPENMPT_PROBE_FILE_HEADER_FLAGS_DEFAULT, buf, size,
+    int res = openmpt_probe_file_header_without_filesize(OPENMPT_PROBE_FILE_HEADER_FLAGS_DEFAULT, buf, size,
         nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
     return res == OPENMPT_PROBE_FILE_HEADER_RESULT_SUCCESS;
 }
@@ -139,7 +140,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(state.player == Player::libopenmpt);
-    assert(size >= mixBufSize(state.frequency));
+    assert(size >= state.buffer_size);
     auto *mod = static_cast<openmpt_module*>(state.context);
     assert(mod);
     const auto bytes = openmpt_module_read_interleaved_stereo(mod, state.frequency, size / 4, (int16_t*)buf) * 4;

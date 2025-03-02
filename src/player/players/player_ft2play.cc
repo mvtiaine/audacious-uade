@@ -463,7 +463,7 @@ bool stop(PlayerState &state) noexcept {
 
 pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(state.player == Player::ft2play);
-    assert(size >= mixBufSize(state.frequency));
+    assert(size >= state.buffer_size);
     const auto context = static_cast<ft2play_context*>(state.context);
     assert(context);
     assert(context->moduleLoaded());

@@ -24,7 +24,8 @@ CC=clang CXX=clang++ LD=ld.lld \
   CFLAGS="-nostdlib --target=x86_64-pc-freebsd12-elf -fPIC" \
   CXXFLAGS="${CFLAGS} -isystem ${TOOLCHAIN}/include/c++/v1" \
   LDFLAGS="-fuse-ld=lld -Wl,-m,elf_x86_64 -pie -Wl,--script,${TOOLCHAIN}/link.x -L${TOOLCHAIN}/lib -lc -lkernel -lc++ -Xcompiler ${TOOLCHAIN}/lib/crt1.o" \
-  ./configure --host=x86_64-scei-ps4 --with-sysroot=${TOOLCHAIN}
+  ./configure --host=x86_64-scei-ps4 --with-sysroot=${TOOLCHAIN} \
+    --enable-plugin-deadbeef=no # XXX header paths messed up?
 
 make clean
 make -j check

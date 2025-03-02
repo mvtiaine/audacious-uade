@@ -3986,8 +3986,8 @@ void Sp_Player(void)
 	FLANGE_LEFTBUFFER[c][FLANGER_OFFSET[c]]=currsygnal*FLANGER_AMOUNT[c]+oldspawn[c]*FLANGER_FEEDBACK[c];
 	FLANGE_RIGHTBUFFER[c][FLANGER_OFFSET[c]]=currsygnal2*FLANGER_AMOUNT[c]+roldspawn[c]*FLANGER_FEEDBACK[c];
 	
-	float const fstep1=(float)pow(2.0,sin(FLANGER_GR[c])*FLANGER_AMPL[c]);
-	float const fstep2=(float)pow(2.0,sin(FLANGER_GR[c]+FLANGER_DEPHASE[c])*FLANGER_AMPL[c]);
+	float const fstep1=(float)powf(2.0f,sin(FLANGER_GR[c])*FLANGER_AMPL[c]); // mvtiaine: pow -> powf
+	float const fstep2=(float)powf(2.0f,sin(FLANGER_GR[c]+FLANGER_DEPHASE[c])*FLANGER_AMPL[c]); // mvtiaine: pow -> powf
 
 	foff2[c]+=fstep1;
 	foff1[c]+=fstep2;	
@@ -4471,7 +4471,7 @@ void ComputeCoefs(int freq, int r, int t)
                 a1 =  -2*cs;
                 a2 =   1 - alpha;
                 break;
-		default: assert(false); // mvtiaine: added to shutup warning
+		default: assert(false); return; // mvtiaine: added to shutup warning
 		}
 
         coef[0] = b0/a0;
@@ -4484,17 +4484,17 @@ void ComputeCoefs(int freq, int r, int t)
 
 float Kutoff( int v)
 {
-        return float(pow( (v+5)/(127.0+5), 1.7)*13000+30);
+        return float(powf( (v+5)/(127.0f+5), 1.7f)*13000+30); // mvtiaine: pow -> powf
 }
 
 float Reonance( float v)
 {
-        return float(pow( v/127.0, 4)*150+0.1);
+        return float(powf( v/127.0f, 4)*150+0.1f); // mvtiaine: pow -> powf
 }
 
 float Bandwidth( int v)
 {
-        return float(pow( v/127.0, 4)*4+0.1);
+        return float(powf( v/127.0f, 4)*4+0.1f); // mvtiaine: pow -> powf
 }
 #ifndef AUDACIOUS_UADE
 void Actualize_Track_Ed(char gode)

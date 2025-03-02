@@ -4,4 +4,8 @@
 	dh $@
 
 override_dh_auto_configure:
-	dh_auto_configure -- --enable-players=all --enable-plugin-audacious=yes --with-static-stdlibs=no
+	dh_auto_configure -- \
+		--enable-players=all \
+		--enable-plugin-audacious=yes \
+		--with-deadbeef-plugindir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH)/deadbeef \
+		--with-static-stdlibs=no

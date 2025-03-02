@@ -75,7 +75,7 @@ bool initialized[size(player_names)] = { false };
         default: assert(false); \
     }
 
-#define MAYBE_SHUTDOWN_PLAYER(ns) \
+#define SHUTDOWN_PLAYER(ns) \
     if (initialized[static_cast<int>(Player::ns)]) { \
         player::ns::shutdown(); \
         initialized[static_cast<int>(Player::ns)] = false; \
@@ -84,7 +84,7 @@ bool initialized[size(player_names)] = { false };
 #define CASE_VOID(f, p) \
     case Player::p: p::f; break;
 
-#define MAYBE_INIT_PLAYER(p) \
+#define INIT_PLAYER(p) \
     if (!initialized[static_cast<int>(p)]) { \
         init_guard.lock(); \
         if (!initialized[static_cast<int>(p)]) { \
@@ -111,7 +111,7 @@ void init() noexcept {
 }
 
 void shutdown() noexcept {
-    FOREACH(MAYBE_SHUTDOWN_PLAYER, PLAYERS)
+    FOREACH(SHUTDOWN_PLAYER, PLAYERS)
 }
 
 vector<Player> check(const char *path, const char *buf, size_t size, bool check_all /* = true*/) noexcept {
@@ -121,12 +121,12 @@ vector<Player> check(const char *path, const char *buf, size_t size, bool check_
     // TODO support conversion for other players
     if (converter::needs_conversion(buf, size)) return {Player::uade};
     vector<Player> players;
-    #define MAYBE_ADD_PLAYER(p) \
+    #define ADD_PLAYER(p) \
       if (p::is_our_file(path, buf, size)) { \
         players.push_back(Player::p); \
         if (!check_all) return players; \
       }
-    FOREACH(MAYBE_ADD_PLAYER, PLAYERS)
+    FOREACH(ADD_PLAYER, PLAYERS)
     return players;
 }
 
@@ -148,7 +148,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size, Playe
     if (players.empty()) return {};
     optional<ModuleInfo> res;
     for (const auto &p : players) {
-        MAYBE_INIT_PLAYER(p)
+        INIT_PLAYER(p)
         SWITCH_PLAYER(p, res,
             parse(path, buf, size)
         )
@@ -181,7 +181,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     if (players.empty()) return {};
     Player player = players.front();
     optional<PlayerState> res;
-    MAYBE_INIT_PLAYER(player)
+    INIT_PLAYER(player)
     SWITCH_PLAYER(player, res,
         play(path, buf, size, subsong, config)
     )
@@ -256,7 +256,6 @@ bool seek(PlayerState &state, int millis) noexcept {
     if (millis < state.pos_millis) {
         bool res = restart(state);
         if (!res) {
-            // TODO better error reporting
             DEBUG("Could not seek to %d\n", millis);
             return false;
         }
@@ -280,7 +279,7 @@ bool seek(PlayerState &state, int millis) noexcept {
 } // namespace player
 
 namespace player::support {
- 
+
 PlaybackResult playback_loop(
     PlayerState &state,
     const PlayerConfig &config,
@@ -323,21 +322,8 @@ PlaybackResult playback_loop(
             }
         }
 
-        if (res.first == SongEnd::ERROR) {
-            DEBUG("Playback error.\n");
-            songend.status = SongEnd::ERROR;
-            break;
-        } else if (res.first == SongEnd::TIMEOUT) {
-            TRACE("Song end (timeout).\n");
-            songend.status = SongEnd::TIMEOUT;
-            break;
-        } else if (res.first == SongEnd::DETECT_SILENCE) {
-            TRACE("Song end (silence).\n");
-            songend.status = SongEnd::DETECT_SILENCE;
-            break;
-        } else if (res.first == SongEnd::PLAYER) {
-            TRACE("Song end.\n");
-            songend.status = SongEnd::PLAYER;
+        if (res.first != SongEnd::NONE) {
+            songend.status = res.first;
             break;
         }
     }
@@ -346,9 +332,14 @@ PlaybackResult playback_loop(
         songend.length = totalbytes * 1000 / bytespersec;
     }
 
+    if (songend.status != SongEnd::NONE)
+        TRACE("Song end (%s/%u)", songend.status_string().c_str(), songend.length);
+
     // TODO silence detection for other players during playback
     if (state.player == Player::uade && songend.status == SongEnd::DETECT_SILENCE) {
-        const auto &uade_config = static_cast<const uade::UADEConfig&>(config);
+        const auto &uade_config = config.tag == Player::uade ?
+            static_cast<const uade::UADEConfig&>(config) :
+            uade::UADEConfig(config);
         assert(uade_config.player == Player::uade);
         songend.length -= uade_config.silence_timeout;
         if (uade_config.silence_timeout > MAX_SILENCE) {
@@ -356,6 +347,55 @@ PlaybackResult playback_loop(
         }
     }
     return {songend, seeked, stopped};
+}
+
+// TODO reduce code duplication with playback_loop
+PlaybackStepResult playback_step(
+    PlayerState &state,
+    int known_timeout/*=0*/,
+    int silence_timeout/*=0*/) noexcept {
+
+    vector<char> buffer(state.buffer_size);
+    SongEnd songend = {SongEnd::NONE, 0};
+    size_t bytes = 0;
+
+    const int64_t bytespersec = 4 * state.frequency;
+    // UADE plays some mods for hours or possibly forever (with always_ends default)
+    int64_t maxbytes = known_timeout > 0 ?
+        known_timeout * bytespersec / 1000 : PRECALC_TIMEOUT * bytespersec;
+    int64_t totalbytes = state.pos_millis * bytespersec / 1000;
+    
+    if (totalbytes < maxbytes) {
+        const auto res = render(state, buffer.data(), buffer.size());
+        bytes = res.second;
+        // ignore "tail bytes" to avoid pop in end of audio if song restarts
+        // messing up with silence/volume trimming etc.
+        if (totalbytes > 0 && (res.second == 0 || res.first != SongEnd::NONE)) {
+            buffer.clear();
+            bytes = 0;
+        }
+        totalbytes += bytes;
+        songend.status = res.first;
+        songend.length = totalbytes * 1000 / bytespersec;
+    } else {
+        songend.status = SongEnd::TIMEOUT;
+        songend.length = PRECALC_TIMEOUT * 1000;
+    }
+
+    if (songend.status != SongEnd::NONE)
+        TRACE("Song end (%s/%u)\n", songend.status_string().c_str(), songend.length);
+
+    // TODO silence detection for other players during playback
+    if (state.player == Player::uade && songend.status == SongEnd::DETECT_SILENCE) {
+        songend.length -= silence_timeout;
+        if (silence_timeout > MAX_SILENCE) {
+            songend.length += MAX_SILENCE;
+        }
+    }
+    if (bytes < buffer.size()) {
+        buffer.resize(bytes);
+    }
+    return {songend, buffer};
 }
 
 } // namespace player::support

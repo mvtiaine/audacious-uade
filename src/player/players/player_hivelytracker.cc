@@ -93,14 +93,14 @@ bool stop(PlayerState &state) noexcept {
 
 pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(state.player == Player::hivelytracker);
-    assert(size >= mixBufSize(state.frequency));
+    assert(size >= state.buffer_size);
     auto ht = static_cast<struct hvl_tune*>(state.context);
     assert(ht);
     bool songend = ht->ht_SongEndReached;
     size_t totalbytes = 0;
     int8_t *mixbuf = (int8_t*)buf;
     size_t framelen = state.frequency*2*2/50;
-    while (!songend && totalbytes + framelen <= mixBufSize(state.frequency)) {
+    while (!songend && totalbytes + framelen <= state.buffer_size) {
         hvl_DecodeFrame(ht, mixbuf, mixbuf + 2, 4);
         totalbytes += framelen;
         songend = ht->ht_SongEndReached;

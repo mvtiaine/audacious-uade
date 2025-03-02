@@ -14,4 +14,5 @@ The following software is vendored here:
 - st23play v0.35 (BSD-3-Clause) - https://pastebin.com/ifXSCZ71
 - st3play v1.0.1 (BSD-3-Clause) - https://pastebin.com/AwRXZAw7
 
-Note that I have made modifications to some of the sources, see git history of the subdirectories or files for details. Also not all files from the original distributions are included.
+Note that I have made modifications to some of the sources, see git history of the subdirectories or files for details.
+Also not all files from the original distributions are included.

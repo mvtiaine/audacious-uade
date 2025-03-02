@@ -2,3 +2,4 @@
 	path = uade
 	url = https://gitlab.com/mvtiaine/uade.git
 	branch = dragnet
+	shallow = true

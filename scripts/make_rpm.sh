@@ -16,11 +16,28 @@ set -e
 
 VERSION=$(cat VERSION)
 
-sudo $TOOL install rpmdevtools rpm-build audacious-devel libopenmpt-devel libxmp-devel gcc-c++ make autoconf automake libtool pkg-config
-autoreconf -i && ./configure --enable-players=all --enable-plugin-audacious=yes --with-static-stdlibs=no && make clean && make dist
+sudo $TOOL install rpmdevtools rpm-build audacious-devel libopenmpt-devel gcc-c++ make autoconf automake libtool pkg-config
+# libxmp not available on CentOS
+if [ -z "$(grep rhel /etc/os-release)" ]; then
+  sudo $TOOL install libxmp-devel
+fi
+# NOTE: deadbeef not available on CentOS
+DEADBEEF=""
+if [ "$1" = "--with-deadbeef" ]; then
+  sudo $TOOL install deadbeef deadbeef-devel
+  DEADBEEF="--enable-plugin-deadbeef=yes --with-deadbeef-plugindir=/dev/null"
+  DEADBEEF_RPM="--with deadbeef"
+fi
+autoreconf -i
+./configure \
+  --with-static-stdlibs=no \
+  --enable-plugin-audacious=yes \
+  $DEADBEEF
+make clean
+make dist
 mkdir -p build-rpm
 cd build-rpm
 rm -rf *
 mkdir -p rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
 ln -sf ../../../audacious-uade-${VERSION}.tar.bz2 rpmbuild/SOURCES/
-HOME="${PWD}" rpmbuild -ba ../scripts/audacious-uade.spec
+HOME="${PWD}" rpmbuild -ba $DEADBEEF_RPM ../scripts/audacious-uade.spec

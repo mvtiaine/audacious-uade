@@ -211,7 +211,7 @@ void gear303::tbNoteOn(int tbNote,para303 *PARAT303)
 	tbOscSpeedFreak=0;
 	float frune=float(tbNote)-17;
 	frune+=(float)PARAT303->tune*0.1889763f;
-	tbOscSpeed=(float)pow(2.0,frune/12.0f)*64;
+	tbOscSpeed=(float)powf(2.0f,frune/12.0f)*64; // mvtiaine: pow -> powf
 	
 	if(PARAT303->flag[tbPattern][tbLine].pause)
 	{
@@ -241,7 +241,7 @@ void gear303::tbNoteOn(int tbNote,para303 *PARAT303)
 	frune+=(float)PARAT303->tune*0.1889763f;
 	tbInnertime=SamplesPerTick*0.5f;
 	float tbDestiny=tbOscSpeed; // Velocidad Destino
-	float tbSource=((float)pow(2.0,frune/12.0f)*64); // Velocidad fuente
+	float tbSource=((float)powf(2.0f,frune/12.0f)*64); // Velocidad fuente // mvtiaine: pow -> powf
 	tbOscSpeed=tbSource; // Intercambioce....
 	tbOscSpeedFreak=(tbDestiny-tbSource)/tbInnertime; // Calculo del coeficiente del glide
 	}

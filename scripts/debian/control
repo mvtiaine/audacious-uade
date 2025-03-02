@@ -21,4 +21,4 @@ Depends:
  audacious,
  libopenmpt0,
  libxmp4,
-Description: UADE plugin for Audacious music player
+Description: UADE plugin for Audacious and DeaDBeeF

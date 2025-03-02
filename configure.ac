@@ -18,6 +18,10 @@ AC_CONFIG_MACRO_DIR([m4])
 # AC_CANONICAL_HOST is needed to access the 'host_os' variable
 AC_CANONICAL_HOST
 
+if test "$prefix" = "NONE" ; then
+  prefix=/usr/local
+fi
+
 # C standard check
 AC_LANG_PUSH([C])
 for version in 23 2x 17 11 1x 99 9x; do
@@ -45,9 +49,11 @@ AC_C_BIGENDIAN([
   AM_CONDITIONAL([BIG_ENDIAN],[true])
   AM_CONDITIONAL([LITTLE_ENDIAN],[false])
   AC_DEFINE([WORDS_BIGENDIAN], [1])
+  endian=big
 ],[
   AM_CONDITIONAL([BIG_ENDIAN],[false])
   AM_CONDITIONAL([LITTLE_ENDIAN],[true])
+  endian=little
 ],[
   AC_MSG_ERROR([Could not determine endianness])
 ],[
@@ -87,6 +93,7 @@ AC_ARG_ENABLE(players,
 
 all_players=yes
 players_found=""
+players_notfound=""
 AC_SUBST([players])
 m4_foreach_w([player],
   [ft2play hivelytracker it2play libdigibooster3 noisetrekker2 protrekkr1 protrekkr2 st23play st3play uade libopenmpt libxmp], [
@@ -99,6 +106,7 @@ m4_foreach_w([player],
   else
     AC_DEFINE_UNQUOTED([PLAYER_[]player[]], [0], [Disable player ]player)
     AM_CONDITIONAL([PLAYER_]player, [false])
+    players_notfound="${players_notfound},${p}"
     all_players=no
   fi
   fi
@@ -131,6 +139,7 @@ fi
 if test "$player_libopenmpt" != "yes"; then
   AC_DEFINE([PLAYER_libopenmpt], [0], [Disable player libopenmpt])
   AM_CONDITIONAL([PLAYER_libopenmpt], [false])
+  players_notfound="${players_notfound},libopenmpt"
   all_players=no
 fi
 
@@ -156,8 +165,10 @@ fi
 if test "$player_libxmp" != "yes"; then
   AC_DEFINE([PLAYER_libxmp], [0], [Disable player libxmp])
   AM_CONDITIONAL([PLAYER_libxmp], [false])
+  players_notfound="${players_notfound},libxmp"
   all_players=no
 fi
+
 
 # Audacious plugin
 AC_ARG_ENABLE(plugin-audacious,
@@ -180,7 +191,7 @@ PKG_CHECK_MODULES([AUDACIOUS],[audacious >= 3.8],
     else
       plugin_audacious=no
       ac_audacious_plugindir=;
-      AC_MSG_NOTICE([Audacious not found, only CLI binaries will be built])
+      AC_MSG_NOTICE([Audacious not found, Audacious plugin will not be built])
     fi
   ])
 fi
@@ -196,12 +207,10 @@ AC_ARG_WITH([audacious-plugindir],
   [if test x"$withval" != x ; then
      AUDACIOUS_PLUGINDIR="$withval"
    fi],
-   [AUDACIOUS_PLUGINDIR=$ac_audacious_plugindir])
-
+  [AUDACIOUS_PLUGINDIR=$ac_audacious_plugindir])
 if test "$AUDACIOUS_PLUGINDIR" = ""; then
   AC_MSG_ERROR([Audacious plugindir missing!])
 fi
-
 AC_SUBST(AUDACIOUS_PLUGINDIR)
 AC_MSG_RESULT($AUDACIOUS_PLUGINDIR)
 
@@ -242,12 +251,77 @@ AC_LANG_POP
 CXXFLAGS="$saved_cxxflags"
 fi
 
+
+# DeaDBeeF plugin
+AC_ARG_ENABLE(plugin-deadbeef,
+  AS_HELP_STRING([--enable-plugin-deadbeef=[yes|no|auto]], [Explicitly enable or disable DeaDBeeF plugin [default=auto]]),
+  [plugin_deadbeef="$enableval"],
+  [plugin_deadbeef=""])
+
+if test "$plugin_deadbeef" != "no"; then
+AC_CHECK_HEADER([deadbeef/deadbeef.h],
+  [],
+  [
+    if test "$plugin_deadbeef" = "yes"; then
+      AC_MSG_ERROR([DeaDBeeF header not found!])
+    else
+      plugin_deadbeef=no
+      AC_MSG_NOTICE([DeaDBeeF header not found, DeaDBeeF plugin will not be built])
+    fi
+  ])
+fi
+if test "$plugin_deadbeef" != "no"; then
+AC_MSG_CHECKING([for deadbeef plugindir])
+DEADBEEF_PLUGINDIR=""
+AC_ARG_WITH([deadbeef-plugindir],
+  AS_HELP_STRING([--with-deadbeef-plugindir=[PLUGINDIR]], [Installs uade plugin under [PLUGINDIR] instead of default $prefix/lib/deadbeef]),
+  [
+    if test x"$withval" != x ; then
+      DEADBEEF_PLUGINDIR="$withval"
+      plugin_deadbeef=yes
+      AC_SUBST(DEADBEEF_PLUGINDIR)
+    fi
+  ],
+  [])
+# XXX skip plugindir check if explicitly given to support distcheck
+if test "$DEADBEEF_PLUGINDIR" = ""; then
+DEADBEEF_PLUGINDIR="$prefix/lib/deadbeef"
+AC_MSG_RESULT($DEADBEEF_PLUGINDIR)
+AC_CHECK_FILE([$DEADBEEF_PLUGINDIR],
+  [
+    plugin_deadbeef=yes
+    AC_SUBST(DEADBEEF_PLUGINDIR)
+  ],
+  [
+    if test "$plugin_deadbeef" = "yes"; then
+      AC_MSG_ERROR([DeaDBeeF plugin dir not found!])
+    else
+      plugin_deadbeef=no
+      AC_MSG_NOTICE([DeaDBeeF plugin dir not found, DeaDBeeF plugin will not be built])
+    fi
+  ])
+else
+AC_MSG_RESULT($DEADBEEF_PLUGINDIR)
+fi
+fi
+
+if test "$plugin_deadbeef" = "yes"; then
+if test "$player_probe" = "no"; then
+  AC_MSG_ERROR([Player probe support is required for DeaDBeeF plugin])
+fi
+player_probe="yes"
+fi
+
+
 if test "$player_probe" = "yes"; then
   AC_DEFINE([PLAYER_PROBE], [1], [Enable player probe support])
+else
+  player_probe="no"
 fi
 AM_CONDITIONAL([PLAYER_PROBE], [test "$player_probe" = "yes"])
 
 AM_CONDITIONAL([PLUGIN_AUDACIOUS], [test "$plugin_audacious" = "yes"])
+AM_CONDITIONAL([PLUGIN_DEADBEEF], [test "$plugin_deadbeef" = "yes"])
 
 # gotta catch 'em all
 build_linux=no
@@ -475,17 +549,14 @@ case "${CC}" in
         ;;
       irix*)
         # see scripts/crossbuild/irix.sh
-        # audacious not tested
         build_irix=yes
         # compiles, but does not work properly (*printf() seems borked) (compilertron (sgug-rse gcc9))
         AC_MSG_WARN([IRIX target not yet supported])
         ;;
       aix*)
-        # audacious not tested
         build_aix=yes
         ;;
       *UnixWare*)
-        # audacious not tested
         build_unixware=yes
         # compiles, but UADE does not work
         # uade warning: Can not create socketpair: Error 0
@@ -516,7 +587,6 @@ case "${CC}" in
                     ;;
                   *)
                     # assume native compile on QNX 6.5.0 with gcc10 from pkgsrc
-                    # audacious not tested
                     build_qnx6=yes
                     ;;
                 esac
@@ -539,7 +609,7 @@ case "${CC}" in
         # compiles, but binaries either don't work or some even fail to run
         AC_MSG_WARN([Wasix target not yet supported])
         ;;
-      gnu0.9)
+      gnu*)
         build_hurd=yes
         ;;
       mint)
@@ -790,6 +860,8 @@ elif test "$build_amigaos" = "yes" ; then
   ARCHFLAGS="-noixemul -m68020-60 ${ARCHFLAGS}"
   # XXX with -O2, -foptimize-sibling-calls causes some exes to crash before main() (songdb/player/precalc)
   ARCHFLAGS="-fno-optimize-sibling-calls ${ARCHFLAGS}"
+  # XXX some weirdness with <limits.h>/PATH_MAX not getting defined with libnix (gcc13.2)
+  CPPFLAGS="-DPATH_MAX=1024 ${CPPFLAGS}"
 elif test "$build_morphos" = "yes" ; then
   ARCHFLAGS="-noixemul ${ARCHFLAGS}"
   # <cstdint> does not work without this
@@ -963,10 +1035,6 @@ elif test "$build_tizen" = "yes" || test "$build_blackberry10" = "yes" ; then
 fi
 
 if test "$players" = "all" || test "$players" = "any" || printf ",${players}," | grep -Eq ",uade,"; then
-uade_prefix=${prefix}
-if test "$uade_prefix" = "NONE" ; then
-  uade_prefix=/usr/local
-fi
 _UADE_CPPFLAGS="${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE"
 _UADE_CFLAGS="${CFLAGS} -Wno-unused -Wno-deprecated-declarations -Wno-tautological-compare -Wno-pedantic -Wno-implicit-function-declaration"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-zero-length-array -Wno-variadic-macros -Wno-gnu-zero-variadic-macro-arguments"
@@ -976,12 +1044,12 @@ _UADE_LDFLAGS="${LDFLAGS} ${EXTRA_LIBS}"
 if test "$static_stdlibs" = "yes" ; then
   _UADE_LDFLAGS="-static-libgcc ${_UADE_LDFLAGS}"
 fi
-if test "$plugin_audacious" = "yes" ; then
+if test "$plugin_audacious" = "yes" || test "$plugin_deadbeef" = "yes" ; then
   _UADE_CFLAGS="${pic_flag} ${_UADE_CFLAGS}"
 fi
 AX_SUBDIRS_CONFIGURE([uade], [
   [--without-uade123], [--without-uadesimple], [--without-write-audio],[--without-uadefs],[--without-libuade],[--without-avx2],
-  [--prefix=\${uade_prefix}/share/audacious-uade],
+  [--prefix=\${prefix}/share/audacious-uade],
   [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
   [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
   [--target-ar=${AR}],[--target-cc=${CC}],[CC=${CC_FOR_BUILD}],[CXX=${CXX}],
@@ -1013,3 +1081,48 @@ AC_CONFIG_FILES(Makefile
                 src/Makefile)
 
 AC_OUTPUT
+
+platform=""
+for var in $(set | grep '^build_.*=.*yes.*' | cut -d= -f1); do
+  platform="${platform},${var#build_}"
+done
+if test "$platform" = ""; then
+  platform="unknown"
+fi
+linker=""
+for var in $(set | grep '^ld_.*=.*yes.*' | grep -v ld_shlibs | cut -d= -f1); do
+  linker="${linker}${var}"
+done
+if test "$linker" = ""; then
+  linker="ld_unknown"
+fi
+echo ------------------------------------------------
+echo Prefix: ${prefix}
+echo Platform: $(echo ${platform} | sed 's/^,//') - ${endian} endian - ${linker}
+echo Triplet: ${host_cpu}-${host_os}-${host_vendor}
+echo CC: ${CC}
+echo CXX: ${CXX}
+echo LD: ${LD}
+echo CPPFLAGS: ${CPPFLAGS}
+echo CFLAGS: ${CFLAGS}
+echo CXXFLAGS: ${CXXFLAGS}
+echo LDFLAGS: ${LDFLAGS}
+echo ------------------------------------------------
+
+if test "$all_players" = "yes"; then
+  echo Enabled players: all
+else
+  echo Enabled players: $(echo ${players} | sed 's/^,//')
+  echo Disabled players: $(echo ${players_notfound} | sed 's/^,//')
+fi
+echo Player probe support: ${player_probe}
+echo Static stdlibs: ${static_stdlibs}
+echo Audacious plugin: ${plugin_audacious}
+if test "$plugin_audacious" = "yes"; then
+  echo Audacious plugin dir: ${AUDACIOUS_PLUGINDIR}
+fi
+echo DeaDBeeF plugin: ${plugin_deadbeef}
+if test "$plugin_deadbeef" = "yes"; then
+  echo DeaDBeeF plugin dir: ${DEADBEEF_PLUGINDIR}
+fi
+echo ------------------------------------------------

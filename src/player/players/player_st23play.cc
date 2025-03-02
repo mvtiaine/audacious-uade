@@ -174,7 +174,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
     assert(state.player == Player::st23play);
-    assert(size >= mixBufSize(state.frequency));
+    assert(size >= state.buffer_size);
     const auto context = static_cast<st23play_context*>(state.context);
     assert(context);
     assert(context->moduleLoaded());
@@ -182,13 +182,13 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     if (context->seen.empty()) {
         context->seen.insert(prevVpnt);
     }
-    context->FillAudioBuffer((int16_t*)buf, mixBufSize(state.frequency) / 4);
+    context->FillAudioBuffer((int16_t*)buf, state.buffer_size / 4);
     bool songend = context->restarted();
     const auto vpnt = context->vpnt();
     if (vpnt != prevVpnt) {
         songend |= !context->seen.insert(vpnt).second;
     }
-    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, mixBufSize(state.frequency));
+    return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, state.buffer_size);
 }
 
 bool stop(PlayerState &state) noexcept {
