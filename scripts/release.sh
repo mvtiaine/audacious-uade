@@ -5,7 +5,7 @@ set -e
 VERSION_OLD=$(cat VERSION)
 cp VERSION-RELEASE VERSION
 autoreconf -i && \
-  ./configure --enable-players=all --enable-plugin-audacious=yes --enable-plugin-deadbeef=yes && \
+  ./configure --enable-players=all --enable-plugin-audacious=yes --enable-plugin-deadbeef=yes --with-deadbeef-plugindir=/dev/null && \
   make clean && \
   CFLAGS="-Wall -Wpedantic -Wextra -Werror" \
   CXXFLAGS="${CFLAGS}" \
