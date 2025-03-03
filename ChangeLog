@@ -1,4 +1,4 @@
-0.13-dev
+0.13.0 - 2025-03-03
 - Songdb refactorings
 --  move all preprocessing logic from c++ to Scala scripts
 --  use single combined db/tsv for amp/modland/unexotica/demozoo metadata
@@ -17,7 +17,7 @@
 - Implement optional DeadDBeeF plugin support (https://deadbeef.sourceforge.io/)
 - Misc fixes and updates
 
-0.12.4 - 2024-01-06
+0.12.4 - 2025-01-06
 - Implement Scream Tracker 2 support using st23play by 8bitbubsy (https://pastebin.com/ifXSCZ71)
 - Sync songdb sources to around 2025-01-04 snapshots
 - Misc fixes and updates
