@@ -79,7 +79,7 @@ gmake -j check
 (sudo) gmake install
 
 * To install via Homebrew (latest release):
-# NOTE: DeaDBeeF support not available
+# NOTE: DeaDBeeF support not available with Homebrew install (TODO)
 brew install mvtiaine/repo/audacious-uade
 + macOS:
 ln -s "${HOMEBREW_PREFIX}/lib/audacious/Input/uade.dylib" "$(pkgconf --variable=plugin_dir audacious)/Input/uade.dylib"
@@ -103,13 +103,13 @@ makepkg -c -s -f -D scripts
 (sudo) pacman -U scripts/audacious-uade*.pkg*
 
 * To install with FreeBSD/MidnightBSD ports or DragonFlyBSD DPorts (latest release):
-# NOTE: DeaDBeeF support not available
+# NOTE: DeaDBeeF support not available with ports install (too old version)
 git clone https://github.com/mvtiaine/freebsd-ports.git
 cd freebsd-ports/multimedia/audacious-uade
 make install clean
 
 * To install with HaikuPorter (latest release):
-# NOTE: DeaDBeeF support not available
+# NOTE: DeaDBeeF support not available with HaikuPorter install (not in haikuports)
 (pkgman install audacious audacious_plugins)
 git clone https://github.com/mvtiaine/haikuports.git
 cp -rp haikuports/* /boot/home/haikuports/
@@ -132,7 +132,7 @@ git clone https://github.com/mvtiaine/macports.git <path>
 
 * To install with pkgsrc (latest release):
 git clone https://github.com/mvtiaine/pkgsrc.git
-# (optional) install DeaDBeeF from https://pkgsrc.se/wip/deadbeef for DeaDBeeF plugin support
+# NOTE: DeaDBeeF support not available with pkgsrc install (TODO)
 # change /usr/pkgsrc to correct pkgsrc location below as needed
 cp -rp pkgsrc/* /usr/pkgsrc/
 cd /usr/pkgsrc/audio/audacious-uade
@@ -140,7 +140,7 @@ make install clean clean-depends
 
 * To install with OpenBSD ports (latest release):
 git clone https://github.com/mvtiaine/openbsd-ports.git
-# (optional) install audio/deadbeef for DeaDBeeF plugin support
+# NOTE: DeaDBeeF support not available with ports install (TODO)
 cp -rp openbsd-ports/* /usr/ports/
 cd /usr/ports/audio/audacious-uade
 make install clean
