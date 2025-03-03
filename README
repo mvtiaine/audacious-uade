@@ -79,7 +79,7 @@ gmake -j check
 (sudo) gmake install
 
 * To install via Homebrew (latest release):
-# (optional) install deadbeef@nightly cask for DeaDBeeF plugin support (macOS only)
+# NOTE: DeaDBeeF support not available
 brew install mvtiaine/repo/audacious-uade
 + macOS:
 ln -s "${HOMEBREW_PREFIX}/lib/audacious/Input/uade.dylib" "$(pkgconf --variable=plugin_dir audacious)/Input/uade.dylib"
