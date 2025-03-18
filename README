@@ -71,17 +71,17 @@ libxmp >= 4.5.0
 - Download and extract the audacious-uade-<version>.tar.bz2 file from https://github.com/mvtiaine/audacious-uade/releases
 
 # Git:
-git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/mvtiaine/audacious-uade.git
 # NOTE: running `libtoolize` before `autoreconf` may be needed on some platforms
+git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/mvtiaine/audacious-uade.git
 autoreconf -i
 
 # Build and install:
-mkdir -p build
-cd build
 # NOTE: see ../configure --help for build options
 # NOTE: DeaDBeeF plugin support may require adjusting CPPFLAGS and --with-deadbeef-plugindir as it does not use pkg-config
-../configure
 # NOTE: gmake is required on some platforms
+mkdir -p build
+cd build
+../configure
 make -j check
 (sudo) make install
 
@@ -138,16 +138,16 @@ git clone https://github.com/mvtiaine/macports.git <path>
 (sudo) port install audacious-uade
 
 * To install with pkgsrc (latest release):
-git clone https://github.com/mvtiaine/pkgsrc.git
 # NOTE: DeaDBeeF support not available with pkgsrc install (TODO)
 # change /usr/pkgsrc to correct pkgsrc location below as needed
+git clone https://github.com/mvtiaine/pkgsrc.git
 cp -rp pkgsrc/* /usr/pkgsrc/
 cd /usr/pkgsrc/audio/audacious-uade
 make install clean clean-depends
 
 * To install with OpenBSD ports (latest release):
-git clone https://github.com/mvtiaine/openbsd-ports.git
 # NOTE: DeaDBeeF support not available with ports install (TODO)
+git clone https://github.com/mvtiaine/openbsd-ports.git
 cp -rp openbsd-ports/* /usr/ports/
 cd /usr/ports/audio/audacious-uade
 make install clean
