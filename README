@@ -63,20 +63,27 @@ DeaDBeeF >= 1.8.0
 libopenmpt >= 0.6.0
 libxmp >= 4.5.0
 
-* To build and install from source (git or latest release):
-# NOTE: DeaDBeeF plugin support may require adjusting CPPFLAGS and --with-deadbeef-plugindir as it does not use pkg-config
+* To build and install from source (download latest release or use git):
 - required (git or release): pkg-config, GNU make, GCC/Clang with C++17 support (GCC-6+, Clang-5.0+)
 - required (git): autoconf, automake, libtool
-- (git): make sure uade submodule has been initialized (git submodule update --init --recursive)
-(libtoolize)
-(autoreconf -i)
+
+# Latest release:
+- Download and extract the audacious-uade-<version>.tar.bz2 file from https://github.com/mvtiaine/audacious-uade/releases
+
+# Git:
+git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/mvtiaine/audacious-uade.git
+# NOTE: running `libtoolize` before `autoreconf` may be needed on some platforms
+autoreconf -i
+
+# Build and install:
 mkdir -p build
 cd build
 # NOTE: see ../configure --help for build options
+# NOTE: DeaDBeeF plugin support may require adjusting CPPFLAGS and --with-deadbeef-plugindir as it does not use pkg-config
 ../configure
-gmake -j
-gmake -j check
-(sudo) gmake install
+# NOTE: gmake is required on some platforms
+make -j check
+(sudo) make install
 
 * To install via Homebrew (latest release):
 # NOTE: DeaDBeeF support not available with Homebrew install (TODO)
