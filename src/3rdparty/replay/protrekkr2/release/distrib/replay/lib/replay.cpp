@@ -7532,7 +7532,7 @@ float FastPow2(float i)
 	y = (y - y * y) * 0.33971f;
 	x = i + 127 - y;
 	x *= (1 << 23);
-    if (x > INT_MAX || x < INT_MIN) x = (x > INT_MAX) ? INT_MAX : INT_MIN; // mvtiaine: added range check
+	if (x > (INT_MAX - 127) || x < INT_MIN) x = (x > (INT_MAX - 127)) ? (INT_MAX - 127) : INT_MIN; // mvtiaine: added range check
 	ToFloat((int *) &x, (int) x);
     return x;
 }
