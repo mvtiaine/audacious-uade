@@ -60,7 +60,7 @@ endif
 
 if PLAYER_uade
 player_libplayer_la_SOURCES += player/players/player_uade.cc
-# TODO fix libuade dependency tracking
+# TODO fix uadecore dependency tracking
 player_libplayer_la_CPPFLAGS += $(UADE_CPPFLAGS)
 endif
 
