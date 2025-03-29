@@ -13,7 +13,7 @@
 ** Mixer macros are stored in snd_masm.h
 */
 
-void PMPMix32Proc(CIType *v, int32_t numSamples, int32_t bufferPos)
+void PMPMix32Proc(CIType *v, uint32_t numSamples, uint32_t bufferPos)
 {
 	if (v->SType & SType_Off)
 		return; // voice is not active

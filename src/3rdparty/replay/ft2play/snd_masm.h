@@ -222,8 +222,8 @@
 		} \
 	} \
 
-typedef void (*mixRoutine)(void *, int32_t, int32_t);
+typedef void (*mixRoutine)(CIType *, uint32_t, uint32_t); // mvtiaine: fixed UB
 
 extern mixRoutine mixRoutineTable[16];
 
-void PMPMix32Proc(CIType *v, int32_t numSamples, int32_t bufferPos);
+void PMPMix32Proc(CIType *v, uint32_t numSamples, uint32_t bufferPos);
