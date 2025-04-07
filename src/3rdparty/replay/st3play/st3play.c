@@ -188,7 +188,7 @@ enum
 	PATT_END = 255,
 };
 
-typedef void (*mixRoutine)(void *, int32_t);
+typedef void (*mixRoutine)(void *, uint32_t); // mvtiaine: fixed UB 
 
 typedef struct
 {
@@ -219,7 +219,7 @@ typedef struct
 	uint32_t lastMixFuncOffset;
 	ins_t *insPtr;
 	// removed volatile to fix [-Wincompatible-function-pointer-types] -mvtiaine
-	void (*m_mixfunc)(void *, int32_t); // function pointer to mix routine
+	void (*m_mixfunc)(void *, uint32_t); // function pointer to mix routine
 } voice_t;
 
 typedef void (*effect_routine)(chn_t *ch);
@@ -2680,7 +2680,7 @@ static void mixAudio(int16_t *stream, int32_t sampleBlockLength)
 
 		// call the mixing routine currently set for the voice
 		if (v->m_mixfunc != NULL && v->m_pos < v->m_end)
-			v->m_mixfunc(v, sampleBlockLength);
+			((void(*)(voice_t *,uint32_t))v->m_mixfunc)(v, sampleBlockLength);
 	}
 
 	for (i = 0; i < sampleBlockLength; i++)

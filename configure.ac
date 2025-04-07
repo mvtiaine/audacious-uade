@@ -24,7 +24,7 @@ fi
 
 # C standard check
 AC_LANG_PUSH([C])
-for version in 23 2x 17 11 1x 99 9x; do
+for version in 2y 23 2x 17 11 1x 99 9x; do
   CSTD="-std=c${version}"
   AX_CHECK_COMPILE_FLAG([${CSTD}],[break],[CSTD=none])
 done
@@ -35,7 +35,7 @@ AS_IF([test "$CSTD" = none], [
 
 # C++ standard check
 AC_LANG_PUSH([C++])
-for version in 23 2b 20 2a 17 1z; do
+for version in 26 2c 23 2b 20 2a 17 1z; do
   CXXSTD="-std=c++${version}"
   AX_CHECK_COMPILE_FLAG([${CXXSTD}],[break],[CXXSTD=none])
 done

@@ -1,3 +1,17 @@
+0.13-dev
+- Songdb updates:
+--  Implement metadata lookup from Mods Anthology and Wanted Team
+--  Added ExoticA (old) to sources (including metadata)
+--  Demozoo "leftovers" source now also includes mods from compressed files
+--  Extract album metadata from AMP filenames
+--  Improved metadata extraction heuristics/coverage
+--  Update source data snapshots to 2025-04-02 or thereabouts
+- UADE updates:
+--  add some prefixes used by old exotica and mods anthology to eagleplayer.conf
+--  drop obsolete SonicArranger-pc-all eagleplayer, use SonicArranger (WT) player exclusively
+--  avoid uadecore init for file magic
+- Misc fixes and updates
+
 0.13.0 - 2025-03-03
 - Songdb refactorings
 --  move all preprocessing logic from c++ to Scala scripts

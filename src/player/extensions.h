@@ -13,7 +13,6 @@ static constexpr const char *mimetypes[] = {
     nullptr
 };
 
-// hybrid of UADE eagleplayer.conf and modland file extensions
 static constexpr const char *exts[] = {
 #if PLAYER_uade
     "aps", // AProSys
@@ -28,7 +27,7 @@ static constexpr const char *exts[] = {
     "aon","aon4","aon8", // Art Of Noise
     "adsc","mod_adsc4", // Audio Sculpture / Startrekker AM
     "bss", // Beathoven Synthesizer
-    "bd", // Ben Daglish
+    "bd","mth" // Ben Daglish
     "bds", // Ben Daglish SID
     "uds", // Blade Packer / Unique Development
     "bp","sndmon", // BP SoundMon2.0
@@ -42,10 +41,10 @@ static constexpr const char *exts[] = {
     "dl_deli", // Dave Lowe Deli
     "dln", // Dave Lowe New
     "dh", // David Hanney
-    "dw","dwold", // David Whittaker
+    "dw","dwold","oldw" // David Whittaker
     "dlm1","dm1","dm" // Delta Music 1.3
     "dlm2","dm2", // Delta Music 2.0
-    "dp","trc","tro","tronic" // Delta Packer / Tronic
+    "dp","trc","tro","tronic","tron", // Delta Packer / Tronic
     "dsr", // Desire
     "db","digi", // DIGI Booster
     "dmu","mug", // Digital Mugician
@@ -67,16 +66,16 @@ static constexpr const char *exts[] = {
     "gray", // Fred Gray
     "fp", // Future Player
     "glue","gm", // GlueMon
-    "hip","mcmd", // Hippel / MCMD
+    "hip","mcmd","sog", // Hippel / MCMD
     "hip7","s7g", // Hippel 7V
     "hipc", // Hippel COSO
-    "hst","sog", // Hippel ST
+    "hst","sdc", // Hippel ST
     "soc", // Hippel ST COSO
     "hd", // Howie Davis
     "hn","mtp2","thn","arp", // Major Tom / The Holy Noise
     "ims", // Images Music System
     "dum", // Infogrames / Rob Hubbard 2
-    "is", // InStereo!
+    "is","ism" // InStereo!
     "is20", // InStereo! 2.0
     "jam","jc", // JamCracker
     "jmf", // Janko Mrsic-Flogel
@@ -206,6 +205,7 @@ static constexpr const char *exts[] = {
     "gmc", // Game Music Creator
     "ash", // Ashley Hogg
     "bye", // Andrew Parton
+    "sj", // ScottJohnston
 
     "ymst", // YM-2149
 

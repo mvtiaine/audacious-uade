@@ -3,16 +3,20 @@
 
 #include "common/compat.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cstdint>
+#include <cstdio>
 #include <cstring>
 #include <map>
 #include <mutex>
 #include <numeric>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "common/std/string_view.h"
 #include "common/logger.h"
 #include "common/strings.h"
 #include "player/player.h"
@@ -21,6 +25,8 @@
 #include <sys/stat.h>
 
 extern "C" {
+#include "../uade/src/frontends/include/uade/amifilemagic.h"
+#include "../uade/src/frontends/include/uade/eagleplayer.h"
 #include "../uade/src/frontends/include/uade/options.h"
 #include "../uade/src/frontends/include/uade/uadeconfstructure.h"
 #include "../uade/src/frontends/include/uade/uade.h"
@@ -456,6 +462,53 @@ constexpr_f2 string parse_codec(const struct uade_song_info *info) noexcept {
     }
 }
 
+// these are recognized by UADE filemagic, but not supported
+const set<string> ext_blacklist = {
+    // explicitly rejected
+    "reject",
+    "packed",
+    // Amiga formats
+    "MXTX",
+    "STP3",
+    // PC formats
+    "MOD_PC",
+    "MTM",
+    "S3M",
+};
+
+set<string> exts;
+void load_eagleplayer_conf() {
+    string basedir;
+    if (getenv("UADE_BASE_DIR")) {
+        // for unit tests
+        basedir = getenv("UADE_BASE_DIR");
+    } else {
+        basedir = UADEDATADIR;
+    }
+    assert(!basedir.empty());
+    const string conffile = basedir + "/eagleplayer.conf";
+    FILE *f = fopen(conffile.c_str(), "r"); 
+    assert(f);
+    char line[1024];
+    while (fgets(line, sizeof(line), f)) {
+        // find prefixes= string and parse it. ignore anything after prefixes=x,y
+        // example lines:
+        const string_view s = "prefixes=";
+        const string_view lineview = line;
+        const auto pos = lineview.find(s);
+        if (pos != string_view::npos) {
+            const auto prefixlist = lineview.substr(pos + s.length());
+            const auto end = prefixlist.find_first_of(" \t\n");
+            const auto prefixes = prefixlist.substr(0, end);
+            const auto prefixvec = common::split_view(prefixes, ',');
+            for (const auto &prefix : prefixvec) {
+                exts.insert(string(prefix));
+            }
+        }
+    }
+    fclose(f);
+}
+
 } // namespace {}
 
 namespace player::uade {
@@ -465,6 +518,7 @@ void init() noexcept {
         probes[i] = {};
         probes[i].probe = true;
     }
+    load_eagleplayer_conf();
 }
 
 void shutdown() noexcept {
@@ -483,9 +537,16 @@ void shutdown() noexcept {
 
 bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
     if (!is_xm(path,buf,size) && !is_fst(path,buf,size) && !is_s3m(path,buf,size) && !is_it(path,buf,size) && !is_sid(path,buf,size)) {
-        const probe_scope probe;
-        TRACE("uade::is_our_file using probe id %d - %s\n", probe.context->id, path);
-        return uade_is_our_file_from_buffer(path, buf, size, probe.context->state) != 0;
+        char ext[UADE_MAX_EXT_LEN] = {0};
+        uade_filemagic((unsigned char*)buf, size, ext, size, path, 0);
+        if (ext[0] && ext_blacklist.count(ext)) return false;
+        if (ext[0]) return true;
+        string lcfilename = common::split(path, "/").back();
+        transform(lcfilename.begin(), lcfilename.end(), lcfilename.begin(), ::tolower);
+        string lcext = common::split(lcfilename, ".").back();
+        if (exts.count(lcext)) return true;    
+        string lcprefix = common::split(lcfilename, ".").front();
+        if (exts.count(lcprefix)) return true;
     }
     return false;
 }
