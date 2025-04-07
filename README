@@ -25,8 +25,8 @@ Main features:
 - libopenmpt support (optional) (https://lib.openmpt.org/libopenmpt/)
 - libxmp support (optional) (https://xmp.sourceforge.net/)
 
-Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExotica (https://www.exotica.org.uk/wiki/UnExoticA) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
-In addition Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/), Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
+Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExoticA (https://www.exotica.org.uk/wiki/UnExoticA), ExoticA (old) (http://old.exotica.org.uk/), Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
+In addition Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
 
 Project is hosted at https://github.com/mvtiaine/audacious-uade
 Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
