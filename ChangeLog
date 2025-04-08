@@ -1,4 +1,4 @@
-0.13-dev
+0.13.1 - 2025-04-08
 - Songdb updates:
 --  Implement metadata lookup from Mods Anthology and Wanted Team
 --  Added ExoticA (old) to sources (including metadata)
