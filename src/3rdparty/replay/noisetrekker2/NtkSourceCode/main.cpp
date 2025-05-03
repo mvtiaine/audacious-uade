@@ -5603,7 +5603,7 @@ for (int swrite=0;swrite<128;swrite++)
 {
 fread(&nameins[swrite], sizeof( char ), 20,in);
 fread(&Midiprg[swrite],sizeof(char),1,in);
-fread(&Synthprg[swrite],sizeof(bool),1,in);
+fread(&Synthprg[swrite],sizeof(char),1,in); // mvtiaine: sizeof(bool) -> sizeof(char) to avoid issues on macos ppc
 fread(&PARASynth[swrite], sizeof(SynthParameters),1,in);
 #ifdef WORDS_BIGENDIAN // mvtiaine: big endian support
 PARASynth[swrite].osc1_pw = SWAP32(PARASynth[swrite].osc1_pw);
@@ -5681,7 +5681,8 @@ fread_swap(&rchorus_feedback, sizeof(float ),1,in);
 fread_swap(&shuffle, sizeof(int),1,in);
 
 // Reading track part sequence
-for (int tps_pos=0;tps_pos<256;tps_pos++){for (int tps_trk=0;tps_trk<16;tps_trk++){fread(&SACTIVE[tps_pos][tps_trk],sizeof(bool),1,in);}}
+// mvtiaine: sizeof(bool) -> sizeof(char) to avoid issues on macos ppc
+for (int tps_pos=0;tps_pos<256;tps_pos++){for (int tps_trk=0;tps_trk<16;tps_trk++){fread(&SACTIVE[tps_pos][tps_trk],sizeof(char),1,in);}}
 
 for (int spl=0;spl<MAX_TRACKS;spl++)
 	CCoef[spl]=float((float)CSend[spl]/127.0);
@@ -5717,24 +5718,24 @@ fread(&Songtracks,sizeof(char),1,in);
 
 for (char tps_trk=0;tps_trk<16;tps_trk++)
 {
-fread(&Disclap[tps_trk],sizeof(bool),1,in);
-fread(&Dispan[tps_trk],sizeof(bool),1,in);
+fread(&Disclap[tps_trk],sizeof(char),1,in);
+fread(&Dispan[tps_trk],sizeof(char),1,in);
 }
 
 fread(artist, sizeof( char ), 20,in);
 fread(style, sizeof( char ), 20,in);
 fread(&QUALITYPLAY, sizeof( char ), 1,in);
-fread(beatsync,sizeof(bool),128,in);
+fread(beatsync,sizeof(char),128,in);
 fread_swap(beatlines,sizeof(short),128,in);
 fread_swap(&REVERBFILTER,sizeof(float),1,in);
 
 fread_swap(CustomVol,sizeof(float),128,in);
-fread(&AMIMODE,sizeof(bool),1,in);
+fread(&AMIMODE,sizeof(char),1,in);
 fread(&tb303,sizeof(para303),2,in);
 fread_swap(&tb303engine[0].tbVolume,sizeof(float),1,in);
 fread_swap(&tb303engine[1].tbVolume,sizeof(float),1,in);
-fread(&tb303engine[0].hpf,sizeof(bool),1,in);
-fread(&tb303engine[1].hpf,sizeof(bool),1,in);
+fread(&tb303engine[0].hpf,sizeof(char),1,in);
+fread(&tb303engine[1].hpf,sizeof(char),1,in);
 fclose(in);
 
 ped_track=0;
