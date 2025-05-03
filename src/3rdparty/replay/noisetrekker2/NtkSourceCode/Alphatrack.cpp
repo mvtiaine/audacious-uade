@@ -102,7 +102,7 @@ unsigned char env2_vcf_cutoff;
 unsigned char env2_vcf_resonance;
 
 unsigned char osc3_volume;
-bool osc3_switch;
+unsigned char osc3_switch; // mvtiaine: changed bool to uchar to avoid alignment issues on some platforms
 
 unsigned char ptc_glide;
 unsigned char glb_volume;
