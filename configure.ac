@@ -978,7 +978,8 @@ if test "$ld_wasm" = "yes" ; then
   # wasm-ld doesn't support other options
   LDFLAGS="-Wl,--gc-sections -Wl,-O1 ${LDFLAGS}"
 elif test "$ld_apple" = "yes" ; then
-  LDFLAGS="-Wl,-dead_strip -Wl,-dead_strip_dylibs -Wl,-undefined,error -Wl,-no_weak_exports ${LDFLAGS}"
+  AX_CHECK_LINK_FLAG([-Wl,-no_weak_exports], [LDFLAGS="-Wl,-no_weak_exports ${LDFLAGS}"], [])
+  LDFLAGS="-Wl,-dead_strip -Wl,-dead_strip_dylibs -Wl,-undefined,error ${LDFLAGS}"
 elif test "$ld_solaris" = "yes" ; then
   LDFLAGS="-Wl,-B,reduce -Wl,-z,redlocsym -Wl,--no-undefined ${LDFLAGS}"
 elif test "$ld_aix" = "yes" || test "$ld_os2" = "yes" ; then
