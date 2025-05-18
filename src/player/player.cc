@@ -333,7 +333,7 @@ PlaybackResult playback_loop(
     }
 
     if (songend.status != SongEnd::NONE)
-        TRACE("Song end (%s/%u)", songend.status_string().c_str(), songend.length);
+        TRACE("Song end (%s/%u)\n", songend.status_string().c_str(), songend.length);
 
     // TODO silence detection for other players during playback
     if (state.player == Player::uade && songend.status == SongEnd::DETECT_SILENCE) {
