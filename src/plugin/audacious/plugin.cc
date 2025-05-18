@@ -212,7 +212,7 @@ optional<Info> parse_info(VFSFile &file, const string &path, const string &md5) 
     }
     const auto songdbinfo = songdb::lookup(md5);
 #if PLAYER_all
-    if (songdbinfo && songdbinfo->modinfo && !songdbinfo->subsongs.empty()) {
+    if (songdbinfo && songdbinfo->modinfo && !songdbinfo->subsongs.empty() && players.size() == 1) {
         const auto player = players.front();
         const auto minsubsong = songdbinfo->subsongs.front().subsong;
         const auto maxsubsong = songdbinfo->subsongs.back().subsong;
