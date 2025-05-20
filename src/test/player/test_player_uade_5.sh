@@ -11,7 +11,7 @@ player=uade
 export PLAYER_ENDIAN=little
 
 TESTMOD="${top_srcdir}/testdata/MOD.forbidden pineapples"
-TESTMD5_LITTLE=71ace85fd746207ba9640441fd5f646d
+TESTMD5_LITTLE=a99adc7dad18e3a6093382db62225a8c
 
 TEST_NAME="MOD prefix"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"

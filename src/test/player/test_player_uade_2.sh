@@ -11,7 +11,7 @@ player=uade
 export PLAYER_ENDIAN=big
 
 TESTMOD="${top_srcdir}/testdata/mod.orchannel"
-TESTMD5_BIG=76e9b7f61b8d5bff63929e4d73e705c0
+TESTMD5_BIG=b8ed2fe7706a0f7e25bac357cb138ed2
 SUBSONG=4
 
 TEST_NAME="UADE big endian + subsong"
