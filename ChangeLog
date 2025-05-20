@@ -1,3 +1,20 @@
+0.13-dev
+- UADE updates:
+--  Updated Wanted Team players to latest:
+--    ADPCM_mono, JochenHippel-7V, JochenHippel-ST, NTSP-System, onEscapee, Quartet_PSG, Quartet_ST, TFMX-7V, TFMX-Pro
+--  Updated mixing rate to 24khz:
+--    EMSv6, MugicianII, TMFX-7V
+--  Use non-amplifier version of SonixMusicDriver
+--  TFMX*, SIDMon1 detection heuristics improved
+--  Add Wanted Team Hippel COSO player (complementary to existing UADE version)
+--  Add Wanted Team NoiseTracker player
+--  MOD playback fixes:
+--    Tracker detection heuristics improved
+--    Fix empty sample handling (Hoffman/pattern skank.mod)
+--    Protracker VBLANK/CIA detection heuristics improved
+--    Reduced bogus subsongs
+- Misc fixes and updates
+
 0.13.1 - 2025-04-08
 - Songdb updates:
 --  Implement metadata lookup from Mods Anthology and Wanted Team
