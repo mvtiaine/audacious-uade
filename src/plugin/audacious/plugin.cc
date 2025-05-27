@@ -99,7 +99,7 @@ void update_tuple_song_end(Tuple &tuple, const common::SongEnd &songend, const o
     tuple.set_str(Tuple::Comment, comment.c_str());
     if (songend.length > 0 && status != common::SongEnd::NOSOUND &&
         (status != common::SongEnd::ERROR ||
-        (format.has_value() && songend::precalc::allow_songend_error(format.value())))) {
+        (format && songend::precalc::allow_songend_error(format.value())))) {
         tuple.set_int(Tuple::Length, songend.length);
     }
 }
@@ -230,7 +230,7 @@ optional<Info> parse_info(VFSFile &file, const string &path, const string &md5) 
     const Index<char> buf = read_all(file);
     for (const auto &p : players) {
         modinfo = player::parse(path.c_str(), buf.begin(), buf.len(), p);
-        if (modinfo)  break;
+        if (modinfo) break;
     }
     if (!modinfo) {
         return {};
