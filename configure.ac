@@ -6,14 +6,16 @@ AC_INIT(
   [],
   [https://github.com/mvtiaine/audacious-uade])
 
+AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_MACRO_DIR([m4])
+
+# GNU make required (-Wno-portability)
+AM_INIT_AUTOMAKE([tar-ustar dist-bzip2 no-dist-gzip -Wno-portability])
+
 AC_PROG_CC
 AC_PROG_CXX
 # for cross compile support
 AX_PROG_CC_FOR_BUILD
-
-# GNU make required (-Wno-portability)
-AM_INIT_AUTOMAKE([tar-ustar dist-bzip2 no-dist-gzip -Wno-portability])
-AC_CONFIG_MACRO_DIR([m4])
 
 # AC_CANONICAL_HOST is needed to access the 'host_os' variable
 AC_CANONICAL_HOST
