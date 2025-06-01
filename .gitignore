@@ -44,14 +44,11 @@ bak
 audacious-uade-*
 *.tar.bz2
 debian/changelog
-build-arch
-build-deb
-build-rpm
 build
+build-*
 test-driver
 *.log
 *.trs
-build-tmp
 .metals
 .scala-build
 .bsp
