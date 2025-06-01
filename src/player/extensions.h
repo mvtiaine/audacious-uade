@@ -278,6 +278,8 @@ static constexpr const char *exts[] = {
     "etx", // EasyTrax
     "far", // Farandole Composer
     "fc", // Future Composer
+    "fc13", // Future Composer
+    "fc14", // Future Composer
     "fmt", // FM Tracker
     "fst", // ProTracker
     "ftm", // Face The Music
@@ -346,6 +348,7 @@ static constexpr const char *exts[] = {
     //MOD             Fast/Taketracker  xCHN, xxCH, TDZx
     "flx", // Flextrax                  M.K., xCHN (no dsp effects)
     "wow", // Mod's Grave               M.K.
+    "dmf", // Software Visions          .M.K
     // Amiga packed formats:
     /*
     -               AC1D Packer             -
