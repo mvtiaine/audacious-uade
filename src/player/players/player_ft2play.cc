@@ -357,7 +357,8 @@ constexpr_f2 ModuleInfo get_fst_info(const char *path, const char *buf) noexcept
         }
     }
     assert(channels <= 32);
-    return {Player::ft2play, "Fasttracker", path, 1, 1, 1, channels};
+    const auto format = (sig == "M.K.") ? "Fasttracker (M.K.)" : "Fasttracker";
+    return {Player::ft2play, format, path, 1, 1, 1, channels};
 }
 
 } // namespace {}

@@ -314,6 +314,7 @@ static constexpr const char *exts[] = {
     "stx", // Scream Tracker Music Interface Kit
     "stp", // Soundtracker Pro II
     "symmod", // Symphonie
+    "tcb", // TCB Tracker
     "gmc", // Game Music Creator
     "gtk", // Graoumf Tracker
     "gt2", // Graoumf Tracker 1 / 2
