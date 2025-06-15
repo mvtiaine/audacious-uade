@@ -280,12 +280,12 @@ void uade_common_options(struct uade_config *uc) noexcept {
     uade_config_set_option(uc, UC_DISABLE_TIMEOUTS, nullptr);
 }
 
-uade_state *create_uade_probe_state(uade_config *uc) noexcept {
+uade_state *create_uade_probe_state(uade_config *uc, int frequency) noexcept {
     assert(uc);
     uade_common_options(uc);
     uade_config_set_option(uc, UC_SUBSONG_TIMEOUT_VALUE, to_string(PRECALC_TIMEOUT).c_str());
     uade_config_set_option(uc, UC_SILENCE_TIMEOUT_VALUE,to_string(SILENCE_TIMEOUT).c_str());
-    uade_config_set_option(uc, UC_FREQUENCY, to_string(PRECALC_FREQ).c_str());
+    uade_config_set_option(uc, UC_FREQUENCY, to_string(frequency).c_str());
     uade_config_set_option(uc, UC_FILTER_TYPE, "none");
     uade_config_set_option(uc, UC_RESAMPLER, "none");
     uade_config_set_option(uc, UC_PANNING_VALUE, "1");
@@ -302,17 +302,23 @@ uade_state *create_uade_probe_state(uade_config *uc) noexcept {
     return state;
 }
  
-uade_context *get_probe_context() noexcept {
+uade_context *get_probe_context(int frequency, bool enforceFrequency) noexcept {
     uade_context *context = nullptr;
     {
         const lock_guard<mutex> lock(probe_mutex);
         for (int i = 0; i < MAX_PROBES; ++i) {
             if (probes[i].available) {
                 probes[i].available = false;
+                if (enforceFrequency && probes[i].initialized && probes[i].state &&
+                    probes[i].config->frequency != frequency
+                ) {
+                    uade_cleanup_state(probes[i].state);
+                    probes[i].initialized = false;
+                }
                 if (!probes[i].initialized) {
                     uade_config *uc = uade_new_config();
                     probes[i].config = uc;
-                    probes[i].state = create_uade_probe_state(uc);
+                    probes[i].state = create_uade_probe_state(uc, frequency);
                     probes[i].initialized = true;
                     probes[i].id = i;
                 }
@@ -323,6 +329,7 @@ uade_context *get_probe_context() noexcept {
     }
     assert(context);
     assert(context->state);
+    assert(context->config->frequency == frequency || !enforceFrequency);
     return context;
 }
 
@@ -335,7 +342,7 @@ void release_probe_context(uade_context *context) noexcept {
 void cleanup_probe_context(uade_context *context) noexcept {
     TRACE("cleanup_probe_context id %d\n", context->id);
     uade_cleanup_state(context->state);
-    context->state = create_uade_probe_state(context->config);
+    context->state = create_uade_probe_state(context->config, context->config->frequency);
 }
 
 void stop_probe_context(uade_context *context) noexcept {
@@ -348,8 +355,8 @@ void stop_probe_context(uade_context *context) noexcept {
 
 struct probe_scope {
     uade_context *context;
-    probe_scope() noexcept :
-        context(get_probe_context()) {
+    probe_scope(int frequency) noexcept :
+        context(get_probe_context(frequency, false)) {
             assert(context);
             assert(context->state);
         }
@@ -492,7 +499,6 @@ void load_eagleplayer_conf() {
     char line[1024];
     while (fgets(line, sizeof(line), f)) {
         // find prefixes= string and parse it. ignore anything after prefixes=x,y
-        // example lines:
         const string_view s = "prefixes=";
         const string_view lineview = line;
         const auto pos = lineview.find(s);
@@ -552,7 +558,7 @@ bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
-    const probe_scope probe;
+    const probe_scope probe(PRECALC_FREQ);
     TRACE("uade::parse using probe id %d - %s\n", probe.context->id, path);
     switch (uade_play_from_buffer(path, buf, size, -1, probe.context->state)) {
         case 1: {
@@ -582,7 +588,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     assert(subsong >= 0 && subsong <= 255);
     uade_context *context;
     if (config.probe) {
-        context = get_probe_context();
+        context = get_probe_context(config.frequency, true);
     } else {
         // create new for playback
         context = new uade_context;
