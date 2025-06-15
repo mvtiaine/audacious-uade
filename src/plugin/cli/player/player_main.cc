@@ -113,6 +113,10 @@ int main(int argc, char *argv[]) {
         config.endian = endian::little;
     }
 
+    if (getenv("PROBE")) {
+        config.probe = true;
+    }
+
     if (subsong < 0) {
         subsong = info->defsubsong;
     }
