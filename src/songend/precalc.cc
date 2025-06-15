@@ -129,7 +129,7 @@ SongEnd precalc_song_end(const ModuleInfo &info, const char *buf, size_t size, i
         return { SongEnd::ERROR, 0 };
     }
     frequency = state->frequency; // may differ from requested
-    SongEndDetector detector(frequency, info.player != Player::uade, endian::native);
+    SongEndDetector detector(frequency, state->stereo, endian::native);
     const auto write_audio = [&detector](char *mixbuf, int size) {
          detector.update(mixbuf, size);
     };
