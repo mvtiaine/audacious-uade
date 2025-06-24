@@ -52,9 +52,10 @@ ${?codec:[${codec}${?channels: (${channels}ch)}]}  -  ${?artist:${artist}  -  }$
 - Improve songdb with more coverage and metadata sources
 - Project might need a new name...
 
-* License (source code)
+* License (source code and data files)
 The project as a whole is licensed under GPL-2.0-or-later. See COPYING for license text.
 Some parts are also licensed under LGPL-2.1-or-later, specifically sources under src/common/, src/converter/, src/player/ and src/songdb/. See COPYING.LGPL for license text.
+Songdb (conf/songdb) is licensed under CC BY-NC-SA 4.0.
 See NOTICE for 3rd party source code licenses (sources under src/3rdparty/).
 See uade/COPYING for UADE license information (sources under uade/).
 
@@ -160,8 +161,7 @@ scripts/make_deb.sh
 (sudo) dpkg -i build-deb/audacious-uade*.deb
 
 * To build and install with Fedora/openSUSE/etc. from sources (git or latest release):
-# NOTE: CentOS >= 10 not supported. EPEL repo required on CentOS <= 9.
-# NOTE: DeaDBeeF and libxmp support not available on CentOS.
+# NOTE: with CentOS, EPEL repo is required, DeaDBeeF and libxmp support not available
 # add --with-deadbeef for DeaDBeeF support (requires RPM Fusion repo on Fedora)
 scripts/make_rpm.sh
 (sudo) dnf/yum/zypper install build-rpm/rpmbuild/RPMS/*/*.rpm
