@@ -12,13 +12,13 @@ extern "C" {
 
 #include "config.h"
 #include "common/logger.h"
-#include "common/md5.h"
 #include "common/strings.h"
 #include "player/extensions.h"
 #include "player/player.h"
 #include "songend/precalc.h"
 #include "songdb/songdb.h"
 #include "plugin/common/copyright.h"
+#include "3rdparty/xxhash/xxhash.h"
 
 using namespace std;
 
@@ -140,6 +140,11 @@ player::libxmp::LibXMPConfig get_libxmp_config(const player::PlayerConfig &confi
     return conf;
 }
 
+string xxh32hash(const vector<char> &buf) {
+    const auto xxh32 = XXH32(buf.data(), min(songdb::XXH_MAX_BYTES, buf.size()), 0);
+    return common::to_hex(xxh32) + common::to_hex((uint16_t)(buf.size() & 0xFFFF));
+}
+
 struct uade_info_t {
     DB_fileinfo_t info;
     player::PlayerState state;
@@ -228,9 +233,8 @@ int uade_init(DB_fileinfo_t *_info, DB_playItem_t *it) {
                 ERR("uade_init could not parse %s\n", fname.c_str());
                 return -1;
             }
-            MD5 md5digest; md5digest.update((uint8_t*)buf.data(), size); md5digest.finalize();
-            const auto md5 = md5digest.hexdigest();
-            const auto songend = songend::precalc::precalc_song_end(modinfo.value(), buf.data(), size, subsong, md5);
+            const auto hash = xxh32hash(buf);
+            const auto songend = songend::precalc::precalc_song_end(modinfo.value(), buf.data(), size, subsong, hash);
             deadbeef->pl_add_meta(it, "songend", songend.status_string().c_str());
             deadbeef->plt_set_item_duration(plt, it, songend.length / 1000.0f);
             deadbeef->plt_modified (plt);
@@ -370,13 +374,12 @@ DB_playItem_t *uade_insert(ddb_playlist_t *plt, DB_playItem_t *after, const char
         return nullptr;
     }
 
-    MD5 md5digest; md5digest.update((uint8_t*)buf.data(), size); md5digest.finalize();
-    const auto md5 = md5digest.hexdigest();
+    const auto hash = xxh32hash(buf);
 
 #if PLAYER_uade
-    if (songdb::blacklist::is_blacklisted_md5(md5)) {
+    if (songdb::blacklist::is_blacklisted_hash(hash)) {
         // may hang UADE completely
-        WARN("uade_insert blacklisted md5 %s (%s)\n", fname, md5.c_str());
+        WARN("uade_insert blacklisted hash %s (%s)\n", fname, hash.c_str());
         return nullptr;
     }
 #endif
@@ -394,7 +397,7 @@ DB_playItem_t *uade_insert(ddb_playlist_t *plt, DB_playItem_t *after, const char
     const int minsubsong = modinfo->minsubsong;
     const int maxsubsong = modinfo->maxsubsong;
 
-    const auto metadata = songdb::lookup(md5.c_str());
+    const auto metadata = songdb::lookup(hash);
     for (int s = minsubsong; s <= maxsubsong; s++) {
         DB_playItem_t *it = deadbeef->pl_item_alloc_init(fname, PLUGINID);
         deadbeef->pl_set_meta_int(it, ":TRACKNUM", s);
@@ -419,12 +422,12 @@ DB_playItem_t *uade_insert(ddb_playlist_t *plt, DB_playItem_t *after, const char
                 deadbeef->pl_add_meta(it, "year", to_string(metadata->combined->year).c_str());
         }
         common::SongEnd songend = {common::SongEnd::NONE, 0};
-        const auto songinfo = metadata ? songdb::lookup(md5.c_str(), s) : optional<songdb::SubSongInfo>();
+        const auto songinfo = metadata ? songdb::lookup(hash, s) : optional<songdb::SubSongInfo>();
         bool precalc = deadbeef->conf_get_int("uade.precalc_songlengths", 1);
         if (songinfo) {
             songend = songinfo->songend;
         } else if (precalc) {
-            songend = songend::precalc::precalc_song_end(modinfo.value(), buf.data(), size, s, md5);
+            songend = songend::precalc::precalc_song_end(modinfo.value(), buf.data(), size, s, hash);
         }
         if (songend.status != common::SongEnd::NONE) {
             deadbeef->pl_add_meta(it, "songend", songend.status_string().c_str());
