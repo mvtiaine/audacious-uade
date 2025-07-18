@@ -2,7 +2,8 @@
 
 noinst_LTLIBRARIES += \
     3rdparty/libreplay.la \
-    3rdparty/libminiz.la
+    3rdparty/libminiz.la \
+    3rdparty/libxxhash.la
 
 3rdparty_libreplay_la_SOURCES =
 
@@ -11,6 +12,10 @@ noinst_LTLIBRARIES += \
     3rdparty/miniz/miniz.c
 
 3rdparty_libreplay_la_LIBADD = 3rdparty/libminiz.la
+
+3rdparty_libxxhash_la_SOURCES = \
+    3rdparty/xxhash/xxhash.h \
+    3rdparty/xxhash/xxhash.c
 
 if PLAYER_hivelytracker
 noinst_LTLIBRARIES += 3rdparty/replay/libreplay_hivelytracker.la
@@ -153,6 +158,11 @@ EXTRA_DIST += \
     3rdparty/miniz/ChangeLog.md \
     3rdparty/miniz/LICENSE \
     3rdparty/miniz/readme.md \
+    3rdparty/xxhash/CHANGELOG \
+    3rdparty/xxhash/LICENSE \
+    3rdparty/xxhash/README.md \
+    3rdparty/xxhash/xxhash.c \
+    3rdparty/xxhash/xxhash.h \
     3rdparty/replay/hivelytracker/LICENSE \
     3rdparty/replay/libdigibooster3/CHANGELOG \
     3rdparty/replay/libdigibooster3/COPYING \
