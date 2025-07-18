@@ -3,6 +3,7 @@ The following software is vendored here:
 - miniz 3.0.2 (MIT) - https://github.com/richgel999/miniz
 - proplayer.h (OctaMED-Soundstudio-Player) - https://aminet.net/package/dev/src/OcSS_src
 - SimpleBinStream.h 1.0.4 (MIT) - https://github.com/shaovoon/simplebinstream
+- xxHash v0.8.3 (BSD-2-Clause) - https://github.com/Cyan4973/xxHash
 
 - ft2play (BSD-3-Clause) - https://github.com/8bitbubsy/ft2play
 - HivelyTracker 1.9 (BSD-3-Clause) - https://github.com/pete-gordon/hivelytracker
