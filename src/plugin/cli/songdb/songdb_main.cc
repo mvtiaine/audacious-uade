@@ -6,10 +6,11 @@
 #include <cstdlib>
 #include <vector>
 
-#include "common/md5.h"
 #include "common/strings.h"
 #include "songdb/songdb.h"
+#include "3rdparty/xxhash/xxhash.h"
 
+#include <sys/stat.h>
 #include <unistd.h>
 
 using namespace std;
@@ -27,16 +28,26 @@ int main(int argc, char *argv[]) {
     }
     int fd = fileno(f);
 
+    struct stat st;
+    if (fstat(fd, &st)) {
+        close(fd);
+        fprintf(stderr, "Failed to read file size for %s\n", fname);
+        return EXIT_FAILURE;
+    }
+
     uint8_t buf[4096];
+    vector<char> buffer;
+    const auto bytes = min(songdb::XXH_MAX_BYTES, (size_t)st.st_size);
+    buffer.reserve(bytes);
+
     ssize_t count;
-    MD5 md5;
-    while ((count = read(fd, buf, sizeof buf)) > 0) {
-        md5.update(buf, count);
+    while ((count = read(fd, buf, sizeof buf)) > 0 && count < bytes) {
+        buffer.insert(buffer.end(), buf, buf + count);
     }
     close(fd);
 
-    md5.finalize();
-    string md5hex = md5.hexdigest();
+    const auto xxh32 = XXH32(buffer.data(), bytes, 0);
+    const string hash = common::to_hex(xxh32) + common::to_hex((uint16_t)(st.st_size & 0xFFFF));
 
 #ifdef SONGDB_DIR
     const char *songdbdir = SONGDB_DIR;
@@ -48,13 +59,11 @@ int main(int argc, char *argv[]) {
 #endif
     songdb::init(songdbdir);
 
-    const auto info = songdb::lookup(md5hex);
+    const auto info = songdb::lookup(hash);
     if (!info) {
         fprintf(stderr, "File %s does not exist in songdb\n", fname);
         return EXIT_FAILURE;
     }
-
-    const auto md5short = md5hex.substr(0,12);
 
     vector<string> songends;
     for (const auto &songinfo : info->subsongs) {
@@ -73,31 +82,31 @@ int main(int argc, char *argv[]) {
 #endif
 
     if (!info->subsongs.empty()) {
-        fprintf(stdout, "songlengths.tsv:%s\t%d\t%s\n", md5short.c_str(), info->subsongs.front().subsong, common::mkString(songends, " ").c_str());
+        fprintf(stdout, "songlengths.tsv:%s\t%d\t%s\n", hash.c_str(), info->subsongs.front().subsong, common::mkString(songends, " ").c_str());
     }
 
     if (info->modinfo) {
-        fprintf(stdout, "modinfos.tsv:%s\t%s\t%d\n", md5short.c_str(), info->modinfo->format.c_str(), info->modinfo->channels);
+        fprintf(stdout, "modinfos.tsv:%s\t%s\t%d\n", hash.c_str(), info->modinfo->format.c_str(), info->modinfo->channels);
     }
 
     if (info->combined) {
-        fprintf(stdout, "combined.tsv:%s\t%s\t%s\t%s\t%u\n", md5short.c_str(), info->combined->author.c_str(), info->combined->publisher.c_str(), info->combined->album.c_str(), info->combined->year);
+        fprintf(stdout, "combined.tsv:%s\t%s\t%s\t%s\t%u\n", hash.c_str(), info->combined->author.c_str(), info->combined->publisher.c_str(), info->combined->album.c_str(), info->combined->year);
     }
 
     if (info->amp) {
-        fprintf(stdout, "amp.tsv:%s\t%s\n", md5short.c_str(), info->amp->author.c_str());
+        fprintf(stdout, "amp.tsv:%s\t%s\n", hash.c_str(), info->amp->author.c_str());
     }
 
     if (info->demozoo) {
-        fprintf(stdout, "demozoo.tsv:%s\t%s\t%s\t%s\t%u\n", md5short.c_str(), info->demozoo->author.c_str(), info->demozoo->publisher.c_str(), info->demozoo->album.c_str(), info->demozoo->year);
+        fprintf(stdout, "demozoo.tsv:%s\t%s\t%s\t%s\t%u\n", hash.c_str(), info->demozoo->author.c_str(), info->demozoo->publisher.c_str(), info->demozoo->album.c_str(), info->demozoo->year);
     }
 
     if (info->modland) {
-        fprintf(stdout, "modland.tsv:%s\t%s\n", md5short.c_str(), info->modland->author.c_str());
+        fprintf(stdout, "modland.tsv:%s\t%s\n", hash.c_str(), info->modland->author.c_str());
     }
 
     if (info->unexotica) {
-        fprintf(stdout, "unexotica.tsv:%s\t%s\t%s\t%s\t%u\n", md5short.c_str(), info->unexotica->author.c_str(), info->unexotica->publisher.c_str(), info->unexotica->album.c_str(), info->unexotica->year);
+        fprintf(stdout, "unexotica.tsv:%s\t%s\t%s\t%s\t%u\n", hash.c_str(), info->unexotica->author.c_str(), info->unexotica->publisher.c_str(), info->unexotica->album.c_str(), info->unexotica->year);
     }
 
     return EXIT_SUCCESS;
