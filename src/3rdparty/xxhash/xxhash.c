@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-2-Clause
 /*
  * xxHash - Extremely Fast Hash algorithm
  * Copyright (C) 2012-2023 Yann Collet
