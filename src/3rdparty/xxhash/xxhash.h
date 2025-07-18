@@ -1,5 +1,16 @@
 // SPDX-License-Identifier: BSD-2-Clause
 
+#include "config.h"
+#ifdef WORDS_BIGENDIAN
+#define XXH_CPU_LITTLE_ENDIAN 0
+#else
+#define XXH_CPU_LITTLE_ENDIAN 1
+#endif
+#define XXH_NO_STREAM
+#define XXH_NO_STDLIB
+#define XXH_NO_XXH3
+#define XXH_NO_LONG_LONG
+
 /*
  * xxHash - Extremely Fast Hash algorithm
  * Header File
