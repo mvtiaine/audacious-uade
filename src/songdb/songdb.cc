@@ -175,29 +175,20 @@ const vector<string> tsvfiles ({
     "xxh32idx.tsv",
     "songlengths.tsv",
     "modinfos.tsv",
-    "combined.tsv",
-    "modland.tsv",
-    "amp.tsv",
-    "unexotica.tsv",
-    "demozoo.tsv"
+    "metadata.tsv",
 });
 
 _SongInfo db_songinfos[SONGLENGTHS_SIZE+1]; // md5_idx_t -> first subsong info
 unordered_map<hash_idx_t, vector<_SubSongInfo>> db_subsongs; // infos for extra subsongs
 _ModInfo db_modinfos[MODINFOS_SIZE+1];
-
-_MetaData db_combined[COMBINED_SIZE];
-_MetaData db_modland[MODLAND_SIZE];
-_MetaData db_amp[AMP_SIZE];
-_MetaData db_unexotica[UNEXOTICA_SIZE];
-_MetaData db_demozoo[DEMOZOO_SIZE];
+_MetaData db_metadata[METADATA_SIZE];
 
 unordered_map<hash_t, vector<SubSongInfo>> extra_subsongs; // runtime only
 unordered_map<hash_t, ModInfo> extra_modinfos; // runtime only
 mutex extra_mutex; // for extra_subsongs/modinfos thread safe access/update
 
 constexpr Source SOURCE_HASH = static_cast<Source>(0); // internal
-bool initialized[Demozoo+1] = {};
+bool initialized[Metadata+1] = {};
 
 constexpr_f2 string make_format(const string_t s) noexcept {
     if (s == STRING_NOT_FOUND) return "";
@@ -525,11 +516,7 @@ optional<Info> lookup(const string &hash) noexcept {
     if (hash_idx != HASH_NOT_FOUND) {
         Info res;
         res.modinfo = initialized[ModInfos] ? make_modinfo(hash_idx) : optional<ModInfo>();
-        res.combined = initialized[Combined] ? make_meta(hash_idx, db_combined, COMBINED_SIZE) : optional<MetaData>();
-        res.modland = initialized[Modland] ? make_meta(hash_idx, db_modland, MODLAND_SIZE) : optional<MetaData>();
-        res.amp = initialized[AMP] ? make_meta(hash_idx, db_amp, AMP_SIZE) : optional<MetaData>();
-        res.unexotica = initialized[UnExotica] ? make_meta(hash_idx, db_unexotica, UNEXOTICA_SIZE) : optional<MetaData>();
-        res.demozoo = initialized[Demozoo] ? make_meta(hash_idx, db_demozoo, DEMOZOO_SIZE) : optional<MetaData>();
+        res.metadata = initialized[Metadata] ? make_meta(hash_idx, db_metadata, METADATA_SIZE) : optional<MetaData>();
         if (!initialized[Songlengths]) {
             return res;
         }
@@ -573,20 +560,8 @@ void init(const string &songdb_path, const initializer_list<Source> &sources/*= 
 #if SONGLENGTHS_SIZE > 1
         Songlengths,
 #endif
-#if COMBINED_SIZE > 1
-        Combined,
-#endif
-#if MODLAND_SIZE > 1
-        Modland,
-#endif
-#if AMP_SIZE > 1
-        AMP,
-#endif
-#if UNEXOTICA_SIZE > 1
-        UnExotica,
-#endif
-#if DEMOZOO_SIZE > 1
-        Demozoo,
+#if METADATA_SIZE > 1
+        Metadata,
 #endif
     };
     assert(sources_.size());
@@ -619,35 +594,11 @@ void init(const string &songdb_path, const initializer_list<Source> &sources/*= 
         TRACE("PARSE_MOD_INFOS %lu\n", clock() * 1000 / CLOCKS_PER_SEC);
     }
 
-    for (int source = Combined; source <= Demozoo; source++) {
-        if (shouldInit(static_cast<Source>(source))) {
-            const auto file = path + tsvfiles[source];
-            switch (source) {
-                case Combined:
-                    assert(size(db_combined) > 1);
-                    parse_tsv(file, db_combined, COMBINED_SIZE);
-                    break;
-                case Modland:
-                    assert(size(db_modland) > 1);
-                    parse_tsv(file, db_modland, MODLAND_SIZE);
-                    break;
-                 case AMP:
-                    assert(size(db_amp) > 1);
-                    parse_tsv(file, db_amp, AMP_SIZE);
-                    break;
-                case UnExotica:
-                    assert(size(db_unexotica) > 1);
-                    parse_tsv(file, db_unexotica, UNEXOTICA_SIZE);
-                    break;
-                case Demozoo:
-                    assert(size(db_demozoo) > 1);
-                    parse_tsv(file, db_demozoo, DEMOZOO_SIZE);
-                    break;
-                default: assert(false); break;
-            }
-            initialized[source] = true;
-            TRACE("PARSE_TSV %s - %lu\n", tsvfiles[source].c_str(), clock() * 1000 / CLOCKS_PER_SEC);
-        }
+    if (shouldInit(Metadata)) {
+        assert(size(db_metadata) > 1);
+        parse_tsv(path + tsvfiles[Metadata], db_metadata, METADATA_SIZE);
+        initialized[Metadata] = true;
+        TRACE("PARSE_METADATA %lu\n", clock() * 1000 / CLOCKS_PER_SEC);
     }
 
     assert(format_pool.size() < STRING_NOT_FOUND);
@@ -689,17 +640,12 @@ void init(const string &songdb_path, const initializer_list<Source> &sources/*= 
     TRACE("FORMATS:%zu/%zu AUTHORS:%zu/%zu ALBUMS:%zu/%zu PUBLISHERS:%zu/%zu\n",
           fsize, format_pool.capacity(), ausize, author_pool.capacity(), alsize, album_pool.capacity(), psize, publisher_pool.capacity());
 
-    TRACE("HASH_IDX:%zu/%zu/%zu SONGINFOS:%zu/%zu/%zu SUBSONGS:%zu/%zu/%zu/%zu MODINFOS:%zu/%zu/%zu "
-          "COMBINED:%zu/%zu/%zu MODLAND:%zu/%zu/%zu AMP:%zu/%zu/%zu UNEXOTICA:%zu/%zu/%zu DEMOZOO:%zu/%zu/%zu\n",
+    TRACE("HASH_IDX:%zu/%zu/%zu SONGINFOS:%zu/%zu/%zu SUBSONGS:%zu/%zu/%zu/%zu MODINFOS:%zu/%zu/%zu METADATA:%zu/%zu/%zu\n",
         sizeof(hash_idx), sizeof(hash_idx) / sizeof(hash_t), sizeof(hash_t),
         sizeof(db_songinfos), sizeof(db_songinfos) / sizeof(_SongInfo), sizeof(_SongInfo),
         size, db_subsongs.size(), sizeof(_SubSongInfo), count,
         sizeof(db_modinfos), sizeof(db_modinfos) / sizeof(_ModInfo), sizeof(_ModInfo),
-        sizeof(db_combined), sizeof(db_combined) / sizeof(_MetaData), sizeof(_MetaData),
-        sizeof(db_modland), sizeof(db_modland) / sizeof(_MetaData), sizeof(_MetaData),
-        sizeof(db_amp), sizeof(db_amp) / sizeof(_MetaData), sizeof(_MetaData),
-        sizeof(db_unexotica), sizeof(db_unexotica) / sizeof(_MetaData), sizeof(_MetaData),
-        sizeof(db_demozoo), sizeof(db_demozoo) / sizeof(_MetaData), sizeof(_MetaData));
+        sizeof(db_metadata), sizeof(db_metadata) / sizeof(_MetaData), sizeof(_MetaData));
 
 #endif // DEBUG_TRACE
 

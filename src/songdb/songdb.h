@@ -22,12 +22,7 @@ enum Source {
     //Hash = 0, // internal
     Songlengths = 1,
     ModInfos,
-    Combined,
-    // these are by default not included in build
-    Modland,
-    AMP,
-    UnExotica,
-    Demozoo,
+    Metadata,
 };
 
 struct MetaData {
@@ -50,13 +45,7 @@ struct SubSongInfo {
 struct Info {
     std::vector<SubSongInfo> subsongs;
     std::optional<ModInfo> modinfo;
-    // combined metadata
-    std::optional<MetaData> combined;
-    // these are by default not included in build
-    std::optional<MetaData> modland;
-    std::optional<MetaData> amp;
-    std::optional<MetaData> unexotica;
-    std::optional<MetaData> demozoo;
+    std::optional<MetaData> metadata;
 };
 
 // if sources is empty, all builtin sources are used

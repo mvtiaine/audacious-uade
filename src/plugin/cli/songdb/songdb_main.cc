@@ -89,24 +89,8 @@ int main(int argc, char *argv[]) {
         fprintf(stdout, "modinfos.tsv:%s\t%s\t%d\n", hash.c_str(), info->modinfo->format.c_str(), info->modinfo->channels);
     }
 
-    if (info->combined) {
-        fprintf(stdout, "combined.tsv:%s\t%s\t%s\t%s\t%u\n", hash.c_str(), info->combined->author.c_str(), info->combined->publisher.c_str(), info->combined->album.c_str(), info->combined->year);
-    }
-
-    if (info->amp) {
-        fprintf(stdout, "amp.tsv:%s\t%s\n", hash.c_str(), info->amp->author.c_str());
-    }
-
-    if (info->demozoo) {
-        fprintf(stdout, "demozoo.tsv:%s\t%s\t%s\t%s\t%u\n", hash.c_str(), info->demozoo->author.c_str(), info->demozoo->publisher.c_str(), info->demozoo->album.c_str(), info->demozoo->year);
-    }
-
-    if (info->modland) {
-        fprintf(stdout, "modland.tsv:%s\t%s\n", hash.c_str(), info->modland->author.c_str());
-    }
-
-    if (info->unexotica) {
-        fprintf(stdout, "unexotica.tsv:%s\t%s\t%s\t%s\t%u\n", hash.c_str(), info->unexotica->author.c_str(), info->unexotica->publisher.c_str(), info->unexotica->album.c_str(), info->unexotica->year);
+    if (info->metadata) {
+        fprintf(stdout, "metadata.tsv:%s\t%s\t%s\t%s\t%u\n", hash.c_str(), info->metadata->author.c_str(), info->metadata->publisher.c_str(), info->metadata->album.c_str(), info->metadata->year);
     }
 
     return EXIT_SUCCESS;

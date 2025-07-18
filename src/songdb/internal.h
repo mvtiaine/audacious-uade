@@ -209,18 +209,6 @@ struct _SongInfo {
 #ifndef MODINFOS_SIZE
 #define MODINFOS_SIZE 1
 #endif
-#ifndef COMBINED_SIZE
-#define COMBINED_SIZE 1
-#endif
-#ifndef MODLAND_SIZE
-#define MODLAND_SIZE 1
-#endif
-#ifndef AMP_SIZE
-#define AMP_SIZE 1
-#endif
-#ifndef DEMOZOO_SIZE
-#define DEMOZOO_SIZE 1
-#endif
-#ifndef UNEXOTICA_SIZE
-#define UNEXOTICA_SIZE 1
+#ifndef METADATA_SIZE
+#define METADATA_SIZE 1
 #endif

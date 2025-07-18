@@ -222,7 +222,7 @@ optional<Info> parse_info(VFSFile &file, const string &path, const string &hash)
             songdbinfo->modinfo->channels,
             minsubsong,
             maxsubsong,
-            songdbinfo->combined,
+            songdbinfo->metadata,
         };
     }
 #endif
@@ -241,7 +241,7 @@ optional<Info> parse_info(VFSFile &file, const string &path, const string &hash)
         modinfo->channels,
         modinfo->minsubsong,
         modinfo->maxsubsong,
-        songdbinfo ? songdbinfo->combined : optional<songdb::MetaData>{},
+        songdbinfo ? songdbinfo->metadata : optional<songdb::MetaData>{},
     };
 }
 

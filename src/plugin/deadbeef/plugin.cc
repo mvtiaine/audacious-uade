@@ -411,15 +411,15 @@ DB_playItem_t *uade_insert(ddb_playlist_t *plt, DB_playItem_t *after, const char
         deadbeef->pl_replace_meta(it, ":FILETYPE", modinfo->format.c_str());
         if (modinfo->channels > 0)
             deadbeef->pl_set_meta_int(it, ":CHANNELS", modinfo->channels);
-        if (metadata && metadata->combined) {
-            if (!metadata->combined->author.empty())
-                deadbeef->pl_add_meta(it, "artist", metadata->combined->author.c_str());
-            if (!metadata->combined->album.empty())
-                deadbeef->pl_add_meta(it, "album", metadata->combined->album.c_str());
-            if (!metadata->combined->publisher.empty())
-                deadbeef->pl_add_meta(it, "publisher", metadata->combined->publisher.c_str());
-            if (metadata->combined->year)
-                deadbeef->pl_add_meta(it, "year", to_string(metadata->combined->year).c_str());
+        if (metadata && metadata->metadata) {
+            if (!metadata->metadata->author.empty())
+                deadbeef->pl_add_meta(it, "artist", metadata->metadata->author.c_str());
+            if (!metadata->metadata->album.empty())
+                deadbeef->pl_add_meta(it, "album", metadata->metadata->album.c_str());
+            if (!metadata->metadata->publisher.empty())
+                deadbeef->pl_add_meta(it, "publisher", metadata->metadata->publisher.c_str());
+            if (metadata->metadata->year)
+                deadbeef->pl_add_meta(it, "year", to_string(metadata->metadata->year).c_str());
         }
         common::SongEnd songend = {common::SongEnd::NONE, 0};
         const auto songinfo = metadata ? songdb::lookup(hash, s) : optional<songdb::SubSongInfo>();
