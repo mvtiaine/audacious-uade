@@ -57,3 +57,4 @@ test-driver
 *.aarch64.elf
 *.com.dbg
 *.pkg.tar.*
+.clangd
