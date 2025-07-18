@@ -85,6 +85,36 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    if (argc >= 3 && string(argv[2]) == "subsongs") {
+        // just report subsongs
+        uint8_t buf[4096];
+        vector<char> buffer;
+        buffer.reserve(st.st_size);
+        ssize_t count;
+        while ((count = read(fd, buf, sizeof buf)) > 0) {
+            buffer.insert(buffer.end(), buf, buf + count);
+        }
+        close(fd);
+
+        const player::support::PlayerScope p;
+        const auto players = player::check(path, buffer.data(), buffer.size(), buffer.size());
+        if (players.empty()) {
+            return EXIT_FAILURE;
+        }
+        for (const auto &player : players) {
+            const auto &info = player::parse(path, buffer.data(), buffer.size(), player);
+            if (!info) continue;
+            const int minsubsong = info->minsubsong;
+            const int maxsubsong = info->maxsubsong;
+            fprintf(stdout, "%d", minsubsong);
+            for (int subsong = minsubsong + 1; subsong <= maxsubsong; subsong++) {
+                fprintf(stdout, " %d", subsong);
+            }
+            break;
+        }
+        return EXIT_SUCCESS;
+    }
+
     uint8_t buf[4096];
     vector<char> buffer;
     buffer.reserve(st.st_size);
