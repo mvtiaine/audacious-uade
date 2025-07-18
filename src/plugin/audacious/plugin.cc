@@ -72,7 +72,7 @@ vector<player::Player> check_player(VFSFile &file, const string &path, bool chec
     fseek0(file);
     // note: this only reads 256k or so, see read_all(file) above to read full file
     const Index<char> buf = file.read_all();
-    return player::check(path.c_str(), buf.begin(), buf.len(), check_all);
+    return player::check(path.c_str(), buf.begin(), buf.len(), file.fsize(), check_all);
 }
 
 int parse_uri(const char *uri, string &path, string &ext) {

@@ -44,8 +44,8 @@ void init() noexcept {
 
 void shutdown() noexcept {}
 
-bool is_our_file(const char */*path*/, const char *buf, size_t size) noexcept {
-    assert(size >= 4);
+bool is_our_file(const char */*path*/, const char *buf, size_t bufsize, size_t filesize) noexcept {
+    assert(bufsize >= 4);
     return buf[0] == 'H' && buf[1] == 'V' && buf[2] == 'L' && buf[3] < 2;
 }
 

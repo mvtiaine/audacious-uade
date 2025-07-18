@@ -302,8 +302,8 @@ void shutdown() noexcept {
     play::st3play_Close();
 }
 
-bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
-    if (size < 0x70 || buf[0x1D] != 16 || memcmp(&buf[0x2C], "SCRM", 4) != 0)
+bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept {
+    if (bufsize < 0x70 || buf[0x1D] != 16 || memcmp(&buf[0x2C], "SCRM", 4) != 0)
 	    return false;
 
     // Reject non-authentic trackers (based on OpenMPT)
@@ -337,7 +337,7 @@ bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
     if (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc)
         return false;
 
-    return get_s3m_info(path, buf, size) ? true : false;
+    return get_s3m_info(path, buf, bufsize) ? true : false;
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {

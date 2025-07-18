@@ -541,10 +541,10 @@ void shutdown() noexcept {
     }
 }
 
-bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
-    if (!is_xm(path,buf,size) && !is_fst(path,buf,size) && !is_s3m(path,buf,size) && !is_it(path,buf,size) && !is_sid(path,buf,size)) {
+bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept {
+    if (!is_xm(path,buf,bufsize) && !is_fst(path,buf,bufsize) && !is_s3m(path,buf,bufsize) && !is_it(path,buf,bufsize) && !is_sid(path,buf,bufsize)) {
         char ext[UADE_MAX_EXT_LEN] = {0};
-        uade_filemagic((unsigned char*)buf, size, ext, size, path, 0);
+        uade_filemagic((unsigned char*)buf, bufsize, ext, filesize, path, 0);
         if (ext[0] && ext_blacklist.count(ext)) return false;
         if (ext[0]) return true;
         string lcfilename = common::split(path, "/").back();

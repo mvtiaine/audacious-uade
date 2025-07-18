@@ -33,13 +33,13 @@ void init() noexcept {}
 
 void shutdown() noexcept {}
 
-bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
+bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept {
 #if PLAYER_libopenmpt
     // do not accept it or xm when libopenmpt is available as xmp does not detect missing openmpt plugins/extensions
-    if (is_xm(path, buf, size) || is_it(path, buf, size))
+    if (is_xm(path, buf, bufsize) || is_it(path, buf, bufsize))
         return false;
 #endif
-	return xmp_test_module_from_memory(buf, size, nullptr) == 0;
+	return xmp_test_module_from_memory(buf, bufsize, nullptr) == 0;
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {

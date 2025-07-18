@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
         }
         players.push_back(player::player(getenv("PLAYER")));
     } else {
-        players = player::check(path, buffer.data(), buffer.size());
+        players = player::check(path, buffer.data(), buffer.size(), buffer.size());
     }
     if (players.empty()) {
         fprintf(stderr, "Could not recognize %s md5 %s\n", path, md5hex.c_str());

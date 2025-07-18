@@ -198,7 +198,7 @@ int uade_init(DB_fileinfo_t *_info, DB_playItem_t *it) {
     if (playername) {
         player = player::player(playername);
     } else {
-        const auto players = player::check(fname.c_str(), buf.data(), size);
+        const auto players = player::check(fname.c_str(), buf.data(), size, size);
         for (const auto &p : players) {
             if (player::parse(fname.c_str(), buf.data(), size, p)) {
                 player = p;
@@ -364,7 +364,7 @@ DB_playItem_t *uade_insert(ddb_playlist_t *plt, DB_playItem_t *after, const char
     }
 
     auto modinfo = optional<player::ModuleInfo>();
-    const auto players = player::check(fname, buf.data(), size);
+    const auto players = player::check(fname, buf.data(), size, size);
     if (players.empty()) {
         DEBUG("uade_insert no player found for %s\n", fname);
         return nullptr;
