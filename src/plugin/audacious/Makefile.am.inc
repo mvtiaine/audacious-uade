@@ -13,7 +13,7 @@ plugin/audacious/% : CXXFLAGS += -Wno-format-nonliteral -Wno-missing-field-initi
 plugin_audacious_uade_la_LIBADD = \
     songend/libsongend.la \
     songdb/libsongdb.la \
-    common/libmd5.la \
+    3rdparty/libxxhash.la \
     $(UADE_LIBS) \
     $(LIBOPENMPT_LIBS) \
     $(LIBXMP_LIBS) \
