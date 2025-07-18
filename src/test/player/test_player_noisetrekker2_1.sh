@@ -14,7 +14,7 @@ player=noisetrekker2
 TESTMOD="${top_srcdir}/testdata/unionjack.ntk"
 TEST_NAME="NoiseTrekker 2"
 TEST="${PRECALC} \"${TESTMOD}\""
-EXPECTED_OUTPUT="38abe9fd6b9ceb6d5049c38462bebe31	1	7060	player	noisetrekker2	NoiseTrekker 2.x	5	191700"
+EXPECTED_OUTPUT="38abe9fd6b9ceb6d5049c38462bebe31	1	7060	player	noisetrekker2	NoiseTrekker 2.x	5	191700	392a9dc6"
 
 . $(dirname "$0")/../common/check.sh
 
