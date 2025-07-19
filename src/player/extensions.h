@@ -432,6 +432,8 @@ static constexpr const char *exts[] = {
     "stim", // Slamtilt                 -
     "umx", // Epic Games Unreal/UT      IT, S3M, MOD, XM
     "xmf", // Imperium Galactica        -
+    // not in libxmp
+    "coco", // Coconizer
 #endif
     nullptr
 };
