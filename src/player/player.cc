@@ -28,7 +28,7 @@ namespace player {
 namespace ns { \
 void init() noexcept; \
 void shutdown() noexcept; \
-bool is_our_file(const char *path, const char *buf, size_t size) noexcept; \
+bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept; \
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept; \
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept; \
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept; \
@@ -39,7 +39,7 @@ bool restart(PlayerState &state) noexcept; \
 namespace ns { \
 void init() noexcept {} \
 void shutdown() noexcept {} \
-bool is_our_file(const char *path, const char *buf, size_t size) noexcept { return false; } \
+bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept { return false; } \
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept { return {}; } \
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept { return {}; } \
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept { return {SongEnd::ERROR, 0}; } \
@@ -114,15 +114,15 @@ void shutdown() noexcept {
     FOREACH(SHUTDOWN_PLAYER, PLAYERS)
 }
 
-vector<Player> check(const char *path, const char *buf, size_t size, bool check_all /* = true*/) noexcept {
-    if (size < MAGIC_SIZE || size < converter::MAGIC_SIZE) return {};
+vector<Player> check(const char *path, const char *buf, size_t bufsize, size_t filesize, bool check_all /* = true*/) noexcept {
+    if (bufsize < MAGIC_SIZE || bufsize < converter::MAGIC_SIZE) return {};
     assert(path);
     assert(buf);
     // TODO support conversion for other players
-    if (converter::needs_conversion(buf, size)) return {Player::uade};
+    if (converter::needs_conversion(buf, bufsize)) return {Player::uade};
     vector<Player> players;
     #define ADD_PLAYER(p) \
-      if (p::is_our_file(path, buf, size)) { \
+      if (p::is_our_file(path, buf, bufsize, filesize)) { \
         players.push_back(Player::p); \
         if (!check_all) return players; \
       }
@@ -144,7 +144,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size, Playe
         buf = conversion->data.data();
         size = conversion->data.size();
     }
-    vector<Player> players = player == Player::NONE ? check(path, buf, size) : vector<Player>{player};
+    vector<Player> players = player == Player::NONE ? check(path, buf, size, size) : vector<Player>{player};
     if (players.empty()) return {};
     optional<ModuleInfo> res;
     for (const auto &p : players) {
@@ -177,7 +177,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         buf = conversion->data.data();
         size = conversion->data.size();
     }
-    vector<Player> players = config.player == Player::NONE ? check(path, buf, size) : vector<Player>{config.player};
+    vector<Player> players = config.player == Player::NONE ? check(path, buf, size, size) : vector<Player>{config.player};
     if (players.empty()) return {};
     Player player = players.front();
     optional<PlayerState> res;

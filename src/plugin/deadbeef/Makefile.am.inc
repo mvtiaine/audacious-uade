@@ -12,7 +12,7 @@ plugin/deadbeef/% : CXXFLAGS += -Wno-format-nonliteral -Wno-missing-field-initia
 plugin_deadbeef_aaa_uade_la_LIBADD = \
     songend/libsongend.la \
     songdb/libsongdb.la \
-    common/libmd5.la \
+    3rdparty/libxxhash.la \
     $(UADE_LIBS) \
     $(LIBOPENMPT_LIBS) \
     $(LIBXMP_LIBS)

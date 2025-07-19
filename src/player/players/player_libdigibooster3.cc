@@ -95,8 +95,8 @@ namespace player::libdigibooster3 {
 void init() noexcept {}
 void shutdown() noexcept {}
 
-bool is_our_file(const char */*path*/, const char *buf, size_t size) noexcept {
-    assert(size >= 4);
+bool is_our_file(const char */*path*/, const char *buf, size_t bufsize, size_t filesize) noexcept {
+    assert(bufsize >= 4);
     return buf[0] == 'D' && buf[1] == 'B' && buf[2] == 'M' && buf[3] == '0';
 }
 

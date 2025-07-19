@@ -14,7 +14,7 @@ player=protrekkr2
 TESTMOD="${top_srcdir}/testdata/elevator zax.ptk"
 TEST_NAME="ProTrekkr 2"
 TEST="${PRECALC} \"${TESTMOD}\""
-EXPECTED_OUTPUT="1373828675fa04145d5e9eb0244b0e24	1	30700	player	protrekkr2	ProTrekkr 2.x	12	15436"
+EXPECTED_OUTPUT="1373828675fa04145d5e9eb0244b0e24	1	30700	player	protrekkr2	ProTrekkr 2.x	12	15436	befd07c8"
 
 . $(dirname "$0")/../common/check.sh
 

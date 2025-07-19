@@ -385,8 +385,8 @@ void shutdown() noexcept {
     play::moduleLoaded = false;
 }
 
-bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
-    return is_fasttracker2(buf, size) || is_fasttracker1(buf, size);
+bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept {
+    return is_fasttracker2(buf, bufsize) || is_fasttracker1(buf, bufsize);
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {

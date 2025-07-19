@@ -14,7 +14,7 @@ player=it2play
 TESTMOD="${top_srcdir}/testdata/ezisopth.it"
 TEST_NAME="it2play (IT) UseFPUCode=true (Impulse Tracker 2.15)"
 TEST="${PRECALC} \"${TESTMOD}\""
-EXPECTED_OUTPUT="1e504e4b63e411922004dd063498d61f	1	176280	player\+volume	it2play	Impulse Tracker 2.15	6	4061"
+EXPECTED_OUTPUT="1e504e4b63e411922004dd063498d61f	1	176280	player\+volume	it2play	Impulse Tracker 2.15	6	4061	73c93ca5"
 
 . $(dirname "$0")/../common/check.sh
 

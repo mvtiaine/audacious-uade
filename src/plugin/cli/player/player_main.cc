@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
         }
         players.push_back(player::player(getenv("PLAYER")));
     } else {
-        players = check(fname, buffer.data(), buffer.size());
+        players = check(fname, buffer.data(), buffer.size(), buffer.size());
     }
     if (players.empty()) {
         fprintf(stderr, "Could not recognize %s\n", fname);

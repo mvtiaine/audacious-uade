@@ -124,27 +124,27 @@ typedef uint8_t channels_t;
 typedef uint8_t subsong_t;
 typedef uint8_t year_t;
 typedef uint24_t songlength_t;
-typedef uint48_t md5_t;
-constexpr_v1 md5_t MD5_T_MAX = UINT48_T_MAX;
+typedef uint48_t hash_t;
+constexpr_v1 hash_t HASH_T_MAX = UINT48_T_MAX;
 // indexed types
 typedef uint16_t string_t;
 constexpr string_t UNKNOWN_AUTHOR_T = 0;
 constexpr string_t STRING_NOT_FOUND = UINT16_MAX;
-// 16 million md5s should be enough for everyone
-typedef uint24_t md5_idx_t;
-constexpr_v1 md5_idx_t MD5_NOT_FOUND = UINT24_T_MAX;
+// 16 million hashes should be enough for everyone
+typedef uint24_t hash_idx_t;
+constexpr_v1 hash_idx_t HASH_NOT_FOUND = UINT24_T_MAX;
 
 typedef common::SongEnd::Status songend_t;
 
 struct _MetaData {
-    md5_idx_t md5;
+    hash_idx_t hash;
     string_t author;
     string_t album;
     string_t publisher;
     year_t year;
     constexpr_f1 _MetaData() noexcept {}
-    constexpr_f1 _MetaData(const md5_idx_t md5, const string_t author, const string_t album, const string_t publisher, const year_t year) noexcept
-    : md5(md5), author(author), album(album), publisher(publisher), year(year) {}
+    constexpr_f1 _MetaData(const hash_idx_t hash, const string_t author, const string_t album, const string_t publisher, const year_t year) noexcept
+    : hash(hash), author(author), album(album), publisher(publisher), year(year) {}
 } __attribute__((packed));
 
 struct _ModInfo {
@@ -199,9 +199,9 @@ struct _SongInfo {
 
 } // namespace songdb::internal
 
-#ifndef MD5_IDX_SIZE
-#error "MD5_IDX_SIZE not defined"
-#define MD5_IDX_SIZE 1
+#ifndef HASH_IDX_SIZE
+#error "HASH_IDX_SIZE not defined"
+#define HASH_IDX_SIZE 1
 #endif
 #ifndef SONGLENGTHS_SIZE
 #define SONGLENGTHS_SIZE 1
@@ -209,18 +209,6 @@ struct _SongInfo {
 #ifndef MODINFOS_SIZE
 #define MODINFOS_SIZE 1
 #endif
-#ifndef COMBINED_SIZE
-#define COMBINED_SIZE 1
-#endif
-#ifndef MODLAND_SIZE
-#define MODLAND_SIZE 1
-#endif
-#ifndef AMP_SIZE
-#define AMP_SIZE 1
-#endif
-#ifndef DEMOZOO_SIZE
-#define DEMOZOO_SIZE 1
-#endif
-#ifndef UNEXOTICA_SIZE
-#define UNEXOTICA_SIZE 1
+#ifndef METADATA_SIZE
+#define METADATA_SIZE 1
 #endif

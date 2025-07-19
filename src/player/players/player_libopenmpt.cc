@@ -80,8 +80,8 @@ void init() noexcept {}
 
 void shutdown() noexcept {}
 
-bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
-    int res = openmpt_probe_file_header_without_filesize(OPENMPT_PROBE_FILE_HEADER_FLAGS_DEFAULT, buf, size,
+bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept {
+    int res = openmpt_probe_file_header(OPENMPT_PROBE_FILE_HEADER_FLAGS_DEFAULT, buf, bufsize, filesize,
         nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
     return res == OPENMPT_PROBE_FILE_HEADER_RESULT_SUCCESS;
 }

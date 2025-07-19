@@ -130,8 +130,8 @@ void shutdown() noexcept {
     play::st23play_Close();
 }
 
-bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
-    if (size < 1040+128) return false;
+bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept {
+    if (bufsize < 1040+128) return false;
     const uint16_t ver = (buf[30] * 100) + buf[31];
     if (buf[29] != 2 || (ver != 200 && ver != 210 && ver != 220 && ver != 221))
         return false; // unsupported

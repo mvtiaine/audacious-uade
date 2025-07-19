@@ -15,7 +15,7 @@ export PLAYER=${player}
 TESTMOD="${top_srcdir}/testdata/burgertime mix.xm"
 TEST_NAME="libopenmpt + subsongs"
 TEST="${PRECALC} \"${TESTMOD}\""
-EXPECTED_OUTPUT="8ef21f4e65561e96a6a649ded86460dd	0	88188	player	libopenmpt	FastTracker 2 or compatible	8	131847
+EXPECTED_OUTPUT="8ef21f4e65561e96a6a649ded86460dd	0	88188	player	libopenmpt	FastTracker 2 or compatible	8	131847	115bcbd7
 8ef21f4e65561e96a6a649ded86460dd	1	5751	player
 8ef21f4e65561e96a6a649ded86460dd	2	5112	player
 8ef21f4e65561e96a6a649ded86460dd	3	5092	player

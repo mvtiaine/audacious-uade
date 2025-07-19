@@ -16,16 +16,13 @@
 
 namespace songdb {
 
+constexpr size_t XXH_MAX_BYTES = 256 * 1024; // 256 KiB
+
 enum Source {
-    //MD5 = 0, // internal
+    //Hash = 0, // internal
     Songlengths = 1,
     ModInfos,
-    Combined,
-    // these are by default not included in build
-    Modland,
-    AMP,
-    UnExotica,
-    Demozoo,
+    Metadata,
 };
 
 struct MetaData {
@@ -48,30 +45,24 @@ struct SubSongInfo {
 struct Info {
     std::vector<SubSongInfo> subsongs;
     std::optional<ModInfo> modinfo;
-    // combined metadata
-    std::optional<MetaData> combined;
-    // these are by default not included in build
-    std::optional<MetaData> modland;
-    std::optional<MetaData> amp;
-    std::optional<MetaData> unexotica;
-    std::optional<MetaData> demozoo;
+    std::optional<MetaData> metadata;
 };
 
 // if sources is empty, all builtin sources are used
 void init(const std::string &songdb_path, const std::initializer_list<Source> &sources = {}) noexcept;
 
-std::optional<SubSongInfo> lookup(const std::string &md5, int subsong) noexcept;
-std::optional<Info> lookup(const std::string &md5) noexcept;
+std::optional<SubSongInfo> lookup(const std::string &hash, int subsong) noexcept;
+std::optional<Info> lookup(const std::string &hash) noexcept;
 
-void update(const std::string &md5, const SubSongInfo &info, const int minsubsong, const int maxsubsong) noexcept;
-void update(const std::string &md5, const ModInfo &modinfo) noexcept;
+void update(const std::string &hash, const SubSongInfo &info, const int minsubsong, const int maxsubsong) noexcept;
+void update(const std::string &hash, const ModInfo &modinfo) noexcept;
 
-std::optional<std::pair<int,int>> subsong_range(const std::string &md5) noexcept;
+std::optional<std::pair<int,int>> subsong_range(const std::string &hash) noexcept;
 
 namespace blacklist {
     bool is_blacklisted_extension(const std::string &path, const std::string &ext, const std::set<std::string> &whitelist) noexcept;
-    bool is_blacklisted_md5(const std::string &md5hex) noexcept;
-    bool is_blacklisted_songdb_key(const std::string &md5hex) noexcept;
+    bool is_blacklisted_hash(const std::string &hash) noexcept;
+    bool is_blacklisted_songdb_hash(const std::string &hash) noexcept;
 } // namespace songdb::blacklist
 
 } // namespace songdb

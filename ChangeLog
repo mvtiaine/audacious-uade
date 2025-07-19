@@ -1,3 +1,8 @@
+0.14-dev
+- Song db updates:
+--  Switched from MD5 to XXH32 based hash
+- Misc fixes and updates
+
 0.13.2 - 2025-05-20
 - UADE updates:
 --  Updated Wanted Team players to latest:

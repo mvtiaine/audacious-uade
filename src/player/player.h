@@ -127,7 +127,7 @@ enum class Filter {
 void init() noexcept;
 void shutdown() noexcept;
 
-std::vector<Player> check(const char *path, const char *buf, size_t size, bool check_all = true) noexcept;
+std::vector<Player> check(const char *path, const char *buf, size_t bufsize, size_t filesize, bool check_all = true) noexcept;
 std::optional<ModuleInfo> parse(const char *path, const char *buf, size_t size, Player player = Player::NONE) noexcept;
 std::optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept;
 std::pair<common::SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) noexcept;

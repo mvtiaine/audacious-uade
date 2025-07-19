@@ -406,9 +406,9 @@ void shutdown() noexcept {
     play::Music_Close();
 }
 
-bool is_our_file(const char *path, const char *buf, size_t size) noexcept {
+bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept {
     // accepts also some S3Ms (when made with Impulse Tracker)
-    return isIT(buf, size) || isS3M(buf, size);
+    return isIT(buf, bufsize) || isS3M(buf, bufsize);
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {

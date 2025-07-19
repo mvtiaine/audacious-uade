@@ -11,7 +11,7 @@ player=uade
 TESTMOD="${top_srcdir}/testdata/gyroscope.mon"
 TEST_NAME="Precalc songend - loop"
 TEST="${PRECALC} \"${TESTMOD}\""
-EXPECTED_OUTPUT="06b890430af28b89de13435e00f820b2	1	48010	loop	uade	MON	0	7788"
+EXPECTED_OUTPUT="06b890430af28b89de13435e00f820b2	1	48010	loop	uade	MON	0	7788	0ff7e16b"
 . $(dirname "$0")/../common/check.sh
 
 exit 0
