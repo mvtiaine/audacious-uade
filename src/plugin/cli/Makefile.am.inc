@@ -68,8 +68,6 @@ plugin_cli_songend_songend_LDADD = \
     $(LIBOPENMPT_LIBS) \
     $(LIBXMP_LIBS)
 
-# TODO -fwhole-program kaikille ? (myös libs+audacious plugin?)
-
 plugin_cli_converter_converter_SOURCES += plugin/cli/common/compat.cc
 plugin_cli_player_player_SOURCES += plugin/cli/common/compat.cc
 plugin_cli_precalc_precalc_SOURCES += plugin/cli/common/compat.cc

@@ -189,20 +189,30 @@ constexpr_f bool ends_with(const std::string_view &s, const std::string_view &su
 #endif
 }
 
-constexpr std::string to_hex(const uint16_t value) noexcept {
+constexpr_f2 std::string to_hex(const uint16_t value) noexcept {
     char hex[5] = { 0 };
+#if defined(__cpp_lib_to_chars)
     std::to_chars(std::begin(hex), std::end(hex), value, 16);
     std::string s{hex};
     if (s.length() < 4) return std::string(4 - s.length(), '0') + s;
     else return s;
+#else
+    snprintf(hex, sizeof(hex), "%04x", value);
+    return std::string(hex);
+#endif
 }
 
-constexpr std::string to_hex(const uint32_t value) noexcept {
+constexpr_f2 std::string to_hex(const uint32_t value) noexcept {
     char hex[9] = { 0 };
+#if defined(__cpp_lib_to_chars)
     std::to_chars(std::begin(hex), std::end(hex), value, 16);
     std::string s{hex};
     if (s.length() < 8) return std::string(8 - s.length(), '0') + s;
     else return s;
+#else
+    snprintf(hex, sizeof(hex), "%08x", value);
+    return std::string(hex);
+#endif
 }
 
 } // namespace common
