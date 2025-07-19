@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 
     uint8_t buf[4096];
     vector<char> buffer;
-    const auto bytes = min(songdb::XXH_MAX_BYTES, (size_t)st.st_size);
+    const ssize_t bytes = min(songdb::XXH_MAX_BYTES, (size_t)st.st_size);
     buffer.reserve(bytes);
 
     ssize_t count;
