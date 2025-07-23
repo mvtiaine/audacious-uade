@@ -1,6 +1,7 @@
 0.14-dev
-- Song db updates:
+- Songdb updates:
 --  Switched from MD5 to XXH32 based hash
+--  Metadata coverage improved with audio fingerprint (chromaprint) based matching
 - Misc fixes and updates
 
 0.13.2 - 2025-05-20
