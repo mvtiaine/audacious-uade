@@ -15,7 +15,7 @@ using namespace common;
 
 namespace converter {
 
-extern std::jmp_buf error_handler;
+extern thread_local std::jmp_buf error_handler;
 
 constexpr_f2 void verify(const bool cond) noexcept {
     if (!cond) {

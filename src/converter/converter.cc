@@ -16,7 +16,7 @@ ConverterResult convertMED4(const char *buf, size_t size) noexcept;
 
 namespace converter {
 
-jmp_buf error_handler;
+thread_local jmp_buf error_handler;
 
 bool needs_conversion(const char *buf, const size_t size) noexcept {
     return med::isMED4(buf, size); 
@@ -27,11 +27,6 @@ ConverterResult convert(const char *buf, const size_t size) noexcept {
 
     if (!med::isMED4(buf, size)) {
         res.reason_failed = "unsupported file";
-        return res;
-    }
-
-    if (setjmp(error_handler)) {
-        res.reason_failed = "corrupted file";
         return res;
     }
 

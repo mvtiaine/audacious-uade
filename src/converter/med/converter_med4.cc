@@ -9,6 +9,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <csetjmp>
 
 #include "converter/converter.h"
 #include "converter/io.h"
@@ -18,13 +19,20 @@ using namespace std;
 using namespace converter;
 using namespace converter::med;
 
+namespace converter {
+extern thread_local std::jmp_buf error_handler;
+}
+
 namespace {
 
-void readSong(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, size_t &offs) noexcept {
+bool readSong(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, size_t &offs) noexcept {
     ULONG samplemask[2], *smskptr = samplemask;
     UBYTE smskmsk, *smptr0 = (UBYTE *)samplemask;
     MMD0sample *ss;
     vector<vector<char>> samplenames;
+    if (setjmp(error_handler)) {
+        return false;
+    }
     smskmsk = readu8be(med4, offs);
     for (int scnt = 0; scnt < 8; scnt++) {
         if (!(smskmsk & 0x80)) *(smptr0+scnt) = 0;
@@ -81,13 +89,17 @@ void readSong(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, size_t &o
         exp.i_ext_entrsz = 42; // MMDInstrInfo
         exp.iinfo = samplenames;
     }
+    return true;
 }
 
-void readBlock(const vector<char> &med4, MMD0Block &block, size_t &offs) noexcept {
+bool readBlock(const vector<char> &med4, MMD0Block &block, size_t &offs) noexcept {
     UBYTE hdrsz,hdr[80],trks,lines,mskmsks[8],msks,msk2,msk3 = 0;
     vector<UBYTE> conv;
     UWORD hdrsn = 0,convsz;
     ULONG lmsk[8],cmmsk[8];
+    if (setjmp(error_handler)) {
+        return false;
+    }
     hdrsz = readu8be(med4, offs);
     copyu8bytes(med4, hdr, offs, hdrsz);
     trks = GetNibbles(hdr,&hdrsn,2);
@@ -114,12 +126,15 @@ void readBlock(const vector<char> &med4, MMD0Block &block, size_t &offs) noexcep
         conv = readu8bytes(med4, offs, convsz);
         UnpackData(lmsk,cmmsk,conv.data(),(UBYTE *)block.data.data(),(UWORD)(lines + 1),trks);
     }
-    return;
+    return true;
 }
 
-constexpr_f2 void readSynthInstr(const vector<char> &med4, SynthInstr &instr, size_t &offs) noexcept {
+constexpr_f2 bool readSynthInstr(const vector<char> &med4, SynthInstr &instr, size_t &offs) noexcept {
     int instroffs = offs;
     (void)instroffs;
+    if (setjmp(error_handler)) {
+        return false;
+    }
     readu32be(med4, offs); // synth instr header(?)
     reads16be(med4, offs); // FFFF (?)
     instr.defaultdecay = readu8be(med4, offs);
@@ -158,11 +173,15 @@ constexpr_f2 void readSynthInstr(const vector<char> &med4, SynthInstr &instr, si
         instr.wf[i] = wf;
     }
     instr.length = 22 + instr.voltbl.size() + instr.wftbl.size() + instr.wf.size()* 4;
+    return true;
 }
 
-constexpr_f2 void readSamples(const vector<char> &med4, MMD0song &song, vector<Instr> &smplarr, size_t &offs) noexcept {
+constexpr_f2 bool readSamples(const vector<char> &med4, MMD0song &song, vector<Instr> &smplarr, size_t &offs) noexcept {
     ULONG imsk[2] = { 0,0 },*imptr = imsk;
     UBYTE snum = 0;
+    if (setjmp(error_handler)) {
+        return false;
+    }
     imsk[0] = readu32be(med4, offs);
     if (*imsk & 0x80000000) imsk[1] = readu32be(med4, offs);
     int instrcnt = 0;
@@ -190,24 +209,27 @@ constexpr_f2 void readSamples(const vector<char> &med4, MMD0song &song, vector<I
         snum++;
     }
     song.numsamples = instrcnt;
+    return true;
 }
 
-constexpr_f2 vector<InstrExt> readIFF(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, size_t &offs) noexcept {
+constexpr_f2 bool readIFF(const vector<char> &med4, MMD0song &song, MMD0exp0 &exp, size_t &offs, vector<InstrExt> &exp_smp) noexcept {
     constexpr uint32_t ANNO = 0x414e4e4f;
     constexpr uint32_t CHNS = 0x43484e53;
     constexpr uint32_t HLDC = 0x484c4443;
     constexpr uint32_t MEDV = 0x4d454456;
     constexpr uint32_t SMOF = 0x534d4f46;
     
-    vector<InstrExt> exp_smp {};
-
     if (med4.size() <= offs) {
         song.tempo2 = 6;
-        return exp_smp;
+        return true;
     }
 
     UWORD ext_entries = 0;
     ULONG medv = 0;
+
+    if (setjmp(error_handler)) {
+        return false;
+    }
 
     while (med4.size() > offs) {
         uint32_t ID = readu32be(med4, offs);
@@ -257,7 +279,7 @@ constexpr_f2 vector<InstrExt> readIFF(const vector<char> &med4, MMD0song &song, 
     if (!medv) {
         song.tempo2 = 6;
     }
-    return exp_smp;
+    return true;
 }
 } // namespace {}
 
@@ -288,11 +310,13 @@ ConverterResult convertMED4(const char *buf, const size_t size) noexcept {
     vector<char> med4;
     med4.assign(buf, buf + size);
 
-    readSong(med4, song, exp, med4offs);
+    if (!readSong(med4, song, exp, med4offs)) {
+        res.reason_failed = "corrupted file (readSong failed)";
+        return res;
+    }
 
     if (!(song.flags & FLAG_INSTRSATT)) {
         // TODO maybe try load instruments ?
-        res.success = false;
         res.reason_failed = "no sample data";
         return res;
     }
@@ -300,14 +324,23 @@ ConverterResult convertMED4(const char *buf, const size_t size) noexcept {
     vector<MMD0Block> blockarr(song.numblocks);
     for (int i = 0; i < song.numblocks; i++) {
         MMD0Block block {};
-        readBlock(med4, block, med4offs);
+        if (!readBlock(med4, block, med4offs)) {
+            res.reason_failed = "corrupted file (readBlock failed)";
+            return res;
+        }
         blockarr[i] = block;
     }
     
     vector<Instr> smplarr(MAX_SAMPLES);
-    readSamples(med4, song, smplarr, med4offs);
-
-    const vector<InstrExt> exp_smp = readIFF(med4, song, exp, med4offs);
+    if (!readSamples(med4, song, smplarr, med4offs)) {
+        res.reason_failed = "corrupted file (readSamples failed)";
+        return res;
+    }
+    vector<InstrExt> exp_smp;
+    if (!readIFF(med4, song, exp, med4offs, exp_smp)) {
+        res.reason_failed = "corrupted file (readIFF failed)";
+        return res;
+    }
 
     res.ext = "mmd0";
     if (song.flags & FLAG_8CHANNEL) {
