@@ -127,7 +127,11 @@ void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SubSong
     };
 
     set_int(Tuple::Length, songinfo.songend.length);
-    set_str(Tuple::Comment, "songend="+songinfo.songend.status_string());
+    auto comment = "songend="+songinfo.songend.status_string();
+    if (songinfo.is_duplicate) {
+        comment += " (!)";
+    }
+    set_str(Tuple::Comment, comment);
 
     if (!info.metadata) {
         TRACE("No metadata for %s %s\n", hash.c_str(), path.c_str());

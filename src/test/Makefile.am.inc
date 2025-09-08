@@ -58,6 +58,7 @@ TESTS = \
     test/converter/test_converter.sh \
     test/songdb/test_songdb1.sh \
     test/songdb/test_songdb2.sh \
+    test/songdb/test_songdb3.sh \
     test/player/test_player_uade_1.sh \
     test/player/test_player_uade_2.sh \
     test/player/test_player_uade_3.sh \
