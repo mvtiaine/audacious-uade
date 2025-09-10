@@ -47,6 +47,18 @@ struct Info {
     std::vector<SubSongInfo> subsongs;
     std::optional<ModInfo> modinfo;
     std::optional<MetaData> metadata;
+    constexpr int min_subsong() const noexcept {
+        if (!subsongs.empty()) {
+            return subsongs.front().subsong;
+        }
+        return -1;
+    }
+    constexpr int max_subsong() const noexcept {
+        if (!subsongs.empty()) {
+            return subsongs.back().subsong;
+        }
+        return -1;
+    }
 };
 
 // if sources is empty, all builtin sources are used
@@ -57,8 +69,6 @@ std::optional<Info> lookup(const std::string &hash) noexcept;
 
 void update(const std::string &hash, const SubSongInfo &info, const int minsubsong, const int maxsubsong) noexcept;
 void update(const std::string &hash, const ModInfo &modinfo) noexcept;
-
-std::optional<std::pair<int,int>> subsong_range(const std::string &hash) noexcept;
 
 namespace blacklist {
     bool is_blacklisted_extension(const std::string &path, const std::string &ext, const std::set<std::string> &whitelist) noexcept;

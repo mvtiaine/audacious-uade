@@ -5,6 +5,7 @@
 #include <cctype>
 #include <cstring>
 #include <string>
+#include <vector>
 
 #include <libaudcore/audstrings.h>
 #include <libaudcore/drct.h>
@@ -35,6 +36,7 @@ struct Info {
     int channels;
     int minsubsong;
     int maxsubsong;
+    vector<songdb::SubSongInfo> subsongs;
     optional<songdb::MetaData> metadata;
 };
 
@@ -104,11 +106,29 @@ void update_tuple_song_end(Tuple &tuple, const common::SongEnd &songend, const o
     }
 }
 
-void update_tuple_subsong_range(Tuple &tuple, int minsubsong, int maxsubsong) {
+void update_tuple_subsong_range(Tuple &tuple, const Info &info) {
     // provide mappings to uade subsong numbers
+    const bool skip_broken = aud_get_bool(PLUGIN_NAME, "skip_broken_subsongs");
+    const int min_length = aud_get_int(PLUGIN_NAME, "min_songlength");
     Index<short> subtunes;
-    for (int i = minsubsong; i <= maxsubsong; ++i) {
-        subtunes.append(i);
+    // XXX Audacious API does not support filtering with only one subsong
+    if (info.subsongs.size() > 1) {
+        for (const auto &ss : info.subsongs) {
+            if (skip_broken && (!ss.songend.length || ss.is_duplicate || ss.songend.length >= player::PRECALC_TIMEOUT * 1000))
+                continue;
+            if (min_length && ss.songend.length < min_length * 1000)
+                continue;
+            subtunes.append(ss.subsong);
+        }
+    }
+    // XXX pick first if all would be filtered
+    if (!subtunes.len() && info.subsongs.size() > 1) {
+        subtunes.append(info.subsongs[0].subsong);
+    }
+    if (!subtunes.len()) {
+        for (int i = info.minsubsong; i <= info.maxsubsong; ++i) {
+            subtunes.append(i);
+        }
     }
     tuple.set_subtunes(subtunes.len(), subtunes.begin());
 }
@@ -176,7 +196,7 @@ bool update_tuple(Tuple &tuple, const string &path, int subsong, const Info &inf
     const int subsongs = info.maxsubsong - info.minsubsong + 1;
     // initial probe
     if (subsong == -1) {
-        update_tuple_subsong_range(tuple, info.minsubsong, info.maxsubsong);
+        update_tuple_subsong_range(tuple, info);
     } else {
         if (subsongs > 1) {
             tuple.set_int(Tuple::NumSubtunes, subsongs);
@@ -209,6 +229,18 @@ common::SongEnd precalc_song_end(
     return songend::precalc::precalc_song_end(modinfo.value(), buf.begin(), buf.len(), subsong, hash);
 };
 
+Info make_info(const player::Player player, const songdb::Info &info) {
+    return Info {
+        player,
+        info.modinfo->format,
+        info.modinfo->channels,
+        info.min_subsong(),
+        info.max_subsong(),
+        info.subsongs,
+        info.metadata,
+    };
+}
+
 optional<Info> parse_info(VFSFile &file, const string &path, const string &hash) {
     const auto players = check_player(file, path, true);
     if (players.empty()) {
@@ -217,17 +249,7 @@ optional<Info> parse_info(VFSFile &file, const string &path, const string &hash)
     const auto songdbinfo = songdb::lookup(hash);
 #if PLAYER_all
     if (songdbinfo && songdbinfo->modinfo && !songdbinfo->subsongs.empty() && players.size() == 1) {
-        const auto player = players.front();
-        const auto minsubsong = songdbinfo->subsongs.front().subsong;
-        const auto maxsubsong = songdbinfo->subsongs.back().subsong;
-        return Info {
-            player,
-            songdbinfo->modinfo->format,
-            songdbinfo->modinfo->channels,
-            minsubsong,
-            maxsubsong,
-            songdbinfo->metadata,
-        };
+        return make_info(players.front(), songdbinfo.value());
     }
 #endif
     optional<player::ModuleInfo> modinfo;
@@ -245,6 +267,7 @@ optional<Info> parse_info(VFSFile &file, const string &path, const string &hash)
         modinfo->channels,
         modinfo->minsubsong,
         modinfo->maxsubsong,
+        songdbinfo ? songdbinfo->subsongs : vector<songdb::SubSongInfo>{},
         songdbinfo ? songdbinfo->metadata : optional<songdb::MetaData>{},
     };
 }
@@ -346,8 +369,8 @@ player::libxmp::LibXMPConfig get_libxmp_config(const player::PlayerConfig &confi
 // XXX audacious also does not support subsongs for "prefix" formats by default
 // see https://redmine.audacious-media-player.org/boards/2/topics/1354
 int applySubsongHack(int subsong, const char *uri, const string &hash, const bool slowProbe, const char* tag) {
-    const auto &subsongs = songdb::subsong_range(hash);
-    if (!subsongs) {
+    const auto &info = songdb::lookup(hash);
+    if (!info) {
         if (!slowProbe)
             ERR("SUBSONGS AND METADATA NOT AVAILABLE: Enable \"Probe content of files with no recognized file name extension\" in preferences to fix!\n");
         else
@@ -356,12 +379,12 @@ int applySubsongHack(int subsong, const char *uri, const string &hash, const boo
     }
     if (!slowProbe)
         ERR("SUBSONGS AND METADATA NOT AVAILABLE: Enable \"Probe content of files with no recognized file name extension\" in preferences to fix!\n");
-    else if (subsongs->first == subsongs->second)
-        DEBUG("%s enforced subsong %d (was %d) for %s\n", tag, subsongs->first, subsong, uri);
+    else if (info->min_subsong() == info->max_subsong())
+        DEBUG("%s enforced subsong %d (was %d) for %s\n", tag, info->min_subsong(), subsong, uri);
     else 
-        WARN("%s enforced subsong %d (was %d) for %s\n", tag, subsongs->first, subsong, uri);
+        WARN("%s enforced subsong %d (was %d) for %s\n", tag, info->min_subsong(), subsong, uri);
 
-    return subsongs->first;
+    return info->min_subsong();
 }
 
 } // namespace {}
@@ -452,11 +475,11 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
 #endif
     // try read subsongs directly from songdb
 #if PLAYER_all
-    const auto subsongs = subsong < 0 ? songdb::subsong_range(hash) : optional<pair<int, int>>();
-    if (subsongs) {
+    const auto songdbinfo = subsong < 0 ? songdb::lookup(hash) : optional<songdb::Info>{};
+    if (songdbinfo) {
         TRACE("uade_plugin_read_tag read subsong range from songdb for hash %s uri %s\n", hash.c_str(), uri);
-        const auto &minmax = subsongs.value();
-        update_tuple_subsong_range(tuple, minmax.first, minmax.second);
+        const auto info = make_info(player::Player::NONE, songdbinfo.value());
+        update_tuple_subsong_range(tuple, info);
         return true;
     }
 #endif
@@ -477,11 +500,11 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
     }
     TRACE("uade_plugin_read_tag path %s format %s minsubsong %d maxsubsong %d channels %d\n", path.c_str(), info->format.c_str(), info->minsubsong, info->maxsubsong, info->channels);
     if (subsong < 0) {
-        update_tuple_subsong_range(tuple, info->minsubsong, info->maxsubsong);
+        update_tuple_subsong_range(tuple, info.value());
     } else {
         bool has_db_entry = update_tuple(tuple, path, subsong, info.value(), hash);
         const bool do_precalc = !has_db_entry && !for_playback &&
-            tuple.get_int(Tuple::Length) <= 0 && aud_get_bool(PLUGIN_NAME, PRECALC_SONGLENGTHS);
+            tuple.get_int(Tuple::Length) <= 0 && aud_get_bool(PLUGIN_NAME, "precalc_songlengths");
         if (do_precalc) {
             const auto &songend = precalc_song_end(info->player, file, path, hash, subsong);
             update_tuple_song_end(tuple, songend, info->format);

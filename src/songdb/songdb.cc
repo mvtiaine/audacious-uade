@@ -722,18 +722,4 @@ void update(const string &hash, const ModInfo &info) noexcept {
     extra_modinfos.insert({_hash, info});
 }
 
-optional<pair<int,int>> subsong_range(const string &hash) noexcept {
-    const auto hash_idx = _hashhex(hash);
-    if (hash_idx != HASH_NOT_FOUND) {
-        const auto &info = db_songinfos[hash_idx];
-        if (info.has_subsongs()) {
-            assert(db_subsongs.count(hash_idx));
-            return pair<int,int>(info.min_subsong(), info.min_subsong() + db_subsongs[hash_idx].size());
-        } else {
-            return pair<int,int>(info.min_subsong(), info.min_subsong());
-        }
-    }
-    return {};
-}
-
 } // namespace songdb
