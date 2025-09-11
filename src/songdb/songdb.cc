@@ -259,7 +259,8 @@ constexpr_f2 optional<MetaData> make_meta(const hash_idx_t hash, const _MetaData
 constexpr_f1 SubSongInfo make_subsonginfo(const uint8_t subsong, const _SubSongInfo &info) noexcept {
     return {
         subsong,
-        {info.songend(), info.songlength_ms()}
+        {info.songend(), info.songlength_ms()},
+        info.is_duplicate()
     };
 }
 
@@ -296,13 +297,18 @@ void parse_songlengths(const string &tsv) noexcept {
         const auto cols = common::split_view_x<2>(line, '\t');
         const auto subsongs = common::split_view(cols[0], ' ');
         vector<_SubSongInfo> subsong_infos;
-        _SubSongInfo subsong_info(0,common::SongEnd::Status::ERROR);
+        _SubSongInfo subsong_info(0,common::SongEnd::Status::ERROR,false);
         for (const auto &col : subsongs) {
-            if (!col.empty()) {
+            if (col.empty()) {
+                subsong_info = _SubSongInfo(subsong_info, false);
+            } else if (col == "!") {
+                subsong_info = _SubSongInfo(subsong_info, true);
+            } else {
                 const auto e = common::split_view<2>(col, ',');
                 const songlength_t songlength = e[0].empty() ? static_cast<songlength_t>(0) : b64d24(e[0]);
-                const songend_t songend = e[1].empty() ? common::SongEnd::PLAYER : parse_songend(e[1]);
-                subsong_info = _SubSongInfo(songlength, songend);
+                const songend_t songend = e[1].empty() || e[1] == "!" ? common::SongEnd::PLAYER : parse_songend(e[1]);
+                const bool is_duplicate = (e.size() == 2 && e[1] == "!") || (e.size() > 2 && e[2] == "!");
+                subsong_info = _SubSongInfo(songlength, songend, is_duplicate);
             }
             subsong_infos.push_back(subsong_info);
         }
@@ -714,20 +720,6 @@ void update(const string &hash, const ModInfo &info) noexcept {
         return;
     }
     extra_modinfos.insert({_hash, info});
-}
-
-optional<pair<int,int>> subsong_range(const string &hash) noexcept {
-    const auto hash_idx = _hashhex(hash);
-    if (hash_idx != HASH_NOT_FOUND) {
-        const auto &info = db_songinfos[hash_idx];
-        if (info.has_subsongs()) {
-            assert(db_subsongs.count(hash_idx));
-            return pair<int,int>(info.min_subsong(), info.min_subsong() + db_subsongs[hash_idx].size());
-        } else {
-            return pair<int,int>(info.min_subsong(), info.min_subsong());
-        }
-    }
-    return {};
 }
 
 } // namespace songdb

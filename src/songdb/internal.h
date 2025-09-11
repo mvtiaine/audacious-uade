@@ -154,14 +154,21 @@ struct _ModInfo {
 
 struct _SubSongInfo {
     unsigned int _songlength : 18 __attribute__((packed)); // (20ms accuracy)
-    int _songend : 6 __attribute__((packed));
+    int _songend : 5 __attribute__((packed));
+    unsigned int _is_duplicate : 1 __attribute__((packed));
 
     constexpr_f1 _SubSongInfo() noexcept {
     }
-    constexpr_f1 _SubSongInfo(const songlength_t songlength, const songend_t songend) noexcept {
+    constexpr_f1 _SubSongInfo(const _SubSongInfo &other, const bool is_duplicate) noexcept {
+        _songlength = other._songlength;
+        _songend = other._songend;
+        _is_duplicate = is_duplicate;
+    }
+    constexpr_f1 _SubSongInfo(const songlength_t songlength, const songend_t songend, const bool is_duplicate) noexcept {
         assert(songlength <= (1 << 18)); // 20ms accuracy
         _songlength = songlength;
         _songend = songend;
+        _is_duplicate = is_duplicate;
     }
     constexpr_f1 songlength_t songlength() const noexcept {
         return _songlength;
@@ -171,6 +178,9 @@ struct _SubSongInfo {
     }
     constexpr_f songend_t songend() const noexcept {
        return static_cast<common::SongEnd::Status>(_songend);
+    }
+    constexpr_f bool is_duplicate() const noexcept {
+        return _is_duplicate;
     }
 } __attribute__((packed));
 

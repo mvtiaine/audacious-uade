@@ -36,6 +36,8 @@ constexpr const char *PLUGINID = "audacious-uade";
 constexpr const char settings_dlg[] =
 "property \"Sample rate (Hz)\" entry uade.frequency 48000;\n" // 8000..96000
 "property \"Precalc missing song lengths\" checkbox uade.precalc_songlengths 1;\n"
+"property \"Skip broken and duplicate subsongs\" checkbox uade.skip_broken_subsongs 1;\n"
+"property \"Minimum song length (seconds)\" entry uade.min_songlength 0;\n"
 "property \"it2play driver\" select[4] uade.it2play_driver 0 \"HQ\" \"SB16MMX\" \"SB16\" \"WAVWRITER\";\n" 
 "property \"Filter\" select[3] uade.filter 1 \"A500\" \"A1200\" \"None\";\n" // Auto not implemented
 "property \"Resampler\" select[3] uade.resampler 1 \"Default\" \"Sinc\" \"None\";\n"
@@ -396,9 +398,21 @@ DB_playItem_t *uade_insert(ddb_playlist_t *plt, DB_playItem_t *after, const char
 
     const int minsubsong = modinfo->minsubsong;
     const int maxsubsong = modinfo->maxsubsong;
-
     const auto metadata = songdb::lookup(hash);
+    int i = 0;
+    const bool skip_broken = deadbeef->conf_get_int("uade.skip_broken_subsongs", 1);
+    const int min_length = deadbeef->conf_get_int("uade.min_songlength", 0);
     for (int s = minsubsong; s <= maxsubsong; s++) {
+        const optional<songdb::SubSongInfo> ss = metadata ? metadata->subsongs[i++] : optional<songdb::SubSongInfo>();
+        assert(!ss || ss->subsong == s);
+        if (ss && skip_broken && (!ss->songend.length || ss->is_duplicate || ss->songend.length >= player::PRECALC_TIMEOUT * 1000)) {
+            DEBUG("uade_insert skipping broken/duplicate subsong %s #%d\n", fname, s);
+            continue;
+        }
+        if (ss && min_length && ss->songend.length < min_length * 1000) {
+            DEBUG("uade_insert skipping short subsong %s #%d length %d\n", fname, s, ss->songend.length);
+            continue;
+        }
         DB_playItem_t *it = deadbeef->pl_item_alloc_init(fname, PLUGINID);
         deadbeef->pl_set_meta_int(it, ":TRACKNUM", s);
         int numtracks = maxsubsong - minsubsong + 1;
@@ -430,7 +444,11 @@ DB_playItem_t *uade_insert(ddb_playlist_t *plt, DB_playItem_t *after, const char
             songend = songend::precalc::precalc_song_end(modinfo.value(), buf.data(), size, s, hash);
         }
         if (songend.status != common::SongEnd::NONE) {
-            deadbeef->pl_add_meta(it, "songend", songend.status_string().c_str());
+            auto songend_str = songend.status_string();
+            if (ss && ss->is_duplicate) {
+                songend_str += " (!)";
+            }
+            deadbeef->pl_add_meta(it, "songend", songend_str.c_str());
             deadbeef->plt_set_item_duration(plt, it, songend.length / 1000.0f);
         }
         after = deadbeef->plt_insert_item(plt, after, it);
