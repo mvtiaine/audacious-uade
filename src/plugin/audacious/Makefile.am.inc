@@ -8,7 +8,7 @@ plugin_audacious_uade_la_SOURCES = \
     plugin/audacious/logger.cc \
     plugin/audacious/plugin.cc
 
-plugin/audacious/% : CXXFLAGS += -Wno-format-nonliteral -Wno-missing-field-initializers
+plugin/audacious/% : CXXFLAGS += -Wno-format-nonliteral -Wno-missing-field-initializers -Wno-deprecated-declarations
 
 plugin_audacious_uade_la_LIBADD = \
     songend/libsongend.la \
