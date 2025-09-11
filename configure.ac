@@ -1051,7 +1051,7 @@ if test "$plugin_audacious" = "yes" || test "$plugin_deadbeef" = "yes" ; then
   _UADE_CFLAGS="${pic_flag} ${_UADE_CFLAGS}"
 fi
 AX_SUBDIRS_CONFIGURE([uade], [
-  [--only-uadecore],[--without-avx2],[--without-wasm],
+  [--only-uadecore],[--without-avx2],[--without-vasm],
   [--prefix=\${prefix}/share/audacious-uade],
   [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
   [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
