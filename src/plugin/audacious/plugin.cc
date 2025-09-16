@@ -116,7 +116,7 @@ void update_tuple_subsong_range(Tuple &tuple, const Info &info) {
         for (const auto &ss : info.subsongs) {
             if (skip_broken && (!ss.songend.length || ss.is_duplicate || ss.songend.length >= player::PRECALC_TIMEOUT * 1000))
                 continue;
-            if (min_length && ss.songend.length < min_length * 1000)
+            if (min_length && (int)ss.songend.length < min_length * 1000)
                 continue;
             subtunes.append(ss.subsong);
         }
