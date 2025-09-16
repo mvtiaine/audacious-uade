@@ -25,7 +25,7 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_hivelytracker.la
     3rdparty/replay/hivelytracker/replay.h \
     3rdparty/replay/hivelytracker/replay.c
 
-3rdparty/replay/hivelytracker/% : CFLAGS += -Wno-sign-compare -Wno-overflow -Wno-implicit-fallthrough -Wno-stringop-truncation -Wno-unknown-warning-option
+3rdparty/replay/hivelytracker/% : CFLAGS += -Wno-sign-compare -Wno-overflow -Wno-implicit-fallthrough -Wno-stringop-truncation -Wno-unknown-warning -Wno-unknown-warning-option
 endif
 
 if PLAYER_libdigibooster3
@@ -63,7 +63,7 @@ if PLAYER_PROBE
 3rdparty_replay_libreplay_ft2play_la_SOURCES += 3rdparty/replay/ft2play/ft2play_probe.cc
 endif
 
-3rdparty/replay/ft2play/% : CXXFLAGS += -Wno-volatile -Wno-unknown-warning-option
+3rdparty/replay/ft2play/% : CXXFLAGS += -Wno-volatile -Wno-unknown-warning -Wno-unknown-warning-option
 endif
 
 if PLAYER_st3play
@@ -135,7 +135,7 @@ if PLAYER_PROBE
 3rdparty_replay_libreplay_protrekkr1_la_SOURCES += 3rdparty/replay/protrekkr1/protrekkr1_probe.cc
 endif
 
-3rdparty/replay/protrekkr1/% : CXXFLAGS += -fno-strict-aliasing -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-type-limits -Wno-volatile -Wno-unknown-warning-option
+3rdparty/replay/protrekkr1/% : CXXFLAGS += -fno-strict-aliasing -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-type-limits -Wno-volatile  -Wno-unknown-warning -Wno-unknown-warning-option
 endif
 
 if PLAYER_protrekkr2
@@ -150,7 +150,7 @@ if PLAYER_PROBE
 3rdparty_replay_libreplay_protrekkr2_la_SOURCES += 3rdparty/replay/protrekkr2/protrekkr2_probe.cc
 endif
 
-3rdparty/replay/protrekkr2/% : CXXFLAGS += -fno-strict-aliasing -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-volatile -Wno-unknown-warning-option
+3rdparty/replay/protrekkr2/% : CXXFLAGS += -fno-strict-aliasing -Wno-char-subscripts -Wno-unused -Wno-sign-compare -Wno-multichar -Wno-implicit-fallthrough -Wno-volatile  -Wno-unknown-warning -Wno-unknown-warning-option
 endif
 
 EXTRA_DIST += \

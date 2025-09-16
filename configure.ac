@@ -1039,7 +1039,8 @@ fi
 
 if test "$players" = "all" || test "$players" = "any" || printf ",${players}," | grep -Eq ",uade,"; then
 _UADE_CPPFLAGS="${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE"
-_UADE_CFLAGS="${CFLAGS} -Wno-unknown-warning-option -Wno-unused -Wno-deprecated-declarations -Wno-tautological-compare -Wno-pedantic -Wno-implicit-function-declaration"
+_UADE_CFLAGS="${CFLAGS} -Wno-unknown-warning -Wno-unknown-warning-option"
+_UADE_CFLAGS="${_UADE_CFLAGS} -Wno-unused -Wno-deprecated-declarations -Wno-tautological-compare -Wno-pedantic -Wno-implicit-function-declaration"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-zero-length-array -Wno-variadic-macros -Wno-gnu-zero-variadic-macro-arguments"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-format -Wno-format-nonliteral -Wno-format-security -Wno-deprecated-octal-literals"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-sign-compare -Wno-shift-negative-value"
