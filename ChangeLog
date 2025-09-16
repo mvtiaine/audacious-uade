@@ -3,9 +3,10 @@
 --  Switched from MD5 to XXH32 based hash
 --  Metadata coverage improved with audio fingerprint (chromaprint) based matching (different rips, corrupted files etc.)
 --  Implemented duplicate subsong detection (using audio fingerprints)
+--  Update source data snapshots to 2025-09-12 or thereabouts
 - Audacious & DeadDBeeF updates:
---  Added option to filter out broken/duplicate subsongs (default)
---  Added option to filter out subsongs by minimum songlength
+--  Added option to filter out broken and duplicate subsongs (default)
+--  Added option to filter out subsongs by minimum song length
 - Misc fixes and updates
 
 0.13.2 - 2025-05-20
