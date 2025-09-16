@@ -409,7 +409,7 @@ DB_playItem_t *uade_insert(ddb_playlist_t *plt, DB_playItem_t *after, const char
             DEBUG("uade_insert skipping broken/duplicate subsong %s #%d\n", fname, s);
             continue;
         }
-        if (ss && min_length && ss->songend.length < min_length * 1000) {
+        if (ss && min_length && (int)ss->songend.length < min_length * 1000) {
             DEBUG("uade_insert skipping short subsong %s #%d length %d\n", fname, s, ss->songend.length);
             continue;
         }
