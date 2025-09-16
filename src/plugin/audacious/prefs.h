@@ -24,7 +24,7 @@ const PreferencesWidget plugin_widgets[] = {
         WidgetBool(PLUGIN_NAME, "precalc_songlengths")),
     WidgetLabel("<b>Filter subsongs</b>"),
     WidgetLabel("<i>Subsong filters only work for known files</i>", WIDGET_CHILD),
-    WidgetLabel("<i>with more than one subsong</i>", WIDGET_CHILD),
+    WidgetLabel("<i>in songdb with more than one subsong</i>", WIDGET_CHILD),
     WidgetCheck("Skip broken and duplicate subsongs",
         WidgetBool(PLUGIN_NAME, "skip_broken_subsongs"), WIDGET_CHILD),
     WidgetSpin("Minimum length", WidgetInt(PLUGIN_NAME, "min_songlength"), {0, 3600, 5, "seconds"}, WIDGET_CHILD),
