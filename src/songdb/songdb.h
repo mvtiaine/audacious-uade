@@ -47,13 +47,13 @@ struct Info {
     std::vector<SubSongInfo> subsongs;
     std::optional<ModInfo> modinfo;
     std::optional<MetaData> metadata;
-    constexpr_f int min_subsong() const noexcept {
+    constexpr_f1 int min_subsong() const noexcept {
         if (!subsongs.empty()) {
             return subsongs.front().subsong;
         }
         return -1;
     }
-    constexpr_f int max_subsong() const noexcept {
+    constexpr_f1 int max_subsong() const noexcept {
         if (!subsongs.empty()) {
             return subsongs.back().subsong;
         }
