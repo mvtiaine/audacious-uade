@@ -1,4 +1,4 @@
-0.14-dev
+0.14.0 - 2025-09-19
 - Songdb updates:
 --  Switched from MD5 to XXH32 based hash
 --  Metadata coverage improved with audio fingerprint (chromaprint) based matching (different rips, corrupted files etc.)
