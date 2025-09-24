@@ -16,7 +16,8 @@ EXTRA_DIST = \
 	scripts/debian \
 	scripts/make_deb.sh \
 	scripts/make_rpm.sh \
-	testdata
+	testdata \
+	screenshots
 
 AM_DISTCHECK_DVI_TARGET =
 DISTCHECK_CONFIGURE_FLAGS = \
