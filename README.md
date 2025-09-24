@@ -2,8 +2,19 @@
 
 This is Audacious (https://audacious-media-player.org/) and DeaDBeeF (https://deadbeef.sourceforge.io/) input plugin for UADE (https://zakalwe.fi/uade/) and other retro music replays.
 
-No binaries are currently provided, but support for common Linux, *BSD , macOS and Haiku package managers is available (see below).
+No binaries are currently provided, but support for common Linux, *BSD , macOS and Haiku package managers is available (see [Installation via Package Managers](#installation-via-package-managers)).
 For installing on Windows, see https://github.com/mvtiaine/audacious-uade/issues/45#issuecomment-2727591702
+
+Project is hosted at https://github.com/mvtiaine/audacious-uade  
+Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
+
+## Screenshots
+
+<p align="center">
+  <a href="screenshots/screenshot1.png"><img src="screenshots/screenshot1.png" width="250" alt="Screenshot 1"></a>
+  <a href="screenshots/screenshot2.png"><img src="screenshots/screenshot2.png" width="250" alt="Screenshot 2"></a>
+  <a href="screenshots/screenshot3.png"><img src="screenshots/screenshot3.png" width="250" alt="Screenshot 3"></a>
+</p>
 
 ## Important Notes
 
@@ -12,7 +23,7 @@ For installing on Windows, see https://github.com/mvtiaine/audacious-uade/issues
 
 ## Main Features
 
-- Precalculated database for song lengths and author/album/publisher/year meta data (see below)
+- Precalculated database for song lengths and author/album/publisher/year meta data (see [Songdb sources](#songdb-sources))
 - Player independent songend detection (similar to "deep songend scan" option in DeliPlayer for Windows)
 - Preferences UI for configuring UADE playback options etc.
 - Custom fork of UADE (https://gitlab.com/mvtiaine/uade) including support for additional formats and platforms not (yet) supported in official UADE releases:
@@ -32,13 +43,6 @@ For installing on Windows, see https://github.com/mvtiaine/audacious-uade/issues
 - NoiseTrekker 2 support based on sources from the final release
 - libopenmpt support (optional) (https://lib.openmpt.org/libopenmpt/)
 - libxmp support (optional) (https://xmp.sourceforge.net/)
-
-Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExoticA (https://www.exotica.org.uk/wiki/UnExoticA), ExoticA (old) (http://old.exotica.org.uk/), Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
-
-In addition Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
-
-Project is hosted at https://github.com/mvtiaine/audacious-uade  
-Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 
 ## Other Notes
 
@@ -75,6 +79,12 @@ Songdb (`conf/songdb`) is licensed under CC BY-NC-SA 4.0.
 
 See NOTICE for 3rd party source code licenses (sources under `src/3rdparty/`).  
 See `uade/COPYING` for UADE license information (sources under `uade/`).
+
+## Songdb sources
+
+Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExoticA (https://www.exotica.org.uk/wiki/UnExoticA), ExoticA (old) (http://old.exotica.org.uk/), Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data (if available).
+
+In addition Zakalwe (git://zakalwe.fi/chip) and Aminet (https://aminet.net/) are used as sources for precalculated song lengths.
 
 ## Dependencies (optional/auto detected)
 
