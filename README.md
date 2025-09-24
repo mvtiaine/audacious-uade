@@ -2,7 +2,7 @@
 
 This is Audacious (https://audacious-media-player.org/) and DeaDBeeF (https://deadbeef.sourceforge.io/) input plugin for UADE (https://zakalwe.fi/uade/) and other retro music replays.
 
-No binaries are currently provided, but support for common Linux, *BSD , macOS and Haiku package managers is available (see [Installation via Package Managers](#installation-via-package-managers)).
+No binaries are currently provided, but support for common Linux, *BSD, macOS and Haiku package managers is available (see [Installation via Package Managers](#installation-via-package-managers)).
 For installing on Windows, see https://github.com/mvtiaine/audacious-uade/issues/45#issuecomment-2727591702
 
 Project is hosted at https://github.com/mvtiaine/audacious-uade  
