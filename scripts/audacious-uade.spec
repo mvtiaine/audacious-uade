@@ -68,7 +68,7 @@ make -j check
 
 %files
 %license COPYING COPYING.LGPL NOTICE
-%doc AUTHORS ChangeLog README VERSION
+%doc AUTHORS ChangeLog README.md VERSION
 %{_libdir}/audacious/Input/uade.so
 %if %{with deadbeef}
 %{_libdir}/deadbeef/aaa_uade.so
