@@ -16,7 +16,7 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
   <a href="screenshots/screenshot3.png"><img src="screenshots/screenshot3.png" width="250" alt="Screenshot 3"></a>
 </p>
 
-## Important Notes
+## IMPORTANT!
 
 - Make sure "Probe content of files with no recognized file name extension" setting is **enabled** and "Guess missing metadata from filepath" setting is **disabled** in Audacious prefs in order for subsongs and meta data to work properly. The playlist must also have been created **after** the settings are applied.
 - Also after updating to a new version, it's a good idea to regenerate old playlists to avoid potential issues.
