@@ -57,7 +57,7 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 - Audacious metadata available: Artist, Album, Publisher, Year, Track, Length, Comment
 - DeaDBeeF metadata available: Track Number, Artist, Album, Year, Duration, Codec, %publisher%, %channels%, %player%, %songend%
 
-## Future Plans (in no particular order)
+## Sone Future Plans (in no particular order)
 
 - Automatic A500/A1200/None filter selection depending on format/year/platform (OCS/AGA/DOS) etc. meta data
 - Plugin support for GStreamer, Hollywood, ...
@@ -68,9 +68,8 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 - Improve songdb with more coverage and metadata sources
 - Project might need a new name...
 
-## License
+## License (source code and data files)
 
-**Source code and data files**  
 The project as a whole is licensed under GPL-2.0-or-later. See COPYING for license text.
 
 Some parts are also licensed under LGPL-2.1-or-later, specifically sources under `src/common/`, `src/converter/`, `src/player/` and `src/songdb/`. See COPYING.LGPL for license text.
