@@ -1,5 +1,7 @@
 0.14-dev
 - README updated to markdown
+- Songdb updates:
+--  Added ModArchive (upto 2023 additions) to sources. No metadata, except from audio fingerprint matching
 
 0.14.0 - 2025-09-19
 - Songdb updates:
