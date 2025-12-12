@@ -77,22 +77,24 @@ vector<player::Player> check_player(VFSFile &file, const string &path, bool chec
     return player::check(path.c_str(), buf.begin(), buf.len(), file.fsize(), check_all);
 }
 
-int parse_uri(const char *uri, string &path, string &ext) {
-    int subsong;
+bool parse_uri(const char *uri, string &path, string &ext, int &subsong) {
     const char *sub, *tmpExt;
-
+    const char *tmpPath = uri_to_filename(uri);
+    if (!tmpPath) {
+        return false;
+    }
     uri_parse(uri, nullptr, &tmpExt, &sub, &subsong);
 #ifdef __MINGW32__
-    string p = string(uri_to_filename(uri));
+    string p = string(tmpPath);
     replace(p.begin(), p.end(), '\\', '/');
-    const char *tmpPath = p.c_str();
+    path = string(p.c_str(), strlen(tmpPath) - strlen(sub));
 #else
-    const char *tmpPath = uri_to_filename(uri);
-#endif
     path = string(tmpPath, strlen(tmpPath) - strlen(sub));
+#endif
     ext = string(tmpExt, strlen(tmpExt) - strlen(sub));
+    subsong = strlen(sub) > 0 ? subsong : -1;
 
-    return strlen(sub) > 0 ? subsong : -1;
+    return true;
 }
 
 void update_tuple_song_end(Tuple &tuple, const common::SongEnd &songend, const optional<string> &format) {
@@ -443,7 +445,12 @@ void UADEPlugin::cleanup() {
 bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
     TRACE("uade_plugin_is_our_file %s\n", uri);
     string path, ext;
-    parse_uri(uri, path, ext);
+    int subsong;
+
+    if (!parse_uri(uri, path, ext, subsong)) {
+        TRACE("uade_plugin_is_our_file ignoring non-local URI: %s\n", uri);
+        return false;
+    }
 
     if (songdb::blacklist::is_blacklisted_extension(path, ext, extensions)) {
         TRACE("uade_plugin_is_our_file blacklisted %s\n", uri);
@@ -462,7 +469,11 @@ bool UADEPlugin::is_our_file(const char *uri, VFSFile &file) {
 bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<char> *image) {
     TRACE("uade_plugin_read_tag %s\n", uri);
     string path, ext;
-    int subsong = parse_uri(uri, path, ext);
+    int subsong;
+    if (!parse_uri(uri, path, ext, subsong)) {
+        TRACE("uade_plugin_read_tag ignoring non-local URI: %s\n", uri);
+        return false;
+    }
 
     const string hash = xxh32hash(file);
 
@@ -530,7 +541,12 @@ bool UADEPlugin::play(const char *uri, VFSFile &file) {
     }
 
     string path, ext;
-    int subsong = parse_uri(uri, path, ext);
+    int subsong;
+
+    if (!parse_uri(uri, path, ext, subsong)) {
+        TRACE("uade_plugin_play ignoring non-local URI: %s\n", uri);
+        return false;
+    }
 
     bool needfix = subsong < 0 || (subsong >= 0 && string(uri).find_last_of("?") == string::npos);
     if (needfix) {
