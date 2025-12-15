@@ -1,7 +1,12 @@
 0.14-dev
 - README updated to markdown
 - Songdb updates:
---  Added ModArchive (upto 2023 additions) to sources. No metadata, except from audio fingerprint matching
+--  Added ModArchive (upto 2023 additions), TOSEC Music, SOAMC=, MBnet Apaja, NostalgicPlayer, AmigaMega to sources. No metadata, except from audio fingerprint matching
+--  Added Fujiology to sources
+--  Added TOSEC, WHDLoad-Database and Wikipedia as supplementary metadata sources
+--  Metadata extraction/heuristics tweaks and fixes
+- Audacious:
+--  Fix crash parsing non-local URIs (only local files supported)
 
 0.14.0 - 2025-09-19
 - Songdb updates:

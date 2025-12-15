@@ -23,7 +23,7 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 
 ## Main Features
 
-- Precalculated database for song lengths and author/album/publisher/year meta data (see [Songdb sources](#songdb-sources))
+- Precalculated database for song lengths and author/album/publisher/year meta data
 - Player independent songend detection (similar to "deep songend scan" option in DeliPlayer for Windows)
 - Preferences UI for configuring UADE playback options etc.
 - Custom fork of UADE (https://gitlab.com/mvtiaine/uade) including support for additional formats and platforms not (yet) supported in official UADE releases:
@@ -57,7 +57,7 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 - Audacious metadata available: Artist, Album, Publisher, Year, Track, Length, Comment
 - DeaDBeeF metadata available: Track Number, Artist, Album, Year, Duration, Codec, %publisher%, %channels%, %player%, %songend%
 
-## Sone Future Plans (in no particular order)
+## Some Future Plans (in no particular order)
 
 - Automatic A500/A1200/None filter selection depending on format/year/platform (OCS/AGA/DOS) etc. meta data
 - Plugin support for GStreamer, Hollywood, ...
@@ -75,15 +75,10 @@ The project as a whole is licensed under GPL-2.0-or-later. See COPYING for licen
 Some parts are also licensed under LGPL-2.1-or-later, specifically sources under `src/common/`, `src/converter/`, `src/player/` and `src/songdb/`. See COPYING.LGPL for license text.
 
 Songdb (`conf/songdb`) is licensed under CC BY-NC-SA 4.0.
+[Songdb sources](https://github.com/mvtiaine/audacious-uade-tools?tab=readme-ov-file#sources).
 
 See NOTICE for 3rd party source code licenses (sources under `src/3rdparty/`).  
 See `uade/COPYING` for UADE license information (sources under `uade/`).
-
-## Songdb sources
-
-Modland (http://ftp.modland.com/), AMP (https://amp.dascene.net/), UnExoticA (https://www.exotica.org.uk/wiki/UnExoticA), ExoticA (old) (http://old.exotica.org.uk/), Mods Anthology (https://archive.org/details/cdrom-amiga-mods-anthology-1), Wanted Team (http://wt.exotica.org.uk/) and Demozoo (https://demozoo.org/) are used as sources for precalculated song lengths and author/album/publisher/year meta data.
-
-In addition Zakalwe (git://zakalwe.fi/chip), Aminet (https://aminet.net/) and ModArchive (https://modarchive.org/) are used as sources for precalculated song lengths.
 
 ## Dependencies (optional/auto detected)
 
