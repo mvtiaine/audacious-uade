@@ -7,7 +7,11 @@ export PROBE=1
 export PLAY=$(dirname "$0")/../player/player
 export PRECALC=$(dirname "$0")/precalc
 export INCLUDEPATH=$1
-export TAC=$(which tac || echo tail -r)
+export TAC=$(which tac 2>/dev/null || echo tail -r)
+# avoid "illegal byte sequence" issues
+export LANG=C
+export LC_ALL=C
+export LC_CTYPE=C
 
 run_uade() {
   local HOME="/tmp/songdb/$1"
@@ -20,6 +24,7 @@ run_uade() {
     echo "Failed to process $2 - exit code $RES " | tee -a "$WORK/stderr"
   elif [ "$RES" -eq "0" ]; then
     local MD5=$(md5sum -b "$2" | head -c 32)
+    local PLAYER="$(${PRECALC} "$2" player 2> /dev/null)"
     local SUBSONGS="$(${PRECALC} "$2" subsongs 2> /dev/null)"
 
     local AUDIO_CHROMAPRINT
@@ -31,7 +36,7 @@ run_uade() {
     for SUBSONG in $SUBSONGS; do
       local SONGLENGTH_MILLIS=$($TAC "$WORK/songdb.tsv" | grep -a -m 1 "$MD5	$SUBSONG	" | cut -f 3)
       if [ $SONGLENGTH_MILLIS -le 0 ]; then
-        echo -e $MD5'\t'$SUBSONG'\t'0 >> "$WORK/audio.tsv"
+        echo -e $MD5'\t'$PLAYER'\t'$SUBSONG'\t'0 >> "$WORK/audio.tsv"
         continue
       fi
       {
@@ -50,7 +55,7 @@ run_uade() {
         read AUDIO_MD5
         read AUDIO_BYTES
         read AUDIO_CHROMAPRINT
-        echo -e $MD5'\t'$SUBSONG'\t'$AUDIO_BYTES'\t'$AUDIO_MD5'\t'$AUDIO_CHROMAPRINT >> "$WORK/audio.tsv"
+        echo -e $MD5'\t'$PLAYER'\t'$SUBSONG'\t'$AUDIO_BYTES'\t'$AUDIO_MD5'\t'$AUDIO_CHROMAPRINT >> "$WORK/audio.tsv"
       }
     done
   fi
