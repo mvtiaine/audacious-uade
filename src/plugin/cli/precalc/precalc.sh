@@ -40,17 +40,22 @@ run_uade() {
         continue
       fi
       {
+        local FREQUENCY=11025
+        # TODO precalc query for actual frequency
+        if [ "$PLAYER" = "noisetrekker2" ] || [ "$PLAYER" = "protrekkr1" ] || [ "$PLAYER" = "protrekkr2" ]; then
+          FREQUENCY=44100
+        fi
         local SONGLENGTH=$(( SONGLENGTH_MILLIS / 1000 + 1))
-        local MAX_BYTES=$((4 * 11025 * 1200))
-        local BYTES=$(( SONGLENGTH > 1200 ? MAX_BYTES : 4 * 11025 * SONGLENGTH ))
+        local MAX_BYTES=$((4 * $FREQUENCY * 1200))
+        local BYTES=$(( SONGLENGTH > 1200 ? MAX_BYTES : 4 * $FREQUENCY * SONGLENGTH ))
         # XXX chromaprint -channels parameter does not work on gentoo (ffmpeg issue?), use sox to force mono
-        ${PLAY} 11025 "$2" $SUBSONG 2> /dev/null \
+        ${PLAY} $FREQUENCY "$2" $SUBSONG 2> /dev/null \
         | head -c $BYTES \
-        | sox -t raw -b 16 -e signed -c 2 -r 11025 - -t raw -b 16 -e signed -c 1 -r 11025 -D - remix 1-2 \
+        | sox -t raw -b 16 -e signed -c 2 -r $FREQUENCY - -t raw -b 16 -e signed -c 1 -r $FREQUENCY -D - remix 1-2 \
         | tee \
           >(wc -c | xargs >&2) \
           >(echo $(md5sum | head -c 32) >&2) \
-          | fpcalc -length 9999 -rate 11025 -channels 1 -format s16le -plain - 2>/dev/null
+          | fpcalc -length 9999 -rate $FREQUENCY -channels 1 -format s16le -plain - 2>/dev/null
       } 2>&1 | {
         read AUDIO_MD5
         read AUDIO_BYTES
