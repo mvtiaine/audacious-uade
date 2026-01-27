@@ -228,3 +228,7 @@ sudo dnf install build-rpm/rpmbuild/RPMS/*/*.rpm
 # or: sudo zypper install build-rpm/rpmbuild/RPMS/*/*.rpm
 ```
 
+## Contact
+
+My email address is [firstname].[lastname][at]aalto.fi
+The old address mvtiaine@cc.hut.fi no longer works.
