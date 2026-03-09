@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <vector>
 
+#include "3rdparty/miniz/miniz.h"
 #include "3rdparty/xxhash/xxhash.h"
 #include "common/md5.h"
 #include "common/strings.h"
@@ -28,32 +29,36 @@ using namespace std;
 
 namespace {
 
-void print(const common::SongEnd &songend, const player::ModuleInfo &info, int subsong, vector<char> &buf, bool includepath, const string &md5hex, const XXH32_hash_t xxh32) {
+void print(const common::SongEnd &songend, const player::ModuleInfo &info, int subsong, vector<char> &buf, bool includepath, const string &md5hex, const XXH32_hash_t xxh32, const mz_uint32 crc_32) {
     const auto reason = songend.status_string();
     if (subsong == info.minsubsong) {
         const auto pl = player::name(info.player);
         if (includepath) {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\t%08x\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl.data(),info.format.c_str(),info.channels,buf.size(),xxh32,info.path.c_str());
+            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\t%08x\t%08x\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl.data(),info.format.c_str(),info.channels,buf.size(),xxh32,crc_32,info.path.c_str());
         } else {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\t%08x\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl.data(),info.format.c_str(),info.channels,buf.size(),xxh32);
+            fprintf(stdout, "%s\t%d\t%d\t%s\t%s\t%s\t%d\t%zu\t%08x\t%08x\n", md5hex.c_str(),subsong,songend.length,reason.c_str(),pl.data(),info.format.c_str(),info.channels,buf.size(),xxh32,crc_32);
         }
     } else {
         fprintf(stdout, "%s\t%d\t%d\t%s\n", md5hex.c_str(),subsong,songend.length,reason.c_str());
     }
 }
 
-int player_songend(const vector<player::Player> &players, vector<char> &buf, const char *path, bool includepath, const string &md5hex, const XXH32_hash_t xxh32) {
+int player_songend(const vector<player::Player> &players, vector<char> &buf, const char *path, bool includepath, const string &md5hex, const XXH32_hash_t xxh32, const mz_uint32 crc_32) {
     for (const auto &player : players) {
         const auto &info = player::parse(path, buf.data(), buf.size(), player);
         if (!info) continue;
         const int minsubsong = info->minsubsong;
         const int maxsubsong = info->maxsubsong;
+        vector<common::SongEnd> songends;
         for (int subsong = minsubsong; subsong <= maxsubsong; subsong++) {
             auto songend = songend::precalc::precalc_song_end(info.value(), buf.data(), buf.size(), subsong, md5hex);
             if (songend.status == common::SongEnd::ERROR && !songend::precalc::allow_songend_error(info->format)) {
                 songend.length = 0;
             }
-            print(songend, info.value(), subsong, buf, includepath, md5hex, xxh32);
+            songends.push_back(songend);
+        }
+        for (auto i = 0; i < songends.size(); i++) {
+            print(songends[i], info.value(), minsubsong + i, buf, includepath, md5hex, xxh32, crc_32);
         }
         return EXIT_SUCCESS;
     }
@@ -137,6 +142,7 @@ int main(int argc, char *argv[]) {
 
     const auto xxh32 = XXH32(buffer.data(), min(songdb::XXH_MAX_BYTES, buffer.size()), 0);
     const string hash = common::to_hex(xxh32) + common::to_hex((uint16_t)(st.st_size & 0xFFFF));
+    const mz_uint32 crc_32 = mz_crc32(MZ_CRC32_INIT, (const uint8_t*)buffer.data(), buffer.size());
 
     if (songdb::blacklist::is_blacklisted_songdb_hash(hash)) {
         fprintf(stderr, "Blacklisted songdb hash for %s xxh32 %s\n", path, hash.c_str());
@@ -146,9 +152,9 @@ int main(int argc, char *argv[]) {
     if (songdb::blacklist::is_blacklisted_hash(hash)) {
         fprintf(stderr, "Blacklisted hash %s for %s\n", hash.c_str(), path);
         if (includepath) {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t\t\t\t%zu\t%08x\t%s\n", md5hex.c_str(),0,0,"error",buffer.size(),xxh32,path);
+            fprintf(stdout, "%s\t%d\t%d\t%s\t\t\t\t%zu\t%08x\t%08x\t%s\n", md5hex.c_str(),0,0,"error",buffer.size(),xxh32,crc_32,path);
         } else {
-            fprintf(stdout, "%s\t%d\t%d\t%s\t\t\t\t%zu\t%08x\n", md5hex.c_str(),0,0,"error",buffer.size(),xxh32);
+            fprintf(stdout, "%s\t%d\t%d\t%s\t\t\t\t%zu\t%08x\t%08x\n", md5hex.c_str(),0,0,"error",buffer.size(),xxh32,crc_32);
         }
         return EXIT_FAILURE;
     }
@@ -174,5 +180,5 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    return player_songend(players, buffer, path, includepath, md5hex, xxh32);
+    return player_songend(players, buffer, path, includepath, md5hex, xxh32, crc_32);
 }
