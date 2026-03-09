@@ -13,7 +13,7 @@ player=libxmp
 TESTMOD="${top_srcdir}/testdata/silly venture.mgt"
 TEST_NAME="libxmp"
 TEST="${PRECALC} \"${TESTMOD}\""
-EXPECTED_OUTPUT="e33a4643d758738626a11aa8fa49ea6d	0	244466	player	libxmp	Megatracker MGT v1.1	12	157178	6826fa53"
+EXPECTED_OUTPUT="e33a4643d758738626a11aa8fa49ea6d	0	244808	player	libxmp	Megatracker MGT v1.1	12	157178	6826fa53	4fb731b4"
 
 . $(dirname "$0")/../common/check.sh
 
