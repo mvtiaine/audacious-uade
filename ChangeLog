@@ -1,3 +1,13 @@
+0.14-dev
+- Songdb updates:
+--  Tons of new sources, see https://github.com/mvtiaine/audacious-uade-tools/blob/master/sources.md for full list
+--  Metadata extraction/heuristics tweaks and fixes
+- Player updates:
+--  Songlength calculated more accurately
+--  uade: avoid some false positives
+--  libxmp: avoid some false positives, fix external file loading, songlength fixes
+- Misc fixes and updates
+
 0.14.1 - 2026-01-26
 - README updated to markdown
 - Songdb updates:
