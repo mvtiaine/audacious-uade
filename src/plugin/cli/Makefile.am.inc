@@ -7,9 +7,6 @@ noinst_PROGRAMS += \
 	plugin/cli/songdb/songdb \
 	plugin/cli/songend/songend
 
-EXTRA_DIST += \
-    plugin/cli/precalc/precalc.sh
-
 plugin_cli_common_SOURCES = \
 	plugin/cli/common/logger.cc
 
