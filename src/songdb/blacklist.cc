@@ -26,7 +26,7 @@ const set<string> extension_blacklist ({
     // Sample etc. files
     ".instr",".x",".set",".ins",".nt",".as",".ip",".l",".n",".ssd",".sps",".smp",".smpl",
     // aminet etc. hack to speedup playlist population with content based detection
-    ".lha",".lzh",".lzx",".zip",".adf",".adz",".dms",".bak",".tar",".gz",".tgz",".bz2",".pp",
+    ".lha",".lzh",".lzx",".zip",".adf",".adz",".dms",".bak",".tar",".gz",".tgz",".bz2",".pp",".7z",".Z",".xz",".arj",".rar",
     ".gif",".png",".jpg",".jpeg",".bmp",".tga",".ilbm",".anim",".pic",".gfx",".pbm",".raw",".pcx",".3ds",".lbm",
     ".info",".ico",".font",".fon",".lvl",".map",".inf",
     ".exe",".library",".device",".rexx",".prefs",".ini",".dll",".prg",".com",".debug",".cfg",".conf",".rev",".cmd",
@@ -48,21 +48,28 @@ const set<string> prefix_blacklist ({
 
 // uade_play() or uade_stop() stuck, may leave zombie uadecore process around
 const set<string> hash_blacklist ({
-    "e2e642be13fc", // "39ba477d233f9191a6fa9daf121a8c4a", // Delitracker Custom/Geoff Phillips/spy vs spy.cus
-    "c12c2d131bcc", // "fcdafb42d12055eaca7943e0cdf5c58f", // Delitracker Custom/Geoff Phillips/spy vs spy - arctic antics.cus
-    "69364c10fdf0", // "20e6ca8777dc2cde7b2300388456b2c2", // Delitracker Custom/Stephan Wenzler/gravity-force.cus
-    "17c754bfa826", // "bf1c23d06d95623060dd72fed7bc6f41", // Oktalyzer/- unknown/freestyle.okta
-    "58b790471c40", // "c30c27e6a0a32e10b5799d5566350f48", // Oktalyzer/Michael Tschogl/never ending story ii-unused.okta
-    "15f2724de000", // "54f3416311a9554e15a7cf35aafd2de9", // Oktalyzer/Mohr/1 love night dub.okta
-    "82247f6a6da4", // "4dba6e062959c23e3e893dee0ed551bb", // Protracker/Doh/drd is drd.mod
-    "75d3a18b8752", // "142c4d303e1b50a38a97423dc157636d", // Protracker/Gryzor/tbc-87 speed dance.mod
-    "4efe29ee2260", // "65ab9627534237f48555094292cddd15", // Ron Klaren/Ron Klaren/electricity.rk
-    "c51668924406", // "bce1efa7c8811ab129b82f5543cc3856", // Soundtracker 2.6/Starbuck/test.mod
+    "e2e642be13fc", // "39ba477d233f9191a6fa9daf121a8c4a", // modland/Delitracker Custom/Geoff Phillips/spy vs spy.cus
+    "c12c2d131bcc", // "fcdafb42d12055eaca7943e0cdf5c58f", // modland/Delitracker Custom/Geoff Phillips/spy vs spy - arctic antics.cus
+    "69364c10fdf0", // "20e6ca8777dc2cde7b2300388456b2c2", // modland/Delitracker Custom/Stephan Wenzler/gravity-force.cus
+    "17c754bfa826", // "bf1c23d06d95623060dd72fed7bc6f41", // modland/Oktalyzer/- unknown/freestyle.okta
+    "58b790471c40", // "c30c27e6a0a32e10b5799d5566350f48", // modland/Oktalyzer/Michael Tschogl/never ending story ii-unused.okta
+    "15f2724de000", // "54f3416311a9554e15a7cf35aafd2de9", // modland/Oktalyzer/Mohr/1 love night dub.okta
+    "82247f6a6da4", // "4dba6e062959c23e3e893dee0ed551bb", // modland/Protracker/Doh/drd is drd.mod
+    "75d3a18b8752", // "142c4d303e1b50a38a97423dc157636d", // modland/Protracker/Gryzor/tbc-87 speed dance.mod
+    "4efe29ee2260", // "65ab9627534237f48555094292cddd15", // modland/Ron Klaren/Ron Klaren/electricity.rk
+    "c51668924406", // "bce1efa7c8811ab129b82f5543cc3856", // modland/Soundtracker 2.6/Starbuck/test.mod
     "fc28103f0958", // "55d01a06206a97c4449fda17480ab943", // wantedteam/examples/TFMX_Anstoss/MDAT.anstoss3
     "beb7e0c00b50", // "944efba8363e4a2e9a6c96eae008f5ea", // wantedteam/examples/TFMX_Anstoss/MDAT.anstoss4 
     "b8d4b40c16f0", // "0a14bdf6e11a16dd447ec2fa160fe3ae", // wantedteam/examples/TFMX_MrNutz/MDAT.title
     "9d433b215e96", // "c9373a252335a86c020c7a2524bf4908", // amp/H/Hardsequenzer/OKT.PartyInvitation
     "064d9cb220c8", // "d35ab7d004eda2ff8c3c45ca1041be82", // amp/C/Curt Cool2/PRT.wigged
+    "e2edd340e000", // "8c4ff38c0f2ff608afd5b014bda90ad6", // amigascne/Tools/TGroup/TBG-Tracker10.adf/Modules/OKT.Mus(7)
+    "c0d7e147e000", // "298e6989d3b19736344a821823b57605", // amigascne/Groups/J/J-Others/JusticeEurope-MusicDisk1b.adf/raze
+    "bc4130f85b83", // "8804bb884b8b4f1a877b6ef44ac286d9", // amigascne/Sound/oktalyzer1.57.lha/OK-SONGS/tar-gumba vahim enim
+    "69ebb4084000", // "998c616801a9f9ad86d80169ff4867dc", // ultrasounds/SOFTWARE/MODULES/0-C/S3M/!HURRICA.OKT"
+    "383e7a1ddbc0", // "02fe9715239032ae7efa20ebb4340ad4", // thesoundlibrary/2/F/FALCONS.MOD
+    // crashes it2play TODO fix
+    "bfc53ea5dd27", // "33a961a79519baa90854b39b5f63c056", // modarchive_2007.../T/TH.zip/thewaterfall.it.zip/thewaterfall.it
 });
 
 const set<string> songdb_blacklist ({
@@ -110,7 +117,7 @@ bool is_blacklisted_extension(const string &path, const string &ext, const set<s
 bool is_blacklisted_hash(const string &hash) noexcept {
     const bool blacklisted = hash_blacklist.count(hash);
     if (blacklisted) {
-        DEBUG("Blacklisted hash %s\n", hash.c_str());
+        TRACE("Blacklisted hash %s\n", hash.c_str());
     }
     return blacklisted;
 }
@@ -118,7 +125,7 @@ bool is_blacklisted_hash(const string &hash) noexcept {
 bool is_blacklisted_songdb_hash(const string &hash) noexcept {
     const bool blacklisted = songdb_blacklist.count(hash);
     if (blacklisted) {
-        DEBUG("Blacklisted songdb hash %s\n", hash.c_str());
+        TRACE("Blacklisted songdb hash %s\n", hash.c_str());
     }
     return blacklisted;
 }
