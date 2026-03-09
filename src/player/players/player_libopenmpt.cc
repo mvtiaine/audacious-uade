@@ -135,7 +135,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         openmpt_module_set_render_param(mod, OPENMPT_MODULE_RENDER_STEREOSEPARATION_PERCENT, (1.0f - config.panning) * 200);
     }
 
-    return PlayerState {Player::libopenmpt, subsong, config.frequency, config.endian != endian::native, mod, !config.probe, mixBufSize(config.frequency), 0};
+    return PlayerState {Player::libopenmpt, subsong, config.frequency, config.endian != endian::native, mod, !config.probe, mixBufSize(config.frequency), 0, 0};
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
@@ -143,7 +143,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     assert(size >= state.buffer_size);
     auto *mod = static_cast<openmpt_module*>(state.context);
     assert(mod);
-    const auto bytes = openmpt_module_read_interleaved_stereo(mod, state.frequency, size / 4, (int16_t*)buf) * 4;
+    const auto bytes = openmpt_module_read_interleaved_stereo(mod, state.frequency, state.buffer_size / 4, (int16_t*)buf) * 4;
     return {bytes == 0 ? SongEnd::PLAYER : SongEnd::NONE, bytes};
 }
 

@@ -154,7 +154,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         }
     }, context);
 
-    return PlayerState {Player::libdigibooster3, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0};
+    return PlayerState {Player::libdigibooster3, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0, 0};
 }
 
 bool stop(PlayerState &state) noexcept {

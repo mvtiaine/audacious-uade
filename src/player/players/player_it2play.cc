@@ -467,7 +467,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     }
     context->Music_PlaySong(order);
 
-    return PlayerState {Player::it2play, subsong, context->frequency(), config.endian != endian::native, context, true, mixBufSize(freq), 0};
+    return PlayerState {Player::it2play, subsong, context->frequency(), config.endian != endian::native, context, true, mixBufSize(freq), 0, 0};
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {

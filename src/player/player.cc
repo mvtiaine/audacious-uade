@@ -216,10 +216,11 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     SWITCH_PLAYER(state.player, res,
         render(state, mixbuf, size)
     )
-    assert(res.second % 2 == 0);
+    assert(res.second % 4 == 0);
     assert(res.second <= size);
     const int64_t bytespersec = 4 * state.frequency;
-    state.pos_millis += res.second * 1000 / bytespersec;
+    state.total_bytes += res.second;
+    state.pos_millis = state.total_bytes * 1000 / bytespersec;
 
     if (state.swap_endian && res.second > 0) {
         swab(mixbuf, buf, res.second);
@@ -237,6 +238,7 @@ bool restart(PlayerState &state) noexcept {
     )
     if (res) {
         state.pos_millis = 0;
+        state.total_bytes = 0;
     }
     return res;
 }
@@ -261,18 +263,15 @@ bool seek(PlayerState &state, int millis) noexcept {
         }
     }
     const int64_t bytespersec = 4 * state.frequency;
-    const int64_t millistoseek = millis - state.pos_millis;
-    const int64_t bytestoseek = bytespersec * millistoseek / 1000;
-    int64_t seeked = 0;
     auto res = pair<SongEnd::Status,uint64_t>(SongEnd::ERROR, 0);
-    while (seeked < bytestoseek) {
+    while (state.pos_millis < millis) {
         SWITCH_PLAYER(state.player, res,
             render(state, dummybuf.data(), dummybuf.size())
         )
+        state.total_bytes += res.second;
+        state.pos_millis = state.total_bytes * 1000 / bytespersec;
         if (res.first != SongEnd::NONE) return false;
-        seeked += res.second;
     }
-    state.pos_millis = millis;
     return true;
 }
 
@@ -297,9 +296,9 @@ PlaybackResult playback_loop(
     // UADE plays some mods for hours or possibly forever (with always_ends default)
     int64_t maxbytes = config.known_timeout > 0 ?
         config.known_timeout * bytespersec / 1000 : PRECALC_TIMEOUT * bytespersec;
-    int64_t totalbytes = 0;
+    size_t tailbytes = 0;
 
-    while (!(stopped = check_stop()) && totalbytes < maxbytes) {
+    while (!(stopped = check_stop()) && state.total_bytes < maxbytes) {
         int seek_millis = check_seek();
         if (seek_millis >= 0) {
             seeked = true;
@@ -309,16 +308,16 @@ PlaybackResult playback_loop(
                 break;
             } else {
                 TRACE("Seek to %d\n", seek_millis);
-                totalbytes = seek_millis * bytespersec / 1000;
             };
         }
         const auto res = render(state, buffer.data(), buffer.size());
         if (res.second > 0 && res.first != SongEnd::ERROR) {
             // ignore "tail bytes" to avoid pop in end of audio if song restarts
             // messing up with silence/volume trimming etc.
-            if (res.first == SongEnd::NONE || totalbytes == 0) {
+            if (res.first == SongEnd::NONE || state.total_bytes == 0) {
                 write_audio(buffer.data(), res.second);
-                totalbytes += res.second;
+            } else {
+                tailbytes = res.second;
             }
         }
 
@@ -329,7 +328,7 @@ PlaybackResult playback_loop(
     }
     
     if (!seeked && !stopped && songend.status != SongEnd::TIMEOUT) {
-        songend.length = totalbytes * 1000 / bytespersec;
+        songend.length = (state.total_bytes - tailbytes) * 1000 / bytespersec;
     }
 
     if (songend.status != SongEnd::NONE)
@@ -363,20 +362,20 @@ PlaybackStepResult playback_step(
     // UADE plays some mods for hours or possibly forever (with always_ends default)
     int64_t maxbytes = known_timeout > 0 ?
         known_timeout * bytespersec / 1000 : PRECALC_TIMEOUT * bytespersec;
-    int64_t totalbytes = state.pos_millis * bytespersec / 1000;
-    
-    if (totalbytes < maxbytes) {
+
+    if (state.total_bytes < maxbytes) {
         const auto res = render(state, buffer.data(), buffer.size());
         bytes = res.second;
         // ignore "tail bytes" to avoid pop in end of audio if song restarts
         // messing up with silence/volume trimming etc.
-        if (totalbytes > 0 && (res.second == 0 || res.first != SongEnd::NONE)) {
+        size_t tailbytes = 0;
+        if (state.total_bytes > 0 && (res.second == 0 || res.first != SongEnd::NONE)) {
             buffer.clear();
             bytes = 0;
+            tailbytes = res.second;
         }
-        totalbytes += bytes;
         songend.status = res.first;
-        songend.length = totalbytes * 1000 / bytespersec;
+        songend.length = (state.total_bytes - tailbytes) * 1000 / bytespersec;
     } else {
         songend.status = SongEnd::TIMEOUT;
         songend.length = PRECALC_TIMEOUT * 1000;

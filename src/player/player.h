@@ -115,6 +115,7 @@ struct PlayerState {
     void *context;
     bool stereo;
     size_t buffer_size;
+    size_t total_bytes = 0;
     int pos_millis = 0;
 };
 

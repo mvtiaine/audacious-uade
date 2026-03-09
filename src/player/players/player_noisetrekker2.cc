@@ -141,7 +141,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     }
     context->SongPlay();
     const int frequency = context->SamplesPerSec(); // hardcoded to 44100
-    return PlayerState {Player::noisetrekker2, subsong, frequency, config.endian != endian::native, context, true, mixBufSize(frequency), 0};
+    return PlayerState {Player::noisetrekker2, subsong, frequency, config.endian != endian::native, context, true, mixBufSize(frequency), 0, 0};
 }
 
 pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) noexcept {

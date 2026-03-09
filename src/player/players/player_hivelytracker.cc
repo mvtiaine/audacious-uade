@@ -78,7 +78,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         return {};
     }
 
-    return PlayerState {Player::hivelytracker, subsong, config.frequency, config.endian != endian::native, ht, true, mixBufSize(config.frequency), 0};
+    return PlayerState {Player::hivelytracker, subsong, config.frequency, config.endian != endian::native, ht, true, mixBufSize(config.frequency), 0, 0};
 }
 
 bool stop(PlayerState &state) noexcept {

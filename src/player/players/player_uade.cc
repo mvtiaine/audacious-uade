@@ -542,16 +542,63 @@ void shutdown() noexcept {
 }
 
 bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept {
+    string filename = common::split(path, "/").back();
+    string lcfilename = filename;
+    transform(lcfilename.begin(), lcfilename.end(), lcfilename.begin(), ::tolower);
+    const auto split = common::split(lcfilename, ".");
+    string lcsuffix = split.back();
+    string lcprefix = split.front();
+    string lcmidfix = split.size() >=3 ? split[split.size()-2] : "";
+
+    // avoid some false positives
+    if (((lcsuffix == "prt" && !exts.count(lcprefix)) ||
+         (lcprefix == "prt" && !exts.count(lcsuffix))) &&
+        !is_prt(path,buf,bufsize)) {
+        return false;
+    }
+    if (((lcsuffix == "ftm" && !exts.count(lcprefix)) ||
+         (lcprefix == "ftm" && !exts.count(lcsuffix)) ||
+         is_ftm(path,buf,bufsize)) &&
+         !check_ftm(path,buf,bufsize)) {
+        return false;
+    }
+    if (((lcsuffix == "ml" && !exts.count(lcprefix)) ||
+         (lcprefix == "ml" && !exts.count(lcsuffix))) &&
+        !is_ml(path,buf,bufsize)) {
+        return false;
+    }
+    if (((lcsuffix == "cm" && !exts.count(lcprefix)) ||
+         (lcprefix == "cm" && !exts.count(lcsuffix)) ||
+         (lcsuffix == "rk" && !exts.count(lcprefix)) ||
+         (lcprefix == "rk" && !exts.count(lcsuffix)) ||
+         (lcsuffix == "rkb" && !exts.count(lcprefix)) ||
+         (lcprefix == "rkb" && !exts.count(lcsuffix)) ||
+         // XXX fujiology and exodos special case
+         lcfilename == "cm.dat" || lcfilename == "cm.hip") &&
+        !is_cm(path,buf,bufsize) &&
+        // XXX aminet special case
+        !(lcmidfix == "med")) {
+        return false;
+    }
+    // DM1 special check as its header is very generic matching lots of textfiles
+    if (is_dm1(path,buf,bufsize) && !check_dm1(path,buf,bufsize)) {
+        return false;
+    }
+    // DIGI Booster special as many text files start with "DIGI Booster ..." confusing uade filemagic
+    if (is_digibooster(path,buf,bufsize) && !check_digibooster(path,buf,bufsize)) {
+        return false;
+    }
+    // FutureComposer 1.3 special check as many text files start with "SMOD ..." for some reason
+    if (is_fc13(path,buf,bufsize) && !check_fc13(path,buf,bufsize)) {
+        return false;
+    }
+
     if (!is_xm(path,buf,bufsize) && !is_fst(path,buf,bufsize) && !is_s3m(path,buf,bufsize) && !is_it(path,buf,bufsize) && !is_sid(path,buf,bufsize)) {
         char ext[UADE_MAX_EXT_LEN] = {0};
         uade_filemagic((unsigned char*)buf, bufsize, ext, filesize, path, 0);
         if (ext[0] && ext_blacklist.count(ext)) return false;
         if (ext[0]) return true;
-        string lcfilename = common::split(path, "/").back();
-        transform(lcfilename.begin(), lcfilename.end(), lcfilename.begin(), ::tolower);
-        string lcext = common::split(lcfilename, ".").back();
-        if (exts.count(lcext)) return true;    
-        string lcprefix = common::split(lcfilename, ".").front();
+        if (exts.count(lcsuffix)) return true;    
         if (exts.count(lcprefix)) return true;
     }
     return false;
@@ -604,7 +651,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
 
     switch (uade_play_from_buffer(path, buf, size, subsong, context->state)) {
         case 1:
-            return PlayerState {Player::uade, subsong, config.frequency, config.endian != endian::native, context, !config.probe, mixBufSize(config.frequency), 0};
+            return PlayerState {Player::uade, subsong, config.frequency, config.endian != endian::native, context, !config.probe, mixBufSize(config.frequency), 0, 0};
         default:
             ERR("Could not play %s\n", path);
             cleanup_context(context);
@@ -686,6 +733,7 @@ bool seek(PlayerState &state, int millis) noexcept {
     bool res = !uade_seek(UADE_SEEK_SUBSONG_RELATIVE, millis / 1000.0, -1, context->state);
     if (res) {
         state.pos_millis = millis;
+        state.total_bytes = (size_t)millis * state.frequency * 4 / 1000;
     }
     return res;
 }

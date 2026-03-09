@@ -124,7 +124,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     context->Calc_Length();
     context->Ptk_Play();
     // mix rate hard coded to 44100
-    return PlayerState {Player::protrekkr1, subsong, MIX_RATE, config.endian != endian::native, context, true, mixBufSize(MIX_RATE), 0};
+    return PlayerState {Player::protrekkr1, subsong, MIX_RATE, config.endian != endian::native, context, true, mixBufSize(MIX_RATE), 0, 0};
 }
 
 pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
