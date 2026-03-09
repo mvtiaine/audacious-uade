@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include <cassert>
 #include <csetjmp>
 #include <cstdint>
 #include <vector>
@@ -76,7 +75,7 @@ constexpr_f2 be_uint32_t readu32be(const std::vector<char> &buf, size_t &offs) n
 }
 
 constexpr_f2 std::vector<char> readbytes(const std::vector<char> &buf, size_t &offs, const size_t n) noexcept {
-    assert(n > 0);
+    if (n == 0) return {};
     verify(buf.size() >= offs + n);
     std::vector<char> chars(n);
     copy(buf.begin() + offs, buf.begin() + offs + n, chars.begin());
@@ -85,7 +84,7 @@ constexpr_f2 std::vector<char> readbytes(const std::vector<char> &buf, size_t &o
 }
 
 constexpr_f2 std::vector<uint8_t> readu8bytes(const std::vector<char> &buf, size_t &offs, const size_t n) noexcept {
-    assert(n > 0);
+    if (n == 0) return {};
     verify(buf.size() >= offs + n);
     std::vector<uint8_t> chars(n);
     copy(buf.begin() + offs, buf.begin() + offs + n, chars.begin());
@@ -102,7 +101,6 @@ constexpr_f2 void copybytes(const std::vector<char> &buf, char *dst, size_t &off
 
 constexpr_f2 void copyu8bytes(const std::vector<char> &buf, uint8_t *dst, size_t &offs, const size_t n) noexcept {
     if (n == 0) return;
-    assert(n > 0);
     verify(buf.size() >= offs + n);
     copy(buf.begin() + offs, buf.begin() + offs + n, dst);
     offs += n;
