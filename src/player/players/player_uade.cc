@@ -563,7 +563,9 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
         return false;
     }
     if (((lcsuffix == "ml" && !exts.count(lcprefix)) ||
-         (lcprefix == "ml" && !exts.count(lcsuffix))) &&
+         (lcprefix == "ml" && !exts.count(lcsuffix)) ||
+         // XXX special case
+         lcfilename == "ml.dat") &&
         !is_ml(path,buf,bufsize)) {
         return false;
     }
@@ -573,8 +575,9 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
          (lcprefix == "rk" && !exts.count(lcsuffix)) ||
          (lcsuffix == "rkb" && !exts.count(lcprefix)) ||
          (lcprefix == "rkb" && !exts.count(lcsuffix)) ||
-         // XXX fujiology and exodos special case
-         lcfilename == "cm.dat" || lcfilename == "cm.hip") &&
+         // XXX fujiology, exodos and others special cases
+         lcfilename == "cm.dat" || lcfilename == "cm.hip" || lcfilename == "cm.ps" ||
+         lcfilename == "cm.scr" || lcfilename == "cm.tp" || lcfilename == "rk.spl") &&
         !is_cm(path,buf,bufsize) &&
         // XXX aminet special case
         !(lcmidfix == "med")) {
