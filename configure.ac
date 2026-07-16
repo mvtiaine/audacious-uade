@@ -1038,27 +1038,29 @@ elif test "$build_tizen" = "yes" || test "$build_blackberry10" = "yes" ; then
 fi
 
 if test "$players" = "all" || test "$players" = "any" || printf ",${players}," | grep -Eq ",uade,"; then
-_UADE_CPPFLAGS="${CPPFLAGS} -DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE"
-_UADE_CFLAGS="${CFLAGS} -Wno-unknown-warning -Wno-unknown-warning-option"
+_UADE_CPPFLAGS="-DDISABLE_BENCODETOOLS -DDISABLE_ZAKALWE"
+_UADE_CFLAGS="-Wno-unknown-warning -Wno-unknown-warning-option"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-unused -Wno-deprecated-declarations -Wno-tautological-compare -Wno-pedantic -Wno-implicit-function-declaration"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-zero-length-array -Wno-variadic-macros -Wno-gnu-zero-variadic-macro-arguments"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-format -Wno-format-nonliteral -Wno-format-security -Wno-deprecated-octal-literals"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-sign-compare -Wno-shift-negative-value"
-_UADE_LDFLAGS="${LDFLAGS} ${EXTRA_LIBS}"
+_UADE_LDFLAGS=""
 if test "$static_stdlibs" = "yes" ; then
   _UADE_LDFLAGS="-static-libgcc ${_UADE_LDFLAGS}"
 fi
 if test "$plugin_audacious" = "yes" || test "$plugin_deadbeef" = "yes" ; then
   _UADE_CFLAGS="${pic_flag} ${_UADE_CFLAGS}"
 fi
+AC_SUBST([_UADE_CPPFLAGS])
+AC_SUBST([_UADE_CFLAGS])
 AX_SUBDIRS_CONFIGURE([uade], [
   [--only-uadecore],[--without-avx2],[--without-vasm],
   [--prefix=\${prefix}/share/audacious-uade],
   [--bindir=/dev/null], [--mandir=/dev/null], [--sharedir=/dev/null],
   [--bencode-tools-prefix=/dev/null], [--libzakalwe-prefix=/dev/null],
   [--target-ar=${AR}],[--target-cc=${CC}],[CC=${CC_FOR_BUILD}],[CXX=${CXX}],
-  [CFLAGS=${_UADE_CPPFLAGS} ${_UADE_CFLAGS}],
-  [LDFLAGS=${_UADE_LDFLAGS} ],
+  [CFLAGS=${CPPFLAGS} ${_UADE_CPPFLAGS} ${CFLAGS} ${_UADE_CFLAGS}],
+  [LDFLAGS=${LDFLAGS} ${EXTRA_LIBS} ${_UADE_LDFLAGS}],
   [${_UADE_TARGET_OS}],
 ])
 UADE_CPPFLAGS="-I\${top_srcdir}/uade/src/frontends/include -I\${top_builddir}/uade/src/frontends/include"
