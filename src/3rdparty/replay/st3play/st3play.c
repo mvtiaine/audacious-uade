@@ -2912,6 +2912,13 @@ bool loadS3M(const uint8_t *dat, uint32_t modLen) // mvtiaine: removed static
 		}
 
 		patDataLen = READ16LE(*(uint16_t *)&dat[offs]);
+
+		// mvtiaine: added sanity check
+		if (offs+2+patDataLen > modLen) {
+			st3play_Close();
+			return false;
+		}
+
 		patDataLens[i] = patDataLen; // mvtiaine: added
 
 		if (patDataLen > 0)
