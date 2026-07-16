@@ -23,7 +23,7 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 
 ## Main Features
 
-- Preprocessed database for song lengths and author/album/publisher/year meta data, with over 400000 entries
+- Preprocessed database for song lengths and author/album/publisher/year meta data, with almost 480000 entries
 - Player independent songend detection (similar to "deep songend scan" option in DeliPlayer for Windows)
 - Preferences UI for configuring UADE playback options etc.
 - Custom fork of UADE (https://gitlab.com/mvtiaine/uade) including support for additional formats and platforms not (yet) supported in official UADE releases:

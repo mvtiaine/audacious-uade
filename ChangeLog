@@ -1,10 +1,15 @@
 0.14-dev
 - Songdb updates:
+--  Update source data snapshots to 2026-06-30 or thereabouts
+--  Kestra Bitworld added as metadata source
+--  Always prefer real name for games
+--  Use unnormalized real names
 --  Tons of new sources, see https://github.com/mvtiaine/audacious-uade-tools/blob/master/sources.md for full list
 --  Metadata extraction/heuristics tweaks and fixes
 - Player updates:
 --  Songlength calculated more accurately
 --  uade: avoid some false positives
+--  uade: fix TFMX Pro regression https://gitlab.com/uade-music-player/uade/-/merge_requests/70
 --  libxmp: avoid some false positives, fix external file loading, songlength fixes
 - Misc fixes and updates
 
