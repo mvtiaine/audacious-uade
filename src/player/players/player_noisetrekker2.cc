@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
-// Copyright (C) 2025 Matti Tiainen <mvtiaine@cc.hut.fi>
+// Copyright (C) 2025-2026 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 // NOTE: while the replay code is based on the NoiseTrekker 2 final source
 // the included sources don't actually completely match the final binary (verified with Ghidra).

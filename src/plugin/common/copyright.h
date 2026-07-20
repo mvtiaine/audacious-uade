@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-// Copyright (C) 2025 Matti Tiainen <mvtiaine@cc.hut.fi>
+// Copyright (C) 2025-2026 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #pragma once
 
@@ -21,7 +21,7 @@
 
 static constexpr const char *plugin_copyright =
 "audacious-uade " PACKAGE_VERSION " (GPL-2.0-or-later)\n"
-"Copyright (c) 2014-2025, Matti Tiainen\n"
+"Copyright (c) 2014-2026, Matti Tiainen\n"
 "\n"
 #if PLAYER_uade
 "UADE " UADE_VERSION " (GPL-2.0-or-later)\n"
