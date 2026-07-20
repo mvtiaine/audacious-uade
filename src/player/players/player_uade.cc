@@ -369,7 +369,7 @@ struct probe_scope {
 };
 
 struct uade_state *create_uade_state(const UADEConfig &config, struct uade_config *uc) noexcept {
-    DEBUG("uade_config: frequency %d, filter %d, force_led_enabled %d, force_led %d, resampler %d, panning %f, "
+    TRACE("uade_config: frequency %d, filter %d, force_led_enabled %d, force_led %d, resampler %d, panning %f, "
           "headphones %d, headphones2 %d, gain %f, subsong_timeout %d, silence_timeout %d\n",
           config.frequency, static_cast<int>(config.filter), config.force_led ? true : false,
           config.force_led ? config.force_led.value() : -1, static_cast<int>(config.resampler), config.panning,
