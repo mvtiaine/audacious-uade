@@ -233,11 +233,13 @@ sudo dnf install build-rpm/rpmbuild/RPMS/*/*.rpm
 Some CLI programs used in unit tests are included, which may also be useful as standalone executables.
 The CLI programs are built under `src/plugin/cli/`, but not packaged or installed with `make install`.
 
+**Note:**: Paths below assume using separate `build` directory as described in [build instructions](#build-and-install).
+
 If using the CLI tools without running `make install`, some environment variables need to be set:
 
 ```bash
 # for songdb
-export SONGDB_DIR="$(pwd)/conf/songdb"
+export SONGDB_DIR="$(pwd)/../conf/songdb"
 # for player, precalc
 export UADE_BASE_DIR="$(pwd)/build-tmp/uade"
 export UADE_CORE_FILE="$(pwd)/uade/src/uadecore"
@@ -246,7 +248,7 @@ export UADE_CORE_FILE="$(pwd)/uade/src/uadecore"
 `src/plugin/cli/songdb/songdb` - queries songdb for given file
 
 ```bash
-src/plugin/cli/songdb/songdb testdata/mdat.turrican\ loader
+src/plugin/cli/songdb/songdb ../testdata/mdat.turrican\ loader
 
 songlengths.tsv:4bfa00711278	0	30840,p
 modinfos.tsv:4bfa00711278	TFMX	0
@@ -256,19 +258,19 @@ metadata.tsv:4bfa00711278	Chris Hülsbeck	Factor 5 & Rainbow Arts	Turrican	1990
 `src/plugin/cli/player/player` - plays given file with audio data written to stdout
 
 ```bash
-src/plugin/cli/player/player 48000 testdata/mdat.turrican\ loader | play -t raw -r 48000 -e signed -b 16 -c 2 -
+src/plugin/cli/player/player 48000 ../testdata/mdat.turrican\ loader | play -t raw -r 48000 -e signed -b 16 -c 2 -
 ```
 
 `src/plugin/cli/converter/converter` - converts MED4 sng+samples format file to (OctaMED) MMD0
 
 ```bash
-src/plugin/cli/converter/converter testdata/chipsong.med > testdata/chipsong.mmd0
+src/plugin/cli/converter/converter ../testdata/chipsong.med > chipsong.mmd0
 ```
 
 `src/plugin/cli/precalc/precalc` - support tool for songdb database generation
 
 ```bash
-src/plugin/cli/precalc/precalc testdata/mdat.turrican\ loader
+src/plugin/cli/precalc/precalc ../testdata/mdat.turrican\ loader
 
 9878bd072ac12f04a8cdf353731110cc	0	30844	player	uade	TFMX	0	4728	4bfa0071	591c32ea
 ```
@@ -276,7 +278,7 @@ src/plugin/cli/precalc/precalc testdata/mdat.turrican\ loader
 `src/plugin/cli/songend/songend` - songlength detection from looping raw input audio. Input must be raw S16LE mono at 8062Hz and have at least 3600s of audio. Output is songlength in milliseconds
 
 ```bash
-SONGEND_MODE=1 src/plugin/cli/player/player 8062 testdata/spellbound\ dizzy.bp | src/plugin/cli/songend/songend
+SONGEND_MODE=1 src/plugin/cli/player/player 8062 ../testdata/spellbound\ dizzy.bp | src/plugin/cli/songend/songend
 
 220299
 ```
