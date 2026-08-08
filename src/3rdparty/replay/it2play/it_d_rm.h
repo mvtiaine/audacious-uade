@@ -15,6 +15,14 @@ enum
 	FORMAT_S3M     = 2
 };
 
+enum
+{
+	LOAD_OK = 0,
+	LOAD_ERR_GENERAL_IO = 1,
+	LOAD_ERR_OUT_OF_MEMORY = 2,
+	LOAD_ERR_INCOMPATIBLE = 3
+};
+
 // routines for handling data in RAM as a "FILE" type (IT2 doesn't have these)
 typedef struct mem_t
 {
@@ -32,7 +40,7 @@ void mseek(MEMFILE *buf, size_t offset, int32_t whence);
 bool ReadBytes(MEMFILE *m, void *dst, uint32_t num);
 // -------------------------------------------------------
 
-bool Music_LoadFromData(uint8_t *Data, uint32_t DataLen);
-bool Music_LoadFromFile(const char *Filename);
+uint8_t Music_LoadFromData(uint8_t *Data, uint32_t DataLen);
+uint8_t Music_LoadFromFile(const char *Filename);
 void Music_FreeSong(void);
 

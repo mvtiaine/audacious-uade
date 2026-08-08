@@ -7,4 +7,4 @@
 #include "../it_d_rm.h"
 #endif
 
-bool LoadIT(MEMFILE *m);
+uint8_t LoadIT(MEMFILE *m);

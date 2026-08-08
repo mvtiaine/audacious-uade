@@ -56,7 +56,7 @@ enum // 8bb: slave channel flags
 	SF_FADEOUT = 8,
 	SF_RECALC_VOL = 16,
 	SF_FREQ_CHANGE = 32,
-	SF_RECALC_FINALVOL = 64,
+	SF_UPDATE_MIXERVOL = 64,
 	SF_CENTRAL_PAN = 128,
 	SF_NEW_NOTE = 256,
 	SF_NOTE_STOP = 512,
@@ -77,7 +77,8 @@ enum // 8bb: IT header flags
 	ITF_OLD_EFFECTS = 16,
 	ITF_COMPAT_GXX = 32,
 	ITF_USE_MIDI_PITCH_CNTRL = 64,
-	ITF_REQ_MIDI_CFG = 128
+	ITF_REQ_MIDI_CFG = 128,
+	ITF_MPT_EXT_FILTER_RANGE = 4096, // 8bb: added this (ModPlug Tracker)
 };
 
 enum // 8bb: audio driver flags
@@ -85,7 +86,8 @@ enum // 8bb: audio driver flags
 	DF_SUPPORTS_MIDI = 1,
 	DF_USES_VOLRAMP = 2, // 8bb: aka. "hiqual"
 	DF_WAVEFORM = 4, // Output waveform data available
-	DF_HAS_RESONANCE_FILTER = 8 // 8bb: added this
+	DF_HAS_RESONANCE_FILTER = 8, // 8bb: added this
+	DF_SUPPORTS_MPT_EXT_FILTER_RANGE = 16 // 8bb: added this (ModPlug Tracker)
 };
 
 // 8bb: do NOT change these, it will only mess things up!
@@ -209,9 +211,16 @@ typedef struct slaveChn_t
 	float fOldSamples[4], fFiltera, fFilterb, fFilterc;
 
 	// 8bb: for custom HQ mixer
+	bool HasLooped;
 	float fOldLeftVolume, fOldRightVolume, fLeftVolume, fRightVolume;
 	float fDestVolL, fDestVolR, fCurrVolL, fCurrVolR;
 	uint64_t Frac64, Delta64;
+
+	// 8bb: for interpolation taps
+	int16_t leftTmpSamples16[3], rightTmpSamples16[4];
+	int8_t leftTmpSamples8[3], rightTmpSamples8[4];
+	int16_t leftTmpSamples16_R[3], rightTmpSamples16_R[4]; // 8bb: for stereo samples (R)
+	int8_t leftTmpSamples8_R[3], rightTmpSamples8_R[4];
 } slaveChn_t;
 
 typedef struct it_header_t
@@ -228,17 +237,18 @@ typedef struct // 8bb: custom struct
 {
 	uint32_t NumChannels;
 	uint8_t Type, Flags, FilterParameters[128];
-	uint32_t MixMode, MixSpeed;
+	uint32_t MixMode, MixFrequency;
 	int32_t Delta32;
 	int64_t Delta64;
 	float QualityFactorTable[128], FreqParameterMultiplier, FreqMultiplier;
-
-	float *fCubicLUT, fLastLeftValue, fLastRightValue; // 8bb: for HQ driver
 
 	// 8bb: for "WAV writer" driver
 	bool StartNoRamp;
 	int32_t LastLeftValue, LastRightValue;
 	// -----------------------------
+
+	// 8bb: for HQ driver
+	float *fSincLUT, fLastLeftValue, fLastRightValue;
 } driver_t;
 
 typedef struct song_t

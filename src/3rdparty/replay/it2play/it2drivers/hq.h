@@ -6,4 +6,5 @@
 #include <stdbool.h>
 #endif
 
+void setHQDriverMixGain(void);
 bool HQ_InitDriver(int32_t mixingFrequency);

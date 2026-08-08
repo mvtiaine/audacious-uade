@@ -2,9 +2,24 @@
 #ifndef AUDACIOUS_UADE
 #pragma once
 
+#ifdef _DEBUG
+#include <assert.h>
+#endif
 #include <stdint.h>
 #include <stdbool.h>
 #include "it_structs.h"
+
+#ifndef ASSERT
+#ifdef _DEBUG
+#define ASSERT(x) assert(x)
+#else
+#define ASSERT(x)
+#endif
+#endif
+
+#ifndef PI
+#define PI 3.14159265358979323846264338327950288
+#endif
 
 // AUDIO DRIVERS
 #if defined AUDIODRIVER_SDL
@@ -30,25 +45,27 @@ enum
 	MIDICOMMAND_CHANGEPITCH   = 0xFFFF
 };
 
-// 8bb: 31 is possible through initial tempo (but 32 is general minimum)
-#define LOWEST_BPM_POSSIBLE 31
+// 8bb: 31 is possible through initial tempo (but 32 is the general minimum)
+#define MIN_BPM 31
+#define MAX_BPM 255
 
+// 8bb: delta/pos resolution for non-HQ drivers
 #define MIX_FRAC_BITS 16
 #define MIX_FRAC_MASK ((1 << MIX_FRAC_BITS)-1)
 
 /* 8bb:
 ** Amount of extra bytes to allocate for every instrument sample,
-** this is used for a hack for resampling interpolation to be
-** branchless in the inner channel mixer loop.
-** Warning: Do not change this!
+** this is used for storing interpolation tap samples before
+** entering the mixer.
 */
-#define SMP_DAT_OFFSET 16
-#define SAMPLE_PAD_LENGTH (SMP_DAT_OFFSET+16)
+#define SMP_MAX_INTRP_TAPS 16
+#define SMP_DAT_OFFSET (SMP_MAX_INTRP_TAPS/2)
+#define SAMPLE_PAD_LENGTH (SMP_DAT_OFFSET+(SMP_MAX_INTRP_TAPS/2))
 
 // IT2 AUDIO DRIVERS
 enum
 {
-	DRIVER_HQ = 0, // high-quality custom driver by 8bitbubsy
+	DRIVER_HQ = 0, // 8bb: high-quality custom driver
 	DRIVER_SB16MMX = 1,
 	DRIVER_SB16 = 2,
 	DRIVER_WAVWRITER = 3
@@ -84,6 +101,7 @@ void UpdateGOTONote(void); // mvtiaine: added this to header
 void Music_FillAudioBuffer(int16_t *buffer, int32_t numSamples);
 
 bool Music_Init(int32_t mixingFrequency, int32_t mixingBufferSize, int32_t DriverType);
+void Music_CalculateFilterTables(uint32_t mixingFrequency); // 8bb: added this
 void Music_Close(void); // 8bb: added this
 void Music_Stop(void);
 void Music_StopChannels(void);
