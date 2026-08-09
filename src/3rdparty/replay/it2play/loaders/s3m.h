@@ -7,4 +7,4 @@
 #include "../it_d_rm.h"
 #endif
 
-bool LoadS3M(MEMFILE *m);
+uint8_t LoadS3M(MEMFILE *m); // mvtiaine: fixed return type

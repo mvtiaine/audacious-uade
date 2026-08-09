@@ -10,9 +10,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "../cpu.h"
 #include "../it_structs.h"
-#include "../it_music.h" // Update()
+#include "../it_music.h" // Update(), ASSERT()
 #include "wavwriter_m.h"
 #include "zerovol.h"
 #endif
@@ -69,13 +68,13 @@ static void WAVWriter_MixSamples(void)
 			sc->Flags &= ~SF_CHAN_ON; // Turn off channel
 
 			sc->FinalVol32768 = 0;
-			sc->Flags |= SF_RECALC_FINALVOL;
+			sc->Flags |= SF_UPDATE_MIXERVOL;
 		}
 
 		if (sc->Flags & SF_FREQ_CHANGE)
 		{
 			// mvtiaine: stricter freq/mixspeed limit to fix -fsanitize=address crash with Anubis/the rev.it
-			if ((uint32_t)sc->Frequency>>MIX_FRAC_BITS >= Driver.MixSpeed/2 ||
+			if ((uint32_t)sc->Frequency>>MIX_FRAC_BITS >= Driver.MixFrequency/2 ||
 				(uint32_t)sc->Frequency >= INT32_MAX/2) // 8bb: non-IT2 limit, but required for safety
 			{
 				sc->Flags = SF_NOTE_STOP;
@@ -86,9 +85,9 @@ static void WAVWriter_MixSamples(void)
 			}
 
 			// 8bb: calculate mixer delta
-			uint32_t Quotient = (uint32_t)sc->Frequency / Driver.MixSpeed;
-			uint32_t Remainder = (uint32_t)sc->Frequency % Driver.MixSpeed;
-			sc->Delta32 = (Quotient << MIX_FRAC_BITS) | (uint16_t)((Remainder << MIX_FRAC_BITS) / Driver.MixSpeed);
+			uint32_t Quotient = (uint32_t)sc->Frequency / Driver.MixFrequency;
+			uint32_t Remainder = (uint32_t)sc->Frequency % Driver.MixFrequency;
+			sc->Delta32 = (Quotient << MIX_FRAC_BITS) | (uint16_t)((Remainder << MIX_FRAC_BITS) / Driver.MixFrequency);
 		}
 
 		if (sc->Flags & SF_NEW_NOTE)
@@ -103,7 +102,7 @@ static void WAVWriter_MixSamples(void)
 			// -----------------------
 		}
 
-		if (sc->Flags & (SF_RECALC_FINALVOL | SF_LOOP_CHANGED | SF_PAN_CHANGED))
+		if (sc->Flags & (SF_UPDATE_MIXERVOL | SF_LOOP_CHANGED | SF_PAN_CHANGED))
 		{
 			uint8_t FilterQ;
 
@@ -124,7 +123,7 @@ static void WAVWriter_MixSamples(void)
 			const uint16_t FilterFreqValue = (sc->MIDIBank & 0x00FF) * (uint8_t)((uint16_t)sc->VolEnvState.CurNode >> 8);
 			if (FilterFreqValue != 127*255 || FilterQ != 0)
 			{
-				assert(FilterFreqValue <= 127*255 && FilterQ <= 127);
+				ASSERT(FilterFreqValue <= 127*255 && FilterQ <= 127);
 				const float r = powf(2.0f, (float)FilterFreqValue * Driver.FreqParameterMultiplier) * Driver.FreqMultiplier;
 				const float p = Driver.QualityFactorTable[FilterQ];
 
@@ -209,7 +208,7 @@ static void WAVWriter_MixSamples(void)
 		{
 			const bool Surround = (sc->FinalPan == PAN_SURROUND);
 			mixFunc Mix = WAVWriter_MixFunctionTables[(Surround << 1) + sc->SmpIs16Bit];
-			assert(Mix != NULL);
+			ASSERT(Mix != NULL);
 
 			// 8bb: prepare volume ramp
 
@@ -260,22 +259,26 @@ static void WAVWriter_MixSamples(void)
 						uint32_t SamplesToMix;
 						if (sc->LoopDirection == DIR_BACKWARDS)
 						{
-							SamplesToMix = sc->SamplingPosition - (sc->LoopBegin + 1);
-#if CPU_32BIT
-							if (SamplesToMix > UINT16_MAX) // 8bb: limit it so we can do a hardware 32-bit div (instead of slow software 64-bit div)
-								SamplesToMix = UINT16_MAX;
-#endif
-							SamplesToMix = ((((uintCPUWord_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)sc->Frac32) / sc->Delta32) + 1;
-							Driver.Delta32 = 0 - sc->Delta32;
+							if (sc->SamplingPosition == sc->LoopBegin)
+							{
+								sc->LoopDirection = DIR_FORWARDS;
+								sc->Frac32 = (uint16_t)(0 - sc->Frac32);
+
+								SamplesToMix = (sc->LoopEnd - 1) - sc->SamplingPosition;
+								SamplesToMix = ((((uint64_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)(sc->Frac32 ^ MIX_FRAC_MASK)) / sc->Delta32) + 1;
+								Driver.Delta32 = sc->Delta32;
+							}
+							else
+							{
+								SamplesToMix = sc->SamplingPosition - (sc->LoopBegin + 1);
+								SamplesToMix = ((((uint64_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)sc->Frac32) / sc->Delta32) + 1;
+								Driver.Delta32 = 0 - sc->Delta32;
+							}
 						}
 						else // 8bb: forwards
 						{
 							SamplesToMix = (sc->LoopEnd - 1) - sc->SamplingPosition;
-#if CPU_32BIT
-							if (SamplesToMix > UINT16_MAX)
-								SamplesToMix = UINT16_MAX;
-#endif
-							SamplesToMix = ((((uintCPUWord_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)(sc->Frac32 ^ MIX_FRAC_MASK)) / sc->Delta32) + 1;
+							SamplesToMix = ((((uint64_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)(sc->Frac32 ^ MIX_FRAC_MASK)) / sc->Delta32) + 1;
 							Driver.Delta32 = sc->Delta32;
 						}
 
@@ -295,9 +298,11 @@ static void WAVWriter_MixSamples(void)
 								if (NewLoopPos >= LoopLength)
 								{
 									sc->SamplingPosition = (sc->LoopEnd - 1) - (NewLoopPos - LoopLength);
-
-									if (sc->SamplingPosition <= sc->LoopBegin) // 8bb: non-IT2 edge-case safety for extremely high pitches
-										sc->SamplingPosition = sc->LoopBegin + 1;
+									if (sc->SamplingPosition == sc->LoopBegin)
+									{
+										sc->LoopDirection = DIR_FORWARDS;
+										sc->Frac32 = (uint16_t)(0 - sc->Frac32);
+									}
 								}
 								else
 								{
@@ -318,12 +323,12 @@ static void WAVWriter_MixSamples(void)
 								}
 								else
 								{
-									sc->LoopDirection = DIR_BACKWARDS;
 									sc->SamplingPosition = (sc->LoopEnd - 1) - NewLoopPos;
-									sc->Frac32 = (uint16_t)(0 - sc->Frac32);
-
-									if (sc->SamplingPosition <= sc->LoopBegin) // 8bb: non-IT2 edge-case safety for extremely high pitches
-										sc->SamplingPosition = sc->LoopBegin + 1;
+									if (sc->SamplingPosition != sc->LoopBegin)
+									{
+										sc->LoopDirection = DIR_BACKWARDS;
+										sc->Frac32 = (uint16_t)(0 - sc->Frac32);
+									}
 								}
 							}
 						}
@@ -334,11 +339,7 @@ static void WAVWriter_MixSamples(void)
 					while (MixBlockSize > 0)
 					{
 						uint32_t SamplesToMix = (sc->LoopEnd - 1) - sc->SamplingPosition;
-#if CPU_32BIT
-						if (SamplesToMix > UINT16_MAX)
-							SamplesToMix = UINT16_MAX;
-#endif
-						SamplesToMix = ((((uintCPUWord_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)(sc->Frac32 ^ MIX_FRAC_MASK)) / sc->Delta32) + 1;
+						SamplesToMix = ((((uint64_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)(sc->Frac32 ^ MIX_FRAC_MASK)) / sc->Delta32) + 1;
 						if (SamplesToMix > MixBlockSize)
 							SamplesToMix = MixBlockSize;
 
@@ -357,11 +358,7 @@ static void WAVWriter_MixSamples(void)
 					while (MixBlockSize > 0)
 					{
 						uint32_t SamplesToMix = (sc->LoopEnd - 1) - sc->SamplingPosition;
-#if CPU_32BIT
-						if (SamplesToMix > UINT16_MAX)
-							SamplesToMix = UINT16_MAX;
-#endif
-						SamplesToMix = ((((uintCPUWord_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)(sc->Frac32 ^ MIX_FRAC_MASK)) / sc->Delta32) + 1;
+						SamplesToMix = ((((uint64_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)(sc->Frac32 ^ MIX_FRAC_MASK)) / sc->Delta32) + 1;
 						if (SamplesToMix > MixBlockSize)
 							SamplesToMix = MixBlockSize;
 
@@ -410,25 +407,25 @@ static void WAVWriter_MixSamples(void)
 				sc->OldRightVolume = sc->CurrVolR;
 		}
 
+		// 8bb: clear some flags
 		sc->Flags &= ~(SF_RECALC_PAN      | SF_RECALC_VOL | SF_FREQ_CHANGE |
-		               SF_RECALC_FINALVOL | SF_NEW_NOTE   | SF_NOTE_STOP   |
+		               SF_UPDATE_MIXERVOL | SF_NEW_NOTE   | SF_NOTE_STOP   |
 		               SF_LOOP_CHANGED    | SF_PAN_CHANGED);
 	}
 }
 
 static void WAVWriter_SetTempo(uint8_t Tempo)
 {
-	assert(Tempo >= LOWEST_BPM_POSSIBLE);
-	BytesToMix = ((Driver.MixSpeed << 1) + (Driver.MixSpeed >> 1)) / Tempo;
+	ASSERT(Tempo >= MIN_BPM);
+	BytesToMix = ((Driver.MixFrequency << 1) + (Driver.MixFrequency >> 1)) / Tempo;
 
 	/* 8bb:
 	** IT2 calculates the fractional part of "bytes to mix" here,
-	** but it does it very wrongly, so the range of BytesToMixFractional
+	** but it does it wrongly, so the range of BytesToMixFractional
 	** is 0 .. BPM-1 instead of 0 .. UINT32_MAX-1.
-	** It would take 16909320..inf replayer ticks for the fraction to
-	** overflow!
+	** We intentionally include this bug in the calculation here.
 	*/
-	BytesToMixFractional = ((Driver.MixSpeed << 1) + (Driver.MixSpeed >> 1)) % Tempo;
+	BytesToMixFractional = ((Driver.MixFrequency << 1) + (Driver.MixFrequency >> 1)) % Tempo;
 }
 
 static void WAVWriter_SetMixVolume(uint8_t vol)
@@ -610,7 +607,7 @@ bool WAVWriter_InitDriver(int32_t mixingFrequency)
 		mixingFrequency = 64000;
 
 	// 8bb: +2, make room for "RealBytesToMix" overflow addition
-	const int32_t MaxSamplesToMix = (((mixingFrequency << 1) + (mixingFrequency >> 1)) / LOWEST_BPM_POSSIBLE) + 2;
+	const int32_t MaxSamplesToMix = (((mixingFrequency << 1) + (mixingFrequency >> 1)) / MIN_BPM) + 2;
 
 	MixBuffer = (int32_t *)malloc(MaxSamplesToMix * 2 * sizeof (int32_t));
 	if (MixBuffer == NULL)
@@ -621,7 +618,7 @@ bool WAVWriter_InitDriver(int32_t mixingFrequency)
 
 	Driver.Flags = DF_SUPPORTS_MIDI | DF_USES_VOLRAMP | DF_HAS_RESONANCE_FILTER;
 	Driver.NumChannels = 256;
-	Driver.MixSpeed = mixingFrequency;
+	Driver.MixFrequency = mixingFrequency;
 	Driver.Type = DRIVER_WAVWRITER;
 	Driver.StartNoRamp = false;
 

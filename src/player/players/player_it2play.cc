@@ -37,14 +37,10 @@ constexpr int limitFreq(Driver driver, int frequency) {
         case Driver::SB16MMX:
         case Driver::SB16:
         case Driver::WAVWRITER:
-            return min(frequency, 64000);
+            return max(8000, min(frequency, 64000));
         case Driver::HQ:
-#if CPU_32BIT
-            return min(frequency, 48000);
-#else
-            return min(frequency, 768000);
-#endif
-        default: assert(false); return min(frequency, 48000);
+            return max(32769, min(frequency, 768000));
+        default: assert(false); return max(8000, min(frequency, 64000));
     }
 }
 
@@ -73,39 +69,39 @@ struct it2play_context {
         if (probe) {
             probe::MEMFILE *m = probe::mopen((const uint8_t *)buf, size);
             if (!m) return false;
-            bool res = probe::LoadIT(m);
+            uint8_t res = probe::LoadIT(m);
             probe::mclose(&m);
             probe::Song.Loaded = true;
-            return res;
+            return res == probe::LOAD_OK;
         } else {
             play::MEMFILE *m = play::mopen((const uint8_t *)buf, size);
             if (!m) return false;
-            bool res = play::LoadIT(m);
+            uint8_t res = play::LoadIT(m);
             play::mclose(&m);
             play::Song.Loaded = true;
-            return res;
+            return res == play::LOAD_OK;
         }
     }
     bool LoadS3M(const char *buf, size_t size) noexcept {
         if (probe) {
             probe::MEMFILE *m = probe::mopen((const uint8_t *)buf, size);
             if (!m) return false;
-            bool res = probe::LoadS3M(m);
+            uint8_t res = probe::LoadS3M(m);
             probe::mclose(&m);
             probe::Song.Loaded = true;
-            return res;
+            return res == probe::LOAD_OK;
         } else {
             play::MEMFILE *m = play::mopen((const uint8_t *)buf, size);
             if (!m) return false;
-            bool res = play::LoadS3M(m);
+            uint8_t res = play::LoadS3M(m);
             play::mclose(&m);
             play::Song.Loaded = true;
-            return res;
+            return res == play::LOAD_OK;
         }
     }
     bool Music_LoadFromData(const char *buf, size_t size) noexcept {
-        if (probe) return probe::Music_LoadFromData((uint8_t *)buf, size);
-        else return play::Music_LoadFromData((uint8_t *)buf, size);
+        if (probe) return probe::Music_LoadFromData((uint8_t *)buf, size) == probe::LOAD_OK;
+        else return play::Music_LoadFromData((uint8_t *)buf, size) == play::LOAD_OK;
     }
     bool Music_Init(int32_t mixingFrequency, int32_t mixingBufferSize, Driver driver, bool useFPUCode) noexcept {
         if (probe) probe::UseFPUCode = useFPUCode;
@@ -157,8 +153,8 @@ struct it2play_context {
         else play::UpdateGOTONote();
     }
     int frequency() const noexcept {
-        if (probe) return static_cast<int>(probe::Driver.MixSpeed);
-        else return static_cast<int>(play::Driver.MixSpeed);
+        if (probe) return static_cast<int>(probe::Driver.MixFrequency);
+        else return static_cast<int>(play::Driver.MixFrequency);
     }
     pair<pair<int16_t,int16_t>,uint8_t> posJump(int pattNr, int16_t pattPos) noexcept {
         int16_t effB = -1; // Position Jump
@@ -452,7 +448,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         assert(info);
         useFPUCode = info->format == "Impulse Tracker 2.15";
     }
-    if (!context->Music_Init(config.frequency, mixBufSize(freq), driver, useFPUCode) ||
+    if (!context->Music_Init(freq, mixBufSize(freq), driver, useFPUCode) ||
         !context->Music_LoadFromData(buf, size)) {
         ERR("player_it2play::play could not play %s\n", path);
         delete context;

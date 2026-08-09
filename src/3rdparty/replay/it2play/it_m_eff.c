@@ -442,6 +442,7 @@ void InitNoCommand(hostChn_t *hc)
 	sc->SamplingPosition = 0;
 	sc->Frac32 = 0; // 8bb: clear fractional sampling position
 	sc->Frac64 = 0; // 8bb: also clear frac for my high-quality driver/mixer
+	sc->HasLooped = false; // 8bb: for my high-quality driver/mixer
 	sc->Frequency = sc->FrequencySet = ((uint64_t)s->C5Speed * (uint32_t)PitchTable[hc->TranslatedNote]) >> 16;
 
 	hcFlags |= HF_CHAN_ON;
@@ -563,6 +564,7 @@ void InitCommandF(hostChn_t *hc)
 
 static bool Gxx_ChangeSample(hostChn_t *hc, slaveChn_t *sc, uint8_t sample)
 {
+	// 8bb: clear some flags first
 	sc->Flags &= ~(SF_NOTE_STOP | SF_LOOP_CHANGED | SF_CHN_MUTED | SF_VOLENV_ON |
 	               SF_PANENV_ON | SF_PITCHENV_ON  | SF_PAN_CHANGED);
 
@@ -576,6 +578,7 @@ static bool Gxx_ChangeSample(hostChn_t *hc, slaveChn_t *sc, uint8_t sample)
 	sc->LoopDirection = 0;
 	sc->Frac32 = 0; // 8bb: reset sampling position fraction
 	sc->Frac64 = 0; // 8bb: also clear frac for my high-quality driver/mixer
+	sc->HasLooped = false; // 8bb: for my high-quality driver/mixer
 	sc->SamplingPosition = 0;
 	sc->SmpVol = s->GlobVol * 2;
 
@@ -1029,7 +1032,7 @@ static void InitTremolo(hostChn_t *hc)
 	{
 		slaveChn_t *sc = (slaveChn_t *)hc->SlaveChnPtr;
 
-		sc->Flags |= SF_RECALC_FINALVOL; // Volume change...
+		sc->Flags |= SF_UPDATE_MIXERVOL; // Volume change...
 		CommandR2(hc, sc, hc->LastTremoloData);
 	}
 	else
@@ -1455,7 +1458,7 @@ static void InitCommandX2(hostChn_t *hc, uint8_t pan) // 8bb: pan = 0..63
 	{
 		slaveChn_t *sc = (slaveChn_t *)hc->SlaveChnPtr;
 		sc->Pan = sc->PanSet = pan;
-		sc->Flags |= (SF_RECALC_PAN | SF_RECALC_FINALVOL);
+		sc->Flags |= (SF_RECALC_PAN | SF_UPDATE_MIXERVOL);
 	}
 
 	hc->ChnPan = pan;
@@ -1633,16 +1636,18 @@ void CommandJ(hostChn_t *hc)
 
 	sc->Flags |= SF_FREQ_CHANGE;
 
-	// 8bb: used as an index to a 16-bit LUT (hence increments of 2)
+	/* 8bb: 'Tick' was originally used as an index to a 16-bit LUT (hence increments of 2).
+	** Use the same increment logic just in case it matters for some weird bug or edge-case.
+	*/
 	tick += 2;
 	if (tick >= 6)
 	{
 		*(uint16_t *)&hc->MiscEfxData[0] = 0;
 		return;
 	}
-
 	*(uint16_t *)&hc->MiscEfxData[0] = tick;
 
+	// 8bb: arp note for current tick
 	const uint16_t arpNote = *(uint16_t *)&hc->MiscEfxData[tick];
 
 	uint64_t freq = (uint64_t)sc->Frequency * (uint32_t)PitchTable[arpNote];
@@ -1739,12 +1744,13 @@ void CommandQ(hostChn_t *hc)
 
 	sc->Frac32 = 0; // 8bb: clear sampling position fraction
 	sc->Frac64 = 0; // 8bb: also clear frac for my high-quality driver/mixer
+	sc->HasLooped = false; // 8bb: for my high-quality driver/mixer
 	sc->SamplingPosition = 0;
 
 	// mvtiaine: fix -fsanitize=address crash with Alpha C/decay ii.it
 	if (sc->LoopMode == LOOP_PINGPONG)
 		sc->LoopDirection = DIR_FORWARDS;
-	sc->Flags |= (SF_RECALC_FINALVOL | SF_NEW_NOTE | SF_LOOP_CHANGED);
+	sc->Flags |= (SF_UPDATE_MIXERVOL | SF_NEW_NOTE | SF_LOOP_CHANGED);
 
 	uint8_t vol = sc->VolSet;
 	switch (hc->EfxMem_Q >> 4)

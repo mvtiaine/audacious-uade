@@ -145,6 +145,7 @@ void Music_SetDefaultMIDIDataArea(void) // 8bb: added this
 	memcpy(&MIDIDataArea[1*32], "FC", 2);
 	memcpy(&MIDIDataArea[3*32], "9c n v", 6);
 	memcpy(&MIDIDataArea[4*32], "9c n 0", 6);
+	memcpy(&MIDIDataArea[7*32], "Bc 0 a 20 b", 11);
 	memcpy(&MIDIDataArea[8*32], "Cc p", 4);
 
 	// macro setup (SF0)
@@ -239,7 +240,7 @@ static void MIDISendFilter(hostChn_t *hc, slaveChn_t *sc, uint8_t Data)
 				Driver.FilterParameters[hc->HostChnNum & 127] = Data;
 
 			if (sc != NULL)
-				sc->Flags |= SF_RECALC_FINALVOL;
+				sc->Flags |= SF_UPDATE_MIXERVOL;
 		}
 
 		MIDIInterpretState = 0;
@@ -396,14 +397,14 @@ void MIDITranslate(hostChn_t *hc, slaveChn_t *sc, uint16_t Input)
 				else
 				{
 					uint16_t volume = (sc->VolSet * Song.GlobalVolume * sc->ChnVol) >> 4;
-					volume = (volume * sc->SmpVol) >> 15;
+					uint8_t value = (volume * sc->SmpVol) >> 15;
 
-					if (volume == 0)
-						volume = 1;
-					else if (volume >= 128)
-						volume = 127;
+					if (value == 0)
+						value = 1;
+					else if (value >= 128)
+						value--;
 
-					MIDISendFilter(hc, sc, (uint8_t)volume);
+					MIDISendFilter(hc, sc, value);
 				}
 			}
 			else if (Byte == 'u'-'a') // Volume?
@@ -414,14 +415,14 @@ void MIDITranslate(hostChn_t *hc, slaveChn_t *sc, uint16_t Input)
 				}
 				else
 				{
-					uint16_t volume = sc->FinalVol128;
+					uint8_t value = sc->FinalVol128;
 
-					if (volume == 0)
-						volume = 1;
-					else if (volume >= 128)
-						volume = 127;
+					if (value == 0)
+						value = 1;
+					else if (value >= 128)
+						value--;
 
-					MIDISendFilter(hc, sc, (uint8_t)volume);
+					MIDISendFilter(hc, sc, value);
 				}
 			}
 			else if (Byte == 'h'-'a') // HCN (8bb: host channel number)
@@ -430,14 +431,14 @@ void MIDITranslate(hostChn_t *hc, slaveChn_t *sc, uint16_t Input)
 			}
 			else if (Byte == 'x'-'a') // Pan set
 			{
-				uint16_t value = sc->Pan * 2; // 8bb: yes sc->Pan, not sc->PS
+				uint8_t value = (uint8_t)(sc->Pan * 2); // 8bb: yes, sc->Pan (not sc->PanSet)
 				if (value >= 128)
 					value--;
 
 				if (value >= 128)
 					value = 64;
 
-				MIDISendFilter(hc, sc, (uint8_t)value);
+				MIDISendFilter(hc, sc, value);
 			}
 			else if (Byte == 'p'-'a') // Program?
 			{
@@ -471,7 +472,7 @@ void InitPlayInstrument(hostChn_t *hc, slaveChn_t *sc, instrument_t *ins)
 		sc->MIDIChn = ins->MIDIChn;
 		sc->MIDIProg = ins->MIDIProg;
 		sc->MIDIBank = ins->MIDIBank;
-		sc->LoopDirection = hc->RawNote; // 8bb: during MIDI, LpD = MIDI note
+		sc->LoopDirection = hc->RawNote; // 8bb: during MIDI, sc->LoopDirection = MIDI note
 	}
 
 	sc->ChnVol = hc->ChnVol;
@@ -513,9 +514,14 @@ void InitPlayInstrument(hostChn_t *hc, slaveChn_t *sc, instrument_t *ins)
 
 	sc->Flags = SF_CHAN_ON + SF_RECALC_PAN + SF_RECALC_VOL + SF_FREQ_CHANGE + SF_NEW_NOTE;
 
-	if (ins->VolEnv.Flags & ENVF_ENABLED) sc->Flags |= SF_VOLENV_ON;
-	if (ins->PanEnv.Flags & ENVF_ENABLED) sc->Flags |= SF_PANENV_ON;
-	if (ins->PitchEnv.Flags & ENVF_ENABLED) sc->Flags |= SF_PITCHENV_ON;
+	if (ins->VolEnv.Flags & ENVF_ENABLED)
+		sc->Flags |= SF_VOLENV_ON;
+
+	if (ins->PanEnv.Flags & ENVF_ENABLED)
+		sc->Flags |= SF_PANENV_ON;
+
+	if (ins->PitchEnv.Flags & ENVF_ENABLED)
+		sc->Flags |= SF_PITCHENV_ON;
 
 	if (LastSlaveChannel != NULL)
 	{
@@ -631,7 +637,7 @@ static slaveChn_t *AllocateChannelSample(hostChn_t *hc, uint8_t *hcFlags)
 // 8bb: this function is used in AllocateChannel()
 static slaveChn_t *AllocateChannelInstrument(hostChn_t *hc, slaveChn_t *sc, instrument_t *ins, uint8_t *hcFlags)
 {
-	assert(hc != NULL && sc != NULL && ins != NULL);
+	ASSERT(hc != NULL && sc != NULL && ins != NULL);
 
 	hc->SlaveChnPtr = sc;
 	sc->HostChnNum = hc->HostChnNum;
@@ -656,7 +662,7 @@ static slaveChn_t *AllocateChannelInstrument(hostChn_t *hc, slaveChn_t *sc, inst
 		return NULL;
 	}
 
-	sc->Smp = hc->Smp-1;
+	sc->Smp = hc->Smp - 1;
 	sample_t *s = sc->SmpPtr = &Song.Smp[sc->Smp];
 
 	if (s->Length == 0 || !(s->Flags & SMPF_ASSOCIATED_WITH_HEADER))
@@ -922,7 +928,7 @@ slaveChn_t *AllocateChannel(hostChn_t *hc, uint8_t *hcFlags)
 	uint8_t count = 2; // Find maximum count, has to be greater than 2 channels
 	for (int32_t i = 0; i < 100; i++)
 	{
-		if (count < ChannelCountTable[i])
+		if (ChannelCountTable[i] > count)
 		{
 			count = ChannelCountTable[i];
 			sc = ChannelLocationTable[i];
@@ -951,7 +957,7 @@ slaveChn_t *AllocateChannel(hostChn_t *hc, uint8_t *hcFlags)
 		count = 1;
 		for (uint8_t i = 0; i < MAX_HOST_CHANNELS; i++)
 		{
-			if (count < ChannelCountTable[i])
+			if (ChannelCountTable[i] > count)
 			{
 				count = ChannelCountTable[i];
 				hostChnNum = i;
@@ -988,7 +994,7 @@ slaveChn_t *AllocateChannel(hostChn_t *hc, uint8_t *hcFlags)
 		sc = NULL; // Offset
 
 		lowestVol = 255;
-		uint8_t targetSmp = hc->Smp-1;
+		uint8_t targetSmp = hc->Smp - 1;
 
 		slaveChn_t *scTmp = AllocateSlaveOffset;
 		for (uint32_t i = 0; i < AllocateNumChannels; i++, scTmp++)
@@ -1073,7 +1079,7 @@ void GetLoopInformation(slaveChn_t *sc)
 	uint8_t LoopMode;
 	int32_t LoopBegin, LoopEnd;
 
-	assert(sc->SmpPtr != NULL);
+	ASSERT(sc->SmpPtr != NULL);
 	sample_t *s = sc->SmpPtr;
 
 	bool LoopEnabled = !!(s->Flags & (SMPF_USE_LOOP | SMPF_USE_SUSTAINLOOP));
@@ -1117,6 +1123,10 @@ void GetLoopInformation(slaveChn_t *sc)
 		sc->LoopBegin = LoopBegin;
 		sc->LoopEnd = LoopEnd;
 		sc->Flags |= SF_LOOP_CHANGED;
+
+		// 8bb: for my high quality mixer
+		if (sc->SamplingPosition < sc->LoopBegin)
+			sc->HasLooped = false;
 	}
 }
 
@@ -1157,8 +1167,7 @@ void ApplyRandomValues(hostChn_t *hc)
 
 void PitchSlideUp(hostChn_t *hc, slaveChn_t *sc, int16_t SlideValue)
 {
-	assert(sc != NULL);
-	assert(hc != NULL);
+	ASSERT(sc != NULL && hc != NULL);
 
 	if (Song.Header.Flags & ITF_LINEAR_FRQ)
 	{
@@ -1215,18 +1224,18 @@ if (UseFPUCode) { // mvtiaine: changed to runtime check
 
 			FreqSlide64 += PeriodBase;
 
-			uint32_t ShitValue = 0;
+			uint32_t ShiftValue = 0;
 			while (FreqSlide64 > UINT32_MAX)
 			{
 				FreqSlide64 >>= 1;
-				ShitValue++;
+				ShiftValue++;
 			}
 
 			uint32_t Temp32 = (uint32_t)FreqSlide64;
 			uint64_t Temp64 = (uint64_t)sc->Frequency * (uint32_t)PeriodBase;
 
-			if (ShitValue > 0)
-				Temp64 >>= ShitValue;
+			if (ShiftValue > 0)
+				Temp64 >>= ShiftValue;
 
 			if (Temp32 <= Temp64>>32)
 			{
@@ -1276,12 +1285,10 @@ if (UseFPUCode) { // mvtiaine: changed to runtime check
 
 void PitchSlideUpLinear(hostChn_t *hc, slaveChn_t *sc, int16_t SlideValue)
 {
-	assert(sc != NULL);
-	assert(hc != NULL);
 	// mvtiaine: avoid assert with Pro-XeX/anixiapolis 19.it 
 	if (SlideValue < -1024) SlideValue = -1024;
 	if (SlideValue > 1024) SlideValue = 1024;
-	assert(SlideValue >= -1024 && SlideValue <= 1024);
+	ASSERT(sc != NULL && hc != NULL && SlideValue >= -1024 && SlideValue <= 1024);
 
 //#ifdef USEFPUCODE // 8bb: IT2.15 (registered)
 if (UseFPUCode) { // mvtiaine: changed to runtime check
@@ -1362,7 +1369,7 @@ void PitchSlideDown(hostChn_t *hc, slaveChn_t *sc, int16_t SlideValue)
 
 static uint8_t *Music_GetPattern(uint32_t pattern, uint16_t *numRows)
 {
-	assert(pattern < MAX_PATTERNS);
+	ASSERT(pattern < MAX_PATTERNS);
 	pattern_t *p = &Song.Patt[pattern];
 
 	if (p->PackedData == NULL)
@@ -1486,7 +1493,7 @@ static void UpdateNoteData(void)
 	if (Song.CurrentPattern != Song.DecodeExpectedPattern || ++Song.DecodeExpectedRow != Song.CurrentRow)
 		UpdateGOTONote();
 
-	// First clear all old command&value.
+	// First clear all old command&value. (8bb: clear some flags)
 	hc = hChn;
 	for (int32_t i = 0; i < MAX_HOST_CHANNELS; i++, hc++)
 		hc->Flags &= ~(HF_UPDATE_EFX_IF_CHAN_ON | HF_ALWAYS_UPDATE_EFX | HF_ROW_UPDATED | HF_UPDATE_VOLEFX_IF_CHAN_ON);
@@ -1639,7 +1646,7 @@ static void UpdateData(void)
 
 static void UpdateAutoVibrato(slaveChn_t *sc) // 8bb: renamed from UpdateVibrato() to UpdateAutoVibrato() for clarity
 {
-	assert(sc->SmpPtr != NULL);
+	ASSERT(sc->SmpPtr != NULL);
 	sample_t *smp = sc->SmpPtr;
 
 	if (smp->AutoVibratoDepth == 0)
@@ -1665,7 +1672,7 @@ static void UpdateAutoVibrato(slaveChn_t *sc) // 8bb: renamed from UpdateVibrato
 	{
 		sc->AutoVibratoPos += smp->AutoVibratoSpeed; // Update pointer.
 
-		assert(smp->AutoVibratoWaveform < 3);
+		ASSERT(smp->AutoVibratoWaveform < 3);
 		VibratoData = FineSineData[(smp->AutoVibratoWaveform << 8) + sc->AutoVibratoPos];
 	}
 
@@ -1795,7 +1802,7 @@ static void UpdateInstruments(void)
 					EnvVal--;
 
 				sc->MIDIBank = (sc->MIDIBank & 0xFF00) | (uint8_t)EnvVal; // 8bb: don't mess with upper byte!
-				sc->Flags |= SF_RECALC_FINALVOL;
+				sc->Flags |= SF_UPDATE_MIXERVOL;
 			}
 
 			if (sc->Flags & SF_PANENV_ON)
@@ -1882,7 +1889,7 @@ static void UpdateInstruments(void)
 		if (sc->Flags & SF_RECALC_VOL) // Calculate volume
 		{
 			sc->Flags &= ~SF_RECALC_VOL;
-			sc->Flags |= SF_RECALC_FINALVOL;
+			sc->Flags |= SF_UPDATE_MIXERVOL;
 
 			uint16_t volume = (sc->Vol * sc->ChnVol * sc->FadeOut) >> 7;
 			volume = (volume * sc->SmpVol) >> 7;
@@ -1891,7 +1898,7 @@ static void UpdateInstruments(void)
 			// mvtiaine: avoid assert with Beek/sonic dreams.it
 			if (volume > 32768)
 				volume = 32768;
-			assert(volume <= 32768);
+			ASSERT(volume <= 32768);
 
 			sc->FinalVol32768 = volume; // 8bb: 0..32768
 			sc->FinalVol128 = volume >> 8; // 8bb: 0..128
@@ -1922,7 +1929,7 @@ static void UpdateInstruments(void)
 				PanVal -= 32;
 
 				sc->FinalPan = (int8_t)(((PanVal * (int8_t)(Song.Header.PanSep >> 1)) >> 6) + 32); // 8bb: 0..64
-				assert(sc->FinalPan <= 64);
+				ASSERT(sc->FinalPan <= 64);
 			}
 		}
 
@@ -1941,10 +1948,10 @@ static void UpdateSamples(void) // 8bb: for songs without instruments
 		if (sc->Flags & SF_RECALC_VOL) // 8bb: recalculate volume
 		{
 			sc->Flags &= ~SF_RECALC_VOL;
-			sc->Flags |= SF_RECALC_FINALVOL;
+			sc->Flags |= SF_UPDATE_MIXERVOL;
 
 			uint16_t volume = (((sc->Vol * sc->ChnVol * sc->SmpVol) >> 4) * Song.GlobalVolume) >> 7;
-			assert(volume <= 32768);
+			ASSERT(volume <= 32768);
 
 			sc->FinalVol32768 = volume; // 8bb: 0..32768
 			sc->FinalVol128 = volume >> 8; // 8bb: 0..128
@@ -1962,7 +1969,7 @@ static void UpdateSamples(void) // 8bb: for songs without instruments
 			else if (sc->Pan <= 64) // mvtiaine: added sanity check to avoid assert with Kheldysh/IT.hmmburger
 			{
 				sc->FinalPan = ((((int8_t)sc->Pan - 32) * (int8_t)(Song.Header.PanSep >> 1)) >> 6) + 32; // 8bb: 0..64
-				assert(sc->FinalPan <= 64);
+				ASSERT(sc->FinalPan <= 64);
 			}
 			else
 			{
@@ -2062,18 +2069,26 @@ bool Music_Init(int32_t mixingFrequency, int32_t mixingBufferSize, int32_t Drive
 		break;
 	}
 
-	// 8bb: pre-calc filter coeff tables if the selected driver has filter support
+	return true;
+}
+
+void Music_CalculateFilterTables(uint32_t mixingFrequency) // 8bb: added this
+{
 	if (Driver.Flags & DF_HAS_RESONANCE_FILTER)
 	{
-		// 8bb: pre-calculate QualityFactorTable (bit-accurate)
-		for (int16_t i = 0; i < 128; i++)
-			Driver.QualityFactorTable[i] = (float)pow(10.0, (-i * 24.0) / (128.0 * 20.0));
+		double filterStep;
 
-		Driver.FreqParameterMultiplier = -0.000162760407f; // -1/(24*256) (8bb: w/ small rounding error!)
-		Driver.FreqMultiplier = 0.00121666200f * (float)mixingFrequency; // 1/(2*PI*110.0*2^0.25) * mixingFrequency
+		if ((Song.Header.Flags & ITF_MPT_EXT_FILTER_RANGE) && (Driver.Flags & DF_SUPPORTS_MPT_EXT_FILTER_RANGE))
+			filterStep = 20.0; // ModPlug Tracker 'extended filter range' mode
+		else
+			filterStep = 24.0; // IT2
+
+		for (int32_t i = 0; i < 128; i++)
+			Driver.QualityFactorTable[i] = (float)pow(10.0, (-i * filterStep) / (128.0 * 20.0));
+
+		Driver.FreqParameterMultiplier = (float)(-1.0 / (filterStep * 256.0));
+		Driver.FreqMultiplier = (float)((1.0 / (2.0 * PI * 110.0 * exp2(0.25))) * mixingFrequency);
 	}
-
-	return true;
 }
 
 void Music_Close(void) // 8bb: added this
@@ -2246,7 +2261,7 @@ void Music_ReleaseSample(uint32_t sample)
 {
 	lockMixer();
 	
-	assert(sample < MAX_SAMPLES);
+	ASSERT(sample < MAX_SAMPLES);
 	sample_t *smp = &Song.Smp[sample];
 
 	if (smp->OrigData  != NULL) free(smp->OrigData);
@@ -2260,7 +2275,7 @@ void Music_ReleaseSample(uint32_t sample)
 
 bool Music_AllocatePattern(uint32_t pattern, uint32_t length)
 {
-	assert(pattern < MAX_PATTERNS);
+	ASSERT(pattern < MAX_PATTERNS);
 	pattern_t *p = &Song.Patt[pattern];
 
 	if (p->PackedData != NULL)
@@ -2276,7 +2291,7 @@ bool Music_AllocatePattern(uint32_t pattern, uint32_t length)
 
 bool Music_AllocateSample(uint32_t sample, uint32_t length)
 {
-	assert(sample < MAX_SAMPLES);
+	ASSERT(sample < MAX_SAMPLES);
 	sample_t *s = &Song.Smp[sample];
 
 	// 8bb: done a little differently than IT2
@@ -2286,7 +2301,7 @@ bool Music_AllocateSample(uint32_t sample, uint32_t length)
 		return false;
 
 	memset((int8_t *)s->OrigData, 0, SMP_DAT_OFFSET);
-	memset((int8_t *)s->OrigData + length, 0, 32);
+	memset((int8_t *)s->OrigData + length, 0, SMP_MAX_INTRP_TAPS/2);
 
 	// 8bb: offset sample so that we can fix negative interpolation taps
 	s->Data = (int8_t *)s->OrigData + SMP_DAT_OFFSET;
@@ -2299,7 +2314,7 @@ bool Music_AllocateSample(uint32_t sample, uint32_t length)
 
 bool Music_AllocateRightSample(uint32_t sample, uint32_t length) // 8bb: added this
 {
-	assert(sample < MAX_SAMPLES);
+	ASSERT(sample < MAX_SAMPLES);
 	sample_t *s = &Song.Smp[sample];
 
 	s->OrigDataR = (int8_t *)malloc(length + SAMPLE_PAD_LENGTH); // 8bb: extra bytes for interpolation taps, filled later
@@ -2307,7 +2322,7 @@ bool Music_AllocateRightSample(uint32_t sample, uint32_t length) // 8bb: added t
 		return false;
 
 	memset((int8_t *)s->OrigDataR, 0, SMP_DAT_OFFSET);
-	memset((int8_t *)s->OrigDataR + length, 0, 32);
+	memset((int8_t *)s->OrigDataR + length, 0, SMP_MAX_INTRP_TAPS/2);
 
 	// 8bb: offset sample so that we can fix negative interpolation taps
 	s->DataR = (int8_t *)s->OrigDataR + SMP_DAT_OFFSET;
@@ -2319,7 +2334,7 @@ void Music_ReleasePattern(uint32_t pattern)
 {
 	lockMixer();
 	
-	assert(pattern < MAX_PATTERNS);
+	ASSERT(pattern < MAX_PATTERNS);
 	pattern_t *p = &Song.Patt[pattern];
 
 	if (p->PackedData != NULL)
@@ -2411,14 +2426,9 @@ static void WAV_WriteEnd(FILE *f, uint32_t size)
 	fwrite(&size, 4, 1, f);
 }
 
-void WAVRender_Abort(void)
-{
-	WAVRender_Flag = false;
-}
-
 bool Music_RenderToWAV(const char *filenameOut)
 {
-	const int32_t MaxSamplesToMix = (((Driver.MixSpeed << 1) + (Driver.MixSpeed >> 1)) / LOWEST_BPM_POSSIBLE) + 1;
+	const int32_t MaxSamplesToMix = (((Driver.MixFrequency << 1) + (Driver.MixFrequency >> 1)) / MIN_BPM) + 1;
 
 	int16_t *AudioBuffer = (int16_t *)malloc(MaxSamplesToMix * 2 * sizeof (int16_t));
 	if (AudioBuffer == NULL)
@@ -2435,7 +2445,7 @@ bool Music_RenderToWAV(const char *filenameOut)
 		return false;
 	}
 
-	WAV_WriteHeader(f, Driver.MixSpeed);
+	WAV_WriteHeader(f, Driver.MixFrequency);
 	uint32_t TotalSamples = 0;
 
 	WAVRender_Flag = true;
@@ -2452,7 +2462,7 @@ bool Music_RenderToWAV(const char *filenameOut)
 		DriverMixSamples();
 
 		const int32_t BytesToMix = DriverPostMix(AudioBuffer, 0);
-		assert(BytesToMix <= MaxSamplesToMix);
+		ASSERT(BytesToMix <= MaxSamplesToMix);
 
 		fwrite(AudioBuffer, 2, BytesToMix * 2, f);
 		TotalSamples += BytesToMix * 2;

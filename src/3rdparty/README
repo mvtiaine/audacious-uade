@@ -1,13 +1,13 @@
 The following software is vendored here:
 
-- miniz 3.0.2 (MIT) - https://github.com/richgel999/miniz
+- miniz 3.1.2 (MIT) - https://github.com/richgel999/miniz
 - proplayer.h (OctaMED-Soundstudio-Player) - https://aminet.net/package/dev/src/OcSS_src
 - SimpleBinStream.h 1.0.4 (MIT) - https://github.com/shaovoon/simplebinstream
 - xxHash v0.8.3 (BSD-2-Clause) - https://github.com/Cyan4973/xxHash
 
-- ft2play (BSD-3-Clause) - https://github.com/8bitbubsy/ft2play
+- ft2play (39af5cc) (BSD-3-Clause) - https://github.com/8bitbubsy/ft2play
 - HivelyTracker 1.9 (BSD-3-Clause) - https://github.com/pete-gordon/hivelytracker
-- it2play (BSD-3-Clause) - https://github.com/8bitbubsy/it2play
+- it2play (b15b7dd) (BSD-3-Clause) - https://github.com/8bitbubsy/it2play
 - libdigibooster3 1.2 (BSD-2-Clause) - https://github.com/grzegorz-kraszewski/libdigibooster3
 - NoiseTrekker2 final - https://web.archive.org/web/20001009054141fw_/http://www.geocities.com/SiliconValley/Monitor/5269/download.htm
 - ProTrekkr v1.99e (BSD-2-Clause) - https://code.google.com/archive/p/protrekkr/

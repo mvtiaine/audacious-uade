@@ -11,9 +11,8 @@
 #include <string.h>
 #include <math.h> // nearbyintf()
 #include <fenv.h> // fesetround()
-#include "../cpu.h"
 #include "../it_structs.h"
-#include "../it_music.h" // Update()
+#include "../it_music.h" // Update(), ASSERT()
 #include "sb16mmx_m.h"
 #include "zerovol.h"
 #endif
@@ -50,7 +49,7 @@ static void SB16MMX_MixSamples(void)
 			if (sc->Flags & SF_FREQ_CHANGE)
 			{
 				// mvtiaine: stricter freq/mixspeed limit to fix -fsanitize=address crash with Anubis/the rev.it
-				if ((uint32_t)sc->Frequency>>MIX_FRAC_BITS >= Driver.MixSpeed/2 ||
+				if ((uint32_t)sc->Frequency>>MIX_FRAC_BITS >= Driver.MixFrequency/2 ||
 					(uint32_t)sc->Frequency >= INT32_MAX/2) // 8bb: non-IT2 limit, but required for safety
 				{
 					sc->Flags = SF_NOTE_STOP;
@@ -61,12 +60,12 @@ static void SB16MMX_MixSamples(void)
 				}
 
 				// 8bb: calculate mixer delta (could be faster, but slow method needed for OldSamplesBug)
-				uint32_t Quotient = (uint32_t)sc->Frequency / Driver.MixSpeed;
-				uint32_t Remainder = (uint32_t)sc->Frequency % Driver.MixSpeed;
+				uint32_t Quotient = (uint32_t)sc->Frequency / Driver.MixFrequency;
+				uint32_t Remainder = (uint32_t)sc->Frequency % Driver.MixFrequency;
 				sc->Delta32 = Quotient << MIX_FRAC_BITS;
 				Remainder <<= MIX_FRAC_BITS;
-				Quotient = (uint32_t)Remainder / Driver.MixSpeed;
-				Remainder = (uint32_t)Remainder % Driver.MixSpeed;
+				Quotient = (uint32_t)Remainder / Driver.MixFrequency;
+				Remainder = (uint32_t)Remainder % Driver.MixFrequency;
 				sc->Delta32 |= (uint16_t)Quotient;
 
 				OldSamplesBug = (uint16_t)Remainder; // 8bb: fun
@@ -79,12 +78,12 @@ static void SB16MMX_MixSamples(void)
 				sc->OldSamples[0] = 0;
 
 				/* 8bb: This one was supposed to be cleared, but Jeffrey Lim accidentally used
-				** the DX register instead of the AX one.
-				** That means that the content relies on what was in DX at the time. Thankfully,
-				** whenever the SF_NEW_NOTE is set, SF_FREQ_CHANGE is also set, hence we only need
-				** to simulate a DX value change from the mixer delta calculation (see above).
+				** the DX register instead of AX. That means that the content relies on what was
+				** in DX at the time. Thankfully, whenever the SF_NEW_NOTE is set, SF_FREQ_CHANGE
+				** is also set, hence we only need to simulate a DX value change from the mixer
+				** delta calculation (see above).
 				**
-				** This quirk is important, as it can actually change the shape of the waveform.
+				** This bug is important to simulate, as it can actually change the shape of the waveform.
 				*/
 				sc->OldSamples[1] = OldSamplesBug;
 				// -----------------------
@@ -92,7 +91,7 @@ static void SB16MMX_MixSamples(void)
 				sc->OldLeftVolume = sc->OldRightVolume = 0; // Current Volume = 0 for volume sliding.
 			}
 
-			if (sc->Flags & (SF_RECALC_FINALVOL | SF_NEW_NOTE | SF_LOOP_CHANGED | SF_PAN_CHANGED))
+			if (sc->Flags & (SF_UPDATE_MIXERVOL | SF_NEW_NOTE | SF_LOOP_CHANGED | SF_PAN_CHANGED))
 			{
 				if (sc->Flags & SF_CHN_MUTED)
 				{
@@ -142,7 +141,7 @@ static void SB16MMX_MixSamples(void)
 						const uint16_t FilterFreqValue = (sc->MIDIBank & 0x00FF) * (uint8_t)((uint16_t)sc->VolEnvState.CurNode >> 8);
 						if (FilterFreqValue != 127*255 || FilterQ != 0)
 						{
-							assert(FilterFreqValue <= 127*255 && FilterQ <= 127);
+							ASSERT(FilterFreqValue <= 127*255 && FilterQ <= 127);
 							const float r = powf(2.0f, (float)FilterFreqValue * Driver.FreqParameterMultiplier) * Driver.FreqMultiplier;
 							const float p = Driver.QualityFactorTable[FilterQ];
 
@@ -168,7 +167,7 @@ static void SB16MMX_MixSamples(void)
 
 							/*
 							** 8bb: For all possible filter parameters ((127*255+1)*(127+1) = 4145408), there's about
-							** 0.06% off-by-one errors on x86/x86_64 versus real IT2. This is still pretty accurate.
+							** 0.06% off-by-one errors in it2play vs. real IT2. This is fairly accurate.
 							**
 							** Use nearbyintf() instead of roundf(), to get even less rounding errors vs. IT2 for
 							** special numbers. The default rounding mode is FE_TONEAREST, which is what we want.
@@ -253,7 +252,7 @@ static void SB16MMX_MixSamples(void)
 			** MixOffset 4 = Use position update routine (zero volume)
 			*/
 			mixFunc Mix = SB16MMX_MixFunctionTables[(sc->MixOffset << 1) + sc->SmpIs16Bit];
-			assert(Mix != NULL);
+			ASSERT(Mix != NULL);
 
 			// 8bb: pre-mix routine
 			if (sc->MixOffset >= 2) // 8bb: volramp used?
@@ -265,7 +264,7 @@ static void SB16MMX_MixSamples(void)
 				if (sc->MixOffset == 3) // 8bb: filters (and volramp)
 				{
 					// 8bb: filters uses double volume range (because of 15-bit sample input)
-					if (sc->Flags & (SF_RECALC_FINALVOL | SF_NEW_NOTE | SF_LOOP_CHANGED | SF_PAN_CHANGED))
+					if (sc->Flags & (SF_UPDATE_MIXERVOL | SF_NEW_NOTE | SF_LOOP_CHANGED | SF_PAN_CHANGED))
 					{
 						DestVolL += DestVolL;
 						DestVolR += DestVolR;
@@ -310,9 +309,11 @@ static void SB16MMX_MixSamples(void)
 								if (NewLoopPos >= LoopLength)
 								{
 									sc->SamplingPosition = (sc->LoopEnd - 1) - (NewLoopPos - LoopLength);
-
-									if (sc->SamplingPosition <= sc->LoopBegin) // 8bb: non-IT2 edge-case safety for extremely high pitches
-										sc->SamplingPosition = sc->LoopBegin + 1;
+									if (sc->SamplingPosition == sc->LoopBegin)
+									{
+										sc->LoopDirection = DIR_FORWARDS;
+										sc->Frac32 = (uint16_t)(0 - sc->Frac32);
+									}
 								}
 								else
 								{
@@ -333,12 +334,12 @@ static void SB16MMX_MixSamples(void)
 								}
 								else
 								{
-									sc->LoopDirection = DIR_BACKWARDS;
 									sc->SamplingPosition = (sc->LoopEnd - 1) - NewLoopPos;
-									sc->Frac32 = (uint16_t)(0 - sc->Frac32);
-
-									if (sc->SamplingPosition <= sc->LoopBegin) // 8bb: non-IT2 edge-case safety for extremely high pitches
-										sc->SamplingPosition = sc->LoopBegin + 1;
+									if (sc->SamplingPosition != sc->LoopBegin)
+									{
+										sc->LoopDirection = DIR_BACKWARDS;
+										sc->Frac32 = (uint16_t)(0 - sc->Frac32);
+									}
 								}
 							}
 						}
@@ -347,21 +348,13 @@ static void SB16MMX_MixSamples(void)
 						if (sc->LoopDirection == DIR_BACKWARDS)
 						{
 							SamplesToMix = sc->SamplingPosition - (sc->LoopBegin + 1);
-#if CPU_32BIT
-							if (SamplesToMix > UINT16_MAX) // 8bb: limit it so we can do a hardware 32-bit div (instead of slow software 64-bit div)
-								SamplesToMix = UINT16_MAX;
-#endif
-							SamplesToMix = ((((uintCPUWord_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)sc->Frac32) / sc->Delta32) + 1;
+							SamplesToMix = ((((uint64_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)sc->Frac32) / sc->Delta32) + 1;
 							Driver.Delta32 = 0 - sc->Delta32;
 						}
 						else // 8bb: forwards
 						{
 							SamplesToMix = (sc->LoopEnd - 1) - sc->SamplingPosition;
-#if CPU_32BIT
-							if (SamplesToMix > UINT16_MAX)
-								SamplesToMix = UINT16_MAX;
-#endif
-							SamplesToMix = ((((uintCPUWord_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)(sc->Frac32 ^ MIX_FRAC_MASK)) / sc->Delta32) + 1;
+							SamplesToMix = ((((uint64_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)(sc->Frac32 ^ MIX_FRAC_MASK)) / sc->Delta32) + 1;
 							Driver.Delta32 = sc->Delta32;
 						}
 
@@ -382,11 +375,7 @@ static void SB16MMX_MixSamples(void)
 							sc->SamplingPosition = sc->LoopBegin + ((uint32_t)(sc->SamplingPosition - sc->LoopEnd) % LoopLength);
 
 						uint32_t SamplesToMix = (sc->LoopEnd - 1) - sc->SamplingPosition;
-#if CPU_32BIT
-						if (SamplesToMix > UINT16_MAX)
-							SamplesToMix = UINT16_MAX;
-#endif
-						SamplesToMix = ((((uintCPUWord_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)(sc->Frac32 ^ MIX_FRAC_MASK)) / sc->Delta32) + 1;
+						SamplesToMix = ((((uint64_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)(sc->Frac32 ^ MIX_FRAC_MASK)) / sc->Delta32) + 1;
 						if (SamplesToMix > MixBlockSize)
 							SamplesToMix = MixBlockSize;
 
@@ -411,11 +400,7 @@ static void SB16MMX_MixSamples(void)
 						}
 
 						uint32_t SamplesToMix = (sc->LoopEnd - 1) - sc->SamplingPosition;
-#if CPU_32BIT
-						if (SamplesToMix > UINT16_MAX)
-							SamplesToMix = UINT16_MAX;
-#endif
-						SamplesToMix = ((((uintCPUWord_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)(sc->Frac32 ^ MIX_FRAC_MASK)) / sc->Delta32) + 1;
+						SamplesToMix = ((((uint64_t)SamplesToMix << MIX_FRAC_BITS) | (uint16_t)(sc->Frac32 ^ MIX_FRAC_MASK)) / sc->Delta32) + 1;
 						if (SamplesToMix > MixBlockSize)
 							SamplesToMix = MixBlockSize;
 
@@ -435,16 +420,17 @@ static void SB16MMX_MixSamples(void)
 			}
 		}
 
+		// 8bb: clear some flags
 		sc->Flags &= ~(SF_RECALC_PAN      | SF_RECALC_VOL | SF_FREQ_CHANGE |
-		               SF_RECALC_FINALVOL | SF_NEW_NOTE   | SF_NOTE_STOP   |
+		               SF_UPDATE_MIXERVOL | SF_NEW_NOTE   | SF_NOTE_STOP   |
 		               SF_LOOP_CHANGED    | SF_PAN_CHANGED);
 	}
 }
 
 static void SB16MMX_SetTempo(uint8_t Tempo)
 {
-	assert(Tempo >= LOWEST_BPM_POSSIBLE);
-	BytesToMix = ((Driver.MixSpeed << 1) + (Driver.MixSpeed >> 1)) / Tempo;
+	ASSERT(Tempo >= MIN_BPM);
+	BytesToMix = ((Driver.MixFrequency << 1) + (Driver.MixFrequency >> 1)) / Tempo;
 }
 
 static void SB16MMX_SetMixVolume(uint8_t vol)
@@ -583,7 +569,7 @@ bool SB16MMX_InitDriver(int32_t mixingFrequency)
 	else if (mixingFrequency > 64000)
 		mixingFrequency = 64000;
 
-	const int32_t MaxSamplesToMix = (((mixingFrequency << 1) + (mixingFrequency >> 1)) / LOWEST_BPM_POSSIBLE) + 1;
+	const int32_t MaxSamplesToMix = (((mixingFrequency << 1) + (mixingFrequency >> 1)) / MIN_BPM) + 1;
 
 	MixBuffer = (int32_t *)malloc(MaxSamplesToMix * 2 * sizeof (int32_t));
 	if (MixBuffer == NULL)
@@ -591,7 +577,7 @@ bool SB16MMX_InitDriver(int32_t mixingFrequency)
 
 	Driver.Flags = DF_SUPPORTS_MIDI | DF_USES_VOLRAMP | DF_HAS_RESONANCE_FILTER;
 	Driver.NumChannels = 128;
-	Driver.MixSpeed = mixingFrequency;
+	Driver.MixFrequency = mixingFrequency;
 	Driver.Type = DRIVER_SB16MMX;
 
 	// 8bb: setup driver functions

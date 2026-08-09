@@ -11,23 +11,24 @@
 #ifndef AUDACIOUS_UADE
 #include <assert.h>
 #include <stdint.h>
-#include "../cpu.h"
 #include "../it_structs.h"
-#include "../it_music.h"
+#include "../it_music.h" // ASSERT()
 #endif
 
 void UpdateNoLoop(slaveChn_t *sc, uint32_t numSamples)
 {
-	assert(numSamples <= UINT16_MAX);
-	uint32_t IntSamples = (sc->Delta32 >> MIX_FRAC_BITS) * numSamples;
-	uint32_t FracSamples = (sc->Delta32 & MIX_FRAC_MASK) * numSamples;
+	uint32_t SamplingPosition = sc->SamplingPosition;
 
-	uint32_t SampleOffset = sc->SamplingPosition + IntSamples;
+	const uint64_t Delta = (uint64_t)sc->Delta32 * numSamples;
+	const uint32_t IntSamples = (uint32_t)(Delta >> MIX_FRAC_BITS);
+	const uint16_t FracSamples = Delta & MIX_FRAC_MASK;
+
 	sc->Frac32 += FracSamples;
-	SampleOffset += sc->Frac32 >> MIX_FRAC_BITS;
+	SamplingPosition += sc->Frac32 >> MIX_FRAC_BITS;
 	sc->Frac32 &= MIX_FRAC_MASK;
+	SamplingPosition += IntSamples;
 
-	if (SampleOffset >= (uint32_t)sc->LoopEnd)
+	if (SamplingPosition >= (uint32_t)sc->LoopEnd)
 	{
 		sc->Flags = SF_NOTE_STOP;
 		if (!(sc->HostChnNum & CHN_DISOWNED))
@@ -37,19 +38,19 @@ void UpdateNoLoop(slaveChn_t *sc, uint32_t numSamples)
 		}
 	}
 
-	sc->SamplingPosition = SampleOffset;
+	sc->SamplingPosition = SamplingPosition;
 }
 
 void UpdateForwardsLoop(slaveChn_t *sc, uint32_t numSamples)
 {
-	assert(numSamples <= UINT16_MAX);
-	uint32_t IntSamples = (sc->Delta32 >> MIX_FRAC_BITS) * numSamples;
-	uint32_t FracSamples = (sc->Delta32 & MIX_FRAC_MASK) * numSamples;
+	const uint64_t Delta = (uint64_t)sc->Delta32 * numSamples;
+	const uint32_t IntSamples = (uint32_t)(Delta >> MIX_FRAC_BITS);
+	const uint16_t FracSamples = Delta & MIX_FRAC_MASK;
 
 	sc->Frac32 += FracSamples;
 	sc->SamplingPosition += sc->Frac32 >> MIX_FRAC_BITS;
-	sc->SamplingPosition += IntSamples;
 	sc->Frac32 &= MIX_FRAC_MASK;
+	sc->SamplingPosition += IntSamples;
 
 	if ((uint32_t)sc->SamplingPosition >= (uint32_t)sc->LoopEnd) // Reset position...
 	{
@@ -63,16 +64,18 @@ void UpdateForwardsLoop(slaveChn_t *sc, uint32_t numSamples)
 
 void UpdatePingPongLoop(slaveChn_t *sc, uint32_t numSamples)
 {
-	assert(numSamples <= UINT16_MAX);
-	uint32_t IntSamples = (sc->Delta32 >> MIX_FRAC_BITS) * numSamples;
-	uint32_t FracSamples = (sc->Delta32 & MIX_FRAC_MASK) * numSamples;
+	ASSERT(numSamples <= UINT16_MAX);
+
+	const uint64_t Delta = (uint64_t)sc->Delta32 * numSamples;
+	const uint32_t IntSamples = (uint32_t)(Delta >> MIX_FRAC_BITS);
+	const uint16_t FracSamples = Delta & MIX_FRAC_MASK;
 
 	const uint32_t LoopLength = sc->LoopEnd - sc->LoopBegin;
 
 	if (sc->LoopDirection == DIR_BACKWARDS)
 	{
 		sc->Frac32 -= FracSamples;
-		sc->SamplingPosition -= sc->Frac32 >> MIX_FRAC_BITS;
+		sc->SamplingPosition += (int32_t)sc->Frac32 >> MIX_FRAC_BITS;
 		sc->SamplingPosition -= IntSamples;
 		sc->Frac32 &= MIX_FRAC_MASK;
 
@@ -82,10 +85,7 @@ void UpdatePingPongLoop(slaveChn_t *sc, uint32_t numSamples)
 			uint32_t NewLoopPos = (uint32_t)(sc->LoopBegin - sc->SamplingPosition) % (LoopLength << 1);
 			if (NewLoopPos >= LoopLength)
 			{
-				sc->SamplingPosition = (sc->LoopEnd - 1) + (LoopLength - NewLoopPos);
-
-				if (sc->SamplingPosition <= sc->LoopBegin) // 8bb: non-IT2 edge-case safety for extremely high pitches
-					sc->SamplingPosition = sc->LoopBegin + 1;
+				sc->SamplingPosition = (sc->LoopEnd - 1) - (NewLoopPos - LoopLength);
 			}
 			else
 			{
@@ -111,12 +111,9 @@ void UpdatePingPongLoop(slaveChn_t *sc, uint32_t numSamples)
 			}
 			else
 			{
-				sc->LoopDirection = DIR_BACKWARDS;
 				sc->SamplingPosition = (sc->LoopEnd - 1) - NewLoopPos;
+				sc->LoopDirection = DIR_BACKWARDS;
 				sc->Frac32 = (uint16_t)(0 - sc->Frac32);
-
-				if (sc->SamplingPosition <= sc->LoopBegin) // 8bb: non-IT2 edge-case safety for extremely high pitches
-					sc->SamplingPosition = sc->LoopBegin + 1;
 			}
 		}
 	}
@@ -126,28 +123,18 @@ void UpdatePingPongLoop(slaveChn_t *sc, uint32_t numSamples)
 
 void UpdateNoLoopHQ(slaveChn_t *sc, uint32_t numSamples)
 {
-	uint32_t IntSamples, SampleOffset;
-	uintCPUWord_t FracSamples;
-	assert(numSamples <= UINT16_MAX);
-#if CPU_32BIT
-	IntSamples = (sc->Delta32 >> MIX_FRAC_BITS) * numSamples;
-	FracSamples = (sc->Delta32 & MIX_FRAC_MASK) * numSamples;
+	uint32_t SamplingPosition = sc->SamplingPosition;
 
-	SampleOffset = sc->SamplingPosition + IntSamples;
-	sc->Frac32 += FracSamples;
-	SampleOffset += sc->Frac32 >> MIX_FRAC_BITS;
-	sc->Frac32 &= MIX_FRAC_MASK;
-#else
-	IntSamples = (uint32_t)(sc->Delta64 >> 32) * numSamples;
-	FracSamples = (uint64_t)(sc->Delta64 & UINT32_MAX) * numSamples;
+	const uint64_t Delta = (uint64_t)sc->Delta64 * numSamples;
+	const uint32_t IntSamples = (uint32_t)(Delta >> 32);
+	const uint32_t FracSamples = Delta & UINT32_MAX;
 
-	SampleOffset = sc->SamplingPosition + IntSamples;
 	sc->Frac64 += FracSamples;
-	SampleOffset += sc->Frac64 >> 32;
+	SamplingPosition += sc->Frac64 >> 32;
+	SamplingPosition += IntSamples;
 	sc->Frac64 &= UINT32_MAX;
-#endif
 
-	if (SampleOffset >= (uint32_t)sc->LoopEnd)
+	if (SamplingPosition >= (uint32_t)sc->LoopEnd)
 	{
 		sc->Flags = SF_NOTE_STOP;
 		if (!(sc->HostChnNum & CHN_DISOWNED))
@@ -157,70 +144,46 @@ void UpdateNoLoopHQ(slaveChn_t *sc, uint32_t numSamples)
 		}
 	}
 
-	sc->SamplingPosition = SampleOffset;
+	sc->SamplingPosition = SamplingPosition;
 }
 
 void UpdateForwardsLoopHQ(slaveChn_t *sc, uint32_t numSamples)
 {
-	uint32_t IntSamples;
-	uintCPUWord_t FracSamples;
-	assert(numSamples <= UINT16_MAX);
-#if CPU_32BIT
-	IntSamples = (sc->Delta32 >> MIX_FRAC_BITS) * numSamples;
-	FracSamples = (sc->Delta32 & MIX_FRAC_MASK) * numSamples;
-
-	sc->Frac32 += FracSamples;
-	sc->SamplingPosition += sc->Frac32 >> MIX_FRAC_BITS;
-	sc->SamplingPosition += IntSamples;
-	sc->Frac32 &= MIX_FRAC_MASK;
-#else
-	IntSamples = (uint32_t)(sc->Delta64 >> 32) * numSamples;
-	FracSamples = (uint64_t)(sc->Delta64 & UINT32_MAX) * numSamples;
+	const uint64_t Delta = (uint64_t)sc->Delta64 * numSamples;
+	const uint32_t IntSamples = Delta >> 32;
+	const uint32_t FracSamples = Delta & UINT32_MAX;
 
 	sc->Frac64 += FracSamples;
 	sc->SamplingPosition += sc->Frac64 >> 32;
 	sc->SamplingPosition += IntSamples;
 	sc->Frac64 &= UINT32_MAX;
-#endif
 
-	if ((uint32_t)sc->SamplingPosition >= (uint32_t)sc->LoopEnd) // Reset position...
+	if ((uint32_t)sc->SamplingPosition >= (uint32_t)sc->LoopEnd)
 	{
 		const uint32_t LoopLength = sc->LoopEnd - sc->LoopBegin;
 		if (LoopLength == 0)
 			sc->SamplingPosition = 0;
 		else
 			sc->SamplingPosition = sc->LoopBegin + ((sc->SamplingPosition - sc->LoopEnd) % LoopLength);
+
+		sc->HasLooped = true;
 	}
 }
 
 void UpdatePingPongLoopHQ(slaveChn_t *sc, uint32_t numSamples)
 {
-	uint32_t IntSamples;
-	uintCPUWord_t FracSamples;
-	assert(numSamples <= UINT16_MAX);
-#if CPU_32BIT
-	IntSamples = (sc->Delta32 >> MIX_FRAC_BITS) * numSamples;
-	FracSamples = (sc->Delta32 & MIX_FRAC_MASK) * numSamples;
-#else
-	IntSamples = (uint32_t)(sc->Delta64 >> 32) * numSamples;
-	FracSamples = (uint64_t)(sc->Delta64 & UINT32_MAX) * numSamples;
-#endif
+	const uint64_t Delta = (uint64_t)sc->Delta64 * numSamples;
+	const uint32_t IntSamples = Delta >> 32;
+	const uint32_t FracSamples = Delta & UINT32_MAX;
 
 	const uint32_t LoopLength = sc->LoopEnd - sc->LoopBegin;
 
 	if (sc->LoopDirection == DIR_BACKWARDS)
 	{
-#if CPU_32BIT
-		sc->Frac32 -= FracSamples;
-		sc->SamplingPosition -= sc->Frac32 >> MIX_FRAC_BITS;
-		sc->SamplingPosition -= IntSamples;
-		sc->Frac32 &= MIX_FRAC_MASK;
-#else
 		sc->Frac64 -= FracSamples;
-		sc->SamplingPosition -= sc->Frac64 >> 32;
+		sc->SamplingPosition += (int32_t)(sc->Frac64 >> 32);
 		sc->SamplingPosition -= IntSamples;
 		sc->Frac64 &= UINT32_MAX;
-#endif
 
 		// mvtiaine: added >= loopend check to fix sanitizer crash with: 2Lite/coop-Astreia/waterfront\ remix.it
 		if (sc->SamplingPosition <= sc->LoopBegin || sc->SamplingPosition >= sc->LoopEnd)
@@ -228,37 +191,30 @@ void UpdatePingPongLoopHQ(slaveChn_t *sc, uint32_t numSamples)
 			uint32_t NewLoopPos = (uint32_t)(sc->LoopBegin - sc->SamplingPosition) % (LoopLength << 1);
 			if (NewLoopPos >= LoopLength)
 			{
-				sc->SamplingPosition = (sc->LoopEnd - 1) + (LoopLength - NewLoopPos);
+				sc->SamplingPosition = (sc->LoopEnd - 1) - (NewLoopPos - LoopLength);
 
-				if (sc->SamplingPosition <= sc->LoopBegin) // 8bb: non-IT2 edge-case safety for extremely high pitches
-					sc->SamplingPosition = sc->LoopBegin + 1;
+				if (sc->SamplingPosition == sc->LoopBegin)
+				{
+					sc->LoopDirection = DIR_FORWARDS;
+					sc->Frac64 = (uint32_t)(0 - sc->Frac64);
+				}
 			}
 			else
 			{
 				sc->LoopDirection = DIR_FORWARDS;
 				sc->SamplingPosition = sc->LoopBegin + NewLoopPos;
-
-#if CPU_32BIT
-				sc->Frac32 = (uint16_t)(0 - sc->Frac32);
-#else
 				sc->Frac64 = (uint32_t)(0 - sc->Frac64);
-#endif
 			}
+
+			sc->HasLooped = true;
 		}
 	}
 	else // 8bb: forwards
 	{
-#if CPU_32BIT
-		sc->Frac32 += FracSamples;
-		sc->SamplingPosition += sc->Frac32 >> MIX_FRAC_BITS;
-		sc->SamplingPosition += IntSamples;
-		sc->Frac32 &= MIX_FRAC_MASK;
-#else
 		sc->Frac64 += FracSamples;
-		sc->SamplingPosition += sc->Frac64 >> 32;
+		sc->SamplingPosition += (int32_t)(sc->Frac64 >> 32);
 		sc->SamplingPosition += IntSamples;
 		sc->Frac64 &= UINT32_MAX;
-#endif
 
 		if ((uint32_t)sc->SamplingPosition >= (uint32_t)sc->LoopEnd)
 		{
@@ -269,17 +225,15 @@ void UpdatePingPongLoopHQ(slaveChn_t *sc, uint32_t numSamples)
 			}
 			else
 			{
-				sc->LoopDirection = DIR_BACKWARDS;
 				sc->SamplingPosition = (sc->LoopEnd - 1) - NewLoopPos;
-
-#if CPU_32BIT
-				sc->Frac32 = (uint16_t)(0 - sc->Frac32);
-#else
-				sc->Frac64 = (uint32_t)(0 - sc->Frac64);
-#endif
-				if (sc->SamplingPosition <= sc->LoopBegin) // 8bb: non-IT2 edge-case safety for extremely high pitches
-					sc->SamplingPosition = sc->LoopBegin + 1;
+				if (sc->SamplingPosition != sc->LoopBegin)
+				{
+					sc->LoopDirection = DIR_BACKWARDS;
+					sc->Frac64 = (uint32_t)(0 - sc->Frac64);
+				}
 			}
+
+			sc->HasLooped = true;
 		}
 	}
 }

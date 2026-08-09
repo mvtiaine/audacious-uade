@@ -13,9 +13,22 @@
 #include "config.h"
 
 #define AUDACIOUS_UADE 1
+#define ASSERT(x) assert(x)
+#define PI 3.14159265358979323846264338327950288
+#define SWAP16(value) \
+((uint16_t)( \
+	((uint16_t)(value) << 8) | \
+	((uint16_t)(value) >> 8) \
+))
+#ifdef WORDS_BIGENDIAN
+#define READ16LE(value) SWAP16(value)
+#define READ32LE(value) SWAP32(value)
+#else
+#define READ16LE(value) value
+#define READ32LE(value) value
+#endif
 
 namespace replay::it2play {
-#include "cpu.h"
 #include "it_structs.h"
 #include "it_tables.h"
 #include "it2drivers/zerovol.h"
