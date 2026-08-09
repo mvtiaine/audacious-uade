@@ -182,7 +182,6 @@ EXTRA_DIST += \
     3rdparty/replay/st3play/st3play.c \
     3rdparty/replay/it2play/LICENSE \
     3rdparty/replay/it2play/README.md \
-    3rdparty/replay/it2play/cpu.h \
     3rdparty/replay/it2play/it_d_rm.h \
     3rdparty/replay/it2play/it_d_rm.c \
     3rdparty/replay/it2play/it_m_eff.h \
@@ -193,6 +192,8 @@ EXTRA_DIST += \
     3rdparty/replay/it2play/it_structs.c \
     3rdparty/replay/it2play/it_tables.h \
     3rdparty/replay/it2play/it_tables.c \
+    3rdparty/replay/it2play/it2drivers/hq_fixsample.h \
+    3rdparty/replay/it2play/it2drivers/hq_fixsample.c \
     3rdparty/replay/it2play/it2drivers/hq_m.h \
     3rdparty/replay/it2play/it2drivers/hq_m.c \
     3rdparty/replay/it2play/it2drivers/hq.h \
