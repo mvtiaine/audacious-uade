@@ -4,6 +4,8 @@
 namespace replay::it2play::probe {
 using namespace replay::it2play;
 namespace hq {
+#include "it2drivers/hq_fixsample.h"
+#include "it2drivers/hq_fixsample.c"
 #include "it2drivers/hq_m.h"
 #include "it2drivers/hq_m.c"
 #include "it2drivers/hq.h"

@@ -25,7 +25,7 @@ static bool TranslateS3MPattern(uint8_t *Src, int32_t Pattern);
 
 static uint8_t *PatternDataArea, EncodingInfo[MAX_HOST_CHANNELS*6];
 
-bool LoadS3M(MEMFILE *m)
+uint8_t LoadS3M(MEMFILE *m) // mvtiaine: fixed return type
 {
 	uint8_t DefPan;
 	uint16_t Flags, SmpPtrs[100], PatPtrs[100];

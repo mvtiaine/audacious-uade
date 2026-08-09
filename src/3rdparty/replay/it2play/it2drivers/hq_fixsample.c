@@ -1,11 +1,13 @@
+// SPDX-License-Identifier: BSD-3-Clause
 /* Routines for changing sample data before mixing (and reverting after mix) for
 ** interpolation taps to be read the correctly. This is a bit messy...
 */
-
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include "../it_structs.h"
+#endif
 
 void fixSamplesPingpong(sample_t *s, slaveChn_t *sc)
 {

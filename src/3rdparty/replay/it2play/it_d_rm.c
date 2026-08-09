@@ -71,7 +71,7 @@ uint8_t Music_LoadFromData(uint8_t *Data, uint32_t DataLen)
 
 	MEMFILE *m = mopen(Data, DataLen);
 	if (m == NULL)
-		return false;
+		return LOAD_ERR_GENERAL_IO; // mvtiaine: fixed return value
 
 	if (FirstTimeLoading)
 	{
