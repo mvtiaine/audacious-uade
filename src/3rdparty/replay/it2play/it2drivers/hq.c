@@ -541,7 +541,7 @@ static int32_t HQ_PostMix(int16_t *AudioOut16, int32_t SamplesToOutput)
 	for (int32_t i = 0; i < SamplesTodo; i++)
 	{
 		// left channel - 1-bit triangular dithering
-		fPrng = (float)Random32() * (0.5f / INT32_MAX); // -0.5f .. 0.5f
+		fPrng = (float)Random32() * (0.5f / (float)INT32_MAX); // -0.5f .. 0.5f // mvtiaine: shutup int to float conversion warning
 		fOut = fMixBuffer[MixTransferOffset++] * MixGain;
 		fOut = (fOut + fPrng) - fPrngStateL;
 		fPrngStateL = fPrng;
@@ -549,7 +549,7 @@ static int32_t HQ_PostMix(int16_t *AudioOut16, int32_t SamplesToOutput)
 		*AudioOut16++ = (int16_t)CLAMP(out32, INT16_MIN, INT16_MAX);
 
 		// right channel - 1-bit triangular dithering
-		fPrng = (float)Random32() * (0.5f / INT32_MAX); // -0.5f .. 0.5f
+		fPrng = (float)Random32() * (0.5f / (float)INT32_MAX); // -0.5f .. 0.5f // mvtiaine: shutup int to float conversion warning
 		fOut = fMixBuffer[MixTransferOffset++] * MixGain;
 		fOut = (fOut + fPrng) - fPrngStateR;
 		fPrngStateR = fPrng;
