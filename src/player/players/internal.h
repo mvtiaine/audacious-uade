@@ -217,7 +217,7 @@ inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf,
         player = Player::it2play;
         snprintf(format, sizeof format, "Impulse Tracker %d.%02X", (ver & 0x0F00) >> 8, ver & 0xFF);
     } else {
-        player = Player::st3play;
+        player = Player::st3playold;
         // Reject non-authentic trackers (based on OpenMPT)
         if(!gusAddresses && ver != 0x1300)
             return {};
@@ -234,7 +234,7 @@ inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf,
             snprintf(format, sizeof format, "Scream Tracker 3.%02X (%s)", ver & 0xFF, soundcardtype);
         }
     }
-    assert(player == Player::it2play || player == Player::st3play);
+    assert(player == Player::it2play || player == Player::st3playold);
     return ModuleInfo{player, format, path, 1, 1, 1, channels};
 }
 

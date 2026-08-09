@@ -66,19 +66,19 @@ endif
 3rdparty/replay/ft2play/% : CXXFLAGS += -Wno-volatile -Wno-unknown-warning -Wno-unknown-warning-option
 endif
 
-if PLAYER_st3play
-noinst_LTLIBRARIES += 3rdparty/replay/libreplay_st3play.la
-3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_st3play.la
+if PLAYER_st3playold
+noinst_LTLIBRARIES += 3rdparty/replay/libreplay_st3playold.la
+3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_st3playold.la
 
-3rdparty_replay_libreplay_st3play_la_SOURCES = \
-    3rdparty/replay/st3play/st3play.h \
-    3rdparty/replay/st3play/st3play_play.cc
+3rdparty_replay_libreplay_st3playold_la_SOURCES = \
+    3rdparty/replay/st3playold/st3playold.h \
+    3rdparty/replay/st3playold/st3playold_play.cc
 
 if PLAYER_PROBE
-3rdparty_replay_libreplay_st3play_la_SOURCES += 3rdparty/replay/st3play/st3play_probe.cc
+3rdparty_replay_libreplay_st3playold_la_SOURCES += 3rdparty/replay/st3playold/st3playold_probe.cc
 endif
 
-3rdparty/replay/st3play/% : CXXFLAGS += -Wno-keyword-macro
+3rdparty/replay/st3playold/% : CXXFLAGS += -Wno-keyword-macro
 endif
 
 if PLAYER_it2play
@@ -178,8 +178,8 @@ EXTRA_DIST += \
     3rdparty/replay/ft2play/snd_masm.c \
     3rdparty/replay/ft2play/tables.h \
     3rdparty/replay/ft2play/tables.c \
-    3rdparty/replay/st3play/LICENSE \
-    3rdparty/replay/st3play/st3play.c \
+    3rdparty/replay/st3playold/LICENSE \
+    3rdparty/replay/st3playold/st3playold.c \
     3rdparty/replay/it2play/LICENSE \
     3rdparty/replay/it2play/README.md \
     3rdparty/replay/it2play/it_d_rm.h \

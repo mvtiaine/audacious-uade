@@ -54,8 +54,8 @@ if PLAYER_st23play
 player_libplayer_la_SOURCES += player/players/player_st23play.cc
 endif
 
-if PLAYER_st3play
-player_libplayer_la_SOURCES += player/players/player_st3play.cc
+if PLAYER_st3playold
+player_libplayer_la_SOURCES += player/players/player_st3playold.cc
 endif
 
 if PLAYER_uade

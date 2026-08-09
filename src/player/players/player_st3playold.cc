@@ -15,13 +15,13 @@
 #include "player/player.h"
 #include "player/players/internal.h"
 
-#include "3rdparty/replay/st3play/st3play.h"
+#include "3rdparty/replay/st3playold/st3playold.h"
 
 using namespace std;
 using namespace common;
 using namespace player;
 using namespace player::internal;
-using namespace replay::st3play;
+using namespace replay::st3playold;
 
 namespace {
 
@@ -288,7 +288,7 @@ vector<int16_t> get_subsongs(const st3play_context *context) noexcept {
 
 } // namespace {}
 
-namespace player::st3play {
+namespace player::st3playold {
 
 void init() noexcept {}
 void shutdown() noexcept {
@@ -362,8 +362,8 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 }
 
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
-    assert(config.player == Player::st3play || config.player == Player::NONE);
-    assert(config.tag == Player::st3play || config.tag == Player::NONE);
+    assert(config.player == Player::st3playold || config.player == Player::NONE);
+    assert(config.tag == Player::st3playold || config.tag == Player::NONE);
     assert(subsong >= 1);
     st3play_context *context = new st3play_context(config.probe);
     assert(!context->moduleLoaded());
@@ -379,11 +379,11 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         context->setPos(subsongs[subsong - 1]);
     }
 
-    return PlayerState {Player::st3play, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0, 0};
+    return PlayerState {Player::st3playold, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0, 0};
 }
 
 bool stop(PlayerState &state) noexcept {
-    assert(state.player == Player::st3play);
+    assert(state.player == Player::st3playold);
     if (state.context) {
         const auto context = static_cast<st3play_context*>(state.context);
         assert(context);
@@ -393,7 +393,7 @@ bool stop(PlayerState &state) noexcept {
 }
 
 pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size) noexcept {
-    assert(state.player == Player::st3play);
+    assert(state.player == Player::st3playold);
     assert(size >= state.buffer_size);
     const auto context = static_cast<st3play_context*>(state.context);
     assert(context);
@@ -417,7 +417,7 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
 }
 
 bool restart(PlayerState &state) noexcept {
-    assert(state.player == Player::st3play);
+    assert(state.player == Player::st3playold);
     const auto context = static_cast<st3play_context*>(state.context);
     assert(context);
     context->clearMixBuffer();
@@ -427,4 +427,4 @@ bool restart(PlayerState &state) noexcept {
     return true;
 }
 
-} // namespace player::st3play
+} // namespace player::st3playold

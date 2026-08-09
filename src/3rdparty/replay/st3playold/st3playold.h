@@ -11,7 +11,7 @@
 #define AUDACIOUS_UADE 1
 #define register // error: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
 
-#define ST3PLAY(ns) \
+#define ST3PLAYOLD(ns) \
 namespace ns { \
 extern bool np_restarted, moduleLoaded; \
 extern int8_t patterndelay, patloopcount; \
@@ -38,9 +38,9 @@ inline void clearMixBuffer() { \
 } \
 }
 
-ST3PLAY(replay::st3play::play)
+ST3PLAYOLD(replay::st3playold::play)
 #ifdef PLAYER_PROBE
-ST3PLAY(replay::st3play::probe)
+ST3PLAYOLD(replay::st3playold::probe)
 #else
-namespace replay::st3play { namespace probe = replay::st3play::play; }
+namespace replay::st3playold { namespace probe = replay::st3playold::play; }
 #endif
