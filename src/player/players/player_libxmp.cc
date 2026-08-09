@@ -82,7 +82,11 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     const auto config = __config.tag == Player::libxmp ? __config : LibXMPConfig(_config);
     XMPContext *context = nullptr;
     xmp_context c = xmp_create_context();
+#if XMP_VERCODE >= 0x040700 // https://github.com/libxmp/libxmp/pull/741
+    int frequency = min(_config.frequency, 768000);
+#else
     int frequency = min(_config.frequency, 48000);
+#endif
     if (!c) {
         ERR("player_libxmp::play xmp_create_context failed for %s\n", path);
         return {};
