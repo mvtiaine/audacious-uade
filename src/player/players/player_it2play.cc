@@ -37,10 +37,10 @@ constexpr int limitFreq(Driver driver, int frequency) {
         case Driver::SB16MMX:
         case Driver::SB16:
         case Driver::WAVWRITER:
-            return min(frequency, 64000);
+            return max(8000, min(frequency, 64000));
         case Driver::HQ:
-            return min(frequency, 768000);
-        default: assert(false); return min(frequency, 48000);
+            return max(32769, min(frequency, 768000));
+        default: assert(false); return max(8000, min(frequency, 64000));
     }
 }
 
@@ -448,7 +448,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         assert(info);
         useFPUCode = info->format == "Impulse Tracker 2.15";
     }
-    if (!context->Music_Init(config.frequency, mixBufSize(freq), driver, useFPUCode) ||
+    if (!context->Music_Init(freq, mixBufSize(freq), driver, useFPUCode) ||
         !context->Music_LoadFromData(buf, size)) {
         ERR("player_it2play::play could not play %s\n", path);
         delete context;
