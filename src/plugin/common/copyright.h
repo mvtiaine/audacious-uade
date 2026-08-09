@@ -39,9 +39,9 @@ static constexpr const char *plugin_copyright =
 "\n"
 #endif
 #if PLAYER_ft2play || PLAYER_it2play || PLAYER_st3play || PLAYER_st23play
-"ft2play, it2play, st3play v1.0.1,\n"
-"st23play v0.35 (BSD-3-Clause)\n"
-"Copyright (c) 2016-2024, Olav Sørensen\n"
+"ft2play (39af5cc), it2play (b15b7dd),\n"
+"st3play v1.0.1, st23play v0.35 (BSD-3-Clause)\n"
+"Copyright (c) 2016-2025, Olav Sørensen\n"
 "\n"
 #endif
 #if PLAYER_protrekkr1 || PLAYER_protrekkr2
