@@ -49,7 +49,6 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 
 ## Other Notes
 
-- Case sensitive filesystems may cause issues for formats with external samples
 - Tested on 64-bit, 32-bit, big & little endian hosts. Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin), OpenIndiana, GNU Hurd. Libraries/CLI binaries also tested on AmigaOS3, MorphOS, AROS, QNX 6.5.0, AIX, cosmocc, Tizen, Meego/Sailfish, OS/2 (ArcaOS)
 - Build support (binaries not tested) for Android, iOS, Fuchsia, OpenHarmony, webOS, RISC OS, FreeMiNT, WarpOS, Redox OS, SerenityOS, Genode, BlackBerry 10, QNX 7, QNX 8, PS4 (OpenOrbis)
 - WIP support (runtime failures) for IRIX, AmigaOS4, Wasix, Emscripten, UnixWare.
