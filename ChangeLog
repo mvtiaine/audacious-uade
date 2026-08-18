@@ -4,6 +4,8 @@
 --  ft2play: update to latest git (39af5cc)
 --  it2play: update to latest git (b15b7dd)
 --  libxmp: allow sample rates > 48khz with 4.7.0+
+- Songdb updates:
+--  Metadata extraction/heuristics tweaks and fixes
 
 0.14.2 - 2026-07-21
 - Songdb updates:
