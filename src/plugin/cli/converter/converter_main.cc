@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Copyright (C) 2023-2026 Matti Tiainen <mvtiaine@cc.hut.fi>
 
+#include <cstdlib>
 #include <vector>
 
 #include "converter/converter.h"

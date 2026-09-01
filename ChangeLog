@@ -6,6 +6,7 @@
 --  libxmp: allow sample rates > 48khz with 4.7.0+
 - Songdb updates:
 --  Metadata extraction/heuristics tweaks and fixes
+- Misc fixes and updates
 
 0.14.2 - 2026-07-21
 - Songdb updates:

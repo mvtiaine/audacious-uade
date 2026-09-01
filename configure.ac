@@ -37,7 +37,7 @@ AS_IF([test "$CSTD" = none], [
 
 # C++ standard check
 AC_LANG_PUSH([C++])
-for version in 26 2c 23 2b 20 2a 17 1z; do
+for version in 2d 26 2c 23 2b 20 2a 17 1z; do
   CXXSTD="-std=c++${version}"
   AX_CHECK_COMPILE_FLAG([${CXXSTD}],[break],[CXXSTD=none])
 done
