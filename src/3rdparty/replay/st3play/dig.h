@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 #pragma once
 
 //#define FORCE_SOUNDCARD_TYPE SOUNDCARD_SBPRO

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 #include "sinc.h"
 
 /* Pre-computed 16kB windowed-sinc table (has unity gain).

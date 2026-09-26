@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 // channel mixer for Sound Blaster Pro mode
 
 #include <stdint.h>

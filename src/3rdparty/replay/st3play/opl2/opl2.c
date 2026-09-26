@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 /*
 ** OPL2 emulator based on Opal (OPL3), from Reality Adlib Tracker v2.0a.
 ** Opal was released under the public domain, which means I can safely set

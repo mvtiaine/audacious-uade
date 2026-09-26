@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 /***********************************************************************
  **
  **  Reading new notes etc. from pattern

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: BSD-3-Clause
 /*
 ** Simple 'Gravis Ultrasound' GF1 emulator for st3play
 **
