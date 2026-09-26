@@ -49,7 +49,7 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 
 ## Other Notes
 
-- Tested on 64-bit, 32-bit, big & little endian hosts. Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin), OpenIndiana, GNU Hurd. Libraries/CLI binaries also tested on AmigaOS3, MorphOS, AROS, QNX 6.5.0, AIX, cosmocc, Tizen, Meego/Sailfish, OS/2 (ArcaOS)
+- Tested (bit-equal) on 64-bit, 32-bit, big & little endian hosts. Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin), OpenIndiana, GNU Hurd. Libraries/CLI binaries also tested on AmigaOS3, MorphOS, AROS, QNX 6.5.0, AIX, cosmocc, Tizen, Meego/Sailfish, OS/2 (ArcaOS)
 - Build support (binaries not tested) for Android, iOS, Fuchsia, OpenHarmony, webOS, RISC OS, FreeMiNT, WarpOS, Redox OS, SerenityOS, Genode, BlackBerry 10, QNX 7, QNX 8, PS4 (OpenOrbis)
 - WIP support (runtime failures) for IRIX, AmigaOS4, Wasix, Emscripten, UnixWare.
 - Recommended custom Audacious playlist entry/window title template:
@@ -58,29 +58,6 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
   ```
 - Audacious metadata available: Artist, Album, Publisher, Year, Track, Length, Comment
 - DeaDBeeF metadata available: Track Number, Artist, Album, Year, Duration, Codec, %publisher%, %channels%, %player%, %songend%
-
-## Some Future Plans (in no particular order)
-
-- Automatic A500/A1200/None filter selection depending on format/year/platform (OCS/AGA/DOS) etc. meta data
-- Plugin support for GStreamer, Hollywood, ...
-- Support more platforms
-- Add more replays
-- PTK-Prowiz converter support (portable C-version)
-- Improve UADE format support and portability
-- Improve songdb with more coverage and metadata sources
-- Project might need a new name...
-
-## License (source code and data files)
-
-The project as a whole is licensed under GPL-2.0-or-later. See COPYING for license text.
-
-Some parts are also licensed under LGPL-2.1-or-later, specifically sources under `src/common/`, `src/converter/`, `src/player/` and `src/songdb/`. See COPYING.LGPL for license text.
-
-Songdb (`conf/songdb`) is licensed under CC BY-NC-SA 4.0.
-[Songdb sources](https://github.com/mvtiaine/audacious-uade-tools?tab=readme-ov-file#sources).
-
-See NOTICE for 3rd party source code licenses (sources under `src/3rdparty/`).  
-See `uade/COPYING` for UADE license information (sources under `uade/`).
 
 ## Dependencies (optional/auto detected)
 
@@ -284,6 +261,29 @@ SONGEND_MODE=1 src/plugin/cli/player/player 8062 ../testdata/spellbound\ dizzy.b
 
 220299
 ```
+
+## Some Future Plans (in no particular order)
+
+- Automatic A500/A1200/None filter selection depending on format/year/platform (OCS/AGA/DOS) etc. meta data
+- Plugin support for GStreamer, Hollywood, ...
+- Support more platforms
+- Add more replays
+- PTK-Prowiz converter support (portable C-version)
+- Improve UADE format support and portability
+- Improve songdb with more coverage and metadata sources
+- Project might need a new name...
+
+## License (source code and data files)
+
+The project as a whole is licensed under GPL-2.0-or-later. See COPYING for license text.
+
+Some parts are also licensed under LGPL-2.1-or-later, specifically sources under `src/common/`, `src/converter/`, `src/player/` and `src/songdb/`. See COPYING.LGPL for license text.
+
+Songdb (`conf/songdb`) is licensed under CC BY-NC-SA 4.0.
+[Songdb sources](https://github.com/mvtiaine/audacious-uade-tools?tab=readme-ov-file#sources).
+
+See NOTICE for 3rd party source code licenses (sources under `src/3rdparty/`).  
+See `uade/COPYING` for UADE license information (sources under `uade/`).
 
 ## Contact
 
