@@ -16,6 +16,7 @@
  **
  ***********************************************************************/
 
+#ifndef AUDACIOUS_UADE
 #include <assert.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -32,6 +33,7 @@
 #include "mixer/gus_gf1.h"
 #include "mixer/sbpro.h"
 #include "opl2/opl2.h"
+#endif
 
 static uint32_t randSeed;
 static float fPrngStateL, fPrngStateR;
@@ -579,6 +581,7 @@ void closeMusic(void)
 	memset(song.ins, 0, sizeof (song.ins));
 
 	song.adlibused = false;
+	song.moduleLoaded = false; // audacious-uade
 }
 
 bool initMusic(int32_t audioFrequency, int32_t audioBufferSize)

@@ -40,6 +40,7 @@ constexpr int MAX_SILENCE = 3000;
     protrekkr1, \
     protrekkr2, \
     st23play, \
+    st3play, \
     st3playold, \
     it2play, \
     uade, \

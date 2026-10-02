@@ -146,6 +146,7 @@ typedef struct song_t
 {
 	ds_fileheader header;
 	uint8_t order[MAX_ORDERS+1], *patp[MAX_PATTERNS+1];
+	uint16_t patDataLens[MAX_PATTERNS+1]; // audacious-uade: pattern data lengths (for subsong scanning)
 	ds_smp ins[MAX_INSTRUMENTS+1];
 	zchn_t _zchn[ACHANNELS];
 
@@ -180,6 +181,7 @@ typedef struct audio_t
 // ------------------------------------------------------------
 
 // 8bb: customized data (different than ST3)
+#ifndef AUDACIOUS_UADE
 extern audio_t audio;
 extern song_t song;
 // -----------------------------------------
@@ -191,3 +193,4 @@ extern const int16_t notespd[12+1+3];
 extern const int16_t vibsin[64];
 extern const uint8_t vibsqu[64];
 extern const int16_t vibramp[64];
+#endif

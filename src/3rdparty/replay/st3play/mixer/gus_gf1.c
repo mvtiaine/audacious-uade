@@ -14,6 +14,7 @@
 ** We only use it like this in st3play anyway.
 */
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
@@ -22,6 +23,7 @@
 #include "../dig.h" // CLAMP(), etc.
 #include "../digread.h"
 #include "sinc.h"
+#endif
 
 #define GF1_MIN_VOICES 14
 #define GF1_MAX_VOICES 32

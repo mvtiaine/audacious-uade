@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -6,6 +7,7 @@
 #include <string.h>
 #include "dig.h"
 #include "digread.h"
+#endif
 
 // 8bb: added these so that we can have a "load from RAM" loader as well
 typedef struct
@@ -141,7 +143,8 @@ bool load_st3_from_ram(const uint8_t *data, uint32_t dataLength, int32_t soundCa
 	if (song.header.ordnum > MAX_ORDERS || song.header.insnum > MAX_INSTRUMENTS || song.header.patnum > MAX_PATTERNS)
 		goto loadError; // incompatible S3M
 
-	bool songMadeWithST3 = (song.header.cwtv >> 12) == 1;
+	bool songMadeWithST3; // audacious-uade: C++: goto must not cross initialization
+	songMadeWithST3 = (song.header.cwtv >> 12) == 1;
 
 	song.header.name[27] = '\0'; // 8bb: added sanitation, so that it's always safe to print this string
 
@@ -193,6 +196,8 @@ bool load_st3_from_ram(const uint8_t *data, uint32_t dataLength, int32_t soundCa
 	{
 		uint16_t patDataLen;
 
+		song.patDataLens[i] = 0; // audacious-uade
+
 		if (patoff[i] != 0)
 		{
 			mseek(f, patoff[i] << 4, SEEK_SET);
@@ -203,6 +208,7 @@ bool load_st3_from_ram(const uint8_t *data, uint32_t dataLength, int32_t soundCa
 				goto loadError;
 
 			mread(song.patp[i], 1, patDataLen-2, f);
+			song.patDataLens[i] = patDataLen-2; // audacious-uade
 		}
 	}
 

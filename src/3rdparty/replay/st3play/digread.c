@@ -5,6 +5,7 @@
  **
  ***********************************************************************/
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
 #include "digdata.h"
@@ -13,6 +14,7 @@
 #include "digamg.h"
 #include "digadl.h"
 #include "dig.h"
+#endif
 
 static uint8_t getnote1(void);
 static void donotes(void);

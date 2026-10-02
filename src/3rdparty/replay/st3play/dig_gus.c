@@ -8,11 +8,13 @@
  **
  ***********************************************************************/
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
 #include "dig.h"
 #include "mixer/gus_gf1.h"
+#endif
 
 static uint8_t stchannelpan[ACHANNELS]; // st channels pan settings
 static int8_t voiceused[32];

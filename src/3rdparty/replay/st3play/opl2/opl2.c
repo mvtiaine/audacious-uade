@@ -11,6 +11,7 @@
 ** - Added some bugfixes from OpenMPT's custom Opal library (also BSD 3-Clause license)
 */
 
+#ifndef AUDACIOUS_UADE
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
@@ -19,6 +20,7 @@
 #include "opl2.h"
 #include "../dig.h" // 8bb: CLAMP(), etc.
 #include "../mixer/sinc.h"
+#endif
 
 #define ISA_OSCPIN_CLK (157500000.0 / 11.0) /* 8bb: exact nominal clock */
 #define OPL2_OUTPUT_RATE (ISA_OSCPIN_CLK / 288.0) /* 8bb: ~49715.9090Hz */

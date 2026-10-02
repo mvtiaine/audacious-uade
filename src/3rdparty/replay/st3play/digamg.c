@@ -5,10 +5,12 @@
  **
  ***********************************************************************/
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
 #include "dig.h"
 #include "digdata.h"
+#endif
 
 void doamiga(zchn_t *ch)
 {

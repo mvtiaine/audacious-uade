@@ -5,12 +5,14 @@
  **
  ***********************************************************************/
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
 #include "dig.h"
 #include "digread.h"
 #include "digdata.h"
 #include "digcmd.h"
+#endif
 
 #define GET_LAST_NFO if (ch->info == 0) ch->info = ch->alastnfo;
 

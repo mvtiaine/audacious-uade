@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // channel mixer for Sound Blaster Pro mode
 
+#ifndef AUDACIOUS_UADE
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
 #include <math.h>
 #include "../dig.h"
 #include "sinc.h"
+#endif
 
 #define ST3_PCM_CHANNELS 16
 

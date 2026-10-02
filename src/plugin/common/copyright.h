@@ -40,7 +40,7 @@ static constexpr const char *plugin_copyright =
 #endif
 #if PLAYER_ft2play || PLAYER_it2play || PLAYER_st3play || PLAYER_st23play
 "ft2play (39af5cc), it2play (b15b7dd),\n"
-"st3play v1.0.1, st23play v0.35 (BSD-3-Clause)\n"
+"st3play (216b165), st23play v0.35 (BSD-3-Clause)\n"
 "Copyright (c) 2016-2025, Olav Sørensen\n"
 "\n"
 #endif

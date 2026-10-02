@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: BSD-3-Clause
+#ifndef AUDACIOUS_UADE
 #pragma once
 
 //#define FORCE_SOUNDCARD_TYPE SOUNDCARD_SBPRO
@@ -7,6 +8,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "digdata.h"
+#endif
 
 // AUDIO DRIVERS
 #if defined AUDIODRIVER_SDL

@@ -9,6 +9,7 @@
  **
  ***********************************************************************/
 
+#ifndef AUDACIOUS_UADE
 #include <assert.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -16,6 +17,7 @@
 #include "digdata.h"
 #include "dig.h"
 #include "opl2/opl2.h"
+#endif
 
 static const uint8_t emptyadlibins[12] = { 0,0,63,63,0,0,0,0,0,0,0,0 };
 static const uint8_t adlibiadd[9] = { 0,1,2,8,9,10,16,17,18 }; // melodic sounds 0..8

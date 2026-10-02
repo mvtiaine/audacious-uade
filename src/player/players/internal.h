@@ -1,4 +1,5 @@
-// SPDX-License-Identifier: LGPL-2.1-or-later
+// SPDX-License-Identifier: LGPL-2.1-or-later AND CC-PDM-1.0
+// SPDX-AI-Disclosure: ai-assisted
 // Copyright (C) 2024-2026 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #pragma once
@@ -162,19 +163,48 @@ constexpr_f2 bool is_it(const char *path,  const char *buf, size_t size) noexcep
     return size >= 4 && buf[0] == 'I' && buf[1] == 'M' && buf[2] == 'P' && buf[3] == 'M';
 }
 
-inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf, size_t size) noexcept {
+// routing for S3M files: Impulse Tracker made files to it2play, the rest to st3play
+struct S3mRouting {
+    bool impulse;
+    bool soundblaster; // SB/AdLib hardware, else GUS
+    int channels;
+};
+
+// st3play's loader cannot pick the hardware for modules without PCM samples
+// (load.c requires numSamples >= 2), and OPL is only present on SB/AdLib cards
+inline optional<S3mRouting> s3m_routing(const char *buf, size_t size) noexcept {
     const auto ver = *(le_uint16_t *)&buf[0x28];
     assert((ver >= 0x1300 && ver <= 0x1321) || (ver & 0xF000) == 0x3000);
+
+    const auto flags = *(le_uint16_t *)&buf[0x26];
+    const auto uc = buf[0x34];
+    const uint8_t dp = buf[0x35];
+    const auto special = *(le_uint16_t *)&buf[0x3e];
+    const bool impulse = ver == 0x3320 || (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc) ||
+                        ((ver & 0xFFF) >= 0x0215 && (ver & 0xFFF) <= 0x0217) ||
+                        (ver & 0xF000) == 0x3000;
+
     uint8_t chnsettings[32];
 	memcpy(chnsettings, &buf[0x40], sizeof chnsettings);
     int channels = 0;
+    bool opl = false;
     for (size_t ch = 0; ch < sizeof(chnsettings); ++ch) {
-        if (chnsettings[ch] > 0xF && chnsettings[ch] <= 0x7F) {
-            // reject mods with OPL channels as they are not supported
-            return {};
-        } else if ((chnsettings[ch] & 0x7F) < 16) {
-            channels++;
+        if (chnsettings[ch] & 0x80)
+            continue; // channel muted
+        const uint8_t type = chnsettings[ch] & 0x7F;
+        // 16-31 are the AdLib channels
+        if (type >= 16 && type <= 31) {
+            // it2play has no OPL emulation, st3play synthesizes it
+            if (impulse)
+                return {};
+            // OPL percussion (25-31) is not supported by st3play
+            if (type > 24)
+                return {};
+            opl = true;
         }
+        // it2play: up to 64 host channels (S3M channel table has 32 entries)
+        // st3play: 0-15 sample channels + 16-24 OPL melodic
+        channels++;
     }
     // something wrong
     if (!channels)
@@ -194,39 +224,46 @@ inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf,
         uint8_t type = ptr8[0x00];
         uint32_t length = *(le_uint32_t *)&ptr8[0x10];
         uint8_t flags = ptr8[0x1F];
-        // reject mods with OPL, ADPCM or stereo samples
-        if (length && (type > 1 || ptr8[0x1E] != 0 || flags & 2))
+        // reject mods with ADPCM or stereo samples (not supported by any player here)
+        if (length && (ptr8[0x1E] != 0 || flags & 2))
+            return {};
+        // OPL instruments (type 2/3) are only synthesized by st3play
+        if (impulse && length && type > 1)
             return {};
         gusAddresses |= *(le_uint16_t *)&ptr8[0x28];
     }
+    return S3mRouting{impulse, opl || gusAddresses <= 1, channels};
+}
 
+// soundcardtype ("GUS"/"SB") can be passed by the caller after loading the module;
+// the header based routing is used when omitted
+inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf, size_t size,
+                                              const char *soundcardtype = nullptr) noexcept {
+    const auto routing = s3m_routing(buf, size);
+    if (!routing)
+        return {};
+    const auto ver = *(le_uint16_t *)&buf[0x28];
     const auto flags = *(le_uint16_t *)&buf[0x26];
     const auto uc = buf[0x34];
     const uint8_t dp = buf[0x35];
     const auto special = *(le_uint16_t *)&buf[0x3e];
+    const bool impulse = routing->impulse;
+    if (!soundcardtype)
+        soundcardtype = routing->soundblaster ? "SB" : "GUS";
+
     Player player;
-
     char format[27];
-    if (ver == 0x3320 || (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc)) {
+    if (impulse) {
         player = Player::it2play;
-        snprintf(format, sizeof format, "Impulse Tracker 1.0x");
-    } else if ((ver & 0xFFF) >= 0x0215 && (ver & 0xFFF) <= 0x0217) {
-        player = Player::it2play;
-        snprintf(format, sizeof format, "Impulse Tracker 2.14+");
-    } else if ((ver & 0xF000) == 0x3000) {
-        player = Player::it2play;
-        snprintf(format, sizeof format, "Impulse Tracker %d.%02X", (ver & 0x0F00) >> 8, ver & 0xFF);
+        if (ver == 0x3320 || (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc)) {
+            snprintf(format, sizeof format, "Impulse Tracker 1.0x");
+        } else if ((ver & 0xFFF) >= 0x0215 && (ver & 0xFFF) <= 0x0217) {
+            snprintf(format, sizeof format, "Impulse Tracker 2.14+");
+        } else {
+            snprintf(format, sizeof format, "Impulse Tracker %d.%02X", (ver & 0x0F00) >> 8, ver & 0xFF);
+        }
     } else {
-        player = Player::st3playold;
-        // Reject non-authentic trackers (based on OpenMPT)
-        if(!gusAddresses && ver != 0x1300)
-            return {};
-
-        // max 16 channels for authentic Scream Tracker 3
-        if (channels > 16)
-            return {}; 
-
-        const char *soundcardtype = gusAddresses > 1 ? "GUS" : "SB";
+        player = Player::st3play;
         if (ver == 0x1320) {
             // 3.21 writes the version number as 3.20
             snprintf(format, sizeof format, "Scream Tracker 3.2x (%s)", soundcardtype);
@@ -234,8 +271,8 @@ inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf,
             snprintf(format, sizeof format, "Scream Tracker 3.%02X (%s)", ver & 0xFF, soundcardtype);
         }
     }
-    assert(player == Player::it2play || player == Player::st3playold);
-    return ModuleInfo{player, format, path, 1, 1, 1, channels};
+    assert(player == Player::it2play || player == Player::st3play);
+    return ModuleInfo{player, format, path, 1, 1, 1, routing->channels};
 }
 
 } // namespace player::internal

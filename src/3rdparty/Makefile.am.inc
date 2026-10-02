@@ -66,6 +66,21 @@ endif
 3rdparty/replay/ft2play/% : CXXFLAGS += -Wno-volatile -Wno-unknown-warning -Wno-unknown-warning-option
 endif
 
+if PLAYER_st3play
+noinst_LTLIBRARIES += 3rdparty/replay/libreplay_st3play.la
+3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_st3play.la
+
+3rdparty_replay_libreplay_st3play_la_SOURCES = \
+    3rdparty/replay/st3play/st3play.h \
+    3rdparty/replay/st3play/st3play_play.cc
+
+if PLAYER_PROBE
+3rdparty_replay_libreplay_st3play_la_SOURCES += 3rdparty/replay/st3play/st3play_probe.cc
+endif
+
+3rdparty/replay/st3play/% : CXXFLAGS += -Wno-implicit-fallthrough
+endif
+
 if PLAYER_st3playold
 noinst_LTLIBRARIES += 3rdparty/replay/libreplay_st3playold.la
 3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_st3playold.la
@@ -178,6 +193,31 @@ EXTRA_DIST += \
     3rdparty/replay/ft2play/snd_masm.c \
     3rdparty/replay/ft2play/tables.h \
     3rdparty/replay/ft2play/tables.c \
+    3rdparty/replay/st3play/LICENSE \
+    3rdparty/replay/st3play/README.md \
+    3rdparty/replay/st3play/dig.c \
+    3rdparty/replay/st3play/dig.h \
+    3rdparty/replay/st3play/dig_gus.c \
+    3rdparty/replay/st3play/dig_gus.h \
+    3rdparty/replay/st3play/digadl.c \
+    3rdparty/replay/st3play/digadl.h \
+    3rdparty/replay/st3play/digamg.c \
+    3rdparty/replay/st3play/digamg.h \
+    3rdparty/replay/st3play/digcmd.c \
+    3rdparty/replay/st3play/digcmd.h \
+    3rdparty/replay/st3play/digdata.c \
+    3rdparty/replay/st3play/digdata.h \
+    3rdparty/replay/st3play/digread.c \
+    3rdparty/replay/st3play/digread.h \
+    3rdparty/replay/st3play/load.c \
+    3rdparty/replay/st3play/mixer/gus_gf1.c \
+    3rdparty/replay/st3play/mixer/gus_gf1.h \
+    3rdparty/replay/st3play/mixer/sbpro.c \
+    3rdparty/replay/st3play/mixer/sbpro.h \
+    3rdparty/replay/st3play/mixer/sinc.c \
+    3rdparty/replay/st3play/mixer/sinc.h \
+    3rdparty/replay/st3play/opl2/opl2.c \
+    3rdparty/replay/st3play/opl2/opl2.h \
     3rdparty/replay/st3playold/LICENSE \
     3rdparty/replay/st3playold/st3playold.c \
     3rdparty/replay/it2play/LICENSE \
