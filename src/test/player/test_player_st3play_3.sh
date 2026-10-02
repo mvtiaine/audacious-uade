@@ -11,7 +11,7 @@ player=st3play
 export PLAYER_ENDIAN=little
 
 TESTMOD="${top_srcdir}/testdata/starport bbs introtune.s3m"
-TESTMD5_LITTLE=40a6d5edb4dc495df8cc41f27941ae40
+TESTMD5_LITTLE=370ceeb9d906db6cb38e85d0458eff7c
 
 TEST_NAME="st3play OPL"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"

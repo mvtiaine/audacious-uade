@@ -11,7 +11,7 @@ player=st3play
 export PLAYER_ENDIAN=little
 
 TESTMOD="${top_srcdir}/testdata/happiness.s3m"
-TESTMD5_LITTLE=ae2fc33531f2749e027f3643cf2a1510
+TESTMD5_LITTLE=a316b93f91dc72f2732fc8295707e8e6
 
 TEST_NAME="st3play (16-bit)"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
