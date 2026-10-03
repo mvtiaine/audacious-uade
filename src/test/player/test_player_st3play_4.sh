@@ -10,11 +10,11 @@ player=st3play
 
 export PLAYER_ENDIAN=little
 
-TESTMOD="${top_srcdir}/testdata/miracle man.s3m"
-TESTMD5_LITTLE=7f367b4c92e057968ab26678a8784884
+TESTMOD="${top_srcdir}/testdata/hologram rose.s3m"
+TESTMD5_LITTLE=90585ef58118ad2a8bcefe667b95bfa5
 
-TEST_NAME="st3play GUS + subsongs"
-TEST="${PLAYER} \"${TESTMOD}\" 2 | ${MD5}"
+TEST_NAME="st3play SB"
+TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
 EXPECTED_OUTPUT=$TESTMD5_LITTLE
 
 . $(dirname "$0")/../common/check.sh
