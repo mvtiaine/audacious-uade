@@ -337,7 +337,7 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
     if (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc)
         return false;
 
-    return get_s3m_info(path, buf, bufsize) ? true : false;
+    return get_s3m_info(path, buf, bufsize, nullptr, Player::st3playold) ? true : false;
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
@@ -348,7 +348,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 
     optional<ModuleInfo> info;
     if (context->loadS3M((const uint8_t*)buf, size)) {
-        info = get_s3m_info(path, buf, size);
+        info = get_s3m_info(path, buf, size, nullptr, Player::st3playold);
         if (info) {
             const auto subsongs = get_subsongs(context);
             info->maxsubsong = subsongs.size();

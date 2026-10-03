@@ -10,10 +10,10 @@ player=st3play
 
 export PLAYER_ENDIAN=little
 
-TESTMOD="${top_srcdir}/testdata/happiness.s3m"
-TESTMD5_LITTLE=a316b93f91dc72f2732fc8295707e8e6
+TESTMOD="${top_srcdir}/testdata/starport bbs introtune.s3m"
+TESTMD5_LITTLE=370ceeb9d906db6cb38e85d0458eff7c
 
-TEST_NAME="st3play (16-bit)"
+TEST_NAME="st3play OPL"
 TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
 EXPECTED_OUTPUT=$TESTMD5_LITTLE
 

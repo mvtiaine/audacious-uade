@@ -170,19 +170,57 @@ struct S3mRouting {
     int channels;
 };
 
-// st3play's loader cannot pick the hardware for modules without PCM samples
-// (load.c requires numSamples >= 2), and OPL is only present on SB/AdLib cards
-inline optional<S3mRouting> s3m_routing(const char *buf, size_t size) noexcept {
+// Impulse Tracker made S3M (based on OpenMPT)
+constexpr_f2 bool s3m_impulse(const char *buf) noexcept {
     const auto ver = *(le_uint16_t *)&buf[0x28];
-    assert((ver >= 0x1300 && ver <= 0x1321) || (ver & 0xF000) == 0x3000);
-
     const auto flags = *(le_uint16_t *)&buf[0x26];
     const auto uc = buf[0x34];
     const uint8_t dp = buf[0x35];
     const auto special = *(le_uint16_t *)&buf[0x3e];
-    const bool impulse = ver == 0x3320 || (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc) ||
-                        ((ver & 0xFFF) >= 0x0215 && (ver & 0xFFF) <= 0x0217) ||
-                        (ver & 0xF000) == 0x3000;
+    return ver == 0x3320 || (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc) ||
+           ((ver & 0xFFF) >= 0x0215 && (ver & 0xFFF) <= 0x0217) ||
+           (ver & 0xF000) == 0x3000;
+}
+
+// validate the module against the capabilities of the given player (no fallback to
+// another player); player NONE selects the player by the routing heuristics
+// st3play's loader cannot pick the hardware for modules without PCM samples
+// (load.c requires numSamples >= 2), and OPL is only present on SB/AdLib cards
+inline optional<S3mRouting> s3m_routing(const char *buf, size_t size, Player player = Player::NONE) noexcept {
+    const auto ver = *(le_uint16_t *)&buf[0x28];
+    assert((ver >= 0x1300 && ver <= 0x1321) || (ver & 0xF000) == 0x3000);
+
+    const bool impulse = s3m_impulse(buf);
+
+    // a player disabled in configure cannot be selected; the sample format checks
+    // below decide whether the forced player can play the module
+    switch (player) {
+    case Player::it2play:
+        if (!PLAYER_it2play)
+            return {};
+        break;
+    case Player::st3play:
+        if (!PLAYER_st3play)
+            return {};
+        break;
+    case Player::st3playold:
+        if (!PLAYER_st3playold)
+            return {};
+        break;
+    case Player::NONE:
+        if (impulse ? !PLAYER_it2play : (!PLAYER_st3play && !PLAYER_st3playold))
+            return {};
+        break;
+    default:
+        break; // the general purpose players handle any S3M
+    }
+
+    const bool it = player == Player::NONE ? impulse : player == Player::it2play;
+    const bool old = player == Player::st3playold ||
+                     (player == Player::NONE && !PLAYER_st3play && PLAYER_st3playold);
+    // it2play has no OPL emulation, st3play synthesizes it; st3playold's loader
+    // rejects OPL instruments
+    const bool hasOPL = !it && !old;
 
     uint8_t chnsettings[32];
 	memcpy(chnsettings, &buf[0x40], sizeof chnsettings);
@@ -194,8 +232,7 @@ inline optional<S3mRouting> s3m_routing(const char *buf, size_t size) noexcept {
         const uint8_t type = chnsettings[ch] & 0x7F;
         // 16-31 are the AdLib channels
         if (type >= 16 && type <= 31) {
-            // it2play has no OPL emulation, st3play synthesizes it
-            if (impulse)
+            if (!hasOPL)
                 return {};
             // OPL percussion (25-31) is not supported by st3play
             if (type > 24)
@@ -224,11 +261,18 @@ inline optional<S3mRouting> s3m_routing(const char *buf, size_t size) noexcept {
         uint8_t type = ptr8[0x00];
         uint32_t length = *(le_uint32_t *)&ptr8[0x10];
         uint8_t flags = ptr8[0x1F];
-        // reject mods with ADPCM or stereo samples (not supported by any player here)
-        if (length && (ptr8[0x1E] != 0 || flags & 2))
+        // ADPCM samples are not supported by any player here
+        if (length && ptr8[0x1E] != 0)
+            return {};
+        // st3play supports 8-bit mono PCM only; Scream Tracker 3 did not support
+        // stereo or 16-bit samples either. it2play does both (loaders/s3m.c),
+        // st3playold 16-bit only
+        if (length && !it && (flags & 2))
+            return {};
+        if (length && !it && !old && (flags & 4))
             return {};
         // OPL instruments (type 2/3) are only synthesized by st3play
-        if (impulse && length && type > 1)
+        if (length && !hasOPL && type > 1)
             return {};
         gusAddresses |= *(le_uint16_t *)&ptr8[0x28];
     }
@@ -237,9 +281,12 @@ inline optional<S3mRouting> s3m_routing(const char *buf, size_t size) noexcept {
 
 // soundcardtype ("GUS"/"SB") can be passed by the caller after loading the module;
 // the header based routing is used when omitted
+// the caller's player must support the module (no fallback to another player);
+// st3playold is a legacy alternative for the modules of st3play
 inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf, size_t size,
-                                              const char *soundcardtype = nullptr) noexcept {
-    const auto routing = s3m_routing(buf, size);
+                                              const char *soundcardtype = nullptr,
+                                              Player player = Player::NONE) noexcept {
+    const auto routing = s3m_routing(buf, size, player);
     if (!routing)
         return {};
     const auto ver = *(le_uint16_t *)&buf[0x28];
@@ -251,10 +298,11 @@ inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf,
     if (!soundcardtype)
         soundcardtype = routing->soundblaster ? "SB" : "GUS";
 
-    Player player;
+    if (player == Player::NONE)
+        player = impulse ? Player::it2play : (PLAYER_st3play ? Player::st3play : Player::st3playold);
+
     char format[27];
     if (impulse) {
-        player = Player::it2play;
         if (ver == 0x3320 || (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc)) {
             snprintf(format, sizeof format, "Impulse Tracker 1.0x");
         } else if ((ver & 0xFFF) >= 0x0215 && (ver & 0xFFF) <= 0x0217) {
@@ -263,7 +311,6 @@ inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf,
             snprintf(format, sizeof format, "Impulse Tracker %d.%02X", (ver & 0x0F00) >> 8, ver & 0xFF);
         }
     } else {
-        player = Player::st3play;
         if (ver == 0x1320) {
             // 3.21 writes the version number as 3.20
             snprintf(format, sizeof format, "Scream Tracker 3.2x (%s)", soundcardtype);
@@ -271,8 +318,9 @@ inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf,
             snprintf(format, sizeof format, "Scream Tracker 3.%02X (%s)", ver & 0xFF, soundcardtype);
         }
     }
-    assert(player == Player::it2play || player == Player::st3play);
+    assert(player == Player::st3play || player == Player::st3playold || player == Player::it2play);
     return ModuleInfo{player, format, path, 1, 1, 1, routing->channels};
+    //return ModuleInfo{player, format, path, 1, 1, 1, routing->channels}; // , songname};
 }
 
 } // namespace player::internal

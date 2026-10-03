@@ -225,7 +225,7 @@ struct ITHeader {
     le_uint32_t Reserved;
 };
 
-constexpr bool isIT(const char *buf, size_t size) noexcept {
+constexpr bool isIT(const char *buf, size_t size, bool forced = false) noexcept {
     if (size > sizeof(ITHeader) && memcmp(buf, "IMPM", 4) == 0) {
         const auto &h = (const ITHeader*)buf;
         // from loaders/it.c
@@ -233,6 +233,18 @@ constexpr bool isIT(const char *buf, size_t size) noexcept {
             h->SmpNum > MAX_SAMPLES  || h->PatNum > MAX_PATTERNS) {
             return false;
         }
+        const uint32_t PtrListOffset = 192 + h->OrdNum;
+        const uint32_t smpOffset0 = PtrListOffset + h->InsNum * 4;
+        const uint32_t patOffset0 = smpOffset0 + h->SmpNum * 4;
+        if (patOffset0 + 4 >= size)
+            return false;
+        le_uint32_t smpVal, patVal;
+        memcpy(&smpVal, &buf[smpOffset0], sizeof(le_uint32_t));
+        memcpy(&patVal, &buf[patOffset0], sizeof(le_uint32_t));
+        const le_uint32_t *smpPos = &smpVal;
+        const le_uint32_t *patPos = &patVal;
+        if (forced)
+            return true;
         // made with tracker and compatible with tracker must match Impulse Tracker 1.x - 2.x
         if (h->Cwtv < 0x0100 || h->Cwtv >= 0x0300 || h->Cmwt < 0x0100 || h->Cmwt >= 0x0300) {
             return false;
@@ -250,16 +262,6 @@ constexpr bool isIT(const char *buf, size_t size) noexcept {
             // ChibiTracker
             return false;
         }
-        const uint32_t PtrListOffset = 192 + h->OrdNum;
-        const uint32_t smpOffset0 = PtrListOffset + h->InsNum * 4;
-        const uint32_t patOffset0 = smpOffset0 + h->SmpNum * 4;
-        if (patOffset0 + 4 >= size)
-            return false;
-        le_uint32_t smpVal, patVal;
-        memcpy(&smpVal, &buf[smpOffset0], sizeof(le_uint32_t));
-        memcpy(&patVal, &buf[patOffset0], sizeof(le_uint32_t));
-        const le_uint32_t *smpPos = &smpVal;
-        const le_uint32_t *patPos = &patVal;
         if (h->Cwtv == 0x0202 && h->Cmwt == 0x0200 && h->HighLightMajor == 0 && h->HighLightMinor == 0 && h->Reserved == 0 && patPos[0] != 0 && patPos[0] < smpPos[0]) {
             // ModPlug Tracker 1.0 pre-alpha / alpha
             return false;
@@ -269,8 +271,10 @@ constexpr bool isIT(const char *buf, size_t size) noexcept {
     return false;
 }
 
-constexpr bool isS3M(const char *buf, size_t size) noexcept {
+constexpr bool isS3M(const char *buf, size_t size, bool forced = false) noexcept {
     if (size >= 0x70 && buf[0x1D] == 16 && memcmp(&buf[0x2C], "SCRM", 4) == 0) {
+        if (forced)
+            return true;
         const auto ver = *(le_uint16_t *)&buf[0x28];
         if ((ver & 0xF000) == 0x3000) // Impulse Tracker >= 1.03
             return true;
@@ -404,12 +408,14 @@ void shutdown() noexcept {
 
 bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept {
     // accepts also some S3Ms (when made with Impulse Tracker)
-    return isIT(buf, bufsize) || isS3M(buf, bufsize);
+    if (isIT(buf, bufsize))
+        return true;
+    return isS3M(buf, bufsize) && internal::s3m_routing(buf, bufsize, Player::it2play).has_value();
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
-    bool it = isIT(buf, size);
-    bool s3m = !it && isS3M(buf, size);
+    bool it = isIT(buf, size, true);
+    bool s3m = !it && isS3M(buf, size, true);
     if (!it && !s3m) return {};
 
     it2play_context *context = new it2play_context(true);
@@ -421,7 +427,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
         if (it) {
             info = get_it_info(path, buf, size);
         } else if (s3m) {
-            info = get_s3m_info(path, buf, size);
+            info = get_s3m_info(path, buf, size, nullptr, Player::it2play);
         }
         if (info) {
             const auto subsongs = get_subsongs_and_channels(context);
@@ -443,7 +449,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     const auto driver = config.tag == Player::it2play ? it2play_config.driver : IT2PlayConfig().driver;
     int freq = limitFreq(driver, config.frequency);
     bool useFPUCode = false;
-    if (isIT(buf, size)) {
+    if (isIT(buf, size, true)) {
         const auto info = get_it_info(path, buf, size);
         assert(info);
         useFPUCode = info->format == "Impulse Tracker 2.15";
