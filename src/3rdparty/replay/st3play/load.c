@@ -9,6 +9,27 @@
 #include "digread.h"
 #endif
 
+// mvtiaine: added big endian support (WORDS_BIGENDIAN must be defined by the build)
+#define SWAP16(value) \
+((uint16_t)( \
+	((uint16_t)(value) << 8) | \
+	((uint16_t)(value) >> 8) \
+))
+#define SWAP32(value) \
+((uint32_t)( \
+	((uint32_t)(value) << 24) | \
+	(((uint32_t)(value) & 0x0000FF00U) << 8) | \
+	(((uint32_t)(value) & 0x00FF0000U) >> 8) | \
+	((uint32_t)(value) >> 24) \
+))
+#ifdef WORDS_BIGENDIAN
+#define READ16LE(value) SWAP16(value)
+#define READ32LE(value) SWAP32(value)
+#else
+#define READ16LE(value) value
+#define READ32LE(value) value
+#endif
+
 // 8bb: added these so that we can have a "load from RAM" loader as well
 typedef struct
 {
@@ -139,6 +160,16 @@ bool load_st3_from_ram(const uint8_t *data, uint32_t dataLength, int32_t soundCa
 	if (memcmp(song.header._magic_signature, "SCRM", 4) != 0)
 		goto loadError; // 8bb: not a valid S3M
 
+// mvtiaine: added big endian support
+#ifdef WORDS_BIGENDIAN
+	song.header.ordnum = SWAP16(song.header.ordnum);
+	song.header.insnum = SWAP16(song.header.insnum);
+	song.header.patnum = SWAP16(song.header.patnum);
+	song.header.flags = SWAP16(song.header.flags);
+	song.header.cwtv = SWAP16(song.header.cwtv);
+	song.header.ffv = SWAP16(song.header.ffv);
+#endif
+
 	// 8bb: added sanity checking (ST3 doesn't do this!)
 	if (song.header.ordnum > MAX_ORDERS || song.header.insnum > MAX_INSTRUMENTS || song.header.patnum > MAX_PATTERNS)
 		goto loadError; // incompatible S3M
@@ -180,6 +211,14 @@ bool load_st3_from_ram(const uint8_t *data, uint32_t dataLength, int32_t soundCa
 	mread(insoff, 2, song.header.insnum, f);
 	mread(patoff, 2, song.header.patnum, f);
 
+// mvtiaine: added big endian support
+#ifdef WORDS_BIGENDIAN
+	for (int32_t i = 0; i < song.header.insnum; i++)
+		insoff[i] = SWAP16(insoff[i]);
+	for (int32_t i = 0; i < song.header.patnum; i++)
+		patoff[i] = SWAP16(patoff[i]);
+#endif
+
 	if (song.header.defaultpan252 == 252)
 		mread(song.defaultpan, 1, 32, f);
 
@@ -189,6 +228,17 @@ bool load_st3_from_ram(const uint8_t *data, uint32_t dataLength, int32_t soundCa
 	{
 		mseek(f, insoff[i] << 4, SEEK_SET);
 		mread(ins, 0x50, 1, f);
+
+// mvtiaine: added big endian support
+#ifdef WORDS_BIGENDIAN
+		ins->memseg = SWAP16(ins->memseg);
+		ins->length = SWAP32(ins->length);
+		ins->lbeg = SWAP32(ins->lbeg);
+		ins->lend = SWAP32(ins->lend);
+		ins->c2spd = SWAP32(ins->c2spd);
+		ins->guspos = SWAP16(ins->guspos);
+		ins->lend512 = SWAP16(ins->lend512);
+#endif
 	}
 
 	// 8bb: load pattern data
@@ -202,6 +252,7 @@ bool load_st3_from_ram(const uint8_t *data, uint32_t dataLength, int32_t soundCa
 		{
 			mseek(f, patoff[i] << 4, SEEK_SET);
 			mread(&patDataLen, 2, 1, f);
+			patDataLen = READ16LE(patDataLen); // mvtiaine: added big endian support
 
 			song.patp[i] = (uint8_t *)malloc(patDataLen);
 			if (song.patp[i] == NULL)
