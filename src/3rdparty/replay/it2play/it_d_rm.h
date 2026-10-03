@@ -23,6 +23,27 @@ enum
 	LOAD_ERR_INCOMPATIBLE = 3
 };
 
+// mvtiaine: added big endian support (WORDS_BIGENDIAN must be defined by the build)
+#define SWAP16(value) \
+((uint16_t)( \
+	((uint16_t)(value) << 8) | \
+	((uint16_t)(value) >> 8) \
+))
+#define SWAP32(value) \
+((uint32_t)( \
+	((uint32_t)(value) << 24) | \
+	(((uint32_t)(value) & 0x0000FF00U) << 8) | \
+	(((uint32_t)(value) & 0x00FF0000U) >> 8) | \
+	((uint32_t)(value) >> 24) \
+))
+#ifdef WORDS_BIGENDIAN
+#define READ16LE(value) SWAP16(value)
+#define READ32LE(value) SWAP32(value)
+#else
+#define READ16LE(value) value
+#define READ32LE(value) value
+#endif
+
 // routines for handling data in RAM as a "FILE" type (IT2 doesn't have these)
 typedef struct mem_t
 {
