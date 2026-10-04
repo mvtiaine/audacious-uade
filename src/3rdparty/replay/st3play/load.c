@@ -231,13 +231,17 @@ bool load_st3_from_ram(const uint8_t *data, uint32_t dataLength, int32_t soundCa
 
 // mvtiaine: added big endian support
 #ifdef WORDS_BIGENDIAN
-		ins->memseg = SWAP16(ins->memseg);
-		ins->length = SWAP32(ins->length);
-		ins->lbeg = SWAP32(ins->lbeg);
-		ins->lend = SWAP32(ins->lend);
+		// ds_adl overlaps ds_smp: length/lbeg/lend are the AdLib registers D00-D0B
+		if (ins->type == 1)
+		{
+			ins->memseg = SWAP16(ins->memseg);
+			ins->length = SWAP32(ins->length);
+			ins->lbeg = SWAP32(ins->lbeg);
+			ins->lend = SWAP32(ins->lend);
+			ins->guspos = SWAP16(ins->guspos);
+			ins->lend512 = SWAP16(ins->lend512);
+		}
 		ins->c2spd = SWAP32(ins->c2spd);
-		ins->guspos = SWAP16(ins->guspos);
-		ins->lend512 = SWAP16(ins->lend512);
 #endif
 	}
 
