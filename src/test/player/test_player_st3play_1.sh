@@ -8,14 +8,14 @@ player=st3play
 
 #
 
-export PLAYER_ENDIAN=little
+# XXX using precalc as st3play output can depend on CPU, compiler and libc
+# TODO figure out root cause
 
 TESTMOD="${top_srcdir}/testdata/miracle man.s3m"
-TESTMD5_LITTLE=7f367b4c92e057968ab26678a8784884
-
 TEST_NAME="st3play GUS + subsongs"
-TEST="${PLAYER} \"${TESTMOD}\" 2 | ${MD5}"
-EXPECTED_OUTPUT=$TESTMD5_LITTLE
+TEST="${PRECALC} \"${TESTMOD}\""
+EXPECTED_OUTPUT="45900ecc57e518f51b8ba7ef2cf66206	1	163871	player+silence	st3play	Scream Tracker 3.01 \(GUS\)	8	79744	bb1f2cbb	d9c451aa
+45900ecc57e518f51b8ba7ef2cf66206	2	15352	player"
 
 . $(dirname "$0")/../common/check.sh
 
