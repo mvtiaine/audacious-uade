@@ -5197,11 +5197,11 @@ void Do_Effects_Ticks_X(void)
     int pltr_sample[MAX_POLYPHONY];
 
 #if defined(PTK_FX_0) || defined(PTK_FX_X)
-    int64 pltr_eff_row[MAX_FX];
+    int pltr_eff_row[MAX_FX]; // audacious-uade: avoid soft 64-bit modulo on 32-bit hosts
 #endif
 
 #if defined(PTK_FX_0) || defined(PTK_FX_X)
-    int64 pltr_dat_row[MAX_FX];
+    int pltr_dat_row[MAX_FX]; // audacious-uade: avoid soft 64-bit modulo on 32-bit hosts
 #endif
 
     for(int trackef = 0; trackef < Song_Tracks; trackef++)
