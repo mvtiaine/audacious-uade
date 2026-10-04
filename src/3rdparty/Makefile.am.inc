@@ -78,7 +78,7 @@ if PLAYER_PROBE
 3rdparty_replay_libreplay_st3play_la_SOURCES += 3rdparty/replay/st3play/st3play_probe.cc
 endif
 
-3rdparty/replay/st3play/% : CXXFLAGS += -ffp-contract=off -Wno-implicit-fallthrough
+3rdparty/replay/st3play/% : CXXFLAGS += -Wno-implicit-fallthrough
 endif
 
 if PLAYER_st3playold
