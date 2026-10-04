@@ -816,6 +816,8 @@ if test "$build_openharmony" != "yes" && test "$build_ps4" != "yes" && test "$bu
   CPPFLAGS="-D_GNU_SOURCE ${CPPFLAGS}"
 fi
 COMMON_CFLAGS="-fmerge-all-constants -fno-exceptions"
+# 32-bit x86 / 68k optimization, should be no-op on other archs
+COMMON_CFLAGS="${COMMON_CFLAGS} -fexcess-precision=fast"
 CXXFLAGS="-fvisibility=hidden ${CXXSTD} ${CXXFLAGS} ${COMMON_CFLAGS} -fvisibility-inlines-hidden -fno-rtti"
 CFLAGS="-fvisibility=hidden ${CSTD} ${CFLAGS} ${COMMON_CFLAGS}"
 ARCHFLAGS=""
