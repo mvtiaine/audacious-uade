@@ -156,7 +156,7 @@ constexpr_f2 bool is_fst(const char *path,  const char *buf, size_t size) noexce
 }
     
 constexpr_f2 bool is_s3m(const char *path,  const char *buf, size_t size) noexcept {
-    return size > 0x2C && memcmp(&buf[0x2C], "SCRM", 4) == 0;
+    return size >= 0x30 && memcmp(&buf[0x2C], "SCRM", 4) == 0;
 }
     
 constexpr_f2 bool is_it(const char *path,  const char *buf, size_t size) noexcept {
