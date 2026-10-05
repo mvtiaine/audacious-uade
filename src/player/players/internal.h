@@ -75,7 +75,7 @@ constexpr_f2 bool is_cm(const char *path, const char *buf, size_t size) noexcept
                           ((uint8_t)buf[off + 2] << 8) | (uint8_t)buf[off + 3]);
     };
 
-    auto offs = 0;
+    size_t offs = 0;
     if (buf[0] == 0)
         offs = 0x40; // assume ...RON_KLAREN_SOUNDMODULE!... header in beginning
 

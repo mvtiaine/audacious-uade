@@ -294,7 +294,7 @@ PlaybackResult playback_loop(
     bool seeked = false;
     const int64_t bytespersec = 4 * state.frequency;
     // UADE plays some mods for hours or possibly forever (with always_ends default)
-    int64_t maxbytes = config.known_timeout > 0 ?
+    const size_t maxbytes = config.known_timeout > 0 ?
         config.known_timeout * bytespersec / 1000 : PRECALC_TIMEOUT * bytespersec;
     size_t tailbytes = 0;
 
@@ -360,7 +360,7 @@ PlaybackStepResult playback_step(
 
     const int64_t bytespersec = 4 * state.frequency;
     // UADE plays some mods for hours or possibly forever (with always_ends default)
-    int64_t maxbytes = known_timeout > 0 ?
+    const size_t maxbytes = known_timeout > 0 ?
         known_timeout * bytespersec / 1000 : PRECALC_TIMEOUT * bytespersec;
 
     if (state.total_bytes < maxbytes) {
