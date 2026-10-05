@@ -78,7 +78,7 @@ if PLAYER_PROBE
 3rdparty_replay_libreplay_st3play_la_SOURCES += 3rdparty/replay/st3play/st3play_probe.cc
 endif
 
-3rdparty/replay/st3play/% : CXXFLAGS += -Wno-implicit-fallthrough -Wno-constant-conversion -Wno-implicit-const-int-float-conversion -Wno-unknown-warning -Wno-unknown-warning-option -Wno-unused-function
+3rdparty/replay/st3play/% : CXXFLAGS += -Wno-implicit-fallthrough -Wno-constant-conversion -Wno-implicit-const-int-float-conversion -Wno-unknown-warning -Wno-unknown-warning-option -Wno-unused-function -Wno-error=overflow
 endif
 
 if PLAYER_st3playold
