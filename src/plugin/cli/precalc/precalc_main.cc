@@ -57,7 +57,7 @@ int player_songend(const vector<player::Player> &players, vector<char> &buf, con
             }
             songends.push_back(songend);
         }
-        for (auto i = 0; i < songends.size(); i++) {
+        for (size_t i = 0; i < songends.size(); i++) {
             print(songends[i], info.value(), minsubsong + i, buf, includepath, md5hex, xxh32, crc_32);
         }
         return EXIT_SUCCESS;
