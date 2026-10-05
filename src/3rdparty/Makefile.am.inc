@@ -108,7 +108,7 @@ if PLAYER_PROBE
 3rdparty_replay_libreplay_it2play_la_SOURCES += 3rdparty/replay/it2play/it2play_probe.cc
 endif
 
-3rdparty/replay/it2play/% : CXXFLAGS += -Wno-misleading-indentation
+3rdparty/replay/it2play/% : CXXFLAGS += -Wno-misleading-indentation -Wno-unused-but-set-variable
 endif
 
 if PLAYER_st23play
