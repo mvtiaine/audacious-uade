@@ -196,7 +196,8 @@ constexpr_f2 bool readSamples(const vector<char> &med4, MMD0song &song, vector<I
             if (type < 0) {
                 SynthInstr synthinstr {};
                 synthinstr.type = type;
-                readSynthInstr(med4, synthinstr, offs);
+                if (!readSynthInstr(med4, synthinstr, offs))
+                    return false;
                 instr.synthinstr = synthinstr;
             } else {
                 MMDSample0 sample {};
