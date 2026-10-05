@@ -363,8 +363,10 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     assert(!context->moduleLoaded());
 
     const auto routing = s3m_routing(buf, size, Player::st3play);
-    if (!routing)
+    if (!routing) {
+        delete context;
         return {};
+    }
     const char *soundcardtype = routing->soundblaster ? "SB" : "GUS";
 
     optional<ModuleInfo> info;
