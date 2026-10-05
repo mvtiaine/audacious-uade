@@ -1131,6 +1131,7 @@ int PTKEXPORT Ptk_InitModule(Uint8 *Module, int start_position)
                     {
                         if(Apply_Interpolation)
                         {
+                            if(Sample_Buffer) free(Sample_Buffer); // audacious-uade: mono buffer is consumed above, avoid leaking it
                             Sample_Buffer = Unpack_Sample(Save_Len,
                                                           SampleCompression[swrite],
                                                           SampleCompression[swrite] == SMP_PACK_MP3 ?
