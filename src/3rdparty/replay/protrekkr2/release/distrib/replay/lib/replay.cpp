@@ -1670,6 +1670,11 @@ int PTKEXPORT Ptk_InitModule(Uint8 *Module, int start_position)
                     {
                         if(Apply_Interpolation)
                         {
+#if defined(__PSVITA__)
+                            if(Sample_Buffer) PSVITA_free(Sample_Buffer); // audacious-uade: mono buffer is consumed above, avoid leaking it
+#else
+                            if(Sample_Buffer) free(Sample_Buffer); // audacious-uade: mono buffer is consumed above, avoid leaking it
+#endif
                             Sample_Buffer = Unpack_Sample(Save_Len,
                                                           SampleCompression[swrite],
                                                           SampleCompression[swrite] == SMP_PACK_MP3 ?
