@@ -372,6 +372,7 @@ bool load_st3_from_ram(const uint8_t *data, uint32_t dataLength, int32_t soundCa
 #endif
 
 	song.moduleLoaded = true;
+	mclose(&f); // audacious-uade: release the MEMFILE allocated by mopen
 	return true;
 
 loadError:
