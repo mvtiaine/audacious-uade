@@ -55,13 +55,13 @@ int main(int argc, char *argv[]) {
     const support::PlayerScope p;
 
     vector<Player> players;
-    if (getenv("PLAYER")) {
-        Player player = player::player(getenv("PLAYER"));
+    if (const char *env = getenv("PLAYER")) {
+        Player player = player::player(env);
         if (player == Player::NONE) {
-            fprintf(stderr, "Unknown player %s\n", getenv("PLAYER"));
+            fprintf(stderr, "Unknown player %s\n", env);
             return EXIT_FAILURE;
         }
-        players.push_back(player::player(getenv("PLAYER")));
+        players.push_back(player);
     } else {
         players = check(fname, buffer.data(), buffer.size(), buffer.size());
     }
@@ -90,8 +90,8 @@ int main(int argc, char *argv[]) {
         uade_config.panning = 1;
     }
     auto it2play_config = it2play::IT2PlayConfig(player_config);
-    if (getenv("IT2PLAY_DRIVER")) {
-        const auto mixer = string(getenv("IT2PLAY_DRIVER"));
+    if (const char *env = getenv("IT2PLAY_DRIVER")) {
+        const auto mixer = string(env);
         if (mixer == "hq") {
             it2play_config.driver = it2play::Driver::HQ;
         } else if (mixer == "sb16mmx") {

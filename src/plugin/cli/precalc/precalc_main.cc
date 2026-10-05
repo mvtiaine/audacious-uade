@@ -165,13 +165,13 @@ int main(int argc, char *argv[]) {
 
     const player::support::PlayerScope p;
     vector<player::Player> players;
-    if (getenv("PLAYER")) {
-        player::Player player = player::player(getenv("PLAYER"));
+    if (const char *env = getenv("PLAYER")) {
+        player::Player player = player::player(env);
         if (player == player::Player::NONE) {
-            fprintf(stderr, "Unknown player %s\n", getenv("PLAYER"));
+            fprintf(stderr, "Unknown player %s\n", env);
             return EXIT_FAILURE;
         }
-        players.push_back(player::player(getenv("PLAYER")));
+        players.push_back(player);
     } else {
         players = player::check(path, buffer.data(), buffer.size(), buffer.size());
     }

@@ -260,9 +260,9 @@ void uade_common_options(struct uade_config *uc) noexcept {
     uade_config_set_option(uc, UC_BASE_DIR, UADE_BASE_DIR);
 #else
     // use our uade.conf, song.conf and contentdb
-    if (getenv("UADE_BASE_DIR")) {
+    if (const char *basedir = getenv("UADE_BASE_DIR")) {
         // for unit tests
-        uade_config_set_option(uc, UC_BASE_DIR, getenv("UADE_BASE_DIR"));
+        uade_config_set_option(uc, UC_BASE_DIR, basedir);
     } else {
         uade_config_set_option(uc, UC_BASE_DIR, UADEDATADIR);
     }
@@ -270,9 +270,9 @@ void uade_common_options(struct uade_config *uc) noexcept {
 #ifdef UADE_CORE_FILE
     uade_config_set_option(uc, UC_UADECORE_FILE, UADE_CORE_FILE);
 #else
-    if (getenv("UADE_CORE_FILE")) {
+    if (const char *corefile = getenv("UADE_CORE_FILE")) {
         // for unit tests
-        uade_config_set_option(uc, UC_UADECORE_FILE, getenv("UADE_CORE_FILE"));
+        uade_config_set_option(uc, UC_UADECORE_FILE, corefile);
     }
 #endif
     uade_config_set_option(uc, UC_NO_CONTENT_DB, nullptr);
@@ -487,9 +487,9 @@ const set<string> ext_blacklist = {
 set<string> exts;
 void load_eagleplayer_conf() {
     string basedir;
-    if (getenv("UADE_BASE_DIR")) {
+    if (const char *env = getenv("UADE_BASE_DIR")) {
         // for unit tests
-        basedir = getenv("UADE_BASE_DIR");
+        basedir = env;
     } else {
         basedir = UADEDATADIR;
     }
