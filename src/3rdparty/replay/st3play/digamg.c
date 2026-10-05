@@ -26,7 +26,7 @@ void doamiga(zchn_t *ch)
 			const ds_smp *ins = &song.ins[ch->ins-1];
 			if (ins->type != 0)
 			{
-				if (ins->type == 1) // sample
+				if (ins->type == 1 && ins->baseptr != NULL) // sample // audacious-uade: sanity check
 				{
 					ch->ac2spd = (uint16_t)ins->c2spd; // 8bb: clamped to 0..65535 in sample loader
 					ch->avol = CLAMP((int8_t)ins->vol, 0, 63);

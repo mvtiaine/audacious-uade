@@ -16,7 +16,7 @@
 #include "dig.h"
 #endif
 
-static uint8_t getnote1(void);
+static uint8_t getnote1(uint16_t maxoffs); // audacious-uade: bound pattern reads
 static void donotes(void);
 
 void dorow(void) // 8bb: replayer ticker
@@ -137,6 +137,13 @@ static void seekpat(void)
 	if (song.np_patoff != -1)
 		return;
 
+	if (song.np_pat >= song.header.patnum) // audacious-uade: sanity check
+	{
+		song.np_patseg = NULL;
+		song.np_patoff = 0;
+		return;
+	}
+
 	song.np_patseg = song.patp[song.np_pat];
 	if (song.np_patseg != NULL)
 	{
@@ -157,6 +164,11 @@ static void seekpat(void)
 					if (dat & 0x40) j += 1;
 					if (dat & 0x80) j += 2;
 				}
+				if (j >= song.patDataLens[song.np_pat]) // audacious-uade: stop at end of pattern data
+				{
+					song.np_patoff = j;
+					return;
+				}
 			}
 		}
 
@@ -164,7 +176,8 @@ static void seekpat(void)
 	}
 }
 
-static uint8_t getnote1(void) // getnote for DA notes
+// audacious-uade: bound all pattern reads by maxoffs
+static uint8_t getnote1(uint16_t maxoffs) // getnote for DA notes
 {
 	uint8_t dat;
 
@@ -179,6 +192,9 @@ static uint8_t getnote1(void) // getnote for DA notes
 	int16_t i = song.np_patoff;
 	while (true)
 	{
+		if (i >= maxoffs) // audacious-uade: sanity check
+			return 255;
+
 		dat = song.np_patseg[i++];
 		if (dat == 0)
 		{
@@ -187,7 +203,7 @@ static uint8_t getnote1(void) // getnote for DA notes
 		}
 
 		uint8_t tmpChannel = song.header.channel[dat & 0x1F];
-		if (!(tmpChannel & 128)) // 8bb: channel not muted?
+		if (!(tmpChannel & 128) && tmpChannel < ACHANNELS) // 8bb: channel not muted? // audacious-uade: skip out-of-range channel
 		{
 			channel = tmpChannel;
 			break;
@@ -202,7 +218,7 @@ static uint8_t getnote1(void) // getnote for DA notes
 	zchn_t *ch = &song._zchn[channel];
 
 	// NOTE/INSTRUMENT
-	if (dat & 32)
+	if ((dat & 32) && i + 1 < maxoffs) // audacious-uade: sanity check
 	{
 		ch->note = song.np_patseg[i++];
 		ch->ins = song.np_patseg[i++];
@@ -215,11 +231,11 @@ static uint8_t getnote1(void) // getnote for DA notes
 	}
 
 	// VOLUME
-	if (dat & 64)
+	if ((dat & 64) && i < maxoffs) // audacious-uade: sanity check
 		ch->vol = song.np_patseg[i++];
 
 	// COMMAND/INFO
-	if (dat & 128)
+	if ((dat & 128) && i + 1 < maxoffs) // audacious-uade: sanity check
 	{
 		ch->cmd = song.np_patseg[i++];
 		ch->info = song.np_patseg[i++];
@@ -249,7 +265,8 @@ static void donotes(void)
 
 	while (true)
 	{
-		const uint8_t channel = getnote1();
+		// audacious-uade: pass pattern data length as read limit
+		const uint8_t channel = getnote1(song.patDataLens[song.np_pat]);
 		if (channel == 255)
 			break; // end of row/channels
 

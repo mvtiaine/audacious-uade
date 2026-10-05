@@ -52,6 +52,14 @@ static void checkins(ds_smp *ins)
 	if (ins->type != 1)
 		return;
 
+	// audacious-uade: no sample data loaded, treat as empty
+	if (ins->baseptr == NULL)
+	{
+		ins->length = 0;
+		ins->flags &= 0xFE;
+		return;
+	}
+
 	if (ins->length == 0)
 	{
 		ins->flags &= 0xFE;
@@ -250,20 +258,29 @@ bool load_st3_from_ram(const uint8_t *data, uint32_t dataLength, int32_t soundCa
 	{
 		uint16_t patDataLen;
 
-		song.patDataLens[i] = 0; // audacious-uade
+		song.patDataLens[i] = 0; // audacious-uade: bounds checking
 
 		if (patoff[i] != 0)
 		{
-			mseek(f, patoff[i] << 4, SEEK_SET);
+			// audacious-uade: sanity check
+			uint32_t offs = (uint32_t)patoff[i] << 4;
+
+			if (offs + 2 > dataLength)
+				goto loadError;
+
+			mseek(f, offs, SEEK_SET);
 			mread(&patDataLen, 2, 1, f);
 			patDataLen = READ16LE(patDataLen); // mvtiaine: added big endian support
+
+			if (patDataLen < 2 || offs + patDataLen > dataLength)
+				goto loadError;
 
 			song.patp[i] = (uint8_t *)malloc(patDataLen);
 			if (song.patp[i] == NULL)
 				goto loadError;
 
 			mread(song.patp[i], 1, patDataLen-2, f);
-			song.patDataLens[i] = patDataLen-2; // audacious-uade
+			song.patDataLens[i] = patDataLen-2;
 		}
 	}
 
@@ -273,14 +290,18 @@ bool load_st3_from_ram(const uint8_t *data, uint32_t dataLength, int32_t soundCa
 	{
 		if (ins->type == 1 && ins->memseg != 0)
 		{
-			uint32_t offs = ins->memseg << 4;
-			offs += ins->memseg2 << 20;
+			// audacious-uade: sanity check, and avoid wrapping offs+length
+			uint32_t offs = ((uint32_t)ins->memseg << 4) + ((uint32_t)ins->memseg2 << 20);
+
+			if (offs >= dataLength)
+				continue;
+
 			mseek(f, offs, SEEK_SET);
 
 			/* 8bb: clamp overflown sample lengths (f.ex. "miracle man.s3m").
 			** ST3.21 doesn't do this, but we have to, or else it plays back wrongly.
 			*/
-			if (offs+ins->length > dataLength) // 8bb: dataLength is the filesize
+			if (ins->length > dataLength-offs) // 8bb: dataLength is the filesize
 				ins->length = dataLength-offs;
 
 			ins->baseptr = (int8_t *)malloc(ins->length+512+1); // 8bb: +1 for GUS intrp. safety (ST3 doesn't do this)
@@ -372,7 +393,7 @@ bool load_st3_from_ram(const uint8_t *data, uint32_t dataLength, int32_t soundCa
 #endif
 
 	song.moduleLoaded = true;
-	mclose(&f); // audacious-uade: release the MEMFILE allocated by mopen
+	mclose(&f); // audacious-uade: fix stream leak
 	return true;
 
 loadError:
