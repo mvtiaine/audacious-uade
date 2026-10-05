@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
 
     struct stat st;
     if (fstat(fd, &st)) {
-        close(fd);
+        fclose(f);
         fprintf(stderr, "Failed to read file size for %s\n", path);
         return EXIT_FAILURE;
     }
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
         while ((count = read(fd, buf, sizeof buf)) > 0) {
             buffer.insert(buffer.end(), buf, buf + count);
         }
-        close(fd);
+        fclose(f);
 
         const player::support::PlayerScope p;
         const auto players = player::check(path, buffer.data(), buffer.size(), buffer.size());
@@ -136,7 +136,7 @@ int main(int argc, char *argv[]) {
         md5.update(buf, count);
         buffer.insert(buffer.end(), buf, buf + count);
     }
-    close(fd);
+    fclose(f);
     md5.finalize();
     string md5hex = md5.hexdigest();
 

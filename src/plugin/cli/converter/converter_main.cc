@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 
     struct stat st;
     if (fstat(fd, &st)) {
-        close(fd);
+        fclose(f);
         fprintf(stderr, "Failed to read file size for %s\n", fname);
         return EXIT_FAILURE;
     }
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     while ((count = read(fd, buf, sizeof buf)) > 0) {
         buffer.insert(buffer.end(), buf, buf + count);
     }
-    close(fd);
+    fclose(f);
 
     auto res = converter::convert(buffer.data(), buffer.size());
     if (!res.success) {
