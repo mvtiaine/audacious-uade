@@ -178,7 +178,7 @@ constexpr_f2 bool s3m_impulse(const char *buf) noexcept {
     const uint8_t dp = buf[0x35];
     const auto special = *(le_uint16_t *)&buf[0x3e];
     return ver == 0x3320 || (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc) ||
-           ((ver & 0xFFF) >= 0x0215 && (ver & 0xFFF) <= 0x0217) ||
+           ((ver & 0xFF00) == 0x3200 && (ver & 0xFF) >= 0x15 && (ver & 0xFF) <= 0x17) ||
            (ver & 0xF000) == 0x3000;
 }
 
@@ -224,8 +224,11 @@ inline optional<S3mRouting> s3m_routing(const char *buf, size_t size, Player pla
 
     uint8_t chnsettings[32];
 	memcpy(chnsettings, &buf[0x40], sizeof chnsettings);
-    int channels = 0;
+    bool hwseen[128] = {};
+    int entries = 0;
+    int distinct = 0;
     bool opl = false;
+    bool hiPcm = false; // pattern columns 16-31 mapped to PCM channels
     for (size_t ch = 0; ch < sizeof(chnsettings); ++ch) {
         if (chnsettings[ch] & 0x80)
             continue; // channel muted
@@ -238,18 +241,33 @@ inline optional<S3mRouting> s3m_routing(const char *buf, size_t size, Player pla
             if (type > 24)
                 return {};
             opl = true;
+        } else if (ch >= 16) {
+            hiPcm = true;
         }
         // it2play: up to 64 host channels (S3M channel table has 32 entries)
         // st3play: 0-15 sample channels + 16-24 OPL melodic
-        channels++;
+        entries++;
+        if (!hwseen[type]) {
+            hwseen[type] = true;
+            distinct++;
+        }
     }
+    // Authentic ST3 tops out at 16 PCM channels plus the 9 melodic AdLib ones,
+    // so unmuted PCM in columns 16-31 duplicates a channel of columns 0-15 and
+    // the table was written by a converter or a tracker masquerading as Scream
+    // Tracker. st3play indexes voices by hardware channel and collapses the
+    // duplicates, dropping their notes; only it2play plays them as written.
+    if (hiPcm && !it)
+        return {};
     // something wrong
+    const int channels = it ? entries : distinct;
     if (!channels)
         return {};
 
     int16_t ordNum = *(le_uint16_t *)&buf[0x20];
     int16_t insnum = *(le_uint16_t *)&buf[0x22];
     uint16_t gusAddresses = 0;
+    bool anySamples = false;
     for (auto i = 0; i < insnum; ++i) {
         // avoid UB read
         uint16_t offs = ((unsigned char)buf[0x60 + ordNum + (i * 2) + 1] << 8 |
@@ -274,8 +292,19 @@ inline optional<S3mRouting> s3m_routing(const char *buf, size_t size, Player pla
         // OPL instruments (type 2/3) are only synthesized by st3play
         if (length && !hasOPL && type > 1)
             return {};
-        gusAddresses |= *(le_uint16_t *)&ptr8[0x28];
+        // GUS memory address, stamped by ST3 for each PCM sample (openmpt
+        // fingerprints it the same way)
+        if (type <= 1) {
+            if (length)
+                anySamples = true;
+            gusAddresses |= *(le_uint16_t *)&ptr8[0x28];
+        }
     }
+    // ST3 (except the early 3.00 revisions) writes a GUS address per sample; a
+    // module claiming a later ST3 version with none was written by other software
+    // (converters, trackers masquerading as ST3) and is not authentic
+    if (!it && anySamples && !gusAddresses && ver != 0x1300)
+        return {};
     return S3mRouting{impulse, opl || gusAddresses <= 1, channels};
 }
 
@@ -305,7 +334,7 @@ inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf,
     if (impulse) {
         if (ver == 0x3320 || (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc)) {
             snprintf(format, sizeof format, "Impulse Tracker 1.0x");
-        } else if ((ver & 0xFFF) >= 0x0215 && (ver & 0xFFF) <= 0x0217) {
+        } else if ((ver & 0xFF00) == 0x3200 && (ver & 0xFF) >= 0x15 && (ver & 0xFF) <= 0x17) {
             snprintf(format, sizeof format, "Impulse Tracker 2.14+");
         } else {
             snprintf(format, sizeof format, "Impulse Tracker %d.%02X", (ver & 0x0F00) >> 8, ver & 0xFF);
