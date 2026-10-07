@@ -14,7 +14,7 @@ player=st3play
 TESTMOD="${top_srcdir}/testdata/starport bbs introtune.s3m"
 TEST_NAME="st3play OPL"
 TEST="${PRECALC} \"${TESTMOD}\""
-EXPECTED_OUTPUT="825419d139d7c8bba169d779d1bdd519	1	38339	player	st3play	Scream Tracker 3.00 \(SB\)	9	4130	d2185f7c	a7316e24"
+EXPECTED_OUTPUT="825419d139d7c8bba169d779d1bdd519	1	38339	player	st3play	Scream Tracker 3.00 \(SB/OPL\)	9	4130	d2185f7c	a7316e24"
 
 . $(dirname "$0")/../common/check.sh
 

@@ -14,7 +14,7 @@ player=st3play
 TESTMOD="${top_srcdir}/testdata/miracle man.s3m"
 TEST_NAME="st3play GUS + subsongs"
 TEST="${PRECALC} \"${TESTMOD}\""
-EXPECTED_OUTPUT="45900ecc57e518f51b8ba7ef2cf66206	1	163871	player+silence	st3play	Scream Tracker 3.01 \(GUS\)	8	79744	bb1f2cbb	d9c451aa
+EXPECTED_OUTPUT="45900ecc57e518f51b8ba7ef2cf66206	1	163871	player+silence	st3play	Scream Tracker 3.01 \(GUS\)	4	79744	bb1f2cbb	d9c451aa
 45900ecc57e518f51b8ba7ef2cf66206	2	15352	player"
 
 . $(dirname "$0")/../common/check.sh

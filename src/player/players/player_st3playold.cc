@@ -333,8 +333,9 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
     // PlayerPRO / Velvet Studio
     if (ver == 0x1320 && !special && !uc && !flags && dp != 0xfc)
         return false;
-    // Impulse Tracker < 1.03
-    if (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc)
+    // Impulse Tracker; not authentic Scream Tracker output even when it2play
+    // is not built
+    if (s3m_impulse(buf))
         return false;
 
     return get_s3m_info(path, buf, bufsize, nullptr, Player::st3playold) ? true : false;
@@ -348,7 +349,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 
     optional<ModuleInfo> info;
     if (context->loadS3M((const uint8_t*)buf, size)) {
-        info = get_s3m_info(path, buf, size, nullptr, Player::st3playold);
+        info = get_s3m_info(path, buf, size, nullptr, Player::st3playold, true);
         if (info) {
             const auto subsongs = get_subsongs(context);
             info->maxsubsong = subsongs.size();

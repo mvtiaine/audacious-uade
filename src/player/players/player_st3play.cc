@@ -353,6 +353,10 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
     // PlayerPRO / Velvet Studio
     if (ver == 0x1320 && !special && !uc && !flags && dp != 0xfc)
         return false;
+    // Impulse Tracker < 1.03; not authentic Scream Tracker output even when
+    // it2play is not built
+    if (s3m_impulse(buf))
+        return false;
     return get_s3m_info(path, buf, bufsize, nullptr, Player::st3play) ? true : false;
 }
 
@@ -362,7 +366,8 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     st3play_context *context = new st3play_context(true, PRECALC_FREQ);
     assert(!context->moduleLoaded());
 
-    const auto routing = s3m_routing(buf, size, Player::st3play);
+    // scan the patterns to report the channels that actually play
+    const auto routing = s3m_routing(buf, size, Player::st3play, true);
     if (!routing) {
         delete context;
         return {};
@@ -373,7 +378,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     if (context->loadS3M((const uint8_t*)buf, size,
                          routing->soundblaster ? SOUNDCARD_SBPRO : SOUNDCARD_GUS)) {
         assert(context->soundcardtype() == (routing->soundblaster ? SOUNDCARD_SBPRO : SOUNDCARD_GUS));
-        info = get_s3m_info(path, buf, size, soundcardtype, Player::st3play);
+        info = get_s3m_info(path, buf, size, soundcardtype, Player::st3play, true);
         if (info) {
             info->maxsubsong = static_cast<int>(get_subsongs(context).size());
         }
@@ -389,6 +394,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     assert(config.player == Player::st3play || config.player == Player::NONE);
     assert(config.tag == Player::st3play || config.tag == Player::NONE);
     if (subsong < 1) subsong = 1; // XXX avoid crash with old playlists
+    // no pattern scan: a forced player must play whatever the loader accepts
     const auto routing = s3m_routing(buf, size, Player::st3play);
     if (!routing) {
         ERR("player_st3play::play unsupported module %s\n", path);
