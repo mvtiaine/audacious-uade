@@ -243,6 +243,10 @@ constexpr_f2 bool is_fasttracker2(const char *buf, size_t size, bool forced = fa
     for (const auto &name : xm_prog_blacklist) {
         if (common::starts_with(progName, name)) return false;
     }
+    // Digitrakker ("*Converted <fmt>-File*"): libxmp clears QUIRK_FT2BUGS and
+    // openmpt tags it verDigiTrakker, diverging from the authentic FT2 path
+    if (common::starts_with(progName, "*Converted ") && progName.substr(14) == "-File*")
+        return false;
     return true;
 }
 
