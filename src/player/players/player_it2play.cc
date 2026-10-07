@@ -262,6 +262,22 @@ constexpr bool isIT(const char *buf, size_t size, bool forced = false) noexcept 
             // ChibiTracker
             return false;
         }
+        // CheeseTracker: openmpt applies kITShortSampleRetrig and halves the
+        // preamp, diverging from the authentic IT path; fingerprinted by the
+        // sample[1] DOS filename "XXXXXXXX.YYY"
+        if (h->Cwtv == 0x0214 && h->Cmwt == 0x0214 && h->Special <= 1 &&
+            h->PitchWheelDepth == 0 && h->Reserved == 0 && (h->Flags & 0x10C6) == 0x04 &&
+            h->SmpNum > 1) {
+            const uint32_t smp1Offset = smpOffset0 + 4;
+            if (smp1Offset + 4 <= size) {
+                le_uint32_t smp1;
+                memcpy(&smp1, &buf[smp1Offset], sizeof(le_uint32_t));
+                if (smp1 != 0 && (uint32_t)smp1 + 17 <= size &&
+                    memcmp(&buf[smp1], "IMPS", 4) == 0 &&
+                    memcmp(&buf[smp1 + 4], "XXXXXXXX.YYY", 12) == 0)
+                    return false;
+            }
+        }
         if (h->Cwtv == 0x0202 && h->Cmwt == 0x0200 && h->HighLightMajor == 0 && h->HighLightMinor == 0 && h->Reserved == 0 && patPos[0] != 0 && patPos[0] < smpPos[0]) {
             // ModPlug Tracker 1.0 pre-alpha / alpha
             return false;
