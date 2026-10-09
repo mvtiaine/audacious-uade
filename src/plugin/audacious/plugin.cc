@@ -487,7 +487,8 @@ bool UADEPlugin::read_tag(const char *uri, VFSFile & file, Tuple &tuple, Index<c
     // try read subsongs directly from songdb
 #if PLAYER_all
     const auto songdbinfo = subsong < 0 ? songdb::lookup(hash) : optional<songdb::Info>{};
-    if (songdbinfo) {
+    // XXX avoid issues with precalced songdb not matching current player heuristics
+    if (songdbinfo && songdbinfo->subsongs.size() == 1) {
         TRACE("uade_plugin_read_tag read subsong range from songdb for hash %s uri %s\n", hash.c_str(), uri);
         const auto info = make_info(player::Player::NONE, songdbinfo.value());
         update_tuple_subsong_range(tuple, info);
