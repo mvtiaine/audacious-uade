@@ -423,7 +423,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     assert(config.player == Player::ft2play || config.player == Player::NONE);
     assert(config.tag == Player::ft2play || config.tag == Player::NONE);
-    assert(subsong >= 1);
+    if (subsong < 1) subsong = 1; // XXX avoid crash with old playlists
     bool volumeRamping = false;
     if (is_fasttracker2(buf, size, true))
         volumeRamping = get_xm_version(buf) >= 0x104;
