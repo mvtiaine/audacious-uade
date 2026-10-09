@@ -458,7 +458,7 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     assert(config.player == Player::it2play || config.player == Player::NONE);
     assert(config.tag == Player::it2play || config.tag == Player::NONE);
-    assert(subsong >= 1);
+    if (subsong < 1) subsong = 1; // XXX avoid crash with old playlists
     it2play_context *context = new it2play_context(config.probe);
     assert(!context->Song().Loaded);
     const auto &it2play_config = static_cast<const IT2PlayConfig&>(config);
