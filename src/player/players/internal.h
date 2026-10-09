@@ -199,7 +199,7 @@ constexpr int S3M_MAX_PATNUM = 100;
 // chnsettings is the 32 byte channel table, insOpl flags the insnum instruments
 // whose header type is 2 (AdLib melody); maxHw is the highest hardware channel the
 // player renders (st3play: 24, it2play: 127)
-inline S3mPatternUsage s3m_pattern_usage(const char *buf, size_t size, const uint8_t *chnsettings,
+constexpr_f2 S3mPatternUsage s3m_pattern_usage(const char *buf, size_t size, const uint8_t *chnsettings,
                                           const bool *insOpl, int ordNum, int insnum,
                                           int patNum, int maxHw) noexcept {
     S3mPatternUsage res = {};
@@ -283,7 +283,7 @@ inline S3mPatternUsage s3m_pattern_usage(const char *buf, size_t size, const uin
 // (load.c requires numSamples >= 2), and OPL is only present on SB/AdLib cards
 // scan decodes the patterns to tell which channels actually play; it is left out
 // of is_our_file (speed) and play() (a forced player must not be rejected)
-inline optional<S3mRouting> s3m_routing(const char *buf, size_t size, Player player = Player::NONE,
+constexpr_f2 optional<S3mRouting> s3m_routing(const char *buf, size_t size, Player player = Player::NONE,
                                          bool scan = false) noexcept {
     const auto ver = *(le_uint16_t *)&buf[0x28];
     assert((ver >= 0x1300 && ver <= 0x1321) || (ver & 0xF000) == 0x3000);
@@ -422,7 +422,7 @@ inline optional<S3mRouting> s3m_routing(const char *buf, size_t size, Player pla
 // the header based routing is used when omitted
 // the caller's player must support the module (no fallback to another player);
 // st3playold is a legacy alternative for the modules of st3play
-inline std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf, size_t size,
+constexpr_f2 std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf, size_t size,
                                               const char *soundcardtype = nullptr,
                                               Player player = Player::NONE,
                                               bool scan = false) noexcept {
