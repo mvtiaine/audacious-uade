@@ -81,21 +81,6 @@ endif
 3rdparty/replay/st3play/% : CXXFLAGS += -Wno-implicit-fallthrough -Wno-constant-conversion -Wno-implicit-const-int-float-conversion -Wno-unknown-warning -Wno-unknown-warning-option -Wno-unused-function -Wno-overflow
 endif
 
-if PLAYER_st3playold
-noinst_LTLIBRARIES += 3rdparty/replay/libreplay_st3playold.la
-3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_st3playold.la
-
-3rdparty_replay_libreplay_st3playold_la_SOURCES = \
-    3rdparty/replay/st3playold/st3playold.h \
-    3rdparty/replay/st3playold/st3playold_play.cc
-
-if PLAYER_PROBE
-3rdparty_replay_libreplay_st3playold_la_SOURCES += 3rdparty/replay/st3playold/st3playold_probe.cc
-endif
-
-3rdparty/replay/st3playold/% : CXXFLAGS += -Wno-keyword-macro
-endif
-
 if PLAYER_it2play
 noinst_LTLIBRARIES += 3rdparty/replay/libreplay_it2play.la
 3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_it2play.la
@@ -218,8 +203,6 @@ EXTRA_DIST += \
     3rdparty/replay/st3play/mixer/sinc.h \
     3rdparty/replay/st3play/opl2/opl2.c \
     3rdparty/replay/st3play/opl2/opl2.h \
-    3rdparty/replay/st3playold/LICENSE \
-    3rdparty/replay/st3playold/st3playold.c \
     3rdparty/replay/it2play/LICENSE \
     3rdparty/replay/it2play/README.md \
     3rdparty/replay/it2play/it_d_rm.h \

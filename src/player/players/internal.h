@@ -301,12 +301,8 @@ constexpr_f2 optional<S3mRouting> s3m_routing(const char *buf, size_t size, Play
         if (!PLAYER_st3play)
             return {};
         break;
-    case Player::st3playold:
-        if (!PLAYER_st3playold)
-            return {};
-        break;
     case Player::NONE:
-        if (impulse ? !PLAYER_it2play : (!PLAYER_st3play && !PLAYER_st3playold))
+        if (impulse ? !PLAYER_it2play : !PLAYER_st3play)
             return {};
         break;
     default:
@@ -314,11 +310,8 @@ constexpr_f2 optional<S3mRouting> s3m_routing(const char *buf, size_t size, Play
     }
 
     const bool it = player == Player::NONE ? impulse : player == Player::it2play;
-    const bool old = player == Player::st3playold ||
-                     (player == Player::NONE && !PLAYER_st3play && PLAYER_st3playold);
-    // it2play has no OPL emulation, st3play synthesizes it; st3playold's loader
-    // rejects OPL instruments
-    const bool hasOPL = !it && !old;
+    // it2play has no OPL emulation, st3play synthesizes it
+    const bool hasOPL = !it;
 
     uint8_t chnsettings[32];
 	memcpy(chnsettings, &buf[0x40], sizeof chnsettings);
@@ -376,11 +369,8 @@ constexpr_f2 optional<S3mRouting> s3m_routing(const char *buf, size_t size, Play
         if (length && ptr8[0x1E] != 0)
             return {};
         // st3play supports 8-bit mono PCM only; Scream Tracker 3 did not support
-        // stereo or 16-bit samples either. it2play does both (loaders/s3m.c),
-        // st3playold 16-bit only
-        if (length && !it && (flags & 2))
-            return {};
-        if (length && !it && !old && (flags & 4))
+        // stereo or 16-bit samples either. it2play does both (loaders/s3m.c)
+        if (length && !it && (flags & 6))
             return {};
         // OPL instruments (type 2/3) are only synthesized by st3play
         if (length && !hasOPL && type > 1)
@@ -420,8 +410,7 @@ constexpr_f2 optional<S3mRouting> s3m_routing(const char *buf, size_t size, Play
 
 // soundcardtype ("GUS"/"SB") can be passed by the caller after loading the module;
 // the header based routing is used when omitted
-// the caller's player must support the module (no fallback to another player);
-// st3playold is a legacy alternative for the modules of st3play
+// the caller's player must support the module (no fallback to another player)
 constexpr_f2 std::optional<ModuleInfo> get_s3m_info(const char *path, const char *buf, size_t size,
                                               const char *soundcardtype = nullptr,
                                               Player player = Player::NONE,
@@ -439,7 +428,7 @@ constexpr_f2 std::optional<ModuleInfo> get_s3m_info(const char *path, const char
         soundcardtype = routing->soundblaster ? "SB" : "GUS";
 
     if (player == Player::NONE)
-        player = impulse ? Player::it2play : (PLAYER_st3play ? Player::st3play : Player::st3playold);
+        player = impulse ? Player::it2play : Player::st3play;
 
     char format[32];
     if (impulse) {
@@ -459,7 +448,7 @@ constexpr_f2 std::optional<ModuleInfo> get_s3m_info(const char *path, const char
             snprintf(format, sizeof format, "Scream Tracker 3.%02X (%s%s)", ver & 0xFF, soundcardtype, opl);
         }
     }
-    assert(player == Player::st3play || player == Player::st3playold || player == Player::it2play);
+    assert(player == Player::st3play || player == Player::it2play);
     return ModuleInfo{player, format, path, 1, 1, 1, routing->channels};
     //return ModuleInfo{player, format, path, 1, 1, 1, routing->channels}; // , songname};
 }

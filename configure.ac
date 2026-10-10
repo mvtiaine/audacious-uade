@@ -98,7 +98,7 @@ players_found=""
 players_notfound=""
 AC_SUBST([players])
 m4_foreach_w([player],
-  [ft2play hivelytracker it2play libdigibooster3 noisetrekker2 protrekkr1 protrekkr2 st23play st3play st3playold uade libopenmpt libxmp], [
+  [ft2play hivelytracker it2play libdigibooster3 noisetrekker2 protrekkr1 protrekkr2 st23play st3play uade libopenmpt libxmp], [
   AS_VAR_SET([p], [player])
   if test "${p}" != "libopenmpt" && test "${p}" != "libxmp"; then # handle separately
   if test "$players" = "all" || test "$players" = "any" || printf ",${players}," | grep -Eq ",${p},"; then
