@@ -15,8 +15,6 @@
 
 #define AUDACIOUS_UADE 1
 
-using std::round;
-
 // Types and tables shared by the play and probe instances.
 namespace replay::st3play {
 #include "digdata.h"
