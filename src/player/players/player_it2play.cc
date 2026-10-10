@@ -426,7 +426,7 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
     // accepts also some S3Ms (when made with Impulse Tracker)
     if (isIT(buf, bufsize))
         return true;
-    return isS3M(buf, bufsize) && internal::s3m_routing(buf, bufsize, Player::it2play).has_value();
+    return isS3M(buf, bufsize) && internal::s3m_routing(buf, bufsize, Player::it2play);
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
