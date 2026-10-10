@@ -116,6 +116,10 @@
 */
 #pragma once
 
+// XXX
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
+
 #define MINIZ_NO_STDIO
 #define MINIZ_NO_TIME
 #define MINIZ_NO_DEFLATE_APIS
@@ -1520,3 +1524,5 @@ extern "C"
 #endif
 
 #endif /* MINIZ_NO_ARCHIVE_APIS */
+
+#pragma GCC diagnostic pop // ignored "-Wunused-function"

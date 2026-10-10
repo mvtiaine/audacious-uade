@@ -78,7 +78,7 @@ if PLAYER_PROBE
 3rdparty_replay_libreplay_st3play_la_SOURCES += 3rdparty/replay/st3play/st3play_probe.cc
 endif
 
-3rdparty/replay/st3play/% : CXXFLAGS += -Wno-keyword-macro
+3rdparty/replay/st3play/% : CXXFLAGS += -Wno-implicit-fallthrough -Wno-constant-conversion -Wno-implicit-const-int-float-conversion -Wno-unknown-warning -Wno-unknown-warning-option -Wno-unused-function -Wno-overflow
 endif
 
 if PLAYER_it2play
@@ -93,7 +93,7 @@ if PLAYER_PROBE
 3rdparty_replay_libreplay_it2play_la_SOURCES += 3rdparty/replay/it2play/it2play_probe.cc
 endif
 
-3rdparty/replay/it2play/% : CXXFLAGS += -Wno-misleading-indentation
+3rdparty/replay/it2play/% : CXXFLAGS += -Wno-misleading-indentation -Wno-unused-but-set-variable
 endif
 
 if PLAYER_st23play
@@ -179,7 +179,30 @@ EXTRA_DIST += \
     3rdparty/replay/ft2play/tables.h \
     3rdparty/replay/ft2play/tables.c \
     3rdparty/replay/st3play/LICENSE \
-    3rdparty/replay/st3play/st3play.c \
+    3rdparty/replay/st3play/README.md \
+    3rdparty/replay/st3play/dig.c \
+    3rdparty/replay/st3play/dig.h \
+    3rdparty/replay/st3play/dig_gus.c \
+    3rdparty/replay/st3play/dig_gus.h \
+    3rdparty/replay/st3play/digadl.c \
+    3rdparty/replay/st3play/digadl.h \
+    3rdparty/replay/st3play/digamg.c \
+    3rdparty/replay/st3play/digamg.h \
+    3rdparty/replay/st3play/digcmd.c \
+    3rdparty/replay/st3play/digcmd.h \
+    3rdparty/replay/st3play/digdata.c \
+    3rdparty/replay/st3play/digdata.h \
+    3rdparty/replay/st3play/digread.c \
+    3rdparty/replay/st3play/digread.h \
+    3rdparty/replay/st3play/load.c \
+    3rdparty/replay/st3play/mixer/gus_gf1.c \
+    3rdparty/replay/st3play/mixer/gus_gf1.h \
+    3rdparty/replay/st3play/mixer/sbpro.c \
+    3rdparty/replay/st3play/mixer/sbpro.h \
+    3rdparty/replay/st3play/mixer/sinc.c \
+    3rdparty/replay/st3play/mixer/sinc.h \
+    3rdparty/replay/st3play/opl2/opl2.c \
+    3rdparty/replay/st3play/opl2/opl2.h \
     3rdparty/replay/it2play/LICENSE \
     3rdparty/replay/it2play/README.md \
     3rdparty/replay/it2play/it_d_rm.h \

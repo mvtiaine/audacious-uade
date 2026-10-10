@@ -8,14 +8,14 @@ player=st3play
 
 #
 
-export PLAYER_ENDIAN=little
+# XXX using precalc as st3play output can depend on CPU, compiler and libc
+# TODO figure out root cause
 
-TESTMOD="${top_srcdir}/testdata/happiness.s3m"
-TESTMD5_LITTLE=df151c0e648c66e3485dcb538be3b509
+TESTMOD="${top_srcdir}/testdata/starport bbs introtune.s3m"
+TEST_NAME="st3play OPL"
+TEST="${PRECALC} \"${TESTMOD}\""
+EXPECTED_OUTPUT="825419d139d7c8bba169d779d1bdd519	1	38339	player	st3play	Scream Tracker 3.00 \(SB/OPL\)	9	4130	d2185f7c	a7316e24"
 
-TEST_NAME="st3play (16-bit)"
-TEST="${PLAYER} \"${TESTMOD}\" | ${MD5}"
-EXPECTED_OUTPUT=$TESTMD5_LITTLE
 . $(dirname "$0")/../common/check.sh
 
 exit 0

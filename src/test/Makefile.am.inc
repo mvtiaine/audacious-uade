@@ -81,6 +81,7 @@ TESTS = \
     test/player/test_player_ft2play_3.sh \
     test/player/test_player_st3play_1.sh \
     test/player/test_player_st3play_2.sh \
+    test/player/test_player_st3play_3.sh \
     test/player/test_player_st23play_1.sh \
     test/player/test_player_libdigibooster3_1.sh \
     test/player/test_player_libdigibooster3_2.sh \

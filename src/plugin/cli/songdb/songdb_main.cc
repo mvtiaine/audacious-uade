@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 
     struct stat st;
     if (fstat(fd, &st)) {
-        close(fd);
+        fclose(f);
         fprintf(stderr, "Failed to read file size for %s\n", fname);
         return EXIT_FAILURE;
     }
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     while ((count = read(fd, buf, sizeof buf)) > 0 && count < bytes) {
         buffer.insert(buffer.end(), buf, buf + count);
     }
-    close(fd);
+    fclose(f);
 
     const auto xxh32 = XXH32(buffer.data(), bytes, 0);
     const string hash = common::to_hex(xxh32) + common::to_hex((uint16_t)(st.st_size & 0xFFFF));

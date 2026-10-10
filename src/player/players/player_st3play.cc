@@ -1,4 +1,5 @@
-// SPDX-License-Identifier: LGPL-2.1-or-later
+// SPDX-License-Identifier: LGPL-2.1-or-later AND CC-PDM-1.0
+// SPDX-AI-Disclosure: ai-assisted
 // Copyright (C) 2024-2026 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include "common/std/optional.h"
@@ -26,134 +27,159 @@ using namespace replay::st3play;
 namespace {
 
 constexpr int MAX_ORDNUM = 256;
-constexpr int MAX_INSNUM = 100;
+constexpr int MAX_INSNUM = 99;
 constexpr int MAX_PATNUM = 100;
 constexpr int MAX_ROWS = 64;
 constexpr int PATT_SEP = 254;
 constexpr int PATT_END = 255;
 
+// render block size in frames (st3play renders to its own mix buffer,
+// allocated by initMusic with the same size)
 constexpr size_t mixBufSize(const int frequency) noexcept {
     return 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
+}
+
+constexpr int mixBufFrames(const int frequency) noexcept {
+    return frequency / 50 + (frequency % 50 != 0 ? 1 : 0);
 }
 
 mutex probe_guard;
 struct st3play_context {
     const bool probe;
+    int32_t audioBufferSize = 0;
     int16_t startPos = 0;
     set<pair<int16_t,int16_t>> seen; // for subsong loop detection
 
-    st3play_context(const bool probe) noexcept : probe(probe) {
+    st3play_context(const bool probe, const int frequency) noexcept : probe(probe) {
         if (probe) probe_guard.lock();
-        reset();
+        audioBufferSize = mixBufFrames(frequency);
+        if (probe) {
+            probe::initMusic(frequency, audioBufferSize);
+            probe::audio.fMixingVol = 32768.0f;
+        } else {
+            play::initMusic(frequency, audioBufferSize);
+            play::audio.fMixingVol = 32768.0f;
+        }
     }
     ~st3play_context() noexcept {
-        // stop voices
-        SetInterpolation(false);
-        clearMixBuffer();
-        Close();
+        // stop voices and free mix buffers
+        if (probe) probe::closeMusic();
+        else play::closeMusic();
         if (probe) probe_guard.unlock();
     }
-    void reset() noexcept  {
-        if (probe) probe::reset();
-        else play::reset();
-        startPos = 0;
-        seen.clear();
-    }
     bool moduleLoaded() const noexcept {
-        if (probe) return probe::moduleLoaded;
-        else return play::moduleLoaded;
+        if (probe) return probe::song.moduleLoaded;
+        else return play::song.moduleLoaded;
     }
-    bool loadS3M(const uint8_t *dat, const uint32_t modLen) noexcept {
+    // card type is decided by internal::s3m_routing, not the loader's heuristic
+    bool loadS3M(const uint8_t *dat, const uint32_t modLen, int32_t soundcardtype) noexcept {
         assert(!moduleLoaded());
-        if (probe) return probe::loadS3M(dat, modLen);
-        else return play::loadS3M(dat, modLen);
+        if (probe) return probe::load_st3_from_ram(dat, modLen, soundcardtype);
+        else return play::load_st3_from_ram(dat, modLen, soundcardtype);
     }
-    bool PlaySong(const uint8_t *moduleData, uint32_t dataLength, bool useInterpolationFlag, uint32_t audioFreq) noexcept {
-        assert(!moduleLoaded());
-        if (probe) return probe::st3play_PlaySong(moduleData, dataLength, useInterpolationFlag, audioFreq);
-        else return play::st3play_PlaySong(moduleData, dataLength, useInterpolationFlag, audioFreq);
-    }
-    void Close() noexcept {
-        if (probe) probe::st3play_Close();
-        else play::st3play_Close();
-    }
-    bool FillAudioBuffer(int16_t *buffer, int32_t samples) noexcept {
+    bool PlaySong(const int16_t order = 0) noexcept {
         assert(moduleLoaded());
-        if (probe) return probe::st3play_FillAudioBuffer(buffer, samples);
-        else return play::st3play_FillAudioBuffer(buffer, samples);
+        if (probe) return probe::zplaysong(order);
+        else return play::zplaysong(order);
     }
-    void SetInterpolation(bool flag) noexcept {
-        if (probe) probe::st3play_SetInterpolation(flag);
-        else play::st3play_SetInterpolation(flag);
+    void musmixer(int16_t *buffer, const int32_t samples) noexcept {
+        assert(moduleLoaded());
+        if (probe) probe::musmixer(buffer, samples);
+        else play::musmixer(buffer, samples);
     }
-    bool np_restarted() const noexcept {
-        if (probe) return probe::np_restarted;
-        else return play::np_restarted;
+    void shutupsounds() noexcept {
+        if (probe) probe::shutupsounds();
+        else play::shutupsounds();
+    }
+    void resetAudioDither() noexcept {
+        if (probe) probe::resetAudioDither();
+        else play::resetAudioDither();
     }
     int16_t np_ord() const noexcept {
-        if (probe) return probe::np_ord;
-        else return play::np_ord;
+        if (probe) return probe::song.np_ord;
+        else return play::song.np_ord;
     }
     int16_t np_row() const noexcept {
-        if (probe) return probe::np_row;
-        else return play::np_row;
+        if (probe) return probe::song.np_row;
+        else return play::song.np_row;
     }
     uint16_t ordNum() const noexcept {
-        if (probe) return probe::ordNum;
-        else return play::ordNum;
+        if (probe) return probe::song.header.ordnum;
+        else return play::song.header.ordnum;
     }
     uint16_t insNum() const noexcept {
-        if (probe) return probe::insNum;
-        else return play::insNum;
+        if (probe) return probe::song.header.insnum;
+        else return play::song.header.insnum;
     }
     uint16_t patNum() const noexcept {
-        if (probe) return probe::patNum;
-        else return play::patNum;
+        if (probe) return probe::song.header.patnum;
+        else return play::song.header.patnum;
     }
-    uint8_t order(int16_t ordNum) const noexcept {
-        if (probe) return probe::order[ordNum];
-        else return play::order[ordNum];
+    int32_t soundcardtype() const noexcept {
+        if (probe) return probe::audio.soundcardtype;
+        else return play::audio.soundcardtype;
     }
-    uint16_t patDataLen(uint16_t patNum) const noexcept {
-        if (probe) return probe::patDataLens[patNum];
-        else return play::patDataLens[patNum];
+    bool wavRenderFlag() const noexcept {
+        if (probe) return probe::WAVRender_Flag;
+        else return play::WAVRender_Flag;
     }
-    void setPos(int16_t pos) noexcept  {
+    uint8_t order(const int16_t ordNum) const noexcept {
+        if (probe) return probe::song.order[ordNum];
+        else return play::song.order[ordNum];
+    }
+    uint8_t *patData(const uint16_t patNum) const noexcept {
+        if (probe) return probe::song.patp[patNum];
+        else return play::song.patp[patNum];
+    }
+    uint16_t patDataLen(const uint16_t patNum) const noexcept {
+        if (probe) return probe::song.patDataLens[patNum];
+        else return play::song.patDataLens[patNum];
+    }
+    const uint8_t *channelSettings() const noexcept {
+        if (probe) return probe::song.header.channel;
+        else return play::song.header.channel;
+    }
+    void setPos(const int16_t pos) noexcept {
         assert(moduleLoaded());
-        reset();
         startPos = pos;
-        if (probe) probe::setPos(pos);
-        else play::setPos(pos);
+        // loop detection state must not survive a seek/restart
+        seen.clear();
+        if (probe) probe::zgotosong(pos, 0);
+        else play::zgotosong(pos, 0);
+    }
+    // upstream's caller sets the flag when rendering starts; the replay
+    // clears it when the order list wraps around (song end)
+    void setWavRenderFlag(const bool flag) noexcept {
+        if (probe) probe::WAVRender_Flag = flag;
+        else play::WAVRender_Flag = flag;
     }
     void clearMixBuffer() noexcept {
-        if (probe) probe::clearMixBuffer();
-        else play::clearMixBuffer();
+        const auto samples = audioBufferSize;
+        if (probe) {
+            if (probe::audio.fMixBufferL) memset(probe::audio.fMixBufferL, 0, samples * sizeof (float));
+            if (probe::audio.fMixBufferR) memset(probe::audio.fMixBufferR, 0, samples * sizeof (float));
+        } else {
+            if (play::audio.fMixBufferL) memset(play::audio.fMixBufferL, 0, samples * sizeof (float));
+            if (play::audio.fMixBufferR) memset(play::audio.fMixBufferR, 0, samples * sizeof (float));
+        }
     }
 
-    pair<int16_t,int16_t> posJump(int pattNr, int16_t pattPos) const noexcept {
-        int16_t effB = -1; // Position Jump 
+    // scan packed pattern data at pattPos for position jump (Bxx) and
+    // pattern break (Cxx) effects
+    pair<int16_t,int16_t> posJump(const int pattNr, const int16_t pattPos) const noexcept {
+        int16_t effB = -1; // Position Jump
         int16_t effC = -1; // Pattern Break
-        uint8_t *patseg = nullptr;
-        uint8_t *chnsettings = nullptr;
-        uint16_t patDataLen = 0;
-        if (probe && probe::patdata[pattNr]) {
-            patseg = probe::patdata[pattNr];
-            chnsettings = probe::chnsettings;
-            patDataLen = probe::patDataLens[pattNr];
-        } else if (!probe && play::patdata[pattNr]) {
-            patseg = play::patdata[pattNr];
-            chnsettings = play::chnsettings;
-            patDataLen = play::patDataLens[pattNr];
-        } else {
+        uint8_t *patseg = patData(pattNr);
+        const uint8_t *chnsettings = channelSettings();
+        const uint16_t len = patDataLen(pattNr);
+        if (!patseg || !chnsettings) {
             return pair<int16_t,int16_t>(-1,-1);
         }
-        assert(patseg);
-        assert(chnsettings);
         // find pattPos offset in packed pattern data
         int i = pattPos, offs = 0;
-       	uint8_t dat = 0;
+        uint8_t dat = 0;
         while (i > 0) {
-            if (offs >= patDataLen) {
+            if (offs >= len) {
                 return pair<int16_t,int16_t>(-1,-1);
             }
             dat = patseg[offs++];
@@ -165,12 +191,12 @@ struct st3play_context {
                 if (dat & 0x80) offs += 2;
             }
         }
-		while (true) {
+        while (true) {
             if (effB != -1 && effC != -1) {
                 break;
             }
             while (true) {
-                if (offs >= patDataLen) {
+                if (offs >= len) {
                     return pair<int16_t,int16_t>(-1,-1);
                 }
                 dat = patseg[offs++];
@@ -186,7 +212,7 @@ struct st3play_context {
             if (dat & 0x20) offs += 2;
             if (dat & 0x40) offs += 1;
             if (dat & 0x80) {
-                if (offs + 1 >= patDataLen) {
+                if (offs + 1 >= len) {
                     return pair<int16_t,int16_t>(-1,-1);
                 }
                 uint8_t cmd = patseg[offs++];
@@ -200,8 +226,8 @@ struct st3play_context {
         return pair<int16_t,int16_t>(effB,effC);
     }
     bool jumpLoop() const noexcept {
-        if (probe) return probe::patloopcount > 0 || probe::patterndelay > 0;
-        else return play::patloopcount > 0 || play::patterndelay > 0;
+        if (probe) return probe::song.patloopcount > 0 || probe::song.patterndelay > 0;
+        else return play::song.patloopcount > 0 || play::song.patterndelay > 0;
     }
 };
 
@@ -258,14 +284,14 @@ vector<int16_t> get_subsongs(const st3play_context *context) noexcept {
             int16_t oldPos = songPos;
             int16_t oldPatt = pattPos;
             songPos = posJump.first == -1 ? songPos + 1 : posJump.first;
-           	if (songPos >= context->ordNum())
+            if (songPos >= context->ordNum())
                 break;
             if (posJump == prevJump && posJump.first >= 0) {
                 seen.insert(songPos);
                 jump = true;
             }
             pattPos = posJump.second == -1 ? 0 : posJump.second;
-       	    if (pattPos >= MAX_ROWS)
+            if (pattPos >= MAX_ROWS)
                 pattPos = 0;
             if (oldPos == songPos && oldPatt == pattPos)
                 break;
@@ -274,8 +300,8 @@ vector<int16_t> get_subsongs(const st3play_context *context) noexcept {
             prevJump = posJump;
         } else {
             pattPos++;
-       	    if (pattPos >= MAX_ROWS) {
-    	    	songPos++;
+            if (pattPos >= MAX_ROWS) {
+                songPos++;
                 pattPos = 0;
                 jump = true;
                 if (songPos >= context->ordNum())
@@ -293,18 +319,14 @@ namespace player::st3play {
 void init() noexcept {}
 void shutdown() noexcept {
 #ifdef PLAYER_PROBE
-    probe::st3play_SetInterpolation(false);
-    probe::clearMixBuffer();
-    probe::st3play_Close();
+    probe::closeMusic();
 #endif
-    play::st3play_SetInterpolation(false);
-    play::clearMixBuffer();
-    play::st3play_Close();
+    play::closeMusic();
 }
 
 bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept {
     if (bufsize < 0x70 || buf[0x1D] != 16 || memcmp(&buf[0x2C], "SCRM", 4) != 0)
-	    return false;
+        return false;
 
     // Reject non-authentic trackers (based on OpenMPT)
     const auto ver = *(le_uint16_t *)&buf[0x28];
@@ -333,25 +355,34 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
     // PlayerPRO / Velvet Studio
     if (ver == 0x1320 && !special && !uc && !flags && dp != 0xfc)
         return false;
-    // Impulse Tracker < 1.03
-    if (ver == 0x1320 && !special && !uc && flags == 8 && dp != 0xfc)
+    // Impulse Tracker < 1.03; not authentic Scream Tracker output even when
+    // it2play is not built
+    if (s3m_impulse(buf))
         return false;
-
-    return get_s3m_info(path, buf, bufsize) ? true : false;
+    return get_s3m_info(path, buf, bufsize, nullptr, Player::st3play) ? true : false;
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
     assert(size >= 0x40 + 32);
 
-    st3play_context *context = new st3play_context(true);
+    st3play_context *context = new st3play_context(true, PRECALC_FREQ);
     assert(!context->moduleLoaded());
 
+    // scan the patterns to report the channels that actually play
+    const auto routing = s3m_routing(buf, size, Player::st3play, true);
+    if (!routing) {
+        delete context;
+        return {};
+    }
+    const char *soundcardtype = routing->soundblaster ? "SB" : "GUS";
+
     optional<ModuleInfo> info;
-    if (context->loadS3M((const uint8_t*)buf, size)) {
-        info = get_s3m_info(path, buf, size);
+    if (context->loadS3M((const uint8_t*)buf, size,
+                         routing->soundblaster ? SOUNDCARD_SBPRO : SOUNDCARD_GUS)) {
+        assert(context->soundcardtype() == (routing->soundblaster ? SOUNDCARD_SBPRO : SOUNDCARD_GUS));
+        info = get_s3m_info(path, buf, size, soundcardtype, Player::st3play, true);
         if (info) {
-            const auto subsongs = get_subsongs(context);
-            info->maxsubsong = subsongs.size();
+            info->maxsubsong = static_cast<int>(get_subsongs(context).size());
         }
     } else {
         DEBUG("player_st3play::parse parsing failed for %s\n", path);
@@ -364,10 +395,19 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
 optional<PlayerState> play(const char *path, const char *buf, size_t size, int subsong, const PlayerConfig &config) noexcept {
     assert(config.player == Player::st3play || config.player == Player::NONE);
     assert(config.tag == Player::st3play || config.tag == Player::NONE);
-    assert(subsong >= 1);
-    st3play_context *context = new st3play_context(config.probe);
+    if (subsong < 1) subsong = 1; // XXX avoid crash with old playlists
+    // no pattern scan: a forced player must play whatever the loader accepts
+    const auto routing = s3m_routing(buf, size, Player::st3play);
+    if (!routing) {
+        ERR("player_st3play::play unsupported module %s\n", path);
+        return {};
+    }
+
+    st3play_context *context = new st3play_context(config.probe, config.frequency);
     assert(!context->moduleLoaded());
-    if (!context->PlaySong((uint8_t*)buf, size, true, config.frequency)) {
+    if (!context->loadS3M((const uint8_t*)buf, size,
+                          routing->soundblaster ? SOUNDCARD_SBPRO : SOUNDCARD_GUS) ||
+        !context->PlaySong()) {
         ERR("player_st3play::play could not play %s\n", path);
         delete context;
         return {};
@@ -378,6 +418,7 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         assert(static_cast<size_t>(subsong) <= subsongs.size());
         context->setPos(subsongs[subsong - 1]);
     }
+    context->setWavRenderFlag(true);
 
     return PlayerState {Player::st3play, subsong, config.frequency, config.endian != endian::native, context, true, mixBufSize(config.frequency), 0, 0};
 }
@@ -400,11 +441,11 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     assert(context->moduleLoaded());
     const auto prevPos = pair<int16_t,int16_t>(context->np_ord(), context->np_row());
     bool prevJump = context->jumpLoop();
-    bool filled = context->FillAudioBuffer((int16_t*)buf, state.buffer_size / 4);
-    assert(filled);
+    context->musmixer((int16_t*)buf, state.buffer_size / 4);
     const auto pos = pair<int16_t,int16_t>(context->np_ord(), context->np_row());
     bool jump = context->jumpLoop();
-    bool songend = context->np_restarted() || context->np_ord() >= context->ordNum();
+    // st3play clears WAVRender_Flag when the order list wraps around
+    bool songend = !context->wavRenderFlag() || context->np_ord() >= context->ordNum();
     if (prevJump && !jump && prevPos.first >= pos.first && prevPos.second >= pos.second && context->ordNum() > 1) {
         for (auto i = pos.second; i <= prevPos.second; ++i) {
             context->seen.erase(pair<int16_t,int16_t>(pos.first, i));
@@ -422,8 +463,10 @@ bool restart(PlayerState &state) noexcept {
     assert(context);
     context->clearMixBuffer();
     // stops voices
-    context->SetInterpolation(true);
+    context->shutupsounds();
+    context->resetAudioDither();
     context->setPos(context->startPos);
+    context->setWavRenderFlag(true);
     return true;
 }
 

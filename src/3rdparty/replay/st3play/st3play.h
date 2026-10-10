@@ -1,46 +1,89 @@
-// SPDX-License-Identifier: BSD-3-Clause
+// SPDX-License-Identifier: BSD-3-Clause AND CC-PDM-1.0
+// SPDX-AI-Disclosure: ai-assisted
 #pragma once
 
+#include <cassert>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
 // for endianess check
 #include "config.h"
 
 #define AUDACIOUS_UADE 1
-#define register // error: ISO C++17 does not allow 'register' storage class specifier [-Wregister]
 
-#define ST3PLAY(ns) \
-namespace ns { \
-extern bool np_restarted, moduleLoaded; \
-extern int8_t patterndelay, patloopcount; \
-extern uint8_t order[256], chnsettings[32], *patdata[100]; \
-extern int16_t np_ord, np_row, np_pat; \
-extern uint16_t ordNum, insNum, patNum; \
-extern uint16_t patDataLens[100]; \
-extern int32_t *mixBufferL, *mixBufferR; \
-bool loadS3M(const uint8_t *dat, uint32_t modLen); \
-bool st3play_PlaySong(const uint8_t *moduleData, uint32_t dataLength, bool useInterpolationFlag, uint32_t audioFreq); \
-void st3play_Close(void); \
-bool st3play_FillAudioBuffer(int16_t *buffer, int32_t samples); \
-void st3play_SetInterpolation(bool flag); \
-void reset(); \
-inline void setPos(int16_t pos) { \
-    np_ord = pos; \
-    np_pat = order[pos]; \
-    np_row = 0; \
-} \
-inline void clearMixBuffer() { \
-    constexpr int MIX_BUF_SAMPLES = 4096; \
-    if (mixBufferL) memset(mixBufferL, 0, MIX_BUF_SAMPLES * sizeof (int32_t)); \
-    if (mixBufferR) memset(mixBufferR, 0, MIX_BUF_SAMPLES * sizeof (int32_t)); \
-} \
+// Types and tables shared by the play and probe instances.
+namespace replay::st3play {
+#include "digdata.h"
+#include "mixer/sinc.h"
 }
 
-ST3PLAY(replay::st3play::play)
+namespace replay::st3play::play {
+using namespace replay::st3play;
+extern song_t song;
+extern audio_t audio;
+extern bool WAVRender_Flag;
+extern bool renderToWavFlag; // defined by upstream's example main
+#include "dig.h"
+#include "digcmd.h"
+#include "digread.h"
+#include "dig_gus.h"
+#include "digadl.h"
+#include "digamg.h"
+// the mixers have identically named file scope symbols, kept apart by sub namespaces
+namespace sbpro {
+#include "mixer/sbpro.h"
+}
+namespace gus {
+#include "mixer/gus_gf1.h"
+}
+namespace opl2 {
+#include "opl2/opl2.h"
+}
+using namespace sbpro;
+using namespace gus;
+using namespace opl2;
+// noop audio output device impls
+inline void lockMixer(void) {}
+inline void unlockMixer(void) {}
+inline bool openMixer(int32_t mixingFrequency, int32_t mixingBufferSize) { return true; }
+inline void closeMixer(void) {}
+} // namespace replay::st3play::play
+
 #ifdef PLAYER_PROBE
-ST3PLAY(replay::st3play::probe)
+namespace replay::st3play::probe {
+using namespace replay::st3play;
+extern song_t song;
+extern audio_t audio;
+extern bool WAVRender_Flag;
+extern bool renderToWavFlag; // defined by upstream's example main
+#include "dig.h"
+#include "digcmd.h"
+#include "digread.h"
+#include "dig_gus.h"
+#include "digadl.h"
+#include "digamg.h"
+namespace sbpro {
+#include "mixer/sbpro.h"
+}
+namespace gus {
+#include "mixer/gus_gf1.h"
+}
+namespace opl2 {
+#include "opl2/opl2.h"
+}
+using namespace sbpro;
+using namespace gus;
+using namespace opl2;
+// noop audio output device impls
+inline void lockMixer(void) {}
+inline void unlockMixer(void) {}
+inline bool openMixer(int32_t mixingFrequency, int32_t mixingBufferSize) { return true; }
+inline void closeMixer(void) {}
+} // namespace replay::st3play::probe
 #else
 namespace replay::st3play { namespace probe = replay::st3play::play; }
 #endif

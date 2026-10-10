@@ -1,6 +1,6 @@
 # audacious-uade
 
-This is Audacious (https://audacious-media-player.org/) and DeaDBeeF (https://deadbeef.sourceforge.io/) input plugin for UADE (https://zakalwe.fi/uade/) and other retro music replays.
+This is Audacious (https://audacious-media-player.org/) and DeaDBeeF (https://deadbeef.sourceforge.io/) input plugin for UADE (https://zakalwe.fi/uade/) and other tracker/retro music replays.
 
 No binaries are currently provided, but support for common Linux, *BSD, macOS and Haiku package managers is available (see [Installation via Package Managers](#installation-via-package-managers)).
 
@@ -11,6 +11,7 @@ For installing on Windows, see https://github.com/mvtiaine/audacious-uade/issues
 Project is hosted at https://github.com/mvtiaine/audacious-uade  
 Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 
+
 ## Screenshots
 
 <p align="center">
@@ -19,10 +20,12 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
   <a href="screenshots/screenshot3.png"><img src="screenshots/screenshot3.png" width="250" alt="Screenshot 3"></a>
 </p>
 
+
 ## IMPORTANT!
 
 - Make sure **Probe content of files with no recognized file name extension** setting is **enabled** and **Guess missing metadata from filepath** setting is **disabled** in Audacious prefs in order for subsongs and meta data to work properly. The playlist must also have been created **after** the settings are applied.
 - Also after updating to a new version, it's a good idea to regenerate old playlists to avoid potential issues.
+
 
 ## Main Features
 
@@ -39,7 +42,7 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 - HivelyTracker support (http://www.hivelytracker.co.uk/)
 - Fasttracker 1 & 2 support (https://github.com/8bitbubsy/ft2play)
 - Scream Tracker 2 support (https://pastebin.com/ifXSCZ71)
-- Scream Tracker 3 support (https://pastebin.com/AwRXZAw7)
+- Scream Tracker 3 support (https://github.com/8bitbubsy/st3play)
 - Impulse Tracker 1 & 2 support (https://github.com/8bitbubsy/it2play)
 - ProTrekkr 1 & 2 support (https://github.com/hitchhikr/protrekkr)
   - Note: older ProTrekkr mods may play incorrectly
@@ -47,9 +50,10 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 - libopenmpt support (optional) (https://lib.openmpt.org/libopenmpt/)
 - libxmp support (optional) (https://xmp.sourceforge.net/)
 
+
 ## Other Notes
 
-- Tested (bit-equal) on 64-bit, 32-bit, big & little endian hosts. Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin), OpenIndiana, GNU Hurd. Libraries/CLI binaries also tested on AmigaOS3, MorphOS, AROS, QNX 6.5.0, AIX, cosmocc, Tizen, Meego/Sailfish, OS/2 (ArcaOS)
+- Tested on 64-bit, 32-bit, big & little endian hosts. Tested on macOS, Linux, DragonFly*/Free*/Net*/OpenBSD, Haiku, Windows (MinGW*/MSYS2, Cygwin), OpenIndiana, GNU Hurd. Libraries/CLI binaries also tested on AmigaOS3, MorphOS, AROS, QNX 6.5.0, AIX, cosmocc, Tizen, Meego/Sailfish, OS/2 (ArcaOS)
 - Build support (binaries not tested) for Android, iOS, Fuchsia, OpenHarmony, webOS, RISC OS, FreeMiNT, WarpOS, Redox OS, SerenityOS, Genode, BlackBerry 10, QNX 7, QNX 8, PS4 (OpenOrbis)
 - WIP support (runtime failures) for IRIX, AmigaOS4, Wasix, Emscripten, UnixWare.
 - Recommended custom Audacious playlist entry/window title template:
@@ -59,12 +63,14 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 - Audacious metadata available: Artist, Album, Publisher, Year, Track, Length, Comment
 - DeaDBeeF metadata available: Track Number, Artist, Album, Year, Duration, Codec, %publisher%, %channels%, %player%, %songend%
 
+
 ## Dependencies (optional/auto detected)
 
 - Audacious >= 3.8
 - DeaDBeeF >= 1.8.0
 - libopenmpt >= 0.6.0
 - libxmp >= 4.5.0
+
 
 ## Build and Install from Source
 
@@ -262,6 +268,7 @@ SONGEND_MODE=1 src/plugin/cli/player/player 8062 ../testdata/spellbound\ dizzy.b
 220299
 ```
 
+
 ## Some Future Plans (in no particular order)
 
 - Automatic A500/A1200/None filter selection depending on format/year/platform (OCS/AGA/DOS) etc. meta data
@@ -272,6 +279,7 @@ SONGEND_MODE=1 src/plugin/cli/player/player 8062 ../testdata/spellbound\ dizzy.b
 - Improve UADE format support and portability
 - Improve songdb with more coverage and metadata sources
 - Project might need a new name...
+
 
 ## License (source code and data files)
 
@@ -284,6 +292,14 @@ Songdb (`conf/songdb`) is licensed under CC BY-NC-SA 4.0.
 
 See NOTICE for 3rd party source code licenses (sources under `src/3rdparty/`).  
 See `uade/COPYING` for UADE license information (sources under `uade/`).
+
+### LLM usage
+
+Parts of the codebase have been edited with help of LLMs. While the legal and ethical issues are unresolved, I consider those edits public domain since the training material was treated as such anyway.
+So any files that include `SPDX-AI-Disclosure: ai-assisted` or `ai-generated` tags are also available under **CC-PDM-1.0** at your discretion.
+Any third party code, modified or unmodified, retain their original copyright and license.
+FWIW I have not paid a cent to any company for the LLM usage and all the LLM computation has been done locally on computers I own.
+
 
 ## Contact
 

@@ -150,7 +150,7 @@ pair<SongEnd::Status,size_t> render(PlayerState &state, char *buf, size_t size) 
     // xmp_play_buffer() songend is buggy, so use moduleinfo duration as well
     // also avoid rendering past end of song (loop)
     bool songend = false;
-    size_t bytestorender = state.buffer_size;
+    int64_t bytestorender = state.buffer_size;
     const int64_t bytespersec = 4 * state.frequency;
     const int64_t totalbytes = context->info.seq_data[state.subsong].duration * bytespersec / 1000;
     // rendered bytes must be multiple of 4

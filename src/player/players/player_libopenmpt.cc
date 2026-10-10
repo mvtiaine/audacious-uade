@@ -113,6 +113,11 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         return {};
     }
     openmpt_module_ctl_set_boolean(mod, "load.skip_subsongs_init", 1);
+    int subsongs = openmpt_module_get_num_subsongs(mod);
+    if (subsong > subsongs - 1) {
+        // XXX support old playlists
+        subsong = subsongs - 1;
+    }
     if (!openmpt_module_select_subsong(mod, subsong)) {
         ERR("player_libopenmpt::play invalid subsong %d for %s\n", subsong, path);
         openmpt_module_destroy(mod);

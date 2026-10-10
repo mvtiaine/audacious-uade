@@ -816,6 +816,10 @@ if test "$build_openharmony" != "yes" && test "$build_ps4" != "yes" && test "$bu
   CPPFLAGS="-D_GNU_SOURCE ${CPPFLAGS}"
 fi
 COMMON_CFLAGS="-fmerge-all-constants -fno-exceptions"
+# allow FMA etc.
+COMMON_CFLAGS="${COMMON_CFLAGS} -ffp-contract=fast"
+# 32-bit x86 / 68k optimization, should be no-op on other archs
+COMMON_CFLAGS="${COMMON_CFLAGS} -fexcess-precision=fast"
 CXXFLAGS="-fvisibility=hidden ${CXXSTD} ${CXXFLAGS} ${COMMON_CFLAGS} -fvisibility-inlines-hidden -fno-rtti"
 CFLAGS="-fvisibility=hidden ${CSTD} ${CFLAGS} ${COMMON_CFLAGS}"
 ARCHFLAGS=""
@@ -1044,6 +1048,7 @@ _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-unused -Wno-deprecated-declarations -Wno-taut
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-zero-length-array -Wno-variadic-macros -Wno-gnu-zero-variadic-macro-arguments"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-format -Wno-format-nonliteral -Wno-format-security -Wno-deprecated-octal-literals"
 _UADE_CFLAGS="${_UADE_CFLAGS} -Wno-sign-compare -Wno-shift-negative-value"
+_UADE_CFLAGS="${_UADE_CFLAGS} -Wno-discarded-qualifiers -Wno-incompatible-pointer-types-discards-qualifiers"
 _UADE_LDFLAGS=""
 if test "$static_stdlibs" = "yes" ; then
   _UADE_LDFLAGS="-static-libgcc ${_UADE_LDFLAGS}"

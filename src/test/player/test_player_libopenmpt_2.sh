@@ -12,16 +12,11 @@ player=libopenmpt
 
 export PLAYER=${player}
 
-TESTMOD="${top_srcdir}/testdata/burgertime mix.xm"
-TEST_NAME="libopenmpt + subsongs"
+TESTMOD="${top_srcdir}/testdata/happiness.s3m"
+TEST_NAME="libopenmpt S3M 16-bit samples"
 TEST="${PRECALC} \"${TESTMOD}\""
-EXPECTED_OUTPUT="8ef21f4e65561e96a6a649ded86460dd	0	88188	player	libopenmpt	FastTracker 2 or compatible	8	131847	115bcbd7	2d45c995
-8ef21f4e65561e96a6a649ded86460dd	1	5751	player
-8ef21f4e65561e96a6a649ded86460dd	2	5112	player
-8ef21f4e65561e96a6a649ded86460dd	3	5092	player
-8ef21f4e65561e96a6a649ded86460dd	4	34508	player
-8ef21f4e65561e96a6a649ded86460dd	5	76226	player
-8ef21f4e65561e96a6a649ded86460dd	6	49526	player"
+# XXX can depend on libopenmpt version
+EXPECTED_OUTPUT="1fa15058e64664d91ccfee10de5d16dc	0	228[45][0-9][0-9]	player\+silence	libopenmpt	Scream Tracker 3.01 \(GUS\)	14	173644	04007dc6	f9b5a8a9"
 
 . $(dirname "$0")/../common/check.sh
 

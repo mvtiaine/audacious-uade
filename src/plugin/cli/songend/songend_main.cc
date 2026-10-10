@@ -31,8 +31,9 @@ int main(int argc, char *argv[]) {
     bool is_stdin = (fname == "-");
 
     int fd = STDIN_FILENO;
+    FILE *f = nullptr;
     if (!is_stdin) {
-        FILE *f = fopen(fname.c_str(), "rb"); 
+        f = fopen(fname.c_str(), "rb"); 
         if (!f) {
             fprintf(stderr, "File not found: %s\n", fname.c_str());
             return EXIT_FAILURE;
@@ -46,8 +47,8 @@ int main(int argc, char *argv[]) {
         detector.update(buf, count);
         total += count;
     }
-    if (!is_stdin) {
-        close(fd);
+    if (f) {
+        fclose(f);
     }
 
     if (total < MINLENGTH) {
