@@ -142,6 +142,8 @@ struct st3play_context {
     void setPos(const int16_t pos) noexcept {
         assert(moduleLoaded());
         startPos = pos;
+        // loop detection state must not survive a seek/restart
+        seen.clear();
         if (probe) probe::zgotosong(pos, 0);
         else play::zgotosong(pos, 0);
     }
