@@ -1,9 +1,13 @@
 0.14-dev
 - Update miniz to 3.1.2
+- Update xxhash to 0.8.4
 - Player updates:
 --  ft2play: update to latest git (39af5cc)
 --  it2play: update to latest git (b15b7dd)
+--  st3play: update to latest git (216b165) from https://github.com/8bitbubsy/st3play
+--  Note: new st3play replay is a complete rewrite of old version from https://pastebin.com/AwRXZAw7
 --  libxmp: allow sample rates > 48khz with 4.7.0+
+--  fix songlength regression on 32-bit (introduced in 0.14.2)
 - Songdb updates:
 --  Metadata extraction/heuristics tweaks and fixes
 - Misc fixes and updates
