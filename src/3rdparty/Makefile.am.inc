@@ -128,7 +128,7 @@ noinst_LTLIBRARIES += 3rdparty/replay/libreplay_v2redux.la
     3rdparty/replay/v2redux/ronan.cpp
 
 3rdparty_replay_libreplay_v2redux_la_CPPFLAGS = $(AM_CPPFLAGS) -DV2_RONAN=1
-3rdparty/replay/v2redux/% : CXXFLAGS += -Wno-unused -Wno-sign-compare
+3rdparty/replay/v2redux/% : CXXFLAGS += -Wno-unused -Wno-sign-compare -Wno-gnu-anonymous-struct -Wno-unknown-warning -Wno-unknown-warning-option
 endif
 
 if PLAYER_noisetrekker2
