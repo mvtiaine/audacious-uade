@@ -3546,7 +3546,7 @@ struct V2Synth
   static const sInt POLY = 64;
   static const sInt CHANS = 16;
 
-  const V2PatchMap *patchmap;
+  const sU8 *patchmap; // audacious-uade: byte pointer; the block is not guaranteed 4-byte aligned (V2PatchMap would be)
   sU32 mrstat;          // running status in MIDI decoding
   sU32 curalloc;
   sInt samplerate;
@@ -3635,7 +3635,7 @@ struct V2Synth
     ronanCBSetSR(&ronan, samplerate);
 
     // patch map
-    this->patchmap = (const V2PatchMap*)patchmap;
+    this->patchmap = (const sU8 *)patchmap; // audacious-uade: byte pointer (alignment)
 
     // init voices
     for (sInt i=0; i < POLY; i++)
@@ -4065,7 +4065,9 @@ private:
   const V2Sound *getpatch(sInt pgm) const
   {
     assert(pgm >= 0 && pgm < 128);
-    return (const V2Sound *)&patchmap->raw_data[GETLE32((const sU8 *)&patchmap->offsets[pgm])]; // audacious-uade: big endian support
+    // audacious-uade: big endian support; the patch block is not guaranteed
+    // 4-byte aligned, so it is addressed as bytes only
+    return (const V2Sound *)&patchmap[GETLE32(&patchmap[4 * pgm])];
   }
 
   sF32 getmodsource(const V2Voice *voice, sInt chan, sInt source) const
