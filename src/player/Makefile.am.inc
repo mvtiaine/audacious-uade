@@ -58,6 +58,10 @@ if PLAYER_st3play
 player_libplayer_la_SOURCES += player/players/player_st3play.cc
 endif
 
+if PLAYER_v2redux
+player_libplayer_la_SOURCES += player/players/player_v2redux.cc
+endif
+
 if PLAYER_uade
 player_libplayer_la_SOURCES += player/players/player_uade.cc
 # TODO fix uadecore dependency tracking

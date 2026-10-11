@@ -53,6 +53,11 @@ static constexpr const char *plugin_copyright =
 "NoiseTrekker2 final by Arguru\n"
 "\n"
 #endif
+#if PLAYER_v2redux
+"v2redux (5d3157b) (CC0-1.0)\n"
+"V2 code written 2000-2008 by Tammo \"kb\" Hinrichs (CC-PDM-1.0)\n"
+"\n"
+#endif
 #if PLAYER_libopenmpt
 "libopenmpt " OPENMPT_API_VERSION_STRING " (BSD-3-Clause)\n"
 "https://lib.openmpt.org/libopenmpt/\n"

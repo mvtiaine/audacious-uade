@@ -109,6 +109,28 @@ if PLAYER_PROBE
 endif
 endif
 
+if PLAYER_v2redux
+noinst_LTLIBRARIES += 3rdparty/replay/libreplay_v2redux.la
+3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_v2redux.la
+
+3rdparty_replay_libreplay_v2redux_la_SOURCES = \
+    3rdparty/replay/v2redux/v2redux.h \
+    3rdparty/replay/v2redux/v2eras.h \
+    3rdparty/replay/v2redux/v2math.h \
+    3rdparty/replay/v2redux/v2core.h \
+    3rdparty/replay/v2redux/v2core.cpp \
+    3rdparty/replay/v2redux/v2load.h \
+    3rdparty/replay/v2redux/v2load.cpp \
+    3rdparty/replay/v2redux/v2seq.h \
+    3rdparty/replay/v2redux/v2seq.cpp \
+    3rdparty/replay/v2redux/v2player.cpp \
+    3rdparty/replay/v2redux/phonemtab.h \
+    3rdparty/replay/v2redux/ronan.cpp
+
+3rdparty_replay_libreplay_v2redux_la_CPPFLAGS = $(AM_CPPFLAGS) -DV2_RONAN=1
+3rdparty/replay/v2redux/% : CXXFLAGS += -Wno-unused -Wno-sign-compare
+endif
+
 if PLAYER_noisetrekker2
 noinst_LTLIBRARIES += 3rdparty/replay/libreplay_noisetrekker2.la
 3rdparty_libreplay_la_LIBADD += 3rdparty/replay/libreplay_noisetrekker2.la
@@ -241,6 +263,8 @@ EXTRA_DIST += \
     3rdparty/replay/it2play/loaders/s3m.c \
     3rdparty/replay/st23play/LICENSE \
     3rdparty/replay/st23play/st23play.c \
+    3rdparty/replay/v2redux/LICENSE \
+    3rdparty/replay/v2redux/README.md \
     3rdparty/replay/noisetrekker2/whatisnew.txt \
     3rdparty/replay/noisetrekker2/file_id.diz \
     3rdparty/replay/noisetrekker2/readme.txt \

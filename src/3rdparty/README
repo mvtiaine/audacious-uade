@@ -14,6 +14,7 @@ The following software is vendored here:
 - ProTrekkr v2.8.1 (BSD-2-Clause) - https://github.com/hitchhikr/protrekkr
 - st23play v0.35 (BSD-3-Clause) - https://pastebin.com/ifXSCZ71
 - st3play (216b165) (BSD-3-Clause) - https://github.com/8bitbubsy/st3play
+- v2redux ((5d3157b)) (CC0-1.0) - https://github.com/spheenik/v2redux/
 
 Note that I have made modifications to some of the sources, see git history of the subdirectories or files for details.
 Also not all files from the original distributions are included.
