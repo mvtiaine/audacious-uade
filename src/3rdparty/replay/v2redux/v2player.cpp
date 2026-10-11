@@ -87,7 +87,7 @@ Result Player::open(const void *v2mData, size_t length, const Era &era)
 
   im->seq.Init(1000);
   im->seq.SetEra(im->era);
-  if (!im->seq.Open(im->song, 44100)) {
+  if (!im->seq.Open(im->song, im->songLen, 44100)) { // audacious-uade: pass length through
     free(im->song); im->song = nullptr;
     return Result::BadFile;
   }

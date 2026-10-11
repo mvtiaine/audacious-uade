@@ -8,6 +8,7 @@
 #define V2CORE_H_
 
 #include <stdint.h>
+#include <stddef.h> // audacious-uade: size_t
 
 // the legacy headers guard their own typedef blocks with V2TYPES
 #define V2TYPES

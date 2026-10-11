@@ -44,10 +44,11 @@ namespace
 
 
 
-sBool V2MPlayer::InitBase(const void *a_v2m)
+sBool V2MPlayer::InitBase(const void *a_v2m, size_t a_len)
 ///////////////////////////////////////
 {
 	const sU8 *d=(const sU8*)a_v2m;
+	const sU8 *const end=d+a_len; // audacious-uade: bounds limit (the loader validates the container; re-derive here instead of trusting the trailing block)
 	m_base.timediv=GETLE32(d); // audacious-uade: big endian support
 	m_base.timediv2=10000*m_base.timediv;
 	m_base.maxtime=GETLE32(d+4); // audacious-uade: big endian support
@@ -93,22 +94,29 @@ sBool V2MPlayer::InitBase(const void *a_v2m)
 	m_base.patchmap=d;
 	d+=size;
 
+  if (d+4>end) return sFALSE; // audacious-uade: bounds check
   sU32 spsize=GETLE32(d); // audacious-uade: big endian support
 	d+=4;
-	if (!spsize || spsize>=8192)
+	for (sU32 i=0; i<256; i++)
+		m_base.speechptrs[i]=" "; // audacious-uade: default every entry, not just the ones the block fills
+	if (!spsize || spsize>=8192 || d+spsize>end)
 	{
-		for (sU32 i=0; i<256; i++)
-			m_base.speechptrs[i]=" ";
+		// audacious-uade: implausible or truncated speech block -- leave the defaults
 	}
 	else
 	{
 		m_base.speechdata=(const char *)d;
 		d+=spsize;
-		const sU8 *sp=(const sU8*)m_base.speechdata; // audacious-uade: big endian support offset table
+		const sU8 *sp=(const sU8*)m_base.speechdata; // audacious-uade: big endian support
 		sU32 n=GETLE32(sp);
-		for (sU32 i=0; i<n; i++)
+		if (n>256 || 4+4*n>spsize) // audacious-uade: bounds check the offset table
 		{
-			m_base.speechptrs[i]=m_base.speechdata+GETLE32(sp+4*(i+1));
+			m_base.speechdata=" ";
+		}
+		else for (sU32 i=0; i<n; i++)
+		{
+			sU32 off=GETLE32(sp+4*(i+1));
+			if (off<spsize) m_base.speechptrs[i]=m_base.speechdata+off;
 		}
 	}
 
@@ -343,14 +351,14 @@ sU32 V2MPlayer::CalcSongSamples()
 
 
 
-sBool V2MPlayer::Open(const void *a_v2mptr, sU32 a_samplerate)
+sBool V2MPlayer::Open(const void *a_v2mptr, size_t a_len, sU32 a_samplerate)
 ///////////////////////////////////////////////////////////////
 {
 	if (m_base.valid) Close();
 	
 	m_samplerate=a_samplerate;
 
-	if (!InitBase(a_v2mptr)) return sFALSE;
+	if (!InitBase(a_v2mptr, a_len)) return sFALSE; // audacious-uade: pass length through
 
 	Reset();
 

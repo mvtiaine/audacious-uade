@@ -132,7 +132,7 @@ public:
 
 	// returns  : flag if succeeded
 	//
-	sBool Open (const void *a_v2mptr, sU32 a_samplerate=44100);
+	sBool Open (const void *a_v2mptr, size_t a_len, sU32 a_samplerate=44100); // audacious-uade: length for bounds checks
 
 
 	// closes player
@@ -305,7 +305,7 @@ private:
 
 	// internal methods
 
-	sBool InitBase(const void *a_v2m);  // inits base struct from v2m
+	sBool InitBase(const void *a_v2m, size_t a_len);  // inits base struct from v2m // audacious-uade: length for bounds checks
 	void  Reset();                      // resets player, inits synth
 	void  Tick();                       // one midi player tick
 
