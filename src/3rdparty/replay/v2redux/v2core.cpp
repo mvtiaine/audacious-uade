@@ -364,10 +364,10 @@ static inline sU32 ftou32(sF32 v)
 }
 
 // linear interpolation between a and b using t.
-static inline sF32 lerp(sF32 a, sF32 b, sF32 t)
+static inline sF32 _unused_lerp(sF32 a, sF32 b, sF32 t)
 {
   return a + t * (b-a);
-}
+} // audacious-uade: renamed, unused; conflicts with std::lerp (C++20 <cmath>)
 
 // --------------------------------------------------------------------------
 // Building blocks
