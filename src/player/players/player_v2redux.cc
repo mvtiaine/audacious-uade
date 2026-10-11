@@ -12,12 +12,14 @@
 
 #include "common/logger.h"
 #include "player/player.h"
+#include "player/players/internal.h"
 
 #include "3rdparty/replay/v2redux/v2redux.h"
 
 using namespace std;
 using namespace common;
 using namespace player;
+using namespace player::internal;
 
 // The vendor engine lives in the global ::v2redux namespace; inside
 // namespace player::v2redux it has to be referenced through these aliases.
@@ -32,11 +34,6 @@ constexpr int CHANNELS = 16;
 
 constexpr size_t mixBufSize(const int frequency) noexcept {
     return 4 * (frequency / 50 + (frequency % 50 != 0 ? 1 : 0));
-}
-
-bool has_v2m_ext(const char *path) noexcept {
-    const size_t len = strlen(path);
-    return len >= 4 && strcasecmp(path + len - 4, ".v2m") == 0;
 }
 
 // v2m has no magic; full validation happens in parse() via Player::open().
