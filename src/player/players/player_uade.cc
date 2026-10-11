@@ -543,6 +543,7 @@ void shutdown() noexcept {
 }
 
 bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept {
+    if (filesize > 8 * 1024 * 1024) return false; // UADE max
     string filename = common::split(path, "/").back();
     string lcfilename = filename;
     transform(lcfilename.begin(), lcfilename.end(), lcfilename.begin(), ::tolower);
