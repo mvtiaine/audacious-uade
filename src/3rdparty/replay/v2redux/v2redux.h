@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: CC0-1.0
 // v2redux -- portable, version-native V2M player.
 //
 // Self-contained: no dependency on the rest of v2/ (the x87-faithful lab) or

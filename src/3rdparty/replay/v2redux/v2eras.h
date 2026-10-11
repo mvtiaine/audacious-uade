@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: CC0-1.0
 // v2eras -- THE behavior-delta ledger of the portable V2 player.
 //
 // Every known engine-behavior difference between the year-2000 synth (v2m

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: CC0-1.0
 // v2core -- portable V2 synth engine (fork of the lab's synth_core.cpp with
 // the proven faithful-branch semantics; see the change design D1).
 // Provides the type aliases the engine source uses (64-bit-clean stdint

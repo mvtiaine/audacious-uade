@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: CC0-1.0
 // v2load -- native any-version v2m loading for the portable player.
 //
 // Faithful reimplementation of the lab's v2mconv.cpp pipeline

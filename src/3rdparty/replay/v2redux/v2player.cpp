@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: CC0-1.0
 // v2redux Player implementation: API facade over the native loader
 // (v2load) + forked engine (v2core) + sequencer (v2seq).
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: CC0-1.0
 // ronan -- portable port of the V2 speech synthesizer (fork of v2/ronan.cpp,
 // task 6.1 of the portable-version-native-player change).
 //

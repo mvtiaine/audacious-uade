@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: CC0-1.0
 // v2load -- native v2m loading: per-version format tables + (4.2) version
 // detection + (4.3) canonicalization to the v6 patch layout.
 //

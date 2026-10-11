@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: CC0-1.0
 #include "v2core.h"
 #include "v2eras.h"
 #include "v2math.h"

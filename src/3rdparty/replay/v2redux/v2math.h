@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: CC0-1.0
 // v2math -- project-owned transcendentals for the portable V2 player.
 //
 // WHY OWNED: libm differs per OS/version, so any libm call in the audio path
