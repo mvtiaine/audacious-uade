@@ -42,6 +42,9 @@ template<class T> inline T sMin(const T a, const T b) { return (a < b) ? a : b; 
 template<class T> inline T sMax(const T a, const T b) { return (a > b) ? a : b; }
 template<class T> inline T sClamp(const T x, const T min, const T max) { return sMax(min, sMin(max, x)); }
 
+// audacious-uade: big endian support
+static inline sU32 GETLE32(const sU8 *p) { return (sU32)p[0]|((sU32)p[1]<<8)|((sU32)p[2]<<16)|((sU32)p[3]<<24); }
+
 // ---------------------------------------------------------------------------
 // engine entry points (the original synth.h C API, per-instance via pthis;
 // pthis = caller-provided zero-init buffer of synthGetSize() bytes)

@@ -48,52 +48,52 @@ sBool V2MPlayer::InitBase(const void *a_v2m)
 ///////////////////////////////////////
 {
 	const sU8 *d=(const sU8*)a_v2m;
-	m_base.timediv=(*((sU32*)(d)));
+	m_base.timediv=GETLE32(d); // audacious-uade: big endian support
 	m_base.timediv2=10000*m_base.timediv;
-	m_base.maxtime=*((sU32*)(d+4));
-	m_base.gdnum=*((sU32*)(d+8));
+	m_base.maxtime=GETLE32(d+4); // audacious-uade: big endian support
+	m_base.gdnum=GETLE32(d+8); // audacious-uade: big endian support
 	d+=12;
 	m_base.gptr=d;
   d+=10*m_base.gdnum;
 	for (sInt ch=0; ch<16; ch++)
 	{
 		V2MBase::Channel &c=m_base.chan[ch];
-		c.notenum=*((sU32*)d);
+		c.notenum=GETLE32(d); // audacious-uade: big endian support
 		d+=4;
 		if (c.notenum)
 		{
 			c.noteptr=d;
 			d+=5*c.notenum;
-			c.pcnum=*((sU32*)d);
+			c.pcnum=GETLE32(d); // audacious-uade: big endian support
 			d+=4;
 			c.pcptr=d;
 			d+=4*c.pcnum;
-			c.pbnum=*((sU32*)d);
+			c.pbnum=GETLE32(d); // audacious-uade: big endian support
 			d+=4;
 			c.pbptr=d;
 			d+=5*c.pbnum;
 			for (sInt cn=0; cn<7; cn++)
 			{
 				V2MBase::Channel::CC &cc=c.ctl[cn];
-				cc.ccnum=*((sU32*)d);
+				cc.ccnum=GETLE32(d); // audacious-uade: big endian support
 				d+=4;
 				cc.ccptr=d;
 				d+=4*cc.ccnum;
 			}						
 		}		
 	}
-	sInt size=*((sU32*)d);
+	sInt size=GETLE32(d); // audacious-uade: big endian support
 	if (size>16384 || size<0) return sFALSE;
 	d+=4;
 	m_base.globals=d;
 	d+=size;
-	size=*((sU32*)d);
+	size=GETLE32(d); // audacious-uade: big endian support
 	if (size>1048576 || size<0) return sFALSE;
 	d+=4;
 	m_base.patchmap=d;
 	d+=size;
 
-  sU32 spsize=*((sU32*)d);
+  sU32 spsize=GETLE32(d); // audacious-uade: big endian support
 	d+=4;
 	if (!spsize || spsize>=8192)
 	{
@@ -104,11 +104,11 @@ sBool V2MPlayer::InitBase(const void *a_v2m)
 	{
 		m_base.speechdata=(const char *)d;
 		d+=spsize;
-		const sU32 *p32=(const sU32*)m_base.speechdata;
-		sU32 n=*(p32++);
+		const sU8 *sp=(const sU8*)m_base.speechdata; // audacious-uade: big endian support offset table
+		sU32 n=GETLE32(sp);
 		for (sU32 i=0; i<n; i++)
 		{
-			m_base.speechptrs[i]=m_base.speechdata+*(p32++);
+			m_base.speechptrs[i]=m_base.speechdata+GETLE32(sp+4*(i+1));
 		}
 	}
 
@@ -208,7 +208,7 @@ void V2MPlayer::Tick()
 
 	if (m_state.gnr<m_base.gdnum && m_state.time==m_state.gnt) // neues global-event?
 	{
-		m_state.usecs=(*(sU32 *)(m_state.gptr+3*m_base.gdnum+4*m_state.gnr))*(m_samplerate/100);
+		m_state.usecs=GETLE32(m_state.gptr+3*m_base.gdnum+4*m_state.gnr)*(m_samplerate/100); // audacious-uade: big endian support
 		m_state.num=m_state.gptr[7*m_base.gdnum+m_state.gnr];
 		m_state.den=m_state.gptr[8*m_base.gdnum+m_state.gnr];
 		m_state.tpq=m_state.gptr[9*m_base.gdnum+m_state.gnr];
@@ -544,7 +544,7 @@ sU32 V2MPlayer::CalcPositions(sS32 **a_dest)
 			if (curtime>=ttime)
 			{
 				pb32=gp[7*m_base.gdnum+gnr]*32/gp[8*m_base.gdnum+gnr];
-				usecs=*(sU32 *)(gp+3*m_base.gdnum+4*gnr);
+				usecs=GETLE32(gp+3*m_base.gdnum+4*gnr); // audacious-uade: big endian support
 				gnr++;
 				lastevtime=ttime;
 			}

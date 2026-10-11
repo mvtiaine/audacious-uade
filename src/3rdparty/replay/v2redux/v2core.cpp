@@ -4065,7 +4065,7 @@ private:
   const V2Sound *getpatch(sInt pgm) const
   {
     assert(pgm >= 0 && pgm < 128);
-    return (const V2Sound *)&patchmap->raw_data[patchmap->offsets[pgm]];
+    return (const V2Sound *)&patchmap->raw_data[GETLE32((const sU8 *)&patchmap->offsets[pgm])]; // audacious-uade: big endian support
   }
 
   sF32 getmodsource(const V2Voice *voice, sInt chan, sInt source) const
