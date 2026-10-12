@@ -1,3 +1,7 @@
+0.15-dev
+- Implement Farbrausch's V2 synthesizer / .v2m support (https://github.com/spheenik/v2redux/)
+--  Note: no songdb data yet
+
 0.14.3 - 2026-10-10
 - Update miniz to 3.1.2
 - Update xxhash to 0.8.4
