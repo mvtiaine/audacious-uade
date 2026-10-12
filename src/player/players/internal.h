@@ -453,4 +453,9 @@ constexpr_f2 std::optional<ModuleInfo> get_s3m_info(const char *path, const char
     //return ModuleInfo{player, format, path, 1, 1, 1, routing->channels}; // , songname};
 }
 
+constexpr_f2 bool has_v2m_ext(const char *path) noexcept {
+    const size_t len = strlen(path);
+    return len >= 4 && strcasecmp(path + len - 4, ".v2m") == 0;
+}
+
 } // namespace player::internal

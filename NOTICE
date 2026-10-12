@@ -357,3 +357,19 @@ Unix Amiga Delitracker Emulator (UADE)
 See uade/AUTHORS and uade/COPYING
 
 -------------------------------------------------------------------------------
+
+v2redux
+
+To the extent possible under law, the authors of this port have waived all
+copyright and related or neighboring rights to the original work in this
+repository. This work is published from Germany / Cyprus.
+
+CC0 1.0: https://creativecommons.org/publicdomain/zero/1.0/
+
+V2 code written 2000-2008 by Tammo "kb" Hinrichs
+
+I hereby place this code (as contained in this directory and the
+subdirectories "bin", "conv2m", "in_v2m", "libv2", "tinyplayer" and
+"tool") in the public domain.
+
+-------------------------------------------------------------------------------

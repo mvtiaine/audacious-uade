@@ -256,6 +256,9 @@ static constexpr const char *exts[] = {
 #if PLAYER_it2play
     "it", // Impulse Tracker 1 & 2
 #endif
+#if PLAYER_v2redux
+    "v2m", // V2 synthesizer (Farbrausch)
+#endif
 #if PLAYER_libopenmpt
     // from Tables.cpp
     "mptm", // OpenMPT

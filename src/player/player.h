@@ -42,6 +42,7 @@ constexpr int MAX_SILENCE = 3000;
     st23play, \
     st3play, \
     it2play, \
+    v2redux, \
     uade, \
     ft2play, \
     libopenmpt, \

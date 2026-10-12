@@ -47,6 +47,7 @@ Songdb tools are at https://github.com/mvtiaine/audacious-uade-tools
 - ProTrekkr 1 & 2 support (https://github.com/hitchhikr/protrekkr)
   - Note: older ProTrekkr mods may play incorrectly
 - NoiseTrekker 2 support based on sources from the final release
+- Farbrausch's V2 synthesizer / .v2m support (https://github.com/spheenik/v2redux/)
 - libopenmpt support (optional) (https://lib.openmpt.org/libopenmpt/)
 - libxmp support (optional) (https://xmp.sourceforge.net/)
 

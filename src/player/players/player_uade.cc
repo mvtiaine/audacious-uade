@@ -543,6 +543,7 @@ void shutdown() noexcept {
 }
 
 bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t filesize) noexcept {
+    if (filesize > 8 * 1024 * 1024) return false; // UADE max
     string filename = common::split(path, "/").back();
     string lcfilename = filename;
     transform(lcfilename.begin(), lcfilename.end(), lcfilename.begin(), ::tolower);
@@ -598,7 +599,7 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
         return false;
     }
 
-    if (!is_xm(path,buf,bufsize) && !is_fst(path,buf,bufsize) && !is_s3m(path,buf,bufsize) && !is_it(path,buf,bufsize) && !is_sid(path,buf,bufsize)) {
+    if (!is_xm(path,buf,bufsize) && !is_fst(path,buf,bufsize) && !is_s3m(path,buf,bufsize) && !is_it(path,buf,bufsize) && !is_sid(path,buf,bufsize) && !has_v2m_ext(path)) {
         char ext[UADE_MAX_EXT_LEN] = {0};
         uade_filemagic((unsigned char*)buf, bufsize, ext, filesize, path, 0);
         if (ext[0] && ext_blacklist.count(ext)) return false;
