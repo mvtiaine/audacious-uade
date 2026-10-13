@@ -99,7 +99,7 @@ void toInt16(const float *src, int16_t *dst, const size_t samples) noexcept {
 
 struct v2redux_context {
     V2Player player;
-    vector<float> floatbuf; // render scratch, interleaved stereo float32
+    float floatbuf[mixBufSize(MIX_RATE) / 2]; // render scratch, interleaved stereo float32
 };
 
 } // namespace {}
@@ -136,8 +136,6 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         return {};
     }
     context->player.play(0);
-    // 2 float32 per frame, 4 bytes per frame in the int16 output buffer
-    context->floatbuf.resize(mixBufSize(MIX_RATE) / 2);
     // mix rate hard coded to 44100; toInt16 emits native-endian int16,
     // the framework swabs the buffer when the host differs from the request
     return PlayerState {Player::v2redux, subsong, MIX_RATE, config.endian != endian::native, context, true, mixBufSize(MIX_RATE), 0, 0};
@@ -149,8 +147,8 @@ pair<SongEnd::Status, size_t> render(PlayerState &state, char *buf, size_t size)
     const auto context = static_cast<v2redux_context*>(state.context);
     assert(context);
     const auto frames = static_cast<uint32_t>(state.buffer_size / 4);
-    context->player.render(context->floatbuf.data(), frames);
-    toInt16(context->floatbuf.data(), (int16_t*)buf, frames * 2);
+    context->player.render(context->floatbuf, frames);
+    toInt16(context->floatbuf, (int16_t*)buf, frames * 2);
     // render() keeps producing the reverb/delay tail after the sequencer stops
     const bool songend = !context->player.isPlaying();
     return pair<SongEnd::Status, size_t>(songend ? SongEnd::PLAYER : SongEnd::NONE, state.buffer_size);
