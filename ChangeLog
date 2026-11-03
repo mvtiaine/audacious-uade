@@ -1,6 +1,8 @@
 0.15-dev
 - Implement Farbrausch's V2 synthesizer / .v2m support (https://github.com/spheenik/v2redux/)
 --  Note: no songdb data yet
+- Player updates:
+--  Detect Flextrax and Mod's Grave MODs
 - UADE updates:
 --  PreTracker songend detection https://gitlab.com/uade-music-player/uade/-/merge_requests/74
 --  Ashley Hogg player update https://gitlab.com/uade-music-player/uade/-/merge_requests/75

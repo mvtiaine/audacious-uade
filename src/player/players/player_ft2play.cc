@@ -19,12 +19,14 @@
 #include "common/logger.h"
 #include "common/strings.h"
 #include "player/player.h"
+#include "player/players/internal.h"
 
 #include "3rdparty/replay/ft2play/ft2play.h"
 
 using namespace std;
 using namespace common;
 using namespace player;
+using namespace player::internal;
 using namespace replay::ft2play;
 
 namespace {
@@ -403,6 +405,9 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     const bool isFst = !isXm && is_fasttracker1(buf, size);
 
     if (!isXm && !isFst)
+        return {};
+
+    if (isFst && (is_flextrax(buf, size, size) || is_mods_grave(buf, size, size)))
         return {};
 
     ft2play_context *context = new ft2play_context(true);

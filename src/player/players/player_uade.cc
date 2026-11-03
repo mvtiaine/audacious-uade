@@ -611,6 +611,7 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
+    if (is_flextrax(buf, size, size) || is_mods_grave(buf, size, size)) return {};
     const probe_scope probe(PRECALC_FREQ);
     TRACE("uade::parse using probe id %d - %s\n", probe.context->id, path);
     switch (uade_play_from_buffer(path, buf, size, -1, probe.context->state)) {

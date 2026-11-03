@@ -10,6 +10,7 @@
 #include "common/endian.h"
 #include "common/logger.h"
 #include "player/player.h"
+#include "player/players/internal.h"
 
 // use C-interface to avoid exceptions
 extern "C" {
@@ -87,6 +88,7 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
+    if (player::internal::is_flextrax(buf, size, size)) return {};
     auto *mod = create_module(path, buf, size, false);
     if (!mod) {
         return {};

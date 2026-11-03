@@ -155,6 +155,49 @@ constexpr_f2 bool is_fst(const char *path,  const char *buf, size_t size) noexce
     );
 }
     
+// pattern count from the order list and total sample bytes of a 31-instrument MOD
+struct ModSize {
+    size_t patterns;
+    size_t samples;
+};
+
+constexpr_f2 ModSize mod_size(const char *buf) noexcept {
+    ModSize res = {1, 0};
+    for (int i = 0; i < 128; ++i)
+        if ((size_t)(uint8_t)buf[952 + i] + 1 > res.patterns)
+            res.patterns = (size_t)(uint8_t)buf[952 + i] + 1;
+    for (int i = 0; i < 31; ++i)
+        res.samples += (size_t)*(be_uint16_t *)&buf[20 + 30 * i + 22] * 2;
+    return res;
+}
+
+// Flextrax (Atari Falcon): "FLEX" effects block behind the module data.
+// Only libxmp plays the extra data, so the other players must decline.
+// Requires the full file; false means unknown when the buffer ends before the block.
+constexpr_f2 bool is_flextrax(const char *buf, size_t bufsize, size_t filesize) noexcept {
+    if (bufsize < 1084) return false;
+    const char *sig = &buf[0x438];
+    const int channels = !memcmp(sig, "M.K.", 4) ? 4 :
+        sig[0] >= '1' && sig[0] <= '9' && !memcmp(sig + 1, "CHN", 3) ? sig[0] - '0' : 0;
+    if (channels == 0) return false;
+    const auto size = mod_size(buf);
+    const size_t offs = 1084 + size.patterns * channels * 256 + size.samples;
+    return filesize > offs && bufsize >= offs + 4 && !memcmp(&buf[offs], "FLEX", 4);
+}
+
+// Mod's Grave WOW: identical to "8CHN" but saved with an "M.K." signature, so the
+// channel count can only be derived from the file size (openmpt and libxmp detect it)
+constexpr_f2 bool is_mods_grave(const char *buf, size_t bufsize, size_t filesize) noexcept {
+    if (bufsize < 1084 || memcmp(&buf[0x438], "M.K.", 4)) return false;
+    if (buf[951] != 0) return false; // WOW ignores the restart byte
+    for (int i = 0; i < 31; ++i) {
+        const auto pos = buf + 20 + 30 * i;
+        if (*(be_uint16_t *)&pos[22] && (pos[24] != 0 || pos[25] != 64)) return false;
+    }
+    const auto size = mod_size(buf);
+    return (1084 + size.patterns * 8 * 256 + size.samples) == (filesize & ~(size_t)1);
+}
+
 constexpr_f2 bool is_s3m(const char *path,  const char *buf, size_t size) noexcept {
     return size >= 0x30 && memcmp(&buf[0x2C], "SCRM", 4) == 0;
 }
