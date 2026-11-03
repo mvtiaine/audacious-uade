@@ -6,6 +6,10 @@
 - UADE updates:
 --  PreTracker songend detection https://gitlab.com/uade-music-player/uade/-/merge_requests/74
 --  Ashley Hogg player update https://gitlab.com/uade-music-player/uade/-/merge_requests/75
+- Songdb updates:
+--  Bad subsong detection based on audio fingerprint
+--  Metadata extraction/heuristics tweaks and fixes
+- Misc fixes and updates
 
 0.14.3 - 2026-10-10
 - Update miniz to 3.1.2
