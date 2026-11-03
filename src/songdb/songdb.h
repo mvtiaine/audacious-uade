@@ -40,7 +40,7 @@ struct ModInfo {
 struct SubSongInfo {
     uint8_t subsong;
     common::SongEnd songend;
-    bool is_duplicate;
+    bool is_bad_or_duplicate;
 };
 
 struct Info {

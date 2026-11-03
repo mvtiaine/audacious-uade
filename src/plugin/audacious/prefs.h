@@ -67,7 +67,7 @@ const PreferencesWidget prefs_widget[] = {
     WidgetLabel(
         "<b>Probe content of files with no recognized file name extension</b> setting must be <i>enabled</i> and<br/>"
         "<b>Guess missing metadata from filepath</b> setting <i>disabled</i> in Audacious prefs, in order for subsongs<br/>"
-        "and meta data to work. The playlist must also have been created <i>after</i> the settings are applied."
+        "and metadata to work. The playlist must also have been created <i>after</i> the settings are applied."
     ),
 };
 

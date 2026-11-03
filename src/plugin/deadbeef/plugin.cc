@@ -405,7 +405,7 @@ DB_playItem_t *uade_insert(ddb_playlist_t *plt, DB_playItem_t *after, const char
     for (int s = minsubsong; s <= maxsubsong; s++) {
         const optional<songdb::SubSongInfo> ss = metadata ? metadata->subsongs[i++] : optional<songdb::SubSongInfo>();
         assert(!ss || ss->subsong == s);
-        if (ss && skip_broken && (!ss->songend.length || ss->is_duplicate || ss->songend.length >= player::PRECALC_TIMEOUT * 1000)) {
+        if (ss && skip_broken && (!ss->songend.length || ss->is_bad_or_duplicate || ss->songend.status == common::SongEnd::TIMEOUT)) {
             DEBUG("uade_insert skipping broken/duplicate subsong %s #%d\n", fname, s);
             continue;
         }
@@ -445,7 +445,7 @@ DB_playItem_t *uade_insert(ddb_playlist_t *plt, DB_playItem_t *after, const char
         }
         if (songend.status != common::SongEnd::NONE) {
             auto songend_str = songend.status_string();
-            if (ss && ss->is_duplicate) {
+            if (ss && ss->is_bad_or_duplicate) {
                 songend_str += " (!)";
             }
             deadbeef->pl_add_meta(it, "songend", songend_str.c_str());

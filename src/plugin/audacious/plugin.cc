@@ -116,7 +116,7 @@ void update_tuple_subsong_range(Tuple &tuple, const Info &info) {
     // XXX Audacious API does not support filtering with only one subsong
     if (info.subsongs.size() > 1) {
         for (const auto &ss : info.subsongs) {
-            if (skip_broken && (!ss.songend.length || ss.is_duplicate || ss.songend.length >= player::PRECALC_TIMEOUT * 1000))
+            if (skip_broken && (!ss.songend.length || ss.is_bad_or_duplicate || ss.songend.status == common::SongEnd::TIMEOUT))
                 continue;
             if (min_length && (int)ss.songend.length < min_length * 1000)
                 continue;
@@ -150,7 +150,7 @@ void update_tuple_songdb(Tuple &tuple, const string &path, const songdb::SubSong
 
     set_int(Tuple::Length, songinfo.songend.length);
     auto comment = "songend="+songinfo.songend.status_string();
-    if (songinfo.is_duplicate) {
+    if (songinfo.is_bad_or_duplicate) {
         comment += " (!)";
     }
     set_str(Tuple::Comment, comment);

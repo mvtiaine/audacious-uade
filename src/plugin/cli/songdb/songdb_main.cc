@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
             se = se + "+" + songend.back().substr(0,1);
         }
         char buf[1024];
-        snprintf(buf, sizeof buf, "%u,%s%s", songinfo.songend.length, se.c_str(), songinfo.is_duplicate ? ",!" : "");
+        snprintf(buf, sizeof buf, "%u,%s%s", songinfo.songend.length, se.c_str(), songinfo.is_bad_or_duplicate ? ",!" : "");
         songends.push_back(buf);
     }
 
