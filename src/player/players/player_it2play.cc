@@ -1,5 +1,6 @@
-// SPDX-License-Identifier: LGPL-2.1-or-later
 // Copyright (C) 2024-2026 Matti Tiainen <mvtiaine@cc.hut.fi>
+// SPDX-License-Identifier: LGPL-2.1-or-later AND CC-PDM-1.0
+// SPDX-AI-Disclosure: ai-assisted
 
 #include "common/std/optional.h"
 
@@ -237,8 +238,36 @@ constexpr bool isIT(const char *buf, size_t size, bool forced = false) noexcept 
         const uint32_t PtrListOffset = 192 + h->OrdNum;
         const uint32_t smpOffset0 = PtrListOffset + h->InsNum * 4;
         const uint32_t patOffset0 = smpOffset0 + h->SmpNum * 4;
-        if (patOffset0 + 4 >= size)
+        if (patOffset0 + h->PatNum * 4 > size)
             return false;
+        // reject samples with data that loaders/it.c skips (playable sample
+        // with NULL data -> crash in the mixer): delta without compression
+        // (modarchive thewaterfall.it; xmp plays those as plain PCM, openmpt
+        // as delta-decoded noise) and other unsupported Cvt (ADPCM etc.)
+        for (uint32_t i = 0; i < h->SmpNum; i++) {
+            le_uint32_t smp;
+            memcpy(&smp, &buf[smpOffset0 + i * 4], sizeof(le_uint32_t));
+            if (smp == 0 || smp + 84 > size || memcmp(&buf[smp], "IMPS", 4) != 0)
+                continue;
+            const uint8_t flags = buf[smp + 18];
+            const uint8_t cvt = buf[smp + 46];
+            const le_uint32_t length = *(const le_uint32_t *)&buf[smp + 48];
+            const le_uint32_t ofs = *(const le_uint32_t *)&buf[smp + 72];
+            if (ofs == 0 || !(flags & SMPF_ASSOCIATED_WITH_HEADER) || length == 0)
+                continue;
+            if ((cvt & 4 && !(flags & SMPF_COMPRESSED)) || (cvt & 0b11111010))
+                return false;
+        }
+        // reject if rows > 256 indicating corrupted file
+        for (uint32_t i = 0; i < h->PatNum; i++) {
+            le_uint32_t pat;
+            memcpy(&pat, &buf[patOffset0 + i * 4], sizeof(le_uint32_t));
+            if (pat == 0 || pat + 4 > size)
+                continue;
+            const le_uint16_t rows = *(const le_uint16_t *)&buf[pat + 2];
+            if (rows > 256)
+                return false;
+        }
         le_uint32_t smpVal, patVal;
         memcpy(&smpVal, &buf[smpOffset0], sizeof(le_uint32_t));
         memcpy(&patVal, &buf[patOffset0], sizeof(le_uint32_t));
