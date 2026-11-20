@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: LGPL-2.1-or-later
 // Copyright (C) 2025-2026 Matti Tiainen <mvtiaine@cc.hut.fi>
 
+#include <new>
+
 #include "common/std/optional.h"
 
 #include "common/endian.h"
@@ -129,7 +131,8 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         }
     }
 
-    context = new XMPContext;
+    context = new (nothrow) XMPContext;
+    assert(context);
     context->context = c;
     context->info = info;
 

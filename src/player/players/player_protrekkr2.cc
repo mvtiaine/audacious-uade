@@ -2,6 +2,7 @@
 // Copyright (C) 2024-2026 Matti Tiainen <mvtiaine@cc.hut.fi>
 
 #include <mutex>
+#include <new>
 
 #include "common/logger.h"
 #include "player/player.h"
@@ -139,7 +140,8 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
-    protrekkr2_context *context = new protrekkr2_context(true);
+    protrekkr2_context *context = new (nothrow) protrekkr2_context(true);
+    assert(context);
     // TODO assert(!context->moduleLoaded());
     optional<ModuleInfo> info;
     if (context->Load_Ptk(buf, size)) {
@@ -156,7 +158,8 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     assert(config.player == Player::protrekkr2 || config.player == Player::NONE);
     assert(config.tag == Player::protrekkr2 || config.tag == Player::NONE);
     assert(subsong == 1);
-    protrekkr2_context *context = new protrekkr2_context(config.probe);
+    protrekkr2_context *context = new (nothrow) protrekkr2_context(config.probe);
+    assert(context);
     if (!context->Load_Ptk(buf, size)) {
         ERR("player_protrekkr2::play could not play %s\n", path);
         delete context;

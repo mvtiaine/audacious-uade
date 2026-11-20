@@ -7,6 +7,7 @@
 #endif
 
 #include <cassert>
+#include <new>
 #include <utility>
 
 #include "common/logger.h"
@@ -139,7 +140,8 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         return {};
     }
 
-    DB3Context *context = new DB3Context;
+    DB3Context *context = new (nothrow) DB3Context;
+    assert(context);
     context->engine = engine;
     context->module = mod;
 

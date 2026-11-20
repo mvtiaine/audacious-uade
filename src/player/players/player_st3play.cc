@@ -7,6 +7,7 @@
 #include <cassert>
 #include <cstring>
 #include <mutex>
+#include <new>
 #include <set>
 #include <utility>
 #include <vector>
@@ -365,7 +366,8 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
     assert(size >= 0x40 + 32);
 
-    st3play_context *context = new st3play_context(true, PRECALC_FREQ);
+    st3play_context *context = new (nothrow) st3play_context(true, PRECALC_FREQ);
+    assert(context);
     assert(!context->moduleLoaded());
 
     // scan the patterns to report the channels that actually play
@@ -403,7 +405,8 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         return {};
     }
 
-    st3play_context *context = new st3play_context(config.probe, config.frequency);
+    st3play_context *context = new (nothrow) st3play_context(config.probe, config.frequency);
+    assert(context);
     assert(!context->moduleLoaded());
     if (!context->loadS3M((const uint8_t*)buf, size,
                           routing->soundblaster ? SOUNDCARD_SBPRO : SOUNDCARD_GUS) ||

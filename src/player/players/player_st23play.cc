@@ -4,6 +4,7 @@
 #include "common/std/optional.h"
 
 #include <mutex>
+#include <new>
 #include <set>
 #include <string>
 
@@ -144,7 +145,8 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
     assert(size >= 1040+128);
-    st23play_context *context = new st23play_context(true);
+    st23play_context *context = new (nothrow) st23play_context(true);
+    assert(context);
     assert(!context->moduleLoaded());
     optional<ModuleInfo> info;
     if (context->loadSTM((const uint8_t*)buf, size)) {
@@ -161,7 +163,8 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     assert(config.player == Player::st23play || config.player == Player::NONE);
     assert(config.tag == Player::st23play || config.tag == Player::NONE);
     assert(subsong == 1);
-    st23play_context *context = new st23play_context(config.probe);
+    st23play_context *context = new (nothrow) st23play_context(config.probe);
+    assert(context);
     assert(!context->moduleLoaded());
     if (!context->PlaySong((uint8_t*)buf, size, config.frequency)) {
         ERR("player_st23play::play could not play %s\n", path);

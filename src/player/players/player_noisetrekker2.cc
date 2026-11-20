@@ -7,6 +7,7 @@
 // and there is audible crackling in some mods not present with the original binary.
 
 #include <mutex>
+#include <new>
 
 #include "common/logger.h"
 #include "player/player.h"
@@ -118,7 +119,8 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
 }
 
 optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexcept {
-    noisetrekker2_context *context = new noisetrekker2_context(true);
+    noisetrekker2_context *context = new (nothrow) noisetrekker2_context(true);
+    assert(context);
     optional<ModuleInfo> info;
     if (context->LoadMod(buf, size)) {
         info = ModuleInfo{Player::noisetrekker2, "NoiseTrekker 2.x", path, 1, 1, 1, context->Songtracks()};
@@ -133,7 +135,8 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     assert(config.player == Player::noisetrekker2 || config.player == Player::NONE);
     assert(config.tag == Player::noisetrekker2 || config.tag == Player::NONE);
     assert(subsong == 1);
-    noisetrekker2_context *context = new noisetrekker2_context(config.probe);
+    noisetrekker2_context *context = new (nothrow) noisetrekker2_context(config.probe);
+    assert(context);
     if (!context->LoadMod(buf, size)) {
         WARN("player_noisetrekker2::play loading failed for %s\n", path);
         delete context;

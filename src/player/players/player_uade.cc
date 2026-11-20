@@ -5,13 +5,12 @@
 
 #include <algorithm>
 #include <cassert>
-#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <map>
 #include <mutex>
-#include <numeric>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -28,7 +27,6 @@
 extern "C" {
 #include "../uade/src/frontends/include/uade/amifilemagic.h"
 #include "../uade/src/frontends/include/uade/eagleplayer.h"
-#include "../uade/src/frontends/include/uade/options.h"
 #include "../uade/src/frontends/include/uade/uadeconfstructure.h"
 #include "../uade/src/frontends/include/uade/uade.h"
 }
@@ -645,7 +643,8 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
         context = get_probe_context(config.frequency, true);
     } else {
         // create new for playback
-        context = new uade_context;
+        context = new (nothrow) uade_context;
+        assert(context);
         context->id = -1;
         context->probe = false;
         struct uade_config *uc = uade_new_config();

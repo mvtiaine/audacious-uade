@@ -5,6 +5,7 @@
 
 #include <cstddef>
 #include <mutex>
+#include <new>
 #include <set>
 #include <utility>
 #include <vector>
@@ -434,7 +435,8 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     bool s3m = !it && isS3M(buf, size, true);
     if (!it && !s3m) return {};
 
-    it2play_context *context = new it2play_context(true);
+    it2play_context *context = new (nothrow) it2play_context(true);
+    assert(context);
     assert(!context->Song().Loaded);
     optional<ModuleInfo> info;
     if ((it && !context->LoadIT(buf, size)) || (s3m && !context->LoadS3M(buf, size))) {
@@ -459,7 +461,8 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     assert(config.player == Player::it2play || config.player == Player::NONE);
     assert(config.tag == Player::it2play || config.tag == Player::NONE);
     if (subsong < 1) subsong = 1; // XXX avoid crash with old playlists
-    it2play_context *context = new it2play_context(config.probe);
+    it2play_context *context = new (nothrow) it2play_context(config.probe);
+    assert(context);
     assert(!context->Song().Loaded);
     const auto &it2play_config = static_cast<const IT2PlayConfig&>(config);
     const auto driver = config.tag == Player::it2play ? it2play_config.driver : IT2PlayConfig().driver;
