@@ -552,8 +552,9 @@ bool is_our_file(const char *path, const char *buf, size_t bufsize, size_t files
 
     // avoid some false positives
     if (((lcsuffix == "prt" && !exts.count(lcprefix)) ||
-         (lcprefix == "prt" && !exts.count(lcsuffix))) &&
-        !is_prt(path,buf,bufsize)) {
+         (lcprefix == "prt" && !exts.count(lcsuffix)) ||
+         is_prt(path,buf,bufsize)) &&
+         !check_prt(path,buf,bufsize)) {
         return false;
     }
     if (((lcsuffix == "ftm" && !exts.count(lcprefix)) ||

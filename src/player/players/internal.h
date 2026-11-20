@@ -25,7 +25,12 @@ constexpr_f2 bool is_sid(const char *path, const char *buf, size_t size) noexcep
 };
 
 constexpr_f2 bool is_prt(const char *path, const char *buf, size_t size) noexcept {
-    return size >= 3 && (buf[0] == 'P' && buf[1] == 'R' && buf[2] == 'T');
+    return size >= 3 && buf[0] == 'P' && buf[1] == 'R' && buf[2] == 'T';
+}
+
+constexpr_f2 bool check_prt(const char *path, const char *buf, size_t size) noexcept {
+    return is_prt(path, buf, size) &&
+        size >= 7 && buf[4] == 0 && buf[5] == 0 && buf[6] == 0;
 }
 
 constexpr_f2 bool is_ml(const char *path, const char *buf, size_t size) noexcept {
