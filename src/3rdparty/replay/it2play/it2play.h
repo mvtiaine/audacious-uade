@@ -14,7 +14,7 @@
 
 #define AUDACIOUS_UADE 1
 #define ASSERT(x) assert(x)
-#define PI 3.14159265358979323846264338327950288
+#define MY_PI 3.14159265358979323846264338327950288
 
 namespace replay::it2play {
 #include "it_structs.h"
