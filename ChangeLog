@@ -4,6 +4,7 @@
 - Player updates:
 --  Detect Flextrax and Mod's Grave MODs
 --  it2play: update to latest git (dbbfdd0)
+--  it2play: support frequencies as low as 8000Hz with HQ driver
 - UADE updates:
 --  PreTracker songend detection https://gitlab.com/uade-music-player/uade/-/merge_requests/74
 --  Ashley Hogg player update https://gitlab.com/uade-music-player/uade/-/merge_requests/75

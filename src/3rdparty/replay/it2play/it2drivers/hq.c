@@ -28,7 +28,7 @@
 #endif
 
 // Higher is better. 14 is max for audio output rates of >=32kHz.
-#define FREQ_MUL_EXTRA_BITS 14
+// #define FREQ_MUL_EXTRA_BITS 14 // audacious-uade: changed to dynamic
 
 #define CLAMP(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 
@@ -37,7 +37,7 @@
 #define BPM_FRAC_MASK (BPM_FRAC_SCALE-1)
 
 static uint16_t MixVolume;
-static int32_t RealBytesToMix, BytesToMix, MixTransferRemaining, MixTransferOffset, FreqMulVal;
+static int32_t RealBytesToMix, BytesToMix, MixTransferRemaining, MixTransferOffset, FreqMulVal, FreqMulExtraBits; // audacious-uade: dynamic FreqMulExtraBits
 static uint32_t BytesToMixFractional, CurrentFractional, RandSeed;
 static uint32_t SamplesPerTickInt[(MAX_BPM-MIN_BPM)+1], SamplesPerTickFrac[(MAX_BPM-MIN_BPM)+1];
 static float MixGain = 32768.0f, *fMixBuffer, fLastClickRemovalLeft, fLastClickRemovalRight, fPrngStateL, fPrngStateR;
@@ -240,7 +240,7 @@ static void HQ_MixSamples(void)
 			}
 
 			// mixer delta (32.32fp)
-			sc->Delta64 = ((int64_t)sc->Frequency * FreqMulVal) >> FREQ_MUL_EXTRA_BITS;
+			sc->Delta64 = ((int64_t)sc->Frequency * FreqMulVal) >> FreqMulExtraBits;
 		}
 
 		if (sc->Flags & SF_NEW_NOTE)
@@ -630,9 +630,14 @@ static void HQ_CloseDriver(void)
 bool HQ_InitDriver(int32_t mixingFrequency)
 {
 	// 32769Hz is absolute lowest (for FreqMulVal to fit in INT32_MAX)
-	mixingFrequency = CLAMP(mixingFrequency, 32769, 768000);
+	// audacious-uade: dynamic FreqMulExtraBits to allow 8kHz
+	mixingFrequency = CLAMP(mixingFrequency, 8000, 768000);
 
-	FreqMulVal = (int32_t)round((double)(1ULL << (32+FREQ_MUL_EXTRA_BITS)) / mixingFrequency);
+	// FreqMulVal = (int32_t)round((double)(1ULL << (32+FREQ_MUL_EXTRA_BITS)) / mixingFrequency);
+	FreqMulExtraBits = 0;
+	while (round((double)(1ULL << (33+FreqMulExtraBits)) / mixingFrequency) <= INT32_MAX)
+		FreqMulExtraBits++;
+	FreqMulVal = (int32_t)round((double)(1ULL << (32+FreqMulExtraBits)) / mixingFrequency);
 
 	const int32_t maxSamplesToMix = (int32_t)ceil((mixingFrequency * 2.5) / MIN_BPM) + 1;
 	fMixBuffer = (float *)malloc(maxSamplesToMix * 2 * sizeof (float));

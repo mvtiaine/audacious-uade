@@ -40,7 +40,7 @@ constexpr int limitFreq(Driver driver, int frequency) {
         case Driver::WAVWRITER:
             return max(8000, min(frequency, 64000));
         case Driver::HQ:
-            return max(32769, min(frequency, 768000));
+            return max(8000, min(frequency, 768000));
         default: assert(false); return max(8000, min(frequency, 64000));
     }
 }
