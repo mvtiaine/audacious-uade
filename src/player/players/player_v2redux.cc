@@ -7,6 +7,7 @@
 #include <cassert>
 #include <cstdint>
 #include <cstring>
+#include <new>
 #include <string>
 #include <strings.h>
 
@@ -129,7 +130,8 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     assert(config.player == Player::v2redux || config.player == Player::NONE);
     assert(config.tag == Player::v2redux || config.tag == Player::NONE);
     assert(subsong == 1);
-    auto *context = new v2redux_context;
+    auto *context = new (nothrow) v2redux_context;
+    assert(context);
     if (context->player.open(buf, size) != V2Result::OK) {
         ERR("player_v2redux::play open failed for %s\n", path);
         delete context;
