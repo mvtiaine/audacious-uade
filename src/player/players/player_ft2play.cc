@@ -10,6 +10,7 @@
 #include <cstdint>
 #include <cstring>
 #include <mutex>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -410,7 +411,8 @@ optional<ModuleInfo> parse(const char *path, const char *buf, size_t size) noexc
     if (isFst && (is_flextrax(buf, size, size) || is_mods_grave(buf, size, size)))
         return {};
 
-    ft2play_context *context = new ft2play_context(true);
+    ft2play_context *context = new (nothrow) ft2play_context(true);
+    assert(context);
     assert(!context->moduleLoaded());
 
     optional<ModuleInfo> info;
@@ -435,7 +437,8 @@ optional<PlayerState> play(const char *path, const char *buf, size_t size, int s
     else
         assert(is_fasttracker1(buf, size));
 
-    ft2play_context *context = new ft2play_context(config.probe);
+    ft2play_context *context = new (nothrow) ft2play_context(config.probe);
+    assert(context);
     assert(!context->moduleLoaded());
 
     if (!context->loadMusicFromData((const uint8_t*)buf, size)) {
