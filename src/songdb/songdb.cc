@@ -304,9 +304,9 @@ void parse_songlengths(const string &tsv) noexcept {
             } else if (col == "!" || col == "#") {
                 subsong_info = _SubSongInfo(subsong_info, true);
             } else {
-                const auto e = common::split_view<2>(col, ',');
+                const auto e = common::split_view<3>(col, ',');
                 const songlength_t songlength = e[0].empty() ? static_cast<songlength_t>(0) : b64d24(e[0]);
-                const songend_t songend = e[1].empty() || e[1] == "!" ? common::SongEnd::PLAYER : parse_songend(e[1]);
+                const songend_t songend = e[1].empty() || (e[1] == "!" || e[1] == "#") ? common::SongEnd::PLAYER : parse_songend(e[1]);
                 const bool is_bad_or_duplicate = (e.size() == 2 && (e[1] == "!" || e[1] == "#")) || (e.size() > 2 && (e[2] == "!" || e[2] == "#"));
                 subsong_info = _SubSongInfo(songlength, songend, is_bad_or_duplicate);
             }
