@@ -68,8 +68,7 @@ const set<string> hash_blacklist ({
     "bc4130f85b83", // "8804bb884b8b4f1a877b6ef44ac286d9", // amigascne/Sound/oktalyzer1.57.lha/OK-SONGS/tar-gumba vahim enim
     "69ebb4084000", // "998c616801a9f9ad86d80169ff4867dc", // ultrasounds/SOFTWARE/MODULES/0-C/S3M/!HURRICA.OKT"
     "383e7a1ddbc0", // "02fe9715239032ae7efa20ebb4340ad4", // thesoundlibrary/2/F/FALCONS.MOD
-    // crashes it2play TODO fix
-    "bfc53ea5dd27", // "33a961a79519baa90854b39b5f63c056", // modarchive_2007.../T/TH.zip/thewaterfall.it.zip/thewaterfall.it
+    "4784d06fa000", // "fa010a34e11c12f94d52cdbb6ca8e694", // thelegacy/oldies/FunxASM.rar/FunxASM/Asm2.rar/ASM2-4.zip/asm2-4.adf/OKTALYSER/okta-plague
 });
 
 const set<string> songdb_blacklist ({
