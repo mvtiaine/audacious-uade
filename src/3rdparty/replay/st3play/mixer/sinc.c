@@ -8,9 +8,8 @@
 ** Window: Kaiser-Bessel (tweaked to ~96.3dB stopband attenuation)
 ** Sinc cutoff: 1.0 (no cutoff)
 **
-** This table should be used together with linear interpolation.
-** 256 phases + linear interpolation is as good as having more than
-** 16K phases (which would be heavy on the CPU cache).
+** This table should be used together with linear interpolation
+** between the phases.
 **
 ** The table contains one extra inverted phase at end for interpolation
 ** wrap-around.
